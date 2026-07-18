@@ -70,6 +70,19 @@ a{color:var(--gold2)}
 .cap{color:var(--muted);font-size:13.5px;margin-top:10px;text-align:center;font-style:italic}
 .figsec{padding:14px 0}
 
+/* AFFICHE */
+.affiche{background:linear-gradient(180deg,#0b0c1e,var(--night));text-align:center}
+.affiche-wrap{margin-top:38px;display:flex;justify-content:center}
+.affiche img{max-width:100%;width:auto;max-height:80vh;border-radius:14px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(0,0,0,.55);display:block}
+
+/* GALERIE danse aérienne */
+.gal{background:linear-gradient(180deg,var(--night),#0b0c1e)}
+.gal-grid{margin-top:40px;columns:2;column-gap:18px}
+.gal-item{break-inside:avoid;margin-bottom:18px;position:relative;border-radius:13px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.gal-item img{width:100%;height:auto;display:block}
+.gal-item .c{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.8));color:#fff;font-size:13px;padding:26px 14px 11px;text-align:center;font-style:italic}
+@media(max-width:700px){.gal-grid{columns:1}}
+
 .quotes{columns:2;column-gap:24px;margin-top:36px}
 .q{break-inside:avoid;background:var(--card);border-left:3px solid var(--gold);border-radius:10px;padding:18px 22px;margin-bottom:20px;color:#e7e4f5;font-family:'Cormorant Garamond',serif;font-size:21px;font-style:italic;line-height:1.4}
 
@@ -107,7 +120,7 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   <div class="inner">
     <div class="kick">Solune — Spectacle participatif</div>
     <h1>E-MOTION</h1>
-    <div class="sub">une expérience immersive des sens</div>
+    <div class="sub">danse aérienne à l’élastique &amp; musique live</div>
     <div class="names">Iris Chasles · David Lesage</div>
     <div class="tag">Envole-toi vers l’inattendu !</div>
     <div class="scroll">Défiler ↓</div>
@@ -122,9 +135,12 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   <div class="sig">Envole-toi vers l’inattendu.</div>
 </div></section>
 
-<section class="figsec"><div class="wrap">
-  <div class="figure"><img src="https://d1yei2z3i6k35z.cloudfront.net/6243870/6595a5d2abc63_Everness-20230624_191730-2.jpg" alt="Solune en scène"></div>
-  <div class="cap">Solune en scène — Everness Festival</div>
+<section class="affiche"><div class="wrap">
+  <div class="kick">L’affiche</div>
+  <h2 class="sec-title">E-Motion</h2>
+  <div class="affiche-wrap">
+    <img src="https://d1yei2z3i6k35z.cloudfront.net/6243870/65909c183d86b_ApplatbkgaffichetitreWEB.jpeg" alt="Affiche du spectacle E-Motion — Solune">
+  </div>
 </div></section>
 
 <div class="divider"></div>
@@ -142,9 +158,18 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   </div>
 </div></section>
 
-<section class="figsec"><div class="wrap">
-  <div class="figure"><img src="https://d1yei2z3i6k35z.cloudfront.net/6243870/659d70e45442d_Capturedecran2023-10-28a21.58.37.png" alt="E-Motion, danse aérienne et musique live"></div>
-  <div class="cap">La danse aérienne et la musique live se répondent</div>
+<section class="gal"><div class="wrap">
+  <div class="kick">Galerie</div>
+  <h2 class="sec-title">La danse aérienne</h2>
+  <p class="lead">Le corps suspendu à l’élastique — la signature visuelle d’E-Motion.</p>
+  <div class="gal-grid">
+    <div class="gal-item"><img src="https://d1yei2z3i6k35z.cloudfront.net/6243870/659d70e45442d_Capturedecran2023-10-28a21.58.37.png" alt="Danse aérienne à l'élastique et musique live sur scène"><span class="c">Sur scène : la danse aérienne et la musique live se répondent</span></div>
+    <div class="gal-item"><img src="https://images.squarespace-cdn.com/content/v1/5f87497b40dfe64f746e59a0/1742836882689-AJVK57Y92Q1WB4O8MKHV/untitled-20230624_191636.jpg?format=1500w" alt="Iris Chasles en danse aérienne à l'élastique"><span class="c">Suspendue — l’élastique porte le mouvement</span></div>
+    <div class="gal-item"><img src="https://d1yei2z3i6k35z.cloudfront.net/6243870/6595a5d2abc63_Everness-20230624_191730-2.jpg" alt="Danse aérienne à l'élastique, Everness Festival"><span class="c">Everness Festival</span></div>
+    <div class="gal-item"><img src="https://images.squarespace-cdn.com/content/v1/5f87497b40dfe64f746e59a0/1766140580815-4R7MXZI7USGXUAQN5O6B/iris%2BDavid%2BCorealis%2B20232.png?format=1500w" alt="Iris Chasles dans les airs avec la bungee dance, David Lesage à la musique"><span class="c">L’envol, sous les arbres</span></div>
+    <div class="gal-item"><img src="https://images.squarespace-cdn.com/content/v1/5f87497b40dfe64f746e59a0/6b9df34c-e30e-4c46-b442-54c317e61f6c/danse-soufie-paris.jpg?format=1500w" alt="Danse de tournoiement sur scène"><span class="c">La danse de tournoiement</span></div>
+    <div class="gal-item"><img src="https://images.squarespace-cdn.com/content/v1/5f87497b40dfe64f746e59a0/1767030410335-4FQ4LCHR7I3MBVBI9RQM/La%2Bbeaut%25C3%25A9%2B-%2BSolune%2B31.png?format=1500w" alt="Iris Chasles, danse de tournoiement"><span class="c">Le tournoiement de la beauté</span></div>
+  </div>
 </div></section>
 
 <section class="keystone"><div class="wrap">
