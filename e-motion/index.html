@@ -104,6 +104,50 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 .sign{margin-top:40px;color:var(--muted);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:17px}
 
 @media(max-width:760px){.quotes{columns:1}.two{grid-template-columns:1fr}section{padding:64px 0}.aphoto{float:none;width:62%;display:block;margin:0 auto 16px}}
+
+/* teaser video */
+.teaser{background:linear-gradient(180deg,#0b0c1e,var(--night));text-align:center}
+.tz{margin-top:38px;max-width:900px;margin-left:auto;margin-right:auto;position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);cursor:pointer;background:#000}
+.tz img{width:100%;display:block;opacity:.62;transition:opacity .3s,transform .5s}
+.tz:hover img{opacity:.8;transform:scale(1.02)}
+.tz .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:88px;height:88px;border-radius:50%;background:rgba(216,178,90,.94);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 40px rgba(0,0,0,.5);transition:transform .25s}
+.tz:hover .play{transform:translate(-50%,-50%) scale(1.08)}
+.tz .play::after{content:'';border-left:24px solid #14100a;border-top:15px solid transparent;border-bottom:15px solid transparent;margin-left:7px}
+.lb{position:fixed;inset:0;background:rgba(6,7,18,.9);display:none;align-items:center;justify-content:center;z-index:200;padding:24px}
+.lb.open{display:flex}
+.lb-box{position:relative;width:min(980px,100%)}
+.lb-frame{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000}
+.lb-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lb-close{position:absolute;top:-48px;right:0;background:none;border:none;color:#fff;font-size:34px;line-height:1;cursor:pointer}
+.yt-fallback{display:block;text-align:center;color:var(--gold2);font-size:13px;margin-top:12px;text-decoration:underline}
+
+/* ===== MENU MOBILE (hamburger) ===== */
+.burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
+.burger span{display:block;width:20px;height:2px;background:var(--gold2);margin:4px auto;border-radius:2px;transition:transform .28s,opacity .2s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:860px){
+  .burger{display:block}
+  .nav{flex-wrap:wrap}
+  .nav .links{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1001;
+    background:rgba(10,11,28,.98);backdrop-filter:blur(14px);
+    flex-direction:column;justify-content:center;align-items:center;gap:6px !important;
+    padding:80px 26px 40px;
+    opacity:0;visibility:hidden;transform:translateY(-12px);
+    transition:opacity .3s,transform .3s,visibility .3s;
+    overflow-y:auto}
+  .nav .links.open{opacity:1;visibility:visible;transform:none}
+  /* on annule les regles qui masquaient les liens en mobile */
+  .nav .links a,.nav .links a.hide-s,.nav .links a:not(.adh){display:block !important;
+    font-size:21px !important;letter-spacing:.06em;padding:14px 18px;text-align:center;
+    font-family:'Cormorant Garamond',Georgia,serif;color:#eae7f3 !important;width:100%;max-width:340px}
+  .nav .links a:active{color:var(--gold2) !important}
+  .nav .links a.adh{margin-top:18px;background:var(--gold);color:#1a1608 !important;
+    border-radius:30px;font-family:'Jost',sans-serif;font-size:16px !important;padding:14px 30px;width:auto}
+  body.nav-open{overflow:hidden}
+}
+@media print{.burger{display:none}}
 </style>
 </head>
 <body>
@@ -135,6 +179,16 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   <p class="body">La légèreté de la <b>danse</b> et la puissance de la <b>musique</b> s’unissent aux <b>pratiques corporelles</b>, <b>guidances</b> et <b>chants</b> pour créer un moment inoubliable au sommet de l’<b>audace</b>.</p>
   <p class="body">Tu es invité·e en voyage dans l’univers immersif des <b>5 éléments</b>. Prépare-toi à être touché·e et à être acteur de propositions inclusives. Laisse-toi guider et embarque dans une expérience joyeuse, puissante et profonde.</p>
   <div class="sig">Envole-toi vers l’inattendu.</div>
+</div></section>
+
+<section class="teaser" id="teaser"><div class="wrap">
+  <div class="kick">Le teaser</div>
+  <h2 class="sec-title">Voir E-Motion en mouvement</h2>
+  <p class="lead" style="margin:16px auto 0">Une minute pour saisir ce qui se joue sur scène.</p>
+  <div class="tz" onclick="openYT('wjJ44RDENQM')" role="button" tabindex="0" aria-label="Lire le teaser du spectacle E-Motion">
+    <img src="https://d1yei2z3i6k35z.cloudfront.net/6243870/659d70e45442d_Capturedecran2023-10-28a21.58.37.png" alt="Teaser du spectacle E-Motion">
+    <div class="play"></div>
+  </div>
 </div></section>
 
 <section class="affiche"><div class="wrap">
@@ -268,4 +322,41 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   <div class="sign">ID duo — Iris Chasles &amp; David Lesage</div>
 </div></footer>
 
+
+<div class="lb" id="ytlb" onclick="closeYT(event)">
+  <div class="lb-box">
+    <button class="lb-close" onclick="closeYT(event)" aria-label="Fermer">&times;</button>
+    <div class="lb-frame"><iframe id="ytif" src="" title="Teaser — Spectacle E-Motion" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+    <a class="yt-fallback" href="https://youtu.be/wjJ44RDENQM" target="_blank" rel="noopener">La vidéo ne se lance pas ? Ouvrir sur YouTube ↗</a>
+  </div>
+</div>
+<script>
+function openYT(id){document.getElementById('ytif').src='https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1';document.getElementById('ytlb').classList.add('open');document.body.style.overflow='hidden';}
+function closeYT(e){if(!e||e.target.id==='ytlb'||e.target.classList.contains('lb-close')){document.getElementById('ytlb').classList.remove('open');document.getElementById('ytif').src='';document.body.style.overflow='';}}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeYT();});
+document.querySelectorAll('.tz').forEach(function(t){t.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openYT('wjJ44RDENQM');}});});
+</script>
+
+<script>
+(function(){
+  var nav=document.querySelector('.nav'); if(!nav) return;
+  var links=nav.querySelector('.links'); if(!links) return;
+  var b=document.createElement('button');
+  b.className='burger'; b.type='button';
+  b.setAttribute('aria-label','Ouvrir le menu');
+  b.setAttribute('aria-expanded','false');
+  b.innerHTML='<span></span><span></span><span></span>';
+  nav.appendChild(b);
+  function set(open){
+    b.setAttribute('aria-expanded',open?'true':'false');
+    b.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu');
+    links.classList.toggle('open',open);
+    document.body.classList.toggle('nav-open',open);
+  }
+  b.addEventListener('click',function(){ set(b.getAttribute('aria-expanded')!=='true'); });
+  links.addEventListener('click',function(e){ if(e.target.tagName==='A') set(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
+  window.addEventListener('resize',function(){ if(window.innerWidth>860) set(false); });
+})();
+</script>
 </body></html>
