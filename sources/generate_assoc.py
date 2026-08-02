@@ -1,13 +1,23 @@
-<!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Résonances Productions — Association loi 1901 · Art du spectacle vivant</title>
-<meta name="description" content="Résonances Productions : association loi 1901 qui accompagne, promeut et soutient des artistes. Concert-rituel RITUALS, spectacles, bains sonores, ateliers et événements — l'humain, la vibration.">
-<meta property="og:title" content="Résonances Productions">
-<meta property="og:description" content="L'humain, la vibration — accompagnement, promotion et soutien d'artistes.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
+# -*- coding: utf-8 -*-
+import math
+
+# Flower of life (19 circles) SVG
+def flower(r=60):
+    pts=[(0,0)]
+    for k in range(6):
+        a=math.radians(60*k); pts.append((r*math.cos(a), r*math.sin(a)))
+    for k in range(6):
+        a=math.radians(30+60*k); pts.append((r*math.sqrt(3)*math.cos(a), r*math.sqrt(3)*math.sin(a)))
+    for k in range(6):
+        a=math.radians(60*k); pts.append((2*r*math.cos(a), 2*r*math.sin(a)))
+    circles=''.join(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="{r}"/>' for x,y in pts)
+    vb=2*r+r  # margin
+    return (f'<svg class="flower" viewBox="{-vb} {-vb} {2*vb} {2*vb}" xmlns="http://www.w3.org/2000/svg">'
+            f'<g fill="none" stroke="var(--gold)" stroke-width="1.1">{circles}</g></svg>')
+
+FL=flower()
+
+CSS="""
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -77,40 +87,49 @@ footer a:hover{color:var(--gold2)}
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
 .legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:12.5px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:66px 0}}
+"""
 
-/* ===== MENU MOBILE (hamburger) ===== */
-.burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
-.burger span{display:block;width:20px;height:2px;background:var(--gold2);margin:4px auto;border-radius:2px;transition:transform .28s,opacity .2s}
-.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
-.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
-.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-@media(max-width:860px){
-  .burger{display:block}
-  .nav{flex-wrap:wrap}
-  .nav .links{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1001;
-    background:rgba(10,11,28,.98);backdrop-filter:blur(14px);
-    flex-direction:column;justify-content:center;align-items:center;gap:6px !important;
-    padding:80px 26px 40px;
-    opacity:0;visibility:hidden;transform:translateY(-12px);
-    transition:opacity .3s,transform .3s,visibility .3s;
-    overflow-y:auto}
-  .nav .links.open{opacity:1;visibility:visible;transform:none}
-  /* on annule les regles qui masquaient les liens en mobile */
-  .nav .links a,.nav .links a.hide-s,.nav .links a:not(.adh){display:block !important;
-    font-size:21px !important;letter-spacing:.06em;padding:14px 18px;text-align:center;
-    font-family:'Cormorant Garamond',Georgia,serif;color:#eae7f3 !important;width:100%;max-width:340px}
-  .nav .links a:active{color:var(--gold2) !important}
-  .nav .links a.adh{margin-top:18px;background:var(--gold);color:#1a1608 !important;
-    border-radius:30px;font-family:'Jost',sans-serif;font-size:16px !important;padding:14px 30px;width:auto}
-  /* .nav porte un backdrop-filter : il devient le bloc conteneur des descendants
-     position:fixed ET un contexte d'empilement -> le panneau restait enferme dans la
-     barre et passait sous le contenu. On neutralise le filtre et on remonte le nav
-     uniquement quand le menu est ouvert. */
-  body.nav-open .nav{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;z-index:1001 !important}
-  body.nav-open{overflow:hidden}
-}
-@media print{.burger{display:none}}
-</style></head>
+PREST=[
+ ('feature','Concert-Rituel','RITUALS','Une prière chantée où le public devient souffle, voix et battement. Musique live, chant collectif et induction, par David Lesage &amp; Iris Chasles. Disponible en <b>duo</b> ou en <b>trio</b> avec saxophones et flûtes.','Découvrir la page','/rituals'),
+ ('feature','Spectacle immersif participatif','« E-Motion »','Spectacle immersif et participatif avec <b>danse aérienne à l’élastique</b> et <b>musique live</b>, par <b>ID duo</b> (Iris Chasles &amp; David Lesage). Chant, guidances et pratiques corporelles autour des cinq éléments — le public devient acteur de la représentation.','Découvrir la page','/e-motion'),
+ ('','Paris 20ᵉ · Un lieu pour éclore','Le Nid','Un cocon de sécurité qui permet à l’être d’éclore à lui-même : accompagnement psychothérapeutique avec Iris Chasles, concerts de David Lesage, yoga, rythme à la calebasse et cours individuels.','Voir le programme','/le-nid'),
+ ('','Musique & voix','David Lesage','Handpan électronique, harpe africaine (Ngoni), voix, percussions et électro : soul française et spiritualité des musiques du monde. Vu à The Voice 11.','',''),
+ ('','Sons & vibrations','Bains sonores & soins vibratoires','Des voyages sonores immersifs pour ralentir, se déposer et se régénérer — au diapason du vivant.','',''),
+ ('','Transmission','Ateliers & formations','Souffle, voix, mouvement et présence : transmettre des outils simples et concrets pour mieux vivre au quotidien.','',''),
+ ('','Rencontres','Événements & création','Imaginer et soutenir des espaces de partage, de créativité, de bien-être et d’élévation de la conscience.','',''),
+]
+
+def cards():
+    out=''
+    for cls,t,h,p,go,href in PREST:
+        tag=f'<span class="go">{go} →</span>' if go else ''
+        ext=' target="_blank" rel="noopener"' if href.startswith('http') else ''
+        op=f'<a class="card {cls}" href="{href}"{ext}>' if href else f'<div class="card {cls}">'
+        cl='</a>' if href else '</div>'
+        out+=f'{op}<div class="t">{t}</div><h3>{h}</h3><p>{p}</p>{tag}{cl}'
+    return out
+
+VALS=[
+ ('Le vivant','Placer l’humain, la nature et la vibration au cœur de chaque projet.'),
+ ('La créativité','Accompagner et produire des artistes, dans tous les domaines.'),
+ ('Le bien-être','Proposer des expériences qui apaisent, relient et élèvent.'),
+ ('L’indépendance','Une démarche libre, inclusive, sans appartenance religieuse, philosophique ou politique.'),
+]
+def vals():
+    return ''.join(f'<div class="val"><h3>{h}</h3><p>{p}</p></div>' for h,p in VALS)
+
+HELLO='https://www.helloasso.com/associations/resonances-productions'
+
+HTML=f"""<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Résonances Productions — Association loi 1901 · Art du spectacle vivant</title>
+<meta name="description" content="Résonances Productions : association loi 1901 qui accompagne, promeut et soutient des artistes. Concert-rituel RITUALS, spectacles, bains sonores, ateliers et événements — l'humain, la vibration.">
+<meta property="og:title" content="Résonances Productions">
+<meta property="og:description" content="L'humain, la vibration — accompagnement, promotion et soutien d'artistes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>{CSS}</style></head>
 <body>
 
 <nav class="nav">
@@ -123,19 +142,19 @@ footer a:hover{color:var(--gold2)}
     <a href="/le-nid">Le Nid</a>
     <a href="#statuts">Statuts</a>
     <a href="#contact">Contact</a>
-    <a class="adh" href="https://www.helloasso.com/associations/resonances-productions" target="_blank" rel="noopener">Adhérer</a>
+    <a class="adh" href="{HELLO}" target="_blank" rel="noopener">Adhérer</a>
   </div>
 </nav>
 
 <header class="hero" id="top">
-  <svg class="flower" viewBox="-180 -180 360 360" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="var(--gold)" stroke-width="1.1"><circle cx="0.00" cy="0.00" r="60"/><circle cx="60.00" cy="0.00" r="60"/><circle cx="30.00" cy="51.96" r="60"/><circle cx="-30.00" cy="51.96" r="60"/><circle cx="-60.00" cy="0.00" r="60"/><circle cx="-30.00" cy="-51.96" r="60"/><circle cx="30.00" cy="-51.96" r="60"/><circle cx="90.00" cy="51.96" r="60"/><circle cx="0.00" cy="103.92" r="60"/><circle cx="-90.00" cy="51.96" r="60"/><circle cx="-90.00" cy="-51.96" r="60"/><circle cx="-0.00" cy="-103.92" r="60"/><circle cx="90.00" cy="-51.96" r="60"/><circle cx="120.00" cy="0.00" r="60"/><circle cx="60.00" cy="103.92" r="60"/><circle cx="-60.00" cy="103.92" r="60"/><circle cx="-120.00" cy="0.00" r="60"/><circle cx="-60.00" cy="-103.92" r="60"/><circle cx="60.00" cy="-103.92" r="60"/></g></svg>
+  {FL}
   <div class="inner">
     <div class="kick">Association loi 1901 · Art du spectacle vivant</div>
     <h1>Résonances<br>Productions</h1>
     <div class="tag">l’humain · la vibration</div>
     <p class="sub">L’accompagnement, la promotion et le soutien d’artistes — au service du vivant et de l’élévation de la conscience.</p>
     <div class="cta">
-      <a class="btn" href="https://www.helloasso.com/associations/resonances-productions" target="_blank" rel="noopener">Adhérer à l’association</a>
+      <a class="btn" href="{HELLO}" target="_blank" rel="noopener">Adhérer à l’association</a>
       <a class="btn ghost" href="/rituals">Découvrir RITUALS</a>
     </div>
   </div>
@@ -154,19 +173,19 @@ footer a:hover{color:var(--gold2)}
   <div class="kick">Nos prestations</div>
   <h2 class="sec-title">Créations, spectacles & expériences</h2>
   <p class="lead">De la scène au soin sonore, l’association porte des projets qui relient l’art, le corps et la conscience.</p>
-  <div class="grid"><a class="card feature" href="/rituals"><div class="t">Concert-Rituel</div><h3>RITUALS</h3><p>Une prière chantée où le public devient souffle, voix et battement. Musique live, chant collectif et induction, par David Lesage &amp; Iris Chasles. Disponible en <b>duo</b> ou en <b>trio</b> avec saxophones et flûtes.</p><span class="go">Découvrir la page →</span></a><a class="card feature" href="/e-motion"><div class="t">Spectacle immersif participatif</div><h3>« E-Motion »</h3><p>Spectacle immersif et participatif avec <b>danse aérienne à l’élastique</b> et <b>musique live</b>, par <b>ID duo</b> (Iris Chasles &amp; David Lesage). Chant, guidances et pratiques corporelles autour des cinq éléments — le public devient acteur de la représentation.</p><span class="go">Découvrir la page →</span></a><a class="card " href="/le-nid"><div class="t">Paris 20ᵉ · Un lieu pour éclore</div><h3>Le Nid</h3><p>Un cocon de sécurité qui permet à l’être d’éclore à lui-même : accompagnement psychothérapeutique avec Iris Chasles, concerts de David Lesage, yoga, rythme à la calebasse et cours individuels.</p><span class="go">Voir le programme →</span></a><div class="card "><div class="t">Musique & voix</div><h3>David Lesage</h3><p>Handpan électronique, harpe africaine (Ngoni), voix, percussions et électro : soul française et spiritualité des musiques du monde. Vu à The Voice 11.</p></div><div class="card "><div class="t">Sons & vibrations</div><h3>Bains sonores & soins vibratoires</h3><p>Des voyages sonores immersifs pour ralentir, se déposer et se régénérer — au diapason du vivant.</p></div><div class="card "><div class="t">Transmission</div><h3>Ateliers & formations</h3><p>Souffle, voix, mouvement et présence : transmettre des outils simples et concrets pour mieux vivre au quotidien.</p></div><div class="card "><div class="t">Rencontres</div><h3>Événements & création</h3><p>Imaginer et soutenir des espaces de partage, de créativité, de bien-être et d’élévation de la conscience.</p></div></div>
+  <div class="grid">{cards()}</div>
 </div></section>
 
 <section class="eng"><div class="wrap">
   <div class="kick">Nos engagements</div>
   <h2 class="sec-title">Ce qui nous anime</h2>
-  <div class="vals"><div class="val"><h3>Le vivant</h3><p>Placer l’humain, la nature et la vibration au cœur de chaque projet.</p></div><div class="val"><h3>La créativité</h3><p>Accompagner et produire des artistes, dans tous les domaines.</p></div><div class="val"><h3>Le bien-être</h3><p>Proposer des expériences qui apaisent, relient et élèvent.</p></div><div class="val"><h3>L’indépendance</h3><p>Une démarche libre, inclusive, sans appartenance religieuse, philosophique ou politique.</p></div></div>
+  <div class="vals">{vals()}</div>
 </div></section>
 
 <section class="adhesion" id="adherer"><div class="wrap">
   <div class="kick" style="color:var(--gold2)">Adhésion</div>
   <div class="big">Soutenez la création et rejoignez l’aventure. Votre adhésion nous permet de financer nos actions et de couvrir nos projets.</div>
-  <div class="cta" style="justify-content:center;margin-top:30px"><a class="btn" href="https://www.helloasso.com/associations/resonances-productions" target="_blank" rel="noopener">Adhérer sur HelloAsso</a></div>
+  <div class="cta" style="justify-content:center;margin-top:30px"><a class="btn" href="{HELLO}" target="_blank" rel="noopener">Adhérer sur HelloAsso</a></div>
 </div></section>
 
 <div class="divider"></div>
@@ -200,33 +219,13 @@ footer a:hover{color:var(--gold2)}
       <h4>Informations</h4>
       <p>SIRET : 919 514 075 00010</p>
       <p>Code APE : 9001Z<br>Arts du spectacle vivant</p>
-      <p style="margin-top:8px"><a href="https://www.helloasso.com/associations/resonances-productions" target="_blank" rel="noopener">Adhérer / soutenir</a></p>
+      <p style="margin-top:8px"><a href="{HELLO}" target="_blank" rel="noopener">Adhérer / soutenir</a></p>
     </div>
   </div>
-  <div class="legal">© 2026 Résonances Productions · resonancesproductions.org</div>
+  <div class="legal">© {2026} Résonances Productions · resonancesproductions.org</div>
 </div></footer>
 
+</body></html>"""
 
-<script>
-(function(){
-  var nav=document.querySelector('.nav'); if(!nav) return;
-  var links=nav.querySelector('.links'); if(!links) return;
-  var b=document.createElement('button');
-  b.className='burger'; b.type='button';
-  b.setAttribute('aria-label','Ouvrir le menu');
-  b.setAttribute('aria-expanded','false');
-  b.innerHTML='<span></span><span></span><span></span>';
-  nav.appendChild(b);
-  function set(open){
-    b.setAttribute('aria-expanded',open?'true':'false');
-    b.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu');
-    links.classList.toggle('open',open);
-    document.body.classList.toggle('nav-open',open);
-  }
-  b.addEventListener('click',function(){ set(b.getAttribute('aria-expanded')!=='true'); });
-  links.addEventListener('click',function(e){ if(e.target.tagName==='A') set(false); });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
-  window.addEventListener('resize',function(){ if(window.innerWidth>860) set(false); });
-})();
-</script>
-</body></html>
+open('assoc_index.html','w',encoding='utf-8').write(HTML)
+print('WROTE assoc_index.html', round(len(HTML)/1024),'KB')
