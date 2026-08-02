@@ -102,6 +102,12 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 }
 @media print{.burger{display:none}}
 
+
+
+
+
+
+
 /* ===== AGENDA DU NID ===== */
 .agenda{background:linear-gradient(180deg,var(--night),#0b0c1e)}
 .ag-legend{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:26px}
@@ -127,8 +133,19 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 .ag-btn:hover{background:var(--c);color:#12121f}
 .ag-foot{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
 .ag-tip{color:var(--muted);font-size:13.5px;margin-top:16px;font-style:italic}
+.ag-cal{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);color:#d3d0e8;
+  border-radius:20px;padding:7px 14px;font-size:12.5px;cursor:pointer;white-space:nowrap;
+  font-family:inherit;transition:background .2s,color .2s,border-color .2s}
+.ag-cal:hover{background:var(--gold);color:#1a1608;border-color:var(--gold)}
+.ag-access{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:40px}
+.ag-access>div{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:14px;
+  padding:20px 22px;color:#d3d0e8;font-size:14.5px;line-height:1.6}
+.ag-access span{display:block;color:var(--gold);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.ag-access i{color:var(--muted);font-size:13px}
 @media(max-width:640px){
   .ag-item{grid-template-columns:52px 1fr;gap:8px 14px;padding:13px 16px}
+  .ag-cal{grid-column:2;justify-self:start}
   .ag-hour{grid-column:2;text-align:left;margin-top:2px;font-size:14px}
   .ag-hour span{display:inline;margin-left:4px}
   .ag-btn{grid-column:2;justify-self:start;margin-top:6px}
@@ -148,6 +165,9 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
     <a class="hide-s" href="/">Accueil</a>
     <a class="hide-s" href="/rituals">RITUALS</a>
     <a class="hide-s" href="/e-motion">E-Motion</a>
+    <a class="hide-s" href="#agenda">Agenda</a>
+    <a class="hide-s" href="#agenda">Agenda</a>
+    <a class="hide-s" href="#agenda">Agenda</a>
     <a class="hide-s" href="#agenda">Agenda</a>
     <a href="#contact">Contact</a>
   </div>
@@ -186,7 +206,8 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
       <h3>Psychothérapie &amp; approche psycho-corporelle</h3>
       <p>Iris Chasles, psychopraticienne et yoga-thérapeute, accompagne les adultes par une approche où le corps est le véhicule d’intégration. Son travail s’appuie sur l’Intelligence Relationnelle® et l’IFS, la connexion au système nerveux autonome (théorie polyvagale), la régulation émotionnelle et la théorie de l’attachement.</p>
       <p style="margin-top:12px">Séances en présentiel au Nid (Paris 20<sup>e</sup>) ou en visio. L’accompagnement peut être complété par la yoga-thérapie.</p>
-      <div class="who">Avec Iris Chasles · <a href="https://www.irischasles.com/psychotherapie-paris-20" target="_blank" rel="noopener">En savoir plus</a></div>
+      <div class="who">Avec Iris Chasles</div>
+      <div class="offer-dates"><span>Sur rendez-vous</span>Séances en présentiel au Nid ou en visio. <a href="https://www.irischasles.com/" target="_blank" rel="noopener">Prendre rendez-vous sur irischasles.com ↗</a></div>
     </div>
 
     <div class="offer">
@@ -207,7 +228,7 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
       <div class="t">Transmission</div>
       <h3>Workshop rythme à la calebasse</h3>
       <p>Apprendre le rythme avec la calebasse : les bases, les frappes, la pulsation collective. Aucun prérequis musical — on entre dans le rythme par le corps et l’écoute.</p>
-      <div class="who">Avec David Lesage</div><div class="offer-dates"><span>Prochaines dates</span>20 sept. · 17 octo. · 15 nove. <a href="#agenda">tout voir</a></div>
+      <div class="who">Avec David Lesage</div><div class="offer-dates"><span>Prochaines dates</span>20 sept. · 17 octo. · 15 nove. <a href="#agenda">tout voir</a></div><div class="offer-dates"><span>Prochaines dates</span>20 sept. · 17 octo. · 15 nove. <a href="#agenda">tout voir</a></div><div class="offer-dates"><span>Prochaines dates</span>20 sept. · 17 octo. · 15 nove. <a href="#agenda">tout voir</a></div><div class="offer-dates"><span>Prochaines dates</span>20 sept. · 17 octo. · 15 nove. <a href="#agenda">tout voir</a></div>
     </div>
 
     <div class="offer">
@@ -223,6 +244,27 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
       <div class="offer-dates"><span>Prochaines dates</span>23 août. · 19 sept. · 18 octo. <a href="#agenda">tout voir</a></div>
       <div class="who">Réservation sur <a href="https://lesagedavid.fr" target="_blank" rel="noopener">lesagedavid.fr</a></div>
     </div>
+    <div class="offer">
+      <div class="t">Scène ouverte</div>
+      <h3>Showcase</h3>
+      <p>Un format court et intime : on découvre un projet en cours, une création, un artiste invité — au plus près, dans le salon du Nid.</p>
+      <div class="offer-dates"><span>Prochaines dates</span>23 août. · 19 sept. · 18 octo. <a href="#agenda">tout voir</a></div>
+      <div class="who">Réservation sur <a href="https://lesagedavid.fr" target="_blank" rel="noopener">lesagedavid.fr</a></div>
+    </div>
+    <div class="offer">
+      <div class="t">Scène ouverte</div>
+      <h3>Showcase</h3>
+      <p>Un format court et intime : on découvre un projet en cours, une création, un artiste invité — au plus près, dans le salon du Nid.</p>
+      <div class="offer-dates"><span>Prochaines dates</span>23 août. · 19 sept. · 18 octo. <a href="#agenda">tout voir</a></div>
+      <div class="who">Réservation sur <a href="https://www.handpan-studio.app/showroom#agenda" target="_blank" rel="noopener">handpan-studio.app</a></div>
+    </div>
+    <div class="offer">
+      <div class="t">Scène ouverte</div>
+      <h3>Showcase</h3>
+      <p>Un format court et intime : on découvre un projet en cours, une création, un artiste invité — au plus près, dans le salon du Nid.</p>
+      <div class="offer-dates"><span>Prochaines dates</span>23 août. · 19 sept. · 18 octo. <a href="#agenda">tout voir</a></div>
+      <div class="who">Réservation sur <a href="https://www.handpan-studio.app/showroom#agenda" target="_blank" rel="noopener">handpan-studio.app</a></div>
+    </div>
   </div>
 
   <div class="note">
@@ -236,6 +278,15 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 
 <div class="divider"></div>
 
+
+<div class="divider"></div>
+
+
+<div class="divider"></div>
+
+
+<div class="divider"></div>
+
 <section class="agenda" id="agenda"><div class="wrap">
   <div class="kick">L’agenda</div>
   <h2 class="sec-title">Les prochaines dates</h2>
@@ -243,44 +294,50 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   <div class="ag-legend"><span class="ag-leg"><i style="background:#d8b25a"></i>Rendez-vous mensuel</span><span class="ag-leg"><i style="background:#e08a5f"></i>Concert</span><span class="ag-leg"><i style="background:#7fb2a3"></i>Atelier yoga</span><span class="ag-leg"><i style="background:#8f7ad1"></i>Workshop rythme</span><span class="ag-leg"><i style="background:#6f9bd1"></i>Showcase</span><span class="ag-leg"><i style="background:#c98fb0"></i>Sortie de résidence</span></div>
   <div class="ag-month">août 2026</div>
   <div class="ag-list">
-    <div class="ag-item" style="--c:#6f9bd1"><div class="ag-date"><span class="ag-d">23</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Showcase</span><h3>Showcase</h3></div><div class="ag-hour">16:00<span>→ 19:00</span></div><a class="ag-btn" href="https://lesagedavid.fr" target="_blank" rel="noopener">Réserver ↗</a></div>
+    <div class="ag-item" style="--c:#6f9bd1" data-s="20260823T140000Z" data-e="20260823T170000Z" data-t="Showcase" data-d="Format court et intime : la decouverte d'un projet en cours, d'une creation ou d'un artiste invite, au plus pres. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.handpan-studio.app/showroom#agenda"><div class="ag-date"><span class="ag-d">23</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Showcase</span><h3>Showcase</h3></div><div class="ag-hour">16:00<span>→ 19:00</span></div><a class="ag-btn" href="https://www.handpan-studio.app/showroom#agenda" target="_blank" rel="noopener">Réserver ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
   </div>
   <div class="ag-month">septembre 2026</div>
   <div class="ag-list">
-    <div class="ag-item" style="--c:#d8b25a"><div class="ag-date"><span class="ag-d">4</span><span class="ag-j">ven.</span></div><div class="ag-body"><span class="ag-type">Rendez-vous mensuel</span><h3>Rendez-vous mensuel au Nid</h3></div><div class="ag-hour">18:30<span>→ 23:30</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
-    <div class="ag-item" style="--c:#7fb2a3"><div class="ag-date"><span class="ag-d">6</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Atelier yoga</span><h3>Atelier de yoga</h3><span class="ag-note">avec Iris Chasles</span></div><div class="ag-hour">16:30<span>→ 19:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
-    <div class="ag-item" style="--c:#6f9bd1"><div class="ag-date"><span class="ag-d">19</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Showcase</span><h3>Showcase</h3></div><div class="ag-hour">16:00<span>→ 19:00</span></div><a class="ag-btn" href="https://lesagedavid.fr" target="_blank" rel="noopener">Réserver ↗</a></div>
-    <div class="ag-item" style="--c:#8f7ad1"><div class="ag-date"><span class="ag-d">20</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Workshop rythme</span><h3>Workshop rythme à la calebasse</h3><span class="ag-note">avec David Lesage</span></div><div class="ag-hour">10:00<span>→ 12:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
-    <div class="ag-item" style="--c:#c98fb0"><div class="ag-date"><span class="ag-d">26</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Sortie de résidence</span><h3>Sortie de résidence</h3><span class="ag-note">restitution du travail en trio</span></div><div class="ag-hour">17:00<span>→ 19:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
-    <div class="ag-item" style="--c:#e08a5f"><div class="ag-date"><span class="ag-d">26</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Concert</span><h3>Concert — David, Iris & Julien</h3><span class="ag-note">le trio en concert</span></div><div class="ag-hour">20:00<span>→ 22:00</span></div><a class="ag-btn" href="https://lesagedavid.fr" target="_blank" rel="noopener">Réserver ↗</a></div>
+    <div class="ag-item" style="--c:#d8b25a" data-s="20260904T163000Z" data-e="20260904T213000Z" data-t="Rendez-vous mensuel au Nid" data-d="Le rendez-vous mensuel du Nid : un temps convivial qui melange pratique, musique et partage, dans un cadre intime. Reserve aux adherents de l'association. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions"><div class="ag-date"><span class="ag-d">4</span><span class="ag-j">ven.</span></div><div class="ag-body"><span class="ag-type">Rendez-vous mensuel</span><h3>Rendez-vous mensuel au Nid</h3></div><div class="ag-hour">18:30<span>→ 23:30</span></div><a class="ag-btn" href="https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions" target="_blank" rel="noopener">Adhérer ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#7fb2a3" data-s="20260906T143000Z" data-e="20260906T170000Z" data-t="Atelier de yoga" data-d="Atelier de yoga guide par Iris Chasles : yoga postural, respiration et meditation. Pratique accessible a tous les niveaux. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid"><div class="ag-date"><span class="ag-d">6</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Atelier yoga</span><h3>Atelier de yoga</h3><span class="ag-note">avec Iris Chasles</span></div><div class="ag-hour">16:30<span>→ 19:00</span></div><a class="ag-btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid" target="_blank" rel="noopener">S’inscrire ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#6f9bd1" data-s="20260919T140000Z" data-e="20260919T170000Z" data-t="Showcase" data-d="Format court et intime : la decouverte d'un projet en cours, d'une creation ou d'un artiste invite, au plus pres. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.handpan-studio.app/showroom#agenda"><div class="ag-date"><span class="ag-d">19</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Showcase</span><h3>Showcase</h3></div><div class="ag-hour">16:00<span>→ 19:00</span></div><a class="ag-btn" href="https://www.handpan-studio.app/showroom#agenda" target="_blank" rel="noopener">Réserver ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#8f7ad1" data-s="20260920T080000Z" data-e="20260920T100000Z" data-t="Workshop rythme à la calebasse" data-d="Workshop rythme a la calebasse avec David Lesage : les bases, les frappes, la pulsation collective. Aucun prerequis musical. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : contact@resonancesproductions.org"><div class="ag-date"><span class="ag-d">20</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Workshop rythme</span><h3>Workshop rythme à la calebasse</h3><span class="ag-note">avec David Lesage</span></div><div class="ag-hour">10:00<span>→ 12:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#c98fb0" data-s="20260926T150000Z" data-e="20260926T170000Z" data-t="Sortie de résidence" data-d="Sortie de residence : restitution publique du travail mene en trio. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : contact@resonancesproductions.org"><div class="ag-date"><span class="ag-d">26</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Sortie de résidence</span><h3>Sortie de résidence</h3><span class="ag-note">restitution du travail en trio</span></div><div class="ag-hour">17:00<span>→ 19:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#e08a5f" data-s="20260926T180000Z" data-e="20260926T200000Z" data-t="Concert — David, Iris &amp; Julien" data-d="Un concert en format intime : voix, handpan electronique, harpe africaine (Ngoni), calebasse et percussions electro-organiques. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://lesagedavid.fr"><div class="ag-date"><span class="ag-d">26</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Concert</span><h3>Concert — David, Iris & Julien</h3><span class="ag-note">le trio en concert</span></div><div class="ag-hour">20:00<span>→ 22:00</span></div><a class="ag-btn" href="https://lesagedavid.fr" target="_blank" rel="noopener">Réserver ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
   </div>
   <div class="ag-month">octobre 2026</div>
   <div class="ag-list">
-    <div class="ag-item" style="--c:#d8b25a"><div class="ag-date"><span class="ag-d">2</span><span class="ag-j">ven.</span></div><div class="ag-body"><span class="ag-type">Rendez-vous mensuel</span><h3>Rendez-vous mensuel au Nid</h3></div><div class="ag-hour">18:30<span>→ 23:30</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
-    <div class="ag-item" style="--c:#7fb2a3"><div class="ag-date"><span class="ag-d">4</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Atelier yoga</span><h3>Atelier de yoga</h3><span class="ag-note">avec Iris Chasles</span></div><div class="ag-hour">16:30<span>→ 19:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
-    <div class="ag-item" style="--c:#e08a5f"><div class="ag-date"><span class="ag-d">10</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Concert</span><h3>Concert — David Lesage solo</h3></div><div class="ag-hour">19:00<span>→ 21:00</span></div><a class="ag-btn" href="https://lesagedavid.fr" target="_blank" rel="noopener">Réserver ↗</a></div>
-    <div class="ag-item" style="--c:#8f7ad1"><div class="ag-date"><span class="ag-d">17</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Workshop rythme</span><h3>Workshop rythme à la calebasse</h3><span class="ag-note">avec David Lesage</span></div><div class="ag-hour">15:00<span>→ 17:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
-    <div class="ag-item" style="--c:#6f9bd1"><div class="ag-date"><span class="ag-d">18</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Showcase</span><h3>Showcase</h3></div><div class="ag-hour">16:00<span>→ 19:00</span></div><a class="ag-btn" href="https://lesagedavid.fr" target="_blank" rel="noopener">Réserver ↗</a></div>
+    <div class="ag-item" style="--c:#d8b25a" data-s="20261002T163000Z" data-e="20261002T213000Z" data-t="Rendez-vous mensuel au Nid" data-d="Le rendez-vous mensuel du Nid : un temps convivial qui melange pratique, musique et partage, dans un cadre intime. Reserve aux adherents de l'association. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions"><div class="ag-date"><span class="ag-d">2</span><span class="ag-j">ven.</span></div><div class="ag-body"><span class="ag-type">Rendez-vous mensuel</span><h3>Rendez-vous mensuel au Nid</h3></div><div class="ag-hour">18:30<span>→ 23:30</span></div><a class="ag-btn" href="https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions" target="_blank" rel="noopener">Adhérer ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#7fb2a3" data-s="20261004T143000Z" data-e="20261004T170000Z" data-t="Atelier de yoga" data-d="Atelier de yoga guide par Iris Chasles : yoga postural, respiration et meditation. Pratique accessible a tous les niveaux. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid"><div class="ag-date"><span class="ag-d">4</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Atelier yoga</span><h3>Atelier de yoga</h3><span class="ag-note">avec Iris Chasles</span></div><div class="ag-hour">16:30<span>→ 19:00</span></div><a class="ag-btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid" target="_blank" rel="noopener">S’inscrire ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#e08a5f" data-s="20261010T170000Z" data-e="20261010T190000Z" data-t="Concert — David Lesage solo" data-d="Un concert en format intime : voix, handpan electronique, harpe africaine (Ngoni), calebasse et percussions electro-organiques. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://lesagedavid.fr"><div class="ag-date"><span class="ag-d">10</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Concert</span><h3>Concert — David Lesage solo</h3></div><div class="ag-hour">19:00<span>→ 21:00</span></div><a class="ag-btn" href="https://lesagedavid.fr" target="_blank" rel="noopener">Réserver ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#8f7ad1" data-s="20261017T130000Z" data-e="20261017T150000Z" data-t="Workshop rythme à la calebasse" data-d="Workshop rythme a la calebasse avec David Lesage : les bases, les frappes, la pulsation collective. Aucun prerequis musical. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : contact@resonancesproductions.org"><div class="ag-date"><span class="ag-d">17</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Workshop rythme</span><h3>Workshop rythme à la calebasse</h3><span class="ag-note">avec David Lesage</span></div><div class="ag-hour">15:00<span>→ 17:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#6f9bd1" data-s="20261018T140000Z" data-e="20261018T170000Z" data-t="Showcase" data-d="Format court et intime : la decouverte d'un projet en cours, d'une creation ou d'un artiste invite, au plus pres. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.handpan-studio.app/showroom#agenda"><div class="ag-date"><span class="ag-d">18</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Showcase</span><h3>Showcase</h3></div><div class="ag-hour">16:00<span>→ 19:00</span></div><a class="ag-btn" href="https://www.handpan-studio.app/showroom#agenda" target="_blank" rel="noopener">Réserver ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
   </div>
   <div class="ag-month">novembre 2026</div>
   <div class="ag-list">
-    <div class="ag-item" style="--c:#d8b25a"><div class="ag-date"><span class="ag-d">7</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Rendez-vous mensuel</span><h3>Rendez-vous mensuel au Nid</h3></div><div class="ag-hour">18:30<span>→ 23:30</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
-    <div class="ag-item" style="--c:#7fb2a3"><div class="ag-date"><span class="ag-d">8</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Atelier yoga</span><h3>Atelier de yoga</h3><span class="ag-note">avec Iris Chasles</span></div><div class="ag-hour">16:30<span>→ 19:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
-    <div class="ag-item" style="--c:#6f9bd1"><div class="ag-date"><span class="ag-d">14</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Showcase</span><h3>Showcase</h3></div><div class="ag-hour">16:00<span>→ 19:00</span></div><a class="ag-btn" href="https://lesagedavid.fr" target="_blank" rel="noopener">Réserver ↗</a></div>
-    <div class="ag-item" style="--c:#8f7ad1"><div class="ag-date"><span class="ag-d">15</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Workshop rythme</span><h3>Workshop rythme à la calebasse</h3><span class="ag-note">avec David Lesage</span></div><div class="ag-hour">15:00<span>→ 17:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
-    <div class="ag-item" style="--c:#e08a5f"><div class="ag-date"><span class="ag-d">28</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Concert</span><h3>Concert — David Lesage solo</h3></div><div class="ag-hour">18:00<span>→ 20:00</span></div><a class="ag-btn" href="https://lesagedavid.fr" target="_blank" rel="noopener">Réserver ↗</a></div>
+    <div class="ag-item" style="--c:#d8b25a" data-s="20261107T173000Z" data-e="20261107T223000Z" data-t="Rendez-vous mensuel au Nid" data-d="Le rendez-vous mensuel du Nid : un temps convivial qui melange pratique, musique et partage, dans un cadre intime. Reserve aux adherents de l'association. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions"><div class="ag-date"><span class="ag-d">7</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Rendez-vous mensuel</span><h3>Rendez-vous mensuel au Nid</h3></div><div class="ag-hour">18:30<span>→ 23:30</span></div><a class="ag-btn" href="https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions" target="_blank" rel="noopener">Adhérer ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#7fb2a3" data-s="20261108T153000Z" data-e="20261108T180000Z" data-t="Atelier de yoga" data-d="Atelier de yoga guide par Iris Chasles : yoga postural, respiration et meditation. Pratique accessible a tous les niveaux. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid"><div class="ag-date"><span class="ag-d">8</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Atelier yoga</span><h3>Atelier de yoga</h3><span class="ag-note">avec Iris Chasles</span></div><div class="ag-hour">16:30<span>→ 19:00</span></div><a class="ag-btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid" target="_blank" rel="noopener">S’inscrire ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#6f9bd1" data-s="20261114T150000Z" data-e="20261114T180000Z" data-t="Showcase" data-d="Format court et intime : la decouverte d'un projet en cours, d'une creation ou d'un artiste invite, au plus pres. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.handpan-studio.app/showroom#agenda"><div class="ag-date"><span class="ag-d">14</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Showcase</span><h3>Showcase</h3></div><div class="ag-hour">16:00<span>→ 19:00</span></div><a class="ag-btn" href="https://www.handpan-studio.app/showroom#agenda" target="_blank" rel="noopener">Réserver ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#8f7ad1" data-s="20261115T140000Z" data-e="20261115T160000Z" data-t="Workshop rythme à la calebasse" data-d="Workshop rythme a la calebasse avec David Lesage : les bases, les frappes, la pulsation collective. Aucun prerequis musical. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : contact@resonancesproductions.org"><div class="ag-date"><span class="ag-d">15</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Workshop rythme</span><h3>Workshop rythme à la calebasse</h3><span class="ag-note">avec David Lesage</span></div><div class="ag-hour">15:00<span>→ 17:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#e08a5f" data-s="20261128T170000Z" data-e="20261128T190000Z" data-t="Concert — David Lesage solo" data-d="Un concert en format intime : voix, handpan electronique, harpe africaine (Ngoni), calebasse et percussions electro-organiques. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://lesagedavid.fr"><div class="ag-date"><span class="ag-d">28</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Concert</span><h3>Concert — David Lesage solo</h3></div><div class="ag-hour">18:00<span>→ 20:00</span></div><a class="ag-btn" href="https://lesagedavid.fr" target="_blank" rel="noopener">Réserver ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
   </div>
   <div class="ag-month">décembre 2026</div>
   <div class="ag-list">
-    <div class="ag-item" style="--c:#d8b25a"><div class="ag-date"><span class="ag-d">4</span><span class="ag-j">ven.</span></div><div class="ag-body"><span class="ag-type">Rendez-vous mensuel</span><h3>Rendez-vous mensuel au Nid</h3></div><div class="ag-hour">18:30<span>→ 23:30</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
-    <div class="ag-item" style="--c:#6f9bd1"><div class="ag-date"><span class="ag-d">5</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Showcase</span><h3>Showcase</h3></div><div class="ag-hour">15:00<span>→ 18:00</span></div><a class="ag-btn" href="https://lesagedavid.fr" target="_blank" rel="noopener">Réserver ↗</a></div>
-    <div class="ag-item" style="--c:#7fb2a3"><div class="ag-date"><span class="ag-d">6</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Atelier yoga</span><h3>Atelier de yoga</h3><span class="ag-note">avec Iris Chasles</span></div><div class="ag-hour">16:30<span>→ 19:00</span></div><a class="ag-btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation">Réserver</a></div>
+    <div class="ag-item" style="--c:#d8b25a" data-s="20261204T173000Z" data-e="20261204T223000Z" data-t="Rendez-vous mensuel au Nid" data-d="Le rendez-vous mensuel du Nid : un temps convivial qui melange pratique, musique et partage, dans un cadre intime. Reserve aux adherents de l'association. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions"><div class="ag-date"><span class="ag-d">4</span><span class="ag-j">ven.</span></div><div class="ag-body"><span class="ag-type">Rendez-vous mensuel</span><h3>Rendez-vous mensuel au Nid</h3></div><div class="ag-hour">18:30<span>→ 23:30</span></div><a class="ag-btn" href="https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions" target="_blank" rel="noopener">Adhérer ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#6f9bd1" data-s="20261205T140000Z" data-e="20261205T170000Z" data-t="Showcase" data-d="Format court et intime : la decouverte d'un projet en cours, d'une creation ou d'un artiste invite, au plus pres. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.handpan-studio.app/showroom#agenda"><div class="ag-date"><span class="ag-d">5</span><span class="ag-j">sam.</span></div><div class="ag-body"><span class="ag-type">Showcase</span><h3>Showcase</h3></div><div class="ag-hour">15:00<span>→ 18:00</span></div><a class="ag-btn" href="https://www.handpan-studio.app/showroom#agenda" target="_blank" rel="noopener">Réserver ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+    <div class="ag-item" style="--c:#7fb2a3" data-s="20261206T153000Z" data-e="20261206T180000Z" data-t="Atelier de yoga" data-d="Atelier de yoga guide par Iris Chasles : yoga postural, respiration et meditation. Pratique accessible a tous les niveaux. | Au fond de la cour, porte verte, 3e etage. Le code du portail vous est communique avec votre confirmation d'inscription. | Jauge limitee : chaque evenement est sur invitation ou sur inscription prealable. Merci de reserver avant de venir. | Reservation : https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid"><div class="ag-date"><span class="ag-d">6</span><span class="ag-j">dim.</span></div><div class="ag-body"><span class="ag-type">Atelier yoga</span><h3>Atelier de yoga</h3><span class="ag-note">avec Iris Chasles</span></div><div class="ag-hour">16:30<span>→ 19:00</span></div><a class="ag-btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid" target="_blank" rel="noopener">S’inscrire ↗</a><button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button></div>
+  </div>
+  <div class="ag-access">
+    <div><span>Le lieu</span><b>Le Nid</b> — 29 rue des Orteaux, 75020 Paris<br>Au fond de la cour, porte verte, puis 3<sup>e</sup> étage.<br><i>Le code du portail vous est communiqué avec votre confirmation.</i></div>
+    <div><span>Accès</span>Métro Alexandre Dumas, Buzenval ou Maraîchers.</div>
+    <div><span>Jauge limitée</span>Chaque événement se tient <b>sur invitation ou sur inscription</b>. Merci de réserver avant de venir : les places partent vite.</div>
   </div>
   <div class="ag-foot">
-    <a class="btn ghost" href="https://calendar.google.com/calendar/u/0?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1ZWIwNjA3ZTViMzNmZDUzM2I5ODRkZjJkZjYxZmU5NTE4YWIzMmVhZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener">↗ Ajouter l’agenda à mon calendrier</a>
+    <button class="btn ag-all" type="button">↓ Ajouter toutes les dates à mon agenda</button>
+    <a class="btn ghost" href="https://calendar.google.com/calendar/u/0?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1ZWIwNjA3ZTViMzNmZDUzM2I5ODRkZjJkZjYxZmU5NTE4YWIzMmVhZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener">↗ S’abonner au calendrier Google</a>
     <a class="btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20réservation">Réserver une place</a>
   </div>
-  <p class="ag-tip">Les places sont limitées : merci de nous écrire pour réserver. Tarifs et modalités communiqués à l’inscription.</p>
+  <p class="ag-tip">« + Agenda » télécharge un fichier compatible Google Agenda, Apple Calendrier et Outlook, avec deux rappels automatiques (la veille et 2 h avant).</p>
 </div></section>
 
 <div class="divider"></div>
@@ -334,6 +391,44 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   links.addEventListener('click',function(e){ if(e.target.tagName==='A') set(false); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
   window.addEventListener('resize',function(){ if(window.innerWidth>860) set(false); });
+})();
+</script>
+
+<script>
+(function(){
+  function esc(s){return String(s).replace(/([,;\\])/g,'\\$1').replace(/\n/g,'\\n');}
+  var LIEU='Le Nid, 29 rue des Orteaux, 75020 Paris';
+  function ics(items,name){
+    var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Resonances Productions//Le Nid//FR',
+           'CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:Le Nid'];
+    var now=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+    items.forEach(function(it,i){
+      L.push('BEGIN:VEVENT','UID:lenid-'+it.s+'-'+i+'@resonancesproductions.org',
+        'DTSTAMP:'+now,'DTSTART:'+it.s,'DTEND:'+it.e,
+        'SUMMARY:'+esc(it.t),'LOCATION:'+esc(LIEU),'DESCRIPTION:'+esc(it.d),
+        'BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:'+esc(it.t)+' demain','END:VALARM',
+        'BEGIN:VALARM','TRIGGER:-PT2H','ACTION:DISPLAY','DESCRIPTION:'+esc(it.t)+' dans 2 heures','END:VALARM',
+        'END:VEVENT');
+    });
+    L.push('END:VCALENDAR');
+    var b=new Blob([L.join('\r\n')],{type:'text/calendar;charset=utf-8'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(b); a.download=name; document.body.appendChild(a); a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},400);
+  }
+  function read(el){return {s:el.dataset.s,e:el.dataset.e,t:el.dataset.t,d:el.dataset.d};}
+  document.addEventListener('click',function(ev){
+    var b=ev.target.closest('.ag-cal'); if(b){
+      var it=read(b.closest('.ag-item'));
+      ics([it], 'le-nid-'+it.t.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40)+'.ics');
+      b.textContent='\u2713 Ajoute'; setTimeout(function(){b.textContent='+ Agenda';},2500);
+      return;
+    }
+    var all=ev.target.closest('.ag-all'); if(all){
+      ics([].map.call(document.querySelectorAll('.ag-item'),read),'agenda-le-nid.ics');
+      all.textContent='\u2713 Agenda telecharge'; setTimeout(function(){all.textContent='\u2193 Ajouter toutes les dates a mon agenda';},2800);
+    }
+  });
 })();
 </script>
 </body></html>
