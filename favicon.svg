@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Résonances Productions">
+  <rect width="64" height="64" rx="12" fill="#0e0f24"/>
+  <g fill="none" stroke="#d8b25a" stroke-width="2.4">
+    <circle cx="32" cy="32" r="8"/>
+    <circle cx="32" cy="32" r="16" opacity=".72"/>
+    <circle cx="32" cy="32" r="23.5" opacity=".42"/>
+  </g>
+  <circle cx="32" cy="32" r="3" fill="#f0d18a"/>
+</svg>

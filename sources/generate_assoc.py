@@ -134,7 +134,15 @@ HTML=f"""<!DOCTYPE html>
 <meta property="og:description" content="L'humain, la vibration — accompagnement, promotion et soutien d'artistes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>{CSS}</style></head>
+<style>{CSS}</style>  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0e0f24">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://www.resonancesproductions.org/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+</head>
 <body>
 
 <nav class="nav">
