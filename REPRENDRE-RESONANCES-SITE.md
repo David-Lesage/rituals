@@ -21,6 +21,17 @@
 - ✅ 3 rappels (10080 / 1440 / 120 min, popup) sur les 42 événements. **Limite Google actée : les rappels d'un calendrier public ne se propagent PAS aux abonnés** (chacun a les siens). Seuls les `.ics` téléchargés embarquent les rappels.
 - ⚠️ Incident traité : le code portail avait été écrit par erreur dans ce fichier handoff et poussé sur ce dépôt **public** ; retiré + historique réécrit + force-push, clone neuf vérifié propre. Le code doit être considéré comme ayant été exposé (le flux du calendrier l'exposait déjà avant).
 
+### Quick wins UX déployés (04/08)
+- ✅ Une seule entrée « Agenda » dans le menu de /le-nid + **garde-fou dans le générateur** (même bug d'injection non idempotente que les cartes).
+- ✅ Cibles tactiles : filtres d'agenda `min-height:44px`, liens de pied de page à 44-45 px sur les 5 pages.
+- ✅ Plancher typographique 13 px (badges 14 px) — seuls restent les `<sup>` (« 3ᵉ étage »), légitimes.
+- ✅ `:focus-visible` doré sur les 5 pages.
+- ✅ `alt` des photos recopiés depuis les légendes affichées (25/26 sur rituals, 38/39 sur trio ; le seul `alt` vide restant est la visionneuse dynamique).
+- ✅ Téléphones en `tel:` sur rituals et rituals-trio.
+- ✅ Favicon (`favicon.svg` cercles concentriques or/nuit + `favicon.ico` + `apple-touch-icon.png` 180×180), `theme-color`, `og:url`, `twitter:card`, **`og-image.jpg` 1200×630** (photo de salle comble extraite du base64 de rituals) sur les 4 pages qui n'en avaient pas.
+- Vérifié aux 3 largeurs (390/820/1440) sur les 5 pages : 0 débordement horizontal, carrousels intacts (20 et 31 slides, aucune à 2 px, aucun `loading="lazy"`), hamburger OK (artefact connu : dans un iframe en arrière-plan les transitions CSS sont gelées → tester en neutralisant `transition`).
+- ⚠️ NON FAIT volontairement : **lien d'évitement** (aucun n'existait réellement sur /rituals contrairement à l'audit → créerait un texte visible à valider) · **lien Facebook mort** laissé tel quel (David doit fournir l'URL) · `og:image` de /e-motion toujours sur le CDN tiers cloudfront.
+
 ### En cours
 - **Agent quick wins techniques** (ce dépôt) : 1 seule entrée « Agenda » dans le menu + cause dans le générateur · cibles tactiles 44 px & plancher typo 13/14 px · `:focus-visible` + liens d'évitement · `alt` des photos rituals/trio recopiés depuis les légendes visibles · téléphones en `tel:` · favicon + `og:image`/`og:url`/`twitter:card` + `theme-color` · lien Facebook mort signalé sans invention d'URL. Commits locaux incrémentaux, **pas de push** (une 1re tentative a été perdue sur erreur API 529).
 - **Handpan Studio (AUTRE dépôt `~/CLAUDE/NEOTONE STUDIO/NEOTONE 1er mai 2026/`)** : tableau de suivi des inscriptions showcase + email de confirmation. Commits locaux `5e8eabb` → `be7b625` → `5ec34c8` → `ba99b5c`, **non déployés**. Fichiers : `auth/showcase-panel.ts`, `supabase/functions/confirm-showcase/index.ts`, `auth/account-menu.ts`, `config.toml`. Données : table `site_leads` existante (aucune migration). Horaires par date dans `EVENT_HOURS` (à compléter pour toute nouvelle date) + surcharge manuelle dans le panneau. Email = code portail + temple/déchaussage + non fumeur + copropriété d'artistes + enfants (activités + espace dédié) + boire sans alcool/grignoter + focus Neotone + orientation RDV individuel payant + jauge 20 + engagement/communauté + responsabilité en cas de casse.
