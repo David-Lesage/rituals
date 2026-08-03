@@ -100,6 +100,7 @@ PREST=[
  ('','Paris 20ᵉ · Un lieu pour éclore','Le Nid','Un cocon de sécurité qui permet à l’être d’éclore à lui-même : accompagnement psychothérapeutique avec Iris Chasles, concerts de David Lesage, yoga, rythme à la calebasse et cours individuels.','Voir le programme','/le-nid'),
  ('','Musique & voix','David Lesage','Handpan électronique, harpe africaine (Ngoni), voix, percussions et électro : soul française et spiritualité des musiques du monde. Vu à The Voice 11.','',''),
  ('','Soin d’incarnation · Paris 20ᵉ','Le Soin Soa','Un soin holistique né de la rencontre de trois approches complémentaires : le <b>toucher thérapeutique</b>, l’<b>intelligence relationnelle</b> et l’<b>alchimie vocale</b>. Une immersion d’un week-end au Nid, en tout petit groupe.','En savoir plus','/le-soin-soa'),
+ ('','Sons & vibrations','Bains sonores & soins vibratoires','Des voyages sonores immersifs pour ralentir, se déposer et se régénérer — au diapason du vivant.','',''),
  ('','Transmission','Ateliers & formations','Souffle, voix, mouvement et présence : transmettre des outils simples et concrets pour mieux vivre au quotidien.','',''),
  ('','Rencontres','Événements & création','Imaginer et soutenir des espaces de partage, de créativité, de bien-être et d’élévation de la conscience.','',''),
 ]

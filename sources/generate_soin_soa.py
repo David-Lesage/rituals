@@ -236,7 +236,7 @@ SOA_PHOTOS = {
  # l'alt ni dans la legende.
  'groupe': dict(base='groupe-soa', widths=[480, 900, 1400, 2000], w=4032, h=2268,
    alt='Cercle au Nid : une dizaine de personnes vêtues de blanc, assises sur des sièges bas et des coussins autour d’un tapis rond fleuri, deux intervenantes au fond, et des instruments posés au sol — handpans, gong et harpe.',
-   cap='Le cercle au Nid — le groupe réuni autour des instruments.'),
+   cap='Le cercle d’ouverture du Soin Soa'),
  'espace-corps': dict(base='espace-corps', widths=[480, 900, 1400], w=4032, h=2268,
    alt='Espace de soin : une table de massage noire dressée près de la fenêtre et, au premier plan, une table de bois où sont alignés plusieurs jeux de diapasons thérapeutiques, à côté d’un grand cristal de quartz.',
    cap='L’Espace Corps — la table de soin, les diapasons et les cristaux.'),
