@@ -72,8 +72,11 @@ b{color:#fff;font-weight:500}
 .nav .links a:hover{color:var(--gold2)}
 .nav .adh{color:#1a1608!important;background:var(--gold);padding:8px 16px;border-radius:30px;font-weight:600}
 @media(max-width:760px){.nav .links a:not(.adh){display:none}}
-/* 9 entrees de menu : on resserre entre 861 et 1080 px (sous 861 px = hamburger) */
-@media(min-width:861px) and (max-width:1080px){.nav .links{gap:13px;font-size:12.5px}.nav .adh{padding:8px 13px}}
+/* 9 entrees de menu : on resserre entre 861 et 1080 px (sous 861 px = hamburger).
+   On ne descend jamais sous 13 px (plancher typographique du site) : dans la bande
+   la plus etroite on masque plutot « Statuts », qui reste dans le pied de page. */
+@media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
+@media(min-width:861px) and (max-width:1000px){.nav .links a[href="/#statuts"]{display:none}}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 26px;border-radius:40px;font-size:15px;transition:transform .2s,box-shadow .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
