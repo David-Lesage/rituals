@@ -27,12 +27,33 @@ REGLES DE REDACTION (posees par David, 03/08/2026) :
   - Boutons « Reserver ma place » vers la billetterie HelloAsso : hero, chaque
     date, bas de page. >= 16 px, hauteur cliquable >= 44 px.
 
-IMAGES : aucune image telechargee de l'exterieur. La page REUTILISE des
-declinaisons deja presentes dans le depot (voir CDL_PHOTOS). Ni la photo du
-tournoiement ni les autres reutilisees ne font partie des 4 photos filigranees
-qui exigent le credit MAGYE D'ART (verifie sur /e-motion).
+  - « BOIRE L'EAU DU CONCERT » (ajout du 04/08/2026) : le son du concert est
+    envoye EN DIRECT dans l'eau d'une fontaine Melusine specialement modifiee
+    (partenariat AquaDyn Auroville + Rebirth Water Group), et le public boit
+    cette eau en fin de soiree. PRUDENCE DE REGISTRE ABSOLUE : on n'affirme
+    AUCUN bienfait pour la sante, aucune vertu therapeutique, aucune
+    « structuration » ni « information » de l'eau. Le brevet son/lumiere est
+    ATTRIBUE a ses concepteurs, jamais affirme par l'association. Le mot de la
+    pancarte de David, « experimente », porte tout le registre : une invitation
+    a l'experience, pas une promesse. Voir le commentaire HTML de la section
+    #eau avant toute retouche.
+
+IMAGES : aucune image telechargee de l'exterieur, aucune image distante servie
+par la page. La page REUTILISE des declinaisons deja presentes dans le depot
+(voir CDL_PHOTOS) et utilise 3 images qui lui sont propres dans
+/img/concert-dl/. Ni la photo du tournoiement ni les autres reutilisees ne font
+partie des 4 photos filigranees qui exigent le credit MAGYE D'ART (verifie sur
+/e-motion).
+VIDEO : la video de cymatique est un LIEN SORTANT sur une vignette locale, pas
+un iframe YouTube — aucun script ni cookie tiers charge par le site. La vignette
+n'existe qu'en 480x360 : ne jamais l'afficher plus large (cf. .cdl-video).
+La seconde video de David (chant des voyelles avec CymaScope, note par note)
+fait partie du programme PAYANT « Les Trois Piliers » : NE PAS l'integrer ni la
+lier.
 MANQUENT : des photos dediees d'un concert SOLO AU NID (David seul, public au
-sol) et une photo du moment cymatique / de la videoprojection.
+sol). A verifier avec David : la 2e photo de la fontaine
+(fontaine-melusine-*) montre une salle VOUTEE EN PIERRE, qui ne ressemble pas
+au Nid — la legende ne nomme donc aucun lieu.
 
 Usage :
     python3 sources/generate_concert_dl.py
@@ -44,9 +65,15 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
 
-HELLO_ASSO = 'https://www.helloasso.com/associations/resonances-productions'
+ADHESION = ('https://www.helloasso.com/beta/associations/resonances-productions/adhesions/'
+            'adhesion-resonances-productions')
 BILLET = ('https://www.helloasso.com/associations/resonances-productions/evenements/'
           'concert-intimiste-david-lesage-au-coeur-de-paris-1')
+# Vidéo publique de la chaîne de David Lesage (titre verifie par oEmbed le 04/08/2026 :
+# « Chant des voyelles live concert David Lesage »). On NE l'integre PAS en iframe :
+# vignette locale + lien sortant, pour ne charger aucun script ni cookie tiers.
+VIDEO_CYMA = 'https://www.youtube.com/watch?v=mPUrsusmYyQ'
+MELUSINE = 'https://aquadynauroville.com/site/accueil-25/fontaine-melusine/'
 
 # --- Images reutilisees du depot -------------------------------------------
 # cle : (dossier, base, [largeurs disponibles], largeur_intrinseque, hauteur_intrinseque)
@@ -57,6 +84,13 @@ CDL_PHOTOS = {
     'tournoiement': ('e-motion', 'la-danse-de-tournoiement', [480, 900], 900, 900),
     'portrait': ('rituals', 'david-lesage', [480, 900, 1400], 1400, 1400),
     'scene': ('rituals', 'chanter-ensemble', [480, 900, 1400], 1400, 780),
+    # Photos propres a cette page (fournies par David, dossier /img/concert-dl/).
+    # Ratio natif 4:3 (1280x960) pour les deux photos de la fontaine.
+    'eau': ('concert-dl', 'eau-du-concert', [480, 900, 1280], 1280, 960),
+    'fontaine': ('concert-dl', 'fontaine-melusine', [480, 900, 1280], 1280, 960),
+    # Vignette de la video YouTube : 480x360 = la MEILLEURE resolution disponible.
+    # Ne jamais l'afficher plus large que 480 px (sinon flou) -> .cdl-video est borne.
+    'video': ('concert-dl', 'cymatique-video', [480], 480, 360),
 }
 
 
@@ -73,6 +107,24 @@ def pic(key, alt, sizes, caption=None, cls='cdl-fig', loading='lazy'):
            f'loading="{loading}"{prio} decoding="async" alt="{alt}"></picture>')
     cap = f'<figcaption>{caption}</figcaption>' if caption else ''
     return f'<figure class="{cls}">{img}{cap}</figure>'
+
+
+def video_link(key, href, alt, label, sub, sizes):
+    """Vignette LOCALE cliquable vers YouTube : aucun iframe, aucun script tiers,
+    aucun cookie depose par le site. Le triangle de lecture est purement CSS et
+    aria-hidden : le libelle du lien reste explicite pour les lecteurs d'ecran."""
+    folder, base, widths, w, h = CDL_PHOTOS[key]
+    root = f'/img/{folder}/{base}'
+    webp = ', '.join(f'{root}-{x}.webp {x}w' for x in widths)
+    jpg = ', '.join(f'{root}-{x}.jpg {x}w' for x in widths)
+    img = (f'<picture><source type="image/webp" srcset="{webp}" sizes="{sizes}">'
+           f'<img src="{root}-{widths[-1]}.jpg" srcset="{jpg}" sizes="{sizes}" '
+           f'width="{w}" height="{h}" loading="lazy" decoding="async" alt="{alt}"></picture>')
+    return (f'<a class="cdl-video" href="{href}" target="_blank" rel="noopener">'
+            f'<figure class="cdl-fig"><span class="shot">{img}'
+            f'<span class="play" aria-hidden="true"></span></span>'
+            f'<figcaption><span class="vlabel">{label}</span>'
+            f'<span class="vsub">{sub}</span></figcaption></figure></a>')
 
 
 # --- Contenu ---------------------------------------------------------------
@@ -109,6 +161,7 @@ TOC = [
     ('#soiree', 'La soirée'),
     ('#au-nid', 'À quelques pas, assis au sol'),
     ('#voir-sa-voix', 'Voir sa voix'),
+    ('#eau', 'Boire l’eau du concert'),
     ('#invitee', 'Une invitée, certains soirs'),
     ('#artiste', 'L’artiste'),
     ('#repertoire', 'Le répertoire'),
@@ -189,6 +242,24 @@ b{color:#fff;font-weight:500}
 /* citations du dossier */
 .cdl-cites{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;max-width:880px;list-style:none}
 .cdl-cites li{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:17.5px;line-height:1.4;background:rgba(216,178,90,.08);border:1px solid var(--line);border-radius:30px;padding:8px 20px}
+/* ===== Boire l'eau du concert =====
+   Section volontairement PLAIN (pas .band) pour ne pas casser l'alternance
+   band / non-band des sections suivantes : elle prend a la place un halo bleu
+   qui lui est propre. Encadree de deux .divider comme les autres. */
+.cdl-water{background:radial-gradient(760px 500px at 86% 4%,rgba(70,132,214,.17),transparent 64%),radial-gradient(620px 420px at 4% 98%,rgba(143,122,209,.11),transparent 62%)}
+.cdl-duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:30px;max-width:820px;align-items:start}
+/* ===== Vignette video (aucun lecteur tiers : image locale + lien sortant) =====
+   La source ne fait que 480 px de large : on ne l'agrandit JAMAIS au-dela. */
+.cdl-video{display:block;max-width:480px;margin-top:26px}
+.cdl-video figure{margin:0}
+.cdl-video .shot{display:block;position:relative;line-height:0}
+.cdl-video .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(11,12,30,.72);border:1px solid rgba(240,209,138,.62);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.cdl-video .play::before{content:"";width:0;height:0;border-left:17px solid var(--gold2);border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:5px}
+.cdl-video:hover .play{background:rgba(11,12,30,.9);transform:translate(-50%,-50%) scale(1.06)}
+.cdl-video figcaption{display:flex;flex-direction:column;gap:2px;justify-content:center;min-height:44px}
+.cdl-video .vlabel{color:var(--gold2);font-size:16px;text-decoration:underline;text-decoration-color:rgba(216,178,90,.42);text-underline-offset:3px}
+.cdl-video:hover .vlabel{color:#fff}
+.cdl-video .vsub{color:var(--muted);font-size:13.5px}
 /* scenes */
 .cdl-scenes{list-style:none;margin-top:24px;max-width:820px;display:grid;gap:2px}
 .cdl-scenes li{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;color:#d7d4ea;font-size:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
@@ -239,6 +310,9 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 p a:not(.btn):not(.adh),li a:not(.btn):not(.adh){font-size:inherit;text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 .cdl-note a{display:inline-block;padding:11px 0}
+/* meme traitement pour le lien partenaire de la section « eau » : cible >= 44 px
+   (17px * 1.75 = 29.75 + 2 x 11 = 51.75). */
+.cdl-water p a{display:inline-block;padding:11px 0}
 """
 
 TITLE = ('Concerts de David Lesage — concert-cérémonie participatif au Nid, '
@@ -283,7 +357,7 @@ HTML = f"""<!DOCTYPE html>
     <a href="/le-soin-soa">Le Soin Soa</a>
     <a href="/#statuts">Statuts</a>
     <a href="#contact">Contact</a>
-    <a class="adh" href="{HELLO_ASSO}" target="_blank" rel="noopener">Adhérer</a>
+    <a class="adh" href="{ADHESION}" target="_blank" rel="noopener">Adhérer</a>
   </div>
 </nav>
 
@@ -336,6 +410,15 @@ HTML = f"""<!DOCTYPE html>
   <div class="cdl-split">
     <div>
       <p>Un moment de la soirée est consacré à la <b>cymatique</b> : ce qui arrive à l’eau quand on chante devant elle. David raconte comment la vibration sonore agit sur l’eau — et donc sur nous, qui en sommes faits pour l’essentiel. Puis il invite chacun à chanter quelques voyelles. À l’écran, en temps réel, une figure apparaît : l’empreinte de cette voix-là.</p>
+      <p>Ce moment a été filmé lors d’un concert : on y entend le public chanter, et on y voit la figure se dessiner à l’écran.</p>
+      {video_link('video', VIDEO_CYMA,
+                  'Vignette de la vidéo : vue grand-angle d’un concert, une figure de cymatique '
+                  'projetée sur l’écran derrière les instruments ; titre incrusté sur l’image, '
+                  '« Le chant des voyelles, live concert David Lesage — Cymatique en temps réel ».',
+                  'Voir la vidéo sur YouTube ↗',
+                  '« Chant des voyelles live concert David Lesage » — chaîne de l’artiste, '
+                  's’ouvre dans un nouvel onglet.',
+                  '(max-width:600px) calc(100vw - 52px), 480px')}
       <p>Le reste de la soirée avance de la même façon, par images et par échos. Des sons de nature et d’animaux ouvrent des paysages. Des vidéoprojections accompagnent les morceaux. Des phrases simples reviennent comme des refrains. Et régulièrement, l’artiste lance une ligne de chant que la salle lui renvoie.</p>
     </div>
     {pic('cercle',
@@ -344,6 +427,40 @@ HTML = f"""<!DOCTYPE html>
          'Au Nid, tout se joue en cercle, à même le sol.',
          cls='cdl-fig cdl-portrait')}
   </div>
+</div></section>
+
+<div class="divider"></div>
+
+<!-- PRUDENCE DE REGISTRE (impose par David, 04/08/2026) : cette section
+     n'affirme AUCUN bienfait pour la sante, aucune vertu therapeutique, aucune
+     « structuration » ou « information » de l'eau. On s'en tient a ce qui est
+     verifiable et vecu : un partenariat, une fontaine modifiee, le son du
+     concert envoye dans l'eau, et le fait de la boire. Le brevet son/lumiere
+     est ATTRIBUE a ses concepteurs, jamais affirme par l'association. Le mot
+     de la pancarte de David (« experimente ») porte tout le registre : une
+     invitation a l'experience, pas une promesse. NE RIEN AJOUTER ICI qui
+     ressemble a un effet promis. -->
+<section class="cdl-block cdl-water" id="eau"><div class="wrap">
+  <div class="cdl-h">Le son dans l’eau</div>
+  <h2 class="sec-title">Boire l’eau du concert</h2>
+  <p>Dans un coin de la pièce, une fontaine attend, son réservoir éclairé de bleu. Elle n’est pas là pour décorer : pendant le concert, le son qui remplit la salle est aussi envoyé, <b>en direct</b>, dans l’eau qu’elle contient. À la fin de la soirée, on remplit un gobelet — et on boit cette eau.</p>
+  <p>Un concert, d’ordinaire, on l’écoute. Celui-là, on peut aussi le boire.</p>
+  <div class="cdl-duo">
+    {pic('eau',
+         'Une fontaine à eau au réservoir éclairé en bleu, posée sur une table à côté d’une '
+         'carafe et de rangées de gobelets en carton ; derrière, une pancarte manuscrite : '
+         '« Eau bio compatible — expérimente — Bois l’eau du concert ».',
+         '(max-width:600px) calc(100vw - 52px), (max-width:900px) calc(50vw - 36px), 400px',
+         'La fontaine et les gobelets, en fin de concert. Sur la pancarte, un seul mot : « expérimente ».')}
+    {pic('fontaine',
+         'Gros plan sur la fontaine : son étiquette porte le logo Rebirth Water Group ; '
+         'à l’arrière-plan, une salle de concert voûtée en pierre, les instruments installés '
+         'et des coussins bleus posés au sol.',
+         '(max-width:600px) calc(100vw - 52px), (max-width:900px) calc(50vw - 36px), 400px',
+         'La fontaine installée en bord de scène, avant l’arrivée du public.')}
+  </div>
+  <p>Ce dispositif existe grâce à un partenariat avec <b>AquaDyn Auroville</b> et <b>Rebirth Water Group</b>, concepteurs de la <a href="{MELUSINE}" target="_blank" rel="noopener">fontaine Mélusine ↗</a> — un appareil bâti autour du son et de la lumière, dont ses concepteurs revendiquent le brevet. L’exemplaire qui voyage avec les instruments a été spécialement modifié pour recevoir le signal audio du concert.</p>
+  <p>Sur la pancarte posée à côté, un seul mot fait office de mode d’emploi : <b>« expérimente »</b>. Rien ne vous est promis, rien ne vous est démontré : on vous tend un gobelet, et vous en faites ce que vous voulez — le boire, ou passer votre tour.</p>
 </div></section>
 
 <div class="divider"></div>
@@ -454,7 +571,7 @@ HTML = f"""<!DOCTYPE html>
       <h4>Informations</h4>
       <p>SIRET : 919 514 075 00010</p>
       <p>Code APE : 9001Z<br>Arts du spectacle vivant</p>
-      <p style="margin-top:8px"><a href="{HELLO_ASSO}" target="_blank" rel="noopener">Adhérer / soutenir</a></p>
+      <p style="margin-top:8px"><a href="{ADHESION}" target="_blank" rel="noopener">Adhérer / soutenir</a></p>
       <p style="margin-top:8px"><a href="https://docs.google.com/document/d/1NxsbvaqHsA9VOXlN7cvsav7cxFwhsK4XCpowHb75o1w/edit?usp=sharing" target="_blank" rel="noopener">Statuts de l’association</a></p>
     </div>
   </div>
