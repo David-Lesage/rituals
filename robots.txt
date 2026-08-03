@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Anciennes URL remplacees, conservees le temps de la transition :
+# /solune  -> /e-motion
+# /au-nid  -> /le-nid
+Disallow: /solune
+Disallow: /au-nid
+
+Sitemap: https://www.resonancesproductions.org/sitemap.xml
