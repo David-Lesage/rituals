@@ -269,6 +269,7 @@ LIGHTBOX_JS = """
     back=trigger||document.activeElement;
     /* youtube-nocookie : moins de traceurs. La src n'existe qu'a partir d'ici. */
     fr.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1';
+    var fb=lb.querySelector('.yt-fallback'); if(fb) fb.href='https://youtu.be/'+id;
     lb.classList.add('open');
     document.body.classList.add('lb-open');
     if(closeBtn) closeBtn.focus();
@@ -827,13 +828,13 @@ HTML = f"""<!DOCTYPE html>
   </div>
 
   <h3 class="dlc-sub">The Voice, saison 11</h3>
-  <p>En 2021, David Lesage passe par <i>The Voice</i> sur TF1, avec ses propres instruments : la calebasse, les handpans et le N’Goni 14 cordes, seul en scène. Sa prestation — <i>Une Âme</i>, de M, une reprise toujours au répertoire du concert — est publique sur sa chaîne.</p>
+  <p>Pour son audition à l’aveugle de <i>The Voice</i> saison 11, sur TF1, David Lesage monte seul en scène avec ses propres instruments : la calebasse, les handpans et le N’Goni 14 cordes. Il y chante <i>Kothbiro</i>, d’Ayub Ogada, en luo — un titre toujours au répertoire du concert. La prestation est publique sur la chaîne officielle de l’émission.</p>
   {video_button('tv-video', VIDEO_TV_ID,
                 'Vignette de la vidéo : David Lesage dans une pièce blanche traitée de panneaux '
                 'acoustiques, un micro serre-tête au visage, les deux mains posées sur un handpan ; '
                 'derrière lui un N’Goni, une calebasse et un ordinateur portable.',
-                'Voir sa prestation — « Une Âme »',
-                '« Une Ame 2 min The voice David Lesage » — le lecteur s’ouvre sur cette page.',
+                'Voir son audition à l’aveugle — « Kothbiro »',
+                '« Ayub Ogada - Kothbiro - David Lesage | The Voice 2022 | Blind Audition » — le lecteur s’ouvre sur cette page.',
                 '(max-width:900px) calc(100vw - 52px), 560px')}
   <div class="dlc-duo">
     {pic('tv-calebasse',

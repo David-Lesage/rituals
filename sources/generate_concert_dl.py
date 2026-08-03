@@ -211,6 +211,7 @@ LIGHTBOX_JS = """
     back=trigger||document.activeElement;
     /* youtube-nocookie : moins de traceurs. La src n'existe qu'a partir d'ici. */
     fr.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1';
+    var fb=lb.querySelector('.yt-fallback'); if(fb) fb.href='https://youtu.be/'+id;
     lb.classList.add('open');
     document.body.classList.add('lb-open');
     if(closeBtn) closeBtn.focus();
