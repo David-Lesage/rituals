@@ -30,7 +30,7 @@ Usage :
      from PIL import Image
      OUT='/Users/davidlesage/CLAUDE/resonances-site/img/soin-soa/'
      im=Image.open('MON-ORIGINAL.jpg').convert('RGB'); w0,h0=im.size
-     for w in [480,900,1400]:
+     for w in [480,900,1400,2000]:   # 2000 = utile pour une figure large en 2x
          if w>w0: continue
          r=im.resize((w,round(h0*w/w0)),Image.LANCZOS)
          r.save(f'{OUT}mon-nom-{w}.webp','WEBP',quality=80,method=6)
@@ -226,6 +226,17 @@ SOA_PHOTOS = {
  'facade': dict(base='facade-le-nid', widths=[480, 600], w=600, h=450,
    alt='Façade vitrée du Nid, ancien atelier d’artiste sur trois niveaux, vue depuis la cour pavée plantée.',
    cap='Le Nid — un ancien atelier d’artiste, dans une cour pavée du 20ᵉ.'),
+ # Le cercle en situation (16:9). C'est la SEULE photo qui montre le format
+ # collectif : elle ouvre la section « Comment ca se passe », juste apres le
+ # paragraphe sur le cercle d'ouverture, et precede volontairement la figure
+ # 'espace-corps' (la piece de soin individuel, sans personne) — collectif puis
+ # individuel. ⚠️ Les visages sont FLOUTES a la source : c'est une anonymisation
+ # deliberee (fichier d'origine « soin soa en groupe flou »). Ne pas retoucher,
+ # ne pas remplacer par une version plus nette, ne pas mentionner le flou dans
+ # l'alt ni dans la legende.
+ 'groupe': dict(base='groupe-soa', widths=[480, 900, 1400, 2000], w=4032, h=2268,
+   alt='Cercle au Nid : une dizaine de personnes vêtues de blanc, assises sur des sièges bas et des coussins autour d’un tapis rond fleuri, deux intervenantes au fond, et des instruments posés au sol — handpans, gong et harpe.',
+   cap='Le cercle au Nid — le groupe réuni autour des instruments.'),
  'espace-corps': dict(base='espace-corps', widths=[480, 900, 1400], w=4032, h=2268,
    alt='Espace de soin : une table de massage noire dressée près de la fenêtre et, au premier plan, une table de bois où sont alignés plusieurs jeux de diapasons thérapeutiques, à côté d’un grand cristal de quartz.',
    cap='L’Espace Corps — la table de soin, les diapasons et les cristaux.'),
@@ -481,6 +492,7 @@ HTML = f"""<!DOCTYPE html>
   <div class="soa-h">Comment ça se passe</div>
   <h2 class="sec-title">Une ouverture, trois soins, un cercle</h2>
   <p><b>L’ouverture.</b> Chaque session débute par un cercle d’ouverture où nous sommes tous les trois présents à vos côtés. Par des chants, des paroles et des partages, nous posons un cadre de haute sécurité et de profondeur. C’est le moment où le groupe se lie et où l’espace du Nid devient un lieu entièrement dédié au travail.</p>
+  {soa_fig('groupe', '(max-width:880px) 92vw, 820px', cls='soa-fig soa-wide')}
   <p><b>Vos trois soins individuels.</b> Chaque participant reçoit <b>trois séances individuelles d’une heure</b>, tout en restant baigné dans l’énergie du groupe. Les trois espaces du Nid sont activés simultanément :</p>
   {soa_ul(SOA_ESPACES)}
   {soa_fig('espace-corps', '(max-width:880px) 92vw, 820px', cls='soa-fig soa-wide')}
