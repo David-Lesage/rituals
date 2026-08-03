@@ -43,9 +43,9 @@ Usage :
 3) La glisser dans SOA_GALERIE (ou l'appeler par son nom dans le HTML) :
    - vignette carree de la galerie  -> ajouter la cle a SOA_GALERIE
    - figure large dans le fil du texte -> soa_fig('ma-cle', '...', cls='soa-fig soa-wide')
-   - portrait d'un intervenant (medaillon rond) -> generer un carre (128 + 232 px),
-     puis mettre la cle en 5e position de la ligne correspondante de SOA_EQUIPE
-     (chaine vide = carte sans photo). L'alt d'un portrait = le nom de la personne.
+   - portrait d'un intervenant -> generer un carre (140 + 260 px), puis mettre la
+     cle en 5e position de la ligne correspondante de SOA_EQUIPE (chaine vide =
+     ligne sans photo). L'alt d'un portrait = le nom de la personne.
 --------------------------------------------------------------------------
 """
 import os
@@ -106,18 +106,39 @@ b{color:#fff;font-weight:500}
 .soa-who h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;color:#fff;font-weight:600;margin:6px 0 2px}
 .soa-who .role{color:var(--gold2);font-size:13.5px;font-style:italic;margin-bottom:9px}
 .soa-who p{color:var(--muted);font-size:15px;margin:0}
-/* portrait de chaque intervenant : medaillon rond a cote de sa presentation,
-   empile au-dessus du texte sous 560 px (lisibilite a 390 px) */
-.who-head{display:flex;align-items:center;gap:16px;margin:12px 0 0}
-.who-txt{min-width:0}
-.who-ph{display:block;flex:0 0 auto;width:92px;height:92px;border-radius:50%;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.38);background:var(--night2)}
+/* Les intervenants : une LIGNE par personne (mise en page d'origine, preferee par
+   David) — portrait carre a gauche, nom en dore + intitule de role + statut, puis
+   la bio. Empilement portrait au-dessus du texte sous 620 px. */
+.soa-team{display:grid;gap:18px;margin-top:30px}
+.soa-line{display:flex;gap:24px;align-items:flex-start;background:var(--card);border:1px solid rgba(255,255,255,.06);border-left:2px solid var(--gold);border-radius:14px;padding:22px 24px}
+.who-ph{display:block;flex:0 0 auto;width:150px;height:150px;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.38);background:var(--night2)}
 .who-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
-.soa-who .who-head h3{margin:0}
-.soa-who .who-head .role{margin:3px 0 0}
-.soa-who .who-head+p{margin-top:14px}
-@media(max-width:560px){.who-head{flex-direction:column;align-items:flex-start;gap:13px}.who-ph{width:104px;height:104px}}
+.who-txt{min-width:0}
+.who-txt h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;line-height:1.15;font-weight:600;color:var(--gold2);margin:0}
+.who-txt .disc{color:#fff;font-size:15.5px;letter-spacing:.04em;margin-top:2px}
+.who-txt .role{color:var(--muted);font-size:13.5px;font-style:italic;margin-top:3px}
+.who-txt p{color:#d7d4ea;font-size:15.5px;margin:12px 0 0}
+@media(max-width:620px){.soa-line{flex-direction:column;gap:16px;padding:20px}
+  .who-ph{width:140px;height:140px}}
 /* figure large dans le fil du texte (meme colonne que les paragraphes) */
 .soa-wide{max-width:820px;margin-top:26px}
+/* ===== Hero : l'affiche sur fond NOIR PUR =====================================
+   Le visuel hero-soa-* a ses 4 coins en #000 : la section de hero est donc en
+   #000 elle aussi et l'affiche n'a NI cadre NI arrondi NI fond de carte, sinon
+   la couture redevient visible. Le raccord vers le bleu nuit du reste de la page
+   se fait par .hero-fade juste apres le </header>. */
+.hero-black{background:#000}
+.hero-black .soa-hero{grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:40px;align-items:center;margin-top:26px}
+.hero-poster{border:0;border-radius:0;background:transparent;overflow:visible}
+.hero-poster img{width:100%;height:auto}
+.hero-fade{height:130px;background:linear-gradient(180deg,#000,var(--night))}
+@media(max-width:860px){.hero-black .soa-hero{grid-template-columns:1fr;gap:28px}
+  /* en mobile l'affiche passe AU-DESSUS du texte : c'est elle le hero */
+  .hero-black .soa-hero>div{order:2}.hero-poster{order:1}}
+@media(max-width:700px){
+  /* pleine largeur : on annule les 26 px de .wrap pour gagner en lisibilite
+     (le fond de l'affiche etant noir, le raccord reste invisible) */
+  .hero-poster{width:calc(100% + 52px);max-width:none;margin-left:-26px;margin-right:-26px}}
 /* encadres de cadrage (statut de l'evenement, limites) */
 .soa-note{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:19px 22px;margin-top:22px;max-width:820px}
 .soa-note p{color:#d7d4ea;font-size:15.5px;margin:0;line-height:1.7}
@@ -184,6 +205,15 @@ p a:not(.btn):not(.adh){text-decoration:underline;
 
 IMGDIR = '/img/soin-soa'
 SOA_PHOTOS = {
+ # Hero : meme visuel que 'affiche', en meilleure resolution et sur fond noir PUR
+ # (#000 sur les 4 coins, verifie) -> le carre se fond sans couture dans la
+ # section de hero, qui est elle aussi en #000. Ne pas remplacer par une version
+ # sur fond bleu nuit : la couture redeviendrait visible.
+ 'hero': dict(base='hero-soa', widths=[480, 900, 1400, 1619], w=1619, h=1619,
+   alt='Affiche du Soin Soa sur fond noir : un motif doré en forme d’ailes rayonnantes, le titre « SOA — Soin d’incarnation », la citation « Renaître à soi au cœur de l’intime » et les noms des trois intervenants, Iris Chasles, Gaïa Pégourié et David Lesage.',
+   cap=''),
+ # 'affiche' n'est plus affichee dans la page (remplacee par 'hero'), mais les
+ # fichiers restent sur le disque : affiche-soa-1400.jpg sert d'og:image.
  'affiche': dict(base='affiche-soa', widths=[480, 900, 1400], w=1600, h=1600,
    alt='Affiche du Soin Soa, soin d’incarnation : motif doré rayonnant sur fond noir, avec les noms d’Iris Chasles, Gaïa Pégourié et David Lesage.',
    cap=''),
@@ -199,33 +229,37 @@ SOA_PHOTOS = {
  'espace-corps': dict(base='espace-corps', widths=[480, 900, 1400], w=4032, h=2268,
    alt='Espace de soin : une table de massage noire dressée près de la fenêtre et, au premier plan, une table de bois où sont alignés plusieurs jeux de diapasons thérapeutiques, à côté d’un grand cristal de quartz.',
    cap='L’Espace Corps — la table de soin, les diapasons et les cristaux.'),
- # Portraits des intervenants (medaillons ronds) : carres, deux largeurs.
- 'portrait-gaia': dict(base='portrait-gaia-pegourie', widths=[128, 232], w=232, h=232,
+ # Portraits des intervenants : carres, deux largeurs (140 + 260 px).
+ # Attribution verifiee deux fois : chaque nom est ecrit a cote de sa photo dans
+ # les documents sources. Reperes : Gaia = feuillage vert, Iris = exterieur dore,
+ # David = studio sombre. Ne jamais reattribuer sans cette verification.
+ 'portrait-gaia': dict(base='portrait-gaia-pegourie', widths=[140, 260], w=260, h=260,
    alt='Gaïa Pégourié', cap=''),
- 'portrait-iris': dict(base='portrait-iris-chasles', widths=[128, 232], w=232, h=232,
+ 'portrait-iris': dict(base='portrait-iris-chasles', widths=[140, 260], w=260, h=260,
    alt='Iris Chasles', cap=''),
- 'portrait-david': dict(base='portrait-david-lesage', widths=[128, 232], w=232, h=232,
+ 'portrait-david': dict(base='portrait-david-lesage', widths=[140, 260], w=260, h=260,
    alt='David Lesage', cap=''),
 }
 SOA_GALERIE = ['trois-soins', 'cercle', 'facade']
 
 
-def soa_fig(key, sizes, cls='soa-fig', lazy=True):
+def soa_fig(key, sizes, cls='soa-fig', lazy=True, priority=False):
     p = SOA_PHOTOS[key]; ws = p['widths']; big = ws[-1]
     h = round(p['h'] * big / p['w'])
     webp = ', '.join(f'{IMGDIR}/{p["base"]}-{w}.webp {w}w' for w in ws)
     jpg = ', '.join(f'{IMGDIR}/{p["base"]}-{w}.jpg {w}w' for w in ws)
     cap = f'<figcaption>{p["cap"]}</figcaption>' if p['cap'] else ''
     load = 'lazy' if lazy else 'eager'
+    prio = ' fetchpriority="high"' if priority else ''
     return (f'<figure class="{cls}"><picture>'
             f'<source type="image/webp" srcset="{webp}" sizes="{sizes}">'
             f'<img src="{IMGDIR}/{p["base"]}-{big}.jpg" srcset="{jpg}" sizes="{sizes}"'
-            f' width="{big}" height="{h}" loading="{load}" decoding="async" alt="{p["alt"]}">'
+            f' width="{big}" height="{h}" loading="{load}"{prio} decoding="async" alt="{p["alt"]}">'
             f'</picture>{cap}</figure>')
 
 
-def soa_portrait(key, sizes='(max-width:560px) 104px, 92px'):
-    """Medaillon rond d'un intervenant (pas de figcaption : l'alt = le nom)."""
+def soa_portrait(key, sizes='150px'):
+    """Portrait carre d'un intervenant (pas de figcaption : l'alt = le nom)."""
     p = SOA_PHOTOS[key]; ws = p['widths']; big = ws[-1]
     webp = ', '.join(f'{IMGDIR}/{p["base"]}-{w}.webp {w}w' for w in ws)
     jpg = ', '.join(f'{IMGDIR}/{p["base"]}-{w}.jpg {w}w' for w in ws)
@@ -241,16 +275,18 @@ def soa_galerie():
         soa_fig(k, '(max-width:700px) 92vw, (max-width:1080px) 46vw, 340px') for k in SOA_GALERIE) + '</div>'
 
 
-# (discipline, nom, qualite / rattachement, biographie, cle du portrait)
-# La cle du portrait renvoie a SOA_PHOTOS ; mettre '' pour une carte sans photo.
+# (intitule de role, nom, qualite / rattachement, biographie, cle du portrait)
+# Les intitules de role sont ceux des intervenants eux-memes (repris de la
+# presentation d'origine) : ne pas les reformuler.
+# La cle du portrait renvoie a SOA_PHOTOS ; mettre '' pour une ligne sans photo.
 SOA_EQUIPE = [
- ('Toucher thérapeutique', 'Gaïa Pégourié', 'Intervenante invitée',
+ ('Massage Mémoire cellulaire', 'Gaïa Pégourié', 'Intervenante invitée',
   'Experte du toucher thérapeutique et formée au bio-décodage, elle accompagne la libération des mémoires corporelles. Son approche relie le corps et les émotions pour révéler leur langage profond, et met en lumière ce que le corps exprime en silence.',
   'portrait-gaia'),
- ('Intelligence relationnelle', 'Iris Chasles', 'Co-fondatrice de Résonances Productions',
+ ('Régulation Neuro-émotionnelle', 'Iris Chasles', 'Co-fondatrice de Résonances Productions',
   'Psychopraticienne à Paris, formée en Intelligence Relationnelle® et en psychopathologie. Son travail porte sur les traumas et les mémoires engrammées, avec une approche neurobiologique de la régulation du système nerveux.',
   'portrait-iris'),
- ('Alchimie vocale & musique vivante', 'David Lesage', 'Co-fondateur de Résonances Productions',
+ ('Alchimie Vocale', 'David Lesage', 'Co-fondateur de Résonances Productions',
   'Improvisateur formé au jazz et au conservatoire, il utilise la voix comme outil de transformation. Avec ses instruments vibratoires — handpan, harpe africaine, tambour chamanique, bols de cristal et d’or — il façonne en temps réel un espace sonore sur-mesure.',
   'portrait-david'),
 ]
@@ -309,14 +345,13 @@ def soa_ul(items, cls='soa-list'):
 
 
 def soa_equipe():
+    """Une ligne par intervenant : portrait carre a gauche, texte a droite."""
     out = ''
     for t, n, r, p, ph in SOA_EQUIPE:
-        med = soa_portrait(ph) if ph else ''
-        out += (f'<div class="soa-who"><div class="t">{t}</div>'
-                f'<div class="who-head">{med}'
-                f'<div class="who-txt"><h3>{n}</h3><div class="role">{r}</div></div>'
-                f'</div><p>{p}</p></div>')
-    return f'<div class="soa-cols">{out}</div>'
+        out += (f'<div class="soa-line">{soa_portrait(ph) if ph else ""}'
+                f'<div class="who-txt"><h3>{n}</h3><div class="disc">{t}</div>'
+                f'<div class="role">{r}</div><p>{p}</p></div></div>')
+    return f'<div class="soa-team">{out}</div>'
 
 
 def soa_prog():
@@ -388,7 +423,7 @@ HTML = f"""<!DOCTYPE html>
   </div>
 </nav>
 
-<header class="soa-top"><div class="wrap">
+<header class="soa-top hero-black"><div class="wrap">
   <div class="kick">Événement organisé par Résonances Productions · Le Nid, Paris 20<sup>e</sup></div>
   <h1>Le Soin Soa</h1>
   <div class="tagline">« Renaître à soi au cœur de l’intime »</div>
@@ -399,15 +434,18 @@ HTML = f"""<!DOCTYPE html>
       <div class="soa-note"><p>Résonances Productions organise au Nid un <b>week-end d’immersion</b> en tout petit groupe, réunissant trois intervenants autour de la relation au corps, à la parole et au son. Une action inscrite dans l’objet de l’association : soutenir des <b>alternatives humaines</b> et proposer des formats de transmission et d’expérience.</p></div>
       <div class="cta" style="margin-top:26px"><a class="btn" href="{SOA_MAIL}">Demander mon inscription</a><a class="btn ghost" href="#programme">Voir le déroulé →</a></div>
     </div>
-    {soa_fig('affiche', '(max-width:860px) 92vw, 320px', lazy=False)}
+    {soa_fig('hero', '(max-width:700px) 100vw, (max-width:860px) 92vw, 520px',
+             cls='soa-fig hero-poster', lazy=False, priority=True)}
   </div>
   {toc()}
 </div></header>
+<div class="hero-fade" aria-hidden="true"></div>
 
 <section class="soa-block" id="intervenants"><div class="wrap">
   <div class="soa-h">Les intervenants</div>
   <h2 class="sec-title">Trois intervenants réunis autour de vous</h2>
   {soa_equipe()}
+  <p class="soa-quote">Cette union crée une synergie rare : lorsque le corps est touché, que le cœur est entendu, que la psyché s’éclaire, et que l’âme est mise en vibration, une voie royale s’ouvre. Un espace unique pour se révéler à soi, une véritable re-naissance qu’aucune approche isolée ne peut atteindre.</p>
 </div></section>
 
 <div class="divider"></div>

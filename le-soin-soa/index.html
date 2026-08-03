@@ -69,18 +69,39 @@ b{color:#fff;font-weight:500}
 .soa-who h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;color:#fff;font-weight:600;margin:6px 0 2px}
 .soa-who .role{color:var(--gold2);font-size:13.5px;font-style:italic;margin-bottom:9px}
 .soa-who p{color:var(--muted);font-size:15px;margin:0}
-/* portrait de chaque intervenant : medaillon rond a cote de sa presentation,
-   empile au-dessus du texte sous 560 px (lisibilite a 390 px) */
-.who-head{display:flex;align-items:center;gap:16px;margin:12px 0 0}
-.who-txt{min-width:0}
-.who-ph{display:block;flex:0 0 auto;width:92px;height:92px;border-radius:50%;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.38);background:var(--night2)}
+/* Les intervenants : une LIGNE par personne (mise en page d'origine, preferee par
+   David) — portrait carre a gauche, nom en dore + intitule de role + statut, puis
+   la bio. Empilement portrait au-dessus du texte sous 620 px. */
+.soa-team{display:grid;gap:18px;margin-top:30px}
+.soa-line{display:flex;gap:24px;align-items:flex-start;background:var(--card);border:1px solid rgba(255,255,255,.06);border-left:2px solid var(--gold);border-radius:14px;padding:22px 24px}
+.who-ph{display:block;flex:0 0 auto;width:150px;height:150px;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.38);background:var(--night2)}
 .who-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
-.soa-who .who-head h3{margin:0}
-.soa-who .who-head .role{margin:3px 0 0}
-.soa-who .who-head+p{margin-top:14px}
-@media(max-width:560px){.who-head{flex-direction:column;align-items:flex-start;gap:13px}.who-ph{width:104px;height:104px}}
+.who-txt{min-width:0}
+.who-txt h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;line-height:1.15;font-weight:600;color:var(--gold2);margin:0}
+.who-txt .disc{color:#fff;font-size:15.5px;letter-spacing:.04em;margin-top:2px}
+.who-txt .role{color:var(--muted);font-size:13.5px;font-style:italic;margin-top:3px}
+.who-txt p{color:#d7d4ea;font-size:15.5px;margin:12px 0 0}
+@media(max-width:620px){.soa-line{flex-direction:column;gap:16px;padding:20px}
+  .who-ph{width:140px;height:140px}}
 /* figure large dans le fil du texte (meme colonne que les paragraphes) */
 .soa-wide{max-width:820px;margin-top:26px}
+/* ===== Hero : l'affiche sur fond NOIR PUR =====================================
+   Le visuel hero-soa-* a ses 4 coins en #000 : la section de hero est donc en
+   #000 elle aussi et l'affiche n'a NI cadre NI arrondi NI fond de carte, sinon
+   la couture redevient visible. Le raccord vers le bleu nuit du reste de la page
+   se fait par .hero-fade juste apres le </header>. */
+.hero-black{background:#000}
+.hero-black .soa-hero{grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:40px;align-items:center;margin-top:26px}
+.hero-poster{border:0;border-radius:0;background:transparent;overflow:visible}
+.hero-poster img{width:100%;height:auto}
+.hero-fade{height:130px;background:linear-gradient(180deg,#000,var(--night))}
+@media(max-width:860px){.hero-black .soa-hero{grid-template-columns:1fr;gap:28px}
+  /* en mobile l'affiche passe AU-DESSUS du texte : c'est elle le hero */
+  .hero-black .soa-hero>div{order:2}.hero-poster{order:1}}
+@media(max-width:700px){
+  /* pleine largeur : on annule les 26 px de .wrap pour gagner en lisibilite
+     (le fond de l'affiche etant noir, le raccord reste invisible) */
+  .hero-poster{width:calc(100% + 52px);max-width:none;margin-left:-26px;margin-right:-26px}}
 /* encadres de cadrage (statut de l'evenement, limites) */
 .soa-note{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:19px 22px;margin-top:22px;max-width:820px}
 .soa-note p{color:#d7d4ea;font-size:15.5px;margin:0;line-height:1.7}
@@ -195,7 +216,7 @@ p a:not(.btn):not(.adh){text-decoration:underline;
   </div>
 </nav>
 
-<header class="soa-top"><div class="wrap">
+<header class="soa-top hero-black"><div class="wrap">
   <div class="kick">Événement organisé par Résonances Productions · Le Nid, Paris 20<sup>e</sup></div>
   <h1>Le Soin Soa</h1>
   <div class="tagline">« Renaître à soi au cœur de l’intime »</div>
@@ -206,15 +227,17 @@ p a:not(.btn):not(.adh){text-decoration:underline;
       <div class="soa-note"><p>Résonances Productions organise au Nid un <b>week-end d’immersion</b> en tout petit groupe, réunissant trois intervenants autour de la relation au corps, à la parole et au son. Une action inscrite dans l’objet de l’association : soutenir des <b>alternatives humaines</b> et proposer des formats de transmission et d’expérience.</p></div>
       <div class="cta" style="margin-top:26px"><a class="btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Soin%20Soa%20%E2%80%94%20demande%20d%E2%80%99inscription">Demander mon inscription</a><a class="btn ghost" href="#programme">Voir le déroulé →</a></div>
     </div>
-    <figure class="soa-fig"><picture><source type="image/webp" srcset="/img/soin-soa/affiche-soa-480.webp 480w, /img/soin-soa/affiche-soa-900.webp 900w, /img/soin-soa/affiche-soa-1400.webp 1400w" sizes="(max-width:860px) 92vw, 320px"><img src="/img/soin-soa/affiche-soa-1400.jpg" srcset="/img/soin-soa/affiche-soa-480.jpg 480w, /img/soin-soa/affiche-soa-900.jpg 900w, /img/soin-soa/affiche-soa-1400.jpg 1400w" sizes="(max-width:860px) 92vw, 320px" width="1400" height="1400" loading="eager" decoding="async" alt="Affiche du Soin Soa, soin d’incarnation : motif doré rayonnant sur fond noir, avec les noms d’Iris Chasles, Gaïa Pégourié et David Lesage."></picture></figure>
+    <figure class="soa-fig hero-poster"><picture><source type="image/webp" srcset="/img/soin-soa/hero-soa-480.webp 480w, /img/soin-soa/hero-soa-900.webp 900w, /img/soin-soa/hero-soa-1400.webp 1400w, /img/soin-soa/hero-soa-1619.webp 1619w" sizes="(max-width:700px) 100vw, (max-width:860px) 92vw, 520px"><img src="/img/soin-soa/hero-soa-1619.jpg" srcset="/img/soin-soa/hero-soa-480.jpg 480w, /img/soin-soa/hero-soa-900.jpg 900w, /img/soin-soa/hero-soa-1400.jpg 1400w, /img/soin-soa/hero-soa-1619.jpg 1619w" sizes="(max-width:700px) 100vw, (max-width:860px) 92vw, 520px" width="1619" height="1619" loading="eager" fetchpriority="high" decoding="async" alt="Affiche du Soin Soa sur fond noir : un motif doré en forme d’ailes rayonnantes, le titre « SOA — Soin d’incarnation », la citation « Renaître à soi au cœur de l’intime » et les noms des trois intervenants, Iris Chasles, Gaïa Pégourié et David Lesage."></picture></figure>
   </div>
   <nav class="toc" aria-label="Sommaire de la page"><div class="soa-h">Sommaire</div><ol><li><a href="#intervenants">Les intervenants</a></li><li><a href="#a-qui">À qui s’adresse ce soin</a></li><li><a href="#cadre">Le cadre : sécurité et intégrité</a></li><li><a href="#intention">L’intention : trois approches</a></li><li><a href="#deroulement">Comment ça se passe</a></li><li><a href="#programme">Le déroulé du week-end</a></li><li><a href="#lieu">Le lieu : Le Nid</a></li><li><a href="#repas">Les repas</a></li><li><a href="#cheminement">Venir une fois, ou revenir</a></li><li><a href="#participation">Participation & inscription</a></li></ol></nav>
 </div></header>
+<div class="hero-fade" aria-hidden="true"></div>
 
 <section class="soa-block" id="intervenants"><div class="wrap">
   <div class="soa-h">Les intervenants</div>
   <h2 class="sec-title">Trois intervenants réunis autour de vous</h2>
-  <div class="soa-cols"><div class="soa-who"><div class="t">Toucher thérapeutique</div><div class="who-head"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-gaia-pegourie-128.webp 128w, /img/soin-soa/portrait-gaia-pegourie-232.webp 232w" sizes="(max-width:560px) 104px, 92px"><img src="/img/soin-soa/portrait-gaia-pegourie-232.jpg" srcset="/img/soin-soa/portrait-gaia-pegourie-128.jpg 128w, /img/soin-soa/portrait-gaia-pegourie-232.jpg 232w" sizes="(max-width:560px) 104px, 92px" width="232" height="232" loading="lazy" decoding="async" alt="Gaïa Pégourié"></picture><div class="who-txt"><h3>Gaïa Pégourié</h3><div class="role">Intervenante invitée</div></div></div><p>Experte du toucher thérapeutique et formée au bio-décodage, elle accompagne la libération des mémoires corporelles. Son approche relie le corps et les émotions pour révéler leur langage profond, et met en lumière ce que le corps exprime en silence.</p></div><div class="soa-who"><div class="t">Intelligence relationnelle</div><div class="who-head"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-iris-chasles-128.webp 128w, /img/soin-soa/portrait-iris-chasles-232.webp 232w" sizes="(max-width:560px) 104px, 92px"><img src="/img/soin-soa/portrait-iris-chasles-232.jpg" srcset="/img/soin-soa/portrait-iris-chasles-128.jpg 128w, /img/soin-soa/portrait-iris-chasles-232.jpg 232w" sizes="(max-width:560px) 104px, 92px" width="232" height="232" loading="lazy" decoding="async" alt="Iris Chasles"></picture><div class="who-txt"><h3>Iris Chasles</h3><div class="role">Co-fondatrice de Résonances Productions</div></div></div><p>Psychopraticienne à Paris, formée en Intelligence Relationnelle® et en psychopathologie. Son travail porte sur les traumas et les mémoires engrammées, avec une approche neurobiologique de la régulation du système nerveux.</p></div><div class="soa-who"><div class="t">Alchimie vocale & musique vivante</div><div class="who-head"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-david-lesage-128.webp 128w, /img/soin-soa/portrait-david-lesage-232.webp 232w" sizes="(max-width:560px) 104px, 92px"><img src="/img/soin-soa/portrait-david-lesage-232.jpg" srcset="/img/soin-soa/portrait-david-lesage-128.jpg 128w, /img/soin-soa/portrait-david-lesage-232.jpg 232w" sizes="(max-width:560px) 104px, 92px" width="232" height="232" loading="lazy" decoding="async" alt="David Lesage"></picture><div class="who-txt"><h3>David Lesage</h3><div class="role">Co-fondateur de Résonances Productions</div></div></div><p>Improvisateur formé au jazz et au conservatoire, il utilise la voix comme outil de transformation. Avec ses instruments vibratoires — handpan, harpe africaine, tambour chamanique, bols de cristal et d’or — il façonne en temps réel un espace sonore sur-mesure.</p></div></div>
+  <div class="soa-team"><div class="soa-line"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-gaia-pegourie-140.webp 140w, /img/soin-soa/portrait-gaia-pegourie-260.webp 260w" sizes="150px"><img src="/img/soin-soa/portrait-gaia-pegourie-260.jpg" srcset="/img/soin-soa/portrait-gaia-pegourie-140.jpg 140w, /img/soin-soa/portrait-gaia-pegourie-260.jpg 260w" sizes="150px" width="260" height="260" loading="lazy" decoding="async" alt="Gaïa Pégourié"></picture><div class="who-txt"><h3>Gaïa Pégourié</h3><div class="disc">Massage Mémoire cellulaire</div><div class="role">Intervenante invitée</div><p>Experte du toucher thérapeutique et formée au bio-décodage, elle accompagne la libération des mémoires corporelles. Son approche relie le corps et les émotions pour révéler leur langage profond, et met en lumière ce que le corps exprime en silence.</p></div></div><div class="soa-line"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-iris-chasles-140.webp 140w, /img/soin-soa/portrait-iris-chasles-260.webp 260w" sizes="150px"><img src="/img/soin-soa/portrait-iris-chasles-260.jpg" srcset="/img/soin-soa/portrait-iris-chasles-140.jpg 140w, /img/soin-soa/portrait-iris-chasles-260.jpg 260w" sizes="150px" width="260" height="260" loading="lazy" decoding="async" alt="Iris Chasles"></picture><div class="who-txt"><h3>Iris Chasles</h3><div class="disc">Régulation Neuro-émotionnelle</div><div class="role">Co-fondatrice de Résonances Productions</div><p>Psychopraticienne à Paris, formée en Intelligence Relationnelle® et en psychopathologie. Son travail porte sur les traumas et les mémoires engrammées, avec une approche neurobiologique de la régulation du système nerveux.</p></div></div><div class="soa-line"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-david-lesage-140.webp 140w, /img/soin-soa/portrait-david-lesage-260.webp 260w" sizes="150px"><img src="/img/soin-soa/portrait-david-lesage-260.jpg" srcset="/img/soin-soa/portrait-david-lesage-140.jpg 140w, /img/soin-soa/portrait-david-lesage-260.jpg 260w" sizes="150px" width="260" height="260" loading="lazy" decoding="async" alt="David Lesage"></picture><div class="who-txt"><h3>David Lesage</h3><div class="disc">Alchimie Vocale</div><div class="role">Co-fondateur de Résonances Productions</div><p>Improvisateur formé au jazz et au conservatoire, il utilise la voix comme outil de transformation. Avec ses instruments vibratoires — handpan, harpe africaine, tambour chamanique, bols de cristal et d’or — il façonne en temps réel un espace sonore sur-mesure.</p></div></div></div>
+  <p class="soa-quote">Cette union crée une synergie rare : lorsque le corps est touché, que le cœur est entendu, que la psyché s’éclaire, et que l’âme est mise en vibration, une voie royale s’ouvre. Un espace unique pour se révéler à soi, une véritable re-naissance qu’aucune approche isolée ne peut atteindre.</p>
 </div></section>
 
 <div class="divider"></div>
