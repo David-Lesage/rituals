@@ -205,6 +205,10 @@ table.patch tr:hover td{background:rgba(255,255,255,.02)}
    <picture> ne doit rien changer a la mise en page : il se comporte comme un bloc
    transparent et l'<img> garde exactement les regles CSS d'origine. */
 picture{display:block}
+/* Les attributs width/height valent aussi comme indication de style : sans
+   height:auto explicite, la hauteur en attribut s'appliquerait comme une
+   longueur CSS et deformerait l'image (cas des .figure, du teaser, etc.). */
+picture>img{height:auto}
 picture.aphoto{overflow:hidden}
 picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
 
