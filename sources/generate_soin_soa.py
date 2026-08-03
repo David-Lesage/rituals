@@ -195,7 +195,7 @@ SOA_EQUIPE = [
   'Experte du toucher thérapeutique et formée au bio-décodage, elle accompagne la libération des mémoires corporelles. Son approche relie le corps et les émotions pour révéler leur langage profond, et met en lumière ce que le corps exprime en silence.'),
  ('Intelligence relationnelle', 'Iris Chasles', 'Co-fondatrice de Résonances Productions',
   'Psychopraticienne à Paris, formée en Intelligence Relationnelle® et en psychopathologie. Son travail porte sur les traumas et les mémoires engrammées, avec une approche neurobiologique de la régulation du système nerveux.'),
- ('Alchimie vocale & musique vivante', 'David Lesage', 'Intervenant · Résonances Productions',
+ ('Alchimie vocale & musique vivante', 'David Lesage', 'Co-fondateur de Résonances Productions',
   'Improvisateur formé au jazz et au conservatoire, il utilise la voix comme outil de transformation. Avec ses instruments vibratoires — handpan, harpe africaine, tambour chamanique, bols de cristal et d’or — il façonne en temps réel un espace sonore sur-mesure.'),
 ]
 SOA_PERMET = [
@@ -367,7 +367,6 @@ HTML = f"""<!DOCTYPE html>
   <p>Nous travaillons avec une conscience fine du <b>trauma complexe</b> — celui qui n’est pas toujours visible, ni même reconnu comme tel. Ce qui fait qu’un trauma est un trauma, ce n’est pas l’événement lui-même : c’est la mémoire souffrante restée engrammée dans le corps et la psyché, quelque chose qui ne s’est pas digéré et qui continue de vibrer dans le présent, souvent de manière très inconsciente. C’est pourquoi nous avançons avec une <b>grande délicatesse</b>, en respectant les rythmes internes, les mécanismes de défense et les parts qui se sont construites pour protéger.</p>
   <p>Ici, aucune posture haute, aucune relation d’emprise. Nous ne sommes ni des gourous ni des figures d’autorité spirituelle. Nous ne projetons pas nos croyances sur vous et nous ne prenons pas le pouvoir sur votre expérience. Ce que nous faisons, c’est <b>écouter</b> : votre corps, votre psyché, votre rythme propre. Nous vous aidons à rendre explicite ce qui cherche à se dire, à nommer l’indicible. Nous vous rejoignons là où vous êtes, sans chercher à vous pousser ailleurs, et nous prenons soin des différentes parts de vous qui demandent à être vues, reconnues, accueillies.</p>
   <p class="soa-quote">Ici, on ne cherche pas à s’évader, mais à s’habiter pleinement.</p>
-  <h3 style="margin-top:34px">Le cadre et ses limites</h3>
   <div class="soa-note"><p><b>Le cadre.</b> Ce week-end est une proposition d’expérience et d’accompagnement. <b>Ce n’est pas un acte médical ni un traitement, et il ne remplace pas un suivi médical ou psychologique.</b> Si vous suivez un traitement ou traversez une période de fragilité, parlez-en avec nous avant de vous inscrire : nous en discuterons ensemble en toute confidentialité.</p></div>
 </div></section>
 
