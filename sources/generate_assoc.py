@@ -128,7 +128,7 @@ VALS=[
 def vals():
     return ''.join(f'<div class="val"><h3>{h}</h3><p>{p}</p></div>' for h,p in VALS)
 
-HELLO='https://www.helloasso.com/associations/resonances-productions'
+HELLO='https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions'
 
 HTML=f"""<!DOCTYPE html>
 <html lang="fr"><head>
