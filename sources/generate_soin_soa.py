@@ -70,6 +70,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
+import nav_menu  # noqa: E402
 
 CSS = """
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
@@ -608,6 +609,8 @@ HTML = f"""<!DOCTYPE html>
 </body></html>"""
 
 HTML = mobile_nav.inject(HTML)
+# menu de navigation partage : remplace le <div class="links"> ci-dessus
+HTML = nav_menu.inject(HTML, 'le-soin-soa')
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'soin_soa_final.html')
 open(OUT, 'w', encoding='utf-8').write(HTML)

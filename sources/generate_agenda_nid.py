@@ -5,7 +5,12 @@ Les evenements sont recuperes via le connecteur Google Calendar puis figes ici.
 Pour actualiser : relancer la lecture du calendrier et mettre a jour EVENTS.
 """
 import datetime as dt
+import os
+import sys
 import urllib.parse
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import nav_menu  # menu de navigation partage  # noqa: E402
 
 CAL_ID = '30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae@group.calendar.google.com'
 CAL_SUB = ('https://calendar.google.com/calendar/r?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1'
@@ -630,6 +635,9 @@ if __name__ == '__main__':
         html = html.replace(_old_psy, _new_psy, 1)
     else:
         print('ATTENTION : bloc psychotherapie introuvable')
+
+    # menu de navigation partage (idempotent : ne fait rien s'il est deja la)
+    html = nav_menu.inject(html, 'le-nid')
 
     with open(p, 'w', encoding='utf-8') as f:
         f.write(html)

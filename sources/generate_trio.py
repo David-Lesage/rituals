@@ -414,6 +414,10 @@ sys.path.insert(0, HERE)
 import mobile_nav
 html = mobile_nav.inject(html)
 
+# menu de navigation partage
+import nav_menu
+html = nav_menu.inject(html, 'rituals-trio')
+
 assert 'data:image' not in html.replace("data:image/webp'", ''), 'il reste du base64'
 assert 'googleusercontent' not in html, 'il reste une URL Drive'
 

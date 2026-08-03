@@ -326,6 +326,10 @@ sys.path.insert(0, HERE)
 import mobile_nav
 html = mobile_nav.inject(html)
 
+# menu de navigation partage (Accueil / Sur scene / Le Nid / L'association / Contact)
+import nav_menu
+html = nav_menu.inject(html, 'rituals')
+
 assert 'data:image' not in html.replace("data:image/webp'", ''), 'il reste du base64'
 
 os.makedirs(os.path.dirname(TARGET), exist_ok=True)

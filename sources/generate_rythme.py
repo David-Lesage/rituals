@@ -30,6 +30,10 @@ Usage : python3 sources/generate_rythme.py   (depuis la racine du depot)
 
 import os
 import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import nav_menu  # menu de navigation partage  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_IMG = os.path.join(ROOT, 'sources', 'rythme_img')
@@ -981,6 +985,8 @@ def build_html(sizes):
 def main():
     sizes = build_images()
     html = build_html(sizes)
+    # menu de navigation partage : remplace le <div class="links"> du gabarit
+    html = nav_menu.inject(html, 'rythme-calebasse')
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT_HTML, 'w', encoding='utf-8') as f:
         f.write(html)
