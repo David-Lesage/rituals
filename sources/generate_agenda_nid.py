@@ -521,6 +521,11 @@ if __name__ == '__main__':
     # ancienne version de la meme carte (avant le renommage « Showcase / Scene ouverte »)
     html = re.sub(r'[ \t]*<div class="offer">\s*<div class="t">Scène ouverte</div>.*?\n[ \t]*</div>\n',
                   '', html, flags=re.S)
+    # /!\ NE PAS toucher a <section class="figs"> (blocs photo des propositions :
+    # rendez-vous mensuels, atelier de yoga, workshop calebasse) ni a son CSS
+    # « ===== BLOCS ILLUSTRES DES PROPOSITIONS ===== ». Ils sont ecrits a la main
+    # dans la page et volontairement places AVANT le bloc « ===== AGENDA DU NID ===== »
+    # pour echapper au nettoyage CSS ci-dessus.
 
     # CSS
     html = html.replace('</style>', CSS + '</style>', 1)
@@ -560,17 +565,20 @@ if __name__ == '__main__':
         return (f'<div class="offer-dates"><span>Prochaines dates</span>{txt} '
                 f'<a href="#agenda">tout voir</a></div>')
 
-    for marqueur, typ in (
-        ('<div class="who">Avec David Lesage</div>\n    </div>\n\n    <div class="offer">\n      <div class="t">Corps &amp; souffle</div>', 'concert'),
-        ('<div class="who">Avec Iris Chasles</div>\n    </div>\n\n    <div class="offer">\n      <div class="t">Transmission</div>', 'yoga'),
+    # Chaque ancre est prise DANS la carte concernee (fin de son texte + ligne
+    # « Avec … »), jamais sur l'ouverture de la carte SUIVANTE comme avant : un
+    # marqueur du type `<div class="offer">\n      <div class="t">…` casse des qu'on
+    # ajoute quoi que ce soit en tete de carte (photo, badge…). Ancres locales =
+    # une carte peut evoluer sans casser l'injection des dates d'une autre.
+    for ancre, typ in (
+        ('au plus près du public.</p>\n      <div class="who">Avec David Lesage</div>', 'concert'),
+        ('retrouver de l’espace intérieur.</p>\n      <div class="who">Avec Iris Chasles</div>', 'yoga'),
+        ('on entre dans le rythme par le corps et l’écoute.</p>\n      <div class="who">Avec David Lesage</div>', 'rythme'),
     ):
-        if marqueur in html:
-            html = html.replace(marqueur, marqueur.replace('</div>\n\n    <div class="offer">',
-                dates_courtes(typ) + '</div>\n\n    <div class="offer">', 1), 1)
-
-    # workshop calebasse (derniere carte 'Avec David Lesage' du bloc transmission)
-    html = html.replace('on entre dans le rythme par le corps et l’écoute.</p>\n      <div class="who">Avec David Lesage</div>',
-        'on entre dans le rythme par le corps et l’écoute.</p>\n      <div class="who">Avec David Lesage</div>' + dates_courtes('rythme'), 1)
+        if ancre in html:
+            html = html.replace(ancre, ancre + dates_courtes(typ), 1)
+        else:
+            print('ATTENTION : ancre « prochaines dates » introuvable pour', typ)
 
     # carte « Présentation, découverte & essai d'instruments d'exception »
     # (anciennement « Scène ouverte / Showcase »). Le lien de reservation vient
