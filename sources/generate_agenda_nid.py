@@ -134,7 +134,7 @@ SUB_BLOCK = (
     '        <li>Toutes les dates du Nid apparaissent directement dans votre agenda personnel.</li>\n'
     '        <li>Les nouvelles dates et les changements d’horaire s’y ajoutent tout seuls : '
     'vous n’avez plus besoin de revenir sur le site.</li>\n'
-    '        <li>Vous réglez vos rappels une seule fois — la veille et 2 h avant — '
+    '        <li>Vous réglez vos rappels une seule fois — une semaine, un jour et 2 h avant — '
     'et ils s’appliquent à toutes les dates.</li>\n'
     '        <li>Vous pouvez vous désabonner quand vous le souhaitez.</li>\n'
     '      </ul>\n'
@@ -243,7 +243,8 @@ def build():
         '  </div>',
         '  <p class="ag-tip">« + Google Agenda » ajoute la date directement dans votre Google Agenda '
         '(pratique sur smartphone). « + .ics » télécharge un fichier compatible Apple Calendrier, '
-        'Outlook et Google Agenda, avec deux rappels automatiques (la veille et 2 h avant).</p>',
+        'Outlook et Google Agenda, avec trois rappels automatiques '
+        '(une semaine, un jour et 2 h avant).</p>',
         '</div></section>', '']
     return '\n'.join(out)
 
@@ -353,6 +354,7 @@ ICS_JS = """
       L.push('BEGIN:VEVENT','UID:lenid-'+it.s+'-'+i+'@resonancesproductions.org',
         'DTSTAMP:'+now,'DTSTART:'+it.s,'DTEND:'+it.e,
         'SUMMARY:'+esc(it.t),'LOCATION:'+esc(LIEU),'DESCRIPTION:'+esc(it.d),
+        'BEGIN:VALARM','TRIGGER:-P1W','ACTION:DISPLAY','DESCRIPTION:'+esc(it.t)+' dans une semaine','END:VALARM',
         'BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:'+esc(it.t)+' demain','END:VALARM',
         'BEGIN:VALARM','TRIGGER:-PT2H','ACTION:DISPLAY','DESCRIPTION:'+esc(it.t)+' dans 2 heures','END:VALARM',
         'END:VEVENT');
@@ -442,6 +444,14 @@ if __name__ == '__main__':
     import re
     html = re.sub(r'<section class="agenda" id="agenda">.*?</div></section>\n', '', html, flags=re.S)
     html = re.sub(r'/\* ===== AGENDA DU NID ===== \*/.*?(?=\n/\* |\n</style>)', '', html, flags=re.S)
+    # ... et des blocs injectes dans les cartes du programme.
+    # Sans ce nettoyage, chaque nouvelle execution du script REAJOUTE la carte
+    # Showcase et les encarts « Prochaines dates » (ils ne sont pas idempotents),
+    # d'ou les cartes dupliquees observees sur la page.
+    html = re.sub(r'[ \t]*<div class="offer-dates"><span>Prochaines dates</span>.*?</div>\n?',
+                  '', html, flags=re.S)
+    html = re.sub(r'[ \t]*<div class="offer">\s*<div class="t">Scène ouverte</div>.*?\n[ \t]*</div>\n',
+                  '', html, flags=re.S)
 
     # CSS
     html = html.replace('</style>', CSS + '</style>', 1)
