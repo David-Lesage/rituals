@@ -14,10 +14,20 @@ REGLES DE REDACTION :
   - Ici l'information professionnelle est BIENVENUE (duree 1 h 30, format,
     composantes du dispositif, options) — contrairement a la page du Nid ou
     David l'a explicitement bannie.
-  - AUCUNE donnee absente du dossier : pas de fiche technique, pas de plan de
-    scene, pas de rider, pas de tarif, pas de jauge, pas d'effectif. Si une
-    fiche technique est necessaire, elle sera fournie par David — elle n'est
-    PAS inventee ici.
+  - AUCUNE donnee absente des sources : pas de tarif de cachet (il n'y en a
+    nulle part dans les sources), pas de jauge, pas d'effectif invente.
+  - FICHE TECHNIQUE (ajoutee le 2026-08-04) : source = « Fiche technique et
+    Artistique David Lesage artiste - International », presentation Drive de
+    David (77 diapositives). CE QUI N'EST **PAS** PUBLIE, volontairement, et
+    part uniquement dans le dossier envoye sur demande :
+      * la valeur du materiel et le montant d'assurance demande -> publier
+        « je voyage avec ~20 000 EUR de materiel » sur une page publique est
+        une invitation au vol ;
+      * le rider d'accueil (preferences alimentaires, hebergement, moustiquaire,
+        ventilateur dans la chambre...) -> personnel, hors sujet ici ;
+      * les dimensions de bagages avion et le detail du transport international
+        -> trop operationnel.
+    D'ou le bouton « Demander la fiche technique complete » (MAILTO_FT).
   - La danse aerienne a l'elastique d'Iris Chasles EST mentionnable (impossible
     au Nid, possible sur grande scene) : presentee comme une OPTION, comme dans
     le dossier.
@@ -47,12 +57,20 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
 
-HELLO_ASSO = 'https://www.helloasso.com/associations/resonances-productions'
+HELLO_ASSO = ('https://www.helloasso.com/beta/associations/resonances-productions/'
+              'adhesions/adhesion-resonances-productions')
 MAIL = 'contact@resonancesproductions.org'
 MAILTO_PROG = ('mailto:' + MAIL + '?subject=Programmation%20%E2%80%94%20David%20Lesage'
                '%20en%20concert')
 MAILTO_DOSSIER = ('mailto:' + MAIL + '?subject=Dossier%20de%20pr%C3%A9sentation%20'
                   '%E2%80%94%20David%20Lesage%20en%20concert')
+# Bouton de la section « Fiche technique » : le reste du rider (assurance, transport
+# international, rider d'accueil) N'EST PAS publie -> il part sur demande.
+MAILTO_FT = ('mailto:' + MAIL + '?subject=Fiche%20technique%20compl%C3%A8te%20'
+             '%E2%80%94%20David%20Lesage%20en%20concert')
+TEL_TECH = '+33610733152'
+TEL_TECH_TXT = '+33 6 10 73 31 52'
+MAIL_TECH = 'contact@lesagedavid.fr'
 
 # --- Images reutilisees du depot -------------------------------------------
 # cle : (dossier, base, [largeurs disponibles], largeur_intrinseque, hauteur)
@@ -66,6 +84,23 @@ DLC_PHOTOS = {
     'rex':        ('rituals',  'au-grand-rex',                             [480, 900, 1400], 1400, 912),
     'aerien':     ('e-motion', 'danse-aerienne-et-musique-live-sur-scene', [480, 900, 1400], 1400, 783),
     'aerien-fest': ('e-motion', 'everness-festival',                       [480, 900],        900, 600),
+    # PAS de photo du Sziget : la seule disponible dans le depot
+    # (/img/e-motion/iris-et-david-sziget-festival-*) est un selfie personnel
+    # d'Iris et David allonges dans l'herbe — rien de scenique. Le Sziget est
+    # donc cite dans la liste des scenes, sans image.
+    # --- /img/concert-scene/ : photos extraites de la fiche technique et artistique
+    # (presentation Drive de David, 77 diapositives). Objectif : combler le manque
+    # identifie par David — des photos ou il joue SEUL. Aucune n'est filigranee ;
+    # verification faite bande haute + bande basse a pleine resolution.
+    'solo-cymatique': ('concert-scene', 'david-lesage-seul-cymatique-projetee',  [480, 900, 1400], 1400, 795),
+    'solo-festival':  ('concert-scene', 'david-lesage-seul-scene-de-festival',   [480, 900],        900, 600),
+    'eglise':         ('concert-scene', 'concert-en-eglise-public-assis',        [480, 900, 1400], 1400, 933),
+    'voix-machines':  ('concert-scene', 'david-lesage-voix-et-machines',         [480, 900, 1400], 1400, 940),
+    'public-proche':  ('concert-scene', 'le-public-au-bord-du-plateau',          [480, 900, 1400], 1400, 933),
+    'abbaye':         ('concert-scene', 'abbaye-a-ciel-ouvert-alet-les-bains',   [480, 900, 1400], 1400, 788),
+    'plateau':        ('concert-scene', 'plateau-installe-avant-le-concert',     [480, 900, 1400], 1400, 1050),
+    'setup-dessus':   ('concert-scene', 'le-setup-vu-du-dessus',                 [480, 900, 1400], 1400, 1050),
+    'calebasse':      ('concert-scene', 'la-calebasse-et-les-bougies',           [480, 900, 1280], 1280, 1920),
 }
 
 CREDIT_MAGYE = ('<span class="dlc-cred">Crédit photo <a href="https://magyedart.fr/" '
@@ -91,12 +126,16 @@ def pic(key, alt, sizes, caption=None, cls='dlc-fig', loading='lazy', credit='')
 FICHE = [
     ('Format', 'Concert · Cérémonie · Participatif'),
     ('Durée', '1 h 30'),
-    ('Instruments', 'Voix, handpan, calebasse, Ngoni (harpe africaine), wave drum, '
-                    'déclencheurs électroniques'),
+    ('Instruments', 'Voix, handpan électronique, 2 à 3 handpans acoustiques, calebasse, '
+                    'N’Goni 14 cordes (harpe africaine), Wavedrum, sanzula, déclencheurs '
+                    'électroniques et loop station'),
+    ('Accordage', 'Tous les instruments sont accordés en <b>La 432 Hz</b>'),
     ('Langues', 'Français, swahili, sanskrit'),
     ('Esthétique', 'Soul française · African spirit · Électro vibes'),
     ('Dispositif', 'Vidéoprojections · cymatique en temps réel · ambiances sonores · '
                    'échanges vocaux avec la salle'),
+    ('Plateau', 'Minimum 4 m × 5 m, plat et de niveau · configuration de référence à '
+                '<b>9 entrées</b> — voir la <a href="#technique">fiche technique</a>'),
     ('En option', 'Danse aérienne à l’élastique — Iris Chasles · extraits du spectacle '
                   '<a href="/e-motion">E-Motion</a>'),
 ]
@@ -127,8 +166,11 @@ COMPOSANTES = [
 
 REPERES = [
     ('Dès 4 ans', 'Batterie.'),
+    # NUANCE IMPORTANTE, corrigee le 2026-08-04 : la fiche technique de David dit
+    # « prix de batterie mention tres bien APRES UN COURT PASSAGE au Conservatoire
+    # National de Toulouse ». La page laissait entendre un cursus complet.
     ('Conservatoire National de Toulouse',
-     'Prix de batterie, mention très bien.'),
+     'Un court passage, et un prix de batterie mention très bien.'),
     ('Collège de Jazz in Marciac',
      'Formation à la batterie, au chant et à l’improvisation vocale.'),
     ('Cinq octaves',
@@ -145,7 +187,9 @@ REPERES = [
 ]
 
 SCENES = [
+    ('Sziget Festival', 'Hongrie'),
     ('Everness Festival', 'Hongrie'),
+    ('Le Grand Rex, Paris', 'France'),
     ('Abbaye à ciel ouvert d’Alet-les-Bains', 'France'),
     ('Église San Subra, Toulouse', 'France'),
     ('Salle du Castillo, Vevey', 'Suisse'),
@@ -169,6 +213,81 @@ CITATIONS = ['Une musique qui tisse des liens', 'Des rythmes envoûtants',
              'Des paroles profondes', 'Des refrains incantatoires',
              'Des envolées jazz d’une voix céleste']
 
+# ===========================================================================
+# FICHE TECHNIQUE — source : presentation Drive « Fiche technique et Artistique
+# David Lesage artiste - International ». Voir l'avertissement en tete de fichier
+# pour ce qui est volontairement EXCLU de la page.
+# ===========================================================================
+
+# Patch d'entrees de la configuration de reference (9 entrees). Repris de la
+# diapositive « Input Patch Liste David Lesage » (version festival / minimaliste,
+# plan de scene « Stage plan minimalist — Total Input : 9 »).
+PATCH_9 = [
+    ('1', 'Voix', 'Micro serre-tête DPA D:Fine 4088 + système HF '
+                  '(récepteur mini-jack 3,5 mm)'),
+    ('2', 'Sanzula / kalimba', 'Micro AKG C214, ou boîte de direct'),
+    ('3', 'Handpan électronique', 'DI — pied de handpan'),
+    ('4', 'Wavedrum (percussion électronique)', 'DI — pied de Wavedrum'),
+    ('5', 'Kick électronique', 'DI stéréo — déclencheur Roland'),
+    ('6', 'Caisse claire et hi-hat électroniques', 'DI stéréo — déclencheurs Roland'),
+    ('7', 'N’Goni 14 cordes', 'Micro contact AKG C411'),
+    ('8', 'Calebasse', 'Micro Shure Beta 91A, placé sous la calebasse'),
+    ('9', 'Ordinateur — bandes et projections',
+          'Entrée mini-jack 3,5 mm + arrivée HDMI sur scène'),
+]
+
+# Plateau : diapositive « Stage plan » + « Recapitulatif materiel demande ».
+PLATEAU = [
+    ('Dimensions', 'Plateau plat et de niveau, <b>4 m × 5 m minimum</b>'),
+    ('Hauteur', 'Environ 40 cm du sol'),
+    ('Praticable', '1 praticable de batterie 3 m × 3 m — sur roulettes si le plateau '
+                   'doit changer rapidement'),
+    ('Tapis', '1 tapis rond de 2 m de diamètre'),
+    ('Électricité', '1 multiprise 8 prises aux normes françaises, avec protection '
+                    'contre les surtensions'),
+    ('Console', '<b>Enregistrement multipiste demandé</b> sur la console'),
+    ('Projection', '1 vidéoprojecteur + écran + câble HDMI si une projection est '
+                   'prévue — elle est lancée depuis la scène'),
+]
+
+RETOURS = [
+    ('Retour principal', 'Un système <b>Bose S1 + Sub1</b>, placé 1 à 3 m derrière '
+                         'l’artiste. Il l’apporte lui-même quand le contexte le permet.'),
+    ('À défaut', 'Un retour de scène standard <b>plus un petit caisson de basse</b>, '
+                 'placé derrière l’artiste, pour rendre l’impact des kicks électroniques.'),
+    ('Intention', 'Être pleinement immergé dans le son et disposer d’un peu de pression '
+                  'acoustique — c’est ce qui tient le jeu de tout le set.'),
+    ('Click', 'Un retour in-ear HF, réservé au click.'),
+]
+
+# « Materiel demande par l'artiste » : diapositives 4 et 61 a 64.
+DEMANDE = [
+    '1 système HF pour le micro serre-tête DPA — l’artiste apporte les adaptateurs '
+    'Shure, Sennheiser et AKG',
+    '3 pieds de cymbale ride avec perchette orientable (supports des déclencheurs et '
+    'de l’iPad)',
+    '3 pieds de handpan',
+    '1 pied de N’Goni / kora, capable d’accueillir une calebasse de 55 cm',
+    '1 pied support d’ordinateur, en position debout',
+    '1 pied de Wavedrum + bras d’extension pour poser la loop station',
+    '1 micro Shure Beta 91A',
+    '1 kick électronique Roland KT-10',
+    '1 coussin de type zafu, pour jouer la calebasse',
+    '1 bouteille d’eau, une petite serviette et un ventilateur sur scène',
+]
+
+# « Liste du materiel apporte par l'artiste » : diapositive 70.
+APPORTE = [
+    '3 handpans — dont le handpan électronique — avec leurs coques de transport',
+    'Le N’Goni 14 cordes et son accordeur',
+    'La Wavedrum, les déclencheurs Roland BT1 et le sampler Roland TM2',
+    'La loop station Roland RC-505 MK2',
+    'Le MacBook Pro, la carte son et l’iPad',
+    'La calebasse, son tapis et ses œufs, et la sanzula',
+    'Tous les micros sauf exceptions : le serre-tête DPA D:Fine 4088, 3 micros contact '
+    'AKG C411, 3 micros col de cygne',
+]
+
 TOC = [
     ('#fiche', 'En un regard'),
     ('#dispositif', 'Le dispositif'),
@@ -177,6 +296,7 @@ TOC = [
     ('#scenes', 'Scènes &amp; festivals'),
     ('#repertoire', 'Le répertoire'),
     ('#option', 'En option : la danse aérienne'),
+    ('#technique', 'Fiche technique'),
     ('#programmer', 'Programmer ce concert'),
 ]
 
@@ -270,7 +390,7 @@ b{color:#fff;font-weight:500}
 /* cartes du repertoire */
 .dlc-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;margin-top:30px;align-items:start}
 .dlc-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-left:2px solid var(--gold);border-radius:14px;padding:24px 26px}
-.dlc-card h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;color:#fff;font-weight:600;line-height:1.15}
+.dlc-card h3,.dlc-card h4{font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;color:#fff;font-weight:600;line-height:1.15}
 .dlc-card .sub{color:var(--muted);font-size:14px;font-style:italic;margin-top:3px}
 .dlc-card ul{list-style:none;margin-top:16px}
 .dlc-card li{color:#d7d4ea;font-size:15.5px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);line-height:1.5}
@@ -287,6 +407,45 @@ b{color:#fff;font-weight:500}
 .dlc-scenes li span{color:var(--gold);font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;flex:0 0 auto}
 /* deux figures cote a cote */
 .dlc-duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:30px;align-items:start}
+/* ===== fiche technique ===== */
+.dlc-sub{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(23px,3vw,30px);color:#fff;font-weight:600;line-height:1.2;margin-top:46px}
+.dlc-conf{background:var(--card);border:1px solid rgba(255,255,255,.06);border-top:2px solid var(--gold);border-radius:14px;padding:24px 26px}
+.dlc-conf h4{font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;color:#fff;font-weight:600;line-height:1.15}
+.dlc-conf p{color:#d7d4ea;font-size:15.5px;margin-top:10px;line-height:1.65;max-width:none}
+.dlc-conf.reco{border-top-color:var(--gold2);box-shadow:0 0 0 1px rgba(216,178,90,.22)}
+.dlc-tag{display:inline-block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#1a1608;background:var(--gold);border-radius:20px;padding:4px 13px;margin-bottom:12px}
+.dlc-tag.alt{background:transparent;color:var(--gold2);border:1px solid var(--line)}
+/* listes « demande / apporte » */
+.dlc-list{list-style:none;margin-top:16px}
+.dlc-list li{color:#d7d4ea;font-size:15.5px;line-height:1.55;padding:9px 0 9px 20px;border-bottom:1px solid rgba(255,255,255,.05);position:relative}
+.dlc-list li:last-child{border-bottom:0}
+.dlc-list li::before{content:'';position:absolute;left:2px;top:16px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+/* tableau du patch d'entrees.
+   POINT DE RISQUE MOBILE : un tableau a colonnes deborde sous 480 px. Deux
+   garde-fous cumules : (1) le conteneur .dlc-tw est en overflow-x:auto (filet de
+   securite) ; (2) sous 700 px le tableau est REMIS EN PILE (une carte par ligne,
+   intitules de colonnes restitues par td::before/data-label) -> plus aucun
+   defilement horizontal a lire, donc plus aucun risque de debordement. */
+.dlc-tw{margin-top:22px;max-width:900px;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:var(--card)}
+.dlc-tab{width:100%;border-collapse:collapse;min-width:600px;font-size:15.5px}
+.dlc-tab caption{text-align:left;color:var(--gold);font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;padding:17px 18px 3px}
+.dlc-tab th,.dlc-tab td{text-align:left;padding:12px 18px;border-top:1px solid rgba(255,255,255,.07);vertical-align:top;line-height:1.5}
+.dlc-tab thead th{color:var(--gold2);font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.dlc-tab tbody td{color:#d7d4ea}
+.dlc-tab tbody th{color:var(--gold2);font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;width:56px}
+@media(max-width:700px){
+  .dlc-tw{overflow:visible;border:0;background:transparent;border-radius:0;max-width:none}
+  .dlc-tab{display:block;min-width:0;font-size:16px}
+  /* la <caption> reste en display:table-caption dans un parent devenu block :
+     elle se reduisait a la largeur d'un mot (un mot par ligne). */
+  .dlc-tab caption{display:block;width:100%;padding:0 0 12px}
+  .dlc-tab thead{display:none}
+  .dlc-tab tbody,.dlc-tab tr,.dlc-tab td,.dlc-tab tbody th{display:block;width:auto}
+  .dlc-tab tr{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:12px;padding:15px 17px;margin-bottom:11px}
+  .dlc-tab tbody th{border-top:0;padding:0;font-size:19px}
+  .dlc-tab td{border-top:0;padding:0}
+  .dlc-tab td::before{content:attr(data-label);display:block;color:var(--gold);font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-top:10px;margin-bottom:1px}
+}
 /* bloc de contact / programmation */
 .dlc-prog{background:linear-gradient(160deg,rgba(216,178,90,.12),var(--card));border:1px solid var(--line);border-radius:18px;padding:30px 32px;margin-top:30px;max-width:860px}
 .dlc-prog h3{font-size:27px;color:#fff;font-weight:600;line-height:1.2}
@@ -343,10 +502,12 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh),dd a:not(.btn):not(.adh){font-s
 
 TITLE = ('David Lesage en concert — concert-cérémonie participatif pour grandes scènes '
          'et festivals · Résonances Productions')
-DESC = ('Voix, handpan, calebasse, Ngoni et électronique : une expérience immersive de '
+DESC = ('Voix, handpan, calebasse, N’Goni et électronique : une expérience immersive de '
         'musique live d’1 h 30, à programmer sur grande scène, en festival ou dans un '
-        'lieu d’exception. Everness Festival (Hongrie), abbaye d’Alet-les-Bains, église '
-        'San Subra, Vevey, Côte d’Ivoire. Option danse aérienne à l’élastique.')
+        'lieu d’exception. Sziget et Everness Festival (Hongrie), Grand Rex, abbaye '
+        'd’Alet-les-Bains, église San Subra, Vevey, Côte d’Ivoire. Fiche technique : '
+        'configuration de référence à 9 entrées, plateau 4 m × 5 m. Option danse '
+        'aérienne à l’élastique.')
 
 HTML = f"""<!DOCTYPE html>
 <html lang="fr"><head>
@@ -393,7 +554,7 @@ HTML = f"""<!DOCTYPE html>
   <h1>David Lesage en concert</h1>
   <div class="tagline">« Un profond voyage au cœur de soi »</div>
   <p class="lead">Une expérience immersive de musique live d’<b>1 h 30</b> : voix, handpan, calebasse, Ngoni et électronique. À programmer sur grande scène, en festival, ou dans un lieu d’exception.</p>
-  <p class="body">Le format réunit instruments traditionnels et modernité, et alterne deux régimes : des séquences d’<b>écoute active</b>, et des séquences <b>participatives</b> où la salle devient une partie de l’œuvre — elle chante en écho, et voit à l’écran l’empreinte de sa propre voix. Un musicien, chanteur et compositeur formé au conservatoire et au collège de Jazz in Marciac, à l’ambitus vocal de cinq octaves, passé par <i>The Voice</i> et par la scène de l’<b>Everness Festival</b>, en Hongrie.</p>
+  <p class="body">Le format réunit instruments traditionnels et modernité, et alterne deux régimes : des séquences d’<b>écoute active</b>, et des séquences <b>participatives</b> où la salle devient une partie de l’œuvre — elle chante en écho, et voit à l’écran l’empreinte de sa propre voix. Un musicien, chanteur et compositeur passé par le Conservatoire National de Toulouse et le collège de Jazz in Marciac, à l’ambitus vocal de cinq octaves, passé par <i>The Voice</i> et par les scènes du <b>Sziget</b> et de l’<b>Everness Festival</b>, en Hongrie.</p>
   <div class="cta" style="margin-top:26px"><a class="btn" href="{MAILTO_PROG}">Programmer ce concert</a><a class="btn ghost" href="{MAILTO_DOSSIER}">Demander le dossier</a></div>
   {pic('everness',
        'David Lesage et Iris Chasles debout main dans la main sur la scène en plein air de l’Everness Festival, un handpan posé devant eux, sous une structure de projecteurs et une toile tendue orange ; à droite, une banderole « everness ».',
@@ -443,17 +604,28 @@ HTML = f"""<!DOCTYPE html>
          '(max-width:860px) calc(100vw - 52px), 500px',
          'L’échange vocal avec le public, en festival.')}
   </div>
+  <div class="dlc-duo">
+    {pic('solo-cymatique',
+         'David Lesage seul au centre d’un plateau, derrière ses instruments, devant un très grand écran où est projetée une figure cymatique verte et dorée en forme de fleur.',
+         '(max-width:860px) calc(100vw - 52px), 500px',
+         'La figure dessinée par la voix, projetée en direct sur l’écran de scène.')}
+    {pic('public-proche',
+         'David Lesage debout sur scène, une calebasse posée devant lui ; au premier plan, le public assis au sol sur des tapis, à un mètre du plateau, entre des lampes-boules blanches.',
+         '(max-width:860px) calc(100vw - 52px), 500px',
+         'Le public installé au bord du plateau, dans une configuration assise.')}
+  </div>
 </div></section>
 
 <div class="divider"></div>
 
 <section class="dlc-block band" id="parcours"><div class="wrap">
   <div class="dlc-h">Le parcours</div>
-  <h2 class="sec-title">Conservatoire, Marciac, cinq octaves</h2>
+  <h2 class="sec-title">Autodidacte, Marciac, cinq octaves</h2>
   <div class="dlc-split">
     <div>
-      <p>Musicien, chanteur et compositeur français. Ses instruments : la <b>voix</b>, le <b>handpan</b>, la <b>calebasse</b>, le <b>Ngoni</b> — la harpe africaine —, la wave drum et des déclencheurs électroniques.</p>
+      <p>Musicien, chanteur et compositeur français. Un <b>artiste curieux</b> et un <b>musicien autodidacte</b>. Ses instruments : la <b>voix</b>, le <b>handpan</b>, la <b>calebasse</b>, le <b>Ngoni</b> — la harpe africaine —, la wave drum et des déclencheurs électroniques.</p>
       <p>Son intention : des musiques <b>électro-organiques</b>, qui mêlent instruments acoustiques, musique électronique et voix humaine. Trois mots pour le situer : <b>soul française</b>, <b>African spirit</b>, <b>électro vibes</b>.</p>
+      <p>Il est passionné par l’<b>impact de la vibration sur le vivant</b> — la <b>cymatique</b> — et travaille tous ses instruments en <b>La 432 Hz</b>. Ce qu’il cherche, de scène en scène : une <b>quête du son primordial, celui qui rassemble tous les êtres</b>.</p>
     </div>
     {pic('portrait',
          'Portrait de David Lesage, cheveux longs et barbe courte, éclairé latéralement sur fond sombre.',
@@ -466,14 +638,38 @@ HTML = f"""<!DOCTYPE html>
        '(max-width:900px) calc(100vw - 52px), 860px',
        'Une adresse directe au public, du début à la fin du concert.',
        cls='dlc-fig dlc-wide')}
+  <div class="dlc-duo">
+    {pic('voix-machines',
+         'David Lesage seul en scène, éclairé de bleu-vert, la main levée près du visage en train de chanter, debout derrière ses handpans posés sur des pieds et un ordinateur portable.',
+         '(max-width:860px) calc(100vw - 52px), 500px',
+         'La voix, au centre du dispositif — cinq octaves et un micro serre-tête.')}
+    {pic('calebasse',
+         'David Lesage assis en tailleur derrière une grande calebasse posée sur un tapis rond rouge, les mains sur la calebasse, entouré de dizaines de petites bougies alignées au sol.',
+         '(max-width:860px) calc(100vw - 52px), 500px',
+         'La calebasse, frappée au poing, jouée assis sur un coussin.')}
+  </div>
 </div></section>
 
 <section class="dlc-block" id="scenes"><div class="wrap">
   <div class="dlc-h">Scènes &amp; festivals</div>
   <h2 class="sec-title">Là où ce répertoire a résonné</h2>
-  <p>D’un festival hongrois à une abbaye à ciel ouvert, d’une église toulousaine à une salle suisse et à un mont ivoirien : le même répertoire, à des échelles et sous des acoustiques très différentes.</p>
+  <p>De deux grands festivals hongrois à une abbaye à ciel ouvert, d’une église toulousaine à une salle suisse et à un mont ivoirien : le même répertoire, à des échelles et sous des acoustiques très différentes.</p>
   <ul class="dlc-scenes">{''.join(f'<li><b>{n}</b><span>{p}</span></li>' for n, p in SCENES)}</ul>
   <p>David Lesage est passé par l’émission <i>The Voice</i> en 2021 ; c’est à sa suite qu’il a été invité pour un concert solo en Côte d’Ivoire.</p>
+  <div class="dlc-duo">
+    {pic('solo-festival',
+         'David Lesage seul debout au centre d’une scène de festival en plein air, jouant deux handpans posés sur des pieds, devant une toile tendue multicolore et des faisceaux de lumière verte.',
+         '(max-width:900px) calc(100vw - 52px), 340px',
+         'En festival, seul en scène : handpans, déclencheurs et machines.')}
+    {pic('abbaye',
+         'Intérieur d’une abbaye en ruine, à ciel ouvert, éclairé en bleu et en orange ; au fond le plateau et ses instruments, au premier plan un public nombreux assis face à la scène.',
+         '(max-width:900px) calc(100vw - 52px), 340px',
+         'Abbaye à ciel ouvert d’Alet-les-Bains : jouer sans toit, avec l’acoustique de la pierre.')}
+    {pic('eglise',
+         'Vue d’ensemble d’une église transformée en salle de concert : David Lesage seul sur l’estrade au milieu de ses instruments, une figure cymatique projetée au-dessus de lui, et le public assis au sol sur des tapis parmi des bougies.',
+         '(max-width:900px) calc(100vw - 52px), 340px',
+         'En église : plateau bas, public assis, projection au-dessus de la scène.')}
+  </div>
   {pic('rex',
        'Vue de scène du Grand Rex : deux artistes assis au sol au centre du plateau, face à une salle comble sur deux niveaux, dans les faisceaux de deux projecteurs en contre-jour.',
        '(max-width:900px) calc(100vw - 52px), 860px',
@@ -522,7 +718,82 @@ HTML = f"""<!DOCTYPE html>
 
 <div class="divider"></div>
 
-<section class="dlc-block band" id="programmer"><div class="wrap">
+<section class="dlc-block band" id="technique"><div class="wrap">
+  <div class="dlc-h">Fiche technique</div>
+  <h2 class="sec-title">Ce qu’il faut pour l’accueillir</h2>
+  <p>L’essentiel est ici, pour que vous puissiez évaluer la faisabilité sans attendre. David Lesage <b>tend vers une simplification de son setup</b> : la <b>configuration à 9 entrées</b> est celle qu’il privilégie, et c’est celle à retenir par défaut. La configuration étendue reste possible sur les plateaux qui s’y prêtent.</p>
+  <p>Tous les instruments sont accordés en <b>La 432 Hz</b>.</p>
+
+  <h3 class="dlc-sub">Les deux configurations</h3>
+  <div class="dlc-cols">
+    <div class="dlc-conf reco">
+      <span class="dlc-tag">Configuration de référence</span>
+      <h4>9 entrées</h4>
+      <p>Voix, handpan électronique, Wavedrum, déclencheurs (kick, caisse claire, hi-hat), N’Goni 14 cordes, calebasse, sanzula, et le son de l’ordinateur. C’est la version que l’artiste privilégie, en salle comme en festival.</p>
+    </div>
+    <div class="dlc-conf">
+      <span class="dlc-tag alt">Option étendue</span>
+      <h4>Jusqu’à 14 entrées</h4>
+      <p>La même base, à laquelle s’ajoutent 2 à 3 <b>handpans acoustiques</b> repris au micro — un micro col de cygne et un micro contact par instrument — et, le cas échéant, les entrées des invités : voix d’Iris Chasles, tambour chamanique, cordes.</p>
+    </div>
+  </div>
+
+  <h3 class="dlc-sub">Patch d’entrées — configuration à 9 entrées</h3>
+  <div class="dlc-tw">
+    <table class="dlc-tab">
+      <caption>Micros et boîtes de direct</caption>
+      <thead><tr><th scope="col">N°</th><th scope="col">Source</th><th scope="col">Micro ou DI</th></tr></thead>
+      <tbody>{''.join(f'<tr><th scope="row">{n}</th><td data-label="Source">{s}</td><td data-label="Micro ou DI">{m}</td></tr>' for n, s, m in PATCH_9)}</tbody>
+    </table>
+  </div>
+
+  <h3 class="dlc-sub">Le plateau</h3>
+  <dl class="dlc-id">{''.join(f'<dt>{k}</dt><dd>{v}</dd>' for k, v in PLATEAU)}</dl>
+
+  <h3 class="dlc-sub">Les retours de scène</h3>
+  <dl class="dlc-id">{''.join(f'<dt>{k}</dt><dd>{v}</dd>' for k, v in RETOURS)}</dl>
+
+  <div class="dlc-duo">
+    {pic('setup-dessus',
+         'Vue plongeante du setup installé sur deux tapis persans : un handpan électronique et un pad de percussion sur pieds, une loop station, deux ordinateurs portables ouverts, une tablette, deux enceintes de retour posées au sol et une calebasse.',
+         '(max-width:860px) calc(100vw - 52px), 500px',
+         'Le setup vu du dessus : tapis rond, retours derrière l’artiste, machines à portée de main.')}
+    {pic('plateau',
+         'Grande salle claire à colonnes et hautes fenêtres, vue depuis la scène : au premier plan le plateau installé sur des tapis avec handpans, ordinateurs, calebasse et enceintes de retour, et au fond le parquet vide de la salle.',
+         '(max-width:860px) calc(100vw - 52px), 500px',
+         'Un plateau installé avant l’ouverture des portes — 4 m × 5 m suffisent.')}
+  </div>
+
+  <h3 class="dlc-sub">Demandé à l’organisateur</h3>
+  <div class="dlc-cols">
+    <div class="dlc-card">
+      <h4>Matériel et pieds</h4>
+      <div class="sub">À fournir sur place, ou équivalent supérieur</div>
+      <ul class="dlc-list">{''.join(f'<li>{x}</li>' for x in DEMANDE)}</ul>
+    </div>
+    <div class="dlc-card">
+      <h4>Apporté par l’artiste</h4>
+      <div class="sub">Rien à prévoir de votre côté</div>
+      <ul class="dlc-list">{''.join(f'<li>{x}</li>' for x in APPORTE)}</ul>
+    </div>
+  </div>
+
+  <div class="dlc-note">
+    <div class="dlc-h">Contact technique</div>
+    <p><b>David Lesage</b> — <a href="tel:{TEL_TECH}">{TEL_TECH_TXT}</a> (téléphone, WhatsApp, Telegram) · <a href="mailto:{MAIL_TECH}">{MAIL_TECH}</a></p>
+    <p>Il répond directement à votre ingénieur du son et à la personne en charge de la projection.</p>
+  </div>
+
+  <div class="dlc-prog">
+    <h3>La fiche technique complète</h3>
+    <p>Plans de scène détaillés, patchs des autres configurations, feuille d’accordage du N’Goni, conditions d’assurance et de transport : tout cela figure dans la fiche technique complète, que nous vous adressons sur demande.</p>
+    <div class="cta" style="margin-top:22px"><a class="btn" href="{MAILTO_FT}">Demander la fiche technique complète</a></div>
+  </div>
+</div></section>
+
+<div class="divider"></div>
+
+<section class="dlc-block" id="programmer"><div class="wrap">
   <div class="dlc-h">Programmation</div>
   <h2 class="sec-title">Programmer ce concert</h2>
   <p>La production est portée par <b>Résonances Productions</b>, association loi 1901 dédiée à l’art du spectacle vivant. Écrivez-nous : nous vous répondons avec le dossier de présentation et les précisions adaptées à votre lieu, à votre jauge et à vos dates.</p>
