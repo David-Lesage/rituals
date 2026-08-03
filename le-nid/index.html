@@ -54,6 +54,7 @@ background:radial-gradient(1100px 700px at 50% -8%,rgba(143,122,209,.30),transpa
 .big-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(27px,4.2vw,42px);line-height:1.25;color:#fff;font-weight:500;max-width:880px}
 .big-quote em{color:var(--gold2);font-style:italic}
 
+.offer[id],.offer--rare[id]{scroll-margin-top:96px}
 .offers{display:grid;gap:20px;margin-top:44px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
 .offer{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:30px 28px;transition:transform .25s,border-color .25s}
 .offer:hover{transform:translateY(-4px);border-color:var(--line)}
@@ -339,7 +340,7 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   <p class="lead">Cinq propositions, portées par Iris Chasles et David Lesage.</p>
 
   <div class="offers">
-    <div class="offer">
+    <div class="offer" id="psychotherapie">
       <div class="t">Accompagnement · Individuel</div>
       <h3>Psychothérapie &amp; approche psycho-corporelle</h3>
       <p>Iris Chasles, psychopraticienne et yoga-thérapeute, accompagne les adultes par une approche où le corps est le véhicule d’intégration. Son travail s’appuie sur l’Intelligence Relationnelle® et l’IFS, la connexion au système nerveux autonome (théorie polyvagale), la régulation émotionnelle et la théorie de l’attachement.</p>
@@ -348,34 +349,34 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
       <div class="offer-dates"><span>Sur rendez-vous</span>Séances en présentiel au Nid ou en visio. <a href="https://www.irischasles.com/" target="_blank" rel="noopener">Prendre rendez-vous sur irischasles.com ↗</a></div>
     </div>
 
-    <div class="offer">
+    <div class="offer" id="concerts-au-nid">
       <div class="t">Musique live</div>
       <h3>Concerts de David Lesage</h3>
       <p>Un concert en format intime : voix, handpan électronique, harpe africaine (Ngoni), calebasse et percussions électro-organiques. Soul française, African spirit et électro vibes, au plus près du public.</p>
       <div class="who">Avec David Lesage</div>
     <div class="offer-dates"><span>Prochaines dates</span>26 sept. · 10 octo. · 28 nove. <a href="#agenda">tout voir</a> <a href="/concerts-david-lesage">En savoir plus →</a></div></div>
 
-    <div class="offer">
+    <div class="offer" id="yoga">
       <div class="t">Corps &amp; souffle</div>
       <h3>Atelier de yoga</h3>
       <p>Un atelier guidé par Iris Chasles : yoga postural, respiration et méditation. Une pratique accessible, pensée pour relâcher les tensions et retrouver de l’espace intérieur.</p>
       <div class="who">Avec Iris Chasles</div>
     <div class="offer-dates"><span>Prochaines dates</span>6 sept. · 4 octo. · 8 nove. <a href="#agenda">tout voir</a></div></div>
 
-    <div class="offer">
+    <div class="offer" id="calebasse-workshop">
       <div class="t">Transmission</div>
       <h3>Workshop rythme à la calebasse</h3>
       <p>Apprendre le rythme avec la calebasse : les bases, les frappes, la pulsation collective. Aucun prérequis musical — on entre dans le rythme par le corps et l’écoute.</p>
       <div class="who">Avec David Lesage</div><div class="offer-dates"><span>Prochaines dates</span>20 sept. · 17 octo. · 15 nove. <a href="#agenda">tout voir</a></div>
     </div>
 
-    <div class="offer">
+    <div class="offer" id="cours-individuels">
       <div class="t">Accompagnement</div>
       <h3>Cours individuels</h3>
       <p>Un accompagnement sur mesure, seul·e à seul·e. Avec David : le rythme et la calebasse. Avec Iris : yoga postural, breathwork adapté, renforcement, expression artistique, libération des tensions dans le corps.</p>
       <div class="who">Avec David Lesage ou Iris Chasles</div>
     </div>
-    <div class="offer offer--rare">
+    <div class="offer offer--rare" id="instruments">
       <div class="t">Présentation, découverte &amp; essai</div>
       <h3>Instruments d’exception</h3>
       <div class="offer-meta">Gratuit · sur inscription · environ 2 h</div>
