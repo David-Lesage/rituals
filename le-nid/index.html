@@ -61,6 +61,35 @@ background:radial-gradient(1100px 700px at 50% -8%,rgba(143,122,209,.30),transpa
 .offer h3{font-size:27px;color:#fff;margin:8px 0 12px;font-weight:600}
 .offer p{color:var(--muted);font-size:15.5px}
 .offer .who{margin-top:14px;color:var(--gold2);font-size:14px;font-style:italic}
+/* ===== BLOCS ILLUSTRES DES PROPOSITIONS (pleine largeur, entre programme et agenda) =====
+   Un seul systeme pour les trois blocs : colonne large (photo principale + titre et
+   legende) + colonne etroite (photo(s) secondaire(s)). Variante `--solo` pour une
+   proposition qui n'a qu'une photo : texte a cote, image jamais agrandie au-dela
+   de sa resolution native. Chaque photo garde son ratio natif (aucun recadrage). */
+.figs{padding:34px 0 30px}
+.gal{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:24px;align-items:start}
+.gal+.gal{margin-top:56px}
+.gal picture{display:block}
+.gal img{width:100%;height:auto;display:block;border-radius:16px;
+  border:1px solid rgba(216,178,90,.22);box-shadow:0 18px 60px rgba(0,0,0,.45)}
+.gal-main{display:flex;flex-direction:column;gap:18px}
+.gal-side{display:grid;gap:24px;align-content:start}
+.gal-h{font-size:clamp(26px,3.2vw,36px);line-height:1.14;color:#fff;font-weight:600}
+.gal-cap{margin-top:10px;color:var(--muted);font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-size:17px}
+.gal--solo{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+.gal--solo .gal-txt{align-self:center}
+@media(max-width:760px){
+  .figs{padding:26px 0 22px}
+  .gal,.gal--solo{grid-template-columns:1fr;gap:20px}
+  .gal+.gal{margin-top:44px}
+  .gal-side{gap:20px}
+  /* /!\ `width:100%` obligatoire : des marges auto sur un enfant de grille
+     annulent le `stretch` -> la <picture> passerait en fit-content et
+     s'effondrerait a quelques pixels tant que l'image n'est pas decodee
+     (meme piege que les slides des carrousels). */
+  .gal-portrait{width:100%;max-width:420px;margin-left:auto;margin-right:auto}
+}
 
 .note{margin-top:40px;background:rgba(255,255,255,.03);border:1px dashed var(--line);border-radius:14px;padding:24px 26px;color:var(--muted);max-width:820px}
 .note a{text-decoration:underline;text-underline-offset:4px;font-weight:500}
@@ -130,12 +159,6 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 
 
 /* ===== AGENDA DU NID ===== */
-.soiree-fig{padding:8px 0 4px}
-.soiree-fig picture{display:block}
-.soiree-fig img{width:100%;height:auto;display:block;border-radius:16px;
-  border:1px solid rgba(216,178,90,.22);box-shadow:0 18px 60px rgba(0,0,0,.45)}
-.soiree-cap{margin-top:12px;text-align:center;color:var(--muted);font-family:'Cormorant Garamond',Georgia,serif;
-  font-style:italic;font-size:17px}
 .agenda{background:linear-gradient(180deg,var(--night),#0b0c1e)}
 .ag-legend{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:26px}
 /* --- encart abonnement calendrier --- */
@@ -376,16 +399,85 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 
 <div class="divider"></div>
 
-<section class="soiree-fig"><div class="wrap">
-  <picture>
-    <source type="image/webp" sizes="(max-width:900px) 100vw, 1100px"
-      srcset="/img/le-nid/soiree-au-nid-480.webp 480w, /img/le-nid/soiree-au-nid-900.webp 900w, /img/le-nid/soiree-au-nid-1400.webp 1400w, /img/le-nid/soiree-au-nid-2000.webp 2000w">
-    <img src="/img/le-nid/soiree-au-nid-1400.jpg" sizes="(max-width:900px) 100vw, 1100px"
-      srcset="/img/le-nid/soiree-au-nid-480.jpg 480w, /img/le-nid/soiree-au-nid-900.jpg 900w, /img/le-nid/soiree-au-nid-1400.jpg 1400w, /img/le-nid/soiree-au-nid-2000.jpg 2000w"
-      width="2796" height="1290" loading="lazy" decoding="async"
-      alt="Une soiree au Nid : le public assis au sol devant un rideau de guirlandes lumineuses, deux musiciennes et des bougies">
-  </picture>
-  <div class="soiree-cap">Une soirée au Nid — musique live, bougies et petit comité.</div>
+<section class="figs"><div class="wrap">
+
+  <div class="gal" id="fig-mensuel">
+    <div class="gal-main">
+      <picture>
+        <source type="image/webp" sizes="(max-width:760px) 100vw, 590px"
+          srcset="/img/le-nid/soiree-au-nid-480.webp 480w, /img/le-nid/soiree-au-nid-900.webp 900w, /img/le-nid/soiree-au-nid-1400.webp 1400w, /img/le-nid/soiree-au-nid-2000.webp 2000w">
+        <img src="/img/le-nid/soiree-au-nid-1400.jpg" sizes="(max-width:760px) 100vw, 590px"
+          srcset="/img/le-nid/soiree-au-nid-480.jpg 480w, /img/le-nid/soiree-au-nid-900.jpg 900w, /img/le-nid/soiree-au-nid-1400.jpg 1400w, /img/le-nid/soiree-au-nid-2000.jpg 2000w"
+          width="2796" height="1290" loading="lazy" decoding="async"
+          alt="Une soiree au Nid : le public assis au sol devant un rideau de guirlandes lumineuses, deux musiciennes et des bougies">
+      </picture>
+      <div class="gal-txt">
+        <h2 class="gal-h">Rendez-vous mensuels au Nid</h2>
+        <div class="gal-cap">Une soirée au Nid — musique live, bougies et petit comité.</div>
+      </div>
+    </div>
+    <div class="gal-side">
+      <picture class="gal-portrait">
+        <source type="image/webp" sizes="(max-width:760px) min(100vw,420px), 380px"
+          srcset="/img/le-nid/soiree-mensuel-2-480.webp 480w, /img/le-nid/soiree-mensuel-2-900.webp 900w, /img/le-nid/soiree-mensuel-2-1400.webp 1400w">
+        <img src="/img/le-nid/soiree-mensuel-2-900.jpg" sizes="(max-width:760px) min(100vw,420px), 380px"
+          srcset="/img/le-nid/soiree-mensuel-2-480.jpg 480w, /img/le-nid/soiree-mensuel-2-900.jpg 900w, /img/le-nid/soiree-mensuel-2-1400.jpg 1400w"
+          width="1500" height="2000" loading="lazy" decoding="async"
+          alt="Deux musiciens assis au sol jouent de la calebasse devant un mur de guirlandes lumineuses et un mandala lumineux, une lampe à flamme posée entre eux">
+      </picture>
+    </div>
+  </div>
+
+  <div class="gal" id="fig-yoga">
+    <div class="gal-main">
+      <picture>
+        <source type="image/webp" sizes="(max-width:760px) 100vw, 590px"
+          srcset="/img/le-nid/atelier-yoga-3-480.webp 480w, /img/le-nid/atelier-yoga-3-900.webp 900w, /img/le-nid/atelier-yoga-3-1400.webp 1400w, /img/le-nid/atelier-yoga-3-2000.webp 2000w">
+        <img src="/img/le-nid/atelier-yoga-3-1400.jpg" sizes="(max-width:760px) 100vw, 590px"
+          srcset="/img/le-nid/atelier-yoga-3-480.jpg 480w, /img/le-nid/atelier-yoga-3-900.jpg 900w, /img/le-nid/atelier-yoga-3-1400.jpg 1400w, /img/le-nid/atelier-yoga-3-2000.jpg 2000w"
+          width="4192" height="2358" loading="lazy" decoding="async"
+          alt="Atelier de yoga au Nid : un groupe assis en méditation sur des tapis colorés, face à l’intervenante, dans une grande pièce mansardée aux fenêtres claires et aux plantes">
+      </picture>
+      <div class="gal-txt">
+        <h2 class="gal-h">Atelier de yoga</h2>
+      </div>
+    </div>
+    <div class="gal-side">
+      <picture>
+        <source type="image/webp" sizes="(max-width:760px) 100vw, 380px"
+          srcset="/img/le-nid/atelier-yoga-480.webp 480w, /img/le-nid/atelier-yoga-900.webp 900w, /img/le-nid/atelier-yoga-1400.webp 1400w">
+        <img src="/img/le-nid/atelier-yoga-900.jpg" sizes="(max-width:760px) 100vw, 380px"
+          srcset="/img/le-nid/atelier-yoga-480.jpg 480w, /img/le-nid/atelier-yoga-900.jpg 900w, /img/le-nid/atelier-yoga-1400.jpg 1400w"
+          width="4032" height="2268" loading="lazy" decoding="async"
+          alt="Plusieurs personnes assises jambes croisées sur des tapis de yoga verts et rouges, avec bolsters et briques, dans la grande pièce mansardée au parquet ancien">
+      </picture>
+      <picture>
+        <source type="image/webp" sizes="(max-width:760px) 100vw, 380px"
+          srcset="/img/le-nid/atelier-yoga-2-480.webp 480w, /img/le-nid/atelier-yoga-2-900.webp 900w, /img/le-nid/atelier-yoga-2-1400.webp 1400w, /img/le-nid/atelier-yoga-2-2000.webp 2000w">
+        <img src="/img/le-nid/atelier-yoga-2-900.jpg" sizes="(max-width:760px) 100vw, 380px"
+          srcset="/img/le-nid/atelier-yoga-2-480.jpg 480w, /img/le-nid/atelier-yoga-2-900.jpg 900w, /img/le-nid/atelier-yoga-2-1400.jpg 1400w, /img/le-nid/atelier-yoga-2-2000.jpg 2000w"
+          width="4032" height="2268" loading="lazy" decoding="async"
+          alt="La salle du Nid avant un atelier : des tapis de yoga colorés et des coussins disposés sur le parquet, un rideau de guirlandes lumineuses et des plantes">
+      </picture>
+    </div>
+  </div>
+
+  <div class="gal gal--solo" id="fig-calebasse">
+    <div class="gal-main">
+      <picture>
+        <source type="image/webp" sizes="(max-width:760px) 100vw, 555px"
+          srcset="/img/le-nid/workshop-calebasse-480.webp 480w, /img/le-nid/workshop-calebasse-900.webp 900w">
+        <img src="/img/le-nid/workshop-calebasse-900.jpg" sizes="(max-width:760px) 100vw, 555px"
+          srcset="/img/le-nid/workshop-calebasse-480.jpg 480w, /img/le-nid/workshop-calebasse-900.jpg 900w"
+          width="1151" height="647" loading="lazy" decoding="async"
+          alt="Workshop rythme à la calebasse : une dizaine de personnes assises en cercle au sol autour de calebasses, dans la pièce mansardée du Nid">
+      </picture>
+    </div>
+    <div class="gal-txt">
+      <h2 class="gal-h">Workshop rythme à la calebasse</h2>
+    </div>
+  </div>
+
 </div></section>
 
 <div class="divider"></div>
