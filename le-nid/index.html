@@ -116,6 +116,30 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 /* ===== AGENDA DU NID ===== */
 .agenda{background:linear-gradient(180deg,var(--night),#0b0c1e)}
 .ag-legend{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:26px}
+/* --- encart abonnement calendrier --- */
+.ag-sub{display:grid;grid-template-columns:1fr auto;gap:22px 34px;align-items:center;margin-top:28px;
+  background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));
+  border:1px solid rgba(216,178,90,.34);border-radius:16px;padding:24px 28px}
+.ag-sub-kick{display:block;color:var(--gold);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;font-weight:600}
+.ag-sub h3{margin:7px 0 12px;font-family:'Cormorant Garamond',Georgia,serif;font-size:25px;
+  color:#fff;font-weight:600;line-height:1.25}
+.ag-sub ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.ag-sub li{position:relative;padding-left:18px;color:#d3d0e8;font-size:14.5px;line-height:1.55}
+.ag-sub li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;
+  border-radius:50%;background:var(--gold)}
+.ag-sub-act{display:flex;flex-direction:column;align-items:stretch;gap:10px;text-align:center;min-width:212px}
+.ag-sub-btn{white-space:nowrap}
+.ag-sub-alt{color:var(--gold2);font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.ag-sub-note{color:var(--muted);font-size:12.5px}
+@media(max-width:760px){
+  .ag-sub{grid-template-columns:1fr;padding:20px 18px;gap:18px}
+  .ag-sub h3{font-size:22px}
+  .ag-sub-act{min-width:0}
+  .ag-sub-btn{padding:14px 18px;white-space:normal}
+}
+.ag-leg{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:13px}
+.ag-leg i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
 .ag-leg{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:13px}
 .ag-leg i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
 .ag-month{margin-top:40px;margin-bottom:12px;color:var(--gold);font-family:'Cormorant Garamond',Georgia,serif;
@@ -320,6 +344,23 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   <div class="kick">L’agenda</div>
   <h2 class="sec-title">Les prochaines dates</h2>
   <p class="lead">Rendez-vous mensuels, concerts, ateliers et workshops — au Nid, 29 rue des Orteaux, Paris 20<sup>e</sup>.</p>
+  <div class="ag-sub">
+    <div class="ag-sub-txt">
+      <span class="ag-sub-kick">Le plus simple</span>
+      <h3>Recevez toutes les dates du Nid dans votre agenda</h3>
+      <ul>
+        <li>Toutes les dates du Nid apparaissent directement dans votre agenda personnel.</li>
+        <li>Les nouvelles dates et les changements d’horaire s’y ajoutent tout seuls : vous n’avez plus besoin de revenir sur le site.</li>
+        <li>Vous réglez vos rappels une seule fois — la veille et 2 h avant — et ils s’appliquent à toutes les dates.</li>
+        <li>Vous pouvez vous désabonner quand vous le souhaitez.</li>
+      </ul>
+    </div>
+    <div class="ag-sub-act">
+      <a class="btn ag-sub-btn" href="https://calendar.google.com/calendar/u/0?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1ZWIwNjA3ZTViMzNmZDUzM2I5ODRkZjJkZjYxZmU5NTE4YWIzMmVhZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener">S’abonner avec Google Agenda</a>
+      <a class="ag-sub-alt" href="webcal://calendar.google.com/calendar/ical/30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae%40group.calendar.google.com/public/basic.ics">Apple Calendrier, Outlook ou autre</a>
+      <span class="ag-sub-note">Gratuit, sans inscription.</span>
+    </div>
+  </div>
   <div class="ag-legend"><span class="ag-leg"><i style="background:#d8b25a"></i>Rendez-vous mensuel</span><span class="ag-leg"><i style="background:#e08a5f"></i>Concert</span><span class="ag-leg"><i style="background:#7fb2a3"></i>Atelier yoga</span><span class="ag-leg"><i style="background:#8f7ad1"></i>Workshop rythme</span><span class="ag-leg"><i style="background:#6f9bd1"></i>Showcase</span><span class="ag-leg"><i style="background:#c98fb0"></i>Sortie de résidence</span></div>
   <div class="ag-filters" aria-label="Filtrer l’agenda">
     <div class="ag-frow"><span class="ag-flab">Type</span><button class="ag-f is-on" type="button" data-f="type" data-v="">Tous</button><button class="ag-f" type="button" data-f="type" data-v="mensuel" style="--c:#d8b25a">Rendez-vous mensuel</button><button class="ag-f" type="button" data-f="type" data-v="concert" style="--c:#e08a5f">Concert</button><button class="ag-f" type="button" data-f="type" data-v="yoga" style="--c:#7fb2a3">Atelier yoga</button><button class="ag-f" type="button" data-f="type" data-v="rythme" style="--c:#8f7ad1">Workshop rythme</button><button class="ag-f" type="button" data-f="type" data-v="showcase" style="--c:#6f9bd1">Showcase</button><button class="ag-f" type="button" data-f="type" data-v="residence" style="--c:#c98fb0">Sortie de résidence</button></div>
@@ -378,7 +419,6 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   </div>
   <div class="ag-foot">
     <button class="btn ag-all" type="button">↓ Ajouter toutes les dates à mon agenda</button>
-    <a class="btn ghost" href="https://calendar.google.com/calendar/u/0?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1ZWIwNjA3ZTViMzNmZDUzM2I5ODRkZjJkZjYxZmU5NTE4YWIzMmVhZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener">↗ S’abonner au calendrier Google</a>
     <a class="btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20réservation">Réserver une place</a>
   </div>
   <p class="ag-tip">« + Google Agenda » ajoute la date directement dans votre Google Agenda (pratique sur smartphone). « + .ics » télécharge un fichier compatible Apple Calendrier, Outlook et Google Agenda, avec deux rappels automatiques (la veille et 2 h avant).</p>

@@ -10,6 +10,9 @@ import urllib.parse
 CAL_ID = '30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae@group.calendar.google.com'
 CAL_SUB = ('https://calendar.google.com/calendar/u/0?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1'
            'ZWIwNjA3ZTViMzNmZDUzM2I5ODRkZjJkZjYxZmU5NTE4YWIzMmVhZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t')
+# Flux iCal public du meme calendrier (Apple Calendrier, Outlook, Thunderbird...)
+CAL_WEBCAL = ('webcal://calendar.google.com/calendar/ical/'
+              + urllib.parse.quote(CAL_ID, safe='') + '/public/basic.ics')
 
 # (date ISO, heure debut, heure fin, type, titre, note)
 EVENTS = [
@@ -121,6 +124,30 @@ def gcal_url(titre, start_utc, end_utc, typ, url):
     return 'https://calendar.google.com/calendar/render?' + q
 
 
+# --- encart d'abonnement au calendrier (en tete de l'agenda) ---
+SUB_BLOCK = (
+    '  <div class="ag-sub">\n'
+    '    <div class="ag-sub-txt">\n'
+    '      <span class="ag-sub-kick">Le plus simple</span>\n'
+    '      <h3>Recevez toutes les dates du Nid dans votre agenda</h3>\n'
+    '      <ul>\n'
+    '        <li>Toutes les dates du Nid apparaissent directement dans votre agenda personnel.</li>\n'
+    '        <li>Les nouvelles dates et les changements d’horaire s’y ajoutent tout seuls : '
+    'vous n’avez plus besoin de revenir sur le site.</li>\n'
+    '        <li>Vous réglez vos rappels une seule fois — la veille et 2 h avant — '
+    'et ils s’appliquent à toutes les dates.</li>\n'
+    '        <li>Vous pouvez vous désabonner quand vous le souhaitez.</li>\n'
+    '      </ul>\n'
+    '    </div>\n'
+    '    <div class="ag-sub-act">\n'
+    f'      <a class="btn ag-sub-btn" href="{CAL_SUB}" target="_blank" rel="noopener">'
+    'S’abonner avec Google Agenda</a>\n'
+    f'      <a class="ag-sub-alt" href="{CAL_WEBCAL}">Apple Calendrier, Outlook ou autre</a>\n'
+    '      <span class="ag-sub-note">Gratuit, sans inscription.</span>\n'
+    '    </div>\n'
+    '  </div>')
+
+
 def build():
     # regroupement par mois, dans l'ordre chronologique
     groupes = []
@@ -152,6 +179,7 @@ def build():
            '  <div class="kick">L’agenda</div>',
            '  <h2 class="sec-title">Les prochaines dates</h2>',
            '  <p class="lead">Rendez-vous mensuels, concerts, ateliers et workshops — au Nid, 29 rue des Orteaux, Paris 20<sup>e</sup>.</p>',
+           SUB_BLOCK,
            f'  <div class="ag-legend">{leg}</div>',
            '  <div class="ag-filters" aria-label="Filtrer l’agenda">',
            '    <div class="ag-frow"><span class="ag-flab">Type</span>'
@@ -211,7 +239,6 @@ def build():
         '  </div>',
         '  <div class="ag-foot">',
         '    <button class="btn ag-all" type="button">↓ Ajouter toutes les dates à mon agenda</button>',
-        f'    <a class="btn ghost" href="{CAL_SUB}" target="_blank" rel="noopener">↗ S’abonner au calendrier Google</a>',
         '    <a class="btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20réservation">Réserver une place</a>',
         '  </div>',
         '  <p class="ag-tip">« + Google Agenda » ajoute la date directement dans votre Google Agenda '
@@ -225,6 +252,28 @@ CSS = """
 /* ===== AGENDA DU NID ===== */
 .agenda{background:linear-gradient(180deg,var(--night),#0b0c1e)}
 .ag-legend{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:26px}
+/* --- encart abonnement calendrier --- */
+.ag-sub{display:grid;grid-template-columns:1fr auto;gap:22px 34px;align-items:center;margin-top:28px;
+  background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));
+  border:1px solid rgba(216,178,90,.34);border-radius:16px;padding:24px 28px}
+.ag-sub-kick{display:block;color:var(--gold);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;font-weight:600}
+.ag-sub h3{margin:7px 0 12px;font-family:'Cormorant Garamond',Georgia,serif;font-size:25px;
+  color:#fff;font-weight:600;line-height:1.25}
+.ag-sub ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.ag-sub li{position:relative;padding-left:18px;color:#d3d0e8;font-size:14.5px;line-height:1.55}
+.ag-sub li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;
+  border-radius:50%;background:var(--gold)}
+.ag-sub-act{display:flex;flex-direction:column;align-items:stretch;gap:10px;text-align:center;min-width:212px}
+.ag-sub-btn{white-space:nowrap}
+.ag-sub-alt{color:var(--gold2);font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.ag-sub-note{color:var(--muted);font-size:12.5px}
+@media(max-width:760px){
+  .ag-sub{grid-template-columns:1fr;padding:20px 18px;gap:18px}
+  .ag-sub h3{font-size:22px}
+  .ag-sub-act{min-width:0}
+  .ag-sub-btn{padding:14px 18px;white-space:normal}
+}
 .ag-leg{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:13px}
 .ag-leg i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
 .ag-month{margin-top:40px;margin-bottom:12px;color:var(--gold);font-family:'Cormorant Garamond',Georgia,serif;
