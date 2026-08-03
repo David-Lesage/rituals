@@ -32,7 +32,17 @@ a{color:var(--gold2)}
 .nav .links a:hover{color:var(--gold2)}
 @media(max-width:700px){.nav .links a.hide-s{display:none}}
 
-.hero{min-height:78vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:150px 24px 100px;position:relative;overflow:hidden;
+/* photo de fond du hero (Le Nid) + voile de lisibilite */
+.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 58%;display:block}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(760px 500px at 50% 46%,rgba(14,15,36,.66),rgba(14,15,36,.20) 72%,transparent 88%),
+             linear-gradient(to bottom,rgba(14,15,36,.60),rgba(14,15,36,.40) 45%,rgba(14,15,36,.82))}
+/* lisibilite du texte par-dessus la photo */
+.hero .kick,.hero .sub{text-shadow:0 2px 14px rgba(8,9,26,.85)}
+.hero .tag{text-shadow:0 2px 12px rgba(8,9,26,.9),0 0 30px rgba(8,9,26,.7)}
+@media(max-width:700px){.hero-bg img{object-position:52% 62%}}
+min-height:78vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:150px 24px 100px;position:relative;overflow:hidden;
 background:radial-gradient(1100px 700px at 50% -8%,rgba(143,122,209,.30),transparent 60%),radial-gradient(900px 600px at 85% 110%,rgba(216,178,90,.16),transparent 60%),radial-gradient(700px 500px at 12% 90%,rgba(90,75,138,.30),transparent 60%),var(--night)}
 .hero .inner{position:relative;z-index:2}
 .hero .kick{color:var(--gold2)}
@@ -174,6 +184,14 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 </nav>
 
 <header class="hero">
+  <picture class="hero-bg">
+    <source type="image/webp" sizes="100vw"
+      srcset="/img/le-nid/hero-nid-800.webp 800w, /img/le-nid/hero-nid-1200.webp 1200w, /img/le-nid/hero-nid-1800.webp 1800w, /img/le-nid/hero-nid-2400.webp 2400w">
+    <img src="/img/le-nid/hero-nid-1200.jpg" sizes="100vw"
+      srcset="/img/le-nid/hero-nid-800.jpg 800w, /img/le-nid/hero-nid-1200.jpg 1200w, /img/le-nid/hero-nid-1800.jpg 1800w, /img/le-nid/hero-nid-2400.jpg 2400w"
+      width="4032" height="2268" fetchpriority="high" decoding="async"
+      alt="Le salon du Nid : cercle de sièges bas autour d'un tapis, handpans et bols au premier plan, grandes verrières">
+  </picture>
   <div class="inner">
     <div class="kick">Paris 20<sup>e</sup> · Lieu</div>
     <h1>Le Nid</h1>
