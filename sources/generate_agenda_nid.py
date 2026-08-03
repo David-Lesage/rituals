@@ -92,6 +92,51 @@ TYPES = {
     'residence': ('Sortie de résidence', '#c98fb0', MAILTO,   'Réserver'),
 }
 
+# ---------------------------------------------------------------------------
+# SURCHARGE DU LIEN DE RESERVATION, EVENEMENT PAR EVENEMENT
+# ---------------------------------------------------------------------------
+# Par defaut, le lien de reservation vient du TYPE (dict TYPES ci-dessus) :
+# tous les concerts partagent le meme lien, tous les ateliers yoga le meme, etc.
+# Mais deux evenements du MEME type peuvent avoir des billetteries differentes.
+# On les surcharge ici, en indexant par (date ISO, heure de debut) — la paire
+# qui identifie un evenement de facon unique dans EVENTS.
+#
+# Valeur acceptee : soit une URL seule (le libelle du bouton reste celui du type),
+# soit un couple (url, libelle_du_bouton) pour changer aussi le texte du bouton.
+#
+# La surcharge se propage automatiquement PARTOUT : bouton « Reserver » de la
+# ligne d'agenda, ligne « Reservation : … » de la description du lien
+# « + Google Agenda » (DESCR_FR) et description embarquee dans le .ics.
+#
+# Billetterie HelloAsso des concerts de David Lesage EN SOLO (uniquement).
+CONCERT_SOLO = ('https://www.helloasso.com/associations/resonances-productions/'
+                'evenements/concert-intimiste-david-lesage-au-coeur-de-paris-1')
+URL_PAR_EVENT = {
+    ('2026-10-10', '19:00'): CONCERT_SOLO,   # Concert — David Lesage solo
+    ('2026-11-28', '18:00'): CONCERT_SOLO,   # Concert — David Lesage solo
+    # A COMPLETER quand David fournira les liens :
+    #   ('2026-09-26', '20:00'): '…'  # Concert du trio (David, Iris & Julien) :
+    #       ce n'est PAS l'evenement HelloAsso du concert solo. En attendant, il
+    #       garde le lien par defaut du type 'concert'.
+    #   workshops rythme a la calebasse (20/09, 17/10, 15/11) : billetterie
+    #       HelloAsso a creer ; ils restent sur le mailto pour l'instant.
+}
+
+
+def reservation(iso, h1, typ):
+    """Retourne (url, libelle_du_bouton) pour un evenement donne.
+
+    Surcharge par evenement si elle existe (URL_PAR_EVENT), sinon valeur du type.
+    """
+    _lab, _col, url, btn = TYPES[typ]
+    over = URL_PAR_EVENT.get((iso, h1))
+    if isinstance(over, tuple):
+        url, btn = over
+    elif over:
+        url = over
+    return url, btn
+
+
 JOURS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche']
 MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
         'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
@@ -159,7 +204,8 @@ def build():
         cle = (d.year, d.month)
         if not groupes or groupes[-1][0] != cle:
             groupes.append((cle, []))
-        groupes[-1][1].append((d, h1, h2, typ, titre, note))
+        # on garde iso : c'est la cle (avec l'heure) de la surcharge de billetterie
+        groupes[-1][1].append((iso, d, h1, h2, typ, titre, note))
 
     # legende
     leg = ''.join(
@@ -199,8 +245,10 @@ def build():
         out.append(f'  <div class="ag-group" data-mois="{an:04d}-{mois:02d}">')
         out.append(f'  <div class="ag-month">{MOIS[mois-1]} {an}</div>')
         out.append('  <div class="ag-list">')
-        for d, h1, h2, typ, titre, note in evs:
-            lab, col, url, btn = TYPES[typ]
+        for iso, d, h1, h2, typ, titre, note in evs:
+            lab, col = TYPES[typ][0], TYPES[typ][1]
+            # lien de reservation : surcharge par evenement, sinon defaut du type
+            url, btn = reservation(iso, h1, typ)
             ext = ' target="_blank" rel="noopener"' if url.startswith('http') else ''
             jour = JOURS[d.weekday()]
             # heure de Paris -> UTC (heure d'ete jusqu'au dernier dimanche d'octobre)
