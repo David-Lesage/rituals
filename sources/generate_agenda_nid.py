@@ -114,10 +114,11 @@ CONCERT_SOLO = ('https://www.helloasso.com/associations/resonances-productions/'
 URL_PAR_EVENT = {
     ('2026-10-10', '19:00'): CONCERT_SOLO,   # Concert — David Lesage solo
     ('2026-11-28', '18:00'): CONCERT_SOLO,   # Concert — David Lesage solo
+    # Verifie sur la billetterie HelloAsso le 04/08 : elle vend bien TROIS dates
+    # (26 septembre / 10 octobre / 28 novembre), toutes au Nid. Le concert du
+    # 26/09 y est donc inclus, meme s'il est annonce en trio sur le site.
+    ('2026-09-26', '20:00'): CONCERT_SOLO,   # Concert — David, Iris & Julien
     # A COMPLETER quand David fournira les liens :
-    #   ('2026-09-26', '20:00'): '…'  # Concert du trio (David, Iris & Julien) :
-    #       ce n'est PAS l'evenement HelloAsso du concert solo. En attendant, il
-    #       garde le lien par defaut du type 'concert'.
     #   workshops rythme a la calebasse (20/09, 17/10, 15/11) : billetterie
     #       HelloAsso a creer ; ils restent sur le mailto pour l'instant.
 }
