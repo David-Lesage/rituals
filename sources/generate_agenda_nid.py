@@ -8,7 +8,7 @@ import datetime as dt
 import urllib.parse
 
 CAL_ID = '30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae@group.calendar.google.com'
-CAL_SUB = ('https://calendar.google.com/calendar/u/0?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1'
+CAL_SUB = ('https://calendar.google.com/calendar/r?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1'
            'ZWIwNjA3ZTViMzNmZDUzM2I5ODRkZjJkZjYxZmU5NTE4YWIzMmVhZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t')
 # Flux iCal public du meme calendrier (Apple Calendrier, Outlook, Thunderbird...)
 CAL_WEBCAL = ('webcal://calendar.google.com/calendar/ical/'
