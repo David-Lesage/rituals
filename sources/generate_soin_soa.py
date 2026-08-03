@@ -40,7 +40,12 @@ Usage :
 
 2) Ajouter une entree dans SOA_PHOTOS ci-dessous (base = nom sans la largeur,
    widths = les largeurs reellement generees, w/h = dimensions de l'original).
-3) La glisser dans SOA_GALERIE (ou l'appeler par son nom dans le HTML).
+3) La glisser dans SOA_GALERIE (ou l'appeler par son nom dans le HTML) :
+   - vignette carree de la galerie  -> ajouter la cle a SOA_GALERIE
+   - figure large dans le fil du texte -> soa_fig('ma-cle', '...', cls='soa-fig soa-wide')
+   - portrait d'un intervenant (medaillon rond) -> generer un carre (128 + 232 px),
+     puis mettre la cle en 5e position de la ligne correspondante de SOA_EQUIPE
+     (chaine vide = carte sans photo). L'alt d'un portrait = le nom de la personne.
 --------------------------------------------------------------------------
 """
 import os
@@ -101,6 +106,18 @@ b{color:#fff;font-weight:500}
 .soa-who h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;color:#fff;font-weight:600;margin:6px 0 2px}
 .soa-who .role{color:var(--gold2);font-size:13.5px;font-style:italic;margin-bottom:9px}
 .soa-who p{color:var(--muted);font-size:15px;margin:0}
+/* portrait de chaque intervenant : medaillon rond a cote de sa presentation,
+   empile au-dessus du texte sous 560 px (lisibilite a 390 px) */
+.who-head{display:flex;align-items:center;gap:16px;margin:12px 0 0}
+.who-txt{min-width:0}
+.who-ph{display:block;flex:0 0 auto;width:92px;height:92px;border-radius:50%;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.38);background:var(--night2)}
+.who-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.soa-who .who-head h3{margin:0}
+.soa-who .who-head .role{margin:3px 0 0}
+.soa-who .who-head+p{margin-top:14px}
+@media(max-width:560px){.who-head{flex-direction:column;align-items:flex-start;gap:13px}.who-ph{width:104px;height:104px}}
+/* figure large dans le fil du texte (meme colonne que les paragraphes) */
+.soa-wide{max-width:820px;margin-top:26px}
 /* encadres de cadrage (statut de l'evenement, limites) */
 .soa-note{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:19px 22px;margin-top:22px;max-width:820px}
 .soa-note p{color:#d7d4ea;font-size:15.5px;margin:0;line-height:1.7}
@@ -150,6 +167,19 @@ footer a:hover{color:var(--gold2)}
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
 .legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:13px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:60px 0}}
+/* --- lisibilite des liens (demande de David : liens et dates trop petits) ---
+   Ce bloc doit rester EN DERNIER : il surcharge les tailles ci-dessus. */
+.jo a{font-size:15px;display:inline-block;padding:6px 0;text-decoration:underline;
+  text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px}
+.jo a:hover{text-decoration-color:var(--gold2)}
+footer p,footer a{font-size:16px}
+footer a{padding:13px 0}
+footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.35);
+  text-underline-offset:3px}
+.nav .links a{font-size:14.5px}
+.nav .links a.adh{font-size:15px}
+p a:not(.btn):not(.adh){text-decoration:underline;
+  text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 """
 
 IMGDIR = '/img/soin-soa'
@@ -166,6 +196,16 @@ SOA_PHOTOS = {
  'facade': dict(base='facade-le-nid', widths=[480, 600], w=600, h=450,
    alt='Façade vitrée du Nid, ancien atelier d’artiste sur trois niveaux, vue depuis la cour pavée plantée.',
    cap='Le Nid — un ancien atelier d’artiste, dans une cour pavée du 20ᵉ.'),
+ 'espace-corps': dict(base='espace-corps', widths=[480, 900, 1400], w=4032, h=2268,
+   alt='Espace de soin : une table de massage noire dressée près de la fenêtre et, au premier plan, une table de bois où sont alignés plusieurs jeux de diapasons thérapeutiques, à côté d’un grand cristal de quartz.',
+   cap='L’Espace Corps — la table de soin, les diapasons et les cristaux.'),
+ # Portraits des intervenants (medaillons ronds) : carres, deux largeurs.
+ 'portrait-gaia': dict(base='portrait-gaia-pegourie', widths=[128, 232], w=232, h=232,
+   alt='Gaïa Pégourié', cap=''),
+ 'portrait-iris': dict(base='portrait-iris-chasles', widths=[128, 232], w=232, h=232,
+   alt='Iris Chasles', cap=''),
+ 'portrait-david': dict(base='portrait-david-lesage', widths=[128, 232], w=232, h=232,
+   alt='David Lesage', cap=''),
 }
 SOA_GALERIE = ['trois-soins', 'cercle', 'facade']
 
@@ -184,19 +224,35 @@ def soa_fig(key, sizes, cls='soa-fig', lazy=True):
             f'</picture>{cap}</figure>')
 
 
+def soa_portrait(key, sizes='(max-width:560px) 104px, 92px'):
+    """Medaillon rond d'un intervenant (pas de figcaption : l'alt = le nom)."""
+    p = SOA_PHOTOS[key]; ws = p['widths']; big = ws[-1]
+    webp = ', '.join(f'{IMGDIR}/{p["base"]}-{w}.webp {w}w' for w in ws)
+    jpg = ', '.join(f'{IMGDIR}/{p["base"]}-{w}.jpg {w}w' for w in ws)
+    return (f'<picture class="who-ph">'
+            f'<source type="image/webp" srcset="{webp}" sizes="{sizes}">'
+            f'<img src="{IMGDIR}/{p["base"]}-{big}.jpg" srcset="{jpg}" sizes="{sizes}"'
+            f' width="{big}" height="{big}" loading="lazy" decoding="async" alt="{p["alt"]}">'
+            f'</picture>')
+
+
 def soa_galerie():
     return '<div class="soa-gal">' + ''.join(
         soa_fig(k, '(max-width:700px) 92vw, (max-width:1080px) 46vw, 340px') for k in SOA_GALERIE) + '</div>'
 
 
-# (discipline, nom, qualite / rattachement, biographie)
+# (discipline, nom, qualite / rattachement, biographie, cle du portrait)
+# La cle du portrait renvoie a SOA_PHOTOS ; mettre '' pour une carte sans photo.
 SOA_EQUIPE = [
  ('Toucher thérapeutique', 'Gaïa Pégourié', 'Intervenante invitée',
-  'Experte du toucher thérapeutique et formée au bio-décodage, elle accompagne la libération des mémoires corporelles. Son approche relie le corps et les émotions pour révéler leur langage profond, et met en lumière ce que le corps exprime en silence.'),
+  'Experte du toucher thérapeutique et formée au bio-décodage, elle accompagne la libération des mémoires corporelles. Son approche relie le corps et les émotions pour révéler leur langage profond, et met en lumière ce que le corps exprime en silence.',
+  'portrait-gaia'),
  ('Intelligence relationnelle', 'Iris Chasles', 'Co-fondatrice de Résonances Productions',
-  'Psychopraticienne à Paris, formée en Intelligence Relationnelle® et en psychopathologie. Son travail porte sur les traumas et les mémoires engrammées, avec une approche neurobiologique de la régulation du système nerveux.'),
+  'Psychopraticienne à Paris, formée en Intelligence Relationnelle® et en psychopathologie. Son travail porte sur les traumas et les mémoires engrammées, avec une approche neurobiologique de la régulation du système nerveux.',
+  'portrait-iris'),
  ('Alchimie vocale & musique vivante', 'David Lesage', 'Co-fondateur de Résonances Productions',
-  'Improvisateur formé au jazz et au conservatoire, il utilise la voix comme outil de transformation. Avec ses instruments vibratoires — handpan, harpe africaine, tambour chamanique, bols de cristal et d’or — il façonne en temps réel un espace sonore sur-mesure.'),
+  'Improvisateur formé au jazz et au conservatoire, il utilise la voix comme outil de transformation. Avec ses instruments vibratoires — handpan, harpe africaine, tambour chamanique, bols de cristal et d’or — il façonne en temps réel un espace sonore sur-mesure.',
+  'portrait-david'),
 ]
 SOA_PERMET = [
  'Libérer des blocages profonds, physiques ou émotionnels.',
@@ -253,10 +309,14 @@ def soa_ul(items, cls='soa-list'):
 
 
 def soa_equipe():
-    return '<div class="soa-cols">' + ''.join(
-        f'<div class="soa-who"><div class="t">{t}</div><h3>{n}</h3>'
-        f'<div class="role">{r}</div><p>{p}</p></div>'
-        for t, n, r, p in SOA_EQUIPE) + '</div>'
+    out = ''
+    for t, n, r, p, ph in SOA_EQUIPE:
+        med = soa_portrait(ph) if ph else ''
+        out += (f'<div class="soa-who"><div class="t">{t}</div>'
+                f'<div class="who-head">{med}'
+                f'<div class="who-txt"><h3>{n}</h3><div class="role">{r}</div></div>'
+                f'</div><p>{p}</p></div>')
+    return f'<div class="soa-cols">{out}</div>'
 
 
 def soa_prog():
@@ -309,20 +369,7 @@ HTML = f"""<!DOCTYPE html>
 <meta name="theme-color" content="#0e0f24">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>{CSS}
-/* --- lisibilite des liens (demande de David : liens et dates trop petits) --- */
-.jo a{font-size:15px;display:inline-block;padding:6px 0;text-decoration:underline;
-  text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px}
-.jo a:hover{text-decoration-color:var(--gold2)}
-footer p,footer a{font-size:16px}
-footer a{padding:13px 0}
-footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.35);
-  text-underline-offset:3px}
-.nav .links a{font-size:14.5px}
-.nav .links a.adh{font-size:15px}
-p a:not(.btn):not(.adh){text-decoration:underline;
-  text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
-</style>
+<style>{CSS}</style>
 </head>
 <body id="top">
 
@@ -398,6 +445,7 @@ p a:not(.btn):not(.adh){text-decoration:underline;
   <p><b>L’ouverture.</b> Chaque session débute par un cercle d’ouverture où nous sommes tous les trois présents à vos côtés. Par des chants, des paroles et des partages, nous posons un cadre de haute sécurité et de profondeur. C’est le moment où le groupe se lie et où l’espace du Nid devient un lieu entièrement dédié au travail.</p>
   <p><b>Vos trois soins individuels.</b> Chaque participant reçoit <b>trois séances individuelles d’une heure</b>, tout en restant baigné dans l’énergie du groupe. Les trois espaces du Nid sont activés simultanément :</p>
   {soa_ul(SOA_ESPACES)}
+  {soa_fig('espace-corps', '(max-width:880px) 92vw, 820px', cls='soa-fig soa-wide')}
   <p><b>Le rôle du groupe.</b> Lorsque vous n’êtes pas en soin individuel avec Gaïa ou Iris, vous rejoignez le cœur du cercle autour de David. <b>En soutien</b> : assis ou allongés, vous devenez les gardiens du cadre pour la personne qui reçoit le soin vibratoire — votre présence consciente renforce la sécurité de son processus. <b>En réception</b> : vous bénéficiez vous-même de l’infusion des sons (handpan, harpe, chants), un temps de repos profond et d’intégration par la vibration. Il ne se passe jamais « rien » : vous êtes en permanence porté par le processus.</p>
   {soa_galerie()}
 </div></section>
