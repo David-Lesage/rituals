@@ -257,7 +257,7 @@ CSS = """
 .ag-sub{display:grid;grid-template-columns:1fr auto;gap:22px 34px;align-items:center;margin-top:28px;
   background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));
   border:1px solid rgba(216,178,90,.34);border-radius:16px;padding:24px 28px}
-.ag-sub-kick{display:block;color:var(--gold);font-size:10.5px;letter-spacing:.16em;
+.ag-sub-kick{display:block;color:var(--gold);font-size:13px;letter-spacing:.16em;
   text-transform:uppercase;font-weight:600}
 .ag-sub h3{margin:7px 0 12px;font-family:'Cormorant Garamond',Georgia,serif;font-size:25px;
   color:#fff;font-weight:600;line-height:1.25}
@@ -268,7 +268,7 @@ CSS = """
 .ag-sub-act{display:flex;flex-direction:column;align-items:stretch;gap:10px;text-align:center;min-width:212px}
 .ag-sub-btn{white-space:nowrap}
 .ag-sub-alt{color:var(--gold2);font-size:13px;text-decoration:underline;text-underline-offset:3px}
-.ag-sub-note{color:var(--muted);font-size:12.5px}
+.ag-sub-note{color:var(--muted);font-size:13px}
 @media(max-width:760px){
   .ag-sub{grid-template-columns:1fr;padding:20px 18px;gap:18px}
   .ag-sub h3{font-size:22px}
@@ -284,11 +284,11 @@ CSS = """
 /* --- filtres : masques sans JS (tout reste visible), affiches par .ag-js --- */
 .ag-filters{display:none;flex-direction:column;gap:10px;margin-top:22px}
 .agenda.ag-js .ag-filters{display:flex}
-.ag-frow{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.ag-flab{color:var(--gold);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+.ag-frow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.ag-flab{color:var(--gold);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
   font-weight:600;margin-right:4px;min-width:44px}
 .ag-f{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);color:#d3d0e8;
-  border-radius:20px;padding:6px 13px;font-size:12.5px;cursor:pointer;font-family:inherit;
+  border-radius:22px;padding:6px 15px;min-height:44px;font-size:13px;cursor:pointer;font-family:inherit;
   text-transform:capitalize;transition:background .2s,color .2s,border-color .2s}
 .ag-f:hover{border-color:var(--c,var(--gold));color:#fff}
 .ag-f.is-on{background:var(--c,var(--gold));border-color:var(--c,var(--gold));color:#12121f;font-weight:600}
@@ -298,7 +298,7 @@ CSS = """
 .ag-item[hidden],.ag-group[hidden]{display:none}
 .ag-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:flex-end}
 .ag-gcal{display:inline-block;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);
-  color:#d3d0e8;border-radius:20px;padding:7px 14px;font-size:12.5px;text-decoration:none;
+  color:#d3d0e8;border-radius:20px;padding:7px 14px;font-size:13px;text-decoration:none;
   white-space:nowrap;transition:background .2s,color .2s,border-color .2s}
 .ag-gcal:hover{background:var(--gold);color:#1a1608;border-color:var(--gold)}
 .ag-item{display:grid;grid-template-columns:64px 1fr auto auto;align-items:center;gap:18px;
@@ -307,25 +307,25 @@ CSS = """
 .ag-item:hover{transform:translateX(3px);border-color:var(--line);border-left-color:var(--c)}
 .ag-date{text-align:center;line-height:1}
 .ag-d{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;color:#fff;font-weight:600}
-.ag-j{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-top:3px}
+.ag-j{display:block;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-top:3px}
 .ag-body h3{font-size:19px;color:#fff;font-weight:600;margin:3px 0 0;font-family:'Cormorant Garamond',Georgia,serif}
-.ag-type{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--c);font-weight:600}
+.ag-type{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--c);font-weight:600}
 .ag-note{display:block;color:var(--muted);font-size:13.5px;font-style:italic;margin-top:2px}
 .ag-hour{text-align:right;color:#d3d0e8;font-size:15px;white-space:nowrap}
-.ag-hour span{display:block;color:var(--muted);font-size:12px}
+.ag-hour span{display:block;color:var(--muted);font-size:13px}
 .ag-btn{display:inline-block;border:1px solid var(--c);color:var(--c);border-radius:20px;
-  padding:7px 15px;font-size:12.5px;text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
+  padding:7px 15px;font-size:13px;text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
 .ag-btn:hover{background:var(--c);color:#12121f}
 .ag-foot{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
 .ag-tip{color:var(--muted);font-size:13.5px;margin-top:16px;font-style:italic}
 .ag-cal{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);color:#d3d0e8;
-  border-radius:20px;padding:7px 14px;font-size:12.5px;cursor:pointer;white-space:nowrap;
+  border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer;white-space:nowrap;
   font-family:inherit;transition:background .2s,color .2s,border-color .2s}
 .ag-cal:hover{background:var(--gold);color:#1a1608;border-color:var(--gold)}
 .ag-access{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:40px}
 .ag-access>div{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:14px;
   padding:20px 22px;color:#d3d0e8;font-size:14.5px;line-height:1.6}
-.ag-access span{display:block;color:var(--gold);font-size:10.5px;letter-spacing:.16em;
+.ag-access span{display:block;color:var(--gold);font-size:13px;letter-spacing:.16em;
   text-transform:uppercase;font-weight:600;margin-bottom:8px}
 .ag-access i{color:var(--muted);font-size:13px}
 @media(max-width:640px){
@@ -518,8 +518,8 @@ if __name__ == '__main__':
 
     CSS_DATES = ('''
 .offer-dates{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);color:#d3d0e8;font-size:13.5px}
-.offer-dates span{display:block;color:var(--gold);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:4px}
-.offer-dates a{color:var(--gold2);font-size:12.5px;text-decoration:underline;text-underline-offset:2px}
+.offer-dates span{display:block;color:var(--gold);font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:4px}
+.offer-dates a{color:var(--gold2);font-size:13px;text-decoration:underline;text-underline-offset:2px}
 ''')
     html = html.replace('</style>', CSS_DATES + '</style>', 1)
     if 'ag-cal' in html and 'BEGIN:VCALENDAR' not in html:
