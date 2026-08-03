@@ -130,6 +130,12 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 
 
 /* ===== AGENDA DU NID ===== */
+.soiree-fig{padding:8px 0 4px}
+.soiree-fig picture{display:block}
+.soiree-fig img{width:100%;height:auto;display:block;border-radius:16px;
+  border:1px solid rgba(216,178,90,.22);box-shadow:0 18px 60px rgba(0,0,0,.45)}
+.soiree-cap{margin-top:12px;text-align:center;color:var(--muted);font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-size:17px}
 .agenda{background:linear-gradient(180deg,var(--night),#0b0c1e)}
 .ag-legend{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:26px}
 /* --- encart abonnement calendrier --- */
@@ -370,12 +376,17 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 
 <div class="divider"></div>
 
-
-<div class="divider"></div>
-
-
-<div class="divider"></div>
-
+<section class="soiree-fig"><div class="wrap">
+  <picture>
+    <source type="image/webp" sizes="(max-width:900px) 100vw, 1100px"
+      srcset="/img/le-nid/soiree-au-nid-480.webp 480w, /img/le-nid/soiree-au-nid-900.webp 900w, /img/le-nid/soiree-au-nid-1400.webp 1400w, /img/le-nid/soiree-au-nid-2000.webp 2000w">
+    <img src="/img/le-nid/soiree-au-nid-1400.jpg" sizes="(max-width:900px) 100vw, 1100px"
+      srcset="/img/le-nid/soiree-au-nid-480.jpg 480w, /img/le-nid/soiree-au-nid-900.jpg 900w, /img/le-nid/soiree-au-nid-1400.jpg 1400w, /img/le-nid/soiree-au-nid-2000.jpg 2000w"
+      width="2796" height="1290" loading="lazy" decoding="async"
+      alt="Une soiree au Nid : le public assis au sol devant un rideau de guirlandes lumineuses, deux musiciennes et des bougies">
+  </picture>
+  <div class="soiree-cap">Une soirée au Nid — musique live, bougies et petit comité.</div>
+</div></section>
 
 <div class="divider"></div>
 
