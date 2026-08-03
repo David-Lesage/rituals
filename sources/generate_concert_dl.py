@@ -44,16 +44,24 @@ par la page. La page REUTILISE des declinaisons deja presentes dans le depot
 /img/concert-dl/. Ni la photo du tournoiement ni les autres reutilisees ne font
 partie des 4 photos filigranees qui exigent le credit MAGYE D'ART (verifie sur
 /e-motion).
-VIDEO : la video de cymatique est un LIEN SORTANT sur une vignette locale, pas
-un iframe YouTube — aucun script ni cookie tiers charge par le site. La vignette
-n'existe qu'en 480x360 : ne jamais l'afficher plus large (cf. .cdl-video).
+VIDEO (revu le 04/08/2026) : la video de cymatique s'ouvre dans un LECTEUR EN
+SURIMPRESSION SUR LA PAGE. Consigne de David : « le but est que l'utilisateur
+reste sur le site, et ce sur TOUTES les videos du site » -> plus AUCUN lien
+sortant vers YouTube pour une video. Tant que personne ne clique, aucun script
+ni cookie tiers n'est charge (l'iframe nait sans src) ; au clic la src pointe
+vers youtube-nocookie.com ; a la fermeture elle est VIDEE. La vignette n'existe
+qu'en 480x360 : ne jamais l'afficher plus large (cf. .cdl-video).
 La seconde video de David (chant des voyelles avec CymaScope, note par note)
 fait partie du programme PAYANT « Les Trois Piliers » : NE PAS l'integrer ni la
 lier.
 MANQUENT : des photos dediees d'un concert SOLO AU NID (David seul, public au
-sol). A verifier avec David : la 2e photo de la fontaine
-(fontaine-melusine-*) montre une salle VOUTEE EN PIERRE, qui ne ressemble pas
-au Nid — la legende ne nomme donc aucun lieu.
+sol).
+FONTAINE — TRANCHE PAR DAVID le 04/08/2026 : « j'ai besoin de simplifier et de
+garder la Melusine au Nid ». La fontaine est donc presentee comme INSTALLEE AU
+NID (elle n'accompagne pas les tournees). La 2e photo (fontaine-melusine-*) a
+en revanche ete prise AILLEURS (salle voutee en pierre, evenement exterieur) :
+sa legende le dit et ne nomme ni ne suggere le Nid. NE PAS la relegender « au
+Nid ».
 
 Usage :
     python3 sources/generate_concert_dl.py
@@ -69,11 +77,43 @@ ADHESION = ('https://www.helloasso.com/beta/associations/resonances-productions/
             'adhesion-resonances-productions')
 BILLET = ('https://www.helloasso.com/associations/resonances-productions/evenements/'
           'concert-intimiste-david-lesage-au-coeur-de-paris-1')
-# Vidéo publique de la chaîne de David Lesage (titre verifie par oEmbed le 04/08/2026 :
-# « Chant des voyelles live concert David Lesage »). On NE l'integre PAS en iframe :
-# vignette locale + lien sortant, pour ne charger aucun script ni cookie tiers.
-VIDEO_CYMA = 'https://www.youtube.com/watch?v=mPUrsusmYyQ'
+# --- Video : LECTEUR EN SURIMPRESSION SUR LA PAGE ---------------------------
+# Regle posee par David (04/08/2026) : « le but est que l'utilisateur reste sur le
+# site, et ce sur TOUTES les videos du site » -> plus aucun lien sortant vers
+# YouTube pour une video. La vignette est un BOUTON qui ouvre un lecteur dans la
+# page (voir LIGHTBOX_HTML / LIGHTBOX_JS).
+# Aucun script tiers n'est charge avant le clic : l'<iframe> nait sans src, et la
+# src n'est posee qu'au clic — puis VIDEE a la fermeture (sinon le son continue).
+# Domaine youtube-nocookie.com : moins de traceurs que youtube.com.
+# Titres verifies par oEmbed le 04/08/2026 (titres EXACTS de la chaine).
+VIDEO_CYMA_ID = 'mPUrsusmYyQ'
+VIDEO_CYMA_TITRE = ('Chant des voyelles live concert David Lesage '
+                    '#cymatics #cymascope #cymatique')
+# Filet de securite UNIQUEMENT : si l'iframe est bloquee (extension, navigateur
+# restrictif), sans ce lien la personne est coincee devant un cadre noir. Il vit
+# DANS le lecteur, en petit, et n'est jamais le chemin principal.
+VIDEO_CYMA_SECOURS = f'https://youtu.be/{VIDEO_CYMA_ID}'
 MELUSINE = 'https://aquadynauroville.com/site/accueil-25/fontaine-melusine/'
+
+# --- Ecouter / soutenir -----------------------------------------------------
+# Liens de PLATEFORMES (pas des videos) : un nouvel onglet est ici legitime.
+# ⚠️ CHAINE YOUTUBE — verifie le 04/08/2026, navigateur ET curl :
+#   * @DavidLesageMusique  -> 404 Not Found. Ce handle N'EXISTE PAS. Ne pas le
+#     remettre : c'etait un lien mort.
+#   * youtube.com/c/DavidLesage -> 200, et declare lui-meme sa vanityChannelUrl :
+#     @DavidLesageArtiste.
+#   * @DavidLesageArtiste -> 200, « David Lesage », 340 videos, renvoie vers
+#     lesagedavid.fr. C'est la chaine UCSQj4RNQCk6uwcs6agUvq-w, celle qui heberge
+#     les deux videos utilisees sur le site (verifie par ownerProfileUrl).
+# On retient donc le handle canonique @DavidLesageArtiste.
+YT_CHAINE = 'https://www.youtube.com/@DavidLesageArtiste'
+# URL nettoyee : le segment « intl-fr » est une redirection regionale et
+# « autoplay_ok=1 » un parametre de session — inutiles dans un lien permanent.
+SPOTIFY = 'https://open.spotify.com/artist/7zEAQJbalBFj8XNHrcqdbK'
+# Boutique HelloAsso de l'association : l'album « L'Alliance du Phoenix ».
+# ⚠️ AUCUN tarif sur la page (regle du site) : c'est la boutique qui les porte.
+ALBUM_BOUTIQUE = ('https://www.helloasso.com/associations/resonances-productions/boutiques/'
+                  'acheter-album-l-alliance-du-phoenix-david-lesage')
 
 # --- Images reutilisees du depot -------------------------------------------
 # cle : (dossier, base, [largeurs disponibles], largeur_intrinseque, hauteur_intrinseque)
@@ -109,10 +149,14 @@ def pic(key, alt, sizes, caption=None, cls='cdl-fig', loading='lazy'):
     return f'<figure class="{cls}">{img}{cap}</figure>'
 
 
-def video_link(key, href, alt, label, sub, sizes):
-    """Vignette LOCALE cliquable vers YouTube : aucun iframe, aucun script tiers,
-    aucun cookie depose par le site. Le triangle de lecture est purement CSS et
-    aria-hidden : le libelle du lien reste explicite pour les lecteurs d'ecran."""
+def video_button(key, vid, alt, label, sub, sizes):
+    """Vignette LOCALE + <button> qui ouvre le lecteur DANS LA PAGE.
+
+    Ce n'est plus un lien : rien ne s'ouvre dans un nouvel onglet ni dans
+    l'application YouTube. Tant que personne ne clique, aucune requete n'est
+    faite vers un domaine tiers (l'<iframe> du lecteur nait sans src).
+    Le triangle de lecture est purement CSS et aria-hidden : le libelle du
+    bouton reste explicite pour les lecteurs d'ecran."""
     folder, base, widths, w, h = CDL_PHOTOS[key]
     root = f'/img/{folder}/{base}'
     webp = ', '.join(f'{root}-{x}.webp {x}w' for x in widths)
@@ -120,11 +164,81 @@ def video_link(key, href, alt, label, sub, sizes):
     img = (f'<picture><source type="image/webp" srcset="{webp}" sizes="{sizes}">'
            f'<img src="{root}-{widths[-1]}.jpg" srcset="{jpg}" sizes="{sizes}" '
            f'width="{w}" height="{h}" loading="lazy" decoding="async" alt="{alt}"></picture>')
-    return (f'<a class="cdl-video" href="{href}" target="_blank" rel="noopener">'
+    return (f'<button type="button" class="cdl-video ytlink" data-yt="{vid}">'
             f'<figure class="cdl-fig"><span class="shot">{img}'
             f'<span class="play" aria-hidden="true"></span></span>'
             f'<figcaption><span class="vlabel">{label}</span>'
-            f'<span class="vsub">{sub}</span></figcaption></figure></a>')
+            f'<span class="vsub">{sub}</span></figcaption></figure></button>')
+
+
+# --- Lecteur video en surimpression -----------------------------------------
+# Composant repris de /rituals, avec trois ameliorations : (1) domaine
+# youtube-nocookie.com ; (2) fermeture au clavier par Echap + focus deplace sur
+# le bouton de fermeture a l'ouverture et RESTITUE au declencheur a la fermeture,
+# avec role="dialog" et aria-modal="true" ; (3) title de l'iframe = le vrai titre
+# de la video. La classe d'ouverture est « open » — la meme dans le CSS et dans
+# le JS (verifie : aucune incoherence .on/.open a reproduire).
+LIGHTBOX_CSS = """
+/* ===== Lecteur video en surimpression (la video reste SUR le site) ===== */
+.lb{position:fixed;inset:0;background:rgba(6,7,18,.92);display:none;align-items:center;justify-content:center;z-index:1200;padding:24px}
+.lb.open{display:flex}
+.lb-box{position:relative;width:min(980px,100%)}
+.lb-frame{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000}
+.lb-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lb-close{position:absolute;top:-52px;right:0;background:none;border:none;color:#fff;font-size:34px;line-height:1;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+.yt-fallback{display:block;text-align:center;color:var(--gold2);font-size:13px;margin-top:12px;text-decoration:underline}
+body.lb-open{overflow:hidden}
+@media print{.lb{display:none!important}}
+"""
+
+LIGHTBOX_HTML = """
+<div class="lb" id="ytlb" role="dialog" aria-modal="true" aria-label="Lecteur vidéo" onclick="closeYT(event)">
+  <div class="lb-box">
+    <button class="lb-close" type="button" onclick="closeYT(event)" aria-label="Fermer la vidéo">×</button>
+    <div class="lb-frame"><iframe id="ytif" src="" title="{titre}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+    <a class="yt-fallback" href="{secours}" target="_blank" rel="noopener">La vidéo ne se lance pas ? Ouvrir sur YouTube ↗</a>
+  </div>
+</div>
+"""
+
+LIGHTBOX_JS = """
+<script>
+(function(){
+  var lb=document.getElementById('ytlb'); if(!lb) return;
+  var fr=document.getElementById('ytif'); if(!fr) return;
+  var closeBtn=lb.querySelector('.lb-close'), back=null;
+  window.openYT=function(id,trigger){
+    back=trigger||document.activeElement;
+    /* youtube-nocookie : moins de traceurs. La src n'existe qu'a partir d'ici. */
+    fr.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1';
+    lb.classList.add('open');
+    document.body.classList.add('lb-open');
+    if(closeBtn) closeBtn.focus();
+  };
+  window.closeYT=function(e){
+    /* On ne ferme que sur le fond ou sur la croix : un clic sur le lien de
+       secours ou dans le cadre ne doit pas fermer le lecteur. */
+    if(e && e.target!==lb && !(e.target.closest && e.target.closest('.lb-close'))) return;
+    if(!lb.classList.contains('open')) return;
+    lb.classList.remove('open');
+    document.body.classList.remove('lb-open');
+    fr.src='';  /* IMPERATIF : sinon la video continue de jouer en fond. */
+    /* Restitution du focus au declencheur. Double appel volontaire : quand le
+       lecteur YouTube avait pris le focus, Chrome remet activeElement sur <body>
+       APRES la destruction de l'iframe et ecrasait un focus synchrone. */
+    if(back && back.focus){ var b=back; b.focus(); setTimeout(function(){ try{ b.focus(); }catch(_){} },0); }
+    back=null;
+  };
+  document.addEventListener('click',function(e){
+    var t=e.target.closest && e.target.closest('.ytlink');
+    if(t){ e.preventDefault(); openYT(t.getAttribute('data-yt'), t); }
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && lb.classList.contains('open')) closeYT();
+  });
+})();
+</script>
+"""
 
 
 # --- Contenu ---------------------------------------------------------------
@@ -248,9 +362,11 @@ b{color:#fff;font-weight:500}
    qui lui est propre. Encadree de deux .divider comme les autres. */
 .cdl-water{background:radial-gradient(760px 500px at 86% 4%,rgba(70,132,214,.17),transparent 64%),radial-gradient(620px 420px at 4% 98%,rgba(143,122,209,.11),transparent 62%)}
 .cdl-duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:30px;max-width:820px;align-items:start}
-/* ===== Vignette video (aucun lecteur tiers : image locale + lien sortant) =====
-   La source ne fait que 480 px de large : on ne l'agrandit JAMAIS au-dela. */
-.cdl-video{display:block;max-width:480px;margin-top:26px}
+/* ===== Vignette video : BOUTON qui ouvre le lecteur DANS LA PAGE =====
+   La source ne fait que 480 px de large : on ne l'agrandit JAMAIS au-dela.
+   C'est un <button> (et non plus un lien) : on remet donc a plat les styles
+   par defaut du navigateur, sinon il herite d'un fond gris et d'un cadre. */
+.cdl-video{display:block;max-width:480px;width:100%;margin-top:26px;background:none;border:0;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
 .cdl-video figure{margin:0}
 .cdl-video .shot{display:block;position:relative;line-height:0}
 .cdl-video .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(11,12,30,.72);border:1px solid rgba(240,209,138,.62);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
@@ -313,7 +429,18 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh){font-size:inherit;text-decorati
 /* meme traitement pour le lien partenaire de la section « eau » : cible >= 44 px
    (17px * 1.75 = 29.75 + 2 x 11 = 51.75). */
 .cdl-water p a{display:inline-block;padding:11px 0}
-"""
+/* ===== bloc « Ecouter · Soutenir » (plateformes + boutique de l'association) ==
+   Volontairement SOBRE : trois boutons fantomes, pas trois pavos dores — ce ne
+   sont pas les appels a l'action principaux de la page (« Reserver ma place » ;
+   trois boutons dores auraient concurrence le seul qui compte ici)
+   le reste). Sous 560 px les boutons passent en pleine largeur pour rester
+   confortablement cliquables. */
+.cdl-listen{margin-top:36px;max-width:820px;border-top:1px solid var(--line);padding-top:26px}
+.cdl-listen p{max-width:none;font-size:16px}
+.cdl-listen .cta{margin-top:20px}
+.cdl-listen .btn{font-size:15px;padding:12px 22px}
+@media(max-width:560px){.cdl-listen .btn{width:100%}}
+""" + LIGHTBOX_CSS
 
 TITLE = ('Concerts de David Lesage — concert-cérémonie participatif au Nid, '
          'Paris 20ᵉ · Résonances Productions')
@@ -411,14 +538,14 @@ HTML = f"""<!DOCTYPE html>
     <div>
       <p>Un moment de la soirée est consacré à la <b>cymatique</b> : ce qui arrive à l’eau quand on chante devant elle. David raconte comment la vibration sonore agit sur l’eau — et donc sur nous, qui en sommes faits pour l’essentiel. Puis il invite chacun à chanter quelques voyelles. À l’écran, en temps réel, une figure apparaît : l’empreinte de cette voix-là.</p>
       <p>Ce moment a été filmé lors d’un concert : on y entend le public chanter, et on y voit la figure se dessiner à l’écran.</p>
-      {video_link('video', VIDEO_CYMA,
-                  'Vignette de la vidéo : vue grand-angle d’un concert, une figure de cymatique '
-                  'projetée sur l’écran derrière les instruments ; titre incrusté sur l’image, '
-                  '« Le chant des voyelles, live concert David Lesage — Cymatique en temps réel ».',
-                  'Voir la vidéo sur YouTube ↗',
-                  '« Chant des voyelles live concert David Lesage » — chaîne de l’artiste, '
-                  's’ouvre dans un nouvel onglet.',
-                  '(max-width:600px) calc(100vw - 52px), 480px')}
+      {video_button('video', VIDEO_CYMA_ID,
+                    'Vignette de la vidéo : vue grand-angle d’un concert, une figure de cymatique '
+                    'projetée sur l’écran derrière les instruments ; titre incrusté sur l’image, '
+                    '« Le chant des voyelles, live concert David Lesage — Cymatique en temps réel ».',
+                    'Lancer la vidéo',
+                    '« Chant des voyelles live concert David Lesage » — le lecteur s’ouvre sur '
+                    'cette page.',
+                    '(max-width:600px) calc(100vw - 52px), 480px')}
       <p>Le reste de la soirée avance de la même façon, par images et par échos. Des sons de nature et d’animaux ouvrent des paysages. Des vidéoprojections accompagnent les morceaux. Des phrases simples reviennent comme des refrains. Et régulièrement, l’artiste lance une ligne de chant que la salle lui renvoie.</p>
     </div>
     {pic('cercle',
@@ -457,9 +584,10 @@ HTML = f"""<!DOCTYPE html>
          'à l’arrière-plan, une salle de concert voûtée en pierre, les instruments installés '
          'et des coussins bleus posés au sol.',
          '(max-width:600px) calc(100vw - 52px), (max-width:900px) calc(50vw - 36px), 400px',
-         'La fontaine installée en bord de scène, avant l’arrivée du public.')}
+         'Gros plan sur la fontaine, lors d’une précédente installation à l’occasion '
+         'd’un événement extérieur.')}
   </div>
-  <p>Ce dispositif existe grâce à un partenariat avec <b>AquaDyn Auroville</b> et <b>Rebirth Water Group</b>, concepteurs de la <a href="{MELUSINE}" target="_blank" rel="noopener">fontaine Mélusine ↗</a> — un appareil bâti autour du son et de la lumière, dont ses concepteurs revendiquent le brevet. L’exemplaire qui voyage avec les instruments a été spécialement modifié pour recevoir le signal audio du concert.</p>
+  <p>Ce dispositif existe grâce à un partenariat avec <b>AquaDyn Auroville</b> et <b>Rebirth Water Group</b>, concepteurs de la <a href="{MELUSINE}" target="_blank" rel="noopener">fontaine Mélusine ↗</a> — un appareil bâti autour du son et de la lumière, dont ses concepteurs revendiquent le brevet. L’exemplaire <b>installé au Nid</b> a été spécialement modifié pour recevoir le signal audio du concert.</p>
   <p>Sur la pancarte posée à côté, un seul mot fait office de mode d’emploi : <b>« expérimente »</b>. Rien ne vous est promis, rien ne vous est démontré : on vous tend un gobelet, et vous en faites ce que vous voulez — le boire, ou passer votre tour.</p>
 </div></section>
 
@@ -503,11 +631,11 @@ HTML = f"""<!DOCTYPE html>
 <section class="cdl-block band" id="repertoire"><div class="wrap">
   <div class="cdl-h">Le répertoire</div>
   <h2 class="sec-title">Ses compositions, et quelques reprises</h2>
-  <p>La soirée puise dans ses compositions — un album en deux opus — et dans quelques reprises, ramenées au handpan et à la voix.</p>
+  <p>La soirée puise dans ses compositions — l’album <b>« L’Alliance du Phoenix »</b>, dix titres en deux opus — et dans quelques reprises, ramenées au handpan et à la voix.</p>
   <div class="cdl-cols">
     <div class="cdl-card">
       <h3>Compositions</h3>
-      <div class="sub">L’album, en deux opus</div>
+      <div class="sub">« L’Alliance du Phoenix », en deux opus</div>
       <ul>{''.join(f'<li>{t}</li>' for t in COMPOSITIONS)}</ul>
     </div>
     <div class="cdl-card">
@@ -518,6 +646,16 @@ HTML = f"""<!DOCTYPE html>
   </div>
   <p>Cinq formules, empruntées au dossier de présentation du spectacle, pour dire ce que cette musique cherche :</p>
   <ul class="cdl-cites">{''.join(f'<li>« {c} »</li>' for c in CITATIONS)}</ul>
+  <div class="cdl-listen">
+    <div class="cdl-h">Écouter · Soutenir</div>
+    <p>Vous pouvez écouter ce répertoire avant de venir — et repartir avec, après.</p>
+    <p><b>« L’Alliance du Phoenix »</b> a demandé un an de création et il est <b>100 % auto-produit</b> : dix compositions originales en deux opus, un album de reprises, le livret des paroles, une affiche A3 dédicacée. L’association le diffuse dans sa boutique, en téléchargement ou sur une clé USB en bois qui réunit les vingt-neuf titres. L’acheter, c’est financer directement la suite.</p>
+    <div class="cta">
+      <a class="btn ghost" href="{SPOTIFY}" target="_blank" rel="noopener">Écouter sur Spotify ↗</a>
+      <a class="btn ghost" href="{YT_CHAINE}" target="_blank" rel="noopener">La chaîne YouTube de David Lesage ↗</a>
+      <a class="btn ghost" href="{ALBUM_BOUTIQUE}" target="_blank" rel="noopener">Commander l’album — téléchargement ou clé USB ↗</a>
+    </div>
+  </div>
 </div></section>
 
 <section class="cdl-block" id="scenes"><div class="wrap">
@@ -553,7 +691,7 @@ HTML = f"""<!DOCTYPE html>
 </div></section>
 
 <a class="totop" href="#top" aria-label="Revenir en haut de la page">↑</a>
-
+{LIGHTBOX_HTML.format(titre=VIDEO_CYMA_TITRE, secours=VIDEO_CYMA_SECOURS)}
 <footer id="contact"><div class="wrap">
   <div class="fgrid">
     <div>
@@ -585,7 +723,7 @@ HTML = f"""<!DOCTYPE html>
   upd(); window.addEventListener('scroll',upd,{{passive:true}});
 }})();
 </script>
-
+{LIGHTBOX_JS}
 </body></html>"""
 
 HTML = mobile_nav.inject(HTML)
