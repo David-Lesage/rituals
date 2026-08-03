@@ -16,10 +16,10 @@ CAL_WEBCAL = ('webcal://calendar.google.com/calendar/ical/'
 
 # (date ISO, heure debut, heure fin, type, titre, note)
 EVENTS = [
-    ('2026-08-23', '16:00', '19:00', 'showcase', 'Showcase', ''),
+    ('2026-08-23', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-09-04', '18:30', '23:30', 'mensuel', 'Rendez-vous mensuel au Nid', ''),
     ('2026-09-06', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
-    ('2026-09-19', '16:00', '19:00', 'showcase', 'Showcase', ''),
+    ('2026-09-19', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-09-20', '10:00', '12:00', 'rythme',   'Workshop rythme à la calebasse', 'avec David Lesage'),
     ('2026-09-26', '17:00', '19:00', 'residence','Sortie de résidence', 'restitution du travail en trio'),
     ('2026-09-26', '20:00', '22:00', 'concert',  'Concert — David, Iris & Julien', 'le trio en concert'),
@@ -27,14 +27,14 @@ EVENTS = [
     ('2026-10-04', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-10-10', '19:00', '21:00', 'concert',  'Concert — David Lesage solo', ''),
     ('2026-10-17', '15:00', '17:00', 'rythme',   'Workshop rythme à la calebasse', 'avec David Lesage'),
-    ('2026-10-18', '16:00', '19:00', 'showcase', 'Showcase', ''),
+    ('2026-10-18', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-11-07', '18:30', '23:30', 'mensuel',  'Rendez-vous mensuel au Nid', ''),
     ('2026-11-08', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
-    ('2026-11-14', '16:00', '19:00', 'showcase', 'Showcase', ''),
+    ('2026-11-14', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-11-15', '15:00', '17:00', 'rythme',   'Workshop rythme à la calebasse', 'avec David Lesage'),
     ('2026-11-28', '18:00', '20:00', 'concert',  'Concert — David Lesage solo', ''),
     ('2026-12-04', '18:30', '23:30', 'mensuel',  'Rendez-vous mensuel au Nid', ''),
-    ('2026-12-05', '15:00', '18:00', 'showcase', 'Showcase', ''),
+    ('2026-12-05', '15:00', '18:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-12-06', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
 ]
 
@@ -54,7 +54,7 @@ DESCR = {
  'concert':  'Un concert en format intime : voix, handpan electronique, harpe africaine (Ngoni), calebasse et percussions electro-organiques.',
  'yoga':     'Atelier de yoga guide par Iris Chasles : yoga postural, respiration et meditation. Pratique accessible a tous les niveaux.',
  'rythme':   'Workshop rythme a la calebasse avec David Lesage : les bases, les frappes, la pulsation collective. Aucun prerequis musical.',
- 'showcase': 'Format court et intime : la decouverte d\'un projet en cours, d\'une creation ou d\'un artiste invite, au plus pres.',
+ 'showcase': 'Presentation, decouverte et essai d\'instruments d\'exception : le Neotone (handpan electronique de facture professionnelle), des handpans acoustiques Yishama, la calebasse, le Gonilele (petite harpe africaine) et des micros concus pour le handpan. Des instruments faits main, produits en tres petites series, dont la valeur atteint plusieurs milliers d\'euros. David Lesage les presente, les fait sonner devant vous, repond aux questions, puis les met entre vos mains. Gratuit, sur inscription, environ 2 h. Aucune experience requise.',
  'residence':'Sortie de residence : restitution publique du travail mene en trio.',
 }
 
@@ -65,7 +65,7 @@ DESCR_FR = {
  'concert':  'Un concert en format intime : voix, handpan électronique, harpe africaine (Ngoni), calebasse et percussions électro-organiques.',
  'yoga':     'Atelier de yoga guidé par Iris Chasles : yoga postural, respiration et méditation. Pratique accessible à tous les niveaux.',
  'rythme':   'Workshop rythme à la calebasse avec David Lesage : les bases, les frappes, la pulsation collective. Aucun prérequis musical.',
- 'showcase': 'Format court et intime : la découverte d’un projet en cours, d’une création ou d’un artiste invité, au plus près.',
+ 'showcase': 'Présentation, découverte & essai d’instruments d’exception : le Neotone (handpan électronique de facture professionnelle), des handpans acoustiques Yishama, la calebasse, le Gonilélé (petite harpe africaine) et des micros conçus pour le handpan. Des instruments faits main, produits en très petites séries, dont la valeur atteint plusieurs milliers d’euros. David Lesage les présente, les fait sonner devant vous, répond à toutes les questions, puis les met entre vos mains. Gratuit, sur inscription, environ 2 h. Aucune expérience requise.',
  'residence':'Sortie de résidence : restitution publique du travail mené en trio.',
 }
 ACCES_PUBLIC_FR = ('Au fond de la cour, porte verte, 3e étage. '
@@ -85,7 +85,10 @@ TYPES = {
     'concert':   ('Concert',             '#e08a5f', LESAGE,   'Réserver ↗'),
     'yoga':      ('Atelier yoga',        '#7fb2a3', YOGA_INS, 'S’inscrire ↗'),
     'rythme':    ('Workshop rythme',     '#8f7ad1', MAILTO,   'Réserver'),
-    'showcase':  ('Showcase',            '#6f9bd1', SHOWROOM, 'Réserver ↗'),
+    # NB : cle technique 'showcase' conservee (interne). Libelle visible = badge court
+    # (contrainte de place dans l'agenda) ; le nom complet de la categorie est
+    # « Présentation, découverte & essai d'instruments d'exception ».
+    'showcase':  ('Découverte &amp; essai', '#6f9bd1', SHOWROOM, 'Réserver ↗'),
     'residence': ('Sortie de résidence', '#c98fb0', MAILTO,   'Réserver'),
 }
 
@@ -450,6 +453,9 @@ if __name__ == '__main__':
     # d'ou les cartes dupliquees observees sur la page.
     html = re.sub(r'[ \t]*<div class="offer-dates"><span>Prochaines dates</span>.*?</div>\n?',
                   '', html, flags=re.S)
+    html = re.sub(r'[ \t]*<div class="offer offer--rare">.*?\n[ \t]*</div>\n',
+                  '', html, flags=re.S)
+    # ancienne version de la meme carte (avant le renommage « Showcase / Scene ouverte »)
     html = re.sub(r'[ \t]*<div class="offer">\s*<div class="t">Scène ouverte</div>.*?\n[ \t]*</div>\n',
                   '', html, flags=re.S)
 
@@ -503,13 +509,19 @@ if __name__ == '__main__':
     html = html.replace('on entre dans le rythme par le corps et l’écoute.</p>\n      <div class="who">Avec David Lesage</div>',
         'on entre dans le rythme par le corps et l’écoute.</p>\n      <div class="who">Avec David Lesage</div>' + dates_courtes('rythme'), 1)
 
-    # carte Showcase ajoutee au programme
-    carte_showcase = ('''    <div class="offer">
-      <div class="t">Scène ouverte</div>
-      <h3>Showcase</h3>
-      <p>Un format court et intime : on découvre un projet en cours, une création, un artiste invité — au plus près, dans le salon du Nid.</p>
+    # carte « Présentation, découverte & essai d'instruments d'exception »
+    # (anciennement « Scène ouverte / Showcase »). Le lien de reservation vient
+    # de la SEULE constante SHOWROOM ci-dessus : un seul endroit a changer.
+    carte_showcase = ('''    <div class="offer offer--rare">
+      <div class="t">Présentation, découverte &amp; essai</div>
+      <h3>Instruments d’exception</h3>
+      <div class="offer-meta">Gratuit · sur inscription · environ 2 h</div>
+      <p>Une occasion rare de rencontrer des instruments que l’on ne croise presque jamais : le <b>Neotone</b>, handpan électronique de facture professionnelle, des <b>handpans acoustiques Yishama</b>, la <b>calebasse</b>, le <b>Gonilélé</b> (petite harpe africaine), et des <b>micros conçus pour le handpan</b> — micro de contact anti-larsen et micro multifonction pour le studio et la scène.</p>
+      <p>Ce sont des instruments <b>faits main, produits en très petites séries</b>, dont la valeur atteint plusieurs milliers d’euros. David Lesage les présente et les fait sonner devant vous — le son brut, puis les effets et la voix, l’application <b>Handpan Studio</b> projetée à l’écran — répond à toutes les questions, puis met les instruments entre vos mains.</p>
+      <p>Aucune expérience requise : la plupart des personnes présentes n’ont jamais tenu un handpan. Jauge limitée, inscription préalable nécessaire.</p>
       ''' + dates_courtes('showcase') + '''
-      <div class="who">Réservation sur <a href="https://www.handpan-studio.app/showroom#agenda" target="_blank" rel="noopener">handpan-studio.app</a></div>
+      <div class="who">Réservation en ligne : <a href="''' + SHOWROOM + '''" target="_blank" rel="noopener">réserver ma place ↗</a></div>
+      <p class="offer-fine"><b>En toute transparence.</b> Ces présentations sont gratuites et sans obligation d’achat. L’association accueille et valorise ces rencontres, animées par David Lesage ; <b>elle ne vend pas les instruments présentés</b> et peut percevoir une contribution d’affiliation lorsqu’une personne décide d’acquérir un instrument auprès du fabricant. Les seuls objets vendus par l’association sont les <b>calebasses pyrogravées</b>, façonnées dans son atelier.</p>
     </div>
 ''')
     anc = '  </div>\n\n  <div class="note">'
@@ -520,6 +532,17 @@ if __name__ == '__main__':
 .offer-dates{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);color:#d3d0e8;font-size:13.5px}
 .offer-dates span{display:block;color:var(--gold);font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:4px}
 .offer-dates a{color:var(--gold2);font-size:13px;text-decoration:underline;text-underline-offset:2px}
+/* carte « instruments d'exception » : pleine largeur, registre premium */
+.offer--rare{grid-column:1/-1;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));
+  border-color:rgba(216,178,90,.34)}
+.offer--rare h3{margin-bottom:6px}
+.offer--rare .offer-meta{color:var(--gold2);font-size:14px;font-style:italic;margin:0 0 14px}
+.offer--rare p{max-width:78ch}
+.offer--rare p+p{margin-top:12px}
+.offer--rare b{color:#efeaf6;font-weight:600}
+.offer-fine{margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.10);
+  color:var(--muted);font-size:13px;line-height:1.65;max-width:78ch}
+.offer-fine b{color:var(--gold2);font-weight:600}
 ''')
     html = html.replace('</style>', CSS_DATES + '</style>', 1)
     if 'ag-cal' in html and 'BEGIN:VCALENDAR' not in html:
