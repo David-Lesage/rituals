@@ -39,8 +39,13 @@ REGLES DE REDACTION :
     vers contact@resonancesproductions.org avec objet pre-rempli.
   - Renvoi croise discret vers /concerts-david-lesage pour le public parisien.
 
-IMAGES : aucun telechargement externe. On reutilise des declinaisons deja
-presentes dans le depot (voir DLC_PHOTOS). La photo du Grand Rex porte le
+VIDEO (ajoutee le 04/08/2026) : la prestation The Voice s'ouvre dans un LECTEUR
+EN SURIMPRESSION SUR LA PAGE. Consigne de David : « le but est que l'utilisateur
+reste sur le site, et ce sur TOUTES les videos du site » -> plus AUCUN lien
+sortant vers YouTube pour une video. Aucun script ni cookie tiers avant le clic.
+
+IMAGES : aucune image distante servie par la page. On reutilise des declinaisons
+deja presentes dans le depot (voir DLC_PHOTOS). La photo du Grand Rex porte le
 filigrane « MAGYE D'ART Production » -> le credit photo est repris sous la
 figure, comme sur /e-motion. Les 4 photos filigranees de /img/e-motion/
 (suspendue-bras-ouverts, l-elastique-en-noir-et-blanc, sur-grande-scene,
@@ -72,6 +77,46 @@ TEL_TECH = '+33610733152'
 TEL_TECH_TXT = '+33 6 10 73 31 52'
 MAIL_TECH = 'contact@lesagedavid.fr'
 
+# --- Video : LECTEUR EN SURIMPRESSION SUR LA PAGE ---------------------------
+# Regle posee par David (04/08/2026) : « le but est que l'utilisateur reste sur le
+# site, et ce sur TOUTES les videos du site » -> plus aucun lien sortant vers
+# YouTube pour une video. La vignette est un BOUTON qui ouvre un lecteur dans la
+# page. Aucun script tiers avant le clic : l'<iframe> nait sans src, la src n'est
+# posee qu'au clic (domaine youtube-nocookie.com), puis VIDEE a la fermeture
+# (sinon le son continue de jouer en fond).
+# Titre verifie par oEmbed le 04/08/2026 (titre EXACT de la chaine).
+VIDEO_TV_ID = 'a831rQeGLRU'
+VIDEO_TV_TITRE = 'Une Ame 2 min The voice David Lesage'
+# Filet de securite UNIQUEMENT (iframe bloquee par une extension ou un navigateur
+# restrictif) : il vit DANS le lecteur, en petit, et n'est jamais le chemin
+# principal. Sans lui, la personne reste devant un cadre noir.
+VIDEO_TV_SECOURS = f'https://youtu.be/{VIDEO_TV_ID}'
+# Deux autres videos The Voice de la chaine, verifiees publiques et NON retenues
+# pour ne pas surcharger la section parcours : WkZcBjZA_mU (« David Lesage
+# #TheVoice Piano de Handpan #Griot Cathare ») et lewR2Fga2UM (« Kothbiro
+# #TheVoice11 Intimiste Version David Lesage #Grio »).
+
+# --- Ecouter / soutenir -----------------------------------------------------
+# Liens de PLATEFORMES et de BOUTIQUE (pas des videos) : un nouvel onglet est ici
+# legitime — la consigne « rester sur le site » ne concerne que les videos.
+# ⚠️ CHAINE YOUTUBE — verifie le 04/08/2026, navigateur ET curl :
+#   * @DavidLesageMusique  -> 404 Not Found. Ce handle N'EXISTE PAS. Ne pas le
+#     remettre : c'etait un lien mort.
+#   * youtube.com/c/DavidLesage -> 200, et declare lui-meme sa vanityChannelUrl :
+#     @DavidLesageArtiste.
+#   * @DavidLesageArtiste -> 200, « David Lesage », 340 videos, renvoie vers
+#     lesagedavid.fr. C'est la chaine UCSQj4RNQCk6uwcs6agUvq-w, celle qui heberge
+#     les deux videos utilisees sur le site (verifie par ownerProfileUrl).
+# On retient donc le handle canonique @DavidLesageArtiste.
+YT_CHAINE = 'https://www.youtube.com/@DavidLesageArtiste'
+# URL nettoyee : « intl-fr » est une redirection regionale et « autoplay_ok=1 »
+# un parametre de session — inutiles et fragiles dans un lien permanent.
+SPOTIFY = 'https://open.spotify.com/artist/7zEAQJbalBFj8XNHrcqdbK'
+# Boutique HelloAsso de l'association : l'album « L'Alliance du Phoenix ».
+# ⚠️ AUCUN tarif sur la page (regle du site) : c'est la boutique qui les porte.
+ALBUM_BOUTIQUE = ('https://www.helloasso.com/associations/resonances-productions/boutiques/'
+                  'acheter-album-l-alliance-du-phoenix-david-lesage')
+
 # --- Images reutilisees du depot -------------------------------------------
 # cle : (dossier, base, [largeurs disponibles], largeur_intrinseque, hauteur)
 DLC_PHOTOS = {
@@ -101,6 +146,23 @@ DLC_PHOTOS = {
     'plateau':        ('concert-scene', 'plateau-installe-avant-le-concert',     [480, 900, 1400], 1400, 1050),
     'setup-dessus':   ('concert-scene', 'le-setup-vu-du-dessus',                 [480, 900, 1400], 1400, 1050),
     'calebasse':      ('concert-scene', 'la-calebasse-et-les-bougies',           [480, 900, 1280], 1280, 1920),
+    # --- The Voice (saison 11, 2021) : diapositives « Mise en contexte scenique
+    # (The Voice 11) » de la meme presentation Drive. Publication TRANCHEE PAR
+    # DAVID le 04/08/2026 (« pour les photos de TF1 je m'en fous, tu peux les
+    # mettre ») malgre les logos The Voice / TF1 incrustes : ce sont des captures
+    # de diffusion. Selection : les deux seules ou David est SEUL DANS LE CADRE.
+    # Ecartees et disponibles si besoin : un plan large de David seul au centre du
+    # plateau (bras leves, tres bleu, sujet minuscule), un plan d'ensemble des
+    # quatre fauteuils, et quatre plans ou des tiers sont identifiables en gros
+    # plan (deux coachs, l'animateur, un coach avec David) — a qualite egale,
+    # moins de tiers dans l'image vaut mieux.
+    'tv-calebasse':   ('concert-scene', 'the-voice-la-calebasse',                [480, 900, 1400], 1400, 874),
+    'tv-ngoni':       ('concert-scene', 'the-voice-le-ngoni',                    [480, 900, 1400], 1400, 868),
+    # Vignette de la video : c'est la vignette PUBLIEE PAR LA CHAINE pour cette
+    # video (maxresdefault, 1280x720, sans bandes noires — sddefault est
+    # letterboxee). Elle montre une piece traitee acoustiquement, PAS le plateau
+    # de The Voice : l'alt le dit. Ne pas l'afficher au-dela de 1280 px.
+    'tv-video':       ('concert-scene', 'the-voice-video',                       [480, 900, 1280], 1280, 720),
 }
 
 CREDIT_MAGYE = ('<span class="dlc-cred">Crédit photo <a href="https://magyedart.fr/" '
@@ -120,6 +182,121 @@ def pic(key, alt, sizes, caption=None, cls='dlc-fig', loading='lazy', credit='')
            f'loading="{loading}"{prio} decoding="async" alt="{alt}"></picture>')
     cap = f'<figcaption>{caption}{credit}</figcaption>' if caption else ''
     return f'<figure class="{cls}">{img}{cap}</figure>'
+
+
+def video_button(key, vid, alt, label, sub, sizes):
+    """Vignette LOCALE + <button> qui ouvre le lecteur DANS LA PAGE.
+
+    Ce n'est pas un lien : rien ne s'ouvre dans un nouvel onglet ni dans
+    l'application YouTube. Tant que personne ne clique, aucune requete n'est
+    faite vers un domaine tiers (l'<iframe> du lecteur nait sans src).
+    Le triangle de lecture est purement CSS et aria-hidden : le libelle du
+    bouton reste explicite pour les lecteurs d'ecran."""
+    folder, base, widths, w, h = DLC_PHOTOS[key]
+    root = f'/img/{folder}/{base}'
+    webp = ', '.join(f'{root}-{x}.webp {x}w' for x in widths)
+    jpg = ', '.join(f'{root}-{x}.jpg {x}w' for x in widths)
+    img = (f'<picture><source type="image/webp" srcset="{webp}" sizes="{sizes}">'
+           f'<img src="{root}-{widths[-1]}.jpg" srcset="{jpg}" sizes="{sizes}" '
+           f'width="{w}" height="{h}" loading="lazy" decoding="async" alt="{alt}"></picture>')
+    return (f'<button type="button" class="dlc-video ytlink" data-yt="{vid}">'
+            f'<figure class="dlc-fig"><span class="shot">{img}'
+            f'<span class="play" aria-hidden="true"></span></span>'
+            f'<figcaption><span class="vlabel">{label}</span>'
+            f'<span class="vsub">{sub}</span></figcaption></figure></button>')
+
+
+# --- Lecteur video en surimpression -----------------------------------------
+# Composant repris de /rituals, avec trois ameliorations : (1) domaine
+# youtube-nocookie.com ; (2) fermeture au clavier par Echap + focus deplace sur
+# le bouton de fermeture a l'ouverture et RESTITUE au declencheur a la fermeture,
+# avec role="dialog" et aria-modal="true" ; (3) title de l'iframe = le vrai titre
+# de la video. La classe d'ouverture est « open » — la meme dans le CSS et dans
+# le JS (verifie : aucune incoherence .on/.open a reproduire).
+LIGHTBOX_CSS = """
+/* ===== Lecteur video en surimpression (la video reste SUR le site) ===== */
+.lb{position:fixed;inset:0;background:rgba(6,7,18,.92);display:none;align-items:center;justify-content:center;z-index:1200;padding:24px}
+.lb.open{display:flex}
+.lb-box{position:relative;width:min(980px,100%)}
+.lb-frame{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000}
+.lb-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lb-close{position:absolute;top:-52px;right:0;background:none;border:none;color:#fff;font-size:34px;line-height:1;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+.yt-fallback{display:block;text-align:center;color:var(--gold2);font-size:13px;margin-top:12px;text-decoration:underline}
+body.lb-open{overflow:hidden}
+@media print{.lb{display:none!important}}
+/* ===== Vignette video : BOUTON qui ouvre le lecteur DANS LA PAGE =====
+   C'est un <button> et non un lien : on remet a plat les styles par defaut du
+   navigateur, sinon il herite d'un fond gris et d'un cadre. La source fait
+   1280 px de large : on la borne a 560 px, largement en dessous. */
+.dlc-video{display:block;max-width:560px;width:100%;margin-top:26px;background:none;border:0;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.dlc-video figure{margin:0}
+.dlc-video .shot{display:block;position:relative;line-height:0}
+.dlc-video .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(11,12,30,.72);border:1px solid rgba(240,209,138,.62);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.dlc-video .play::before{content:"";width:0;height:0;border-left:17px solid var(--gold2);border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:5px}
+.dlc-video:hover .play{background:rgba(11,12,30,.9);transform:translate(-50%,-50%) scale(1.06)}
+.dlc-video figcaption{display:flex;flex-direction:column;gap:2px;justify-content:center;min-height:44px}
+.dlc-video .vlabel{color:var(--gold2);font-size:16px;text-decoration:underline;text-decoration-color:rgba(216,178,90,.42);text-underline-offset:3px}
+.dlc-video:hover .vlabel{color:#fff}
+.dlc-video .vsub{color:var(--muted);font-size:13.5px}
+/* ===== bloc « Ecouter · Soutenir » (plateformes + boutique de l'association) ==
+   Sobre a dessein : trois boutons fantomes, pour ne pas concurrencer les deux
+   seuls appels a l'action de cette page (« Programmer ce concert » / « Demander
+   le dossier »). Sous 560 px les boutons passent en pleine largeur. */
+.dlc-listen{margin-top:36px;max-width:860px;border-top:1px solid var(--line);padding-top:26px}
+.dlc-listen p{max-width:none;font-size:16px}
+.dlc-listen .cta{margin-top:20px}
+.dlc-listen .btn{font-size:15px;padding:12px 22px}
+@media(max-width:560px){.dlc-listen .btn{width:100%}}
+"""
+
+LIGHTBOX_HTML = """
+<div class="lb" id="ytlb" role="dialog" aria-modal="true" aria-label="Lecteur vidéo" onclick="closeYT(event)">
+  <div class="lb-box">
+    <button class="lb-close" type="button" onclick="closeYT(event)" aria-label="Fermer la vidéo">×</button>
+    <div class="lb-frame"><iframe id="ytif" src="" title="{titre}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+    <a class="yt-fallback" href="{secours}" target="_blank" rel="noopener">La vidéo ne se lance pas ? Ouvrir sur YouTube ↗</a>
+  </div>
+</div>
+"""
+
+LIGHTBOX_JS = """
+<script>
+(function(){
+  var lb=document.getElementById('ytlb'); if(!lb) return;
+  var fr=document.getElementById('ytif'); if(!fr) return;
+  var closeBtn=lb.querySelector('.lb-close'), back=null;
+  window.openYT=function(id,trigger){
+    back=trigger||document.activeElement;
+    /* youtube-nocookie : moins de traceurs. La src n'existe qu'a partir d'ici. */
+    fr.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1';
+    lb.classList.add('open');
+    document.body.classList.add('lb-open');
+    if(closeBtn) closeBtn.focus();
+  };
+  window.closeYT=function(e){
+    /* On ne ferme que sur le fond ou sur la croix : un clic sur le lien de
+       secours ou dans le cadre ne doit pas fermer le lecteur. */
+    if(e && e.target!==lb && !(e.target.closest && e.target.closest('.lb-close'))) return;
+    if(!lb.classList.contains('open')) return;
+    lb.classList.remove('open');
+    document.body.classList.remove('lb-open');
+    fr.src='';  /* IMPERATIF : sinon la video continue de jouer en fond. */
+    /* Restitution du focus au declencheur. Double appel volontaire : quand le
+       lecteur YouTube avait pris le focus, Chrome remet activeElement sur <body>
+       APRES la destruction de l'iframe et ecrasait un focus synchrone. */
+    if(back && back.focus){ var b=back; b.focus(); setTimeout(function(){ try{ b.focus(); }catch(_){} },0); }
+    back=null;
+  };
+  document.addEventListener('click',function(e){
+    var t=e.target.closest && e.target.closest('.ytlink');
+    if(t){ e.preventDefault(); openYT(t.getAttribute('data-yt'), t); }
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && lb.classList.contains('open')) closeYT();
+  });
+})();
+</script>
+"""
 
 
 # --- Contenu ---------------------------------------------------------------
@@ -498,7 +675,7 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh),dd a:not(.btn):not(.adh){font-s
   {display:inline-block;padding:11px 0}
 .dlc-fig figcaption a{font-size:15px;display:inline-block;padding:12px 0;
   text-decoration:underline;text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
-"""
+""" + LIGHTBOX_CSS
 
 TITLE = ('David Lesage en concert — concert-cérémonie participatif pour grandes scènes '
          'et festivals · Résonances Productions')
@@ -648,6 +825,32 @@ HTML = f"""<!DOCTYPE html>
          '(max-width:860px) calc(100vw - 52px), 500px',
          'La calebasse, frappée au poing, jouée assis sur un coussin.')}
   </div>
+
+  <h3 class="dlc-sub">The Voice, saison 11</h3>
+  <p>En 2021, David Lesage passe par <i>The Voice</i> sur TF1, avec ses propres instruments : la calebasse, les handpans et le N’Goni 14 cordes, seul en scène. Sa prestation — <i>Une Âme</i>, de M, une reprise toujours au répertoire du concert — est publique sur sa chaîne.</p>
+  {video_button('tv-video', VIDEO_TV_ID,
+                'Vignette de la vidéo : David Lesage dans une pièce blanche traitée de panneaux '
+                'acoustiques, un micro serre-tête au visage, les deux mains posées sur un handpan ; '
+                'derrière lui un N’Goni, une calebasse et un ordinateur portable.',
+                'Voir sa prestation — « Une Âme »',
+                '« Une Ame 2 min The voice David Lesage » — le lecteur s’ouvre sur cette page.',
+                '(max-width:900px) calc(100vw - 52px), 560px')}
+  <div class="dlc-duo">
+    {pic('tv-calebasse',
+         'David Lesage seul sur le plateau de The Voice, penché sur une grande calebasse posée '
+         'devant lui, les deux mains dessus, dans une lumière bleue ; à sa droite ses handpans '
+         'sur pieds. Logos The Voice et TF1 incrustés sur l’image.',
+         '(max-width:860px) calc(100vw - 52px), 500px',
+         'Sur le plateau de The Voice : la calebasse, frappée au poing. Capture de la '
+         'diffusion TF1.')}
+    {pic('tv-ngoni',
+         'David Lesage seul sur le plateau de The Voice, debout derrière deux handpans posés sur '
+         'pieds, jouant le N’Goni 14 cordes tenu contre lui, dans une lumière bleue et verte. '
+         'Logos The Voice et TF1 incrustés sur l’image.',
+         '(max-width:860px) calc(100vw - 52px), 500px',
+         'Le même dispositif, sur un plateau de télévision : handpans, N’Goni et déclencheurs. '
+         'Capture de la diffusion TF1.')}
+  </div>
 </div></section>
 
 <section class="dlc-block" id="scenes"><div class="wrap">
@@ -681,12 +884,12 @@ HTML = f"""<!DOCTYPE html>
 
 <section class="dlc-block band" id="repertoire"><div class="wrap">
   <div class="dlc-h">Le répertoire</div>
-  <h2 class="sec-title">Un album en deux opus, et quelques reprises</h2>
-  <p>Le concert puise dans les compositions de l’artiste — un album en deux opus — et dans quelques reprises, ramenées au handpan et à la voix.</p>
+  <h2 class="sec-title">« L’Alliance du Phoenix », et quelques reprises</h2>
+  <p>Le concert puise dans les compositions de l’artiste — l’album <b>« L’Alliance du Phoenix »</b>, dix titres en deux opus, <b>100 % auto-produit</b> — et dans quelques reprises, ramenées au handpan et à la voix.</p>
   <div class="dlc-cols">
     <div class="dlc-card">
       <h3>Compositions</h3>
-      <div class="sub">L’album, en deux opus</div>
+      <div class="sub">« L’Alliance du Phoenix », en deux opus</div>
       <ul>{''.join(f'<li>{t}</li>' for t in COMPOSITIONS)}</ul>
     </div>
     <div class="dlc-card">
@@ -697,6 +900,16 @@ HTML = f"""<!DOCTYPE html>
   </div>
   <p>Cinq formules, empruntées au dossier de présentation, pour dire ce que cette musique cherche :</p>
   <ul class="dlc-cites">{''.join(f'<li>« {c} »</li>' for c in CITATIONS)}</ul>
+  <div class="dlc-listen">
+    <div class="dlc-h">Écouter · Soutenir</div>
+    <p>De quoi instruire un dossier sans nous attendre : le répertoire est en ligne sur les plateformes, et les captations de concert sur la chaîne de l’artiste.</p>
+    <p><b>« L’Alliance du Phoenix »</b> représente un an de création et il est <b>100 % auto-produit</b> : dix compositions originales en deux opus, un album de reprises, le livret des paroles, une affiche A3 dédicacée. La boutique de l’association le diffuse en téléchargement ou sur une clé USB en bois de vingt-neuf titres — un support à connaître si vous cherchez un objet pour votre billetterie ou votre boutique de salle.</p>
+    <div class="cta">
+      <a class="btn ghost" href="{SPOTIFY}" target="_blank" rel="noopener">Écouter sur Spotify ↗</a>
+      <a class="btn ghost" href="{YT_CHAINE}" target="_blank" rel="noopener">La chaîne YouTube de David Lesage ↗</a>
+      <a class="btn ghost" href="{ALBUM_BOUTIQUE}" target="_blank" rel="noopener">Commander l’album — téléchargement ou clé USB ↗</a>
+    </div>
+  </div>
 </div></section>
 
 <section class="dlc-block" id="option"><div class="wrap">
@@ -809,7 +1022,7 @@ HTML = f"""<!DOCTYPE html>
 </div></section>
 
 <a class="totop" href="#top" aria-label="Revenir en haut de la page">↑</a>
-
+{LIGHTBOX_HTML.format(titre=VIDEO_TV_TITRE, secours=VIDEO_TV_SECOURS)}
 <footer id="contact"><div class="wrap">
   <div class="fgrid">
     <div>
@@ -841,7 +1054,7 @@ HTML = f"""<!DOCTYPE html>
   upd(); window.addEventListener('scroll',upd,{{passive:true}});
 }})();
 </script>
-
+{LIGHTBOX_JS}
 </body></html>"""
 
 HTML = mobile_nav.inject(HTML)
