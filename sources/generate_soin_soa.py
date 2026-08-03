@@ -19,6 +19,23 @@ un EVENEMENT ORGANISE PAR L'ASSOCIATION, pas une offre de soin privee.
 Regle de registre : AUCUNE promesse de resultat therapeutique (guerison,
 liberation durable, equivalent d'un cycle therapeutique). Aucune date affichee.
 
+MISE A JOUR DU 03/08/2026 (source de reference : la page Google Sites de David,
+sites.google.com/lesagedavid.fr/soin-incarnation-soa/accueil, jugee la plus
+proche du reel) :
+  - NOUVEAU DEROULE : les trois intervenants demarrent SIMULTANEMENT avec trois
+    personnes differentes ; les parcours sont individualises et tournent ; l'ordre
+    des trois soins varie d'une personne a l'autre. Le format y gagne des heures,
+    une PAUSE et un TEMPS INFORMEL entre participants. L'ancien fonctionnement
+    (« groupe 1 / groupe 2 », cycles 10h-13h puis 15h-18h, « role du groupe » en
+    soutien vibratoire pendant qu'on attend) est SUPPRIME.
+  - AUCUN HORAIRE publie (aucun horaire de remplacement valide) : voir SOA_ETAPES.
+  - AUCUN TARIF publie : plus de 425 EUR, plus d'acompte de 150 EUR, plus d'option
+    nuitee a 25 EUR. C'est du sur-mesure -> bouton « Demander un devis ».
+  - Jauge : SIX PERSONNES ENGAGEES, jauge idéale ; ensuite le groupe peut se vivre
+    de facon reguliere (plusieurs fois par an) OU une seule fois : les deux existent.
+  - La duree des seances n'est plus affichee : la page annoncait « une heure »,
+    la source Google Sites annonce « 50 min ». A trancher par David.
+
 Usage :
     python3 sources/generate_soin_soa.py
     -> ecrit sources/soin_soa_final.html, a copier dans le-soin-soa/index.html
@@ -320,35 +337,38 @@ SOA_ESPACES = [
  '<b>L’Espace Psyché</b>, avec Iris — Intelligence Relationnelle® pour réguler et intégrer.',
  '<b>Le Cœur du Cercle</b>, avec David — soin vibratoire et vocal.',
 ]
-SOA_PROG = [
- ('Vendredi soir', [
-   ('18h – 20h', 'Cercle d’ouverture et intentions de travail.'),
- ]),
- ('Samedi — la journée de soin', [
-   ('08h00', 'Yoga et mise en corps (pratique posturale).'),
-   ('09h00', 'Petit-déjeuner partagé.'),
-   ('10h – 13h', 'Cycle de soins, groupe 1. Pendant que trois personnes reçoivent leurs soins individuels (corps, psyché, son), les trois autres sont en soutien vibratoire et reçoivent le soin par le son avec David.'),
-   ('13h – 15h', 'Pause déjeuner consciente et repos au Nid.'),
-   ('15h – 18h', 'Cycle de soins, groupe 2 : rotation des rôles.'),
-   ('18h – 19h', 'Temps d’intégration personnelle.'),
-   ('19h00', 'Dîner partagé et intégration collective.'),
-   ('Nuitée', 'Sommeil sur place, essentiel au processus de digestion psychique.'),
- ]),
- ('Dimanche', [
-   ('08h00', 'Pratique de mouvements corporels libres et intuitifs en musique.'),
-   ('09h00', 'Petit-déjeuner partagé.'),
-   ('10h00', 'Débriefing de groupe et clôture du processus.'),
-   ('12h00', 'Dernier repas partagé.'),
-   ('13h00', 'Départ.'),
- ]),
+# ETAPES DU WEEK-END — sans aucun horaire (decision du 03/08/2026).
+# L'ancien programme heure par heure (« groupe 1 » 10h-13h / « groupe 2 » 15h-18h,
+# yoga a 08h, mouvements libres le dimanche matin) decrivait un fonctionnement
+# ABANDONNE : les trois intervenants demarrent desormais SIMULTANEMENT avec trois
+# personnes differentes, les parcours sont individualises et tournent. Comme aucun
+# horaire de remplacement n'a ete valide, on ne publie AUCUNE heure : les horaires
+# precis partent avec les informations pratiques d'inscription.
+SOA_ETAPES = [
+ ('Le cercle d’ouverture',
+  'Nous sommes tous les trois présents à vos côtés. Par des chants, des paroles et des partages, le groupe se lie, les intentions de travail se posent, et le Nid devient un espace entièrement dédié.'),
+ ('Les trois soins, en parallèle',
+  'Les trois espaces s’ouvrent en même temps, chaque intervenant avec une personne. Les parcours sont individualisés et tournent au fil du week-end : l’ordre des trois soins n’est pas le même pour tout le monde.'),
+ ('La pause',
+  'Un temps de pause franc au cœur du week-end : se reposer, manger, laisser le corps et la psyché digérer.'),
+ ('Le temps entre nous',
+  'Un temps informel entre participants, sans programme. C’est souvent là que ce qui vient d’être touché se dépose et se met en mots.'),
+ ('La nuit sur place',
+  'Le sommeil au Nid fait partie du processus : c’est la nuit que se fait une grande part de la digestion psychique.'),
+ ('Le cercle de clôture',
+  'Débriefing de groupe, dernier repas partagé, puis clôture du processus avant le départ.'),
 ]
 SOA_INCLUS = [
  'L’expertise de trois intervenants dédiés à votre processus tout au long du week-end.',
- 'Trois séances individuelles d’une heure chacune : massage mémoire cellulaire, Intelligence Relationnelle® et alchimie vocale.',
+ 'Trois séances individuelles : massage mémoire cellulaire, Intelligence Relationnelle® et alchimie vocale.',
  'L’accès au Nid et l’hébergement au sein de ce lieu.',
 ]
 SOA_MAIL = ('mailto:contact@resonancesproductions.org'
             '?subject=Le%20Soin%20Soa%20%E2%80%94%20demande%20d%E2%80%99inscription')
+# Les tarifs ne sont PLUS affiches publiquement (decision du 03/08/2026) : c'est du
+# sur-mesure, on renvoie vers une demande de devis. Ne pas remettre de montant ici.
+SOA_DEVIS = ('mailto:contact@resonancesproductions.org'
+             '?subject=Le%20Soin%20Soa%20%E2%80%94%20demande%20de%20devis')
 
 
 def soa_ul(items, cls='soa-list'):
@@ -366,10 +386,11 @@ def soa_equipe():
 
 
 def soa_prog():
+    """Les etapes du week-end, SANS horaire (voir le commentaire de SOA_ETAPES)."""
     out = ''
-    for day, rows in SOA_PROG:
-        li = ''.join(f'<li><b>{h}</b><span>{txt}</span></li>' for h, txt in rows)
-        out += f'<div class="soa-day"><h3>{day}</h3><ul>{li}</ul></div>'
+    for titre, txt in SOA_ETAPES:
+        out += (f'<div class="soa-day"><h3>{titre}</h3>'
+                f'<ul><li><span>{txt}</span></li></ul></div>')
     return f'<div class="soa-prog">{out}</div>'
 
 
@@ -384,7 +405,7 @@ TOC = [
  ('lieu', 'Le lieu : Le Nid'),
  ('repas', 'Les repas'),
  ('cheminement', 'Venir une fois, ou revenir'),
- ('participation', 'Participation & inscription'),
+ ('participation', 'Participation & devis'),
 ]
 
 
@@ -493,10 +514,11 @@ HTML = f"""<!DOCTYPE html>
   <h2 class="sec-title">Une ouverture, trois soins, un cercle</h2>
   <p><b>L’ouverture.</b> Chaque session débute par un cercle d’ouverture où nous sommes tous les trois présents à vos côtés. Par des chants, des paroles et des partages, nous posons un cadre de haute sécurité et de profondeur. C’est le moment où le groupe se lie et où l’espace du Nid devient un lieu entièrement dédié au travail.</p>
   {soa_fig('groupe', '(max-width:880px) 92vw, 820px', cls='soa-fig soa-wide')}
-  <p><b>Vos trois soins individuels.</b> Chaque participant reçoit <b>trois séances individuelles d’une heure</b>, tout en restant baigné dans l’énergie du groupe. Les trois espaces du Nid sont activés simultanément :</p>
+  <p><b>Vos trois soins individuels.</b> Chaque participant reçoit <b>trois séances individuelles</b>. Les trois espaces du Nid sont activés <b>simultanément, dès le départ</b> : Iris, David et Gaïa travaillent chacun avec une personne, en même temps.</p>
   {soa_ul(SOA_ESPACES)}
   {soa_fig('espace-corps', '(max-width:880px) 92vw, 820px', cls='soa-fig soa-wide')}
-  <p><b>Le rôle du groupe.</b> Lorsque vous n’êtes pas en soin individuel avec Gaïa ou Iris, vous rejoignez le cœur du cercle autour de David. <b>En soutien</b> : assis ou allongés, vous devenez les gardiens du cadre pour la personne qui reçoit le soin vibratoire — votre présence consciente renforce la sécurité de son processus. <b>En réception</b> : vous bénéficiez vous-même de l’infusion des sons (handpan, harpe, chants), un temps de repos profond et d’intégration par la vibration. Il ne se passe jamais « rien » : vous êtes en permanence porté par le processus.</p>
+  <p><b>Un parcours différent pour chacun.</b> Comme les trois espaces tournent en parallèle, <b>chaque personne suit son propre parcours</b> : certains commenceront par le massage, d’autres par l’intelligence relationnelle, d’autres par le son. L’ordre des trois soins varie donc d’une personne à l’autre, et vous restez toujours dans le fil du week-end porté par le groupe.</p>
+  <p><b>Le temps entre les soins.</b> Ce fonctionnement est plus écologique pour tout le monde, nous compris : il fait gagner quelques heures au week-end, ménage une véritable <b>pause</b>, et laisse un <b>temps informel entre participants</b> — se reposer, laisser le soin se déposer, se parler, simplement être ensemble. Ce temps-là fait partie du processus.</p>
   {soa_galerie()}
 </div></section>
 
@@ -504,9 +526,10 @@ HTML = f"""<!DOCTYPE html>
 
 <section class="soa-block band" id="programme"><div class="wrap">
   <div class="soa-h">Le déroulé du week-end</div>
-  <h2 class="sec-title">Du vendredi soir au dimanche après-midi</h2>
-  <p>L’immersion est <b>limitée à six participants</b>, pour préserver l’intimité et la qualité du cadre.</p>
+  <h2 class="sec-title">Le fil du week-end</h2>
+  <p>Le groupe se constitue autour de <b>six personnes engagées</b> : c’est la jauge idéale, celle qui préserve l’intimité et la qualité du cadre.</p>
   {soa_prog()}
+  <p>Les horaires précis, l’adresse détaillée et les informations pratiques vous sont communiqués avec votre confirmation d’inscription.</p>
 </div></section>
 
 <section class="soa-block" id="lieu"><div class="wrap">
@@ -523,13 +546,14 @@ HTML = f"""<!DOCTYPE html>
   <div class="soa-h">Les repas</div>
   <h2 class="sec-title">L’esprit de l’auberge espagnole</h2>
   <p>Nous avons fait le choix conscient de ne pas faire appel à un service de traiteur extérieur, pour deux raisons : <b>préserver le sanctuaire</b>, en maintenant le Nid comme un espace clos et protégé, sans intrusion extérieure, du début à la fin du week-end ; et vous laisser une <b>autonomie douce</b>, au contact de vos propres besoins alimentaires et de votre rythme, sans menu imposé.</p>
-  <p>En pratique, nous vous invitons à apporter des plats à partager préparés à l’avance (<b>4 repas et 2 petits-déjeuners</b>), simples et nourrissants. L’idée est de limiter l’usage de la cuisine pour privilégier le silence et la digestion, physique comme psychique. Ce partage de nourriture renforce la convivialité horizontale et authentique du groupe, tout en permettant à chacun de rester dans son propre cocon sensoriel.</p>
+  <p>En pratique, nous vous invitons à apporter des plats à partager préparés à l’avance, simples et nourrissants, pour les <b>repas et les petits-déjeuners du week-end</b> (le détail vous est précisé à l’inscription). L’idée est de limiter l’usage de la cuisine pour privilégier le silence et la digestion, physique comme psychique. Ce partage de nourriture renforce la convivialité horizontale et authentique du groupe, tout en permettant à chacun de rester dans son propre cocon sensoriel.</p>
 </div></section>
 
 <section class="soa-block" id="cheminement"><div class="wrap">
   <div class="soa-h">Un cheminement partagé</div>
   <h2 class="sec-title">Venir une fois, ou revenir</h2>
-  <p>Nous avons à cœur de favoriser la constitution d’un <b>groupe de travail sur la durée</b>, composé de personnes prêtes à aller en profondeur et à se rencontrer vraiment. Chaque session peut être vécue de manière autonome, mais nous encourageons la régularité au sein de ce groupe : se retrouver plusieurs fois permet d’ancrer le travail dans le temps et de vivre un processus d’intégration concret, incarné et évolutif.</p>
+  <p>Nous avons à cœur de favoriser la constitution d’un <b>groupe de travail</b> composé de personnes prêtes à aller en profondeur et à se rencontrer vraiment. La jauge idéale est de <b>six personnes engagées</b> : c’est ce qui permet à chacun de recevoir les trois soins dans un cadre resserré.</p>
+  <p><b>Une fois le groupe constitué, les deux formats existent.</b> Cela peut se vivre de façon <b>régulière</b> — plusieurs fois par an, ce qui permet d’ancrer le travail dans le temps et de vivre un processus d’intégration concret, incarné et évolutif. Ou <b>une seule fois</b>, comme une immersion complète en elle-même. Les deux sont légitimes : c’est le groupe qui choisit.</p>
   <p>Ce soin repose sur une <b>alliance thérapeutique</b> : vous venez avec votre présence et votre conscience, nous vous offrons un cadre sécure, bienveillant et précis pour accompagner votre cheminement, qu’il soit ponctuel ou suivi.</p>
 </div></section>
 
@@ -537,14 +561,13 @@ HTML = f"""<!DOCTYPE html>
 
 <section class="soa-block band" id="participation"><div class="wrap">
   <div class="soa-h">Participation</div>
-  <h2 class="sec-title">Valeur et engagement</h2>
+  <h2 class="sec-title">Une participation sur mesure</h2>
   <p>Cette immersion est conçue comme une parenthèse d’exception, où vous bénéficiez d’une attention constante. Votre participation inclut :</p>
   {soa_ul(SOA_INCLUS)}
   <div class="soa-price">
-    <div class="amount"><small>Participation</small>425 €</div>
-    <p>Dont un <b>acompte de 150 € à l’inscription</b> (non remboursable ni échangeable). Cette participation couvre l’organisation du week-end, la mise à disposition du lieu et la rémunération des intervenants. Elle est perçue par l’association dans le cadre de ses activités, et non par les intervenants à titre personnel. <b>6 places.</b></p>
-    <p>Option nuitée supplémentaire au Nid : <b>+ 25 €</b>.</p>
-    <div class="cta" style="margin-top:20px"><a class="btn" href="{SOA_MAIL}">Demander mon inscription</a></div>
+    <p><b>Chaque immersion est construite sur mesure</b> : selon le format retenu, la composition du groupe et le nombre de sessions envisagées. Nous établissons donc un <b>devis</b> — écrivez-nous, nous en parlons ensemble, et nous vous répondons précisément, sans engagement.</p>
+    <p>La participation couvre l’organisation du week-end, la mise à disposition du lieu et la rémunération des intervenants. Elle est <b>perçue par l’association</b> dans le cadre de ses activités, et non par les intervenants à titre personnel.</p>
+    <div class="cta" style="margin-top:20px"><a class="btn" href="{SOA_DEVIS}">Demander un devis</a><a class="btn ghost" href="{SOA_MAIL}">Demander mon inscription</a></div>
   </div>
 </div></section>
 
