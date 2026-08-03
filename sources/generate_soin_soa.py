@@ -6,6 +6,19 @@ https://www.irischasles.com/agenda-yoga/immersion-therapeutique-soa
 Le texte est repris MOT POUR MOT depuis l'ancienne section #soin-soa de
 l'accueil (commit 74e407a) : on ne fait que le remettre en page.
 
+ADAPTATION STATUTAIRE (validee par David le 03/08/2026) : la page presente
+un EVENEMENT ORGANISE PAR L'ASSOCIATION, pas une offre de soin privee.
+  - sur-titre « Evenement organise par Resonances Productions »
+  - encadre de cadrage (objet de l'association, Article 2 des statuts)
+  - « praticiens » / « therapeutes » -> « intervenants » ; Iris = co-fondatrice,
+    Gaia = intervenante invitee
+  - la participation est percue PAR L'ASSOCIATION (organisation + lieu +
+    remuneration des intervenants), pas par les intervenants a titre personnel
+  - encadre « Le cadre et ses limites » (pas un acte medical)
+  - contact d'inscription = contact@resonancesproductions.org
+Regle de registre : AUCUNE promesse de resultat therapeutique (guerison,
+liberation durable, equivalent d'un cycle therapeutique). Aucune date affichee.
+
 Usage :
     python3 sources/generate_soin_soa.py
     -> ecrit sources/soin_soa_final.html, a copier dans le-soin-soa/index.html
@@ -59,6 +72,9 @@ b{color:#fff;font-weight:500}
 .nav .links a:hover{color:var(--gold2)}
 .nav .adh{color:#1a1608!important;background:var(--gold);padding:8px 16px;border-radius:30px;font-weight:600}
 @media(max-width:760px){.nav .links a:not(.adh){display:none}}
+/* 9 entrees de menu : on resserre entre 861 et 1080 px (sous 861 px = hamburger) */
+@media(min-width:861px) and (max-width:1080px){.nav .links{gap:13px;font-size:12.5px}.nav .adh{padding:8px 13px}}
+.nav .links a[aria-current="page"]{color:var(--gold2)}
 .btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 26px;border-radius:40px;font-size:15px;transition:transform .2s,box-shadow .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
@@ -79,8 +95,13 @@ b{color:#fff;font-weight:500}
 .soa-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:30px}
 .soa-who{background:var(--card);border:1px solid rgba(255,255,255,.06);border-left:2px solid var(--gold);border-radius:14px;padding:22px 24px}
 .soa-who .t{color:var(--gold);font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
-.soa-who h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;color:#fff;font-weight:600;margin:6px 0 8px}
+.soa-who h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;color:#fff;font-weight:600;margin:6px 0 2px}
+.soa-who .role{color:var(--gold2);font-size:13.5px;font-style:italic;margin-bottom:9px}
 .soa-who p{color:var(--muted);font-size:15px;margin:0}
+/* encadres de cadrage (statut de l'evenement, limites) */
+.soa-note{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:19px 22px;margin-top:22px;max-width:820px}
+.soa-note p{color:#d7d4ea;font-size:15.5px;margin:0;line-height:1.7}
+.soa-note p+p{margin-top:10px}
 .soa-quote{margin:34px 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(21px,3vw,28px);line-height:1.35;border-left:2px solid var(--gold);padding-left:22px;max-width:760px}
 .soa-list{list-style:none;margin-top:20px;max-width:820px}
 .soa-list li{color:#d7d4ea;font-size:16px;padding:9px 0 9px 26px;position:relative;border-bottom:1px solid rgba(255,255,255,.05)}
@@ -137,8 +158,8 @@ SOA_PHOTOS = {
    alt='Triptyque des trois soins : des mains qui massent un dos, un échange assis face à face, et des mains sur un handpan près d’un bol de cristal.',
    cap='Les trois espaces du soin : le corps, la psyché, le son.'),
  'cercle': dict(base='cercle-au-nid', widths=[480, 768], w=768, h=1344,
-   alt='Cercle de partage au Nid : six personnes assises sur des coussins autour de trois thérapeutes et de bols chantants, dans un grand atelier d’artiste lumineux.',
-   cap='Le cercle de partage au Nid — six participants, trois thérapeutes.'),
+   alt='Cercle de partage au Nid : six personnes assises sur des coussins autour de trois intervenants et de bols chantants, dans un grand atelier d’artiste lumineux.',
+   cap='Le cercle de partage au Nid — six participants, trois intervenants.'),
  'facade': dict(base='facade-le-nid', widths=[480, 600], w=600, h=450,
    alt='Façade vitrée du Nid, ancien atelier d’artiste sur trois niveaux, vue depuis la cour pavée plantée.',
    cap='Le Nid — un ancien atelier d’artiste, dans une cour pavée du 20ᵉ.'),
@@ -165,10 +186,14 @@ def soa_galerie():
         soa_fig(k, '(max-width:700px) 92vw, (max-width:1080px) 46vw, 340px') for k in SOA_GALERIE) + '</div>'
 
 
+# (discipline, nom, qualite / rattachement, biographie)
 SOA_EQUIPE = [
- ('Toucher thérapeutique', 'Gaïa Pégourié', 'Experte du toucher thérapeutique et formée au bio-décodage, elle accompagne la libération des mémoires corporelles. Son approche relie le corps et les émotions pour révéler leur langage profond, et met en lumière ce que le corps exprime en silence.'),
- ('Intelligence relationnelle', 'Iris Chasles', 'Psychopraticienne à Paris, formée en Intelligence Relationnelle® et en psychopathologie. Son travail porte sur les traumas et les mémoires engrammées, avec une approche neurobiologique de la régulation du système nerveux.'),
- ('Alchimie vocale & musique vivante', 'David Lesage', 'Improvisateur formé au jazz et au conservatoire, il utilise la voix comme outil de transformation. Avec ses instruments vibratoires — handpan, harpe africaine, tambour chamanique, bols de cristal et d’or — il façonne en temps réel un espace sonore sur-mesure.'),
+ ('Toucher thérapeutique', 'Gaïa Pégourié', 'Intervenante invitée',
+  'Experte du toucher thérapeutique et formée au bio-décodage, elle accompagne la libération des mémoires corporelles. Son approche relie le corps et les émotions pour révéler leur langage profond, et met en lumière ce que le corps exprime en silence.'),
+ ('Intelligence relationnelle', 'Iris Chasles', 'Co-fondatrice de Résonances Productions',
+  'Psychopraticienne à Paris, formée en Intelligence Relationnelle® et en psychopathologie. Son travail porte sur les traumas et les mémoires engrammées, avec une approche neurobiologique de la régulation du système nerveux.'),
+ ('Alchimie vocale & musique vivante', 'David Lesage', 'Intervenant · Résonances Productions',
+  'Improvisateur formé au jazz et au conservatoire, il utilise la voix comme outil de transformation. Avec ses instruments vibratoires — handpan, harpe africaine, tambour chamanique, bols de cristal et d’or — il façonne en temps réel un espace sonore sur-mesure.'),
 ]
 SOA_PERMET = [
  'Libérer des blocages profonds, physiques ou émotionnels.',
@@ -212,12 +237,12 @@ SOA_PROG = [
  ]),
 ]
 SOA_INCLUS = [
- 'L’expertise de trois thérapeutes dédiés à votre processus tout au long du week-end.',
+ 'L’expertise de trois intervenants dédiés à votre processus tout au long du week-end.',
  'Trois séances individuelles d’une heure chacune : massage mémoire cellulaire, Intelligence Relationnelle® et alchimie vocale.',
  'L’accès au Nid et l’hébergement au sein de ce lieu.',
 ]
-SOA_MAIL = ('mailto:irischaslesyoga@gmail.com'
-            '?subject=Demande%20d%E2%80%99inscription%20au%20Soin%20Soa')
+SOA_MAIL = ('mailto:contact@resonancesproductions.org'
+            '?subject=Le%20Soin%20Soa%20%E2%80%94%20demande%20d%E2%80%99inscription')
 
 
 def soa_ul(items, cls='soa-list'):
@@ -226,8 +251,9 @@ def soa_ul(items, cls='soa-list'):
 
 def soa_equipe():
     return '<div class="soa-cols">' + ''.join(
-        f'<div class="soa-who"><div class="t">{t}</div><h3>{n}</h3><p>{p}</p></div>'
-        for t, n, p in SOA_EQUIPE) + '</div>'
+        f'<div class="soa-who"><div class="t">{t}</div><h3>{n}</h3>'
+        f'<div class="role">{r}</div><p>{p}</p></div>'
+        for t, n, r, p in SOA_EQUIPE) + '</div>'
 
 
 def soa_prog():
@@ -240,7 +266,7 @@ def soa_prog():
 
 # Sommaire : (ancre, libelle) — doit suivre l'ordre des sections ci-dessous.
 TOC = [
- ('praticiens', 'Trois praticiens autour de vous'),
+ ('intervenants', 'Les intervenants'),
  ('a-qui', 'À qui s’adresse ce soin'),
  ('cadre', 'Le cadre : sécurité et intégrité'),
  ('intention', 'L’intention : trois approches'),
@@ -265,9 +291,9 @@ HTML = f"""<!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Le Soin Soa — soin d’incarnation au Nid, Paris 20ᵉ · Résonances Productions</title>
-<meta name="description" content="Le Soin Soa : un week-end d’immersion en tout petit groupe au Nid (Paris 20ᵉ), à la rencontre de trois approches — toucher thérapeutique, intelligence relationnelle et alchimie vocale. Six participants, trois praticiens.">
+<meta name="description" content="Le Soin Soa : un week-end d’immersion organisé par Résonances Productions au Nid (Paris 20ᵉ), à la rencontre de trois approches — toucher thérapeutique, intelligence relationnelle et alchimie vocale. Six participants, trois intervenants.">
 <meta property="og:title" content="Le Soin Soa — soin d’incarnation au Nid, Paris 20ᵉ">
-<meta property="og:description" content="Trois approches complémentaires — toucher thérapeutique, intelligence relationnelle et alchimie vocale — le temps d’un week-end d’immersion au Nid, en groupe de six.">
+<meta property="og:description" content="Trois approches complémentaires — toucher thérapeutique, intelligence relationnelle et alchimie vocale — le temps d’un week-end d’immersion au Nid, en groupe de six. Un événement organisé par Résonances Productions.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.resonancesproductions.org/le-soin-soa">
 <meta property="og:image" content="https://www.resonancesproductions.org/img/soin-soa/affiche-soa-1400.jpg">
@@ -292,6 +318,7 @@ HTML = f"""<!DOCTYPE html>
     <a href="/rituals">RITUALS</a>
     <a href="/e-motion">E-Motion</a>
     <a href="/le-nid">Le Nid</a>
+    <a href="/le-soin-soa" aria-current="page">Le Soin Soa</a>
     <a href="/#statuts">Statuts</a>
     <a href="#contact">Contact</a>
     <a class="adh" href="{HELLO}" target="_blank" rel="noopener">Adhérer</a>
@@ -299,13 +326,14 @@ HTML = f"""<!DOCTYPE html>
 </nav>
 
 <header class="soa-top"><div class="wrap">
-  <div class="kick">Soin d’incarnation · Le Nid, Paris 20<sup>e</sup></div>
+  <div class="kick">Événement organisé par Résonances Productions · Le Nid, Paris 20<sup>e</sup></div>
   <h1>Le Soin Soa</h1>
   <div class="tagline">« Renaître à soi au cœur de l’intime »</div>
   <div class="soa-hero">
     <div>
       <p class="lead">Un soin holistique raffiné, né de la rencontre subtile de trois approches complémentaires : le <b>toucher thérapeutique</b>, l’<b>intelligence relationnelle</b> et l’<b>alchimie vocale</b>.</p>
-      <p class="body">Trois praticiens réunis autour de vous, le temps d’un week-end d’immersion au Nid, dans un tout petit groupe de six personnes.</p>
+      <p class="body">Trois intervenants réunis autour de vous, le temps d’un week-end d’immersion au Nid, dans un tout petit groupe de six personnes.</p>
+      <div class="soa-note"><p>Résonances Productions organise au Nid un <b>week-end d’immersion</b> en tout petit groupe, réunissant trois intervenants autour de la relation au corps, à la parole et au son. Une action inscrite dans l’objet de l’association : soutenir des <b>alternatives humaines</b> et proposer des formats de transmission et d’expérience.</p></div>
       <div class="cta" style="margin-top:26px"><a class="btn" href="{SOA_MAIL}">Demander mon inscription</a><a class="btn ghost" href="#programme">Voir le déroulé →</a></div>
     </div>
     {soa_fig('affiche', '(max-width:860px) 92vw, 320px', lazy=False)}
@@ -313,9 +341,9 @@ HTML = f"""<!DOCTYPE html>
   {toc()}
 </div></header>
 
-<section class="soa-block" id="praticiens"><div class="wrap">
-  <div class="soa-h">Les praticiens</div>
-  <h2 class="sec-title">Trois praticiens autour de vous</h2>
+<section class="soa-block" id="intervenants"><div class="wrap">
+  <div class="soa-h">Les intervenants</div>
+  <h2 class="sec-title">Trois intervenants réunis autour de vous</h2>
   {soa_equipe()}
 </div></section>
 
@@ -336,6 +364,8 @@ HTML = f"""<!DOCTYPE html>
   <p>Nous travaillons avec une conscience fine du <b>trauma complexe</b> — celui qui n’est pas toujours visible, ni même reconnu comme tel. Ce qui fait qu’un trauma est un trauma, ce n’est pas l’événement lui-même : c’est la mémoire souffrante restée engrammée dans le corps et la psyché, quelque chose qui ne s’est pas digéré et qui continue de vibrer dans le présent, souvent de manière très inconsciente. C’est pourquoi nous avançons avec une <b>grande délicatesse</b>, en respectant les rythmes internes, les mécanismes de défense et les parts qui se sont construites pour protéger.</p>
   <p>Ici, aucune posture haute, aucune relation d’emprise. Nous ne sommes ni des gourous ni des figures d’autorité spirituelle. Nous ne projetons pas nos croyances sur vous et nous ne prenons pas le pouvoir sur votre expérience. Ce que nous faisons, c’est <b>écouter</b> : votre corps, votre psyché, votre rythme propre. Nous vous aidons à rendre explicite ce qui cherche à se dire, à nommer l’indicible. Nous vous rejoignons là où vous êtes, sans chercher à vous pousser ailleurs, et nous prenons soin des différentes parts de vous qui demandent à être vues, reconnues, accueillies.</p>
   <p class="soa-quote">Ici, on ne cherche pas à s’évader, mais à s’habiter pleinement.</p>
+  <h3 style="margin-top:34px">Le cadre et ses limites</h3>
+  <div class="soa-note"><p><b>Le cadre.</b> Ce week-end est une proposition d’expérience et d’accompagnement. <b>Ce n’est pas un acte médical ni un traitement, et il ne remplace pas un suivi médical ou psychologique.</b> Si vous suivez un traitement ou traversez une période de fragilité, parlez-en avec nous avant de vous inscrire : nous en discuterons ensemble en toute confidentialité.</p></div>
 </div></section>
 
 <div class="divider"></div>
@@ -399,7 +429,7 @@ HTML = f"""<!DOCTYPE html>
   {soa_ul(SOA_INCLUS)}
   <div class="soa-price">
     <div class="amount"><small>Participation</small>425 €</div>
-    <p><b>Acompte de 150 €</b> pour valider votre place (non remboursable ni échangeable) — <b>6 places</b>.</p>
+    <p>Dont un <b>acompte de 150 € à l’inscription</b> (non remboursable ni échangeable). Cette participation couvre l’organisation du week-end, la mise à disposition du lieu et la rémunération des intervenants. Elle est perçue par l’association dans le cadre de ses activités, et non par les intervenants à titre personnel. <b>6 places.</b></p>
     <p>Option nuitée supplémentaire au Nid : <b>+ 25 €</b>.</p>
     <div class="cta" style="margin-top:20px"><a class="btn" href="{SOA_MAIL}">Demander mon inscription</a></div>
   </div>
