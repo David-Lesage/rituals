@@ -138,7 +138,20 @@ HTML=f"""<!DOCTYPE html>
 <meta property="og:description" content="L'humain, la vibration — accompagnement, promotion et soutien d'artistes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>{CSS}</style>  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>{CSS}
+/* --- lisibilite des liens (demande de David : liens et dates trop petits) --- */
+.jo a{font-size:15px;display:inline-block;padding:6px 0;text-decoration:underline;
+  text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px}
+.jo a:hover{text-decoration-color:var(--gold2)}
+footer p,footer a{font-size:16px}
+footer a{padding:13px 0}
+footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.35);
+  text-underline-offset:3px}
+.nav .links a{font-size:14.5px}
+.nav .links a.adh{font-size:15px}
+p a:not(.btn):not(.adh){text-decoration:underline;
+  text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
+</style>  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="theme-color" content="#0e0f24">
@@ -237,7 +250,7 @@ HTML=f"""<!DOCTYPE html>
       <p><a href="mailto:contact@resonancesproductions.org">contact@resonancesproductions.org</a></p>
       <p><b>Siège social</b><br>2 impasse des Bleuets<br>09600 Aigues-Vives</p>
       <p><b>Adresse de correspondance</b><br>29 rue des Orteaux<br>75020 Paris</p>
-      <p style="margin-top:8px"><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></p>
+      <p style="margin-top:8px"><a href="https://www.facebook.com/resonancesproductions" target="_blank" rel="noopener">Facebook</a></p>
     </div>
     <div>
       <h4>Informations</h4>

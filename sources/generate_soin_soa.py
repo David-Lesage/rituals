@@ -309,7 +309,20 @@ HTML = f"""<!DOCTYPE html>
 <meta name="theme-color" content="#0e0f24">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>{CSS}</style>
+<style>{CSS}
+/* --- lisibilite des liens (demande de David : liens et dates trop petits) --- */
+.jo a{font-size:15px;display:inline-block;padding:6px 0;text-decoration:underline;
+  text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px}
+.jo a:hover{text-decoration-color:var(--gold2)}
+footer p,footer a{font-size:16px}
+footer a{padding:13px 0}
+footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.35);
+  text-underline-offset:3px}
+.nav .links a{font-size:14.5px}
+.nav .links a.adh{font-size:15px}
+p a:not(.btn):not(.adh){text-decoration:underline;
+  text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
+</style>
 </head>
 <body id="top">
 
