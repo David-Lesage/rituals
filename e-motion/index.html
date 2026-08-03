@@ -7,9 +7,10 @@
 <meta name="description" content="E-Motion, le spectacle immersif et participatif d’ID duo (Iris Chasles &amp; David Lesage) : danse aérienne à l’élastique, musique live, chant, pratiques corporelles et guidances. Une expérience immersive des sens où chaque spectateur devient acteur.">
 <meta property="og:title" content="E-MOTION — Spectacle participatif · ID duo">
 <meta property="og:description" content="Envole-toi vers l'inattendu ! Une expérience immersive des sens.">
-<meta property="og:image" content="https://d1yei2z3i6k35z.cloudfront.net/6243870/65909c183d86b_ApplatbkgaffichetitreWEB.jpeg">
+<meta property="og:image" content="https://www.resonancesproductions.org/img/e-motion/affiche-e-motion-1400.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" type="image/webp" href="/img/e-motion/hero-iris-et-david-1400.webp" fetchpriority="high">
 <style>
 :root{--night:#0e0f24;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -162,6 +163,29 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   body.nav-open{overflow:hidden}
 }
 @media print{.burger{display:none}}
+
+/* ===== IMAGES LOCALES RESPONSIVES (WebP + repli JPEG) =====
+   <picture> ne doit rien changer a la mise en page : il se comporte comme un bloc
+   transparent et l'<img> garde exactement les regles CSS d'origine. */
+picture{display:block}
+/* Les attributs width/height valent aussi comme indication de style : sans
+   height:auto explicite, la hauteur en attribut s'appliquerait comme une
+   longueur CSS et deformerait l'image (cas des .figure, du teaser, etc.). */
+picture>img{height:auto}
+picture.aphoto{overflow:hidden}
+picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
+/* L'affiche est pilotee par sa hauteur (max-height:80vh). On reserve donc sa
+   place sur le <picture> a partir de son rapport largeur/hauteur (--ar) :
+   largeur = min(place disponible, 80vh x --ar), exactement la geometrie d'avant.
+   Surtout pas de display:flex ici : l'image serait etiree en hauteur. */
+.affiche picture{width:min(100%,calc(80vh * var(--ar,0.71)));margin:0 auto}
+.affiche picture>img{width:100%;height:auto;max-width:100%;max-height:none}
+.hero{background:linear-gradient(rgba(10,11,28,.58),rgba(10,11,28,.82)),url(/img/e-motion/hero-iris-et-david-1400.jpg) center/cover}
+.hero{background:linear-gradient(rgba(10,11,28,.58),rgba(10,11,28,.82)),image-set(url(/img/e-motion/hero-iris-et-david-1400.webp) type("image/webp"),url(/img/e-motion/hero-iris-et-david-1400.jpg) type("image/jpeg")) center/cover}
+@media(max-width:900px){
+.hero{background:linear-gradient(rgba(10,11,28,.58),rgba(10,11,28,.82)),url(/img/e-motion/hero-iris-et-david-900.jpg) center/cover}
+.hero{background:linear-gradient(rgba(10,11,28,.58),rgba(10,11,28,.82)),image-set(url(/img/e-motion/hero-iris-et-david-900.webp) type("image/webp"),url(/img/e-motion/hero-iris-et-david-900.jpg) type("image/jpeg")) center/cover}
+}
 </style>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/favicon.ico" sizes="any">
@@ -182,7 +206,7 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   </div>
 </nav>
 
-<header class="hero" style="background:linear-gradient(rgba(10,11,28,.58),rgba(10,11,28,.82)),url(https://d1yei2z3i6k35z.cloudfront.net/6243870/659c0cf759d1e_SOLUNE-SITECENTREELEMENTDavidLesageIrisChasles25.jpg) center/cover">
+<header class="hero">
   <div class="inner">
     <div class="kick">ID duo — Spectacle immersif participatif</div>
     <h1>E-MOTION</h1>
@@ -206,7 +230,7 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   <h2 class="sec-title">Voir E-Motion en mouvement</h2>
   <p class="lead" style="margin:16px auto 0">Une minute pour saisir ce qui se joue sur scène.</p>
   <div class="tz" onclick="openYT('wjJ44RDENQM')" role="button" tabindex="0" aria-label="Lire le teaser du spectacle E-Motion">
-    <img src="https://d1yei2z3i6k35z.cloudfront.net/6243870/659d70e45442d_Capturedecran2023-10-28a21.58.37.png" alt="Teaser du spectacle E-Motion">
+    <picture><source type="image/webp" srcset="/img/e-motion/danse-aerienne-et-musique-live-sur-scene-480.webp 480w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-900.webp 900w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-1400.webp 1400w" sizes="(max-width:952px) calc(100vw - 52px), 900px"><img src="/img/e-motion/danse-aerienne-et-musique-live-sur-scene-900.jpg" srcset="/img/e-motion/danse-aerienne-et-musique-live-sur-scene-480.jpg 480w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-900.jpg 900w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-1400.jpg 1400w" sizes="(max-width:952px) calc(100vw - 52px), 900px" width="1400" height="783" alt="Teaser du spectacle E-Motion" loading="eager" decoding="async"></picture>
     <div class="play"></div>
   </div>
 </div></section>
@@ -215,7 +239,7 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   <div class="kick">L’affiche</div>
   <h2 class="sec-title">E-Motion</h2>
   <div class="affiche-wrap">
-    <img src="https://d1yei2z3i6k35z.cloudfront.net/6243870/65909c183d86b_ApplatbkgaffichetitreWEB.jpeg" alt="Affiche du spectacle E-Motion">
+    <picture style="--ar:0.7071"><source type="image/webp" srcset="/img/e-motion/affiche-e-motion-480.webp 480w, /img/e-motion/affiche-e-motion-900.webp 900w, /img/e-motion/affiche-e-motion-1400.webp 1400w" sizes="(max-width:760px) calc(100vw - 52px), 620px"><img src="/img/e-motion/affiche-e-motion-900.jpg" srcset="/img/e-motion/affiche-e-motion-480.jpg 480w, /img/e-motion/affiche-e-motion-900.jpg 900w, /img/e-motion/affiche-e-motion-1400.jpg 1400w" sizes="(max-width:760px) calc(100vw - 52px), 620px" width="1400" height="1980" alt="Affiche du spectacle E-Motion" loading="lazy" decoding="async"></picture>
   </div>
 </div></section>
 
@@ -239,16 +263,16 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   <h2 class="sec-title">La danse aérienne</h2>
   <p class="lead">Le corps suspendu à l’élastique — la signature visuelle d’E-Motion.</p>
   <div class="gal-grid">
-    <div class="gal-item"><img src="https://d1yei2z3i6k35z.cloudfront.net/6243870/659d70e45442d_Capturedecran2023-10-28a21.58.37.png" alt="Danse aérienne à l'élastique et musique live sur scène"><span class="c">Sur scène : la danse aérienne et la musique live se répondent</span></div>
-    <div class="gal-item"><img src="https://images.squarespace-cdn.com/content/v1/5f87497b40dfe64f746e59a0/1742836882689-AJVK57Y92Q1WB4O8MKHV/untitled-20230624_191636.jpg?format=1500w" alt="Iris Chasles en danse aérienne à l'élastique"><span class="c">Suspendue — l’élastique porte le mouvement</span></div>
-    <div class="gal-item"><img src="https://d1yei2z3i6k35z.cloudfront.net/6243870/6595a5d2abc63_Everness-20230624_191730-2.jpg" alt="Danse aérienne à l'élastique, Everness Festival"><span class="c">Everness Festival</span></div>
-    <div class="gal-item"><img src="https://images.squarespace-cdn.com/content/v1/5f87497b40dfe64f746e59a0/1766140580815-4R7MXZI7USGXUAQN5O6B/iris%2BDavid%2BCorealis%2B20232.png?format=1500w" alt="Iris Chasles dans les airs avec la bungee dance, David Lesage à la musique"><span class="c">L’envol, sous les arbres</span></div>
-    <div class="gal-item"><img src="https://images.squarespace-cdn.com/content/v1/5f87497b40dfe64f746e59a0/6b9df34c-e30e-4c46-b442-54c317e61f6c/danse-soufie-paris.jpg?format=1500w" alt="Danse de tournoiement sur scène"><span class="c">La danse de tournoiement</span></div>
-    <div class="gal-item"><img src="https://lh3.googleusercontent.com/d/131lOlr8DQq4_Y7KcaomktT1thhCspl7n=w1600" alt="Iris Chasles suspendue à l'élastique, bras ouverts"><span class="c">Suspendue, bras ouverts</span><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
-    <div class="gal-item"><img src="https://lh3.googleusercontent.com/d/12upFowYvffyTlzsqT5nYNocDCFgC2wCZ=w1600" alt="Danse aérienne à l'élastique, noir et blanc"><span class="c">L’élastique, en noir et blanc</span><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
-    <div class="gal-item"><img src="https://lh3.googleusercontent.com/d/13HZq470RMel-xVDz0u3uLdCqnfe68TS8=w1600" alt="E-Motion sur grande scène, danse aérienne"><span class="c">Sur grande scène</span><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
-    <div class="gal-item"><img src="https://lh3.googleusercontent.com/d/12p5-tF38dn5Ba-qpAeYVxq3LL7rUfGWN=w1600" alt="Danse aérienne devant l'écran de ciel"><span class="c">Le ciel en toile de fond</span><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
-    <div class="gal-item"><img src="https://images.squarespace-cdn.com/content/v1/5f87497b40dfe64f746e59a0/1767030410335-4FQ4LCHR7I3MBVBI9RQM/La%2Bbeaut%25C3%25A9%2B-%2BSolune%2B31.png?format=1500w" alt="Iris Chasles, danse de tournoiement"><span class="c">Le tournoiement de la beauté</span></div>
+    <div class="gal-item"><picture><source type="image/webp" srcset="/img/e-motion/danse-aerienne-et-musique-live-sur-scene-480.webp 480w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-900.webp 900w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/danse-aerienne-et-musique-live-sur-scene-900.jpg" srcset="/img/e-motion/danse-aerienne-et-musique-live-sur-scene-480.jpg 480w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-900.jpg 900w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="783" alt="Danse aérienne à l'élastique et musique live sur scène" loading="lazy" decoding="async"></picture><span class="c">Sur scène : la danse aérienne et la musique live se répondent</span></div>
+    <div class="gal-item"><picture><source type="image/webp" srcset="/img/e-motion/suspendue-l-elastique-porte-le-mouvement-480.webp 480w, /img/e-motion/suspendue-l-elastique-porte-le-mouvement-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/suspendue-l-elastique-porte-le-mouvement-900.jpg" srcset="/img/e-motion/suspendue-l-elastique-porte-le-mouvement-480.jpg 480w, /img/e-motion/suspendue-l-elastique-porte-le-mouvement-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="900" alt="Iris Chasles en danse aérienne à l'élastique" loading="lazy" decoding="async"></picture><span class="c">Suspendue — l’élastique porte le mouvement</span></div>
+    <div class="gal-item"><picture><source type="image/webp" srcset="/img/e-motion/everness-festival-480.webp 480w, /img/e-motion/everness-festival-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/everness-festival-900.jpg" srcset="/img/e-motion/everness-festival-480.jpg 480w, /img/e-motion/everness-festival-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="600" alt="Danse aérienne à l'élastique, Everness Festival" loading="lazy" decoding="async"></picture><span class="c">Everness Festival</span></div>
+    <div class="gal-item"><picture><source type="image/webp" srcset="/img/e-motion/l-envol-sous-les-arbres-480.webp 480w, /img/e-motion/l-envol-sous-les-arbres-900.webp 900w, /img/e-motion/l-envol-sous-les-arbres-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/l-envol-sous-les-arbres-900.jpg" srcset="/img/e-motion/l-envol-sous-les-arbres-480.jpg 480w, /img/e-motion/l-envol-sous-les-arbres-900.jpg 900w, /img/e-motion/l-envol-sous-les-arbres-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="1400" alt="Iris Chasles dans les airs avec la bungee dance, David Lesage à la musique" loading="lazy" decoding="async"></picture><span class="c">L’envol, sous les arbres</span></div>
+    <div class="gal-item"><picture><source type="image/webp" srcset="/img/e-motion/la-danse-de-tournoiement-480.webp 480w, /img/e-motion/la-danse-de-tournoiement-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/la-danse-de-tournoiement-900.jpg" srcset="/img/e-motion/la-danse-de-tournoiement-480.jpg 480w, /img/e-motion/la-danse-de-tournoiement-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="900" alt="Danse de tournoiement sur scène" loading="lazy" decoding="async"></picture><span class="c">La danse de tournoiement</span></div>
+    <div class="gal-item"><picture><source type="image/webp" srcset="/img/e-motion/suspendue-bras-ouverts-480.webp 480w, /img/e-motion/suspendue-bras-ouverts-900.webp 900w, /img/e-motion/suspendue-bras-ouverts-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/suspendue-bras-ouverts-900.jpg" srcset="/img/e-motion/suspendue-bras-ouverts-480.jpg 480w, /img/e-motion/suspendue-bras-ouverts-900.jpg 900w, /img/e-motion/suspendue-bras-ouverts-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="914" alt="Iris Chasles suspendue à l'élastique, bras ouverts" loading="lazy" decoding="async"></picture><span class="c">Suspendue, bras ouverts</span><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
+    <div class="gal-item"><picture><source type="image/webp" srcset="/img/e-motion/l-elastique-en-noir-et-blanc-480.webp 480w, /img/e-motion/l-elastique-en-noir-et-blanc-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/l-elastique-en-noir-et-blanc-900.jpg" srcset="/img/e-motion/l-elastique-en-noir-et-blanc-480.jpg 480w, /img/e-motion/l-elastique-en-noir-et-blanc-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="1321" alt="Danse aérienne à l'élastique, noir et blanc" loading="lazy" decoding="async"></picture><span class="c">L’élastique, en noir et blanc</span><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
+    <div class="gal-item"><picture><source type="image/webp" srcset="/img/e-motion/sur-grande-scene-480.webp 480w, /img/e-motion/sur-grande-scene-900.webp 900w, /img/e-motion/sur-grande-scene-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/sur-grande-scene-900.jpg" srcset="/img/e-motion/sur-grande-scene-480.jpg 480w, /img/e-motion/sur-grande-scene-900.jpg 900w, /img/e-motion/sur-grande-scene-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="916" alt="E-Motion sur grande scène, danse aérienne" loading="lazy" decoding="async"></picture><span class="c">Sur grande scène</span><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
+    <div class="gal-item"><picture><source type="image/webp" srcset="/img/e-motion/le-ciel-en-toile-de-fond-480.webp 480w, /img/e-motion/le-ciel-en-toile-de-fond-900.webp 900w, /img/e-motion/le-ciel-en-toile-de-fond-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/le-ciel-en-toile-de-fond-900.jpg" srcset="/img/e-motion/le-ciel-en-toile-de-fond-480.jpg 480w, /img/e-motion/le-ciel-en-toile-de-fond-900.jpg 900w, /img/e-motion/le-ciel-en-toile-de-fond-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="885" alt="Danse aérienne devant l'écran de ciel" loading="lazy" decoding="async"></picture><span class="c">Le ciel en toile de fond</span><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
+    <div class="gal-item"><picture><source type="image/webp" srcset="/img/e-motion/le-tournoiement-de-la-beaute-480.webp 480w, /img/e-motion/le-tournoiement-de-la-beaute-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/le-tournoiement-de-la-beaute-900.jpg" srcset="/img/e-motion/le-tournoiement-de-la-beaute-480.jpg 480w, /img/e-motion/le-tournoiement-de-la-beaute-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="900" alt="Iris Chasles, danse de tournoiement" loading="lazy" decoding="async"></picture><span class="c">Le tournoiement de la beauté</span></div>
   </div>
   <p class="credit">Crédits photo : Magye d’Art Production et archives du duo.</p>
 </div></section>
@@ -268,7 +292,7 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   <p class="body">On ne veut <b>plus de doctrine</b>, on veut <b>une approche organique et joyeuse</b> avec un <b>cadre simple et contenant</b>. Iris fait de la danse aérienne (bungee dance) et David chante et joue de la musique. Nous avons créé un spectacle dans lequel nous invitons les spectateurs à faire l’expérience de ces trois piliers.</p>
 
   <div class="artist">
-    <img class="aphoto" src="https://d1yei2z3i6k35z.cloudfront.net/6243870/65a0600fd218a_Iris-Chasles-artiste-aerien.png" alt="Iris Chasles">
+    <picture class="aphoto"><source type="image/webp" srcset="/img/e-motion/portrait-iris-chasles-480.webp 480w" sizes="(max-width:760px) 62vw, 210px"><img src="/img/e-motion/portrait-iris-chasles-480.jpg" srcset="/img/e-motion/portrait-iris-chasles-480.jpg 480w" sizes="(max-width:760px) 62vw, 210px" width="480" height="650" alt="Iris Chasles" loading="lazy" decoding="async"></picture>
     <h3>Iris Chasles</h3>
     <div class="role">Danseuse aérienne · Professeure de yoga</div>
     <p>Danseuse aérienne et professeure de yoga, Iris fait le lien entre Terre et Ciel. Dès l’âge de 8 ans, elle se passionne pour le cirque. Ce fut une école extraordinaire, où elle apprend le plaisir du beau mouvement, la pleine conscience du placement de son corps dans les airs, la confiance en elle et la découverte du monde à l’envers.</p>
@@ -276,7 +300,7 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
   </div>
 
   <div class="artist">
-    <img class="aphoto" src="https://d1yei2z3i6k35z.cloudfront.net/6243870/6a2c129b759111.26752192_DavidLesage2025Portrait.jpg" alt="David Lesage">
+    <picture class="aphoto"><source type="image/webp" srcset="/img/e-motion/portrait-david-lesage-480.webp 480w, /img/e-motion/portrait-david-lesage-900.webp 900w" sizes="(max-width:760px) 62vw, 210px"><img src="/img/e-motion/portrait-david-lesage-900.jpg" srcset="/img/e-motion/portrait-david-lesage-480.jpg 480w, /img/e-motion/portrait-david-lesage-900.jpg 900w" sizes="(max-width:760px) 62vw, 210px" width="900" height="1350" alt="David Lesage" loading="lazy" decoding="async"></picture>
     <h3>David Lesage</h3>
     <div class="role">Voix · Musique live</div>
     <p>L’univers musical de David est un mélange de musique électronique et de musiques traditionnelles africaines : soul française, African spirit, électro vibes. La portée est un message clair, profond et qui vibre en chacun de nous.</p>
@@ -285,7 +309,7 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 </div></section>
 
 <section class="figsec"><div class="wrap">
-  <div class="figure"><img src="https://d1yei2z3i6k35z.cloudfront.net/6243870/65959428ca630_irisDavidSzigetamour.jpg" alt="Iris Chasles et David Lesage"></div>
+  <div class="figure"><picture><source type="image/webp" srcset="/img/e-motion/iris-et-david-sziget-festival-480.webp 480w, /img/e-motion/iris-et-david-sziget-festival-900.webp 900w" sizes="(max-width:1040px) calc(100vw - 52px), 988px"><img src="/img/e-motion/iris-et-david-sziget-festival-900.jpg" srcset="/img/e-motion/iris-et-david-sziget-festival-480.jpg 480w, /img/e-motion/iris-et-david-sziget-festival-900.jpg 900w" sizes="(max-width:1040px) calc(100vw - 52px), 988px" width="900" height="1200" alt="Iris Chasles et David Lesage" loading="lazy" decoding="async"></picture></div>
   <div class="cap">Iris &amp; David — Sziget Festival</div>
 </div></section>
 
