@@ -5,6 +5,7 @@ Les evenements sont recuperes via le connecteur Google Calendar puis figes ici.
 Pour actualiser : relancer la lecture du calendrier et mettre a jour EVENTS.
 """
 import datetime as dt
+import urllib.parse
 
 CAL_ID = '30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae@group.calendar.google.com'
 CAL_SUB = ('https://calendar.google.com/calendar/u/0?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1'
@@ -35,6 +36,10 @@ EVENTS = [
 ]
 
 LIEU = 'Le Nid, 29 rue des Orteaux, 75020 Paris'
+# Libelle de lieu utilise dans les liens Google Agenda (tirets cadratins comme sur le site)
+LIEU_GCAL = 'Le Nid — 29 rue des Orteaux, 75020 Paris'
+# NB : le lien Google "action=TEMPLATE" ne permet PAS d'imposer des rappels
+# (contrairement au .ics et a ses VALARM) : limitation assumee.
 # NB : le code portail n'est PAS diffuse publiquement (site + .ics telechargeables).
 ACCES_PUBLIC = ('Au fond de la cour, porte verte, 3e etage. '
                 'Le code du portail vous est communique avec votre confirmation d\'inscription.')
@@ -49,6 +54,21 @@ DESCR = {
  'showcase': 'Format court et intime : la decouverte d\'un projet en cours, d\'une creation ou d\'un artiste invite, au plus pres.',
  'residence':'Sortie de residence : restitution publique du travail mene en trio.',
 }
+
+# Versions accentuees, utilisees uniquement pour les liens Google Agenda
+# (les .ics restent sur les chaines sans accents, par compatibilite).
+DESCR_FR = {
+ 'mensuel':  'Le rendez-vous mensuel du Nid : un temps convivial qui mélange pratique, musique et partage, dans un cadre intime. Réservé aux adhérents de l’association.',
+ 'concert':  'Un concert en format intime : voix, handpan électronique, harpe africaine (Ngoni), calebasse et percussions électro-organiques.',
+ 'yoga':     'Atelier de yoga guidé par Iris Chasles : yoga postural, respiration et méditation. Pratique accessible à tous les niveaux.',
+ 'rythme':   'Workshop rythme à la calebasse avec David Lesage : les bases, les frappes, la pulsation collective. Aucun prérequis musical.',
+ 'showcase': 'Format court et intime : la découverte d’un projet en cours, d’une création ou d’un artiste invité, au plus près.',
+ 'residence':'Sortie de résidence : restitution publique du travail mené en trio.',
+}
+ACCES_PUBLIC_FR = ('Au fond de la cour, porte verte, 3e étage. '
+                   'Le code du portail vous est communiqué avec votre confirmation d’inscription.')
+JAUGE_FR = ('Jauge limitée : chaque événement est sur invitation ou sur inscription préalable. '
+            'Merci de réserver avant de venir.')
 
 LESAGE   = 'https://lesagedavid.fr'
 SHOWROOM = 'https://www.handpan-studio.app/showroom#agenda'
@@ -82,6 +102,25 @@ def url_public(u):
     return u
 
 
+def gcal_url(titre, start_utc, end_utc, typ, url):
+    """Lien 'Ajouter a mon Google Agenda' (action=TEMPLATE), fiable sur smartphone.
+
+    Jamais de code portail ici : uniquement la phrase publique.
+    """
+    details = (DESCR_FR[typ] + '\n\n'
+               + 'Réservation : ' + url_public(url) + '\n\n'
+               + ACCES_PUBLIC_FR + '\n' + JAUGE_FR)
+    q = urllib.parse.urlencode({
+        'action': 'TEMPLATE',
+        'text': titre,
+        'dates': start_utc + '/' + end_utc,
+        'details': details,
+        'location': LIEU_GCAL,
+        'ctz': 'Europe/Paris',
+    }, quote_via=urllib.parse.quote)
+    return 'https://calendar.google.com/calendar/render?' + q
+
+
 def build():
     # regroupement par mois, dans l'ordre chronologique
     groupes = []
@@ -97,13 +136,36 @@ def build():
         f'<span class="ag-leg"><i style="background:{c}"></i>{lab}</span>'
         for lab, c, _u, _t in TYPES.values())
 
+    # --- barre de filtres (masquee sans JS : tout reste visible) ---
+    types_presents = [t for t in TYPES if any(e[3] == t for e in EVENTS)]
+    f_types = ''.join(
+        f'<button class="ag-f" type="button" data-f="type" data-v="{t}" '
+        f'style="--c:{TYPES[t][1]}">{TYPES[t][0]}</button>'
+        for t in types_presents)
+    f_mois = ''.join(
+        f'<button class="ag-f" type="button" data-f="mois" data-v="{an:04d}-{mo:02d}">'
+        f'{MOIS[mo-1]}</button>'
+        for (an, mo), _evs in groupes)
+
     out = ['<section class="agenda" id="agenda"><div class="wrap">',
+           '  <span class="ag-anchor" id="concerts"></span>',
            '  <div class="kick">L’agenda</div>',
            '  <h2 class="sec-title">Les prochaines dates</h2>',
            '  <p class="lead">Rendez-vous mensuels, concerts, ateliers et workshops — au Nid, 29 rue des Orteaux, Paris 20<sup>e</sup>.</p>',
-           f'  <div class="ag-legend">{leg}</div>']
+           f'  <div class="ag-legend">{leg}</div>',
+           '  <div class="ag-filters" aria-label="Filtrer l’agenda">',
+           '    <div class="ag-frow"><span class="ag-flab">Type</span>'
+           '<button class="ag-f is-on" type="button" data-f="type" data-v="">Tous</button>'
+           + f_types + '</div>',
+           '    <div class="ag-frow"><span class="ag-flab">Mois</span>'
+           '<button class="ag-f is-on" type="button" data-f="mois" data-v="">Tous</button>'
+           + f_mois + '</div>',
+           '    <p class="ag-fnone" hidden>Aucune date ne correspond à ces filtres. '
+           '<button class="ag-freset" type="button">Tout afficher</button></p>',
+           '  </div>']
 
     for (an, mois), evs in groupes:
+        out.append(f'  <div class="ag-group" data-mois="{an:04d}-{mois:02d}">')
         out.append(f'  <div class="ag-month">{MOIS[mois-1]} {an}</div>')
         out.append('  <div class="ag-list">')
         for d, h1, h2, typ, titre, note in evs:
@@ -118,8 +180,10 @@ def build():
                         - dt.timedelta(hours=offset)).strftime('%Y%m%dT%H%M%SZ')
             desc = DESCR[typ] + ' | ' + ACCES_PUBLIC + ' | ' + JAUGE + ' | Reservation : ' + url_public(url)
             data = (f' data-s="{utc(h1)}" data-e="{utc(h2)}"'
-                    f' data-t="{esc_attr(titre)}" data-d="{esc_attr(desc)}"')
+                    f' data-t="{esc_attr(titre)}" data-d="{esc_attr(desc)}"'
+                    f' data-typ="{typ}" data-mois="{d.year:04d}-{d.month:02d}"')
             note_html = f'<span class="ag-note">{note}</span>' if note else ''
+            g = esc_attr(gcal_url(titre, utc(h1), utc(h2), typ, url))
             out.append(
                 f'    <div class="ag-item" style="--c:{col}"{data}>'
                 f'<div class="ag-date"><span class="ag-d">{d.day}</span>'
@@ -127,9 +191,13 @@ def build():
                 f'<div class="ag-body"><span class="ag-type">{lab}</span>'
                 f'<h3>{titre}</h3>{note_html}</div>'
                 f'<div class="ag-hour">{h1}<span>→ {h2}</span></div>'
+                f'<div class="ag-actions">'
                 f'<a class="ag-btn" href="{url}"{ext}>{btn}</a>'
-                f'<button class="ag-cal" type="button" title="Ajouter a mon agenda avec rappel">+ Agenda</button>'
-                f'</div>')
+                f'<a class="ag-gcal" href="{g}" target="_blank" rel="noopener" '
+                f'title="Ajouter cette date a mon Google Agenda">+ Google Agenda ↗</a>'
+                f'<button class="ag-cal" type="button" title="Telecharger le fichier .ics (Apple, Outlook…) avec rappels">+ .ics</button>'
+                f'</div></div>')
+        out.append('  </div>')
         out.append('  </div>')
 
     out += [
@@ -146,7 +214,9 @@ def build():
         f'    <a class="btn ghost" href="{CAL_SUB}" target="_blank" rel="noopener">↗ S’abonner au calendrier Google</a>',
         '    <a class="btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20réservation">Réserver une place</a>',
         '  </div>',
-        '  <p class="ag-tip">« + Agenda » télécharge un fichier compatible Google Agenda, Apple Calendrier et Outlook, avec deux rappels automatiques (la veille et 2 h avant).</p>',
+        '  <p class="ag-tip">« + Google Agenda » ajoute la date directement dans votre Google Agenda '
+        '(pratique sur smartphone). « + .ics » télécharge un fichier compatible Apple Calendrier, '
+        'Outlook et Google Agenda, avec deux rappels automatiques (la veille et 2 h avant).</p>',
         '</div></section>', '']
     return '\n'.join(out)
 
@@ -160,6 +230,27 @@ CSS = """
 .ag-month{margin-top:40px;margin-bottom:12px;color:var(--gold);font-family:'Cormorant Garamond',Georgia,serif;
   font-size:24px;font-weight:600;text-transform:capitalize;border-bottom:1px solid var(--line);padding-bottom:8px}
 .ag-list{display:grid;gap:10px}
+.ag-anchor{display:block;height:0;scroll-margin-top:90px}
+/* --- filtres : masques sans JS (tout reste visible), affiches par .ag-js --- */
+.ag-filters{display:none;flex-direction:column;gap:10px;margin-top:22px}
+.agenda.ag-js .ag-filters{display:flex}
+.ag-frow{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.ag-flab{color:var(--gold);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  font-weight:600;margin-right:4px;min-width:44px}
+.ag-f{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);color:#d3d0e8;
+  border-radius:20px;padding:6px 13px;font-size:12.5px;cursor:pointer;font-family:inherit;
+  text-transform:capitalize;transition:background .2s,color .2s,border-color .2s}
+.ag-f:hover{border-color:var(--c,var(--gold));color:#fff}
+.ag-f.is-on{background:var(--c,var(--gold));border-color:var(--c,var(--gold));color:#12121f;font-weight:600}
+.ag-fnone{color:var(--muted);font-size:13.5px;font-style:italic;margin:6px 0 0}
+.ag-freset{background:none;border:none;color:var(--gold2,var(--gold));font:inherit;font-size:13.5px;
+  text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0}
+.ag-item[hidden],.ag-group[hidden]{display:none}
+.ag-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:flex-end}
+.ag-gcal{display:inline-block;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);
+  color:#d3d0e8;border-radius:20px;padding:7px 14px;font-size:12.5px;text-decoration:none;
+  white-space:nowrap;transition:background .2s,color .2s,border-color .2s}
+.ag-gcal:hover{background:var(--gold);color:#1a1608;border-color:var(--gold)}
 .ag-item{display:grid;grid-template-columns:64px 1fr auto auto;align-items:center;gap:18px;
   background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:3px solid var(--c);
   border-radius:12px;padding:14px 20px;transition:transform .2s,border-color .2s}
@@ -193,6 +284,9 @@ CSS = """
   .ag-hour{grid-column:2;text-align:left;margin-top:2px;font-size:14px}
   .ag-hour span{display:inline;margin-left:4px}
   .ag-btn{grid-column:2;justify-self:start;margin-top:6px}
+  .ag-actions{grid-column:2;justify-self:start;justify-content:flex-start;margin-top:6px}
+  .ag-actions .ag-btn,.ag-actions .ag-cal{grid-column:auto;margin-top:0}
+  .ag-flab{min-width:100%}
   .ag-d{font-size:26px}
 }
 """
@@ -225,7 +319,7 @@ ICS_JS = """
     var b=ev.target.closest('.ag-cal'); if(b){
       var it=read(b.closest('.ag-item'));
       ics([it], 'le-nid-'+it.t.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40)+'.ics');
-      b.textContent='\\u2713 Ajoute'; setTimeout(function(){b.textContent='+ Agenda';},2500);
+      b.textContent='\\u2713 Ajoute'; setTimeout(function(){b.textContent='+ .ics';},2500);
       return;
     }
     var all=ev.target.closest('.ag-all'); if(all){
@@ -233,6 +327,58 @@ ICS_JS = """
       all.textContent='\\u2713 Agenda telecharge'; setTimeout(function(){all.textContent='\\u2193 Ajouter toutes les dates a mon agenda';},2800);
     }
   });
+})();
+</script>
+"""
+
+
+FILTER_JS = """
+<script>
+/* Filtres de l'agenda du Nid : par type et par mois. Vanilla, sans dependance.
+   Sans JS la barre reste masquee (CSS) et toutes les dates sont visibles. */
+(function(){
+  var sec=document.querySelector('.agenda'); if(!sec) return;
+  var bar=sec.querySelector('.ag-filters'); if(!bar) return;
+  sec.classList.add('ag-js');
+  var items=[].slice.call(sec.querySelectorAll('.ag-item'));
+  var groups=[].slice.call(sec.querySelectorAll('.ag-group'));
+  var none=sec.querySelector('.ag-fnone');
+  var state={type:'',mois:''};
+
+  function apply(){
+    var n=0;
+    items.forEach(function(it){
+      var ok=(!state.type||it.dataset.typ===state.type)&&(!state.mois||it.dataset.mois===state.mois);
+      it.hidden=!ok; if(ok) n++;
+    });
+    groups.forEach(function(g){
+      g.hidden=!g.querySelector('.ag-item:not([hidden])');
+    });
+    [].forEach.call(bar.querySelectorAll('.ag-f'),function(b){
+      var on=state[b.dataset.f]===b.dataset.v;
+      b.classList.toggle('is-on',on);
+      b.setAttribute('aria-pressed',on?'true':'false');
+    });
+    if(none) none.hidden=(n>0);
+  }
+
+  bar.addEventListener('click',function(e){
+    var r=e.target.closest('.ag-freset');
+    if(r){ state.type=''; state.mois=''; apply(); return; }
+    var b=e.target.closest('.ag-f'); if(!b) return;
+    state[b.dataset.f]=b.dataset.v; apply();
+  });
+
+  /* ancre #concerts : pre-active le filtre "toutes les dates de concerts" */
+  function go(){ var a=document.getElementById('concerts'); if(a) a.scrollIntoView(); }
+  function fromHash(){
+    if(location.hash==='#concerts'){
+      state.type='concert'; state.mois=''; apply(); go();
+      if(document.readyState!=='complete'){ window.addEventListener('load',go,{once:true}); }
+    }
+  }
+  window.addEventListener('hashchange',fromHash);
+  apply(); fromHash();
 })();
 </script>
 """
@@ -316,6 +462,8 @@ if __name__ == '__main__':
     html = html.replace('</style>', CSS_DATES + '</style>', 1)
     if 'ag-cal' in html and 'BEGIN:VCALENDAR' not in html:
         html = html.replace('</body>', ICS_JS + '</body>', 1)
+    if 'ag-filters' in html and 'ag-freset' not in html.split('<script>')[-1]:
+        html = html.replace('</body>', FILTER_JS + '</body>', 1)
 
     # prise de rendez-vous psychotherapie -> site d'Iris
     _old_psy = '      <div class="who">Avec Iris Chasles · <a href="https://www.irischasles.com/psychotherapie-paris-20" target="_blank" rel="noopener">En savoir plus</a></div>'
