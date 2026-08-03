@@ -462,8 +462,11 @@ if __name__ == '__main__':
     html = html.replace(anchor, '<div class="divider"></div>\n\n' + build() + '\n<div class="divider"></div>\n\n<section class="lieu">', 1)
 
     # lien dans la nav + remplacement de la note "calendrier en cours"
-    html = html.replace('<a href="#contact">Contact</a>',
-                        '<a class="hide-s" href="#agenda">Agenda</a>\n    <a href="#contact">Contact</a>', 1)
+    # /!\ ce script est relance sur la page deja generee : sans ce garde-fou,
+    # chaque execution rajoutait une entree "Agenda" dans le menu (4 a l'arrivee).
+    if 'href="#agenda">Agenda</a>' not in html:
+        html = html.replace('<a href="#contact">Contact</a>',
+                            '<a class="hide-s" href="#agenda">Agenda</a>\n    <a href="#contact">Contact</a>', 1)
     html = html.replace('<a class="btn ghost" href="#contact">Être informé des dates</a>',
                         '<a class="btn ghost" href="#agenda">Voir les prochaines dates</a>', 1)
     old_note = ('<b>Dates, tarifs et réservations :</b> le calendrier du Nid est en cours de mise à jour. '
