@@ -86,7 +86,7 @@ footer{background:#08091a;padding:70px 0 56px;border-top:1px solid var(--line)}
 footer h4{font-family:'Cormorant Garamond',serif;color:#fff;font-size:22px;font-weight:600;margin-bottom:10px}
 footer p,footer a{color:var(--muted);font-size:14.5px}
 /* zone tactile confortable (~44px) sur les liens du pied de page */
-footer a{display:inline-block;padding:11px 0;line-height:1.25}
+footer a{display:inline-block;padding:13px 0;line-height:1.3}
 footer a.btn,footer a.adh{padding:14px 30px}
 footer a:hover{color:var(--gold2)}
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
