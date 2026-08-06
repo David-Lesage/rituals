@@ -69,7 +69,7 @@ PIEGES CONNUS DU PROJET (ne pas les reintroduire)
 
 import re
 
-NAV_VERSION = 'resonances-1'
+NAV_VERSION = 'resonances-2'
 CSS_MARK = '/* == nav_menu.py (%s) == */' % NAV_VERSION
 CSS_END = '/* == fin nav_menu.py == */'
 JS_MARK = '<!-- nav_menu.py (%s) -->' % NAV_VERSION
@@ -86,6 +86,7 @@ SCENE = [
     ('David Lesage en concert', '/david-lesage-en-concert', 'david-lesage-en-concert'),
 ]
 NID = [
+    ('Le Nid — Paris 20ᵉ', '/le-nid', 'le-nid'),
     ('Agenda', '/le-nid#agenda', 'le-nid'),
     ('Présentation d’instruments', '/le-nid#instruments', 'le-nid'),
     ('Concerts au Nid', '/concerts-david-lesage', 'concerts-david-lesage'),

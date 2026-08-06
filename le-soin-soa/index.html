@@ -197,7 +197,8 @@ p a:not(.btn):not(.adh){text-decoration:underline;
   body.nav-open{overflow:hidden}
 }
 @media print{.burger{display:none}}
-/* == nav_menu.py (resonances-1) == */
+
+/* == nav_menu.py (resonances-2) == */
 /* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
@@ -283,13 +284,16 @@ p a:not(.btn):not(.adh){text-decoration:underline;
 }
 @media print{.nm-sub{display:none}}
 /* == fin nav_menu.py == */
+.who-site{margin-top:10px}
+.who-site a{color:var(--gold);font-size:15px;text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px;display:inline-block;padding:8px 0}
+.who-site a:hover{color:var(--gold2)}
 </style>
 </head>
 <body id="top">
 
 <nav class="nav">
   <a href="/" class="brand">Résonances Productions</a>
-  <div class="links" data-nav="resonances-1">
+  <div class="links" data-nav="resonances-2">
     <a href="/">Accueil</a>
     <div class="nm-item">
       <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
@@ -303,6 +307,7 @@ p a:not(.btn):not(.adh){text-decoration:underline;
     <div class="nm-item">
       <button type="button" class="nm-top nm-active" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-nid"><span class="nm-lbl">Le Nid</span><span class="nm-caret" aria-hidden="true"></span></button>
       <div class="nm-sub" id="nm-sub-nid" role="group" aria-label="Le Nid">
+        <a href="/le-nid">Le Nid — Paris 20ᵉ</a>
         <a href="/le-nid#agenda">Agenda</a>
         <a href="/le-nid#instruments">Présentation d’instruments</a>
         <a href="/concerts-david-lesage">Concerts au Nid</a>
@@ -339,7 +344,7 @@ p a:not(.btn):not(.adh){text-decoration:underline;
 <section class="soa-block" id="intervenants"><div class="wrap">
   <div class="soa-h">Les intervenants</div>
   <h2 class="sec-title">Trois intervenants réunis autour de vous</h2>
-  <div class="soa-team"><div class="soa-line"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-gaia-pegourie-140.webp 140w, /img/soin-soa/portrait-gaia-pegourie-260.webp 260w" sizes="150px"><img src="/img/soin-soa/portrait-gaia-pegourie-260.jpg" srcset="/img/soin-soa/portrait-gaia-pegourie-140.jpg 140w, /img/soin-soa/portrait-gaia-pegourie-260.jpg 260w" sizes="150px" width="260" height="260" loading="lazy" decoding="async" alt="Gaïa Pégourié"></picture><div class="who-txt"><h3>Gaïa Pégourié</h3><div class="disc">Massage Mémoire cellulaire</div><div class="role">Intervenante invitée</div><p>Experte du toucher thérapeutique et formée au bio-décodage, elle accompagne la libération des mémoires corporelles. Son approche relie le corps et les émotions pour révéler leur langage profond, et met en lumière ce que le corps exprime en silence.</p></div></div><div class="soa-line"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-iris-chasles-140.webp 140w, /img/soin-soa/portrait-iris-chasles-260.webp 260w" sizes="150px"><img src="/img/soin-soa/portrait-iris-chasles-260.jpg" srcset="/img/soin-soa/portrait-iris-chasles-140.jpg 140w, /img/soin-soa/portrait-iris-chasles-260.jpg 260w" sizes="150px" width="260" height="260" loading="lazy" decoding="async" alt="Iris Chasles"></picture><div class="who-txt"><h3>Iris Chasles</h3><div class="disc">Régulation Neuro-émotionnelle</div><div class="role">Co-fondatrice de Résonances Productions</div><p>Psychopraticienne à Paris, formée en Intelligence Relationnelle® et en psychopathologie. Son travail porte sur les traumas et les mémoires engrammées, avec une approche neurobiologique de la régulation du système nerveux.</p></div></div><div class="soa-line"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-david-lesage-140.webp 140w, /img/soin-soa/portrait-david-lesage-260.webp 260w" sizes="150px"><img src="/img/soin-soa/portrait-david-lesage-260.jpg" srcset="/img/soin-soa/portrait-david-lesage-140.jpg 140w, /img/soin-soa/portrait-david-lesage-260.jpg 260w" sizes="150px" width="260" height="260" loading="lazy" decoding="async" alt="David Lesage"></picture><div class="who-txt"><h3>David Lesage</h3><div class="disc">Alchimie Vocale</div><div class="role">Co-fondateur de Résonances Productions</div><p>Improvisateur formé au jazz et au conservatoire, il utilise la voix comme outil de transformation. Avec ses instruments vibratoires — handpan, harpe africaine, tambour chamanique, bols de cristal et d’or — il façonne en temps réel un espace sonore sur-mesure.</p></div></div></div>
+  <div class="soa-team"><div class="soa-line"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-gaia-pegourie-140.webp 140w, /img/soin-soa/portrait-gaia-pegourie-260.webp 260w" sizes="150px"><img src="/img/soin-soa/portrait-gaia-pegourie-260.jpg" srcset="/img/soin-soa/portrait-gaia-pegourie-140.jpg 140w, /img/soin-soa/portrait-gaia-pegourie-260.jpg 260w" sizes="150px" width="260" height="260" loading="lazy" decoding="async" alt="Gaïa Pégourié"></picture><div class="who-txt"><h3>Gaïa Pégourié</h3><div class="disc">Massage Mémoire cellulaire</div><div class="role">Intervenante invitée</div><p>Experte du toucher thérapeutique et formée au bio-décodage, elle accompagne la libération des mémoires corporelles. Son approche relie le corps et les émotions pour révéler leur langage profond, et met en lumière ce que le corps exprime en silence.</p><p class="who-site"><a href="https://tactheal.eu/" target="_blank" rel="noopener">Découvrir son site — tactheal.eu ↗</a></p></div></div><div class="soa-line"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-iris-chasles-140.webp 140w, /img/soin-soa/portrait-iris-chasles-260.webp 260w" sizes="150px"><img src="/img/soin-soa/portrait-iris-chasles-260.jpg" srcset="/img/soin-soa/portrait-iris-chasles-140.jpg 140w, /img/soin-soa/portrait-iris-chasles-260.jpg 260w" sizes="150px" width="260" height="260" loading="lazy" decoding="async" alt="Iris Chasles"></picture><div class="who-txt"><h3>Iris Chasles</h3><div class="disc">Régulation Neuro-émotionnelle</div><div class="role">Co-fondatrice de Résonances Productions</div><p>Psychopraticienne à Paris, formée en Intelligence Relationnelle® et en psychopathologie. Son travail porte sur les traumas et les mémoires engrammées, avec une approche neurobiologique de la régulation du système nerveux.</p><p class="who-site"><a href="https://www.irischasles.com/" target="_blank" rel="noopener">Découvrir son site — irischasles.com ↗</a></p></div></div><div class="soa-line"><picture class="who-ph"><source type="image/webp" srcset="/img/soin-soa/portrait-david-lesage-140.webp 140w, /img/soin-soa/portrait-david-lesage-260.webp 260w" sizes="150px"><img src="/img/soin-soa/portrait-david-lesage-260.jpg" srcset="/img/soin-soa/portrait-david-lesage-140.jpg 140w, /img/soin-soa/portrait-david-lesage-260.jpg 260w" sizes="150px" width="260" height="260" loading="lazy" decoding="async" alt="David Lesage"></picture><div class="who-txt"><h3>David Lesage</h3><div class="disc">Alchimie Vocale</div><div class="role">Co-fondateur de Résonances Productions</div><p>Improvisateur formé au jazz et au conservatoire, il utilise la voix comme outil de transformation. Avec ses instruments vibratoires — handpan, harpe africaine, tambour chamanique, bols de cristal et d’or — il façonne en temps réel un espace sonore sur-mesure.</p><p class="who-site"><a href="https://lesagedavid.fr/" target="_blank" rel="noopener">Découvrir son site — lesagedavid.fr ↗</a></p></div></div></div>
   <p class="soa-quote">Cette union crée une synergie rare : lorsque le corps est touché, que le cœur est entendu, que la psyché s’éclaire, et que l’âme est mise en vibration, une voie royale s’ouvre. Un espace unique pour se révéler à soi, une véritable re-naissance qu’aucune approche isolée ne peut atteindre.</p>
 </div></section>
 
@@ -491,7 +496,8 @@ p a:not(.btn):not(.adh){text-decoration:underline;
   window.addEventListener('resize',function(){ if(window.innerWidth>860) set(false); });
 })();
 </script>
-<!-- nav_menu.py (resonances-1) -->
+
+<!-- nav_menu.py (resonances-2) -->
 <script>
 /* Sous-menus du menu partage (voir sources/nav_menu.py).
    Desktop : survol + clic + clavier. Mobile : accordeons dans le panneau du hamburger. */

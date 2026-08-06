@@ -128,6 +128,9 @@ b{color:#fff;font-weight:500}
    David) — portrait carre a gauche, nom en dore + intitule de role + statut, puis
    la bio. Empilement portrait au-dessus du texte sous 620 px. */
 .soa-team{display:grid;gap:18px;margin-top:30px}
+.who-site{margin-top:10px}
+.who-site a{color:var(--gold);font-size:15px;text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px;display:inline-block;padding:8px 0}
+.who-site a:hover{color:var(--gold2)}
 .soa-line{display:flex;gap:24px;align-items:flex-start;background:var(--card);border:1px solid rgba(255,255,255,.06);border-left:2px solid var(--gold);border-radius:14px;padding:22px 24px}
 .who-ph{display:block;flex:0 0 auto;width:150px;height:150px;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.38);background:var(--night2)}
 .who-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
@@ -311,13 +314,13 @@ def soa_galerie():
 SOA_EQUIPE = [
  ('Massage Mémoire cellulaire', 'Gaïa Pégourié', 'Intervenante invitée',
   'Experte du toucher thérapeutique et formée au bio-décodage, elle accompagne la libération des mémoires corporelles. Son approche relie le corps et les émotions pour révéler leur langage profond, et met en lumière ce que le corps exprime en silence.',
-  'portrait-gaia'),
+  'portrait-gaia', ('https://tactheal.eu/', 'tactheal.eu')),
  ('Régulation Neuro-émotionnelle', 'Iris Chasles', 'Co-fondatrice de Résonances Productions',
   'Psychopraticienne à Paris, formée en Intelligence Relationnelle® et en psychopathologie. Son travail porte sur les traumas et les mémoires engrammées, avec une approche neurobiologique de la régulation du système nerveux.',
-  'portrait-iris'),
+  'portrait-iris', ('https://www.irischasles.com/', 'irischasles.com')),
  ('Alchimie Vocale', 'David Lesage', 'Co-fondateur de Résonances Productions',
   'Improvisateur formé au jazz et au conservatoire, il utilise la voix comme outil de transformation. Avec ses instruments vibratoires — handpan, harpe africaine, tambour chamanique, bols de cristal et d’or — il façonne en temps réel un espace sonore sur-mesure.',
-  'portrait-david'),
+  'portrait-david', ('https://lesagedavid.fr/', 'lesagedavid.fr')),
 ]
 SOA_PERMET = [
  'Libérer des blocages profonds, physiques ou émotionnels.',
@@ -379,10 +382,13 @@ def soa_ul(items, cls='soa-list'):
 def soa_equipe():
     """Une ligne par intervenant : portrait carre a gauche, texte a droite."""
     out = ''
-    for t, n, r, p, ph in SOA_EQUIPE:
+    for t, n, r, p, ph, site in SOA_EQUIPE:
+        url, label = site
+        lien = (f'<p class="who-site"><a href="{url}" target="_blank" '
+                f'rel="noopener">D\u00e9couvrir son site \u2014 {label} \u2197</a></p>')
         out += (f'<div class="soa-line">{soa_portrait(ph) if ph else ""}'
                 f'<div class="who-txt"><h3>{n}</h3><div class="disc">{t}</div>'
-                f'<div class="role">{r}</div><p>{p}</p></div></div>')
+                f'<div class="role">{r}</div><p>{p}</p>{lien}</div></div>')
     return f'<div class="soa-team">{out}</div>'
 
 

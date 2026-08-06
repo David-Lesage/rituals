@@ -198,7 +198,8 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
   body.nav-open{overflow:hidden}
 }
 @media print{.burger,.totop{display:none}}
-/* == nav_menu.py (resonances-1) == */
+
+/* == nav_menu.py (resonances-2) == */
 /* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
@@ -289,7 +290,7 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 <body>
 <nav class="nav">
   <a href="/" class="brand">Résonances Productions</a>
-  <div class="links" data-nav="resonances-1">
+  <div class="links" data-nav="resonances-2">
     <a href="/">Accueil</a>
     <div class="nm-item">
       <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
@@ -303,6 +304,7 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
     <div class="nm-item">
       <button type="button" class="nm-top nm-active" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-nid"><span class="nm-lbl">Le Nid</span><span class="nm-caret" aria-hidden="true"></span></button>
       <div class="nm-sub" id="nm-sub-nid" role="group" aria-label="Le Nid">
+        <a href="/le-nid">Le Nid — Paris 20ᵉ</a>
         <a href="/le-nid#agenda">Agenda</a>
         <a href="/le-nid#instruments">Présentation d’instruments</a>
         <a href="/concerts-david-lesage">Concerts au Nid</a>
@@ -916,7 +918,8 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 })();
 </script>
 
-<!-- nav_menu.py (resonances-1) -->
+
+<!-- nav_menu.py (resonances-2) -->
 <script>
 /* Sous-menus du menu partage (voir sources/nav_menu.py).
    Desktop : survol + clic + clavier. Mobile : accordeons dans le panneau du hamburger. */
