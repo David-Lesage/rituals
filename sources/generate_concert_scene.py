@@ -84,9 +84,17 @@ MAIL_TECH = 'contact@lesagedavid.fr'
 # page. Aucun script tiers avant le clic : l'<iframe> nait sans src, la src n'est
 # posee qu'au clic (domaine youtube-nocookie.com), puis VIDEE a la fermeture
 # (sinon le son continue de jouer en fond).
-# Titre verifie par oEmbed le 04/08/2026 (titre EXACT de la chaine).
-VIDEO_TV_ID = 'a831rQeGLRU'
-VIDEO_TV_TITRE = 'Une Ame 2 min The voice David Lesage'
+# Titre verifie par oEmbed le 06/08/2026 (titre EXACT de la chaine).
+# ATTENTION — erreur factuelle corrigee le 04/08 dans le HTML puis reportee ici :
+# l'audition a l'aveugle de David Lesage n'est PAS « Une Âme » mais « Kothbiro »
+# d'Ayub Ogada, et la captation officielle est sur la chaine TF1 de l'emission
+# (seule video hors chaine de l'artiste sur cette page, assumee comme telle).
+# `a831rQeGLRU` (« Une Ame 2 min The voice David Lesage ») est un autre upload,
+# sur SA chaine : il sert desormais au titre « Une Âme » du repertoire.
+VIDEO_TV_ID = '_v60Ow5_axY'
+# Titre exact retourne par oEmbed (conserve en commentaire : le <iframe> du
+# lecteur porte desormais un titre generique, il sert plusieurs videos) :
+#   « Ayub Ogada - Kothbiro - David Lesage | The Voice 2022 | Blind Audition »
 # Filet de securite UNIQUEMENT (iframe bloquee par une extension ou un navigateur
 # restrictif) : il vit DANS le lecteur, en petit, et n'est jamais le chemin
 # principal. Sans lui, la personne reste devant un cadre noir.
@@ -160,9 +168,8 @@ DLC_PHOTOS = {
     'tv-ngoni':       ('concert-scene', 'the-voice-le-ngoni',                    [480, 900, 1400], 1400, 868),
     # Vignette de la video : c'est la vignette PUBLIEE PAR LA CHAINE pour cette
     # video (maxresdefault, 1280x720, sans bandes noires — sddefault est
-    # letterboxee). Elle montre une piece traitee acoustiquement, PAS le plateau
-    # de The Voice : l'alt le dit. Ne pas l'afficher au-dela de 1280 px.
-    'tv-video':       ('concert-scene', 'the-voice-video',                       [480, 900, 1280], 1280, 720),
+    # letterboxee). Ne pas l'afficher au-dela de 1280 px.
+    'tv-video':       ('concert-scene', 'the-voice-blind-audition',              [480, 900, 1280], 1280, 720),
 }
 
 CREDIT_MAGYE = ('<span class="dlc-cred">Crédit photo <a href="https://magyedart.fr/" '
@@ -253,7 +260,9 @@ LIGHTBOX_HTML = """
 <div class="lb" id="ytlb" role="dialog" aria-modal="true" aria-label="Lecteur vidéo" onclick="closeYT(event)">
   <div class="lb-box">
     <button class="lb-close" type="button" onclick="closeYT(event)" aria-label="Fermer la vidéo">×</button>
-    <div class="lb-frame"><iframe id="ytif" src="" title="{titre}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+    <div class="lb-frame"><!-- Le lecteur sert TOUS les declencheurs de la page (vignettes
+         ET titres du repertoire) : son titre doit rester generique. -->
+      <iframe id="ytif" src="" title="Lecteur vidéo YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
     <a class="yt-fallback" href="{secours}" target="_blank" rel="noopener">La vidéo ne se lance pas ? Ouvrir sur YouTube ↗</a>
   </div>
 </div>
@@ -374,18 +383,58 @@ SCENES = [
     ('Mont Korhogo', 'Côte d’Ivoire'),
 ]
 
-COMPOSITIONS = ['Intro', 'Humano', 'Transe lunaire', 'L’alchimiste', 'L’appel du vent',
-                'Au cœur de l’homme', 'Yishama', 'Le tisseur de liens', 'Je te vois']
+# Repertoire ecoutable SUR la page.
+# 3e champ = identifiant YouTube, ou None. Regle d'attribution : on ne relie un
+# titre QUE si le nom du morceau correspond clairement au titre de la video, et
+# seulement des videos de la chaine de David Lesage (@DavidLesageArtiste).
+# Chaque identifiant a ete valide par oEmbed (video publique + embarcable).
+# La liste ne rétrécit JAMAIS : un titre sans video reste affiche, sans icone.
+COMPOSITIONS = [
+    # « Intro Concert David Lesage #Calebasse #Voix » (4Q7ABtumojY) existe, mais
+    # rien ne prouve qu'il s'agisse de la piste « Intro » de l'album -> NON relie.
+    ('Intro', None),
+    ('Humano', 'Y5D0_iiVflg'),            # L'alliance du phoenix - Humano - Live Concert - Alet les bains - #432hz
+    ('Transe lunaire', None),             # aucune video sur la chaine
+    ('L’alchimiste', None),               # aucune video sur la chaine
+    ('L’appel du vent', 's4XCQP8B11I'),   # L’appel du vent, Danse de tournoiement @iris Chasles et David Lesage @neotone
+    ('Au cœur de l’homme', 'n-BOdL7KEYU'),# Au coeur de l'homme @DavidLesageArtiste @yishama_official
+    # « Yishama » est le nom du morceau ET celui du facteur de handpans : toutes
+    # les videos taguees @yishama_official portent un AUTRE titre -> NON relie.
+    ('Yishama', None),
+    # « Honorer l'eau tisseuse de lien entre les peuples » n'est pas ce morceau.
+    ('Le tisseur de liens', None),
+    ('Je te vois', None),                 # aucune video sur la chaine
+]
 
 REPRISES = [
-    ('Sting', 'Shape of My Heart'),
-    ('M', 'Une Âme'),
-    ('Alicia Keys', 'Fallin’'),
-    ('Bigflo &amp; Oli', 'Copier Coller'),
-    ('Charles Gounod', 'Ave Maria'),
-    ('Roberto Orenalla', 'L’Esprit Divin'),
-    ('Algonquin Water Song — chant traditionnel', 'Nibiwabo'),
+    ('Sting', 'Shape of My Heart', 'Zp_zaqsRBCg'),                              # Shape of my Heart #Handpan @yishama_official @theofficialsting @craigdavid #432HZ
+    ('M', 'Une Âme', 'a831rQeGLRU'),                                            # Une Ame 2 min The voice David Lesage
+    ('Alicia Keys', 'Fallin’', 'WYVtBfoz7T8'),                                  # Fallin cover @AliciaKeys @yishama_official #432hz
+    ('Bigflo &amp; Oli', 'Copier Coller', '2kVSLdpzt_M'),                       # Copier Coller @BigfloetOli #Cover #Handpan @yishama_official #Voix
+    ('Charles Gounod', 'Ave Maria', 'pkHFaaZplik'),                             # Handpan Ave Maria Jazz Style @yishama_official
+    ('Roberto Orenalla', 'L’Esprit Divin', 'ldXkWmq-Mfo'),                      # Oh toi l’esprit divin @yishama_official #handpan #voix
+    ('Algonquin Water Song — chant traditionnel', 'Nibiwabo', 'p521GVsZSvM'),   # Nibiwabo Le chant de L'eau - N Goni - Foret Roquefort les cascades
 ]
+
+PICO = '<span class="pico" aria-hidden="true">▸</span>'
+
+
+def rep_li(titre, vid, artiste=None):
+    """Une ligne du repertoire. Avec identifiant : un bouton qui ouvre le lecteur
+    DANS la page (jamais un lien sortant). Sans : le meme texte, sans icone."""
+    sub = f'<span>{artiste}</span>' if artiste else ''
+    if not vid:
+        return f'<li><span class="rep-t">{titre}</span>{sub}</li>'
+    lab = titre.replace('&amp;', 'et')
+    # Pas de <span> autour du titre : `.dlc-card li span` le passerait en dore
+    # et en 13.5 px. Le texte nu est un item de flex anonyme, c'est suffisant.
+    return (f'<li><button type="button" class="ytlink rep-t" data-yt="{vid}"'
+            f' aria-label="Écouter « {lab} » — le lecteur s’ouvre sur cette page">'
+            f'{titre}{PICO}</button>{sub}</li>')
+
+
+REP_HINT = ('<p class="rep-hint">Les titres suivis de ' + PICO
+            + ' s’écoutent ici même : le lecteur s’ouvre dans la page.</p>')
 
 CITATIONS = ['Une musique qui tisse des liens', 'Des rythmes envoûtants',
              'Des paroles profondes', 'Des refrains incantatoires',
@@ -574,6 +623,29 @@ b{color:#fff;font-weight:500}
 .dlc-card li{color:#d7d4ea;font-size:15.5px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);line-height:1.5}
 .dlc-card li:last-child{border-bottom:0}
 .dlc-card li span{color:var(--gold2);display:block;font-size:13.5px;letter-spacing:.04em}
+/* ===== Titres du repertoire ecoutables SUR la page =====
+   Un titre relie devient un <button class="ytlink"> : le gestionnaire delegue
+   deja en place (.ytlink + data-yt) ouvre le lecteur en surimpression. Jamais
+   de lien sortant ici. Les titres sans video gardent EXACTEMENT le meme style
+   via .rep-t : seule l'icone ▸ distingue ce qui s'ecoute.
+   .rep-t doit surcharger `.dlc-card li span` (qui met le sous-titre en dore) :
+   la specificite d'une classe l'emporte sur celle d'un element, donc OK.
+   Hauteur de rangee = 7 + 30 + 7 = 44 px : cible tactile respectee. */
+.dlc-card li .rep-t{display:flex;align-items:center;gap:9px;width:100%;min-height:30px;
+  color:#d7d4ea;font-family:inherit;font-size:15.5px;letter-spacing:normal;line-height:1.5;
+  background:none;border:0;padding:0;margin:0;text-align:left}
+.dlc-card li button.rep-t{cursor:pointer;transition:color .18s}
+.dlc-card li button.rep-t:hover,.dlc-card li button.rep-t:focus-visible{color:#fff}
+.pico{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  width:19px;height:19px;border-radius:50%;border:1px solid rgba(216,178,90,.5);
+  color:var(--gold);font-size:9px;line-height:1;padding-left:1px;
+  transition:background .18s,color .18s,border-color .18s}
+.dlc-card li button.rep-t:hover .pico,.dlc-card li button.rep-t:focus-visible .pico{
+  background:var(--gold);border-color:var(--gold);color:#1a1608}
+/* `.dlc-block p{color:#d7d4ea}` (0,1,1) battait `.rep-hint` (0,1,0) : la mention
+   restait couleur de corps de texte. Selecteur prefixe -> (0,2,0), il gagne. */
+.dlc-block .rep-hint{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  color:var(--gold2);font-size:14.5px;font-style:italic;margin-top:14px}
 /* citations du dossier */
 .dlc-cites{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;max-width:880px;list-style:none}
 .dlc-cites li{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:17.5px;line-height:1.4;background:rgba(216,178,90,.08);border:1px solid var(--line);border-radius:30px;padding:8px 20px}
@@ -830,9 +902,9 @@ HTML = f"""<!DOCTYPE html>
   <h3 class="dlc-sub">The Voice, saison 11</h3>
   <p>Pour son audition à l’aveugle de <i>The Voice</i> saison 11, sur TF1, David Lesage monte seul en scène avec ses propres instruments : la calebasse, les handpans et le N’Goni 14 cordes. Il y chante <i>Kothbiro</i>, d’Ayub Ogada, en luo — un titre toujours au répertoire du concert. La prestation est publique sur la chaîne officielle de l’émission.</p>
   {video_button('tv-video', VIDEO_TV_ID,
-                'Vignette de la vidéo : David Lesage dans une pièce blanche traitée de panneaux '
-                'acoustiques, un micro serre-tête au visage, les deux mains posées sur un handpan ; '
-                'derrière lui un N’Goni, une calebasse et un ordinateur portable.',
+                'Vignette de la vidéo : David Lesage seul sur le plateau bleu de The Voice, un micro '
+                'serre-tête au visage, entouré de ses handpans sur pieds, de son N’Goni 14 cordes et '
+                'd’une calebasse. Logos The Voice et TF1 incrustés.',
                 'Voir son audition à l’aveugle — « Kothbiro »',
                 '« Ayub Ogada - Kothbiro - David Lesage | The Voice 2022 | Blind Audition » — le lecteur s’ouvre sur cette page.',
                 '(max-width:900px) calc(100vw - 52px), 560px')}
@@ -887,16 +959,17 @@ HTML = f"""<!DOCTYPE html>
   <div class="dlc-h">Le répertoire</div>
   <h2 class="sec-title">« L’Alliance du Phoenix », et quelques reprises</h2>
   <p>Le concert puise dans les compositions de l’artiste — l’album <b>« L’Alliance du Phoenix »</b>, dix titres en deux opus, <b>100 % auto-produit</b> — et dans quelques reprises, ramenées au handpan et à la voix.</p>
+  {REP_HINT}
   <div class="dlc-cols">
     <div class="dlc-card">
       <h3>Compositions</h3>
       <div class="sub">« L’Alliance du Phoenix », en deux opus</div>
-      <ul>{''.join(f'<li>{t}</li>' for t in COMPOSITIONS)}</ul>
+      <ul>{''.join(rep_li(t, v) for t, v in COMPOSITIONS)}</ul>
     </div>
     <div class="dlc-card">
       <h3>Reprises</h3>
       <div class="sub">Au handpan et à la voix</div>
-      <ul>{''.join(f'<li>{t}<span>{a}</span></li>' for a, t in REPRISES)}</ul>
+      <ul>{''.join(rep_li(t, v, a) for a, t, v in REPRISES)}</ul>
     </div>
   </div>
   <p>Cinq formules, empruntées au dossier de présentation, pour dire ce que cette musique cherche :</p>
@@ -1023,7 +1096,7 @@ HTML = f"""<!DOCTYPE html>
 </div></section>
 
 <a class="totop" href="#top" aria-label="Revenir en haut de la page">↑</a>
-{LIGHTBOX_HTML.format(titre=VIDEO_TV_TITRE, secours=VIDEO_TV_SECOURS)}
+{LIGHTBOX_HTML.format(secours=VIDEO_TV_SECOURS)}
 <footer id="contact"><div class="wrap">
   <div class="fgrid">
     <div>
