@@ -992,7 +992,7 @@ HTML = f"""<!DOCTYPE html>
     <div>
       <p>Musicien, chanteur et compositeur français. Ses instruments de prédilection : la <b>voix</b>, le <b>handpan</b>, la <b>calebasse</b> et le <b>Ngoni</b> — la harpe africaine.</p>
       <p>Batteur depuis l’âge de quatre ans, il obtient un prix de batterie avec mention très bien au Conservatoire National de Toulouse, puis se forme à la batterie, au chant et à l’improvisation vocale au collège de Jazz in Marciac. Son <b>ambitus vocal de cinq octaves</b> lui permet de voyager de la pop à la soul, du lyrique au gospel, de la chanson française au rap.</p>
-      <p>En 2012, il rencontre la calebasse et le Ngoni, et se met à explorer les sonorités et les rythmes africains. Après son passage dans l’émission <i>The Voice</i> en 2021, il est invité pour un concert solo en <b>Côte d’Ivoire</b>.</p>
+      <p>En 2012, il rencontre la calebasse et le Ngoni, et se met à explorer les sonorités et les rythmes africains. Après son passage dans l’émission <i>The Voice</i> (saison 11), il est invité pour un concert solo en <b>Côte d’Ivoire</b>.</p>
       <p>Il collabore avec <b>Neotone</b>, dont il est ambassadeur du handpan électronique, et avec <b>Yishama</b>, fabricant de handpans d’exception.</p>
       <p>Son intention : produire des musiques <b>électro-organiques</b>, qui mêlent instruments acoustiques, musique électronique et voix humaine. Un univers qu’il décrit comme « sensible, subtil, structuré, contenu par un sens du rythme millimétrique ». Trois mots pour le situer : <b>soul française</b>, <b>African spirit</b>, <b>électro vibes</b>.</p>
     </div>
@@ -1067,7 +1067,7 @@ HTML = f"""<!DOCTYPE html>
   <h2 class="sec-title">Là où ce répertoire a résonné</h2>
   <p>Ce que vous entendrez au Nid n’est pas un format de salon : c’est le répertoire que David Lesage joue ailleurs, sur de grandes scènes et dans des lieux de pierre. <b>Près de soixante-dix dates</b> depuis 2016, en France, en Hongrie, en Suisse, en Belgique, en Grèce et en Côte d’Ivoire.</p>
   <ul class="cdl-scenes">{''.join(f'<li><b>{n}</b><span>{p}</span></li>' for n, p in SCENES)}</ul>
-  <p>Il est également passé par l’émission <i>The Voice</i> en 2021. À Paris, on l’a entendu notamment sur la <b>Péniche Anako</b> — en voici un extrait, qui donne une idée de l’ambiance mieux que n’importe quelle description.</p>
+  <p>Il est également passé par l’émission <i>The Voice</i> (saison 11). À Paris, on l’a entendu notamment sur la <b>Péniche Anako</b> — en voici un extrait, qui donne une idée de l’ambiance mieux que n’importe quelle description.</p>
   {video_button('anako', VIDEO_ANAKO_ID,
                 'Vignette de la vidéo : deux musiciens assis face à face sur une petite scène '
                 'éclairée de rouge et d’orange, chacun penché sur un handpan, une batterie et '
