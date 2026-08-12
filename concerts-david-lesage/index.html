@@ -183,6 +183,9 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 p a:not(.btn):not(.adh),li a:not(.btn):not(.adh){font-size:inherit;text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 .cdl-note a{display:inline-block;padding:11px 0}
+/* meme traitement pour le lien en ligne de la section « acoustique » :
+   17px * 1.75 = 29.75 -> 24px de boite + 2 x 11 = 46 px, cible respectee. */
+#acoustique p a{display:inline-block;padding:11px 0}
 /* meme traitement pour le lien partenaire de la section « eau » : cible >= 44 px
    (17px * 1.75 = 29.75 + 2 x 11 = 51.75). */
 .cdl-water p a{display:inline-block;padding:11px 0}
