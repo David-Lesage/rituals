@@ -94,6 +94,15 @@ VIDEO_CYMA_ID = 'mPUrsusmYyQ'
 # restrictif), sans ce lien la personne est coincee devant un cadre noir. Il vit
 # DANS le lecteur, en petit, et n'est jamais le chemin principal.
 VIDEO_CYMA_SECOURS = f'https://youtu.be/{VIDEO_CYMA_ID}'
+# Peniche Anako, Paris (ajout du 13/08/2026) : « Teaser Concert David Lesage —
+# Extrait emission SuperPan Show de @JeremyNattagh ». Video publique, verifiee.
+# Elle sert la PREUVE PARISIENNE de cette page : on l'a deja entendu a Paris,
+# ailleurs qu'au Nid. Meme mecanique que les autres videos (.ytlink + data-yt
+# -> lecteur en surimpression, youtube-nocookie, aucun nouvel onglet).
+# ⚠️ Le lieu vient de David lui-meme, pas du titre de la video. Et la vignette
+# montre DEUX musiciens : on ne decrit donc pas la video comme un concert solo,
+# et on n'affirme rien sur qui joue quoi ce soir-la.
+VIDEO_ANAKO_ID = '0jbAjB-Swmk'
 MELUSINE = 'https://aquadynauroville.com/site/accueil-25/fontaine-melusine/'
 
 # --- Ecouter / soutenir -----------------------------------------------------
@@ -132,6 +141,23 @@ CDL_PHOTOS = {
     # Vignette de la video YouTube : 480x360 = la MEILLEURE resolution disponible.
     # Ne jamais l'afficher plus large que 480 px (sinon flou) -> .cdl-video est borne.
     'video': ('concert-dl', 'cymatique-video', [480], 480, 360),
+    # Peniche Anako, Paris (ajout du 13/08/2026). Vignette publiee par la chaine
+    # pour la video 0jbAjB-Swmk (maxresdefault 1280x720, vrai 16:9), rapatriee
+    # en local. Le fichier vit dans /img/concert-scene/ : il sert AUSSI a
+    # /david-lesage-en-concert, on ne duplique pas les octets.
+    # Bornee par .cdl-video (480 px max) -> jamais affichee au-dela du natif.
+    'anako': ('concert-scene', 'peniche-anako-teaser', [480, 900, 1280], 1280, 720),
+    # --- LOGO D'ARTISTE DE DAVID LESAGE (ajout du 13/08/2026) ----------------
+    # ⚠️ Logo de L'ARTISTE, PAS de Resonances Productions. Il identifie David
+    # Lesage en tete de la section « L'artiste » et ne doit JAMAIS remplacer le
+    # nom de l'association dans la barre de navigation, ni servir de logo au
+    # site, ni de favicon.
+    # Source : dossier Drive de David, 7 declinaisons PNG 3000x2120 ; retenue =
+    # « logo beige-etoilé » (lettres creme #fbdaa6 ~ --gold2, anneau dore, eclat
+    # en etoile), la plus lisible de la famille doree sur le fond nuit #0e0f24.
+    # Recadre sur son alpha (2578x1943) puis 480 / 900 px ; PNG et pas JPEG,
+    # sinon la transparence devient un rectangle blanc.
+    'logo': ('logo', 'david-lesage-logo', [480, 900], 900, 678),
 }
 
 
@@ -148,6 +174,25 @@ def pic(key, alt, sizes, caption=None, cls='cdl-fig', loading='lazy'):
            f'loading="{loading}"{prio} decoding="async" alt="{alt}"></picture>')
     cap = f'<figcaption>{caption}</figcaption>' if caption else ''
     return f'<figure class="{cls}">{img}{cap}</figure>'
+
+
+def logo_fig(cls='cdl-logo', sizes='280px'):
+    """Logo d'artiste de David Lesage : WebP + repli PNG.
+
+    PNG et pas JPEG : le logo est transparent. Jamais affiche au-dela de 280 px
+    (natif 2578 px avant reduction). `alt` = « David Lesage » : c'est le texte
+    que le logo dessine.
+    ⚠️ Logo de L'ARTISTE, pas de l'association — rien a voir avec la barre de
+    navigation, qui garde le nom « Resonances Productions »."""
+    folder, base, widths, w, h = CDL_PHOTOS['logo']
+    root = f'/img/{folder}/{base}'
+    webp = ', '.join(f'{root}-{x}.webp {x}w' for x in widths)
+    png = ', '.join(f'{root}-{x}.png {x}w' for x in widths)
+    return (f'<figure class="{cls}"><picture>'
+            f'<source type="image/webp" srcset="{webp}" sizes="{sizes}">'
+            f'<img src="{root}-{widths[-1]}.png" srcset="{png}" sizes="{sizes}" '
+            f'width="{w}" height="{h}" loading="lazy" decoding="async" '
+            f'alt="David Lesage"></picture></figure>')
 
 
 def video_button(key, vid, alt, label, sub, sizes):
@@ -475,10 +520,27 @@ CITATIONS = ['Une musique qui tisse des liens', 'Des rythmes envoûtants',
              'Des paroles profondes', 'Des refrains incantatoires',
              'Des envolées jazz d’une voix céleste']
 
+# ============================================================================
+# « LA OU CE REPERTOIRE A RESONNE » — mise a jour du 13/08/2026
+# ============================================================================
+# ⚠️ TRAITEMENT VOLONTAIREMENT LEGER SUR CETTE PAGE. Le public d'ici est un
+# particulier parisien qui hesite a venir un soir : il ne lit PAS un CV, et une
+# chronologie de 69 dates le ferait fuir. La preuve de parcours complete (ligne
+# chiffree, references, lieux de pierre, chronologie annee par annee dans un
+# <details>) vit sur /david-lesage-en-concert, page programmateurs.
+# Ici : SIX references qui rassurent, une phrase de volume en mots et pas en
+# tableau, et une preuve PARISIENNE (la Peniche Anako, en video). Rien de plus.
+# Si on est tente d'ajouter une septieme ligne : ne pas le faire.
+#
+# Meme regle de fond que sur l'autre page : aucune date, aucun lieu, aucun
+# chiffre invente ; le seul chiffre de public autorise est « 2 700 personnes au
+# Grand Rex » (confirme par David).
 SCENES = [
+    ('Le Grand Rex, Paris — devant 2 700 personnes', 'France'),
+    ('Sziget Festival', 'Hongrie'),
+    ('Everness Festival', 'Hongrie'),
+    ('Jazz in Marciac', 'France'),
     ('Abbaye à ciel ouvert d’Alet-les-Bains', 'France'),
-    ('Église San Subra, Toulouse', 'France'),
-    ('Salle du Castillo, Vevey', 'Suisse'),
     ('Mont Korhogo', 'Côte d’Ivoire'),
 ]
 
@@ -618,6 +680,13 @@ b{color:#fff;font-weight:500}
 .cdl-video .vlabel{color:var(--gold2);font-size:16px;text-decoration:underline;text-decoration-color:rgba(216,178,90,.42);text-underline-offset:3px}
 .cdl-video:hover .vlabel{color:#fff}
 .cdl-video .vsub{color:var(--muted);font-size:13.5px}
+/* ===== Logo d'artiste de David Lesage (ajout du 13/08/2026) ================
+   ⚠️ Logo de L'ARTISTE, pas de l'association : il identifie David Lesage en
+   tete de la section qui parle de lui. Il ne remplace RIEN dans la barre de
+   navigation et n'est pas le logo du site. Natif 2578x1943 reduit a 900 px,
+   plafonne a 280 px d'affichage : jamais agrandi au-dela du natif. */
+.cdl-logo{margin:22px 0 0;max-width:280px}
+.cdl-logo img{display:block;width:100%;height:auto}
 /* scenes */
 .cdl-scenes{list-style:none;margin-top:24px;max-width:820px;display:grid;gap:2px}
 .cdl-scenes li{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;color:#d7d4ea;font-size:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
@@ -918,6 +987,7 @@ HTML = f"""<!DOCTYPE html>
 <section class="cdl-block" id="artiste"><div class="wrap">
   <div class="cdl-h">L’artiste</div>
   <h2 class="sec-title">David Lesage</h2>
+  {logo_fig()}
   <div class="cdl-split">
     <div>
       <p>Musicien, chanteur et compositeur français. Ses instruments de prédilection : la <b>voix</b>, le <b>handpan</b>, la <b>calebasse</b> et le <b>Ngoni</b> — la harpe africaine.</p>
@@ -995,9 +1065,19 @@ HTML = f"""<!DOCTYPE html>
 <section class="cdl-block" id="scenes"><div class="wrap">
   <div class="cdl-h">Sur scène</div>
   <h2 class="sec-title">Là où ce répertoire a résonné</h2>
-  <p>D’une abbaye à ciel ouvert à une église toulousaine, d’une salle suisse à un mont ivoirien : le même répertoire, à des échelles très différentes.</p>
+  <p>Ce que vous entendrez au Nid n’est pas un format de salon : c’est le répertoire que David Lesage joue ailleurs, sur de grandes scènes et dans des lieux de pierre. <b>Près de soixante-dix dates</b> depuis 2016, en France, en Hongrie, en Suisse, en Belgique, en Grèce et en Côte d’Ivoire.</p>
   <ul class="cdl-scenes">{''.join(f'<li><b>{n}</b><span>{p}</span></li>' for n, p in SCENES)}</ul>
-  <p>David Lesage est également passé par l’émission <i>The Voice</i> en 2021.</p>
+  <p>Il est également passé par l’émission <i>The Voice</i> en 2021. À Paris, on l’a entendu notamment sur la <b>Péniche Anako</b> — en voici un extrait, qui donne une idée de l’ambiance mieux que n’importe quelle description.</p>
+  {video_button('anako', VIDEO_ANAKO_ID,
+                'Vignette de la vidéo : deux musiciens assis face à face sur une petite scène '
+                'éclairée de rouge et d’orange, chacun penché sur un handpan, une batterie et '
+                'des micros entre eux. Textes incrustés « Concert David Lesage », « ça '
+                'ressemble à quoi ? / What does it look like? » et « Extrait Superpan Show '
+                'Jérémy Nattagh ».',
+                'Un extrait de concert, à Paris',
+                '« Teaser Concert David Lesage — Extrait émission SuperPan Show de '
+                'Jérémy Nattagh » — le lecteur s’ouvre sur cette page.',
+                '(max-width:560px) calc(100vw - 52px), 480px')}
   {pic('scene',
        'David Lesage seul sur une grande scène de festival en plein air, de dos, les bras ouverts vers un public nombreux assis et debout sous les arbres.',
        '(max-width:1080px) calc(100vw - 52px), 1028px',

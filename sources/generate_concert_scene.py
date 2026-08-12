@@ -101,6 +101,14 @@ VIDEO_TV_ID = '_v60Ow5_axY'
 # restrictif) : il vit DANS le lecteur, en petit, et n'est jamais le chemin
 # principal. Sans lui, la personne reste devant un cadre noir.
 VIDEO_TV_SECOURS = f'https://youtu.be/{VIDEO_TV_ID}'
+# Peniche Anako, Paris (ajout du 13/08/2026) : « Teaser Concert David Lesage —
+# Extrait emission SuperPan Show de @JeremyNattagh ». Video publique, verifiee.
+# Elle sert de PREUVE DE SCENE PARISIENNE dans la section « Scenes & festivals ».
+# Meme mecanique que toutes les autres videos du site : .ytlink + data-yt ->
+# lecteur en surimpression, youtube-nocookie, jamais de nouvel onglet.
+# ⚠️ Le lieu (Peniche Anako) vient de David lui-meme, pas du titre de la video :
+# ne pas le durcir en fait « source video » ailleurs sur le site.
+VIDEO_ANAKO_ID = '0jbAjB-Swmk'
 # Deux autres videos The Voice de la chaine, verifiees publiques et NON retenues
 # pour ne pas surcharger la section parcours : WkZcBjZA_mU (« David Lesage
 # #TheVoice Piano de Handpan #Griot Cathare ») et lewR2Fga2UM (« Kothbiro
@@ -172,6 +180,31 @@ DLC_PHOTOS = {
     # video (maxresdefault, 1280x720, sans bandes noires — sddefault est
     # letterboxee). Ne pas l'afficher au-dela de 1280 px.
     'tv-video':       ('concert-scene', 'the-voice-blind-audition',              [480, 900, 1280], 1280, 720),
+    # --- Peniche Anako, Paris (ajout du 13/08/2026) : vignette PUBLIEE PAR LA
+    # CHAINE pour la video 0jbAjB-Swmk (maxresdefault, 1280x720, vrai 16:9).
+    # Rapatriee en local, jamais affichee au-dela de 1280 px. Elle porte les
+    # incrustations de l'emission (« Concert David Lesage », « Extrait Superpan
+    # Show Jeremy Nattagh ») : c'est la vignette d'origine, aucune signature de
+    # photographe tiers, rien a crediter en plus du titre de l'emission, qui est
+    # cite dans le sous-titre du bouton.
+    'anako':          ('concert-scene', 'peniche-anako-teaser',                  [480, 900, 1280], 1280, 720),
+    # --- LOGO D'ARTISTE DE DAVID LESAGE (ajout du 13/08/2026) ----------------
+    # ⚠️ C'est le logo de L'ARTISTE, PAS celui de Resonances Productions. Il
+    # identifie David Lesage sur SES pages (celle-ci et /concerts-david-lesage)
+    # et ne doit JAMAIS remplacer le nom de l'association dans la barre de
+    # navigation, ni servir de logo au site, ni de favicon.
+    # Source : dossier Drive de David, 7 declinaisons PNG 3000x2120.
+    # Declinaison retenue : « logo beige-etoilé » — lettres creme (#fbdaa6,
+    # soit --gold2 a un cheveu pres), anneau dore, eclat en etoile. Comparees
+    # sur le fond nuit #0e0f24 a la taille reelle d'affichage (360 px), c'est la
+    # plus lisible de la famille doree : le « Logo Doré » perd son anneau dans le
+    # fond, le « dégradé 2 » vire a l'orange sature, le blanc est propre mais
+    # froid, le beige plat perd l'eclat, le noir est invisible.
+    # Recadre sur son alpha (2578x1943) puis 480 et 900 px de large : jamais
+    # agrandi (il est plafonne a 300 px d'affichage). PNG conserve en 24 bits
+    # pour le repli : quantifie en 128 couleurs, l'eclat en etoile se casse en
+    # facettes visibles.
+    'logo':           ('logo',          'david-lesage-logo',                     [480, 900],        900, 678),
 }
 
 CREDIT_MAGYE = ('<span class="dlc-cred">Crédit photo <a href="https://magyedart.fr/" '
@@ -191,6 +224,25 @@ def pic(key, alt, sizes, caption=None, cls='dlc-fig', loading='lazy', credit='')
            f'loading="{loading}"{prio} decoding="async" alt="{alt}"></picture>')
     cap = f'<figcaption>{caption}{credit}</figcaption>' if caption else ''
     return f'<figure class="{cls}">{img}{cap}</figure>'
+
+
+def logo_fig(cls='dlc-logo', sizes='300px'):
+    """Logo d'artiste de David Lesage : WebP + repli PNG.
+
+    PNG et pas JPEG : le logo est transparent, un repli JPEG lui collerait un
+    fond blanc. Il n'est jamais affiche au-dela de 300 px (natif 2578 px de
+    large avant reduction). `alt` = « David Lesage », c'est le texte du logo.
+    ⚠️ Ce logo identifie L'ARTISTE, pas l'association : il n'a rien a faire
+    dans la barre de navigation ni en logo de site."""
+    folder, base, widths, w, h = DLC_PHOTOS['logo']
+    root = f'/img/{folder}/{base}'
+    webp = ', '.join(f'{root}-{x}.webp {x}w' for x in widths)
+    png = ', '.join(f'{root}-{x}.png {x}w' for x in widths)
+    return (f'<figure class="{cls}"><picture>'
+            f'<source type="image/webp" srcset="{webp}" sizes="{sizes}">'
+            f'<img src="{root}-{widths[-1]}.png" srcset="{png}" sizes="{sizes}" '
+            f'width="{w}" height="{h}" loading="lazy" decoding="async" '
+            f'alt="David Lesage"></picture></figure>')
 
 
 def video_button(key, vid, alt, label, sub, sizes):
@@ -411,15 +463,243 @@ REPERES = [
      'fabricant de handpans d’exception.'),
 ]
 
-SCENES = [
-    ('Sziget Festival', 'Hongrie'),
-    ('Everness Festival', 'Hongrie'),
-    ('Le Grand Rex, Paris', 'France'),
-    ('Abbaye à ciel ouvert d’Alet-les-Bains', 'France'),
-    ('Église San Subra, Toulouse', 'France'),
-    ('Salle du Castillo, Vevey', 'Suisse'),
-    ('Mont Korhogo', 'Côte d’Ivoire'),
+# ============================================================================
+# « LA OU CE REPERTOIRE A RESONNE » — refonte du 13/08/2026
+# ============================================================================
+# Demande de David : « il manque plein de lieux et de dates. L'idee c'est de
+# montrer que J'AI FAIT PLEIN DE CONCERTS et de mettre en avant les meilleurs
+# lieux, festivals et lieux epiques. »
+#
+# SOURCES (collecte faite et verifiee en amont, hors de ce script) :
+#   (A) agenda Google « CONCERTS David Lesage Artiste » (2022 -> 2026)
+#   (B) page Facebook artiste, onglet « evenements passes » (2016 -> 2025)
+#   (C) dossier de presentation scenique + fiche technique
+#   (D) titres de videos publiques de sa chaine
+#
+# ⚠️ REGLES ABSOLUES POUR CETTE SECTION :
+#   * AUCUNE date, AUCUN lieu, AUCUN chiffre de frequentation invente. Tout ce
+#     qui est ecrit ici est recopie des sources ci-dessus.
+#   * Le SEUL chiffre de public autorise est « 2 700 personnes au Grand Rex »
+#     (confirme par David). Aucune autre jauge nulle part.
+#   * « recensees » et pas un total absolu : les deux agendas ne couvrent pas
+#     tout (2018 n'a qu'une date, 2020 deux — c'est la source qui est trouee,
+#     pas la carriere). Ne JAMAIS arrondir a la hausse.
+#   * PREMIERE PARTIE D'AMADOU & MARIAM : le lieu est TRONQUE dans la source
+#     (il commence par « S »). On publie la reference SANS lieu. Ne pas
+#     l'inventer — a faire confirmer par David.
+#   * JAZZ IN MARCIAC est DEUX choses distinctes et toutes les deux vraies :
+#     (1) le festival ou il a joue en 2018 et 2019 avec le groupe « Resonance »
+#         -> c'est ici, dans les references de scene ;
+#     (2) le COLLEGE de Jazz in Marciac, ou il s'est forme -> c'est dans
+#         REPERES, section « Le parcours ». Ne pas melanger les deux.
+#
+# DECOMPTE (recalcule a la main a partir de CHRONO ci-dessous, verifie par
+# assertion a la fin du fichier) : 69 dates datees, de 2016 a 2025, sur dix
+# annees consecutives. S'y ajoutent DEUX concerts majeurs dont la date
+# n'apparait dans aucun des deux agendas : le Grand Rex et le Mont Korhogo.
+# PAYS avec au moins un concert date : France, Hongrie, Suisse, Belgique,
+# Grece, Cote d'Ivoire = 6. (L'Espagne n'y est PAS : la chapelle du Mas Galifa
+# ne nous est connue que par une video de sa chaine, sans date ni preuve de
+# concert public -> elle figure dans les lieux de pierre avec cette reserve
+# explicite, et n'entre pas dans le compte des pays.)
+SCENES_STATS = [
+    ('69', 'dates recensées, de 2016 à 2025 — dix années consécutives'),
+    ('6', 'pays : France, Hongrie, Suisse, Belgique, Grèce, Côte d’Ivoire'),
+    ('2 700', 'personnes au Grand Rex, à Paris'),
 ]
+
+# Les references majeures, en evidence. Ordre : la plus vendeuse d'abord.
+SCENES_REFS = [
+    ('Première partie d’Amadou &amp; Mariam',
+     'Septembre 2022'),
+    ('Sziget Festival',
+     'Budapest, Hongrie — août 2023'),
+    ('Everness Festival',
+     'Hongrie — juin 2023, puis Everness Indian Summer en septembre 2024'),
+    ('Jazz in Marciac',
+     'Août 2018 et août 2019, avec le groupe « Résonance »'),
+    ('Le Grand Rex',
+     'Paris — devant 2 700 personnes, avec le duo Solune'),
+    ('The Voice, saison 11',
+     'TF1 — audition à l’aveugle, seul avec ses instruments'),
+    ('Mont Korhogo',
+     'Côte d’Ivoire — concert solo, à l’invitation qui a suivi l’émission'),
+    ('Hona Festival',
+     'Naxos, Grèce — mai 2022'),
+    ('HUG Fesztivál',
+     'Hongrie — Hungarian Handpan &amp; Worldmusic Gathering, juillet 2022 et juillet 2023'),
+]
+
+# Deuxieme rideau : festivals, salles et theatres. Format « nom | precision ».
+SCENES_LIEUX = [
+    ('Castle Handpan Festival', 'Château de Frasne-le-Château — mai 2024'),
+    ('Tribe Unity Festival', 'Belgique — juin 2025, avec Solune'),
+    ('HangAout Festival', 'Domaine du Balbuzard — juin 2021'),
+    ('Festival Été Nomade', 'Port Dienville, base nautique — juin 2024'),
+    ('Salle del Castillo', 'Vevey, Suisse — février 2023'),
+    ('Théâtre OZ', 'Martigny, Suisse — mars 2023'),
+    ('Théâtre de l’Étang', 'Septembre 2023 — conférence, film et concert avec Arnaud Riou'),
+    ('Péniche Anako', 'Paris — mars 2023'),
+    ('Salle San-Subra', 'Toulouse — mai 2022'),
+    ('Le Centre Élément', 'Paris — avril 2023, puis mars 2024'),
+    ('Festival Arts Extatics', 'Puivert — juillet 2023'),
+    ('Festival Arts Terre Sacrée', 'Rennes-les-Bains — août 2024'),
+]
+
+# Les lieux de pierre — l'argument exact de la version acoustique (# acoustique).
+SCENES_PIERRE = [
+    ('Abbaye d’Alet-les-Bains', 'À ciel ouvert — septembre 2022, puis août 2025 sous les étoiles'),
+    ('Cloître de Saint-Geniez-d’Olt', 'Juillet 2022'),
+    ('Basilique Saint-Nazaire, Carcassonne', 'Août 2017 — en trio, voix et instruments du monde'),
+    ('Église Saint-Nazaire, Carcassonne', 'Juin et septembre 2017'),
+    ('Église Saint-Jean-l’Évangéliste, Tourcoing', 'Septembre 2023'),
+    ('Chapelle du Mas Galifa', 'Espagne — connue par une vidéo de sa chaîne, visible plus haut'),
+]
+
+# Chronologie complete, repliee dans un <details> natif (aucun JavaScript).
+# Chaque ligne est recopiee des sources. Les libelles flous le restent : on
+# n'ajoute pas une ville ou une salle que la source ne donne pas.
+# SEULE normalisation faite : la source ecrit « Jedapama » (2024, 2025) ET
+# « Jédapama » (2016, 2020) pour le MEME projet. Les deux graphies cote a cote
+# dans une meme liste font negligent -> tout en « Jedapama » (graphie recente et
+# majoritaire). A faire confirmer par David si l'accent est le bon.
+SCENES_CHRONO = [
+    ('2025', [
+        ('13 juin', 'Jedapama, Le Bosc'),
+        ('21 juin', 'Concert Solune, Tribe Unity Festival, Belgique'),
+        ('5 juillet', 'Spectacle E-Motion, Le Dojo d’Espéraza'),
+        ('18 juillet', 'Jedapama, lac de la Cavayère, Carcassonne'),
+        ('16 août', 'Abbaye d’Alet-les-Bains — « une abbaye à ciel ouvert, sous les étoiles »'),
+        ('27 septembre', 'Jedapama, festival de conte, Rennes-le-Château'),
+        ('7 novembre', '« Concert pour l’eau », Jedapama, Alet'),
+    ]),
+    ('2024', [
+        ('30 mars', 'E-Motion, Le Centre Élément, Paris'),
+        ('26 avril', 'Festival Au cœur de l’homme'),
+        ('24 mai', 'Castle Handpan Festival, Château de Frasne-le-Château'),
+        ('8 juin', 'Spectacle participatif E-Motion by Solune'),
+        ('28 juin', 'Festival Été Nomade, Port Dienville, base nautique'),
+        ('9 août', 'Rennes-les-Bains, Festival Arts Terre Sacrée'),
+        ('21 et 31 août', 'Jedapama, L’Écume des jours, Montbel'),
+        ('14 septembre', 'Everness Indian Summer, Hongrie — Solune / E-Motion'),
+    ]),
+    ('2023', [
+        ('7 janvier', 'Célébration de pleine lune « L’eau », Martigny'),
+        ('4 février', 'Ecstatic Tribe United : Sacred Fire, Salle del Castillo, Vevey'),
+        ('17 mars', 'Concert à la Péniche Anako, Paris'),
+        ('25 mars', 'Fête de l’Être, Grange Rouge / Ferme la Zouillaz, Martigny'),
+        ('26 mars', '« Dans les airs et les rythmes », Théâtre OZ, Martigny'),
+        ('23 avril', 'Le Centre Élément — les cinq éléments'),
+        ('17 juin', 'Duo avec Yves Mesnil, Festival Yoga &amp; pleine nature, Saint-Gervais-Mont-Blanc'),
+        ('24 juin', 'Everness Festival, Hongrie'),
+        ('22 juillet', 'HUG Fesztivál, Hongrie'),
+        ('28 juillet', 'Festival Arts Extatics, Puivert'),
+        ('14 août', 'Sziget Festival, Budapest — Everness Chill Beach'),
+        ('19 août', 'Expérience immersive, Daumazan-sur-Arize, Festival Matricia'),
+        ('10 septembre', 'Bungee, danse aérienne, L’Arbre aux étoiles'),
+        ('22 septembre', 'Flori Pan, Tourcoing'),
+        ('23 septembre', 'Église Saint-Jean-l’Évangéliste, Tourcoing'),
+        ('30 septembre', 'Conférence, film et concert avec Arnaud Riou, Théâtre de l’Étang'),
+        ('26 novembre', 'Sainte-Geneviève-des-Bois'),
+        ('3 décembre', 'Expérience immersive, Iris &amp; David'),
+    ]),
+    ('2022', [
+        ('2 avril', 'Concert avec Yves Mesnil'),
+        ('3 avril', 'Expérience immersive 360° avec les dauphins d’Égypte, Hameau de l’Étoile'),
+        ('15 avril', 'Festival virtuel « La Voie/x des hommes »'),
+        ('8 mai', 'Cercle mixte et concert'),
+        ('20 mai', 'David Lesage en concert à Toulouse, Salle San-Subra'),
+        ('27 mai', 'Hona Festival, Naxos, Grèce'),
+        ('11 juin', 'Cercle mixte et concert'),
+        ('7 juillet', 'Cloître de Saint-Geniez-d’Olt'),
+        ('17 juillet', 'Double concert dans une église'),
+        ('30 juillet', 'HUG Fesztivál, Hongrie'),
+        ('9 septembre', 'Première partie d’Amadou &amp; Mariam'),
+        ('17 septembre', 'Festival des arts énergétiques « Les enfants de demain », abbaye d’Alet-les-Bains'),
+        ('1<sup>er</sup> novembre', 'Mini-concert de Samhain, Latrape'),
+    ]),
+    ('2021', [
+        ('29 mai', 'Concert handpan et voix, filmé en 360°'),
+        ('4 et 12 juin', 'Doubles concerts « Loookaa &amp; David Lesage », Aigues-Vives'),
+        ('20 juin', 'HangAout Festival, Domaine du Balbuzard'),
+        ('9 juillet', 'Inauguration de Mama Flower'),
+        ('18 juillet', 'Concert au coucher du soleil, L’Écume des jours, Montbel'),
+    ]),
+    ('2020', [
+        ('14 août', 'Apéro-concert, Mirepoix'),
+        ('4 septembre', 'Jedapama « Come Back Again », L’Écume des jours, Montbel'),
+    ]),
+    ('2019', [
+        ('30 mai', 'Inauguration de la « Caz’Cade », avec Résonance'),
+        ('30 juin', 'Handpan Festival Univers 7 Chakras — « Voyage vibratoire Résonance »'),
+        ('28 juillet', 'Lac de Montbel'),
+        ('31 juillet et 25 août', 'Roquefort-les-Cascades'),
+        ('14 août', 'Jazz in Marciac, 15 h 15'),
+        ('8 septembre', 'Concert Résonance, Spiruchonnade'),
+    ]),
+    ('2018', [
+        ('13 août', 'Jazz in Marciac, avec le groupe « Résonance »'),
+    ]),
+    ('2017', [
+        ('28 juin', 'Église Saint-Nazaire de Carcassonne'),
+        ('9 juillet', '« Chants du cœur », Le Sing Sing'),
+        ('2 août', 'Trio voix et instruments du monde, basilique Saint-Nazaire'),
+        ('17 et 24 septembre', 'Église Saint-Nazaire de Carcassonne'),
+    ]),
+    ('2016', [
+        ('3 août', 'Concerts Jedapama'),
+    ]),
+]
+
+# Nombre de dates reellement portees par CHRONO. Certaines lignes en regroupent
+# plusieurs (« 21 et 31 août ») : on les compte pour ce qu'elles valent, sinon
+# le chiffre affiche serait FAUX (sous-estime).
+CHRONO_GROUPES = {
+    ('2024', '21 et 31 août'): 2,
+    ('2021', '4 et 12 juin'): 2,
+    ('2019', '31 juillet et 25 août'): 2,
+    ('2017', '17 et 24 septembre'): 2,
+}
+NB_DATES = sum(CHRONO_GROUPES.get((an, quand), 1)
+               for an, lignes in SCENES_CHRONO for quand, _ in lignes)
+# Garde-fou : le chiffre AFFICHE et le contenu de la chronologie ne peuvent pas
+# diverger. Si quelqu'un ajoute une date sans toucher au chiffre, ca casse ici.
+assert NB_DATES == 69, f'decompte incoherent : {NB_DATES} dates dans CHRONO'
+assert SCENES_STATS[0][0] == str(NB_DATES), 'le chiffre affiche ne suit plus CHRONO'
+ANNEES_CHRONO = [an for an, _ in SCENES_CHRONO]
+assert ANNEES_CHRONO == ['2025', '2024', '2023', '2022', '2021', '2020',
+                         '2019', '2018', '2017', '2016'], 'amplitude changee'
+
+
+def scenes_stats():
+    return ('<ul class="dlc-stats">'
+            + ''.join(f'<li><b>{n}</b><span>{t}</span></li>' for n, t in SCENES_STATS)
+            + '</ul>')
+
+
+def scenes_refs():
+    return ('<ul class="dlc-refs">'
+            + ''.join(f'<li><b>{n}</b><span>{t}</span></li>' for n, t in SCENES_REFS)
+            + '</ul>')
+
+
+def scenes_liste(items):
+    return ('<ul class="dlc-lieux">'
+            + ''.join(f'<li><b>{n}</b><span>{t}</span></li>' for n, t in items)
+            + '</ul>')
+
+
+def scenes_chrono():
+    """Chronologie complete dans un <details> NATIF : elle s'ouvre et se ferme
+    sans une ligne de JavaScript, et reste imprimable / trouvable par Ctrl+F
+    dans les navigateurs modernes."""
+    lignes = []
+    for an, dates in SCENES_CHRONO:
+        li = ''.join(f'<li><span class="dlc-when">{q}</span>{t}</li>' for q, t in dates)
+        lignes.append(f'<dt>{an}</dt><dd><ul>{li}</ul></dd>')
+    return ('<details class="dlc-more"><summary>Voir toute la chronologie recensée — '
+            f'{NB_DATES} dates, de 2016 à 2025</summary>'
+            f'<dl class="dlc-chrono">{"".join(lignes)}</dl></details>')
 
 # Repertoire ecoutable SUR la page.
 # 3e champ = identifiant YouTube, ou None. Regle d'attribution : on ne relie un
@@ -862,12 +1142,76 @@ b{color:#fff;font-weight:500}
 /* citations du dossier */
 .dlc-cites{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;max-width:880px;list-style:none}
 .dlc-cites li{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:17.5px;line-height:1.4;background:rgba(216,178,90,.08);border:1px solid var(--line);border-radius:30px;padding:8px 20px}
-/* scenes */
-.dlc-scenes{list-style:none;margin-top:24px;max-width:820px;display:grid;gap:2px}
-.dlc-scenes li{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;color:#d7d4ea;font-size:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
-.dlc-scenes li:last-child{border-bottom:0}
-.dlc-scenes li b{flex:1 1 260px;min-width:0}
-.dlc-scenes li span{color:var(--gold);font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;flex:0 0 auto}
+/* ===== « La ou ce repertoire a resonne » (refonte du 13/08/2026) ===========
+   Quatre etages, du plus lisible au plus dense : une ligne chiffree, les
+   references majeures en grille, deux listes (scenes / lieux de pierre), puis
+   tout le volume replie dans un <details>. L'ancienne liste a plat
+   (.dlc-scenes) n'existe plus sur cette page. */
+.dlc-stats{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  gap:24px 26px;margin-top:30px;max-width:1028px;padding:24px 0;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.dlc-stats li{display:flex;flex-direction:column;gap:6px}
+.dlc-stats b{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;line-height:1;
+  font-size:clamp(32px,4.4vw,44px);color:var(--gold2)}
+.dlc-stats span{color:#d7d4ea;font-size:14.5px;line-height:1.5}
+/* `.dlc-block p{color:#d7d4ea}` (0,1,1) battrait `.dlc-srcnote` (0,1,0) :
+   selecteur prefixe -> (0,2,0), il gagne (meme piege que .rep-hint). */
+.dlc-block .dlc-srcnote{color:var(--muted);font-size:14px;font-style:italic;
+  margin-top:16px;max-width:820px;line-height:1.6}
+/* references majeures */
+.dlc-refs{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));
+  gap:14px;margin-top:26px}
+.dlc-refs li{background:var(--card);border:1px solid rgba(255,255,255,.06);
+  border-left:2px solid var(--gold);border-radius:13px;padding:18px 20px}
+.dlc-refs b{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;
+  color:#fff;font-weight:600;line-height:1.18}
+.dlc-refs span{display:block;color:var(--muted);font-size:14.5px;line-height:1.5;margin-top:6px}
+/* listes secondaires : nom a gauche, precision a droite. Pas de capitales ici
+   (contrairement a l'ancienne .dlc-scenes) : les precisions portent des dates
+   et des villes, illisibles en petites capitales espacees. */
+.dlc-lieux{list-style:none;margin-top:22px;max-width:880px;display:grid;gap:2px}
+.dlc-lieux li{display:flex;gap:4px 22px;align-items:baseline;flex-wrap:wrap;
+  padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.dlc-lieux li:last-child{border-bottom:0}
+.dlc-lieux li b{flex:1 1 250px;min-width:0;color:#fff;font-weight:500;font-size:16px;line-height:1.45}
+.dlc-lieux li span{flex:1 1 250px;min-width:0;color:var(--muted);font-size:14.5px;line-height:1.5}
+/* chronologie repliee : <details> NATIF, zero JavaScript */
+.dlc-more{margin-top:34px;max-width:920px;border:1px solid var(--line);border-radius:14px;
+  background:rgba(25,27,61,.5)}
+.dlc-more>summary{display:flex;align-items:center;gap:12px;min-height:52px;
+  padding:12px 22px;cursor:pointer;color:var(--gold2);font-size:16px;line-height:1.4;
+  list-style:none}
+/* les deux formes de marqueur natif, sinon Safari garde son triangle */
+.dlc-more>summary::marker{content:''}
+.dlc-more>summary::-webkit-details-marker{display:none}
+.dlc-more>summary::after{content:'';width:7px;height:7px;flex:0 0 auto;
+  border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;
+  transform:translateY(-2px) rotate(45deg);transition:transform .22s}
+.dlc-more[open]>summary::after{transform:translateY(1px) rotate(-135deg)}
+.dlc-more>summary:hover{color:#fff}
+.dlc-chrono{padding:2px 22px 20px;display:grid;grid-template-columns:minmax(0,96px) minmax(0,1fr);gap:0}
+.dlc-chrono dt{font-family:'Cormorant Garamond',Georgia,serif;font-size:25px;color:var(--gold2);
+  font-weight:600;padding:15px 20px 15px 0;border-top:1px solid rgba(255,255,255,.07);line-height:1.25}
+.dlc-chrono dd{padding:14px 0 15px;border-top:1px solid rgba(255,255,255,.07)}
+.dlc-chrono dt:first-of-type,.dlc-chrono dd:first-of-type{border-top:0}
+.dlc-chrono ul{list-style:none}
+.dlc-chrono li{color:#d7d4ea;font-size:15.5px;line-height:1.55;padding:5px 0}
+.dlc-chrono .dlc-when{display:inline-block;min-width:112px;color:var(--gold);font-size:13px;
+  letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-right:8px}
+@media(max-width:640px){
+  .dlc-chrono{grid-template-columns:1fr;padding:2px 17px 18px}
+  .dlc-chrono dt{padding:16px 0 2px}
+  .dlc-chrono dd{border-top:0;padding:0 0 12px}
+  .dlc-chrono .dlc-when{display:block;min-width:0;margin:0 0 1px}
+  .dlc-more>summary{padding:12px 17px}
+}
+/* ===== Logo d'artiste de David Lesage ======================================
+   ⚠️ Logo de L'ARTISTE, pas de l'association : il identifie David Lesage en
+   tete de la section qui parle de lui, et ne remplace RIEN dans la barre de
+   navigation. Natif 2578x1943 reduit a 900 px : plafonne a 300 px, il n'est
+   jamais affiche au-dela de sa resolution. */
+.dlc-logo{margin:24px 0 0;max-width:300px}
+.dlc-logo img{display:block;width:100%;height:auto}
 /* deux figures cote a cote */
 .dlc-duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:30px;align-items:start}
 /* ===== fiche technique ===== */
@@ -967,8 +1311,9 @@ TITLE = ('David Lesage en concert — concert-cérémonie participatif pour gran
          'et festivals · Résonances Productions')
 DESC = ('Voix, handpan, calebasse, N’Goni et électronique : une expérience immersive de '
         'musique live d’1 h 30, à programmer sur grande scène, en festival ou dans un '
-        'lieu d’exception. Sziget et Everness Festival (Hongrie), Grand Rex, abbaye '
-        'd’Alet-les-Bains, église San Subra, Vevey, Côte d’Ivoire. Fiche technique : '
+        'lieu d’exception. Première partie d’Amadou &amp; Mariam, Sziget et Everness '
+        'Festival (Hongrie), Jazz in Marciac, Grand Rex, abbaye d’Alet-les-Bains, salle '
+        'San-Subra à Toulouse, Vevey, Côte d’Ivoire. Fiche technique : '
         'configuration de référence à 9 entrées, plateau 4 m × 5 m. Option danse '
         'aérienne à l’élastique.')
 
@@ -1017,7 +1362,7 @@ HTML = f"""<!DOCTYPE html>
   <h1>David Lesage en concert</h1>
   <div class="tagline">« Un profond voyage au cœur de soi »</div>
   <p class="lead">Une expérience immersive de musique live d’<b>1 h 30</b> : voix, handpan, calebasse, Ngoni et électronique. À programmer sur grande scène, en festival, ou dans un lieu d’exception.</p>
-  <p class="body">Le format réunit instruments traditionnels et modernité, et alterne deux régimes : des séquences d’<b>écoute active</b>, et des séquences <b>participatives</b> où la salle devient une partie de l’œuvre — elle chante en écho, et voit à l’écran l’empreinte de sa propre voix. Un musicien, chanteur et compositeur passé par le Conservatoire National de Toulouse et le collège de Jazz in Marciac, à l’ambitus vocal de cinq octaves, passé par <i>The Voice</i> et par les scènes du <b>Sziget</b> et de l’<b>Everness Festival</b>, en Hongrie.</p>
+  <p class="body">Le format réunit instruments traditionnels et modernité, et alterne deux régimes : des séquences d’<b>écoute active</b>, et des séquences <b>participatives</b> où la salle devient une partie de l’œuvre — elle chante en écho, et voit à l’écran l’empreinte de sa propre voix. Un musicien, chanteur et compositeur passé par le Conservatoire National de Toulouse et le collège de Jazz in Marciac, à l’ambitus vocal de cinq octaves, passé par <i>The Voice</i>, par les scènes du <b>Sziget</b> et de l’<b>Everness Festival</b>, en Hongrie, et par la <b>première partie d’Amadou &amp; Mariam</b>.</p>
   <div class="cta" style="margin-top:26px"><a class="btn" href="{MAILTO_PROG}">Programmer ce concert</a><a class="btn ghost" href="{MAILTO_DOSSIER}">Demander le dossier</a></div>
   {pic('everness',
        'David Lesage et Iris Chasles debout main dans la main sur la scène en plein air de l’Everness Festival, un handpan posé devant eux, sous une structure de projecteurs et une toile tendue orange ; à droite, une banderole « everness ».',
@@ -1084,6 +1429,7 @@ HTML = f"""<!DOCTYPE html>
 <section class="dlc-block band" id="parcours"><div class="wrap">
   <div class="dlc-h">Le parcours</div>
   <h2 class="sec-title">Autodidacte, Marciac, cinq octaves</h2>
+  {logo_fig()}
   <div class="dlc-split">
     <div>
       <p>Musicien, chanteur et compositeur français. Un <b>artiste curieux</b> et un <b>musicien autodidacte</b>. Ses instruments : la <b>voix</b>, le <b>handpan</b>, la <b>calebasse</b>, le <b>Ngoni</b> — la harpe africaine —, la wave drum et des déclencheurs électroniques.</p>
@@ -1142,9 +1488,32 @@ HTML = f"""<!DOCTYPE html>
 <section class="dlc-block" id="scenes"><div class="wrap">
   <div class="dlc-h">Scènes &amp; festivals</div>
   <h2 class="sec-title">Là où ce répertoire a résonné</h2>
-  <p>De deux grands festivals hongrois à une abbaye à ciel ouvert, d’une église toulousaine à une salle suisse et à un mont ivoirien : le même répertoire, à des échelles et sous des acoustiques très différentes.</p>
-  <ul class="dlc-scenes">{''.join(f'<li><b>{n}</b><span>{p}</span></li>' for n, p in SCENES)}</ul>
-  <p>David Lesage est passé par l’émission <i>The Voice</i> en 2021 ; c’est à sa suite qu’il a été invité pour un concert solo en Côte d’Ivoire.</p>
+  <p>Ce n’est pas un projet en rodage. Le même répertoire s’est joué sur de grandes scènes de festival, en première partie d’un groupe de renommée internationale, dans des théâtres, des salles, et dans beaucoup de lieux de pierre — à des échelles et sous des acoustiques très différentes.</p>
+  {scenes_stats()}
+  <p class="dlc-srcnote">Décompte établi sur deux sources : l’agenda de l’artiste et l’historique de ses annonces publiques. Aucune des deux ne couvre l’intégralité de son parcours — le total réel est plus élevé. La saison 2026 est en cours.</p>
+
+  <h3 class="dlc-sub">Les références</h3>
+  {scenes_refs()}
+  <p>David Lesage est passé par l’émission <i>The Voice</i> ; c’est à sa suite qu’il a été invité pour un concert solo en Côte d’Ivoire. À Marciac, les deux choses sont vraies et distinctes : c’est là qu’il s’est formé, au <b>collège de Jazz in Marciac</b>, et c’est là qu’il a joué, en <b>2018 et 2019</b>, avec le groupe « Résonance ».</p>
+
+  <h3 class="dlc-sub">Festivals, salles et théâtres</h3>
+  {scenes_liste(SCENES_LIEUX)}
+  {video_button('anako', VIDEO_ANAKO_ID,
+                'Vignette de la vidéo : deux musiciens assis face à face sur une petite scène '
+                'éclairée de rouge et d’orange, chacun penché sur un handpan, une batterie et '
+                'des micros entre eux. Textes incrustés « Concert David Lesage », « ça '
+                'ressemble à quoi ? / What does it look like? » et « Extrait Superpan Show '
+                'Jérémy Nattagh ».',
+                'Voir un extrait — concert à la Péniche Anako, Paris',
+                '« Teaser Concert David Lesage — Extrait émission SuperPan Show de '
+                'Jérémy Nattagh » — le lecteur s’ouvre sur cette page.',
+                '(max-width:900px) calc(100vw - 52px), 560px')}
+
+  <h3 class="dlc-sub">Les lieux de pierre</h3>
+  <p>Abbayes, cloître, basilique, églises, chapelle : c’est le terrain où ce répertoire est le plus chez lui, et c’est exactement pour ces lieux-là qu’existe la <a href="#acoustique">version plus acoustique</a> du même programme.</p>
+  {scenes_liste(SCENES_PIERRE)}
+
+  {scenes_chrono()}
   <div class="dlc-duo">
     {pic('solo-festival',
          'David Lesage seul debout au centre d’une scène de festival en plein air, jouant deux handpans posés sur des pieds, devant une toile tendue multicolore et des faisceaux de lumière verte.',
@@ -1241,7 +1610,7 @@ HTML = f"""<!DOCTYPE html>
   <div class="dlc-split">
     <div>
       <p>Le même répertoire existe dans une <b>direction plus acoustique</b> : porté d’abord par les <b>handpans acoustiques Yishama</b>, la voix, la calebasse et le <b>N’Goni</b> — avec beaucoup moins d’électronique.</p>
-      <p>C’est une <b>option de programmation</b>, pensée pour les lieux où la pierre, le bois et le silence font déjà la moitié du travail : églises, chapelles, abbayes, lieux patrimoniaux, petites jauges assises.</p>
+      <p>C’est une <b>option de programmation</b>, pensée pour les lieux où la pierre, le bois et le silence font déjà la moitié du travail : églises, chapelles, abbayes, lieux patrimoniaux, petites jauges assises. Ce sont exactement les <a href="#scenes">lieux de pierre déjà joués</a> — abbaye d’Alet-les-Bains, cloître de Saint-Geniez-d’Olt, basilique et église Saint-Nazaire de Carcassonne.</p>
       <p>Cette formule se construit <b>avec vous</b> : sa durée, son instrumentarium exact et ses besoins techniques ne sont pas figés et se décident au cas par cas — la <a href="#technique">fiche technique</a> publiée plus bas est celle de la configuration principale, elle ne s’applique pas telle quelle ici.</p>
       <div class="cta" style="margin-top:22px"><a class="btn ghost" href="{MAILTO_ACOUSTIQUE}">Parler de la version acoustique</a></div>
     </div>

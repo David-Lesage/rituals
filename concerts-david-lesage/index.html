@@ -133,6 +133,13 @@ b{color:#fff;font-weight:500}
 .cdl-video .vlabel{color:var(--gold2);font-size:16px;text-decoration:underline;text-decoration-color:rgba(216,178,90,.42);text-underline-offset:3px}
 .cdl-video:hover .vlabel{color:#fff}
 .cdl-video .vsub{color:var(--muted);font-size:13.5px}
+/* ===== Logo d'artiste de David Lesage (ajout du 13/08/2026) ================
+   ⚠️ Logo de L'ARTISTE, pas de l'association : il identifie David Lesage en
+   tete de la section qui parle de lui. Il ne remplace RIEN dans la barre de
+   navigation et n'est pas le logo du site. Natif 2578x1943 reduit a 900 px,
+   plafonne a 280 px d'affichage : jamais agrandi au-dela du natif. */
+.cdl-logo{margin:22px 0 0;max-width:280px}
+.cdl-logo img{display:block;width:100%;height:auto}
 /* scenes */
 .cdl-scenes{list-style:none;margin-top:24px;max-width:820px;display:grid;gap:2px}
 .cdl-scenes li{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;color:#d7d4ea;font-size:16px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
@@ -513,6 +520,7 @@ body.lb-open{overflow:hidden}
 <section class="cdl-block" id="artiste"><div class="wrap">
   <div class="cdl-h">L’artiste</div>
   <h2 class="sec-title">David Lesage</h2>
+  <figure class="cdl-logo"><picture><source type="image/webp" srcset="/img/logo/david-lesage-logo-480.webp 480w, /img/logo/david-lesage-logo-900.webp 900w" sizes="280px"><img src="/img/logo/david-lesage-logo-900.png" srcset="/img/logo/david-lesage-logo-480.png 480w, /img/logo/david-lesage-logo-900.png 900w" sizes="280px" width="900" height="678" loading="lazy" decoding="async" alt="David Lesage"></picture></figure>
   <div class="cdl-split">
     <div>
       <p>Musicien, chanteur et compositeur français. Ses instruments de prédilection : la <b>voix</b>, le <b>handpan</b>, la <b>calebasse</b> et le <b>Ngoni</b> — la harpe africaine.</p>
@@ -593,9 +601,10 @@ body.lb-open{overflow:hidden}
 <section class="cdl-block" id="scenes"><div class="wrap">
   <div class="cdl-h">Sur scène</div>
   <h2 class="sec-title">Là où ce répertoire a résonné</h2>
-  <p>D’une abbaye à ciel ouvert à une église toulousaine, d’une salle suisse à un mont ivoirien : le même répertoire, à des échelles très différentes.</p>
-  <ul class="cdl-scenes"><li><b>Abbaye à ciel ouvert d’Alet-les-Bains</b><span>France</span></li><li><b>Église San Subra, Toulouse</b><span>France</span></li><li><b>Salle du Castillo, Vevey</b><span>Suisse</span></li><li><b>Mont Korhogo</b><span>Côte d’Ivoire</span></li></ul>
-  <p>David Lesage est également passé par l’émission <i>The Voice</i> en 2021.</p>
+  <p>Ce que vous entendrez au Nid n’est pas un format de salon : c’est le répertoire que David Lesage joue ailleurs, sur de grandes scènes et dans des lieux de pierre. <b>Près de soixante-dix dates</b> depuis 2016, en France, en Hongrie, en Suisse, en Belgique, en Grèce et en Côte d’Ivoire.</p>
+  <ul class="cdl-scenes"><li><b>Le Grand Rex, Paris — devant 2 700 personnes</b><span>France</span></li><li><b>Sziget Festival</b><span>Hongrie</span></li><li><b>Everness Festival</b><span>Hongrie</span></li><li><b>Jazz in Marciac</b><span>France</span></li><li><b>Abbaye à ciel ouvert d’Alet-les-Bains</b><span>France</span></li><li><b>Mont Korhogo</b><span>Côte d’Ivoire</span></li></ul>
+  <p>Il est également passé par l’émission <i>The Voice</i> en 2021. À Paris, on l’a entendu notamment sur la <b>Péniche Anako</b> — en voici un extrait, qui donne une idée de l’ambiance mieux que n’importe quelle description.</p>
+  <button type="button" class="cdl-video ytlink" data-yt="0jbAjB-Swmk"><figure class="cdl-fig"><span class="shot"><picture><source type="image/webp" srcset="/img/concert-scene/peniche-anako-teaser-480.webp 480w, /img/concert-scene/peniche-anako-teaser-900.webp 900w, /img/concert-scene/peniche-anako-teaser-1280.webp 1280w" sizes="(max-width:560px) calc(100vw - 52px), 480px"><img src="/img/concert-scene/peniche-anako-teaser-1280.jpg" srcset="/img/concert-scene/peniche-anako-teaser-480.jpg 480w, /img/concert-scene/peniche-anako-teaser-900.jpg 900w, /img/concert-scene/peniche-anako-teaser-1280.jpg 1280w" sizes="(max-width:560px) calc(100vw - 52px), 480px" width="1280" height="720" loading="lazy" decoding="async" alt="Vignette de la vidéo : deux musiciens assis face à face sur une petite scène éclairée de rouge et d’orange, chacun penché sur un handpan, une batterie et des micros entre eux. Textes incrustés « Concert David Lesage », « ça ressemble à quoi ? / What does it look like? » et « Extrait Superpan Show Jérémy Nattagh »."></picture><span class="play" aria-hidden="true"></span></span><figcaption><span class="vlabel">Un extrait de concert, à Paris</span><span class="vsub">« Teaser Concert David Lesage — Extrait émission SuperPan Show de Jérémy Nattagh » — le lecteur s’ouvre sur cette page.</span></figcaption></figure></button>
   <figure class="cdl-fig cdl-wide"><picture><source type="image/webp" srcset="/img/rituals/chanter-ensemble-480.webp 480w, /img/rituals/chanter-ensemble-900.webp 900w, /img/rituals/chanter-ensemble-1400.webp 1400w" sizes="(max-width:1080px) calc(100vw - 52px), 1028px"><img src="/img/rituals/chanter-ensemble-1400.jpg" srcset="/img/rituals/chanter-ensemble-480.jpg 480w, /img/rituals/chanter-ensemble-900.jpg 900w, /img/rituals/chanter-ensemble-1400.jpg 1400w" sizes="(max-width:1080px) calc(100vw - 52px), 1028px" width="1400" height="780" loading="lazy" decoding="async" alt="David Lesage seul sur une grande scène de festival en plein air, de dos, les bras ouverts vers un public nombreux assis et debout sous les arbres."></picture><figcaption>Le même geste, à une autre échelle : l’échange vocal avec le public, en festival.</figcaption></figure>
 </div></section>
 
