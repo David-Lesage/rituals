@@ -295,7 +295,7 @@ LIGHTBOX_HTML = """
     <button class="lb-close" type="button" onclick="closeYT(event)" aria-label="Fermer la vidéo">×</button>
     <div class="lb-frame"><!-- Le lecteur sert TOUS les declencheurs de la page (vignettes
          ET titres du repertoire) : son titre doit rester generique. -->
-      <iframe id="ytif" src="" title="Lecteur vidéo YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+      <iframe id="ytif" title="Lecteur vidéo YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
     <a class="yt-fallback" href="{secours}" target="_blank" rel="noopener">La vidéo ne se lance pas ? Ouvrir sur YouTube ↗</a>
   </div>
 </div>
