@@ -71,6 +71,8 @@ MAILTO_DOSSIER = ('mailto:' + MAIL + '?subject=Dossier%20de%20pr%C3%A9sentation%
                   '%E2%80%94%20David%20Lesage%20en%20concert')
 # Bouton de la section « Fiche technique » : le reste du rider (assurance, transport
 # international, rider d'accueil) N'EST PAS publie -> il part sur demande.
+MAILTO_ACOUSTIQUE = ('mailto:' + MAIL + '?subject=Version%20acoustique%20%E2%80%94%20'
+                     'David%20Lesage%20en%20concert')
 MAILTO_FT = ('mailto:' + MAIL + '?subject=Fiche%20technique%20compl%C3%A8te%20'
              '%E2%80%94%20David%20Lesage%20en%20concert')
 TEL_TECH = '+33610733152'
@@ -254,6 +256,37 @@ body.lb-open{overflow:hidden}
 .dlc-listen .cta{margin-top:20px}
 .dlc-listen .btn{font-size:15px;padding:12px 22px}
 @media(max-width:560px){.dlc-listen .btn{width:100%}}
+/* ===== Grille de vignettes live (chaque vignette ouvre le lecteur DANS la page)
+   Les vignettes sont natives en 1280x720 : la grille plafonne les colonnes bien
+   en dessous, on ne les agrandit donc jamais au-dela de leur resolution.
+   .lvc est un <button> : on remet a plat les styles par defaut du navigateur.
+   Hauteur cliquable = vignette (>= 135 px) + libelle : cible tactile largement
+   au-dela de 44 px. */
+.lvg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;margin-top:24px;max-width:1028px}
+.lvc{display:flex;flex-direction:column;gap:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;padding:0;color:inherit;font:inherit;text-align:left;
+  cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s}
+.lvc:hover,.lvc:focus-visible{transform:translateY(-3px);border-color:rgba(216,178,90,.6);box-shadow:0 14px 34px rgba(0,0,0,.45)}
+.lvc .shot{display:block;position:relative;line-height:0;aspect-ratio:16/9;overflow:hidden}
+.lvc .shot img{display:block;width:100%;height:100%;object-fit:cover}
+.lvc .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;
+  border-radius:50%;background:rgba(11,12,30,.7);border:1px solid rgba(240,209,138,.62);
+  display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.lvc .play::before{content:"";width:0;height:0;border-left:15px solid var(--gold2);
+  border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
+.lvc:hover .play,.lvc:focus-visible .play{background:rgba(11,12,30,.9);transform:translate(-50%,-50%) scale(1.08)}
+.lvc-t{display:flex;align-items:center;min-height:44px;padding:11px 15px 13px;color:var(--gold2);
+  font-size:15px;line-height:1.35;text-decoration:underline;
+  text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
+.lvc:hover .lvc-t{color:#fff}
+.lv-set{margin-top:34px}
+.lv-set:first-of-type{margin-top:0}
+.lv-set h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;color:#fff;font-weight:600;line-height:1.15}
+.lv-set .lv-src{color:var(--muted);font-size:14px;font-style:italic;margin-top:4px}
+/* ===== Lecteur Spotify differé (cree au clic, jamais au chargement) ===== */
+.spf{margin-top:24px;max-width:820px}
+.spf iframe{display:block;width:100%;border:0;border-radius:12px;background:var(--card)}
+.dlc-block .spf-note{color:var(--muted);font-size:14px;font-style:italic;margin-top:12px;max-width:640px}
 """
 
 LIGHTBOX_HTML = """
@@ -325,6 +358,11 @@ FICHE = [
                 '<b>9 entrées</b> — voir la <a href="#technique">fiche technique</a>'),
     ('En option', 'Danse aérienne à l’élastique — Iris Chasles · extraits du spectacle '
                   '<a href="/e-motion">E-Motion</a>'),
+    # Formule acoustique : voir la section #acoustique et son avertissement.
+    # AUCUNE donnee chiffree ici — rien n'est arrete sur cette formule.
+    ('Autre formule', 'Une <a href="#acoustique">version plus acoustique</a> du même '
+                      'répertoire, portée surtout par les handpans acoustiques Yishama, '
+                      'la voix, la calebasse et le N’Goni — sur demande'),
 ]
 
 # Les 8 composantes de la soiree, telles que decrites dans le dossier.
@@ -418,6 +456,104 @@ REPRISES = [
 
 PICO = '<span class="pico" aria-hidden="true">▸</span>'
 
+# --- VERSIONS STUDIO : plateformes ------------------------------------------
+# Ce sont des PLATEFORMES, pas des videos : un nouvel onglet est legitime ici
+# (la regle « la video reste sur le site » ne concerne que les videos).
+# ⚠️ iMusician : la page /releases porte les DEUX opus de « L'Alliance du
+# Phoenix » (verifie le 13/08/2026 : les libelles « ...phoenix - Opus 1 » et
+# « ...phoenix - Opus 2 » sont tous deux dans le HTML). L'application est une SPA
+# et n'expose AUCUNE URL distincte par opus -> on lie donc la page des sorties,
+# et on l'annonce comme telle. Ne pas inventer d'URL par opus.
+IMUSICIAN = 'https://music.imusician.pro/artist/GtChl4dcIh/releases'
+# --- LECTEUR SPOTIFY : CHARGE AU CLIC SEULEMENT -----------------------------
+# Coherence avec le lecteur video : tant que personne n'a clique, AUCUNE requete
+# ne part vers un domaine tiers. L'<iframe> Spotify n'existe pas dans le HTML
+# livre ; elle est CREEE au clic sur le bouton (voir SPOTIFY_JS). Verifie par
+# performance.getEntriesByType('resource') : zero entree *.spotify.com au
+# chargement. Ne JAMAIS remettre l'iframe en dur dans le HTML.
+SPOTIFY_EMBED_ID = 'artist/7zEAQJbalBFj8XNHrcqdbK'   # /embed/<ceci> -> 200
+
+# --- VIDEOS LIVE : deux ensembles, tires de SES playlists -------------------
+# David demandait « deux playlists avec des vidéos lives ». Ses playlists
+# existent deja sur sa chaine (@DavidLesageArtiste) : on n'a donc RIEN invente,
+# on a repris les deux qui repondent exactement a la demande —
+#   * « Concerts Live David Lesage »  (PLns6mQWNwwnS6KljAheL9gCn-sIiu0HmS, 33 videos)
+#   * « Yishama Handpan David Lesage » (PLns6mQWNwwnQ_KWoyklbfqtlFzIQi9iQf, 14 videos)
+# La seconde sert aussi le reequilibrage demande le 13/08/2026 : le handpan
+# ACOUSTIQUE Yishama y est partout, la ou le Neotone occupait toutes les photos.
+# On n'affiche pas les 47 videos : 6 par ensemble, choisies sur DEUX criteres —
+#   (1) vignette maxresdefault disponible (1280x720, vrai 16:9). Les vignettes
+#       sd/hq sont en 4:3 letterboxe : bandes noires dans une grille 16:9.
+#   (2) la vignette donne envie (demande explicite de David). Ecartees pour ce
+#       motif : mH5rUuelF8o (carton de titre noir, aucune image), fKsDtOJlDx0
+#       (fisheye 360 illisible), 33G59yaTzHc (dauphins, hors sujet).
+# Chaque identifiant valide par oEmbed le 13/08/2026 (public + embarcable) ;
+# le titre en commentaire est le titre EXACT retourne par oEmbed.
+# Vignettes RAPATRIEES EN LOCAL dans /img/concert-live/ (aucune image distante),
+# natif 1280x720 -> jamais affichees au-dela (sinon flou).
+# Aucune n'est signee ni filigranee par un photographe tiers : ce sont les
+# vignettes publiees par David sur sa propre chaine, avec ses propres
+# incrustations (son nom, la marque Yishama). Rien a crediter.
+LIVE_CONCERTS = [
+    ('Y5D0_iiVflg', 'live-humano-abbaye-alet-les-bains',
+     'Vue depuis le fond de l’abbaye à ciel ouvert d’Alet-les-Bains : un public nombreux '
+     'assis sur des chaises entre les murs de pierre, l’artiste seul debout au fond ; '
+     'titre incrusté « L’Alliance du Phoenix — Humano ».',
+     'Humano — Abbaye d’Alet-les-Bains'),
+    # « Extrait Concert David Lesage 2022 2023 »
+    ('-ReJnKAr274', 'live-extrait-concert-lieu-de-pierre',
+     'Plateau installé au pied d’un haut mur de pierre éclairé de doré : deux handpans sur '
+     'pieds au centre, des rangées de chaises vides et un projecteur en contre-jour ; '
+     'titre incrusté « Extrait Concert David Lesage ».',
+     'Extrait de concert'),
+    ('WUvCwdBYwXw', 'live-valse-do-mar-everness-festival',
+     'Grande scène de festival dans des faisceaux violets et verts : cinq musiciens assis '
+     'en arc de cercle, violon, guitare et percussions, des retours de scène au premier plan.',
+     'Valse do Mar — Everness Festival'),
+    ('qEbFXDE8o9o', 'live-les-gardiens-du-silence-hangaout-festival',
+     'Scène de festival éclairée de bleu et de violet : l’artiste debout derrière ses '
+     'instruments, un pupitre devant lui ; titre incrusté « Les gardiens du silence — '
+     'David Lesage, Live HangAout Festival ».',
+     'Les gardiens du silence — HangAout Festival'),
+    ('JA-riZgq92M', 'live-appel-des-144000-voute-aux-chandelles',
+     'Sous une voûte de pierre éclairée à la bougie, l’artiste assis derrière deux handpans '
+     'posés sur pieds, entre deux chandeliers allumés.',
+     'L’appel des 144 000 — voix et handpan'),
+    ('3akajIK-oHk', 'live-chapelle-mas-galifa-espagne',
+     'Une petite chapelle de pierre sous un ciel bleu vif, un arbre au-dessus ; l’artiste '
+     'debout devant la porte, de profil.',
+     'Chapelle du Mas Galifa, Espagne'),
+]
+
+LIVE_YISHAMA = [
+    ('81yKSB3dIK0', 'yishama-angel-voice',
+     'L’artiste assis devant une grande baie vitrée, penché sur un handpan acoustique en '
+     'bronze posé sur un pied, une main levée ; incrustations « Yishama Pantam » et '
+     '« Angel Voice ».',
+     'Angel Voice — handpan acoustique'),
+    ('Zp_zaqsRBCg', 'yishama-shape-of-my-heart',
+     'Deux handpans acoustiques en bronze au premier plan devant un mur de pierre éclairé '
+     'par deux appliques, l’artiste assis derrière ; incrustations « Shape Of my Heart », '
+     '« Yishama » et « David Lesage ».',
+     'Shape of My Heart — Sting'),
+    ('pkHFaaZplik', 'yishama-ave-maria-jazz',
+     'L’artiste devant un mur de pierre, les mains sur un handpan acoustique en bronze ; '
+     'incrustations « Ave Maria Jazz impro Handpan » et logo Yishama.',
+     'Ave Maria — improvisation jazz'),
+    ('n-BOdL7KEYU', 'yishama-au-coeur-de-l-homme',
+     'L’artiste debout derrière deux handpans acoustiques en métal clair posés sur pieds, '
+     'dans une pièce claire ; titre incrusté « Au cœur de l’homme ».',
+     'Au cœur de l’homme — composition'),
+    ('LKnqMESCE-g', 'yishama-derbouka-duo',
+     'Deux musiciens assis face à face devant un mur de pierre, chacun derrière un handpan '
+     'acoustique en bronze, une flamme entre eux.',
+     'Derbouka — en duo'),
+    ('WYVtBfoz7T8', 'yishama-fallin',
+     'Gros plan sur des mains au-dessus d’un handpan acoustique en métal clair, et portrait '
+     'de l’artiste souriant à côté.',
+     'Fallin’ — Alicia Keys'),
+]
+
 
 def rep_li(titre, vid, artiste=None):
     """Une ligne du repertoire. Avec identifiant : un bouton qui ouvre le lecteur
@@ -435,6 +571,80 @@ def rep_li(titre, vid, artiste=None):
 
 REP_HINT = ('<p class="rep-hint">Les titres suivis de ' + PICO
             + ' s’écoutent ici même : le lecteur s’ouvre dans la page.</p>')
+
+# Largeurs natives des vignettes live : 1280x720. Ne JAMAIS depasser 1280.
+LIVE_WIDTHS = [480, 900, 1280]
+LIVE_SIZES = ('(max-width:560px) calc(100vw - 52px), '
+              '(max-width:900px) calc(50vw - 44px), 330px')
+
+
+def live_card(vid, slug, alt, label):
+    """Une vignette live : <button> qui ouvre le lecteur DANS la page.
+
+    Meme mecanique que video_button (.ytlink + data-yt), en format grille.
+    Jamais de lien sortant, jamais de nouvel onglet."""
+    root = f'/img/concert-live/{slug}'
+    webp = ', '.join(f'{root}-{x}.webp {x}w' for x in LIVE_WIDTHS)
+    jpg = ', '.join(f'{root}-{x}.jpg {x}w' for x in LIVE_WIDTHS)
+    img = (f'<picture><source type="image/webp" srcset="{webp}" sizes="{LIVE_SIZES}">'
+           f'<img src="{root}-900.jpg" srcset="{jpg}" sizes="{LIVE_SIZES}" '
+           f'width="1280" height="720" loading="lazy" decoding="async" alt="{alt}"></picture>')
+    return (f'<button type="button" class="lvc ytlink" data-yt="{vid}">'
+            f'<span class="shot">{img}<span class="play" aria-hidden="true"></span></span>'
+            f'<span class="lvc-t">{label}</span></button>')
+
+
+def live_grid(items):
+    return f'<div class="lvg">{"".join(live_card(*i) for i in items)}</div>'
+
+
+def live_feature(slug, vid, alt, label, sub, sizes):
+    """Une vignette live en GRAND format, avec legende — pour illustrer une
+    section. Meme mecanique que video_button, mais la source est une vignette de
+    /img/concert-live/ (native 1280x720, jamais agrandie au-dela)."""
+    root = f'/img/concert-live/{slug}'
+    webp = ', '.join(f'{root}-{x}.webp {x}w' for x in LIVE_WIDTHS)
+    jpg = ', '.join(f'{root}-{x}.jpg {x}w' for x in LIVE_WIDTHS)
+    img = (f'<picture><source type="image/webp" srcset="{webp}" sizes="{sizes}">'
+           f'<img src="{root}-900.jpg" srcset="{jpg}" sizes="{sizes}" width="1280" '
+           f'height="720" loading="lazy" decoding="async" alt="{alt}"></picture>')
+    return (f'<button type="button" class="dlc-video ytlink" data-yt="{vid}">'
+            f'<figure class="dlc-fig"><span class="shot">{img}'
+            f'<span class="play" aria-hidden="true"></span></span>'
+            f'<figcaption><span class="vlabel">{label}</span>'
+            f'<span class="vsub">{sub}</span></figcaption></figure></button>')
+
+
+# --- Lecteur Spotify : cree AU CLIC seulement -------------------------------
+# Voir SPOTIFY_EMBED_ID. Le bouton est un vrai <button> (cible 48 px) ; au clic
+# il est remplace par l'iframe. Aucun script ni cookie Spotify avant ce clic.
+SPOTIFY_HTML = """
+  <div class="spf" data-sp="{sp}">
+    <button type="button" class="btn ghost spf-btn">Écouter le lecteur Spotify</button>
+    <p class="spf-note">Le lecteur ne se charge qu’à votre demande : rien n’est envoyé à Spotify avant que vous n’appuyiez sur ce bouton.</p>
+  </div>
+"""
+
+SPOTIFY_JS = """
+<script>
+/* Lecteur Spotify differé : l'<iframe> N'EXISTE PAS avant le clic, donc aucune
+   requete vers spotify.com au chargement de la page (meme principe que le
+   lecteur video). Ne pas « optimiser » en posant l'iframe dans le HTML. */
+(function(){
+  document.addEventListener('click',function(e){
+    var b=e.target.closest && e.target.closest('.spf-btn'); if(!b) return;
+    var box=b.closest('.spf'); if(!box || box.dataset.loaded) return;
+    box.dataset.loaded='1';
+    var f=document.createElement('iframe');
+    f.src='https://open.spotify.com/embed/'+box.dataset.sp;
+    f.title='Lecteur Spotify — David Lesage';
+    f.loading='lazy'; f.width='100%'; f.height='352'; f.style.border='0';
+    f.setAttribute('allow','clipboard-write; encrypted-media; fullscreen; picture-in-picture');
+    b.replaceWith(f);
+  });
+})();
+</script>
+"""
 
 CITATIONS = ['Une musique qui tisse des liens', 'Des rythmes envoûtants',
              'Des paroles profondes', 'Des refrains incantatoires',
@@ -522,6 +732,9 @@ TOC = [
     ('#parcours', 'Le parcours'),
     ('#scenes', 'Scènes &amp; festivals'),
     ('#repertoire', 'Le répertoire'),
+    ('#studio', 'Écouter les versions studio'),
+    ('#live', 'Voir deux ensembles de vidéos live'),
+    ('#acoustique', 'Une version plus acoustique'),
     ('#option', 'En option : la danse aérienne'),
     ('#technique', 'Fiche technique'),
     ('#programmer', 'Programmer ce concert'),
@@ -974,19 +1187,77 @@ HTML = f"""<!DOCTYPE html>
   </div>
   <p>Cinq formules, empruntées au dossier de présentation, pour dire ce que cette musique cherche :</p>
   <ul class="dlc-cites">{''.join(f'<li>« {c} »</li>' for c in CITATIONS)}</ul>
+  <div class="dlc-listen" id="studio">
+    <div class="dlc-h">Les versions studio</div>
+    <h3 class="sec-title" style="font-size:clamp(24px,3.4vw,34px)">Écouter les enregistrements</h3>
+    <p>Les titres ci-dessus s’écoutent ici en <b>vidéo</b>. Leurs <b>versions studio</b> sont sur les plateformes : le profil Spotify de l’artiste réunit ses sorties et ses reprises, et les <b>deux opus</b> de « L’Alliance du Phoenix » sont réunis sur une même page chez son distributeur.</p>
+    {SPOTIFY_HTML.format(sp=SPOTIFY_EMBED_ID)}
+    <div class="cta">
+      <a class="btn ghost" href="{SPOTIFY}" target="_blank" rel="noopener">Le profil Spotify ↗</a>
+      <a class="btn ghost" href="{IMUSICIAN}" target="_blank" rel="noopener">Les deux opus chez son distributeur ↗</a>
+    </div>
+  </div>
+  <!-- VIDEOS LIVE : deux ensembles tires de SES playlists (voir LIVE_CONCERTS /
+       LIVE_YISHAMA). Chaque vignette ouvre le lecteur DANS la page : aucun
+       nouvel onglet, aucune requete tierce avant le clic. -->
+  <div class="dlc-listen" id="live">
+    <div class="dlc-h">En vidéo</div>
+    <h3 class="sec-title" style="font-size:clamp(24px,3.4vw,34px)">Deux ensembles de vidéos live</h3>
+    <p>De quoi juger du live sans quitter cette page. Deux sélections tirées de ses propres playlists : les <b>concerts filmés</b>, et les <b>handpans acoustiques Yishama</b>. Chaque vignette ouvre le lecteur ici même.</p>
+    <div class="lv-set">
+      <h3>En concert</h3>
+      <div class="lv-src">Six vidéos de sa playlist « Concerts Live David Lesage » — festivals, abbayes, chapelles.</div>
+      {live_grid(LIVE_CONCERTS)}
+    </div>
+    <div class="lv-set">
+      <h3>Handpans acoustiques Yishama</h3>
+      <div class="lv-src">Six vidéos de sa playlist « Yishama Handpan David Lesage » — le même répertoire, sans les machines.</div>
+      {live_grid(LIVE_YISHAMA)}
+    </div>
+  </div>
   <div class="dlc-listen">
     <div class="dlc-h">Écouter · Soutenir</div>
     <p>De quoi instruire un dossier sans nous attendre : le répertoire est en ligne sur les plateformes, et les captations de concert sur la chaîne de l’artiste.</p>
     <p><b>« L’Alliance du Phoenix »</b> représente un an de création et il est <b>100 % auto-produit</b> : dix compositions originales en deux opus, un album de reprises, le livret des paroles, une affiche A3 dédicacée. La boutique de l’association le diffuse en téléchargement ou sur une clé USB en bois de vingt-neuf titres — un support à connaître si vous cherchez un objet pour votre billetterie ou votre boutique de salle.</p>
     <div class="cta">
-      <a class="btn ghost" href="{SPOTIFY}" target="_blank" rel="noopener">Écouter sur Spotify ↗</a>
       <a class="btn ghost" href="{YT_CHAINE}" target="_blank" rel="noopener">La chaîne YouTube de David Lesage ↗</a>
       <a class="btn ghost" href="{ALBUM_BOUTIQUE}" target="_blank" rel="noopener">Commander l’album — téléchargement ou clé USB ↗</a>
     </div>
   </div>
 </div></section>
 
-<section class="dlc-block" id="option"><div class="wrap">
+<!-- VERSION PLUS ACOUSTIQUE (ajout du 13/08/2026, demande de David).
+     ⚠️ AUCUNE INFORMATION PRECISE N'EXISTE sur cette formule : ni duree, ni
+     instrumentarium arrete, ni patch, ni contrainte de plateau. On n'en invente
+     AUCUNE, et on ne recycle SURTOUT PAS les chiffres de la fiche technique de
+     la configuration principale (9 entrees, 4x5 m, Bose S1+Sub1) : ils ne
+     valent pas pour cette formule. Le texte dit exactement ce qu'on sait — la
+     meme musique tiree vers les handpans ACOUSTIQUES Yishama, la voix, la
+     calebasse et le N'Goni, avec moins d'electronique — et renvoie a un
+     echange. NE RIEN AJOUTER ICI qui ressemble a une fiche ou a un engagement. -->
+<section class="dlc-block" id="acoustique"><div class="wrap">
+  <div class="dlc-h">Autre formule</div>
+  <h2 class="sec-title">Une version plus acoustique</h2>
+  <div class="dlc-split">
+    <div>
+      <p>Le même répertoire existe dans une <b>direction plus acoustique</b> : porté d’abord par les <b>handpans acoustiques Yishama</b>, la voix, la calebasse et le <b>N’Goni</b> — avec beaucoup moins d’électronique.</p>
+      <p>C’est une <b>option de programmation</b>, pensée pour les lieux où la pierre, le bois et le silence font déjà la moitié du travail : églises, chapelles, abbayes, lieux patrimoniaux, petites jauges assises.</p>
+      <p>Cette formule se construit <b>avec vous</b> : sa durée, son instrumentarium exact et ses besoins techniques ne sont pas figés et se décident au cas par cas — la <a href="#technique">fiche technique</a> publiée plus bas est celle de la configuration principale, elle ne s’applique pas telle quelle ici.</p>
+      <div class="cta" style="margin-top:22px"><a class="btn ghost" href="{MAILTO_ACOUSTIQUE}">Parler de la version acoustique</a></div>
+    </div>
+    {live_feature('yishama-angel-voice', '81yKSB3dIK0',
+                  'Vignette : l’artiste assis devant une grande baie vitrée, penché sur un '
+                  'handpan acoustique en bronze posé sur un pied, une main levée ; '
+                  'incrustations « Yishama Pantam » et « Angel Voice ».',
+                  'Le handpan acoustique, seul',
+                  '« Angel Voice handpan @yishama_official » — le lecteur s’ouvre sur cette page.',
+                  '(max-width:860px) calc(100vw - 52px), 340px')}
+  </div>
+</div></section>
+
+<div class="divider"></div>
+
+<section class="dlc-block band" id="option"><div class="wrap">
   <div class="dlc-h">En option</div>
   <h2 class="sec-title">La danse aérienne à l’élastique</h2>
   <p>Sur les plateaux qui le permettent, le concert peut accueillir <b>Iris Chasles</b> en <b>danse aérienne à l’élastique</b>, ainsi que des extraits du spectacle <a href="/e-motion">E-Motion</a>. Une silhouette suspendue au-dessus du plateau, portée par la musique jouée en direct.</p>
@@ -1129,6 +1400,7 @@ HTML = f"""<!DOCTYPE html>
 }})();
 </script>
 {LIGHTBOX_JS}
+{SPOTIFY_JS}
 </body></html>"""
 
 HTML = mobile_nav.inject(HTML)
