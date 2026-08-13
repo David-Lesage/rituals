@@ -70,6 +70,11 @@ b{color:#fff;font-weight:500}
 .cdl-wide{max-width:820px;margin-top:26px}
 /* photo verticale (768x1344) : bornee, sinon elle mangerait tout l'ecran en pile */
 .cdl-portrait{max-width:420px}
+/* largeur intermediaire : pour une photo dont la plus grande variante est 900 px.
+   Bornee a 500 px, ce qui garantit qu'un ecran a haute densite ne l'affiche
+   JAMAIS au-dela de son natif : 500x2 = 1000 device px, sous les 1024 px natifs.
+   A 820 px (.cdl-wide) elle serait molle. Ne pas remonter cette valeur. */
+.cdl-mid{max-width:500px;margin-top:26px}
 .cdl-quote{margin:34px 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(21px,3vw,28px);line-height:1.35;border-left:2px solid var(--gold);padding-left:22px;max-width:760px}
 .cdl-note{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:19px 22px;margin-top:24px;max-width:820px}
 .cdl-note p{color:#d7d4ea;font-size:15.5px;margin:0;line-height:1.7;max-width:none}
@@ -501,6 +506,15 @@ body.lb-open{overflow:hidden}
     </div>
     <button type="button" class="cdl-video ytlink" data-yt="81yKSB3dIK0"><figure class="cdl-fig"><span class="shot"><picture><source type="image/webp" srcset="/img/concert-live/yishama-angel-voice-480.webp 480w, /img/concert-live/yishama-angel-voice-900.webp 900w, /img/concert-live/yishama-angel-voice-1280.webp 1280w" sizes="(max-width:860px) calc(100vw - 52px), 340px"><img src="/img/concert-live/yishama-angel-voice-900.jpg" srcset="/img/concert-live/yishama-angel-voice-480.jpg 480w, /img/concert-live/yishama-angel-voice-900.jpg 900w, /img/concert-live/yishama-angel-voice-1280.jpg 1280w" sizes="(max-width:860px) calc(100vw - 52px), 340px" width="1280" height="720" loading="lazy" decoding="async" alt="Vignette : l’artiste assis devant une grande baie vitrée, penché sur un handpan acoustique en bronze posé sur un pied, une main levée ; incrustations « Yishama Pantam » et « Angel Voice »."></picture><span class="play" aria-hidden="true"></span></span><figcaption><span class="vlabel">Le handpan acoustique, seul</span><span class="vsub">« Angel Voice handpan @yishama_official » — le lecteur s’ouvre sur cette page.</span></figcaption></figure></button>
   </div>
+  <!-- PHOTO DE SCENE DES HANDPANS ACOUSTIQUES YISHAMA (ajout du 14/08/2026).
+       Cette section n'avait que la vignette d'une video ou le handpan est seul,
+       sans personne : c'est la premiere fois qu'on VOIT David jouer ces
+       instruments-la. Une seule photo, en .cdl-mid (500 px) — sa plus grande
+       variante fait 900 px, .cdl-wide (820 px) la rendrait molle.
+       ⚠️ La legende NOMME le festival : cette page parle des soirees au Nid, et
+       une photo de grande scene ne doit pas passer pour une photo du Nid. Meme
+       precaution que pour la 2e photo de la section « eau ». -->
+  <figure class="cdl-fig cdl-mid"><picture><source type="image/webp" srcset="/img/concert-scene/everness-yishama-solo-480.webp 480w, /img/concert-scene/everness-yishama-solo-900.webp 900w" sizes="min(calc(100vw - 52px), 500px)"><img src="/img/concert-scene/everness-yishama-solo-900.jpg" srcset="/img/concert-scene/everness-yishama-solo-480.jpg 480w, /img/concert-scene/everness-yishama-solo-900.jpg 900w" sizes="min(calc(100vw - 52px), 500px)" width="900" height="600" loading="lazy" decoding="async" alt="David Lesage seul debout au centre d’une grande scène en plein air, les mains sur deux handpans acoustiques Yishama posés sur pieds ; derrière lui une immense toile de fils tendus multicolores traversée de faisceaux de lumière verte, devant lui une calebasse sur un tapis rond rouge."></picture><figcaption>Les handpans acoustiques Yishama, sur pieds — ici sur la grande scène de l’Everness Festival, en Hongrie, et non au Nid.</figcaption></figure>
 </div></section>
 
 <div class="divider"></div>

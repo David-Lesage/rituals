@@ -158,6 +158,20 @@ CDL_PHOTOS = {
     # Recadre sur son alpha (2578x1943) puis 480 / 900 px ; PNG et pas JPEG,
     # sinon la transparence devient un rectangle blanc.
     'logo': ('logo', 'david-lesage-logo', [480, 900], 900, 678),
+    # --- Everness Festival, Hongrie (ajout du 14/08/2026) --------------------
+    # David SEUL sur la grande scene, les mains sur deux handpans ACOUSTIQUES
+    # Yishama sur pieds. Le fichier vit dans /img/concert-scene/ : il sert AUSSI
+    # a /david-lesage-en-concert, on ne duplique pas les octets.
+    # Elle est ici parce que la section « Certains soirs, plus acoustique » ne
+    # montrait AUCUNE photo de scene — seulement une vignette de video ou le
+    # handpan est seul, sans personne. C'est le reequilibrage vers Yishama.
+    # ⚠️ RESOLUTION : natif 1024 px, plus grande variante 900 px. Elle passe donc
+    # en .cdl-mid (500 px), jamais en .cdl-wide (820 px) ni en hero.
+    # ⚠️ REGISTRE : c'est une GRANDE SCENE DE FESTIVAL, or cette page parle des
+    # soirees intimistes au Nid. La legende NOMME le festival, exactement comme la
+    # 2e photo de la section « eau » nomme un evenement exterieur : elle ne doit
+    # pas laisser croire que c'est le Nid.
+    'yishama-solo': ('concert-scene', 'everness-yishama-solo', [480, 900], 900, 600),
 }
 
 
@@ -617,6 +631,11 @@ b{color:#fff;font-weight:500}
 .cdl-wide{max-width:820px;margin-top:26px}
 /* photo verticale (768x1344) : bornee, sinon elle mangerait tout l'ecran en pile */
 .cdl-portrait{max-width:420px}
+/* largeur intermediaire : pour une photo dont la plus grande variante est 900 px.
+   Bornee a 500 px, ce qui garantit qu'un ecran a haute densite ne l'affiche
+   JAMAIS au-dela de son natif : 500x2 = 1000 device px, sous les 1024 px natifs.
+   A 820 px (.cdl-wide) elle serait molle. Ne pas remonter cette valeur. */
+.cdl-mid{max-width:500px;margin-top:26px}
 .cdl-quote{margin:34px 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(21px,3vw,28px);line-height:1.35;border-left:2px solid var(--gold);padding-left:22px;max-width:760px}
 .cdl-note{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:19px 22px;margin-top:24px;max-width:820px}
 .cdl-note p{color:#d7d4ea;font-size:15.5px;margin:0;line-height:1.7;max-width:none}
@@ -964,6 +983,19 @@ HTML = f"""<!DOCTYPE html>
                   '« Angel Voice handpan @yishama_official » — le lecteur s’ouvre sur cette page.',
                   '(max-width:860px) calc(100vw - 52px), 340px')}
   </div>
+  <!-- PHOTO DE SCENE DES HANDPANS ACOUSTIQUES YISHAMA (ajout du 14/08/2026).
+       Cette section n'avait que la vignette d'une video ou le handpan est seul,
+       sans personne : c'est la premiere fois qu'on VOIT David jouer ces
+       instruments-la. Une seule photo, en .cdl-mid (500 px) — sa plus grande
+       variante fait 900 px, .cdl-wide (820 px) la rendrait molle.
+       ⚠️ La legende NOMME le festival : cette page parle des soirees au Nid, et
+       une photo de grande scene ne doit pas passer pour une photo du Nid. Meme
+       precaution que pour la 2e photo de la section « eau ». -->
+  {pic('yishama-solo',
+       'David Lesage seul debout au centre d’une grande scène en plein air, les mains sur deux handpans acoustiques Yishama posés sur pieds ; derrière lui une immense toile de fils tendus multicolores traversée de faisceaux de lumière verte, devant lui une calebasse sur un tapis rond rouge.',
+       'min(calc(100vw - 52px), 500px)',
+       'Les handpans acoustiques Yishama, sur pieds — ici sur la grande scène de l’Everness Festival, en Hongrie, et non au Nid.',
+       cls='cdl-fig cdl-mid')}
 </div></section>
 
 <div class="divider"></div>
