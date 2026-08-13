@@ -164,7 +164,28 @@ DLC_PHOTOS = {
     'solo-cymatique': ('concert-scene', 'david-lesage-seul-cymatique-projetee',  [480, 900, 1400], 1400, 795),
     'solo-festival':  ('concert-scene', 'david-lesage-seul-scene-de-festival',   [480, 900],        900, 600),
     'eglise':         ('concert-scene', 'concert-en-eglise-public-assis',        [480, 900, 1400], 1400, 933),
+    # ⚠️ ENTREE PLUS UTILISEE depuis le 13/08/2026, remplacee dans #parcours par
+    # 'chanter-en-jouant' (juste en dessous), qui dit la meme chose en mieux.
+    # Celle-ci etait une photo sombre, prise de loin, ou le visage n'est pas
+    # lisible et ou les instruments ne se distinguent pas du fond. Fichiers
+    # conserves dans le depot. Ne pas la remettre : ce serait deux fois « la voix
+    # au centre du dispositif ».
     'voix-machines':  ('concert-scene', 'david-lesage-voix-et-machines',         [480, 900, 1400], 1400, 940),
+    # --- « IL CHANTE EN JOUANT » (13/08/2026) --------------------------------
+    # Retenue sur les 555 photos du dossier Everness. Elle comble un manque qui
+    # n'etait comble par AUCUNE image de la page : on le voyait chanter (de loin,
+    # une main levee) et on le voyait jouer, jamais les deux dans le meme cadre.
+    # Or le chant est le coeur du spectacle. Ici : bouche grande ouverte en pleine
+    # emission, micro-serre-tete, et LES DEUX MAINS SUR LES INSTRUMENTS.
+    # ⚠️ LE PAN A COQUE CLAIRE N'EST PAS NOMME. Il ressemble au Neotone mais rien
+    # ne l'etablit : ses pastilles sont des disques sombres PLATS, pas des creux
+    # martelés, et sur une autre photo du dossier il voisine un pad electronique
+    # de marque — ce sont donc deux appareils distincts. On ecrit « handpan a
+    # coque claire », jamais un nom de modele. Question ouverte pour David.
+    # Meme format que la photo qu'elle remplace (ratio 1,5 contre 1,49) : la
+    # grille .dlc-duo de #parcours ne change pas d'un pixel.
+    'chanter-en-jouant': ('concert-scene', 'everness-chanter-en-jouant',
+                       [480, 900, 1400], 1400, 933),
     'public-proche':  ('concert-scene', 'le-public-au-bord-du-plateau',          [480, 900, 1400], 1400, 933),
     'abbaye':         ('concert-scene', 'abbaye-a-ciel-ouvert-alet-les-bains',   [480, 900, 1400], 1400, 788),
     'plateau':        ('concert-scene', 'plateau-installe-avant-le-concert',     [480, 900, 1400], 1400, 1050),
@@ -2054,13 +2075,14 @@ HTML = f"""<!DOCTYPE html>
        'Une adresse directe au public, du début à la fin du concert.',
        cls='dlc-fig dlc-wide')}
   <div class="dlc-duo">
-    {pic('voix-machines',
-         'David Lesage seul en scène, éclairé de bleu-vert, la main levée près du visage en train de chanter, debout derrière ses handpans posés sur des pieds et un ordinateur portable.',
-         '(max-width:860px) calc(100vw - 52px), 500px',
-         'La voix, au centre du dispositif — cinq octaves et un micro serre-tête.')}
+    {pic('chanter-en-jouant',
+         'David Lesage seul sur scène, buste et visage en gros plan, la bouche grande ouverte en train de chanter et les yeux fermés, un micro-serre-tête au visage ; sa main droite est posée sur un handpan à coque claire piquée de trois disques sombres, sa main gauche sur un appareil sombre à sa gauche. Deux micros sur pieds l’encadrent, sur un fond bleu nuit strié de faisceaux clairs.',
+         '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 500px',
+         'Chanter en jouant : la voix et les mains en même temps — cinq octaves et un micro serre-tête. Everness Festival, Hongrie.',
+         credit=CREDIT_KOVARI)}
     {pic('calebasse',
          'David Lesage assis en tailleur derrière une grande calebasse posée sur un tapis rond rouge, les mains sur la calebasse, entouré de dizaines de petites bougies alignées au sol.',
-         '(max-width:860px) calc(100vw - 52px), 500px',
+         '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 500px',
          'La calebasse, frappée au poing, jouée assis sur un coussin.')}
   </div>
   <!-- Troisieme instrument du parcours, apres la voix et la calebasse : le
