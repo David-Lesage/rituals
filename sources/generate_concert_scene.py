@@ -215,7 +215,57 @@ DLC_PHOTOS = {
     # ⚠️ PLAFONNEE A 900 px (natif 1024) : ne pas la mettre en pleine largeur.
     # Dans la grille .dlc-duo elle s'affiche a 504 px au plus — la seule place ou
     # elle reste nette. C'est pour ca qu'elle n'est PAS le hero.
+    # ⚠️⚠️ DOUBLON DE LA PAGE, DECOUVERT LE 13/08/2026 — ENTREE PLUS UTILISEE.
+    # 'yishama-solo' et 'solo-festival' (ligne ~165) sont LA MEME PHOTOGRAPHIE,
+    # publiee DEUX FOIS sur cette page sous deux noms de fichier, deux `alt` et
+    # deux legendes differentes : une fois en #scenes (« En festival, seul en
+    # scene »), une fois en #acoustique (« Les deux handpans acoustiques
+    # Yishama »). Meme cadrage, memes dimensions 900x600, ecart moyen de 3 a 4
+    # niveaux sur 255 entre les deux fichiers = deux encodages JPEG du meme
+    # cliche (l'un extrait des diapositives de la presentation Drive le
+    # 04/08/2026, l'autre du depot photo du 14/08/2026 ; personne n'a vu que
+    # c'etait le meme).
+    # ARBITRAGE : on garde 'solo-festival' en #scenes, ou le plan large de scene
+    # a sa fonction dans le triptyque festival / abbaye / eglise, et #acoustique
+    # recoit a la place les DEUX VRAIES photos de handpan acoustique ci-dessous.
+    # Les fichiers everness-yishama-solo-*.jpg/webp restent dans le depot (ils ne
+    # coutent rien et evitent de casser un eventuel lien externe), mais la page
+    # ne les sert plus. NE PAS remettre cette entree sans avoir retire
+    # 'solo-festival' : ce serait republier deux fois la meme image.
     'yishama-solo':   ('concert-scene', 'everness-yishama-solo',       [480, 900],             900, 600),
+    # --- TROIS PHOTOS D'EVERNESS (13/08/2026) --------------------------------
+    # Retenues sur 381 photos du dossier Everness (7 finalistes proposees, 3
+    # gardees — voir le rapport). Meme photographe que le reste de la serie :
+    # Kovari Rudolf, cf. CREDIT_KOVARI. LES TROIS PORTENT LE CREDIT.
+    # ⚠️ DATATION : legendes « Everness Festival, Hongrie », SANS mois ni edition
+    # (contradiction EXIF juin 2023 / banderole « Indian Nyar » non tranchee).
+    # ⚠️ AUCUN MODELE D'INSTRUMENT NOMME. On ecrit « handpans acoustiques » : la
+    # section nomme deja Yishama en prose, mais RIEN dans l'image ne permet de
+    # certifier le facteur, et le pan a coque claire visible au sol sur la 3e
+    # n'est PAS confirme comme etant le Neotone. Ne pas le nommer.
+    #
+    # LA PHOTO QUI MANQUAIT. David avait signale le manque explicitement (« il
+    # manque des photos de moi qui joue du handpan Yishama, le Neotone est trop
+    # mis a l'honneur »). Ici : lui seul, DEUX handpans acoustiques sur pieds,
+    # les creux de l'instrument parfaitement lisibles, mains en mouvement.
+    # Natif 6720x4480 -> .dlc-wide (860 px) couvert par la variante 2000 en
+    # densite 2. `src_w=1400` pour le repli sans srcset.
+    'deux-handpans':  ('concert-scene', 'everness-deux-handpans-sur-scene',
+                       [480, 900, 1400, 2000], 2000, 1333),
+    # Le pendant serre, en portrait : les deux mains sur le pan, de tres pres.
+    # Placee en .dlc-duo AVEC 'calebasse-transe' : les deux sont en 0,667, la
+    # grille ne peut donc pas en ecraser une. Max 504 px d'affichage -> la
+    # variante 900 suffit en densite 2, la 1400 sert la densite 3.
+    'handpan-jeu':    ('concert-scene', 'everness-handpan-acoustique-en-jeu',
+                       [480, 900, 1400], 1400, 2100),
+    # LE DISPOSITIF EN FONCTION, et c'est le seul cliche du dossier qui le montre
+    # LISIBLEMENT : David debout en pied, ses deux pans sur pieds, la calebasse
+    # au sol a ses pieds, d'autres pans poses au sol, dans le meme cadre. Les
+    # trois plans larges de cette scene (dont les deux deja publies) le montrent
+    # minuscule ; celui-ci le montre grand.
+    # Format PORTRAIT -> .dlc-portrait (420 px), SEULE, jamais dans une grille.
+    'dispositif-scene': ('concert-scene', 'everness-le-dispositif-en-fonction',
+                       [480, 900, 1400], 1400, 2100),
     # Vue DEPUIS la scene, au grand angle : le plateau, la calebasse, une
     # violoncelliste, et le public nombreux assis sous les voiles d'ombrage.
     # Sert l'echelle, et la couleur acoustique (aucune machine dans le cadre).
@@ -2253,46 +2303,46 @@ HTML = f"""<!DOCTYPE html>
                   '« Angel Voice handpan @yishama_official » — le lecteur s’ouvre sur cette page.',
                   '(max-width:860px) calc(100vw - 52px), 340px')}
   </div>
-  <!-- LES DEUX PHOTOS D'EVERNESS (ajout du 14/08/2026). Elles sont ICI et pas
-       ailleurs parce que c'est ici qu'elles argumentent : jusqu'a present cette
-       section ne montrait qu'une vignette de video ou le handpan acoustique est
-       seul, sans personne. La premiere donne enfin une PHOTO DE SCENE ou David
-       joue les handpans ACOUSTIQUES Yishama ; la seconde donne l'echelle du
-       public. C'est le reequilibrage demande par David — le hero, lui, montre le
-       Neotone.
-       ⚠️ RESOLUTION : 'yishama-solo' plafonne a 900 px. La grille .dlc-duo la
-       borne a 504 px d'affichage : c'est la seule largeur ou elle reste nette.
-       NE PAS la passer en .dlc-wide (860 px) ni en hero.
-       ⚠️ Le texte ci-dessus ne dit PAS que ces concerts etaient « la version
-       acoustique » : rien ne l'etablit. Les legendes decrivent la scene et les
-       instruments, rien de plus. -->
+  <!-- LE HANDPAN ACOUSTIQUE, ENFIN EN IMAGE (13/08/2026).
+       C'est le manque que David avait nomme lui-meme : « il manque des photos de
+       moi qui joue du handpan Yishama, le Neotone est trop mis a l'honneur ».
+       Jusqu'ici cette section ne montrait qu'une vignette de video (l'instrument
+       seul, sans personne) et un plan large ou David faisait 40 px de haut.
+       ⚠️ CETTE PAIRE REMPLACE 'yishama-solo', qui etait le DOUBLON de
+       'solo-festival' publie en #scenes (voir la note dans DLC_PHOTOS). La page
+       ne sert donc plus deux fois la meme image.
+       ⚠️ Le texte de la section ne dit PAS que ces concerts etaient « la version
+       acoustique » : rien ne l'etablit. Les legendes decrivent ce qu'on voit et
+       nomment le festival, rien de plus.
+       ⚠️ Aucun facteur d'instrument nomme dans les legendes : l'image ne permet
+       pas de le certifier. -->
+  {pic('deux-handpans',
+       'David Lesage seul sur scène, buste et visage de face, un micro-serre-tête au visage, penché entre deux handpans acoustiques en acier bruni posés sur pieds ; ses deux mains sont en mouvement au-dessus de celui de droite, dont les creux sont nettement visibles. Deux micros sur pieds l’encadrent ; derrière lui, de larges faisceaux de lumière verte croisent un fond bleu tendu de fils.',
+       '(max-width:900px) calc(100vw - 52px), 860px',
+       'Les deux handpans acoustiques sur pieds, joués en direct. Everness Festival, Hongrie.',
+       cls='dlc-fig dlc-wide', src_w=1400, credit=CREDIT_KOVARI)}
+  <!-- LES DEUX INSTRUMENTS ACOUSTIQUES, EN PAIRE. Les deux figures sont au meme
+       format portrait (ratio 0,667) : la grille ne peut donc pas en ecraser une,
+       ce qui etait le risque signale pour toute verticale mise en .dlc-duo.
+       'calebasse-transe' quitte son emplacement isole pour venir ici : le pan et
+       la calebasse cote a cote, c'est l'instrumentarium acoustique en une ligne. -->
   <div class="dlc-duo">
-    {pic('yishama-solo',
-         'David Lesage seul debout au centre d’une grande scène en plein air, les mains sur deux handpans acoustiques Yishama posés sur pieds ; derrière lui une immense toile de fils tendus multicolores traversée de faisceaux de lumière verte, devant lui une calebasse sur un tapis rond rouge, et sur la droite des toiles peintes et une cymbale.',
+    {pic('handpan-jeu',
+         'Gros plan vertical : David Lesage penché sur un handpan acoustique en acier bruni posé sur pied, les deux mains sur l’instrument dont les creux et le dôme central sont nettement visibles ; cheveux longs retombant sur le côté, micro-serre-tête et micro de scène près du visage, regard baissé sur l’instrument, sur un fond bleu strié de faisceaux verts.',
          '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 504px',
-         'Les deux handpans acoustiques Yishama sur pieds, sur la grande scène de l’Everness Festival, en Hongrie.',
+         'Les mains sur le pan : c’est un instrument acoustique, joué au doigt et à la paume. Everness Festival, Hongrie.',
          credit=CREDIT_KOVARI)}
-    {pic('vue-de-scene',
-         'Vue prise depuis la scène, au grand angle : au premier plan le plateau et ses instruments, David Lesage assis au sol de dos derrière une calebasse et, derrière lui, une violoncelliste sur une chaise ; à droite, un public nombreux assis dans l’herbe sous de grandes voiles d’ombrage.',
+    {pic('calebasse-transe',
+         'Gros plan vertical : David Lesage assis en tailleur sur un tapis rose, derrière une grande calebasse claire, les yeux fermés et la tête renversée en arrière, ses longs cheveux traversés par un faisceau de lumière jaune ; une petite percussion bleue dans chaque main, chemise rouge à motifs et pantalon ocre, pieds nus. Derrière lui, un violoniste assis joue, et le fond de scène est dans les violets et les bleus.',
          '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 504px',
-         'Vue depuis la scène : le plateau, la calebasse, un violoncelle — et le public à quelques mètres.',
-         src_w=1400, credit=CREDIT_KOVARI)}
+         'La calebasse, jouée assis, yeux fermés — Everness Festival, Hongrie.',
+         credit=CREDIT_KOVARI)}
   </div>
-  <!-- L'ETAT DE JEU (ajout du 13/08/2026). Elle est ICI, dans la section de la
-       formule acoustique, et pas ailleurs : c'est la seule section qui parle de
-       jouer sans machines — « la voix, la calebasse et le N'Goni » — et c'est
-       exactement ce qu'on voit. Elle n'est PAS dans #parcours, ou une autre photo
-       de calebasse en portrait est deja en place : les deux cote a cote feraient
-       redite.
-       ⚠️ Format PORTRAIT, donc SEULE et bornee a 420 px (.dlc-portrait). Ne pas
-       la mettre en hero, ne pas la mettre dans une grille.
-       ⚠️ Un violoniste est visible : non nomme, decrit par son instrument.
-       ⚠️ Credit Kovari Rudolf obligatoire. -->
-  {pic('calebasse-transe',
-       'Gros plan vertical : David Lesage assis en tailleur sur un tapis rose, derrière une grande calebasse claire, les yeux fermés et la tête renversée en arrière, ses longs cheveux traversés par un faisceau de lumière jaune ; une petite percussion bleue dans chaque main, chemise rouge à motifs et pantalon ocre, pieds nus. Derrière lui, un violoniste assis joue, et le fond de scène est dans les violets et les bleus.',
-       'min(calc(100vw - 52px), 420px)',
-       'La calebasse, jouée assis, yeux fermés — Everness Festival, Hongrie.',
-       cls='dlc-fig dlc-portrait', src_w=900, credit=CREDIT_KOVARI)}
+  {pic('vue-de-scene',
+       'Vue prise depuis la scène, au grand angle : au premier plan le plateau et ses instruments, David Lesage assis au sol de dos derrière une calebasse et, derrière lui, une violoncelliste sur une chaise ; à droite, un public nombreux assis dans l’herbe sous de grandes voiles d’ombrage.',
+       '(max-width:900px) calc(100vw - 52px), 860px',
+       'Vue depuis la scène : le plateau, la calebasse, un violoncelle — et le public à quelques mètres.',
+       cls='dlc-fig dlc-wide', src_w=1400, credit=CREDIT_KOVARI)}
 </div></section>
 
 <div class="divider"></div>
@@ -2361,6 +2411,26 @@ HTML = f"""<!DOCTYPE html>
          '(max-width:860px) calc(100vw - 52px), 500px',
          'Un plateau installé avant l’ouverture des portes — 4 m × 5 m suffisent.')}
   </div>
+  <!-- LE DISPOSITIF EN FONCTION (ajout du 13/08/2026). Elle est ICI et pas en
+       #scenes, contrairement a ce qui etait propose, et c'est un choix :
+       les deux photos ci-dessus montrent le plateau VIDE et vu du dessus, et
+       AUCUNE image de la page ne montrait le plateau EN FONCTION avec l'artiste
+       debout dedans, en pied, a une echelle lisible. C'est exactement ce que
+       cherche la personne qui lit un patch et un plan de scene. #scenes, elle,
+       porte deja sept visuels et trois plans larges de cette meme scene.
+       ⚠️ Format PORTRAIT (ratio 0,667) -> .dlc-portrait, 420 px, SEULE. Ne pas la
+       mettre dans .dlc-duo avec les deux photos de plateau (paysage) : la grille
+       l'etirerait.
+       ⚠️ LA LEGENDE NE DIT PAS que c'est le plateau de reference : c'est une
+       scene de festival en plein air, pas la configuration 4 m x 5 m. Elle dit
+       ce qu'on voit.
+       ⚠️ Un handpan a coque claire est visible pose au sol : NE PAS l'appeler
+       Neotone, ce n'est pas confirme. -->
+  {pic('dispositif-scene',
+       'Plan vertical en pied : David Lesage debout et pieds nus sur une scène de festival, en tee-shirt noir et pantalon ocre, les mains au-dessus de deux handpans acoustiques posés sur pieds devant lui, un micro-serre-tête au visage et un micro sur pied à sa droite. Au premier plan au sol, sa grande calebasse claire posée sur un tapis rond, d’autres handpans et un boîtier de commande à même le sol, câbles apparents ; derrière lui, des faisceaux de lumière verte et bleue sur un fond tendu de fils.',
+       'min(calc(100vw - 52px), 420px)',
+       'Le dispositif en fonction, sur une scène de festival : les handpans sur pieds, la calebasse au sol, tout à portée de main. Everness Festival, Hongrie.',
+       cls='dlc-fig dlc-portrait', src_w=900, credit=CREDIT_KOVARI)}
 
   <h3 class="dlc-sub">Demandé à l’organisateur</h3>
   <div class="dlc-cols">
