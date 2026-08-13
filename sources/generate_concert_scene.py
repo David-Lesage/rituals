@@ -61,6 +61,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
+import carte_parcours  # noqa: E402  (carte SVG du parcours, sans dependance)
 
 HELLO_ASSO = ('https://www.helloasso.com/beta/associations/resonances-productions/'
               'adhesions/adhesion-resonances-productions')
@@ -253,6 +254,48 @@ DLC_PHOTOS = {
     # Plan large depuis le fond de la salle (natif 2242x1290). En .dlc-wide :
     # 860x2 = 1 720 device px, couverts par la variante 2000.
     'am-salle':       ('concert-scene', 'amadou-mariam-salle',         [480, 900, 1400, 2000], 2000, 1151),
+    # --- DEUX PHOTOS DEPOSEES PAR DAVID (13/08/2026) -------------------------
+    # Meme serie que le hero et les deux photos d'Everness deja en place : meme
+    # photographe (Kovari Rudolf, cf. CREDIT_KOVARI), 24 et 25 juin 2023 d'apres
+    # l'EXIF. LES DEUX PORTENT DONC LE CREDIT.
+    #
+    # ⚠️ DATATION — NE PAS PRECISER L'EDITION NI LE MOIS. L'EXIF dit 24 et
+    # 25 juin 2023, ce qui colle a la date confirmee « Everness Festival,
+    # 24 juin 2023 ». MAIS la banderole lisible sur 'chant-guide' porte
+    # « everness — Indián Nyár » (l'edition d'automne, Indian Summer), ce qui
+    # contredit juin. Contradiction non tranchee -> les legendes disent
+    # « Everness Festival, Hongrie », rien de plus. Ne pas deviner.
+    #
+    # ⚠️ TIERS DANS LE CADRE : une violoncelliste (chant-guide) et un violoniste
+    # (calebasse-transe), tous deux reconnaissables. On ne les NOMME PAS (on ne
+    # sait pas qui ils sont, et seul Arnaud Riou est autorise) : ils sont decrits
+    # par leur instrument dans l'`alt`.
+    #
+    # LE GESTE, enfin en image. C'est la photo que David demandait : « le bon
+    # lien de la photo ou je fais chanter les gens (on me voit les guider avec
+    # mes mains) ». Natif 5760x3840 -> largeurs 480/900/1400/2000. En .dlc-wide
+    # (860 px), la variante 2000 couvre les ecrans a densite 2.
+    # ⚠️ LE PUBLIC N'EST PAS DANS LE CADRE : il est hors champ, face a lui. La
+    # legende ne doit donc PAS dire qu'on voit le public.
+    'chant-guide':    ('concert-scene', 'everness-guider-le-chant-du-public',
+                       [480, 900, 1400, 2000], 2000, 1333),
+    # L'ETAT DE JEU. Format PORTRAIT (natif 4480x6720, ratio 0,667), tres forte
+    # image -> elle passe en .dlc-portrait (420 px) et SEULE, jamais dans une
+    # grille : ecrasee dans .dlc-duo elle ferait plus de 750 px de haut.
+    # 420x2 = 840 device px, couverts par la variante 900 ; la 1400 sert les
+    # ecrans a densite 3. `src_w=900` : le repli des navigateurs sans srcset
+    # n'a aucune raison de telecharger 413 Ko.
+    # ⚠️ PAS EN HERO : 'neotone-scene' y est en place et fonctionne.
+    'calebasse-transe': ('concert-scene', 'everness-la-calebasse-yeux-fermes',
+                       [480, 900, 1400], 1400, 2100),
+    # ⚠️ PHOTO ECARTEE (13/08/2026) : « scene-et-publique.jpg », remise par David
+    # comme « photo ou on me voit sur scene et ou on voit le public ». C'est le
+    # MEME DECLENCHEMENT que 'vue-de-scene' deja en ligne — meme EXIF a la
+    # seconde (24/06/2023 19:33:26), meme fisheye, meme angle, meme technicien au
+    # premier plan. Les publier ensemble ferait doublon ; la remplacer n'apporte
+    # qu'un public marginalement plus dense et une violoncelliste un peu plus
+    # lisible, alors que l'`alt` de 'vue-de-scene' la mentionne deja. On garde
+    # donc l'existante et on n'ajoute rien. Ne pas la reintroduire sans arbitrage.
     # --- LOGO D'ARTISTE DE DAVID LESAGE (ajout du 13/08/2026) ----------------
     # ⚠️ C'est le logo de L'ARTISTE, PAS celui de Resonances Productions. Il
     # identifie David Lesage sur SES pages (celle-ci et /concerts-david-lesage)
@@ -274,6 +317,25 @@ DLC_PHOTOS = {
 
 CREDIT_MAGYE = ('<span class="dlc-cred">Crédit photo <a href="https://magyedart.fr/" '
                 'target="_blank" rel="noopener">MAGYE D’ART</a></span>')
+
+# ⚠️ CREDIT OBLIGATOIRE, ET IL MANQUAIT (corrige le 13/08/2026).
+# David a pose la condition lui-meme : les photographes de l'Everness Festival
+# acceptent qu'il utilise leurs photos A CONDITION D'ETRE CREDITES. Or SEPT
+# photos de cette page viennent de la meme serie et n'avaient AUCUN credit —
+# dont le HERO. Le photographe n'etait pas « inconnu » : il est ecrit dans les
+# metadonnees EXIF des fichiers d'origine remis par David.
+#   Artist    = « Kovari Rudolf »   (sur les 7 fichiers)
+#   Copyright = « www.kovaristudio.hu »
+# Photos concernees : neotone-scene (hero), yishama-solo, vue-de-scene,
+# public-echange, chant-guide, calebasse-transe (+ la variante non retenue de
+# vue-de-scene). Toutes datees du 24 ou 25 juin 2023 par l'EXIF.
+# ⚠️ AUCUN LIEN : le domaine www.kovaristudio.hu ne repond pas (verifie le
+# 13/08/2026 : pas de resolution en HTTPS, 409 en HTTP). On cite donc le nom
+# seul — un lien mort dans un credit est pire que pas de lien.
+# ⚠️ ORTHOGRAPHE : recopiee TELLE QUELLE de l'EXIF, sans ajouter d'accent
+# hongrois (« Kovari » et non « Kovári ») : a faire confirmer par David, ainsi
+# que la forme de credit que le photographe souhaite.
+CREDIT_KOVARI = ('<span class="dlc-cred">Crédit photo Kovari Rudolf</span>')
 
 
 def pic(key, alt, sizes, caption=None, cls='dlc-fig', loading='lazy', credit='',
@@ -514,21 +576,87 @@ COMPOSANTES = [
      'La salle chante en écho avec l’artiste.'),
 ]
 
+# ============================================================================
+# LE PARCOURS DE FORMATION — refonte du 13/08/2026
+# ============================================================================
+# SOURCE NOUVELLE ET DE PREMIER ORDRE : le livret des 30 ans de l'AIMJ /
+# Voy'jazz, l'association du COLLEGE DE MARCIAC (2022), qui sollicite David en
+# tant qu'« ancien eleve » et publie son temoignage. C'est une publication
+# TIERCE, pas un autoportrait sur son propre site : c'est precisement ce qui lui
+# donne sa valeur devant un programmateur de jazz. Le credit du cadre est donc
+# OBLIGATOIRE sur la page (« temoignage publie dans le livret des 30 ans de
+# l'AIMJ / Voy'jazz, college de Marciac, 2022 ») : sans lui, ce n'est qu'une
+# autobiographie.
+#
+# ⚠️ WYNTON MARSALIS / DIANNE REEVES — la phrase publiee est reprise MOT POUR
+# MOT de la formulation prudente arbitree en amont (`parcours_stats.md` §7).
+# Le livret dit « partager la scene avec des artistes tel que Wynton Marsalis
+# (parrain du college) » et « jouer de l'accordeon en chantant avec la chanteuse
+# Dianne Reeves pendant ses balances ». Ce n'est NI « en premiere partie de
+# Wynton Marsalis », NI « en duo avec Dianne Reeves » : c'est le cadre
+# pedagogique du college, ou les eleves croisent les artistes du festival.
+# Publier autre chose serait faux et un programmateur de jazz le verrait
+# immediatement. NE JAMAIS ECRIRE « en premiere partie de » pour eux.
+#
+# ⚠️ CONTRADICTION DE SOURCES A TRANCHER PAR DAVID : sa fiche technique parle
+# d'un prix de batterie obtenu « apres un COURT PASSAGE au Conservatoire
+# National de Toulouse » (d'ou la formulation posee ici le 04/08/2026), tandis
+# que le livret AIMJ decrit un cursus jazz en HORAIRE AMENAGE mene au lycee
+# Saint-Sernin jusqu'au prix de 2012 et au bac pro. Les deux textes sont de lui.
+# En attendant son arbitrage, on publie les FAITS communs aux deux sources
+# (horaire amenage, prix de batterie mention tres bien, 2012) et on ne qualifie
+# pas la duree du cursus : « court » comme « complet » iraient au-dela.
 REPERES = [
-    ('Dès 4 ans', 'Batterie.'),
-    # NUANCE IMPORTANTE, corrigee le 2026-08-04 : la fiche technique de David dit
-    # « prix de batterie mention tres bien APRES UN COURT PASSAGE au Conservatoire
-    # National de Toulouse ». La page laissait entendre un cursus complet.
-    ('Conservatoire National de Toulouse',
-     'Un court passage, et un prix de batterie mention très bien.'),
-    ('Collège de Jazz in Marciac',
-     'Formation à la batterie, au chant et à l’improvisation vocale.'),
+    ('Dès 4 ans',
+     'Autodidacte : batteur, chanteur, accordéoniste.'),
+    ('Collège de jazz de Marciac',
+     'La section jazz adossée au festival, parrainée par Wynton Marsalis. Il '
+     'représente le collège avec son combo dès la 6<sup>e</sup>.'),
+    # ⚠️ WYNTON MARSALIS — FAIT ETABLI PAR DAVID LE 13/08/2026, verbatim : « Wynton
+    # Marsalis est venu sur scene faire une impro de trompette sur la scene Bis
+    # alors que je jouais avec mon groupe Sextet Orchestra (ou Eclipse), il est
+    # venu de son propre chef, on a ete tres surpris. »
+    # C'est donc MARSALIS QUI EST MONTE SUR LA SCENE DE DAVID, spontanement,
+    # pendant leur concert. La phrase ci-dessous est la formulation arbitree, a
+    # publier telle quelle. INTERDITS ABSOLUS : « en premiere partie de », « aux
+    # cotes de », « invite par », ou toute presentation en collaboration. Ce fut
+    # une incursion spontanee pendant leur set — c'est CA qui est remarquable, et
+    # c'est verifiable. Toute reformulation flatteuse detruirait la credibilite de
+    # la page entiere.
+    ('Sextet Orchestra',
+     'Un groupe qu’il co-crée à Toulouse. Sur la scène de la place de l’Hôtel de '
+     'Ville, à Marciac, <b>Wynton Marsalis est monté improviser à la trompette</b> '
+     'avec le groupe, de son propre chef, pendant le concert.'),
+    # ⚠️ DIANNE REEVES — meme exigence. Verbatim de David (13/08/2026) : « j'ai
+    # joue de l'accordeon pendant les balances de Dianne Reeves de la scene In de
+    # Marciac ou je lui ai chante "Les Amants de Saint-Jean" et elle a improvise
+    # un scat, j'etais tout jeune, c'etait en bas de la scene en pleine journee. »
+    # Ce n'est NI un concert, NI une premiere partie, NI un duo : une rencontre
+    # pendant les balances, au pied de la scene, en pleine journee.
+    # SANS DATE, volontairement : le livret des 30 ans de l'AIMJ a ete relu en
+    # entier le 13/08/2026 et il ne porte AUCUNE date pour cette anecdote (il dit
+    # seulement « pendant ses balances sur la scene du grand chapiteau »). Mieux
+    # vaut l'anecdote sans date qu'avec une date approchee.
+    ('Une rencontre, au pied de la scène In',
+     'Enfant, pendant les balances de <b>Dianne Reeves</b> sur la scène In de '
+     'Marciac, il lui chante <i>Les Amants de Saint-Jean</i> à l’accordéon ; elle '
+     'lui répond par un <b>scat improvisé</b>.'),
+    ('Conservatoire de Toulouse',
+     'Cursus jazz en horaire aménagé, au lycée Saint-Sernin — baccalauréat '
+     'professionnel technique de la musique et de la danse.'),
+    ('2012',
+     'Prix de conservatoire de batterie, <b>mention très bien</b>.'),
+    ('Dix ans à Marciac',
+     'Programmé chaque année par Jazz in Marciac, avec différentes formations, sur la '
+     'scène de la place de l’Hôtel de Ville — la scène centrale du festival, '
+     'aujourd’hui « Festival Bis ».'),
     ('Cinq octaves',
      'Ambitus vocal : pop, soul, lyrique, gospel, chanson française, rap.'),
-    ('2012',
-     'Rencontre de la calebasse et du Ngoni ; exploration des sonorités et des rythmes '
-     'africains.'),
-    ('2021', 'The Voice.'),
+    ('Puis la calebasse et le Ngoni',
+     'Rencontrés en 2012 ; exploration des sonorités et des rythmes africains.'),
+    ('2021 — 2022',
+     'The Voice, saison 11 : audition à l’aveugle enregistrée le 21 décembre 2021, '
+     'diffusée le 12 février 2022 sur TF1.'),
     ('À la suite de l’émission',
      'Invité pour un concert solo en Côte d’Ivoire.'),
     ('Aujourd’hui',
@@ -537,60 +665,115 @@ REPERES = [
 ]
 
 # ============================================================================
-# « LA OU CE REPERTOIRE A RESONNE » — refonte du 13/08/2026
+# « LA OU CE REPERTOIRE A RESONNE » — consolidation du 13/08/2026
 # ============================================================================
 # Demande de David : « il manque plein de lieux et de dates. L'idee c'est de
 # montrer que J'AI FAIT PLEIN DE CONCERTS et de mettre en avant les meilleurs
 # lieux, festivals et lieux epiques. »
 #
-# SOURCES (collecte faite et verifiee en amont, hors de ce script) :
-#   (A) agenda Google « CONCERTS David Lesage Artiste » (2022 -> 2026)
-#   (B) page Facebook artiste, onglet « evenements passes » (2016 -> 2025)
-#   (C) dossier de presentation scenique + fiche technique
-#   (D) titres de videos publiques de sa chaine
+# ⚠️ REECRITURE INTEGRALE DU DECOMPTE. La page affichait « 69 dates recensees,
+# de 2016 a 2025 ». Une consolidation de TOUTES les sources a abouti le
+# 13/08/2026 (182 evenements dans `parcours_consolide.json`, 47 lieux dans
+# `parcours_lieux.json`, synthese raisonnee dans `parcours_stats.md`) et ce
+# chiffre etait tres sous-evalue.
+#
+# SOURCES CONSOLIDEES :
+#   (A) export officiel Facebook — dont `your_event_responses.html`, le fichier
+#       jamais exploite : a lui seul il apporte 30 evenements invisibles
+#       ailleurs, dont TOUTE la periode 2009-2017.
+#   (B) agenda Google « CONCERTS David Lesage Artiste » (2022 -> 2026)
+#   (C) agenda Google « ATELIERS David Lesage Now Musique »
+#   (D) page Facebook artiste, onglet « evenements passes »
+#   (E) presse (Le Petit Journal de l'Ariege : apporte le 1er avril 2022, absent
+#       des trois sources numeriques)
+#   (F) livret des 30 ans de l'AIMJ / Voy'jazz — l'association du COLLEGE DE
+#       MARCIAC (2022) : source TIERCE sur la formation, cf. REPERES.
+#   (G) confirmations directes de David (13/08/2026)
 #
 # ⚠️ REGLES ABSOLUES POUR CETTE SECTION :
-#   * AUCUNE date, AUCUN lieu, AUCUN chiffre de frequentation invente. Tout ce
-#     qui est ecrit ici est recopie des sources ci-dessus.
+#   * ON N'AFFICHE QUE LES EVENEMENTS `role: confirme` DU JEU CONSOLIDE. Les
+#     scenes `a-confirmer` (les sources ne disent pas si David JOUAIT ou s'il
+#     etait SPECTATEUR — la source la plus riche enregistre les deux
+#     indistinctement) sont HORS de la page ET HORS du decompte.
+#     ARBITRAGE DE DAVID DU 13/08/2026 : sur les 14 scenes en attente, il en a
+#     confirme 7 d'un coup — celles du SEXTET ORCHESTRA (« oui j'etais dans le
+#     sextet orchestra et oui j'ai joue a Marciac »), groupe qu'il a CO-CREE a
+#     Toulouse, appele aussi « Eclipse ». 6 de ces 7 dates sont datees (2010) et
+#     entrent donc dans le decompte ; la 7e n'a pas de date (texte de la source
+#     tronque sur « le dimanche… ») et rejoint les scenes citees sans date.
+#     VERIFICATION FAITE : le libelle « Eclipse » n'apparait NULLE PART dans les
+#     sources brutes (0 occurrence dans l'export Facebook et les agendas) — il
+#     n'y a donc aucun risque d'avoir compte deux fois les memes dates sous les
+#     deux noms.
+#     Il reste 7 scenes `a-confirmer` : si elles basculent, le total ira a 117.
+#   * AUCUNE date, AUCUN lieu, AUCUN chiffre de frequentation invente.
 #   * Le SEUL chiffre de public autorise est « 2 700 personnes au Grand Rex »
 #     (confirme par David). Aucune autre jauge nulle part.
-#   * « recensees » et pas un total absolu : les deux agendas ne couvrent pas
-#     tout (2018 n'a qu'une date, 2020 deux — c'est la source qui est trouee,
-#     pas la carriere). Ne JAMAIS arrondir a la hausse.
-#   * PREMIERE PARTIE D'AMADOU & MARIAM : le lieu est TRONQUE dans la source
-#     (il commence par « S »). On publie la reference SANS lieu. Ne pas
-#     l'inventer — a faire confirmer par David.
+#   * « recensees » et pas un total absolu : 110 est un PLANCHER. Trois
+#     residences de Marciac sont volontairement sous-comptees (2014 : 6 soirs
+#     retenus sur 7 annonces ; 2016 : residence du 3 au 14 aout « tous les
+#     soirs » comptee pour UNE date ; 2010 : 3e date au texte tronque). A elles
+#     seules elles valent probablement une quinzaine de dates de plus.
+#   * MARCIAC — INTERDICTION D'ECRIRE « OFF ». La source de 2009 dit
+#     verbatim « la scene du OFF Festival de jazz in Marciac », et David
+#     l'ecrit aussi dans le livret AIMJ. Mais c'etait une PROGRAMMATION
+#     OFFICIELLE ET REMUNEREE, et cette scene s'appelle « Festival Bis »
+#     depuis. Le mot « off » suggere de l'informel : il ferait perdre a la
+#     reference toute sa valeur devant un programmateur. On ancre donc la
+#     reference sur LE LIEU — « la scene de la place de l'Hotel de Ville » —
+#     qui est exact a toutes les epoques.
+#   * NOMS DE TIERS : seul ARNAUD RIOU est autorise par David a etre cite
+#     (auteur et conferencier ; Theatre de l'Etang 2023 + tambour sur cadre au
+#     Grand Rex). Iris Chasles et le duo Solune sont deja publics sur le site.
+#     Les noms de GROUPES dont David fait partie sont libres (Jedapama,
+#     Resonance, La ReLOVEution, Solune). TOUS LES AUTRES NOMS DE PERSONNES
+#     SONT RETIRES des libelles, meme quand la source les porte : les
+#     evenements sont decrits par leur format et leur lieu.
 #   * JAZZ IN MARCIAC est DEUX choses distinctes et toutes les deux vraies :
-#     (1) le festival ou il a joue en 2018 et 2019 avec le groupe « Resonance »
-#         -> c'est ici, dans les references de scene ;
-#     (2) le COLLEGE de Jazz in Marciac, ou il s'est forme -> c'est dans
-#         REPERES, section « Le parcours ». Ne pas melanger les deux.
+#     (1) le FESTIVAL, qui l'a programme 19 fois entre 2009 et 2019 -> ici ;
+#     (2) le COLLEGE de jazz de Marciac, ou il s'est forme -> REPERES.
 #
-# DECOMPTE (recalcule a la main a partir de CHRONO ci-dessous, verifie par
-# assertion a la fin du fichier) : 69 dates datees, de 2016 a 2025, sur dix
-# annees consecutives. S'y ajoutent DEUX concerts majeurs dont la date
-# n'apparait dans aucun des deux agendas : le Grand Rex et le Mont Korhogo.
-# PAYS avec au moins un concert date : France, Hongrie, Suisse, Belgique,
-# Grece, Cote d'Ivoire = 6. (L'Espagne n'y est PAS : la chapelle du Mas Galifa
-# ne nous est connue que par une video de sa chaine, sans date ni preuve de
-# concert public -> elle figure dans les lieux de pierre avec cette reserve
-# explicite, et n'entre pas dans le compte des pays.)
+# DECOMPTE AFFICHE, reproductible depuis `parcours_consolide.json` :
+#   type ∈ {concert, spectacle} ET role = confirme ET date <= 2026-08-13
+#     -> 103 au 13/08/2026 au matin (91 concerts + 12 spectacles)
+#     +  6 dates du Sextet Orchestra, passees en `confirme` par David (2010)
+#     +  1 date a Carcassonne le 16 aout 2017 : David confirme qu'il s'agit
+#        bien d'une SECONDE date distincte du 2 aout, et non d'une double saisie
+#     =  110 dates de scene, de 2009 a 2026.
+#   S'y ajoutent 4 scenes confirmees SANS AUCUNE DATE (le Grand Rex, le Mont
+#   Korhogo, la chapelle du Mas Galifa, et la 3e date de Marciac 2010 avec le
+#   Sextet Orchestra) : citees sans date, jamais avec une date approximative,
+#   et hors des 110.
+#   AUTRES ARBITRAGES DU 13/08/2026 : Vevey = le 4 fevrier 2023 (et non le 3) —
+#   c'est deja la date que retenait le jeu consolide, elle est desormais
+#   confirmee ; Sainte-Genevieve-des-Bois = celle de l'ESSONNE (91), donc
+#   geocodable pour la carte, la salle restant inconnue.
+#   MARCIAC : 21 dates datees (2009, 2010, 2014, 2015, 2016, 2018, 2019 = sept
+#   editions) + la 3e date de 2010 sans date = 22 evenements dans la ville.
+#   PAYS : France, Hongrie, Suisse, Belgique, Grece, Espagne, Cote d'Ivoire = 7.
+#   VILLES / LIEUX au grain ville : 47, dont 39 geolocalises (voir la carte).
 SCENES_STATS = [
-    ('69', 'dates recensées, de 2016 à 2025 — dix années consécutives'),
-    ('6', 'pays : France, Hongrie, Suisse, Belgique, Grèce, Côte d’Ivoire'),
+    ('110', 'dates de scène recensées, de 2009 à 2026'),
+    ('7', 'pays : France, Hongrie, Suisse, Belgique, Grèce, Espagne, Côte d’Ivoire'),
+    ('21', 'dates programmées à Jazz in Marciac, sur sept éditions'),
     ('2 700', 'personnes au Grand Rex, à Paris'),
 ]
 
 # Les references majeures, en evidence. Ordre : la plus vendeuse d'abord.
+# ⚠️ Amadou & Mariam EN PREMIER, et avec son lieu : le lieu etait tronque dans
+# l'ancienne source, il est desormais confirme par David (13/08/2026) —
+# « Salle du Jeu du Mail, Pamiers (09) », 9 septembre 2022. C'est la reference
+# la plus forte de la page, elle doit etre visible en tete.
 SCENES_REFS = [
     ('Première partie d’Amadou &amp; Mariam',
-     'Septembre 2022'),
+     'Salle du Jeu du Mail, Pamiers (Ariège) — 9 septembre 2022'),
+    ('Jazz in Marciac',
+     '21 dates programmées entre 2009 et 2019, sur la scène de la place de '
+     'l’Hôtel de Ville'),
     ('Sziget Festival',
-     'Budapest, Hongrie — août 2023'),
+     'Budapest, Hongrie — deux éditions, août 2022 et août 2023'),
     ('Everness Festival',
      'Hongrie — juin 2023, puis Everness Indian Summer en septembre 2024'),
-    ('Jazz in Marciac',
-     'Août 2018 et août 2019, avec le groupe « Résonance »'),
     ('Le Grand Rex',
      'Paris — devant 2 700 personnes, avec le duo Solune'),
     ('The Voice, saison 11',
@@ -605,143 +788,282 @@ SCENES_REFS = [
 
 # Deuxieme rideau : festivals, salles et theatres. Format « nom | precision ».
 SCENES_LIEUX = [
-    ('Castle Handpan Festival', 'Château de Frasne-le-Château — mai 2024'),
+    ('Castle Handpan Festival', 'Château de Frasne-le-Château (70) — mai 2024'),
+    ('FLORIPAN', 'Bambecque (59), en Flandre — mai 2026'),
     ('Tribe Unity Festival', 'Belgique — juin 2025, avec Solune'),
     ('HangAout Festival', 'Domaine du Balbuzard — juin 2021'),
-    ('Festival Été Nomade', 'Port Dienville, base nautique — juin 2024'),
+    ('Festival Été Nomade', 'Port Dienville (10), base nautique — juin 2024'),
     ('Salle del Castillo', 'Vevey, Suisse — février 2023'),
     ('Théâtre OZ', 'Martigny, Suisse — mars 2023'),
-    ('Théâtre de l’Étang', 'Septembre 2023 — conférence, film et concert avec Arnaud Riou'),
+    ('Théâtre de l’Étang', 'Perpignan (66) — septembre 2023 : conférence, film et '
+                           'concert avec Arnaud Riou'),
     ('Péniche Anako', 'Paris — mars 2023'),
-    ('Salle San-Subra', 'Toulouse — mai 2022'),
+    ('Salle San-Subra', 'Toulouse (31) — mai 2022'),
     ('Le Centre Élément', 'Paris — avril 2023, puis mars 2024'),
-    ('Festival Arts Extatics', 'Puivert — juillet 2023'),
-    ('Festival Arts Terre Sacrée', 'Rennes-les-Bains — août 2024'),
+    ('Festival Arts Extatics', 'Puivert (11) — juillet 2023'),
+    ('Festival Arts Terre Sacrée', 'Rennes-les-Bains (11) — août 2024'),
+    ('Festival Matricia', 'Daumazan-sur-Arize (09) — août 2023'),
 ]
 
 # Les lieux de pierre — l'argument exact de la version acoustique (# acoustique).
 SCENES_PIERRE = [
-    ('Abbaye d’Alet-les-Bains', 'À ciel ouvert — septembre 2022, puis août 2025 sous les étoiles'),
-    ('Cloître de Saint-Geniez-d’Olt', 'Juillet 2022'),
-    ('Basilique Saint-Nazaire, Carcassonne', 'Août 2017 — en trio, voix et instruments du monde'),
-    ('Église Saint-Nazaire, Carcassonne', 'Juin et septembre 2017'),
+    ('Abbaye bénédictine Notre-Dame d’Alet', 'Alet-les-Bains (11), à ciel ouvert — '
+                                             'septembre 2022, puis août 2025 sous les étoiles'),
+    ('Cloître de Saint-Geniez-d’Olt', 'Aveyron — juillet 2022'),
+    ('Basilique Saint-Nazaire, Carcassonne', 'Juin 2017, puis août 2017 en trio — '
+                                             'voix et instruments du monde'),
+    ('Église Saint-Nazaire, Carcassonne', 'Septembre 2017 — deux dates, '
+                                          '« Rythme, souffle et chant »'),
     ('Église Saint-Jean-l’Évangéliste, Tourcoing', 'Septembre 2023'),
+    ('Le Carmel, Pamiers', 'Avril 2022 — concert d’ouverture d’exposition'),
     ('Chapelle du Mas Galifa', 'Espagne — connue par une vidéo de sa chaîne, visible plus haut'),
 ]
 
-# Chronologie complete, repliee dans un <details> natif (aucun JavaScript).
-# Chaque ligne est recopiee des sources. Les libelles flous le restent : on
-# n'ajoute pas une ville ou une salle que la source ne donne pas.
-# SEULE normalisation faite : la source ecrit « Jedapama » (2024, 2025) ET
-# « Jédapama » (2016, 2020) pour le MEME projet. Les deux graphies cote a cote
-# dans une meme liste font negligent -> tout en « Jedapama » (graphie recente et
-# majoritaire). A faire confirmer par David si l'accent est le bon.
+# ============================================================================
+# CHRONOLOGIE COMPLETE — 110 dates de scene, de 2009 a 2026
+# ============================================================================
+# Repliee dans un <details> NATIF (aucun JavaScript).
+#
+# CE QUE CETTE LISTE CONTIENT, EXACTEMENT : les evenements de
+# `parcours_consolide.json` tels que
+#     type ∈ {concert, spectacle}  ET  role = confirme  ET  date <= 2026-08-13
+# soit 110 lignes apres les arbitrages du 13/08/2026. Une ligne = une date.
+# Le chiffre affiche en tete de section
+# est le NOMBRE DE LIGNES de cette liste : il est donc reproductible et il ne
+# peut pas deriver (assertion plus bas).
+#
+# CE QU'ELLE NE CONTIENT PAS, ET POURQUOI :
+#   * les 7 scenes encore `a-confirmer` : les sources ne disent pas si David
+#     jouait ou s'il etait spectateur -> hors page et hors decompte, en attente
+#     de David (les 7 du Sextet Orchestra, elles, sont desormais confirmees) ;
+#   * les 26 ateliers, 11 cercles, 6 conferences et 1 stage : ce ne sont pas des
+#     dates de scene. La conference-film-concert avec Arnaud Riou (30/09/2023,
+#     Theatre de l'Etang) est de ce lot : elle reste citee dans les lieux
+#     ci-dessus, mais elle n'est PAS comptee comme un concert ;
+#   * The Voice, la sortie d'album, les interviews : hors parcours scenique ;
+#   * les 4 scenes confirmees SANS DATE (Grand Rex, Mont Korhogo, Mas Galifa et
+#     la 3e date de Marciac 2010 avec le Sextet Orchestra) : citees sans date
+#     ailleurs sur la page, jamais avec une date approximative.
+#
+# DEUX ENTREES LE MEME JOUR = DEUX LIGNES. Ce n'est pas un doublon : les sources
+# portent bien deux evenements distincts le 13 aout 2014 (residence Jedapama +
+# sortie du CD de La ReLOVEution), le 6 aout 2015 (deux scenes de Marciac) et le
+# 14 aout 2019 (15 h 15 puis 18 h 30, deux scenes). Et deux dates proches ne sont
+# pas une double saisie : David a confirme le 13/08/2026 que le 2 et le 16 aout
+# 2017 a Carcassonne sont bien deux concerts.
+#
+# NORMALISATIONS FAITES, ET SEULEMENT CELLES-LA :
+#   * « Jedapama » partout (les sources ecrivent aussi « Jedapama » avec accent
+#     et « JeDaPaMa » pour le meme projet) ;
+#   * Marciac : jamais « off » (cf. la regle en tete de section). Quand la source
+#     nomme la scene, on ecrit « scene de la place de l'Hotel de Ville » ; quand
+#     elle ne la nomme pas, on ecrit seulement « Jazz in Marciac » ;
+#   * les noms de personnes tierces sont retires (regle de David). Aucune
+#     information de LIEU ni de DATE n'a ete modifiee.
 SCENES_CHRONO = [
+    ('2026', [
+        ('14 mai', 'FLORIPAN, festival de handpan, Bambecque (59)'),
+    ]),
     ('2025', [
-        ('13 juin', 'Jedapama, Le Bosc'),
+        ('13 juin', 'Jedapama, Le Bosc (09)'),
         ('21 juin', 'Concert Solune, Tribe Unity Festival, Belgique'),
-        ('5 juillet', 'Spectacle E-Motion, Le Dojo d’Espéraza'),
-        ('18 juillet', 'Jedapama, lac de la Cavayère, Carcassonne'),
-        ('16 août', 'Abbaye d’Alet-les-Bains — « une abbaye à ciel ouvert, sous les étoiles »'),
-        ('27 septembre', 'Jedapama, festival de conte, Rennes-le-Château'),
-        ('7 novembre', '« Concert pour l’eau », Jedapama, Alet'),
+        ('5 juillet', 'Spectacle E-Motion, Le Dojo d’Espéraza (11)'),
+        ('18 juillet', 'Jedapama, lac de la Cavayère, Carcassonne (11)'),
+        ('16 août', 'Abbaye bénédictine Notre-Dame d’Alet, Alet-les-Bains (11) — '
+                    '« une abbaye à ciel ouvert, sous les étoiles »'),
+        ('23 août', 'Jedapama'),
+        ('27 septembre', 'Jedapama, festival de conte, Rennes-le-Château (11)'),
+        ('7 novembre', '« Concert pour l’eau », Jedapama, Alet-les-Bains (11)'),
     ]),
     ('2024', [
-        ('30 mars', 'E-Motion, Le Centre Élément, Paris'),
+        ('30 mars', 'Spectacle E-Motion, Solune, Le Centre Élément, Paris'),
         ('26 avril', 'Festival Au cœur de l’homme'),
-        ('24 mai', 'Castle Handpan Festival, Château de Frasne-le-Château'),
+        ('24 mai', 'Castle Handpan Festival, château de Frasne-le-Château (70)'),
         ('8 juin', 'Spectacle participatif E-Motion by Solune'),
-        ('28 juin', 'Festival Été Nomade, Port Dienville, base nautique'),
-        ('9 août', 'Rennes-les-Bains, Festival Arts Terre Sacrée'),
-        ('21 et 31 août', 'Jedapama, L’Écume des jours, Montbel'),
+        ('28 juin', 'Festival Été Nomade, Port Dienville, base nautique (10)'),
+        ('9 août', 'Festival Arts Terre Sacrée, Rennes-les-Bains (11)'),
+        ('21 août', 'Jedapama, L’Écume des jours, Montbel (09)'),
+        ('31 août', 'Jedapama « Come back again », L’Écume des jours, Montbel (09)'),
         ('14 septembre', 'Everness Indian Summer, Hongrie — Solune / E-Motion'),
     ]),
     ('2023', [
-        ('7 janvier', 'Célébration de pleine lune « L’eau », Martigny'),
-        ('4 février', 'Ecstatic Tribe United : Sacred Fire, Salle del Castillo, Vevey'),
-        ('17 mars', 'Concert à la Péniche Anako, Paris'),
-        ('25 mars', 'Fête de l’Être, Grange Rouge / Ferme la Zouillaz, Martigny'),
-        ('26 mars', '« Dans les airs et les rythmes », Théâtre OZ, Martigny'),
-        ('23 avril', 'Le Centre Élément — les cinq éléments'),
-        ('17 juin', 'Duo avec Yves Mesnil, Festival Yoga &amp; pleine nature, Saint-Gervais-Mont-Blanc'),
+        ('7 janvier', 'Célébration de pleine lune « L’eau », Grange Rouge / '
+                      'Ferme la Zouillaz, Martigny (Suisse)'),
+        ('4 février', 'Ecstatic Tribe United : Sacred Fire, salle del Castillo, '
+                      'Vevey (Suisse)'),
+        ('14 mars', 'Concert « Sous le charme » — David Lesage invité'),
+        ('17 mars', 'Handpan, voix, calebasse et N’Goni, Péniche Anako, Paris'),
+        ('23 avril', 'Expérience immersive au cœur des cinq éléments, '
+                     'Le Centre Élément, Paris'),
+        ('17 juin', 'Concert en duo, Festival Yoga et pleine santé, '
+                    'Saint-Gervais-les-Bains (74)'),
         ('24 juin', 'Everness Festival, Hongrie'),
-        ('22 juillet', 'HUG Fesztivál, Hongrie'),
-        ('28 juillet', 'Festival Arts Extatics, Puivert'),
+        ('22 juillet', 'HUG Fesztivál — Hungarian Handpan &amp; Worldmusic Gathering, Hongrie'),
+        ('28 juillet', 'Festival Arts Extatics, Puivert (11)'),
         ('14 août', 'Sziget Festival, Budapest — Everness Chill Beach'),
-        ('19 août', 'Expérience immersive, Daumazan-sur-Arize, Festival Matricia'),
-        ('10 septembre', 'Bungee, danse aérienne, L’Arbre aux étoiles'),
-        ('22 septembre', 'Flori Pan, Tourcoing'),
-        ('23 septembre', 'Église Saint-Jean-l’Évangéliste, Tourcoing'),
-        ('30 septembre', 'Conférence, film et concert avec Arnaud Riou, Théâtre de l’Étang'),
-        ('26 novembre', 'Sainte-Geneviève-des-Bois'),
-        ('3 décembre', 'Expérience immersive, Iris &amp; David'),
+        ('19 août', 'Expérience immersive avec Iris Chasles, Festival Matricia, '
+                    'Daumazan-sur-Arize (09)'),
+        ('10 septembre', 'Bungee, danse aérienne en musique avec Iris Chasles, '
+                         'L’Arbre aux étoiles, Fatouville-Grestain (27)'),
+        ('22 septembre', 'Flori Pan, festival de handpan, Tourcoing (59)'),
+        ('23 septembre', 'Église Saint-Jean-l’Évangéliste, Tourcoing (59)'),
+        ('26 novembre', 'Concert à Sainte-Geneviève-des-Bois (91)'),
+        ('3 décembre', 'Expérience immersive avec Iris Chasles'),
     ]),
     ('2022', [
-        ('2 avril', 'Concert avec Yves Mesnil'),
-        ('3 avril', 'Expérience immersive 360° avec les dauphins d’Égypte, Hameau de l’Étoile'),
-        ('15 avril', 'Festival virtuel « La Voie/x des hommes »'),
-        ('8 mai', 'Cercle mixte et concert'),
-        ('20 mai', 'David Lesage en concert à Toulouse, Salle San-Subra'),
-        ('27 mai', 'Hona Festival, Naxos, Grèce'),
-        ('11 juin', 'Cercle mixte et concert'),
-        ('7 juillet', 'Cloître de Saint-Geniez-d’Olt'),
+        ('1<sup>er</sup> avril', 'Concert d’ouverture d’exposition, Le Carmel, Pamiers (09)'),
+        ('2 avril', '« Honorons l’eau » — concert et musique intuitive'),
+        ('3 avril', 'Expérience immersive 360° avec les dauphins d’Égypte, '
+                    'Hameau de l’Étoile'),
+        ('20 mai', 'David Lesage en concert, salle San-Subra, Toulouse (31)'),
+        ('27 mai', 'Hona Festival, Naxos (Grèce)'),
+        ('7 juillet', 'Cloître de Saint-Geniez-d’Olt (12)'),
         ('17 juillet', 'Double concert dans une église'),
-        ('30 juillet', 'HUG Fesztivál, Hongrie'),
-        ('9 septembre', 'Première partie d’Amadou &amp; Mariam'),
-        ('17 septembre', 'Festival des arts énergétiques « Les enfants de demain », abbaye d’Alet-les-Bains'),
-        ('1<sup>er</sup> novembre', 'Mini-concert de Samhain, Latrape'),
+        ('27 juillet', 'HUG Fesztivál — Hungarian Handpan &amp; Worldmusic Gathering, Hongrie'),
+        ('7 août', 'Caphémère — danse à l’élastique d’Iris Chasles et concert de '
+                   'David Lesage'),
+        ('10 août', 'Sziget Festival, Budapest — Everness Chill Garden'),
+        ('9 septembre', 'Première partie d’Amadou &amp; Mariam, salle du Jeu du Mail, '
+                        'Pamiers (09)'),
+        ('17 septembre', 'Festival des arts énergétiques « Les enfants de demain », '
+                         'abbaye d’Alet-les-Bains (11)'),
+        ('31 octobre', 'Mini-concert de Samhain, Latrape (31)'),
     ]),
     ('2021', [
         ('29 mai', 'Concert handpan et voix, filmé en 360°'),
-        ('4 et 12 juin', 'Doubles concerts « Loookaa &amp; David Lesage », Aigues-Vives'),
+        ('4 juin', 'Double concert, Aigues-Vives (09)'),
+        ('12 juin', 'Double concert, Aigues-Vives (09)'),
         ('20 juin', 'HangAout Festival, Domaine du Balbuzard'),
         ('9 juillet', 'Inauguration de Mama Flower'),
-        ('18 juillet', 'Concert au coucher du soleil, L’Écume des jours, Montbel'),
+        ('18 juillet', 'Concert sensoriel au coucher du soleil, L’Écume des jours, '
+                       'Montbel (09)'),
+        ('11 septembre', 'Concert en duo, Saint-Hippolyte-du-Fort (30)'),
     ]),
     ('2020', [
-        ('14 août', 'Apéro-concert, Mirepoix'),
-        ('4 septembre', 'Jedapama « Come Back Again », L’Écume des jours, Montbel'),
+        ('14 août', 'Apéro-concert, Mirepoix (09)'),
+        ('4 septembre', 'Jedapama « Come Back Again », L’Écume des jours, Montbel (09)'),
     ]),
     ('2019', [
-        ('30 mai', 'Inauguration de la « Caz’Cade », avec Résonance'),
-        ('30 juin', 'Handpan Festival Univers 7 Chakras — « Voyage vibratoire Résonance »'),
-        ('28 juillet', 'Lac de Montbel'),
-        ('31 juillet et 25 août', 'Roquefort-les-Cascades'),
+        ('25 mai', 'Inauguration d’un lieu — concert du groupe « Résonance »'),
+        ('26 mai', 'Fête des mères dans la nature, en musique avec « Résonance »'),
+        ('30 mai', 'Inauguration de la « Caz’Cade », avec « Résonance »'),
+        ('30 juin', '« Voyage vibratoire Résonance », Handpan Festival Univers 7 Chakras'),
+        ('6 juillet', 'Concert à Roquefort-les-Cascades (09)'),
+        ('28 juillet', 'Concert « Résonance », lac de Montbel (09)'),
+        ('31 juillet', 'Concert à Roquefort-les-Cascades (09), 17 h'),
         ('14 août', 'Jazz in Marciac, 15 h 15'),
-        ('8 septembre', 'Concert Résonance, Spiruchonnade'),
+        ('14 août', 'Jazz in Marciac, la péniche du lac, 18 h 30'),
+        ('25 août', 'Concert à Roquefort-les-Cascades (09), 17 h'),
+        ('8 septembre', 'Concert « Résonance », Spiruchonnade'),
     ]),
     ('2018', [
+        ('5 août', 'Jazz in Marciac, avec le groupe « Résonance »'),
+        ('6 août', 'Jazz in Marciac, avec le groupe « Résonance »'),
+        ('8 août', 'Jazz in Marciac, avec le groupe « Résonance »'),
+        ('9 août', 'Jazz in Marciac, avec le groupe « Résonance »'),
+        ('12 août', 'Jazz in Marciac, avec le groupe « Résonance »'),
         ('13 août', 'Jazz in Marciac, avec le groupe « Résonance »'),
     ]),
     ('2017', [
-        ('28 juin', 'Église Saint-Nazaire de Carcassonne'),
+        ('28 juin', 'Voix et handpan, basilique Saint-Nazaire, Carcassonne (11)'),
         ('9 juillet', '« Chants du cœur », Le Sing Sing'),
-        ('2 août', 'Trio voix et instruments du monde, basilique Saint-Nazaire'),
-        ('17 et 24 septembre', 'Église Saint-Nazaire de Carcassonne'),
+        ('2 août', 'Concert en trio — voix et instruments du monde, basilique '
+                   'Saint-Nazaire, Carcassonne (11)'),
+        # Le 16 aout etait laisse de cote (soupcon de double saisie avec le
+        # 2 aout). David a tranche le 13/08/2026 : ce sont bien DEUX dates
+        # distinctes. La salle est celle que donne son agenda : la basilique.
+        ('16 août', 'Basilique Saint-Nazaire, Carcassonne (11)'),
+        ('8 septembre', 'Jedapama fête la rentrée, Mirepoix (09)'),
+        ('17 septembre', '« Rythme, souffle et chant », église Saint-Nazaire, '
+                         'Carcassonne (11)'),
+        ('24 septembre', '« Rythme, souffle et chant », église Saint-Nazaire, '
+                         'Carcassonne (11)'),
     ]),
     ('2016', [
-        ('3 août', 'Concerts Jedapama'),
+        ('10 juin', 'Sortie de l’album « Rayons de Sourires » — Jedapama, '
+                    'Sainte-Camelle (09)'),
+        ('12 juin', 'Jedapama, Festival du Grand A'),
+        ('3 août', 'Jedapama, Jazz in Marciac — place de l’Hôtel de Ville : résidence '
+                   'annoncée tous les soirs du 3 au 14 août, comptée pour une seule date'),
+        ('17 septembre', 'Jedapama, Salon santé nature'),
+    ]),
+    ('2015', [
+        ('11 juin', 'Jedapama, Café Gavroche'),
+        ('25 juillet', 'Jedapama, fête de Galinague'),
+        ('6 août', 'Jedapama, Jazz in Marciac — la péniche'),
+        ('6 août', 'Jedapama, Jazz in Marciac — scène de la place de l’Hôtel de Ville'),
+        ('27 septembre', 'Jedapama, Faites de la Nature'),
+    ]),
+    ('2014', [
+        ('13 avril', 'Bal-concert « Vol Insomniaque » — La ReLOVEution, Toulouse (31)'),
+        ('22 mai', 'Bal, concert et repas musical — La ReLOVEution, Toulouse (31)'),
+        ('5 août', 'Jedapama'),
+        ('12 août', 'Jedapama, Jazz in Marciac — place de l’Hôtel de Ville'),
+        ('13 août', 'Sortie officielle du premier CD de La ReLOVEution — Jazz in Marciac, '
+                    'scène de la place de l’Hôtel de Ville'),
+        ('13 août', 'Jedapama, Jazz in Marciac — place de l’Hôtel de Ville'),
+        ('14 août', 'Jedapama, Jazz in Marciac — place de l’Hôtel de Ville'),
+        ('15 août', 'Jedapama, Jazz in Marciac — place de l’Hôtel de Ville'),
+        ('16 août', 'Jedapama, Jazz in Marciac — place de l’Hôtel de Ville'),
+        ('17 août', 'Jedapama, Jazz in Marciac — place de l’Hôtel de Ville'),
+        ('26 novembre', 'Jedapama, Ardèche (07)'),
+        ('6 décembre', 'Jedapama, fêtes de l’Avent, Plaisance (32)'),
+    ]),
+    ('2013', []),
+    ('2012', []),
+    ('2011', []),
+    ('2010', [
+        ('17 mai', 'Concert symphonique et groupe de jazz, lycée Saint-Sernin, '
+                   'Toulouse (31)'),
+        # SEXTET ORCHESTRA — 6 dates passees en `confirme` par David le
+        # 13/08/2026 : groupe qu'il a CO-CREE a Toulouse, appele aussi
+        # « Eclipse » (libelle absent des sources, donc aucun doublon possible).
+        # Les 6 et 7 aout, la source place le groupe « sur le Festival Bis de
+        # Jazz in Marciac 2010 […] au Lac Mini Port » : on ecrit donc le Lac
+        # Mini Port, pas la place de l'Hotel de Ville, que cette source-la ne
+        # nomme pas pour ces deux dates.
+        ('19 juin', 'Finale de tremplin, Sextet Orchestra'),
+        ('6 août', 'Jazz in Marciac, Festival Bis — Lac Mini Port, Sextet Orchestra, 18 h 30'),
+        ('7 août', 'Jazz in Marciac, Festival Bis — Lac Mini Port, Sextet Orchestra, 17 h'),
+        ('29 octobre', 'Concert d’anniversaire, Sextet Orchestra'),
+        ('30 octobre', 'Concert du Sextet Orchestra'),
+        ('6 novembre', 'Concert du Sextet Orchestra'),
+    ]),
+    ('2009', [
+        ('4 juillet', 'Concert à l’avant-première du film « Les marchands de rêves », '
+                      'cinéma de Lavaur (81)'),
+        ('16 août', 'Jazz in Marciac — scène de la place de l’Hôtel de Ville'),
     ]),
 ]
 
-# Nombre de dates reellement portees par CHRONO. Certaines lignes en regroupent
-# plusieurs (« 21 et 31 août ») : on les compte pour ce qu'elles valent, sinon
-# le chiffre affiche serait FAUX (sous-estime).
-CHRONO_GROUPES = {
-    ('2024', '21 et 31 août'): 2,
-    ('2021', '4 et 12 juin'): 2,
-    ('2019', '31 juillet et 25 août'): 2,
-    ('2017', '17 et 24 septembre'): 2,
+# Les trois annees sans date confirmee ne sont PAS masquees : elles sont
+# affichees avec ce qu'elles etaient reellement. Le livret AIMJ (source tierce)
+# etablit que David suivait alors le cursus jazz en horaire amenage du
+# Conservatoire de Toulouse et qu'il y a obtenu son prix de batterie en 2012 —
+# exactement au milieu de ce « trou ». Ne JAMAIS ecrire « pause de 2011 a 2013 ».
+CHRONO_VIDES = {
+    '2013': 'Années du Conservatoire de Toulouse : cursus jazz en horaire aménagé, '
+            'ensembles et big band — aucune date en son nom propre dans les sources.',
+    '2012': 'Prix de conservatoire de batterie, mention très bien.',
+    '2011': 'Années du Conservatoire de Toulouse.',
 }
-NB_DATES = sum(CHRONO_GROUPES.get((an, quand), 1)
-               for an, lignes in SCENES_CHRONO for quand, _ in lignes)
+
+# Nombre de dates portees par CHRONO : une ligne = une date. Plus aucun
+# regroupement du type « 21 et 31 aout » (chaque date a desormais sa ligne), ce
+# qui rend le total directement verifiable a l'oeil.
+NB_DATES = sum(len(lignes) for _an, lignes in SCENES_CHRONO)
 # Garde-fou : le chiffre AFFICHE et le contenu de la chronologie ne peuvent pas
 # diverger. Si quelqu'un ajoute une date sans toucher au chiffre, ca casse ici.
-assert NB_DATES == 69, f'decompte incoherent : {NB_DATES} dates dans CHRONO'
+# 110 = concerts + spectacles, role `confirme`, deja joues au 13/08/2026, apres
+# les arbitrages de David du 13/08/2026 (+6 Sextet Orchestra, +1 Carcassonne).
+assert NB_DATES == 110, f'decompte incoherent : {NB_DATES} dates dans CHRONO'
 assert SCENES_STATS[0][0] == str(NB_DATES), 'le chiffre affiche ne suit plus CHRONO'
 ANNEES_CHRONO = [an for an, _ in SCENES_CHRONO]
-assert ANNEES_CHRONO == ['2025', '2024', '2023', '2022', '2021', '2020',
-                         '2019', '2018', '2017', '2016'], 'amplitude changee'
+assert ANNEES_CHRONO == ['2026', '2025', '2024', '2023', '2022', '2021', '2020',
+                         '2019', '2018', '2017', '2016', '2015', '2014', '2013',
+                         '2012', '2011', '2010', '2009'], 'amplitude changee'
+assert set(CHRONO_VIDES) == {an for an, l in SCENES_CHRONO if not l}, \
+    'une annee vide sans explication publiee'
 
 
 def scenes_stats():
@@ -768,11 +1090,104 @@ def scenes_chrono():
     dans les navigateurs modernes."""
     lignes = []
     for an, dates in SCENES_CHRONO:
+        if not dates:
+            # Annee sans date : on affiche ce qu'elle etait, jamais un blanc.
+            lignes.append(f'<dt>{an}</dt><dd><p class="dlc-vide">'
+                          f'{CHRONO_VIDES[an]}</p></dd>')
+            continue
         li = ''.join(f'<li><span class="dlc-when">{q}</span>{t}</li>' for q, t in dates)
         lignes.append(f'<dt>{an}</dt><dd><ul>{li}</ul></dd>')
     return ('<details class="dlc-more"><summary>Voir toute la chronologie recensée — '
-            f'{NB_DATES} dates, de 2016 à 2025</summary>'
+            f'{NB_DATES} dates de scène, de 2009 à 2026</summary>'
             f'<dl class="dlc-chrono">{"".join(lignes)}</dl></details>')
+
+
+# ============================================================================
+# PRESSE — « Ils en ont parlé »
+# ============================================================================
+# ⚠️ DROIT D'AUTEUR, REGIME STRICT. Ce sont des articles de presse proteges.
+# Ce qui est autorise et ce qu'on fait ici : nom du media, date, titre, LIEN
+# SORTANT, et UNE citation courte (15 mots maximum), entre guillemets et
+# attribuee explicitement. C'est le regime du droit de courte citation.
+# Ce qu'on ne fait JAMAIS : recopier un paragraphe, heberger un PDF ou une
+# capture d'ecran de l'article, reprendre une photo du journal (les photos des
+# deux papiers de La Depeche sont creditees « DDM — Marie Dedeban » : elles
+# appartiennent au journal / a la photographe).
+#
+# ⚠️ LES DATES SONT AFFICHEES, ET C'EST VOLONTAIRE. Les quatre retombees datent
+# de fevrier-mars 2022, dans les semaines qui ont suivi la diffusion de The
+# Voice. Titrer « Presse » sans dates laisserait croire a une couverture
+# continue ; l'assumer franchement est plus solide devant un professionnel, qui
+# verifiera de toute facon.
+#
+# ⚠️ LE PETIT JOURNAL DE L'ARIEGE ecrit « Daniel Lesage » au lieu de « David »
+# dans son titre et dans tout l'article. On NE REPRODUIT PAS la faute (le titre
+# est cite sans le prenom) et on NE LA SIGNALE PAS sur la page : pour le
+# lecteur, c'est du bruit. Le lien mene a l'article, qui parle de lui-meme.
+#
+
+# NON RETENU ICI : la reprise video d'Orange Actualites (syndication du
+# reportage de La Depeche -> ce serait compter deux fois le meme papier ; elle
+# est citee en texte comme reprise), et le 2e article du Petit Journal sur
+# l'exposition « Wax Spirit » (ce n'est pas un portrait de David ; sa valeur est
+# documentaire — c'est la seule source de la date du 1er avril 2022, qui figure
+# a ce titre dans la chronologie).
+#
+# (media, date, titre, url, citation <= 15 mots, attribution)
+PRESSE = [
+    ('La Dépêche du Midi', '26 février 2022',
+     'Un « griot » cathare aux multiples talents fait vibrer le cœur de l’Ariège',
+     'https://www.ladepeche.fr/2022/02/26/'
+     'un-griot-cathare-aux-multiples-talents-fait-vibrer-le-coeur-de-lariege-10136285.php',
+     'Je trouve que c’est ça, le rôle d’un artiste : aller porter des messages.',
+     'David Lesage, cité par La Dépêche du Midi'),
+    ('La Dépêche du Midi', '26 février 2022',
+     'Après The Voice, le griot cathare garde l’envie de connecter les humains '
+     'grâce à la musique',
+     'https://www.ladepeche.fr/2022/02/26/'
+     'apres-the-voice-le-candidat-ariegeois-david-lesage-garde-lenvie-de-connecter-'
+     'les-humains-grace-a-la-musique-10136271.php',
+     'David Lesage est un artiste aussi attachant qu’insaisissable.',
+     'La Dépêche du Midi'),
+    ('Le Petit Journal de l’Ariège', '29 mars 2022',
+     'Le jeune ménestrel cathare se livre',
+     'https://www.lepetitjournal.net/09-ariege/2022/03/29/'
+     'le-jeune-menestrel-cathare-daniel-lesage-se-livre/',
+     'Notre corps est un temple que nous pouvons mettre en résonance.',
+     'David Lesage, Le Petit Journal de l’Ariège'),
+]
+
+# ⚠️ APAR.TV — ECARTEE DE LA PAGE LE 13/08/2026, APRES VERIFICATION EN NAVIGATEUR.
+# L'article existe bien (titre et citation retrouves), mais l'URL
+#   https://www.apar.tv/art/musique/david-lesage-rend-la-musique-metaphysique-accessible-sur-spotify/
+# REDIRIGE aujourd'hui vers `zoesagan.com`, un site qui se presente comme
+# « Infofiction » et porte une rubrique « GOSSIP +18 ». Un programmateur qui clique
+# sur une entree intitulee « Apar.tv » atterrit donc sur un domaine sans rapport :
+# c'est exactement le genre de detail qui coute la credibilite d'une page entiere.
+# On la retire donc en attendant l'arbitrage de David. Entree prete a remettre :
+#   ('Apar.tv', '10 mars 2022',
+#    'David Lesage rend la musique metaphysique accessible sur Spotify',
+#    '<l'URL ci-dessus>',
+#    'Sa musique metaphysique est une porte de conscience.',   # 8 mots
+#    'Apar.tv'),
+
+# Garde-fou de droit d'auteur : aucune citation ne peut depasser 15 mots.
+for _p in PRESSE:
+    assert len(_p[4].split()) <= 15, f'citation trop longue : {_p[4]}'
+
+
+def presse_liste():
+    """Une entree = media + date + titre lie + une citation courte attribuee.
+    Liens sortants en `target="_blank" rel="noopener"`, comme partout ailleurs
+    sur le site."""
+    li = []
+    for media, date, titre, url, cit, attrib in PRESSE:
+        li.append(
+            f'<li><div class="pr-meta"><b>{media}</b><span>{date}</span></div>'
+            f'<a class="pr-t" href="{url}" target="_blank" rel="noopener">{titre}</a>'
+            f'<blockquote class="pr-cit">« {cit} »'
+            f'<cite>{attrib}</cite></blockquote></li>')
+    return f'<ul class="dlc-presse">{"".join(li)}</ul>'
 
 # Repertoire ecoutable SUR la page.
 # 3e champ = identifiant YouTube, ou None. Regle d'attribution : on ne relie un
@@ -1084,6 +1499,8 @@ TOC = [
     ('#salle', 'Ce que fait une salle qui chante'),
     ('#parcours', 'Le parcours'),
     ('#scenes', 'Scènes &amp; festivals'),
+    ('#carte', 'La carte du parcours'),
+    ('#presse', 'Ils en ont parlé'),
     ('#repertoire', 'Le répertoire'),
     ('#studio', 'Écouter les versions studio'),
     ('#live', 'Voir deux ensembles de vidéos live'),
@@ -1283,6 +1700,36 @@ b{color:#fff;font-weight:500}
   .dlc-chrono .dlc-when{display:block;min-width:0;margin:0 0 1px}
   .dlc-more>summary{padding:12px 17px}
 }
+/* annee sans date : le texte qui explique pourquoi, jamais un blanc */
+.dlc-chrono .dlc-vide{color:var(--muted);font-size:14.5px;font-style:italic;
+  line-height:1.6;margin:0;max-width:none;padding:5px 0}
+/* ===== Presse : « Ils en ont parle » =======================================
+   Une bande sobre, sans logo ni capture : media + date + titre lie + une
+   citation courte attribuee. Rien d'heberge, tout en lien sortant. */
+/* 265 px de minimum : avec les 3 entrees publiees, la bande tient sur UNE
+   rangee de 289 px a 900 px de large, sans case orpheline. Si une 4e entree
+   revenait (Apar.tv), repasser a minmax(300px,1fr) pour obtenir 2 x 2 plutot
+   qu'une rangee de 3 + 1. */
+.dlc-presse{list-style:none;margin-top:28px;max-width:900px;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:16px}
+.dlc-presse li{background:var(--card);border:1px solid rgba(255,255,255,.06);
+  border-left:2px solid var(--gold);border-radius:14px;padding:20px 22px;
+  display:flex;flex-direction:column;gap:4px}
+.dlc-presse .pr-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.dlc-presse .pr-meta b{font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;
+  color:#fff;font-weight:600;line-height:1.2}
+.dlc-presse .pr-meta span{color:var(--gold);font-size:13px;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:600}
+.dlc-presse .pr-t{display:inline-block;color:#d7d4ea;font-size:16px;line-height:1.45;
+  padding:8px 0;text-decoration:underline;text-decoration-color:rgba(216,178,90,.4);
+  text-underline-offset:3px;transition:color .2s}
+.dlc-presse .pr-t:hover,.dlc-presse .pr-t:focus-visible{color:#fff}
+.dlc-presse .pr-cit{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;
+  color:var(--gold2);font-size:17.5px;line-height:1.4;margin-top:6px;
+  border-left:1px solid var(--line);padding-left:14px}
+.dlc-presse .pr-cit cite{display:block;margin-top:8px;font-style:normal;
+  font-family:'Jost',sans-serif;font-size:13px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);line-height:1.5}
 /* ===== Logo d'artiste de David Lesage ======================================
    ⚠️ Logo de L'ARTISTE, pas de l'association : il identifie David Lesage en
    tete de la section qui parle de lui, et ne remplace RIEN dans la barre de
@@ -1383,7 +1830,7 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh),dd a:not(.btn):not(.adh){font-s
   {display:inline-block;padding:11px 0}
 .dlc-fig figcaption a{font-size:15px;display:inline-block;padding:12px 0;
   text-decoration:underline;text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
-""" + LIGHTBOX_CSS
+""" + LIGHTBOX_CSS + carte_parcours.CSS_CARTE
 
 TITLE = ('David Lesage en concert — concert-cérémonie participatif pour grandes scènes '
          'et festivals · Résonances Productions')
@@ -1440,13 +1887,13 @@ HTML = f"""<!DOCTYPE html>
   <h1>David Lesage en concert</h1>
   <div class="tagline">« Un profond voyage au cœur de soi »</div>
   <p class="lead">Une expérience immersive de musique live d’<b>1 h 30</b> : voix, handpan, calebasse, Ngoni et électronique. À programmer sur grande scène, en festival, ou dans un lieu d’exception.</p>
-  <p class="body">Le format réunit instruments traditionnels et modernité, et alterne deux régimes : des séquences d’<b>écoute active</b>, et des séquences <b>participatives</b> où la salle devient une partie de l’œuvre — elle chante en écho, et voit à l’écran l’empreinte de sa propre voix. Un musicien, chanteur et compositeur passé par le Conservatoire National de Toulouse et le collège de Jazz in Marciac, à l’ambitus vocal de cinq octaves, passé par <i>The Voice</i>, par les scènes du <b>Sziget</b> et de l’<b>Everness Festival</b>, en Hongrie, et par la <b>première partie d’Amadou &amp; Mariam</b>.</p>
+  <p class="body">Le format réunit instruments traditionnels et modernité, et alterne deux régimes : des séquences d’<b>écoute active</b>, et des séquences <b>participatives</b> où la salle devient une partie de l’œuvre — elle chante en écho, et voit à l’écran l’empreinte de sa propre voix. Un musicien, chanteur et compositeur formé au <b>collège de jazz de Marciac</b> puis au <b>Conservatoire de Toulouse</b> — prix de batterie, mention très bien (2012) —, à l’ambitus vocal de cinq octaves, passé par <i>The Voice</i>. <b>110 dates de scène recensées, de 2009 à 2026</b>, dans 7 pays : 21 à <b>Jazz in Marciac</b>, deux éditions du <b>Sziget</b> à Budapest, l’<b>Everness Festival</b> en Hongrie, et une <b>première partie d’Amadou &amp; Mariam</b>.</p>
   <div class="cta" style="margin-top:26px"><a class="btn" href="{MAILTO_PROG}">Programmer ce concert</a><a class="btn ghost" href="{MAILTO_DOSSIER}">Demander le dossier</a></div>
   {pic('neotone-scene',
        'David Lesage seul sur scène, en plan rapproché, les yeux fermés en train de chanter dans un micro serre-tête, les deux mains posées sur un Neotone — le handpan électronique, coque de bois clair et pastilles sombres. Deux micros sur pied l’encadrent, un contrôleur Korg est posé au premier plan ; en fond, un décor de fils tendus violets, verts et rouges devant de la végétation.',
        '(max-width:1080px) calc(100vw - 52px), 1028px',
        'Seul en scène, en plein air : la voix et les mains au centre du dispositif.',
-       cls='dlc-fig dlc-hero-fig', loading='eager', src_w=1400)}
+       cls='dlc-fig dlc-hero-fig', loading='eager', src_w=1400, credit=CREDIT_KOVARI)}
   <nav class="toc" aria-label="Sommaire de la page"><div class="dlc-h">Sommaire</div><ol>{''.join(f'<li><a href="{h}">{t}</a></li>' for h, t in TOC)}</ol></nav>
 </div></header>
 
@@ -1480,6 +1927,22 @@ HTML = f"""<!DOCTYPE html>
   <h2 class="sec-title">Ce que fait une salle qui chante</h2>
   <p>La partie participative n’est pas un supplément : c’est le cœur du format. Le public chante des voyelles et découvre, projetée en direct, la figure que sa voix dessine sur l’eau — c’est la <b>cymatique</b>, expliquée pas à pas avant d’être vécue. Puis viennent les <b>échanges vocaux</b> : une ligne de chant lancée depuis la scène, que la salle renvoie.</p>
   <p>Les <b>vidéoprojections</b> et les ambiances sonores — nature, animaux — tiennent le fil visuel et donnent au plateau une profondeur qui fonctionne aussi bien dans une grande salle qu’en plein air.</p>
+  <!-- LE GESTE (ajout du 13/08/2026). C'est l'image que cette section attendait :
+       jusqu'ici on y voyait le public, les projections, le plateau — mais jamais
+       DAVID EN TRAIN DE FAIRE CHANTER. Elle est donc placee en tete de section,
+       en pleine largeur, avant les deux grilles.
+       Les deux photos de public sont CONSERVEES et non remplacees : celle-ci
+       apporte le geste, elles apportent l'echelle. Ce sont deux arguments
+       differents pour un programmateur, et la section peut porter les deux sans
+       se repeter (aucune ne montre la meme chose).
+       ⚠️ LE PUBLIC EST HORS CHAMP. La legende dit d'ou part la ligne de chant,
+       elle n'affirme pas qu'on voit le public : ce serait faux.
+       ⚠️ Credit Kovari Rudolf obligatoire (condition posee par David). -->
+  {pic('chant-guide',
+       'David Lesage assis sur ses talons au bord d’un plateau de festival, derrière une grande calebasse claire posée sur un tapis rond rouge, pieds nus, en tee-shirt noir et pantalon ocre : les deux bras tendus devant lui et l’index pointé vers le public hors champ, la bouche ouverte en train de chanter. Derrière lui, des panneaux peints de couleurs vives, une violoncelliste assise sur une chaise qui joue, et deux banderoles du festival Everness ; au fond, une tente de plein air et des arbres.',
+       '(max-width:900px) calc(100vw - 52px), 860px',
+       'Guider le chant : la ligne est lancée depuis le plateau, à la main et à la voix. Everness Festival, Hongrie.',
+       cls='dlc-fig dlc-wide', src_w=1400, credit=CREDIT_KOVARI)}
   <div class="dlc-duo">
     {pic('salle',
          'Vue depuis le public d’une grande salle : sur scène, une immense vidéoprojection de soleil orange, deux artistes minuscules devant leurs instruments, et au premier plan une forêt de bras levés.',
@@ -1500,18 +1963,18 @@ HTML = f"""<!DOCTYPE html>
          '(max-width:860px) calc(100vw - 52px), 500px',
          'Le public installé au bord du plateau, dans une configuration assise.')}
   </div>
-  <!-- ⚠️ HONNETETE DE LEGENDE. David a fourni cette photo en la decrivant comme
-       « je donne une indication vocale au public (echanges vocaux) ». Or IL N'EST
-       PAS DANS LE CADRE : on ne voit que le public, vu depuis le plateau. La
-       legende ci-dessous ne dit donc rien de sa presence — elle decrit ce qu'on
-       voit et evoque l'echange vocal par son point de depart (la scene), sans
-       affirmer qu'on l'y voit. NE PAS la reecrire en « David donne une
-       indication au public » : ce serait faux. -->
-  {pic('public-echange',
-       'Vu depuis le bord du plateau : un public très nombreux assis dans l’herbe et sur des gradins de bois, sous de grandes voiles d’ombrage tendues entre les arbres ; au premier plan, l’angle de la scène et quelques objets posés dessus.',
-       '(max-width:900px) calc(100vw - 52px), 860px',
-       'Le public, vu depuis le plateau — c’est de là que part l’échange vocal.',
-       cls='dlc-fig dlc-wide', src_w=1400)}
+  <!-- 'public-echange' A ETE RETIREE DE CETTE SECTION LE 13/08/2026, et c'est un
+       choix editorial, pas un oubli.
+       C'etait la photo que David avait fournie comme « je donne une indication
+       vocale au public » alors qu'IL N'Y EST PAS DANS LE CADRE : sa legende devait
+       donc contourner son absence. La nouvelle photo 'chant-guide', en tete de
+       section, montre exactement ce que celle-la promettait sans le tenir — le
+       geste. La garder en plus faisait SIX images dans une seule section, dont
+       trois qui disent la meme chose (l'echelle du public) : 'salle' la dit en
+       interieur, 'echo' la dit en plein air, 'public-proche' la dit assis, et
+       'vue-de-scene' la redit encore en #acoustique.
+       Les fichiers restent dans le depot et l'entree reste dans DLC_PHOTOS : une
+       ligne suffit a la remettre si David la veut. -->
 </div></section>
 
 <div class="divider"></div>
@@ -1531,6 +1994,9 @@ HTML = f"""<!DOCTYPE html>
          '(max-width:860px) min(calc(100vw - 52px), 420px), 340px')}
   </div>
   <dl class="dlc-rep">{''.join(f'<dt>{k}</dt><dd>{v}</dd>' for k, v in REPERES)}</dl>
+  <!-- CREDIT DE SOURCE OBLIGATOIRE : c'est lui qui fait passer ce parcours d'un
+       autoportrait a une caution tierce. Ne pas le retirer. -->
+  <p class="dlc-srcnote">Parcours de formation documenté par le témoignage publié dans le livret des 30 ans de l’<b>AIMJ / Voy’jazz</b>, l’association du collège de jazz de Marciac (2022), qui a sollicité David Lesage en tant qu’ancien élève.</p>
   <blockquote class="dlc-quote">Sous une humilité déconcertante, David Lesage présente avec excellence la grande technicité de son répertoire abouti ; rythmes envoûtants et envolées jazz d’une voix céleste. À découvrir en live absolument.<cite>Dossier de présentation du spectacle</cite></blockquote>
   {pic('proche',
        'David Lesage en gros plan sur scène, micro-casque au visage, main tendue vers le public, devant un décor de fils tendus colorés.',
@@ -1588,13 +2054,13 @@ HTML = f"""<!DOCTYPE html>
 <section class="dlc-block" id="scenes"><div class="wrap">
   <div class="dlc-h">Scènes &amp; festivals</div>
   <h2 class="sec-title">Là où ce répertoire a résonné</h2>
-  <p>Ce n’est pas un projet en rodage. Le même répertoire s’est joué sur de grandes scènes de festival, en première partie d’un groupe de renommée internationale, dans des théâtres, des salles, et dans beaucoup de lieux de pierre — à des échelles et sous des acoustiques très différentes.</p>
+  <p>Ce n’est pas un projet en rodage. <b>110 dates de scène recensées, de 2009 à 2026</b>, dans 7 pays et 47 villes — dont <b>21 dates programmées à Jazz in Marciac</b>, deux éditions du <b>Sziget</b> à Budapest, et une <b>première partie d’Amadou &amp; Mariam</b>. À quoi s’ajoutent <b>26 ateliers</b> de rythme calebasse et de harpe africaine, en France, en Suisse et en Hongrie.</p>
   {scenes_stats()}
-  <p class="dlc-srcnote">Décompte établi sur deux sources : l’agenda de l’artiste et l’historique de ses annonces publiques. Aucune des deux ne couvre l’intégralité de son parcours — le total réel est plus élevé. La saison 2026 est en cours.</p>
+  <p class="dlc-srcnote">Décompte établi le 13 août 2026 en croisant l’export officiel des annonces publiques de l’artiste, ses deux agendas professionnels, son dossier scénique et la presse. Il ne retient que les dates dont les sources établissent qu’il y jouait : sept traces supplémentaires, sur lesquelles les sources restent muettes, sont écartées. Les résidences de Marciac de 2014 et de 2016, annoncées « tous les soirs », sont comptées bien en dessous de leur durée réelle : 110 est un plancher, pas un plafond. Ne sont comptés ici ni les ateliers, ni les cercles, ni les conférences.</p>
 
   <h3 class="dlc-sub">Les références</h3>
   {scenes_refs()}
-  <p>David Lesage est passé par l’émission <i>The Voice</i> ; c’est à sa suite qu’il a été invité pour un concert solo en Côte d’Ivoire. À Marciac, les deux choses sont vraies et distinctes : c’est là qu’il s’est formé, au <b>collège de Jazz in Marciac</b>, et c’est là qu’il a joué, en <b>2018 et 2019</b>, avec le groupe « Résonance ».</p>
+  <p>À Marciac, deux choses sont vraies et distinctes. C’est là qu’il s’est formé, au <b>collège de jazz de Marciac</b> ; et c’est là qu’il a été <b>programmé par Jazz in Marciac</b>, avec différentes formations, sur la <b>scène de la place de l’Hôtel de Ville</b> — la scène centrale du festival, aujourd’hui « Festival Bis ». <b>21 dates</b> y sont documentées entre 2009 et 2019, sur sept éditions ; le livret des 30 ans de l’association du collège fait état de <b>dix années de présence annuelle</b>. Il est par ailleurs passé par l’émission <i>The Voice</i> ; c’est à sa suite qu’il a été invité pour un concert solo en Côte d’Ivoire.</p>
   <!-- PREMIERE PARTIE D'AMADOU & MARIAM (ajout du 14/08/2026). Placees juste
        apres la liste des references, dont la premiere entree est precisement
        celle-la : c'etait la reference la plus forte de la page et la seule sans
@@ -1603,14 +2069,16 @@ HTML = f"""<!DOCTYPE html>
        formats sont trop dissemblables (0,474 contre 1,738) : dans une grille a
        deux colonnes, la verticale aurait ecrase la paysage et laisse un grand
        vide sous elle. Empilees, chacune garde le traitement de son format.
-       ⚠️ AUCUN NOM DE SALLE : le lieu n'est pas connu (source tronquee). On dit
-       « septembre 2022 », rien de plus.
+       ⚠️ LE LIEU EST DESORMAIS CONNU (13/08/2026) : la source etait tronquee,
+       David a confirme « Salle du Jeu du Mail, Pamiers (09) » et indique que
+       l'information est publique. La date exacte, 9 septembre 2022, vient de
+       l'export officiel de ses annonces.
        ⚠️ AMADOU & MARIAM NE SONT PAS DANS LE CADRE : les legendes attribuent
        explicitement ce qu'on voit au set de David. Ne pas les reecrire. -->
   {pic('am-scene',
        'David Lesage seul au centre d’une grande scène de salle, la tête levée en train de chanter et une main en l’air, derrière un handpan clair posé sur un pied ; autour de lui son installation — pupitre, ordinateur, claviers, batterie — dans des faisceaux de lumière verte et blanche et de la fumée ; au premier plan, sa calebasse posée sur un tapis rond rouge.',
        'min(calc(100vw - 52px), 360px)',
-       'Septembre 2022, en première partie d’Amadou &amp; Mariam : le set de David Lesage, seul en scène.',
+       '9 septembre 2022, salle du Jeu du Mail à Pamiers, en première partie d’Amadou &amp; Mariam : le set de David Lesage, seul en scène.',
        cls='dlc-fig dlc-tall')}
   {pic('am-salle',
        'Plan large depuis le fond de la salle : la scène éclairée en bleu et violet au loin, les instruments dessus, et au premier plan les silhouettes du public en contre-jour sur plusieurs rangs.',
@@ -1655,6 +2123,47 @@ HTML = f"""<!DOCTYPE html>
        '(max-width:900px) calc(100vw - 52px), 860px',
        'Au Grand Rex, devant 2 700 personnes.',
        cls='dlc-fig dlc-wide', credit=CREDIT_MAGYE)}
+</div></section>
+
+<div class="divider"></div>
+
+<!-- ===== CARTE DU PARCOURS =================================================
+     SVG ecrit a la main par `sources/carte_parcours.py` : aucune bibliotheque,
+     aucune tuile, aucune requete reseau, aucun cookie tiers. Voir l'en-tete de
+     ce module pour les regles (contour schematique ecrit a la main, donnees
+     figees depuis parcours_lieux.json, les 9 lieux non geolocalises cites en
+     clair sous la carte).
+     Le survol enrichit (nom, nombre d'evenements, annees, via <title> SVG natif)
+     mais l'information essentielle est dans la legende et dans les listes : la
+     majorite des visiteurs sont sur mobile et ne survolent rien. -->
+<section class="dlc-block band" id="carte"><div class="wrap">
+  <div class="dlc-h">La carte du parcours</div>
+  <h2 class="sec-title">Dix-sept ans de scène, vus d’en haut</h2>
+  <p>Une liste de dates se lit ; une carte se voit. Celle-ci porte un point par ville, dont le diamètre grandit avec le nombre d’événements que les sources y recensent. Elle dit deux choses d’un coup d’œil : un ancrage profond dans le Sud-Ouest — Marciac, Toulouse, l’Ariège et l’Aude — et une diffusion qui va de la Flandre à la Hongrie.</p>
+  {carte_parcours.carte_html()}
+</div></section>
+
+<div class="divider"></div>
+
+<!-- ===== PRESSE ============================================================
+     Liens sortants uniquement. Aucun PDF, aucune capture, aucune photo de
+     presse hebergee ; une citation de 15 mots maximum par entree, attribuee.
+     Les dates sont affichees a dessein : les quatre retombees sont concentrees
+     sur fevrier-mars 2022 et il vaut mieux l'assumer que le masquer. -->
+<section class="dlc-block" id="presse"><div class="wrap">
+  <div class="dlc-h">Ils en ont parlé</div>
+  <h2 class="sec-title">La presse</h2>
+  <p>Trois articles, tous parus entre <b>février et mars 2022</b>, dans les semaines qui ont suivi la diffusion de son audition à l’aveugle dans <i>The Voice</i>. C’est de ce moment que vient l’expression de « <b>griot cathare</b> » : elle a été écrite par <b>La Dépêche du Midi</b>, elle n’est pas de lui.</p>
+  {presse_liste()}
+  <p class="dlc-srcnote">Passage sur <b>TF1</b> dans la saison 11 de <i>The Voice</i>, diffusé le 12 février 2022 — l’audition à l’aveugle est visible plus haut sur cette page. La séquence a été reprise par <b>Orange Actualités</b>, par <b>C8</b> et par le zapping de <b>France 5</b> ; ces trois reprises n’ont pas de page publique consultable aujourd’hui, elles sont donc citées sans lien.</p>
+  <div class="dlc-note">
+    <div class="dlc-h">Une caution qui vient du collège de Marciac</div>
+    <p>Le parcours de formation ci-dessus n’est pas un autoportrait : il est documenté par le <b>livret des 30 ans de l’AIMJ / Voy’jazz</b>, l’association du <b>collège de jazz de Marciac</b>, qui a sollicité David Lesage en 2022 en tant qu’ancien élève. Collège de jazz dès la 6<sup>e</sup>, Conservatoire de Toulouse en horaire aménagé, <b>prix de batterie mention très bien en 2012</b>, et dix années de présence annuelle sur la scène du festival.</p>
+  </div>
+  <div class="dlc-note">
+    <p>Le dossier de presse complet — articles, captations, photos de scène en haute définition — est adressé sur demande.</p>
+    <p><a href="{MAILTO_DOSSIER}">Demander le dossier de présentation</a></p>
+  </div>
 </div></section>
 
 <div class="divider"></div>
@@ -1761,13 +2270,29 @@ HTML = f"""<!DOCTYPE html>
     {pic('yishama-solo',
          'David Lesage seul debout au centre d’une grande scène en plein air, les mains sur deux handpans acoustiques Yishama posés sur pieds ; derrière lui une immense toile de fils tendus multicolores traversée de faisceaux de lumière verte, devant lui une calebasse sur un tapis rond rouge, et sur la droite des toiles peintes et une cymbale.',
          '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 504px',
-         'Les deux handpans acoustiques Yishama sur pieds, sur la grande scène de l’Everness Festival, en Hongrie.')}
+         'Les deux handpans acoustiques Yishama sur pieds, sur la grande scène de l’Everness Festival, en Hongrie.',
+         credit=CREDIT_KOVARI)}
     {pic('vue-de-scene',
          'Vue prise depuis la scène, au grand angle : au premier plan le plateau et ses instruments, David Lesage assis au sol de dos derrière une calebasse et, derrière lui, une violoncelliste sur une chaise ; à droite, un public nombreux assis dans l’herbe sous de grandes voiles d’ombrage.',
          '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 504px',
          'Vue depuis la scène : le plateau, la calebasse, un violoncelle — et le public à quelques mètres.',
-         src_w=1400)}
+         src_w=1400, credit=CREDIT_KOVARI)}
   </div>
+  <!-- L'ETAT DE JEU (ajout du 13/08/2026). Elle est ICI, dans la section de la
+       formule acoustique, et pas ailleurs : c'est la seule section qui parle de
+       jouer sans machines — « la voix, la calebasse et le N'Goni » — et c'est
+       exactement ce qu'on voit. Elle n'est PAS dans #parcours, ou une autre photo
+       de calebasse en portrait est deja en place : les deux cote a cote feraient
+       redite.
+       ⚠️ Format PORTRAIT, donc SEULE et bornee a 420 px (.dlc-portrait). Ne pas
+       la mettre en hero, ne pas la mettre dans une grille.
+       ⚠️ Un violoniste est visible : non nomme, decrit par son instrument.
+       ⚠️ Credit Kovari Rudolf obligatoire. -->
+  {pic('calebasse-transe',
+       'Gros plan vertical : David Lesage assis en tailleur sur un tapis rose, derrière une grande calebasse claire, les yeux fermés et la tête renversée en arrière, ses longs cheveux traversés par un faisceau de lumière jaune ; une petite percussion bleue dans chaque main, chemise rouge à motifs et pantalon ocre, pieds nus. Derrière lui, un violoniste assis joue, et le fond de scène est dans les violets et les bleus.',
+       'min(calc(100vw - 52px), 420px)',
+       'La calebasse, jouée assis, yeux fermés — Everness Festival, Hongrie.',
+       cls='dlc-fig dlc-portrait', src_w=900, credit=CREDIT_KOVARI)}
 </div></section>
 
 <div class="divider"></div>
