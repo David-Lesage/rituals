@@ -138,6 +138,11 @@ ALBUM_BOUTIQUE = ('https://www.helloasso.com/associations/resonances-productions
 # --- Images reutilisees du depot -------------------------------------------
 # cle : (dossier, base, [largeurs disponibles], largeur_intrinseque, hauteur)
 DLC_PHOTOS = {
+    # ⚠️ 'everness' N'EST PLUS UTILISEE sur cette page depuis le 14/08/2026 :
+    # c'etait le hero, et David y est AVEC Iris. Il voulait une photo ou il est
+    # SEUL -> le hero est passe a 'neotone-scene'. L'entree reste ici (la photo
+    # existe toujours dans le depot et sert la galerie de /rituals) mais ne la
+    # remettez pas en hero.
     'everness':   ('rituals',  'everness-festival-hongrie',                [480, 900, 1400], 1400, 667),
     'salle':      ('rituals',  'le-public-au-coeur-du-rituel',             [480, 900],        900, 501),
     'echo':       ('rituals',  'chanter-ensemble',                         [480, 900, 1400], 1400, 780),
@@ -188,6 +193,66 @@ DLC_PHOTOS = {
     # photographe tiers, rien a crediter en plus du titre de l'emission, qui est
     # cite dans le sous-titre du bouton.
     'anako':          ('concert-scene', 'peniche-anako-teaser',                  [480, 900, 1280], 1280, 720),
+    # --- SIX PHOTOS DEPOSEES PAR DAVID (14/08/2026) --------------------------
+    # Toutes declinees en WebP + repli JPEG. Les largeurs listees ici sont
+    # EXACTEMENT celles presentes dans le depot : ne jamais en inventer une, et
+    # ne jamais afficher une image au-dela de sa resolution native.
+    #
+    # HERO de la page. Natif 6720x4480 : aucune contrainte de resolution, c'est
+    # la seule photo solo de la page qui tienne en pleine largeur (1028 px) sur
+    # un ecran a haute densite. Plan rapproche, yeux fermes, il chante, les deux
+    # mains sur le Neotone (handpan electronique).
+    # ⚠️ Elle montre le Neotone alors que la demande de David etait de REEQUILIBRER
+    # vers les handpans acoustiques Yishama. L'equilibre est tenu ailleurs :
+    # 'yishama-solo' ouvre desormais la section #acoustique, et 'ngoni' arrive
+    # dans le parcours. Le hero, lui, est choisi sur la force de l'image (le
+    # visage et la voix), pas sur l'instrument.
+    'neotone-scene':  ('concert-scene', 'neotone-en-scene',            [480, 900, 1400, 2000, 2600], 2600, 1733),
+    # Everness Festival 2023, Hongrie : David SEUL sur la grande scene, deux
+    # handpans ACOUSTIQUES Yishama sur pieds. C'est l'argument visuel exact de la
+    # section #acoustique, ou elle est placee.
+    # ⚠️ PLAFONNEE A 900 px (natif 1024) : ne pas la mettre en pleine largeur.
+    # Dans la grille .dlc-duo elle s'affiche a 504 px au plus — la seule place ou
+    # elle reste nette. C'est pour ca qu'elle n'est PAS le hero.
+    'yishama-solo':   ('concert-scene', 'everness-yishama-solo',       [480, 900],             900, 600),
+    # Vue DEPUIS la scene, au grand angle : le plateau, la calebasse, une
+    # violoncelliste, et le public nombreux assis sous les voiles d'ombrage.
+    # Sert l'echelle, et la couleur acoustique (aucune machine dans le cadre).
+    'vue-de-scene':   ('concert-scene', 'everness-vue-de-scene',       [480, 900, 1400, 2000], 2000, 1333),
+    # ⚠️ ECART FACTUEL SIGNALE A DAVID : il a fourni cette photo comme « je donne
+    # une indication vocale au public ». IL N'EST PAS DANS LE CADRE — on ne voit
+    # que le public, vu du plateau. La legende ne dit donc rien de lui : elle
+    # decrit ce qu'on voit et evoque l'echange vocal sans affirmer qu'on l'y voit.
+    'public-echange': ('concert-scene', 'le-public-en-echange-vocal',  [480, 900, 1400, 2000], 2000, 1333),
+    # N'Goni devant des neons rouges. ⚠️ SIGNEE « MAGYE D'ART Production » en bas
+    # a droite -> credit obligatoire (CREDIT_MAGYE), comme les deux photos du
+    # Grand Rex et les quatre de /e-motion.
+    'ngoni':          ('concert-scene', 'ngoni-neons-rouges',          [480, 900, 1400, 2000], 2000, 1333),
+    # Affiche officielle « EN CONCERT ». Format PORTRAIT (natif 3508x4961,
+    # ratio 0,707) : elle passe en .dlc-portrait (420 px) et JAMAIS dans une
+    # grille de photos de scene, dont elle casserait le rythme.
+    # ⚠️ Elle porte deja le logo d'artiste : elle est donc placee en FIN de page
+    # (section #programmer), loin du logo pose en tete du parcours.
+    'affiche':        ('concert-scene', 'affiche-en-concert',          [480, 900, 1400, 2000], 2000, 2828),
+    # --- PREMIERE PARTIE D'AMADOU & MARIAM, septembre 2022 (ajout 14/08/2026) --
+    # C'est la reference la plus forte de la page et elle etait publiee sans
+    # aucune image : ces deux photos la documentent enfin.
+    # ⚠️ LE LIEU EST INCONNU. La source (Facebook) etait tronquee et David ne l'a
+    # pas donne. N'ECRIRE AUCUN NOM DE SALLE, meme si la photo « ressemble a »
+    # une salle connue. On s'en tient a « septembre 2022 ».
+    # ⚠️ AMADOU & MARIAM NE SONT PAS DANS LE CADRE : ce sont deux images du set de
+    # David. Ne jamais ecrire ni suggerer qu'on les y voit.
+    # ⚠️ Aucune signature de photographe sur les deux (verifie) : aucun credit.
+    #
+    # Photo VERTICALE (natif 1080x2280, ratio 0,474 — plus verticale que tout ce
+    # que porte le site). Plus grande variante : 900 px.
+    # -> .dlc-tall la borne a 360 px : 360x2 = 720 device px, sous les 900 servis,
+    # et 760 px de haut, ce qui reste tenable. NE PAS la recadrer en paysage, ne
+    # pas l'etirer, ne pas la mettre dans .dlc-duo (elle y ferait 1 060 px de haut).
+    'am-scene':       ('concert-scene', 'amadou-mariam-scene',         [480, 900],             900, 1900),
+    # Plan large depuis le fond de la salle (natif 2242x1290). En .dlc-wide :
+    # 860x2 = 1 720 device px, couverts par la variante 2000.
+    'am-salle':       ('concert-scene', 'amadou-mariam-salle',         [480, 900, 1400, 2000], 2000, 1151),
     # --- LOGO D'ARTISTE DE DAVID LESAGE (ajout du 13/08/2026) ----------------
     # ⚠️ C'est le logo de L'ARTISTE, PAS celui de Resonances Productions. Il
     # identifie David Lesage sur SES pages (celle-ci et /concerts-david-lesage)
@@ -211,13 +276,21 @@ CREDIT_MAGYE = ('<span class="dlc-cred">Crédit photo <a href="https://magyedart
                 'target="_blank" rel="noopener">MAGYE D’ART</a></span>')
 
 
-def pic(key, alt, sizes, caption=None, cls='dlc-fig', loading='lazy', credit=''):
-    """<picture> WebP + repli JPEG, srcset complet, width/height, alt factuel."""
+def pic(key, alt, sizes, caption=None, cls='dlc-fig', loading='lazy', credit='',
+        src_w=None):
+    """<picture> WebP + repli JPEG, srcset complet, width/height, alt factuel.
+
+    `src_w` : largeur du fichier mis dans l'attribut `src` (le repli des
+    navigateurs sans `srcset`). Par defaut la plus grande variante. Utile quand
+    la variante la plus grande est tres lourde et ne sert qu'aux ecrans a haute
+    densite : le repli, lui, doit rester raisonnable.
+    ⚠️ `width`/`height` restent ceux de la plus grande variante : ce sont des
+    proportions (le CSS met `width:100%;height:auto`), pas une taille."""
     folder, base, widths, w, h = DLC_PHOTOS[key]
     root = f'/img/{folder}/{base}'
     webp = ', '.join(f'{root}-{x}.webp {x}w' for x in widths)
     jpg = ', '.join(f'{root}-{x}.jpg {x}w' for x in widths)
-    big = f'{root}-{widths[-1]}.jpg'
+    big = f'{root}-{src_w or widths[-1]}.jpg'
     prio = ' fetchpriority="high"' if loading == 'eager' else ''
     img = (f'<picture><source type="image/webp" srcset="{webp}" sizes="{sizes}">'
            f'<img src="{big}" srcset="{jpg}" sizes="{sizes}" width="{w}" height="{h}" '
@@ -1073,7 +1146,12 @@ b{color:#fff;font-weight:500}
 .dlc-cred{display:block;margin-top:2px;font-style:italic;font-size:15px;color:#8e8ba9}
 .dlc-hero-fig{margin-top:34px}
 .dlc-wide{max-width:860px;margin-top:26px}
-.dlc-portrait{max-width:420px}
+/* figure au format portrait (affiche) : bornee a 420 px, jamais en grille */
+.dlc-portrait{max-width:420px;margin-top:30px}
+/* figure TRES verticale (ratio 0,474) : bornee plus court encore, sinon elle
+   ferait presque 900 px de haut. 360 px est aussi la largeur qui la garde nette
+   (360x2 = 720 device px, sous les 900 px de sa plus grande variante). */
+.dlc-tall{max-width:360px;margin-top:30px}
 .dlc-quote{margin:30px 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(20px,2.7vw,26px);line-height:1.38;border-left:2px solid var(--gold);padding-left:22px;max-width:780px}
 .dlc-quote cite{display:block;margin-top:12px;font-style:normal;font-family:'Jost',sans-serif;font-size:13.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .dlc-note{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:19px 22px;margin-top:26px;max-width:860px}
@@ -1326,9 +1404,9 @@ HTML = f"""<!DOCTYPE html>
 <meta property="og:description" content="Concert — Cérémonie — Participatif : 1 h 30 de musique live immersive. Voix, handpan, calebasse, Ngoni, électronique ; cymatique et vidéoprojections ; option danse aérienne à l’élastique. À programmer.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.resonancesproductions.org/david-lesage-en-concert">
-<meta property="og:image" content="https://www.resonancesproductions.org/img/rituals/everness-festival-hongrie-1400.jpg">
+<meta property="og:image" content="https://www.resonancesproductions.org/img/concert-scene/neotone-en-scene-1400.jpg">
 <meta property="og:image:width" content="1400">
-<meta property="og:image:height" content="667">
+<meta property="og:image:height" content="933">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate icon" href="/favicon.ico" sizes="any">
@@ -1364,11 +1442,11 @@ HTML = f"""<!DOCTYPE html>
   <p class="lead">Une expérience immersive de musique live d’<b>1 h 30</b> : voix, handpan, calebasse, Ngoni et électronique. À programmer sur grande scène, en festival, ou dans un lieu d’exception.</p>
   <p class="body">Le format réunit instruments traditionnels et modernité, et alterne deux régimes : des séquences d’<b>écoute active</b>, et des séquences <b>participatives</b> où la salle devient une partie de l’œuvre — elle chante en écho, et voit à l’écran l’empreinte de sa propre voix. Un musicien, chanteur et compositeur passé par le Conservatoire National de Toulouse et le collège de Jazz in Marciac, à l’ambitus vocal de cinq octaves, passé par <i>The Voice</i>, par les scènes du <b>Sziget</b> et de l’<b>Everness Festival</b>, en Hongrie, et par la <b>première partie d’Amadou &amp; Mariam</b>.</p>
   <div class="cta" style="margin-top:26px"><a class="btn" href="{MAILTO_PROG}">Programmer ce concert</a><a class="btn ghost" href="{MAILTO_DOSSIER}">Demander le dossier</a></div>
-  {pic('everness',
-       'David Lesage et Iris Chasles debout main dans la main sur la scène en plein air de l’Everness Festival, un handpan posé devant eux, sous une structure de projecteurs et une toile tendue orange ; à droite, une banderole « everness ».',
+  {pic('neotone-scene',
+       'David Lesage seul sur scène, en plan rapproché, les yeux fermés en train de chanter dans un micro serre-tête, les deux mains posées sur un Neotone — le handpan électronique, coque de bois clair et pastilles sombres. Deux micros sur pied l’encadrent, un contrôleur Korg est posé au premier plan ; en fond, un décor de fils tendus violets, verts et rouges devant de la végétation.',
        '(max-width:1080px) calc(100vw - 52px), 1028px',
-       'Everness Festival, Hongrie.',
-       cls='dlc-fig dlc-hero-fig', loading='eager')}
+       'Seul en scène, en plein air : la voix et les mains au centre du dispositif.',
+       cls='dlc-fig dlc-hero-fig', loading='eager', src_w=1400)}
   <nav class="toc" aria-label="Sommaire de la page"><div class="dlc-h">Sommaire</div><ol>{''.join(f'<li><a href="{h}">{t}</a></li>' for h, t in TOC)}</ol></nav>
 </div></header>
 
@@ -1422,6 +1500,18 @@ HTML = f"""<!DOCTYPE html>
          '(max-width:860px) calc(100vw - 52px), 500px',
          'Le public installé au bord du plateau, dans une configuration assise.')}
   </div>
+  <!-- ⚠️ HONNETETE DE LEGENDE. David a fourni cette photo en la decrivant comme
+       « je donne une indication vocale au public (echanges vocaux) ». Or IL N'EST
+       PAS DANS LE CADRE : on ne voit que le public, vu depuis le plateau. La
+       legende ci-dessous ne dit donc rien de sa presence — elle decrit ce qu'on
+       voit et evoque l'echange vocal par son point de depart (la scene), sans
+       affirmer qu'on l'y voit. NE PAS la reecrire en « David donne une
+       indication au public » : ce serait faux. -->
+  {pic('public-echange',
+       'Vu depuis le bord du plateau : un public très nombreux assis dans l’herbe et sur des gradins de bois, sous de grandes voiles d’ombrage tendues entre les arbres ; au premier plan, l’angle de la scène et quelques objets posés dessus.',
+       '(max-width:900px) calc(100vw - 52px), 860px',
+       'Le public, vu depuis le plateau — c’est de là que part l’échange vocal.',
+       cls='dlc-fig dlc-wide', src_w=1400)}
 </div></section>
 
 <div class="divider"></div>
@@ -1457,6 +1547,16 @@ HTML = f"""<!DOCTYPE html>
          '(max-width:860px) calc(100vw - 52px), 500px',
          'La calebasse, frappée au poing, jouée assis sur un coussin.')}
   </div>
+  <!-- Troisieme instrument du parcours, apres la voix et la calebasse : le
+       N'Goni. Photo posee en pleine largeur (860 px) et non ajoutee comme
+       troisieme colonne du .dlc-duo ci-dessus : la grille aurait retreci les
+       deux figures existantes a 329 px, et cette image sombre a besoin de place.
+       ⚠️ SIGNEE « MAGYE D'ART Production » en bas a droite -> credit obligatoire. -->
+  {pic('ngoni',
+       'David Lesage seul, assis au sol sur une peau claire, jouant le N’Goni — la harpe africaine, caisse de calebasse et cordes tendues sur un long manche — devant trois néons rouges verticaux et des palmes, dans une lumière chaude ; une seconde calebasse posée à sa droite.',
+       '(max-width:900px) calc(100vw - 52px), 860px',
+       'Le N’Goni, la harpe africaine à caisse de calebasse : rencontré en 2012, toujours au répertoire du concert.',
+       cls='dlc-fig dlc-wide', credit=CREDIT_MAGYE, src_w=1400)}
 
   <h3 class="dlc-sub">The Voice, saison 11</h3>
   <p>Pour son audition à l’aveugle de <i>The Voice</i> saison 11, sur TF1, David Lesage monte seul en scène avec ses propres instruments : la calebasse, les handpans et le N’Goni 14 cordes. Il y chante <i>Kothbiro</i>, d’Ayub Ogada, en luo — un titre toujours au répertoire du concert. La prestation est publique sur la chaîne officielle de l’émission.</p>
@@ -1495,6 +1595,28 @@ HTML = f"""<!DOCTYPE html>
   <h3 class="dlc-sub">Les références</h3>
   {scenes_refs()}
   <p>David Lesage est passé par l’émission <i>The Voice</i> ; c’est à sa suite qu’il a été invité pour un concert solo en Côte d’Ivoire. À Marciac, les deux choses sont vraies et distinctes : c’est là qu’il s’est formé, au <b>collège de Jazz in Marciac</b>, et c’est là qu’il a joué, en <b>2018 et 2019</b>, avec le groupe « Résonance ».</p>
+  <!-- PREMIERE PARTIE D'AMADOU & MARIAM (ajout du 14/08/2026). Placees juste
+       apres la liste des references, dont la premiere entree est precisement
+       celle-la : c'etait la reference la plus forte de la page et la seule sans
+       aucune image.
+       Traitement : les deux photos sont EMPILEES et non mises cote a cote. Leurs
+       formats sont trop dissemblables (0,474 contre 1,738) : dans une grille a
+       deux colonnes, la verticale aurait ecrase la paysage et laisse un grand
+       vide sous elle. Empilees, chacune garde le traitement de son format.
+       ⚠️ AUCUN NOM DE SALLE : le lieu n'est pas connu (source tronquee). On dit
+       « septembre 2022 », rien de plus.
+       ⚠️ AMADOU & MARIAM NE SONT PAS DANS LE CADRE : les legendes attribuent
+       explicitement ce qu'on voit au set de David. Ne pas les reecrire. -->
+  {pic('am-scene',
+       'David Lesage seul au centre d’une grande scène de salle, la tête levée en train de chanter et une main en l’air, derrière un handpan clair posé sur un pied ; autour de lui son installation — pupitre, ordinateur, claviers, batterie — dans des faisceaux de lumière verte et blanche et de la fumée ; au premier plan, sa calebasse posée sur un tapis rond rouge.',
+       'min(calc(100vw - 52px), 360px)',
+       'Septembre 2022, en première partie d’Amadou &amp; Mariam : le set de David Lesage, seul en scène.',
+       cls='dlc-fig dlc-tall')}
+  {pic('am-salle',
+       'Plan large depuis le fond de la salle : la scène éclairée en bleu et violet au loin, les instruments dessus, et au premier plan les silhouettes du public en contre-jour sur plusieurs rangs.',
+       '(max-width:900px) calc(100vw - 52px), 860px',
+       'La même soirée, vue du fond de la salle.',
+       cls='dlc-fig dlc-wide', src_w=1400)}
 
   <h3 class="dlc-sub">Festivals, salles et théâtres</h3>
   {scenes_liste(SCENES_LIEUX)}
@@ -1622,6 +1744,30 @@ HTML = f"""<!DOCTYPE html>
                   '« Angel Voice handpan @yishama_official » — le lecteur s’ouvre sur cette page.',
                   '(max-width:860px) calc(100vw - 52px), 340px')}
   </div>
+  <!-- LES DEUX PHOTOS D'EVERNESS (ajout du 14/08/2026). Elles sont ICI et pas
+       ailleurs parce que c'est ici qu'elles argumentent : jusqu'a present cette
+       section ne montrait qu'une vignette de video ou le handpan acoustique est
+       seul, sans personne. La premiere donne enfin une PHOTO DE SCENE ou David
+       joue les handpans ACOUSTIQUES Yishama ; la seconde donne l'echelle du
+       public. C'est le reequilibrage demande par David — le hero, lui, montre le
+       Neotone.
+       ⚠️ RESOLUTION : 'yishama-solo' plafonne a 900 px. La grille .dlc-duo la
+       borne a 504 px d'affichage : c'est la seule largeur ou elle reste nette.
+       NE PAS la passer en .dlc-wide (860 px) ni en hero.
+       ⚠️ Le texte ci-dessus ne dit PAS que ces concerts etaient « la version
+       acoustique » : rien ne l'etablit. Les legendes decrivent la scene et les
+       instruments, rien de plus. -->
+  <div class="dlc-duo">
+    {pic('yishama-solo',
+         'David Lesage seul debout au centre d’une grande scène en plein air, les mains sur deux handpans acoustiques Yishama posés sur pieds ; derrière lui une immense toile de fils tendus multicolores traversée de faisceaux de lumière verte, devant lui une calebasse sur un tapis rond rouge, et sur la droite des toiles peintes et une cymbale.',
+         '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 504px',
+         'Les deux handpans acoustiques Yishama sur pieds, sur la grande scène de l’Everness Festival, en Hongrie.')}
+    {pic('vue-de-scene',
+         'Vue prise depuis la scène, au grand angle : au premier plan le plateau et ses instruments, David Lesage assis au sol de dos derrière une calebasse et, derrière lui, une violoncelliste sur une chaise ; à droite, un public nombreux assis dans l’herbe sous de grandes voiles d’ombrage.',
+         '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 504px',
+         'Vue depuis la scène : le plateau, la calebasse, un violoncelle — et le public à quelques mètres.',
+         src_w=1400)}
+  </div>
 </div></section>
 
 <div class="divider"></div>
@@ -1730,6 +1876,22 @@ HTML = f"""<!DOCTYPE html>
     <div class="cta" style="margin-top:22px"><a class="btn" href="{MAILTO_PROG}">Programmer ce concert</a><a class="btn ghost" href="{MAILTO_DOSSIER}">Demander le dossier</a></div>
     <p style="margin-top:20px"><a href="mailto:{MAIL}">{MAIL}</a></p>
   </div>
+  <!-- AFFICHE OFFICIELLE (ajout du 14/08/2026). Placee EN FIN DE PAGE, dans la
+       section de programmation, parce que c'est la qu'elle est un objet de
+       communication et non une photo de scene : la personne qui lit ce bloc est
+       celle qui aura a annoncer la date.
+       ⚠️ Elle porte deja le logo d'artiste en haut a droite : elle est donc
+       tenue A DISTANCE du logo pose en tete de la section #parcours — les mettre
+       cote a cote ferait doublon.
+       ⚠️ Format PORTRAIT (natif 3508x4961) : .dlc-portrait la borne a 420 px,
+       elle n'entre dans aucune grille de photos de scene.
+       ⚠️ La legende ne promet RIEN (ni fichier haute definition, ni personnalisation
+       de l'affiche) : aucun engagement de ce genre n'a ete valide. -->
+  {pic('affiche',
+       'Affiche « EN CONCERT » de David Lesage : portrait de profil, yeux baissés, longs cheveux éclairés d’orange, devant un handpan vu de face dans une brume dorée ; en haut à droite, le logo « David Lesage » ; au centre, le titre « EN CONCERT » souligné d’un trait doré, sur fond noir.',
+       'min(calc(100vw - 52px), 420px)',
+       'L’affiche officielle du concert.',
+       cls='dlc-fig dlc-portrait', src_w=900)}
   <div class="dlc-cross">
     <p>Vous cherchez plutôt une soirée à Paris ? Le même répertoire se joue aussi en version intimiste, au Nid, dans le 20<sup>e</sup> arrondissement : <a href="/concerts-david-lesage">les concerts de David Lesage au Nid</a>.</p>
   </div>
