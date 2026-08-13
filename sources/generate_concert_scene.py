@@ -136,6 +136,37 @@ SPOTIFY = 'https://open.spotify.com/artist/7zEAQJbalBFj8XNHrcqdbK'
 ALBUM_BOUTIQUE = ('https://www.helloasso.com/associations/resonances-productions/boutiques/'
                   'acheter-album-l-alliance-du-phoenix-david-lesage')
 
+# --- LES DEUX FACTEURS D'INSTRUMENTS, NOMMES ET LIES (14/08/2026) -----------
+# Autorisations donnees par David le 14/08/2026, verbatim :
+#   * « le facteur des instruments est bien Yishama, oui tu peux le citer et meme
+#     rendre le lien cliquable en mettant mon lien d'affiliation »
+#   * « oui c'est bien un Neotone clair, tu peux renvoyer vers un lien cliquable
+#     qui mene vers la page de vente Neotone du site lesagedavid.fr »
+# Les legendes et les `alt` peuvent donc desormais NOMMER les deux instruments.
+# Cela leve la contradiction signalee en interne : l'`alt` du hero nommait deja
+# le Neotone alors que les legendes ajoutees le 13/08 ecrivaient prudemment
+# « handpan a coque claire ». Toute la page dit maintenant la meme chose.
+#
+# ⚠️ YISHAMA — LIEN REMUNERE. C'est le lien d'affiliation de David
+# (`wpam_id=40`). On le declare donc techniquement par `rel="noopener sponsored"`
+# — la valeur prevue pour un lien remunere, correcte pour le referencement et
+# honnete vis-a-vis du lecteur. En revanche le MOT « affiliation » n'apparait
+# NULLE PART dans le texte visible de cette page : elle parle a des
+# programmateurs, pas a des acheteurs.
+# ⚠️ UN SEUL LIEN PAR SECTION, et jamais dans une legende de photo : sinon
+# chaque figure devient une vitrine commerciale. Placements retenus :
+#   * Neotone  -> legende du hero (en-tete) + repere « Aujourd'hui » (#parcours)
+#   * Yishama  -> repere « Aujourd'hui » (#parcours) + prose de #acoustique
+# Les autres mentions restent en texte simple.
+# ⚠️ URL VERIFIEES PAR curl LE 14/08/2026 : yishama.com/?wpam_id=40 -> 200 ;
+# lesagedavid.fr/le-neotone -> 200, titre « Neotone — handpan electronique &
+# numerique | David Lesage ». Ne publier aucune des deux sans la reverifier.
+YISHAMA_URL = 'https://www.yishama.com/?wpam_id=40'
+NEOTONE_URL = 'https://lesagedavid.fr/le-neotone'
+A_YISHAMA = (f'<a href="{YISHAMA_URL}" target="_blank" rel="noopener sponsored">'
+             'Yishama</a>')
+A_NEOTONE = (f'<a href="{NEOTONE_URL}" target="_blank" rel="noopener">Neotone</a>')
+
 # --- Images reutilisees du depot -------------------------------------------
 # cle : (dossier, base, [largeurs disponibles], largeur_intrinseque, hauteur)
 DLC_PHOTOS = {
@@ -177,11 +208,11 @@ DLC_PHOTOS = {
     # une main levee) et on le voyait jouer, jamais les deux dans le meme cadre.
     # Or le chant est le coeur du spectacle. Ici : bouche grande ouverte en pleine
     # emission, micro-serre-tete, et LES DEUX MAINS SUR LES INSTRUMENTS.
-    # ⚠️ LE PAN A COQUE CLAIRE N'EST PAS NOMME. Il ressemble au Neotone mais rien
-    # ne l'etablit : ses pastilles sont des disques sombres PLATS, pas des creux
-    # martelés, et sur une autre photo du dossier il voisine un pad electronique
-    # de marque — ce sont donc deux appareils distincts. On ecrit « handpan a
-    # coque claire », jamais un nom de modele. Question ouverte pour David.
+    # ✅ LE PAN A COQUE CLAIRE EST BIEN LE NEOTONE (confirme par David le
+    # 14/08/2026 : « oui c'est bien un Neotone clair »). La prudence precedente
+    # (« handpan a coque claire », jamais de nom de modele) est LEVEE : la legende
+    # et l'`alt` le nomment, ce qui met enfin la page d'accord avec elle-meme —
+    # l'`alt` du hero le nommait deja.
     # Meme format que la photo qu'elle remplace (ratio 1,5 contre 1,49) : la
     # grille .dlc-duo de #parcours ne change pas d'un pixel.
     'chanter-en-jouant': ('concert-scene', 'everness-chanter-en-jouant',
@@ -260,10 +291,10 @@ DLC_PHOTOS = {
     # Kovari Rudolf, cf. CREDIT_KOVARI. LES TROIS PORTENT LE CREDIT.
     # ⚠️ DATATION : legendes « Everness Festival, Hongrie », SANS mois ni edition
     # (contradiction EXIF juin 2023 / banderole « Indian Nyar » non tranchee).
-    # ⚠️ AUCUN MODELE D'INSTRUMENT NOMME. On ecrit « handpans acoustiques » : la
-    # section nomme deja Yishama en prose, mais RIEN dans l'image ne permet de
-    # certifier le facteur, et le pan a coque claire visible au sol sur la 3e
-    # n'est PAS confirme comme etant le Neotone. Ne pas le nommer.
+    # ✅ LES DEUX FACTEURS SONT DESORMAIS NOMMES (autorisation de David du
+    # 14/08/2026) : « handpans acoustiques Yishama » dans les legendes et les
+    # `alt`, et le pan a coque claire visible au sol sur la 3e est bien le
+    # NEOTONE. Ne pas revenir a la formulation prudente d'avant.
     #
     # LA PHOTO QUI MANQUAIT. David avait signale le manque explicitement (« il
     # manque des photos de moi qui joue du handpan Yishama, le Neotone est trop
@@ -337,10 +368,17 @@ DLC_PHOTOS = {
     # contredit juin. Contradiction non tranchee -> les legendes disent
     # « Everness Festival, Hongrie », rien de plus. Ne pas deviner.
     #
-    # ⚠️ TIERS DANS LE CADRE : une violoncelliste (chant-guide) et un violoniste
-    # (calebasse-transe), tous deux reconnaissables. On ne les NOMME PAS (on ne
-    # sait pas qui ils sont, et seul Arnaud Riou est autorise) : ils sont decrits
-    # par leur instrument dans l'`alt`.
+    # ⚠️ TIERS DANS LE CADRE, ET LE REGIME A CHANGE LE 14/08/2026 :
+    #   * LA VIOLONCELLISTE (chant-guide, et aussi vue-de-scene) est VALERIA
+    #     PRIBAY. David autorise son credit (« le nom de la violoncelliste c'est
+    #     Valeria Pribay, a crediter oui ») et precise qu'elle est INVITEE
+    #     (« c'est OK que la violoncelliste soit la ou Arnaud Riou, ce sont des
+    #     invites »). Elle est donc nommee ET presentee comme invitee.
+    #   * LE VIOLONISTE (calebasse-transe) N'EST PAS IDENTIFIE : il reste decrit
+    #     par son instrument. Ne pas deviner son nom.
+    # ⚠️ TROIS NOMS AUTORISES SUR CETTE PAGE, ET TROIS SEULEMENT : Arnaud Riou,
+    # Valeria Pribay, Guy Corneau. Aucun autre musicien, aucun nom de spectateur —
+    # y compris pour les trois visages du public publies plus bas.
     #
     # LE GESTE, enfin en image. C'est la photo que David demandait : « le bon
     # lien de la photo ou je fais chanter les gens (on me voit les guider avec
@@ -383,6 +421,39 @@ DLC_PHOTOS = {
     # agrandi (il est plafonne a 300 px d'affichage). PNG conserve en 24 bits
     # pour le repli : quantifie en 128 couleurs, l'eclat en etoile se casse en
     # facettes visibles.
+    # --- TROIS VISAGES DU PUBLIC (14/08/2026) --------------------------------
+    # L'interdit pose en interne est LEVE par David le 14/08/2026, verbatim :
+    # « les photos des gens pareil, c'est OK de les utiliser, ils ont tout publie
+    # sur Facebook et en festival public c'est OK de prendre des photos de gens ;
+    # s'il y a un probleme ils me contacteront donc vas-y. »
+    # Environ 65 gros plans de spectateurs etaient ecartes pour cette raison.
+    #
+    # ⚠️⚠️ DEUX RESERVES MAINTENUES, ET ELLES NE SE NEGOCIENT PAS :
+    #   (1) AUCUNE PHOTO D'ENFANT NI DE BEBE. L'accord de David couvre des
+    #       ADULTES dans un festival public ; pour un mineur il faut l'accord des
+    #       parents, que personne n'a. Vignettes ecartees a ce titre : 382, 469,
+    #       476, 477, 519 (signalees dans le rapport de selection) ET 204, qui
+    #       ne l'etait pas — un bambin dans les bras d'une femme. Ne pas les
+    #       reintroduire.
+    #   (2) PEU ET FORT. Trois visages, pas une galerie : sur ~65 candidates,
+    #       trois seulement sont publiees. Deux verticales et une horizontale,
+    #       pour que le carrousel du public ne soit pas une colonne de portraits.
+    # Photographe : Kovari Rudolf, comme les 555 photos du dossier -> CREDIT_KOVARI.
+    # Originaux 4480x6720 et 6720x4480 : jamais affiches au-dela de leur natif.
+    #
+    # Vignette 195 : une femme, yeux fermes, bouche ouverte en train de chanter,
+    # une main a plat sur le sternum. La plus forte du lot, et la seule qui dise
+    # a elle seule ce que fait une salle qui chante.
+    'pub-coeur':      ('concert-scene', 'everness-public-main-sur-le-coeur',
+                       [480, 900, 1400], 1400, 2100),
+    # Vignette 465 : une femme, mains jointes tres haut au-dessus de la tete,
+    # visage leve, yeux fermes.
+    'pub-ciel':       ('concert-scene', 'everness-public-mains-vers-le-ciel',
+                       [480, 900, 1400], 1400, 2100),
+    # Vignette 460 : deux femmes cote a cote, l'une chantant a pleine bouche,
+    # l'autre les yeux fermes. SEUL FORMAT PAYSAGE des trois.
+    'pub-echo':       ('concert-scene', 'everness-public-chante-en-echo',
+                       [480, 900, 1400], 1400, 933),
     'logo':           ('logo',          'david-lesage-logo',                     [480, 900],        900, 678),
 }
 
@@ -449,6 +520,112 @@ def logo_fig(cls='dlc-logo', sizes='300px'):
             f'<img src="{root}-{widths[-1]}.png" srcset="{png}" sizes="{sizes}" '
             f'width="{w}" height="{h}" loading="lazy" decoding="async" '
             f'alt="David Lesage"></picture></figure>')
+
+
+# --- Carrousels thematiques -------------------------------------------------
+# Voir le bloc de CSS « CARROUSELS THEMATIQUES » pour le piege du `lazy` et le
+# role de `--ar` / `--maxw`. Ces deux fonctions sont les SEULES a produire des
+# `.slide` : ne pas ecrire de diapositive a la main.
+SLIDE_MAX = 700          # largeur d'affichage maximale d'une diapositive (px)
+SLIDE_IMG_H = 460        # hauteur de reference de l'image, comme sur /rituals
+
+
+def slide_maxw(key):
+    """Borne d'affichage d'une diapositive, en px.
+
+    Plus grande variante disponible / 2 (on couvre les ecrans a densite 2),
+    plafonnee a SLIDE_MAX. C'est le garde-fou « jamais au-dela du natif » :
+    deux photos de la page (`salle`, `solo-festival`) n'existent qu'en 900 px et
+    seraient sinon affichees agrandies."""
+    return min(SLIDE_MAX, DLC_PHOTOS[key][2][-1] // 2)
+
+
+def slide(key, alt, caption, credit='', eager=False):
+    """Une diapositive de carrousel : <figure class="slide"> + legende dessous.
+
+    `--ar` et `--maxw` sont poses EN STYLE INLINE : c'est ce qui reserve la
+    largeur avant que l'image ne soit chargee (sans quoi les diapositives en
+    `lazy` s'effondrent a ~2 px). `eager` doit etre vrai pour les TROIS
+    premieres diapositives de chaque piste."""
+    folder, base, widths, w, h = DLC_PHOTOS[key]
+    ar = round(w / h, 4)
+    maxw = slide_maxw(key)
+    disp = min(round(SLIDE_IMG_H * ar), maxw)
+    root = f'/img/{folder}/{base}'
+    webp = ', '.join(f'{root}-{x}.webp {x}w' for x in widths)
+    jpg = ', '.join(f'{root}-{x}.jpg {x}w' for x in widths)
+    # `sizes` colle a la geometrie reelle : 86vw en petit ecran, la largeur
+    # calculee ci-dessus au-dela. Sans ca le navigateur telecharge de travers.
+    sizes = f'(max-width:900px) 86vw, {disp}px'
+    loading = 'eager' if eager else 'lazy'
+    return (f'<figure class="slide" style="--ar:{ar};--maxw:{maxw}px">'
+            f'<picture><source type="image/webp" srcset="{webp}" sizes="{sizes}">'
+            f'<img src="{root}-{widths[-1] if widths[-1] <= 1400 else 1400}.jpg" '
+            f'srcset="{jpg}" sizes="{sizes}" width="{w}" height="{h}" '
+            f'loading="{loading}" decoding="async" alt="{alt}"></picture>'
+            f'<figcaption>{caption}{credit}</figcaption></figure>')
+
+
+def carousel(titre, items):
+    """Carrousel thematique. `items` : liste de (cle, alt, legende, credit).
+
+    Les trois premieres diapositives sont en `eager` (remede documente), les
+    suivantes en `lazy`. Le nombre de photos est ANNONCE : sans lui, rien ne dit
+    a la personne qu'il y a de la matiere a droite."""
+    n = len(items)
+    slides = ''.join(slide(*it, eager=(i < 3)) for i, it in enumerate(items))
+    return (f'<div class="dlc-car">'
+            f'<div class="car-head"><div><h3 class="car-title">{titre}</h3>'
+            f'<div class="car-count">{n} photos — faites défiler</div></div>'
+            f'<div class="car-nav">'
+            f'<button type="button" class="car-btn" data-car="prev" '
+            f'aria-label="Photo précédente — {titre}">‹</button>'
+            f'<button type="button" class="car-btn" data-car="next" '
+            f'aria-label="Photo suivante — {titre}">›</button>'
+            f'</div></div>'
+            f'<div class="car-track" tabindex="0" role="group" '
+            f'aria-label="{titre} — {n} photos, défilement horizontal">'
+            f'{slides}</div></div>')
+
+
+# Defilement des carrousels. Aucune dependance, aucun minuteur : les fleches, le
+# doigt, la molette et les touches ← → quand la piste a le focus. Chaque piste
+# est traitee dans SON `.dlc-car`, donc la page en porte autant qu'elle veut
+# (le carrousel de /rituals, lui, est cable sur un unique id `cartrack`).
+CAR_JS = """
+<script>
+(function(){
+  var cars = document.querySelectorAll('.dlc-car');
+  Array.prototype.forEach.call(cars, function(car){
+    var track = car.querySelector('.car-track'); if(!track) return;
+    var prev = car.querySelector('[data-car="prev"]');
+    var next = car.querySelector('[data-car="next"]');
+    function pas(d){
+      var s = track.querySelector('.slide');
+      /* On avance d'une diapositive + la gouttiere : la largeur varie d'une
+         diapositive a l'autre (formats portrait et paysage melanges), on prend
+         donc celle de la premiere visible. */
+      var w = s ? s.getBoundingClientRect().width + 16 : 400;
+      track.scrollBy({left: d * w, behavior: 'smooth'});
+    }
+    function maj(){
+      var max = track.scrollWidth - track.clientWidth - 2;
+      if(prev) prev.disabled = track.scrollLeft <= 2;
+      if(next) next.disabled = track.scrollLeft >= max;
+    }
+    if(prev) prev.addEventListener('click', function(){ pas(-1); });
+    if(next) next.addEventListener('click', function(){ pas(1); });
+    track.addEventListener('keydown', function(e){
+      if(e.key === 'ArrowRight'){ e.preventDefault(); pas(1); }
+      else if(e.key === 'ArrowLeft'){ e.preventDefault(); pas(-1); }
+    });
+    track.addEventListener('scroll', maj, {passive:true});
+    window.addEventListener('resize', maj);
+    maj();
+  });
+})();
+</script>
+"""
 
 
 def video_button(key, vid, alt, label, sub, sizes):
@@ -604,7 +781,11 @@ LIGHTBOX_JS = """
 FICHE = [
     ('Format', 'Concert · Cérémonie · Participatif'),
     ('Durée', '1 h 30'),
-    ('Instruments', 'Voix, handpan électronique, 2 à 3 handpans acoustiques, calebasse, '
+    # Les deux facteurs sont NOMMES ici depuis le 14/08/2026 (autorisation de
+    # David), mais SANS LIEN : cette section est une fiche, pas une vitrine. Les
+    # liens vivent dans #parcours et #acoustique.
+    ('Instruments', 'Voix, handpan électronique <b>Neotone</b>, 2 à 3 <b>handpans '
+                    'acoustiques Yishama</b>, calebasse, '
                     'N’Goni 14 cordes (harpe africaine), Wavedrum, sanzula, déclencheurs '
                     'électroniques et loop station'),
     ('Accordage', 'Tous les instruments sont accordés en <b>La 432 Hz</b>'),
@@ -669,20 +850,35 @@ COMPOSANTES = [
 # Publier autre chose serait faux et un programmateur de jazz le verrait
 # immediatement. NE JAMAIS ECRIRE « en premiere partie de » pour eux.
 #
-# ⚠️ CONTRADICTION DE SOURCES A TRANCHER PAR DAVID : sa fiche technique parle
-# d'un prix de batterie obtenu « apres un COURT PASSAGE au Conservatoire
-# National de Toulouse » (d'ou la formulation posee ici le 04/08/2026), tandis
-# que le livret AIMJ decrit un cursus jazz en HORAIRE AMENAGE mene au lycee
-# Saint-Sernin jusqu'au prix de 2012 et au bac pro. Les deux textes sont de lui.
-# En attendant son arbitrage, on publie les FAITS communs aux deux sources
-# (horaire amenage, prix de batterie mention tres bien, 2012) et on ne qualifie
-# pas la duree du cursus : « court » comme « complet » iraient au-dela.
+# ✅ CONTRADICTION DE SOURCES TRANCHEE PAR DAVID LE 14/08/2026, verbatim :
+#   « oui j'ai bien fait 4 ans au college de Marciac et 4 ans au conservatoire a
+#     Toulouse (bac pro en 2012 et prix de batterie en 2013) »
+# TROIS CONSEQUENCES, appliquees PARTOUT sur la page :
+#   (1) LA DATE ETAIT FAUSSE. La page datait le « prix de conservatoire de
+#       batterie, mention tres bien » de 2012 d'apres le livret AIMJ. C'est le
+#       BAC PRO qui est de 2012 ; LE PRIX DE BATTERIE EST DE 2013. Corrige dans
+#       REPERES, dans le chapo de l'en-tete, dans CHRONO_VIDES (2012 et 2013) et
+#       dans l'encadre « caution » de la section presse. Ne pas revenir en
+#       arriere : c'est David qui l'etablit, pas une source secondaire.
+#   (2) LES DEUX DUREES SONT PUBLIABLES et elles renforcent le recit :
+#       QUATRE ANS au college de jazz de Marciac, QUATRE ANS au Conservatoire de
+#       Toulouse. Le « court passage » de sa fiche technique est donc abandonne
+#       (il minorait un cursus de quatre ans), et « autodidacte » reste vrai :
+#       il l'ecrit lui-meme et ca vaut pour ses instruments actuels.
+#   (3) CE QUI NE CHANGE PAS : la mention « tres bien » (elle vient du livret) et
+#       la caution tierce du livret des 30 ans de l'AIMJ, qui reste OBLIGATOIRE
+#       sur la page — sans elle, le parcours redevient un autoportrait.
 REPERES = [
     ('Dès 4 ans',
      'Autodidacte : batteur, chanteur, accordéoniste.'),
-    ('Collège de jazz de Marciac',
+    ('Quatre ans au collège de jazz de Marciac',
      'La section jazz adossée au festival, parrainée par Wynton Marsalis. Il '
      'représente le collège avec son combo dès la 6<sup>e</sup>.'),
+    # ✅ LE LIEU EST CONFIRME (14/08/2026) : David confirme que c'etait bien « sur
+    # la scene Bis, sur la place ». Le doute venait d'une autre source, qui situait
+    # le Sextet Orchestra « au Lac Mini Port » pour les 6 et 7 aout 2010 — c'est
+    # une AUTRE date, pas celle de Marsalis. LA PHRASE PUBLIEE CI-DESSOUS EST DONC
+    # EXACTE : ne pas la retoucher, ne pas y ajouter le Lac Mini Port.
     # ⚠️ WYNTON MARSALIS — FAIT ETABLI PAR DAVID LE 13/08/2026, verbatim : « Wynton
     # Marsalis est venu sur scene faire une impro de trompette sur la scene Bis
     # alors que je jouais avec mon groupe Sextet Orchestra (ou Eclipse), il est
@@ -712,10 +908,11 @@ REPERES = [
      'Enfant, pendant les balances de <b>Dianne Reeves</b> sur la scène In de '
      'Marciac, il lui chante <i>Les Amants de Saint-Jean</i> à l’accordéon ; elle '
      'lui répond par un <b>scat improvisé</b>.'),
-    ('Conservatoire de Toulouse',
-     'Cursus jazz en horaire aménagé, au lycée Saint-Sernin — baccalauréat '
-     'professionnel technique de la musique et de la danse.'),
+    ('Quatre ans au Conservatoire de Toulouse',
+     'Cursus jazz en horaire aménagé, au lycée Saint-Sernin.'),
     ('2012',
+     'Baccalauréat professionnel technique de la musique et de la danse.'),
+    ('2013',
      'Prix de conservatoire de batterie, <b>mention très bien</b>.'),
     ('Dix ans à Marciac',
      'Programmé chaque année par Jazz in Marciac, avec différentes formations, sur la '
@@ -730,9 +927,13 @@ REPERES = [
      'diffusée le 12 février 2022 sur TF1.'),
     ('À la suite de l’émission',
      'Invité pour un concert solo en Côte d’Ivoire.'),
+    # ⚠️ LES DEUX SEULS LIENS DE CETTE SECTION. Voir A_YISHAMA / A_NEOTONE en tete
+    # de fichier : Yishama est un lien remunere (rel="noopener sponsored"), le
+    # Neotone renvoie a la page du site de David. Aucune legende de photo de
+    # #parcours ne porte de lien : une section, un endroit ou cliquer.
     ('Aujourd’hui',
-     'Ambassadeur Neotone — le handpan électronique — et collaboration avec Yishama, '
-     'fabricant de handpans d’exception.'),
+     f'Ambassadeur {A_NEOTONE} — le handpan électronique — et collaboration avec '
+     f'{A_YISHAMA}, fabricant de handpans d’exception.'),
 ]
 
 # ============================================================================
@@ -776,11 +977,14 @@ REPERES = [
 #     sources brutes (0 occurrence dans l'export Facebook et les agendas) — il
 #     n'y a donc aucun risque d'avoir compte deux fois les memes dates sous les
 #     deux noms.
-#     Il reste 7 scenes `a-confirmer` : si elles basculent, le total ira a 117.
+#     Il reste des scenes `a-confirmer` : le second export en a ajoute 6, elles
+#     sont a 31. Trois d'entre elles valent chacune +1 si David les tranche
+#     (29/07/2019 a Roquefort-les-Cascades, 15/09/2019 « La maison de Tonino »,
+#     01/07/2020 « Live inedit » de Solea Village).
 #   * AUCUNE date, AUCUN lieu, AUCUN chiffre de frequentation invente.
 #   * Le SEUL chiffre de public autorise est « 2 700 personnes au Grand Rex »
 #     (confirme par David). Aucune autre jauge nulle part.
-#   * « recensees » et pas un total absolu : 110 est un PLANCHER. Trois
+#   * « recensees » et pas un total absolu : 112 est un PLANCHER. Trois
 #     residences de Marciac sont volontairement sous-comptees (2014 : 6 soirs
 #     retenus sur 7 annonces ; 2016 : residence du 3 au 14 aout « tous les
 #     soirs » comptee pour UNE date ; 2010 : 3e date au texte tronque). A elles
@@ -806,15 +1010,27 @@ REPERES = [
 #
 # DECOMPTE AFFICHE, reproductible depuis `parcours_consolide.json` :
 #   type ∈ {concert, spectacle} ET role = confirme ET date <= 2026-08-13
-#     -> 103 au 13/08/2026 au matin (91 concerts + 12 spectacles)
+#     -> 105 au 14/08/2026 (103 au 13/08 + 2 apportees par le SECOND export
+#        Facebook : 17/06/2016 « Concert Jedapama — Les Rencontres de la
+#        Regeneration » et 10/06/2019 « Concert Resonance — Rencontres de la
+#        regeneration ». Les deux fiches sont CREEES PAR DAVID, portent un
+#        creneau horaire precis et NOMMENT son groupe dans le titre.)
 #     +  6 dates du Sextet Orchestra, passees en `confirme` par David (2010)
 #     +  1 date a Carcassonne le 16 aout 2017 : David confirme qu'il s'agit
 #        bien d'une SECONDE date distincte du 2 aout, et non d'une double saisie
-#     =  110 dates de scene, de 2009 a 2026.
+#     =  112 dates de scene, de 2009 a 2026.
+#   ⚠️ LE PIEGE DE COMPTAGE DU SECOND EXPORT, a connaitre : la fiche « Nouvel
+#   album — L'alliance du phoenix » y apparait en 44 OCCURRENCES QUOTIDIENNES
+#   (campagne de sortie du 09/09 au 18/10/2025). Ce sont les instances d'un seul
+#   evenement recurrent, et une sortie de disque n'est pas une date de scene : un
+#   parseur naif aurait annonce +43 dates. Les 43 doublons sont ecartes.
+#   ⚠️ CONTROLE DE COMPLETUDE rassurant : sur les 60 entrees toutes sources dont
+#   le titre nomme David ou l'un de ses projets, 58 etaient DEJA recensees. Ce
+#   nouvel export ne cachait donc pas vingt dates : il en apportait deux.
 #   S'y ajoutent 4 scenes confirmees SANS AUCUNE DATE (le Grand Rex, le Mont
 #   Korhogo, la chapelle du Mas Galifa, et la 3e date de Marciac 2010 avec le
 #   Sextet Orchestra) : citees sans date, jamais avec une date approximative,
-#   et hors des 110.
+#   et hors des 112.
 #   AUTRES ARBITRAGES DU 13/08/2026 : Vevey = le 4 fevrier 2023 (et non le 3) —
 #   c'est deja la date que retenait le jeu consolide, elle est desormais
 #   confirmee ; Sainte-Genevieve-des-Bois = celle de l'ESSONNE (91), donc
@@ -822,9 +1038,13 @@ REPERES = [
 #   MARCIAC : 21 dates datees (2009, 2010, 2014, 2015, 2016, 2018, 2019 = sept
 #   editions) + la 3e date de 2010 sans date = 22 evenements dans la ville.
 #   PAYS : France, Hongrie, Suisse, Belgique, Grece, Espagne, Cote d'Ivoire = 7.
-#   VILLES / LIEUX au grain ville : 47, dont 39 geolocalises (voir la carte).
+#   VILLES / LIEUX au grain ville : 50, dont 45 geolocalises (voir la carte).
+#   ⚠️ MISE A JOUR DU 14/08/2026 (second export Facebook) : 47 -> 50 lieux et
+#   38 -> 45 points, grace a 58 coordonnees GPS de premiere main. Le gain principal
+#   de ce second export EST LA CARTE, pas le decompte. Detail dans l'en-tete de
+#   `carte_parcours.py`.
 SCENES_STATS = [
-    ('110', 'dates de scène recensées, de 2009 à 2026'),
+    ('112', 'dates de scène recensées, de 2009 à 2026'),
     ('7', 'pays : France, Hongrie, Suisse, Belgique, Grèce, Espagne, Côte d’Ivoire'),
     ('21', 'dates programmées à Jazz in Marciac, sur sept éditions'),
     ('2 700', 'personnes au Grand Rex, à Paris'),
@@ -853,8 +1073,14 @@ SCENES_REFS = [
      'Côte d’Ivoire — concert solo, à l’invitation qui a suivi l’émission'),
     ('Hona Festival',
      'Naxos, Grèce — mai 2022'),
+    # ⚠️ 2022 : la date ET le lieu sont corriges le 14/08/2026 par le second
+    # export Facebook, qui porte la FICHE DE CONCERT creee par David (debut le
+    # 30 juillet a 21 h, avec adresse et coordonnees) — le premier export ne
+    # donnait que la plage du festival, du 27 au 30 juillet, d'ou le « 27 » publie
+    # jusqu'ici. Le lieu, inconnu jusqu'a present, est Papateszer (Hongrie).
     ('HUG Fesztivál',
-     'Hongrie — Hungarian Handpan &amp; Worldmusic Gathering, juillet 2022 et juillet 2023'),
+     'Pápateszér, Hongrie — Hungarian Handpan &amp; Worldmusic Gathering, '
+     'juillet 2022 et juillet 2023'),
 ]
 
 # Deuxieme rideau : festivals, salles et theatres. Format « nom | precision ».
@@ -891,14 +1117,16 @@ SCENES_PIERRE = [
 ]
 
 # ============================================================================
-# CHRONOLOGIE COMPLETE — 110 dates de scene, de 2009 a 2026
+# CHRONOLOGIE COMPLETE — 112 dates de scene, de 2009 a 2026
 # ============================================================================
 # Repliee dans un <details> NATIF (aucun JavaScript).
 #
 # CE QUE CETTE LISTE CONTIENT, EXACTEMENT : les evenements de
 # `parcours_consolide.json` tels que
 #     type ∈ {concert, spectacle}  ET  role = confirme  ET  date <= 2026-08-13
-# soit 110 lignes apres les arbitrages du 13/08/2026. Une ligne = une date.
+# soit 112 lignes : 105 dates sourcees + les 7 arbitrages de David du 13/08/2026
+# (6 Sextet Orchestra + Carcassonne le 16/08/2017), qui restent `a-confirmer`
+# dans le JSON. Une ligne = une date.
 # Le chiffre affiche en tete de section
 # est le NOMBRE DE LIGNES de cette liste : il est donc reproductible et il ne
 # peut pas deriver (assertion plus bas).
@@ -990,7 +1218,12 @@ SCENES_CHRONO = [
         ('27 mai', 'Hona Festival, Naxos (Grèce)'),
         ('7 juillet', 'Cloître de Saint-Geniez-d’Olt (12)'),
         ('17 juillet', 'Double concert dans une église'),
-        ('27 juillet', 'HUG Fesztivál — Hungarian Handpan &amp; Worldmusic Gathering, Hongrie'),
+        # DATE ET LIEU CORRIGES le 14/08/2026 (second export Facebook) : la fiche
+        # de CONCERT creee par David commence le 30 juillet a 21 h, a Papateszer.
+        # Le « 27 juillet » publie jusqu'ici etait le premier jour de la PLAGE du
+        # festival (27 -> 30 juillet), pas la date de son concert.
+        ('30 juillet', 'HUG Fesztivál — Hungarian Handpan &amp; Worldmusic Gathering, '
+                       'Pápateszér (Hongrie)'),
         ('7 août', 'Caphémère — danse à l’élastique d’Iris Chasles et concert de '
                    'David Lesage'),
         ('10 août', 'Sziget Festival, Budapest — Everness Chill Garden'),
@@ -998,7 +1231,14 @@ SCENES_CHRONO = [
                         'Pamiers (09)'),
         ('17 septembre', 'Festival des arts énergétiques « Les enfants de demain », '
                          'abbaye d’Alet-les-Bains (11)'),
-        ('31 octobre', 'Mini-concert de Samhain, Latrape (31)'),
+        # ⚠️ DATE CORRIGEE le 14/08/2026 : la page publiait le 31 octobre, qui
+        # etait le premier jour du RASSEMBLEMENT d'un tiers (« A la croisee des
+        # sorcieres et Druides », du 31/10 18 h au 01/11 18 h, David seulement
+        # invite). Le MINI-CONCERT, lui, est heberge par sa page artiste et porte
+        # son propre creneau de 30 minutes : le 1er novembre, de 16 h a 16 h 30.
+        # L'hypothese d'un concert « a cheval sur minuit » ne tient pas.
+        # Le total de dates ne change pas.
+        ('1<sup>er</sup> novembre', 'Mini-concert de Samhain, Latrape (31)'),
     ]),
     ('2021', [
         ('29 mai', 'Concert handpan et voix, filmé en 360°'),
@@ -1018,6 +1258,11 @@ SCENES_CHRONO = [
         ('25 mai', 'Inauguration d’un lieu — concert du groupe « Résonance »'),
         ('26 mai', 'Fête des mères dans la nature, en musique avec « Résonance »'),
         ('30 mai', 'Inauguration de la « Caz’Cade », avec « Résonance »'),
+        # AJOUT du 14/08/2026 (second export Facebook) : fiche creee par David,
+        # creneau 20 h 30 -> 22 h, son groupe « Resonance » nomme dans le titre.
+        # 2e edition des memes Rencontres que la date du 17 juin 2016. Lieu non
+        # source : on n'en invente pas.
+        ('10 juin', 'Concert « Résonance », Rencontres de la Régénération'),
         ('30 juin', '« Voyage vibratoire Résonance », Handpan Festival Univers 7 Chakras'),
         ('6 juillet', 'Concert à Roquefort-les-Cascades (09)'),
         ('28 juillet', 'Concert « Résonance », lac de Montbel (09)'),
@@ -1054,9 +1299,15 @@ SCENES_CHRONO = [
         ('10 juin', 'Sortie de l’album « Rayons de Sourires » — Jedapama, '
                     'Sainte-Camelle (09)'),
         ('12 juin', 'Jedapama, Festival du Grand A'),
+        # AJOUT du 14/08/2026 (second export Facebook) : fiche creee par David,
+        # creneau 21 h -> 23 h, son groupe « Jedapama » nomme dans le titre.
+        # Lieu non source : on n'en invente pas.
+        ('17 juin', 'Jedapama, Les Rencontres de la Régénération'),
         ('3 août', 'Jedapama, Jazz in Marciac — place de l’Hôtel de Ville : résidence '
                    'annoncée tous les soirs du 3 au 14 août, comptée pour une seule date'),
-        ('17 septembre', 'Jedapama, Salon santé nature'),
+        # Lieu apporte par le second export Facebook (14/08/2026) : Flourens (31),
+        # avec coordonnees. La commune entre du meme coup sur la carte.
+        ('17 septembre', 'Jedapama, Salon santé nature, Flourens (31)'),
     ]),
     ('2015', [
         ('11 juin', 'Jedapama, Café Gavroche'),
@@ -1108,15 +1359,18 @@ SCENES_CHRONO = [
 ]
 
 # Les trois annees sans date confirmee ne sont PAS masquees : elles sont
-# affichees avec ce qu'elles etaient reellement. Le livret AIMJ (source tierce)
-# etablit que David suivait alors le cursus jazz en horaire amenage du
-# Conservatoire de Toulouse et qu'il y a obtenu son prix de batterie en 2012 —
-# exactement au milieu de ce « trou ». Ne JAMAIS ecrire « pause de 2011 a 2013 ».
+# affichees avec ce qu'elles etaient reellement — les quatre annees de
+# Conservatoire tombent exactement au milieu de ce « trou ».
+# Ne JAMAIS ecrire « pause de 2011 a 2013 ».
+# ⚠️ DATES CORRIGEES LE 14/08/2026 : le bac pro est de 2012, LE PRIX DE BATTERIE
+# EST DE 2013 (arbitrage de David). La version precedente inversait les deux.
 CHRONO_VIDES = {
-    '2013': 'Années du Conservatoire de Toulouse : cursus jazz en horaire aménagé, '
+    '2013': 'Prix de conservatoire de batterie, mention très bien — au terme de '
+            'quatre années au Conservatoire de Toulouse.',
+    '2012': 'Baccalauréat professionnel technique de la musique et de la danse, '
+            'au lycée Saint-Sernin.',
+    '2011': 'Années du Conservatoire de Toulouse : cursus jazz en horaire aménagé, '
             'ensembles et big band — aucune date en son nom propre dans les sources.',
-    '2012': 'Prix de conservatoire de batterie, mention très bien.',
-    '2011': 'Années du Conservatoire de Toulouse.',
 }
 
 # Nombre de dates portees par CHRONO : une ligne = une date. Plus aucun
@@ -1125,9 +1379,11 @@ CHRONO_VIDES = {
 NB_DATES = sum(len(lignes) for _an, lignes in SCENES_CHRONO)
 # Garde-fou : le chiffre AFFICHE et le contenu de la chronologie ne peuvent pas
 # diverger. Si quelqu'un ajoute une date sans toucher au chiffre, ca casse ici.
-# 110 = concerts + spectacles, role `confirme`, deja joues au 13/08/2026, apres
-# les arbitrages de David du 13/08/2026 (+6 Sextet Orchestra, +1 Carcassonne).
-assert NB_DATES == 110, f'decompte incoherent : {NB_DATES} dates dans CHRONO'
+# 112 = 105 dates sourcees (concerts + spectacles, role `confirme`, deja joues,
+# apres le SECOND export Facebook du 14/08/2026 qui en apporte 2) + les 7
+# arbitrages de David du 13/08/2026 (+6 Sextet Orchestra, +1 Carcassonne).
+# Le raccord est imprime par `stats.py`, section « RACCORD AVEC LE GARDE-FOU ».
+assert NB_DATES == 112, f'decompte incoherent : {NB_DATES} dates dans CHRONO'
 assert SCENES_STATS[0][0] == str(NB_DATES), 'le chiffre affiche ne suit plus CHRONO'
 ANNEES_CHRONO = [an for an, _ in SCENES_CHRONO]
 assert ANNEES_CHRONO == ['2026', '2025', '2024', '2023', '2022', '2021', '2020',
@@ -1502,7 +1758,7 @@ PATCH_9 = [
     ('1', 'Voix', 'Micro serre-tête DPA D:Fine 4088 + système HF '
                   '(récepteur mini-jack 3,5 mm)'),
     ('2', 'Sanzula / kalimba', 'Micro AKG C214, ou boîte de direct'),
-    ('3', 'Handpan électronique', 'DI — pied de handpan'),
+    ('3', 'Handpan électronique Neotone', 'DI — pied de handpan'),
     ('4', 'Wavedrum (percussion électronique)', 'DI — pied de Wavedrum'),
     ('5', 'Kick électronique', 'DI stéréo — déclencheur Roland'),
     ('6', 'Caisse claire et hi-hat électroniques', 'DI stéréo — déclencheurs Roland'),
@@ -1634,6 +1890,17 @@ b{color:#fff;font-weight:500}
 .dlc-cred{display:block;margin-top:2px;font-style:italic;font-size:15px;color:#8e8ba9}
 .dlc-hero-fig{margin-top:34px}
 .dlc-wide{max-width:860px;margin-top:26px}
+/* ⚠️ BORNE MESUREE LE 14/08/2026 — « jamais une image au-dela de son natif ».
+   Deux figures depassaient leur resolution sur un ecran a densite 2 :
+     * `setup` (#dispositif) : natif 1400 px, affiche a 858 px en .dlc-wide,
+       soit 1 716 px reels. Bornee a 700 px -> 1 400 px reels, pile son natif.
+     * les deux figures de #option : `aerien-fest` n'existe qu'en 900 px et
+       s'affichait a 502 px, soit 1 004 px reels. La grille est bornee a 450 px
+       -> 900 px reels. Les deux colonnes sont bornees ensemble pour rester
+       symetriques (`aerien` a 1 400 px de natif, elle en a la place).
+   Toucher a ces bornes oblige a remesurer en densite 2. */
+.dlc-cap700{max-width:700px}
+.dlc-duo.cap450{grid-template-columns:repeat(auto-fit,minmax(280px,450px));justify-content:start}
 /* figure au format portrait (affiche) : bornee a 420 px, jamais en grille */
 .dlc-portrait{max-width:420px;margin-top:30px}
 /* figure TRES verticale (ratio 0,474) : bornee plus court encore, sinon elle
@@ -1649,7 +1916,12 @@ b{color:#fff;font-weight:500}
 /* deux colonnes : texte + figure */
 .dlc-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:36px;align-items:start;margin-top:30px}
 .dlc-split>div>p:first-child{margin-top:0}
-@media(max-width:860px){.dlc-split{grid-template-columns:1fr;gap:26px}}
+/* ⚠️ BORNE MESUREE LE 14/08/2026 : sous 860 px la colonne de droite passe en
+   pleine largeur et le portrait de #parcours s'affichait a 766 px alors que son
+   `sizes` (et donc le fichier telecharge) vaut 420 px — image agrandie. La borne
+   remet la figure d'accord avec son `sizes`. */
+@media(max-width:860px){.dlc-split{grid-template-columns:1fr;gap:26px}
+  .dlc-split>.dlc-fig{max-width:420px}}
 /* fiche « en un regard » : liste de definitions */
 .dlc-id{margin-top:28px;max-width:900px;display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:0}
 /* gap 0 + padding-right sur le dt : sinon la gouttiere coupait le filet horizontal
@@ -1901,6 +2173,74 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh),dd a:not(.btn):not(.adh){font-s
   {display:inline-block;padding:11px 0}
 .dlc-fig figcaption a{font-size:15px;display:inline-block;padding:12px 0;
   text-decoration:underline;text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
+/* ===== CARROUSELS THEMATIQUES (14/08/2026) =================================
+   Demande de David : « pour que l'organisation de toutes ces images soient
+   digestes tu peux faire des carrousels par thematique aussi ». La page portait
+   35 figures sur 34 800 px : les images empilees sont regroupees en quatre
+   pistes a defilement horizontal, par theme.
+
+   ⚠️⚠️ PIEGE DEJA RENCONTRE SUR CE SITE — LE MECANISME EST REPRIS TEL QUEL DE
+   /rituals, NE RIEN « SIMPLIFIER » ICI :
+   `loading="lazy"` sur une diapositive la fait s'effondrer a ~2 px, parce que
+   sous 900 px le CSS met largeur ET hauteur a `auto` et qu'une image pas encore
+   chargee n'a alors aucune dimension intrinseque. Le remede, en trois pieces
+   solidaires :
+     (1) chaque `.slide` RESERVE sa largeur a partir de son rapport `--ar`
+         (largeur/hauteur), pose en style inline par `slide()` ;
+     (2) `.slide img` porte `aspect-ratio:var(--ar)` : la hauteur suit ;
+     (3) les TROIS PREMIERES diapositives de chaque carrousel sont en `eager`.
+   Toute modification doit etre suivie d'une MESURE de la largeur rendue reelle
+   des diapositives. Reference du site : 307 px au minimum (/rituals, trio).
+
+   ⚠️ `--maxw` : borne par diapositive, calculee par `slide()` a partir de la
+   PLUS GRANDE VARIANTE disponible divisee par 2 (densite 2), et plafonnee a
+   700 px. C'est ce qui garantit qu'aucune image n'est affichee au-dela de son
+   natif — deux photos de la page n'existent qu'en 900 px de large.
+   ⚠️ PAS DE DEFILEMENT AUTOMATIQUE, volontairement : quatre minuteurs sur une
+   page de programmateur, ce serait quatre choses qui bougent pendant qu'il lit.
+   Les fleches, le doigt, la molette et les touches ← → suffisent. */
+.dlc-car{margin-top:28px;max-width:1028px}
+.car-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.car-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(21px,2.4vw,26px);
+  color:#fff;font-weight:600;line-height:1.2;margin:0}
+.car-count{color:var(--muted);font-size:13.5px;font-style:italic;margin-top:4px}
+.car-nav{display:flex;gap:8px;flex:0 0 auto}
+/* Les fleches sont DANS l'en-tete du carrousel et non en surimpression sur les
+   images : elles ne recouvrent donc aucune legende, et elles restent visibles
+   sur mobile (sur /rituals elles disparaissent sous 600 px). 44 px = cible
+   tactile du site. */
+.car-btn{width:44px;height:44px;border-radius:50%;background:rgba(25,27,61,.92);
+  border:1px solid var(--line);color:var(--gold2);font-size:20px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s,opacity .2s}
+.car-btn:hover:not(:disabled){border-color:rgba(216,178,90,.6);color:#fff}
+.car-btn:disabled{opacity:.34;cursor:default}
+.car-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;padding:14px 2px 14px;scrollbar-width:thin;
+  scrollbar-color:var(--line) transparent}
+.car-track::-webkit-scrollbar{height:8px}
+.car-track::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+/* ⚠️ PLANCHER DE 300 px : sans lui, la photo de Pamiers (ratio 0,474 — la plus
+   verticale du site) tombait a 218 px de large et sa legende devenait une
+   colonne de trois mots. Reference du site : les diapositives de /rituals et
+   /rituals-trio ne descendent pas sous 307 px. Le plancher reste SUBORDONNE a
+   90vw / 86vw : il ne peut donc jamais faire deborder la page. */
+.slide{flex:0 0 auto;scroll-snap-align:center;margin:0;display:flex;flex-direction:column;
+  border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card);
+  width:min(max(300px,calc(460px * var(--ar,1.5))),90vw,var(--maxw,700px))}
+.slide picture{display:block;width:100%}
+.slide img{display:block;width:100%;height:auto;max-width:100%;aspect-ratio:var(--ar,1.5)}
+.slide figcaption{flex:1 1 auto;color:var(--muted);font-size:13.5px;line-height:1.55;
+  padding:12px 16px 14px;border-top:1px solid rgba(255,255,255,.06)}
+@media(max-width:900px){
+  .slide{width:min(max(300px,calc(62vh * var(--ar,1.5))),86vw,var(--maxw,700px))}
+}
+@media(prefers-reduced-motion:reduce){.car-track{scroll-behavior:auto}}
+@media print{
+  .car-nav{display:none}
+  .car-track{display:block;overflow:visible}
+  .slide{width:100%!important;margin:0 0 16px}
+  .slide img{aspect-ratio:auto}
+}
 """ + LIGHTBOX_CSS + carte_parcours.CSS_CARTE
 
 TITLE = ('David Lesage en concert — concert-cérémonie participatif pour grandes scènes '
@@ -1958,12 +2298,13 @@ HTML = f"""<!DOCTYPE html>
   <h1>David Lesage en concert</h1>
   <div class="tagline">« Un profond voyage au cœur de soi »</div>
   <p class="lead">Une expérience immersive de musique live d’<b>1 h 30</b> : voix, handpan, calebasse, Ngoni et électronique. À programmer sur grande scène, en festival, ou dans un lieu d’exception.</p>
-  <p class="body">Le format réunit instruments traditionnels et modernité, et alterne deux régimes : des séquences d’<b>écoute active</b>, et des séquences <b>participatives</b> où la salle devient une partie de l’œuvre — elle chante en écho, et voit à l’écran l’empreinte de sa propre voix. Un musicien, chanteur et compositeur formé au <b>collège de jazz de Marciac</b> puis au <b>Conservatoire de Toulouse</b> — prix de batterie, mention très bien (2012) —, à l’ambitus vocal de cinq octaves, passé par <i>The Voice</i>. <b>110 dates de scène recensées, de 2009 à 2026</b>, dans 7 pays : 21 à <b>Jazz in Marciac</b>, deux éditions du <b>Sziget</b> à Budapest, l’<b>Everness Festival</b> en Hongrie, et une <b>première partie d’Amadou &amp; Mariam</b>.</p>
+  <p class="body">Le format réunit instruments traditionnels et modernité, et alterne deux régimes : des séquences d’<b>écoute active</b>, et des séquences <b>participatives</b> où la salle devient une partie de l’œuvre — elle chante en écho, et voit à l’écran l’empreinte de sa propre voix. Un musicien, chanteur et compositeur formé <b>quatre ans au collège de jazz de Marciac</b> puis <b>quatre ans au Conservatoire de Toulouse</b> — baccalauréat professionnel en 2012, prix de batterie mention très bien en 2013 —, à l’ambitus vocal de cinq octaves, passé par <i>The Voice</i>. <b>112 dates de scène recensées, de 2009 à 2026</b>, dans 7 pays : 21 à <b>Jazz in Marciac</b>, deux éditions du <b>Sziget</b> à Budapest, l’<b>Everness Festival</b> en Hongrie, et une <b>première partie d’Amadou &amp; Mariam</b>.</p>
   <div class="cta" style="margin-top:26px"><a class="btn" href="{MAILTO_PROG}">Programmer ce concert</a><a class="btn ghost" href="{MAILTO_DOSSIER}">Demander le dossier</a></div>
   {pic('neotone-scene',
        'David Lesage seul sur scène, en plan rapproché, les yeux fermés en train de chanter dans un micro serre-tête, les deux mains posées sur un Neotone — le handpan électronique, coque de bois clair et pastilles sombres. Deux micros sur pied l’encadrent, un contrôleur Korg est posé au premier plan ; en fond, un décor de fils tendus violets, verts et rouges devant de la végétation.',
        '(max-width:1080px) calc(100vw - 52px), 1028px',
-       'Seul en scène, en plein air : la voix et les mains au centre du dispositif.',
+       'Seul en scène, en plein air : la voix et les mains au centre du dispositif — '
+       f'ici sur le {A_NEOTONE}, le handpan électronique.',
        cls='dlc-fig dlc-hero-fig', loading='eager', src_w=1400, credit=CREDIT_KOVARI)}
   <nav class="toc" aria-label="Sommaire de la page"><div class="dlc-h">Sommaire</div><ol>{''.join(f'<li><a href="{h}">{t}</a></li>' for h, t in TOC)}</ol></nav>
 </div></header>
@@ -1988,9 +2329,9 @@ HTML = f"""<!DOCTYPE html>
   <ul class="dlc-grid">{''.join(f'<li><h3>{t}</h3><p>{d}</p></li>' for t, d in COMPOSANTES)}</ul>
   {pic('setup',
        'David Lesage de profil, penché sur son handpan, éclairé en bleu dans la nuit ; devant lui un pad électronique lumineux carré, un micro sur pied et une tablette, et derrière lui des guirlandes de grosses ampoules.',
-       '(max-width:900px) calc(100vw - 52px), 860px',
+       '(max-width:752px) calc(100vw - 52px), 700px',
        'Instruments acoustiques, machines et voix : la matière électro-organique du concert.',
-       cls='dlc-fig dlc-wide')}
+       cls='dlc-fig dlc-wide dlc-cap700')}
 </div></section>
 
 <section class="dlc-block" id="salle"><div class="wrap">
@@ -2010,42 +2351,74 @@ HTML = f"""<!DOCTYPE html>
        elle n'affirme pas qu'on voit le public : ce serait faux.
        ⚠️ Credit Kovari Rudolf obligatoire (condition posee par David). -->
   {pic('chant-guide',
-       'David Lesage assis sur ses talons au bord d’un plateau de festival, derrière une grande calebasse claire posée sur un tapis rond rouge, pieds nus, en tee-shirt noir et pantalon ocre : les deux bras tendus devant lui et l’index pointé vers le public hors champ, la bouche ouverte en train de chanter. Derrière lui, des panneaux peints de couleurs vives, une violoncelliste assise sur une chaise qui joue, et deux banderoles du festival Everness ; au fond, une tente de plein air et des arbres.',
+       'David Lesage assis sur ses talons au bord d’un plateau de festival, derrière une grande calebasse claire posée sur un tapis rond rouge, pieds nus, en tee-shirt noir et pantalon ocre : les deux bras tendus devant lui et l’index pointé vers le public hors champ, la bouche ouverte en train de chanter. Derrière lui, des panneaux peints de couleurs vives, la violoncelliste invitée Valeria Pribay assise sur une chaise qui joue, et deux banderoles du festival Everness ; au fond, une tente de plein air et des arbres.',
        '(max-width:900px) calc(100vw - 52px), 860px',
-       'Guider le chant : la ligne est lancée depuis le plateau, à la main et à la voix. Everness Festival, Hongrie.',
+       'Guider le chant : la ligne est lancée depuis le plateau, à la main et à la voix. Everness Festival, Hongrie — avec la violoncelliste invitée <b>Valeria Pribay</b>.',
        cls='dlc-fig dlc-wide', src_w=1400, credit=CREDIT_KOVARI)}
-  <div class="dlc-duo">
-    {pic('salle',
-         'Vue depuis le public d’une grande salle : sur scène, une immense vidéoprojection de soleil orange, deux artistes minuscules devant leurs instruments, et au premier plan une forêt de bras levés.',
-         '(max-width:860px) calc(100vw - 52px), 500px',
-         'Vidéoprojection et salle debout : le moment participatif, à l’échelle d’un plateau.')}
-    {pic('echo',
-         'David Lesage seul sur une grande scène de festival en plein air, de dos, les bras ouverts vers un public nombreux assis et debout sous les arbres.',
-         '(max-width:860px) calc(100vw - 52px), 500px',
-         'L’échange vocal avec le public, en festival.')}
-  </div>
-  <div class="dlc-duo">
-    {pic('solo-cymatique',
-         'David Lesage seul au centre d’un plateau, derrière ses instruments, devant un très grand écran où est projetée une figure cymatique verte et dorée en forme de fleur.',
-         '(max-width:860px) calc(100vw - 52px), 500px',
-         'La figure dessinée par la voix, projetée en direct sur l’écran de scène.')}
-    {pic('public-proche',
-         'David Lesage debout sur scène, une calebasse posée devant lui ; au premier plan, le public assis au sol sur des tapis, à un mètre du plateau, entre des lampes-boules blanches.',
-         '(max-width:860px) calc(100vw - 52px), 500px',
-         'Le public installé au bord du plateau, dans une configuration assise.')}
-  </div>
-  <!-- 'public-echange' A ETE RETIREE DE CETTE SECTION LE 13/08/2026, et c'est un
-       choix editorial, pas un oubli.
-       C'etait la photo que David avait fournie comme « je donne une indication
-       vocale au public » alors qu'IL N'Y EST PAS DANS LE CADRE : sa legende devait
-       donc contourner son absence. La nouvelle photo 'chant-guide', en tete de
-       section, montre exactement ce que celle-la promettait sans le tenir — le
-       geste. La garder en plus faisait SIX images dans une seule section, dont
-       trois qui disent la meme chose (l'echelle du public) : 'salle' la dit en
-       interieur, 'echo' la dit en plein air, 'public-proche' la dit assis, et
-       'vue-de-scene' la redit encore en #acoustique.
-       Les fichiers restent dans le depot et l'entree reste dans DLC_PHOTOS : une
-       ligne suffit a la remettre si David la veut. -->
+  <!-- ===== CARROUSEL « LE PUBLIC ET LES ECHANGES VOCAUX » (14/08/2026) =====
+       Remplace les deux grilles .dlc-duo qui empilaient quatre figures, et
+       accueille quatre images de plus sans allonger la section :
+         * 'public-echange', RETIREE le 13/08 par manque de place, revient ici.
+           Rappel : DAVID N'EST PAS DANS LE CADRE (il l'avait fournie comme
+           « je donne une indication vocale au public ») -> sa legende decrit le
+           public vu du plateau, elle n'affirme pas qu'on l'y voit.
+         * 'proche' DESCEND DE #parcours : « une adresse directe au public », sa
+           place est dans la section qui parle du public, pas dans le parcours.
+         * LES TROIS VISAGES DU PUBLIC (voir DLC_PHOTOS) : trois adultes, aucun
+           enfant, sur ~65 gros plans disponibles.
+       'chant-guide' RESTE HORS CARROUSEL, en pleine largeur au-dessus : c'est
+       l'image qui porte l'argument de la section a elle seule. Un carrousel
+       range, il ne met pas en valeur. -->
+  {carousel('Le public et les échanges vocaux', [
+    ('pub-coeur',
+     'Gros plan vertical d’une spectatrice au milieu du public, en plein air : les yeux '
+     'fermés, la bouche ouverte en train de chanter, une main à plat sur le sternum ; '
+     'derrière elle, une autre femme chante aussi, en veste rouge. Fond de public flou.',
+     'Le public chante : une main sur le cœur, les yeux fermés. Everness Festival, Hongrie.',
+     CREDIT_KOVARI),
+    ('salle',
+     'Vue depuis le public d’une grande salle : sur scène, une immense vidéoprojection de '
+     'soleil orange, deux artistes minuscules devant leurs instruments, et au premier plan '
+     'une forêt de bras levés.',
+     'Vidéoprojection et salle debout : le moment participatif, à l’échelle d’un plateau.'),
+    ('echo',
+     'David Lesage seul sur une grande scène de festival en plein air, de dos, les bras '
+     'ouverts vers un public nombreux assis et debout sous les arbres.',
+     'L’échange vocal avec le public, en festival.'),
+    ('pub-echo',
+     'Gros plan de deux spectatrices côte à côte dans le public, en plein air : à gauche '
+     'une femme au foulard rose vif chante à pleine bouche, les mains levées devant elle ; '
+     'à droite, une autre femme chante les yeux fermés. Fond de feuillage flou.',
+     'L’écho, vu du public : la ligne de chant lancée depuis la scène revient. '
+     'Everness Festival, Hongrie.',
+     CREDIT_KOVARI),
+    ('solo-cymatique',
+     'David Lesage seul au centre d’un plateau, derrière ses instruments, devant un très '
+     'grand écran où est projetée une figure cymatique verte et dorée en forme de fleur.',
+     'La figure dessinée par la voix, projetée en direct sur l’écran de scène.'),
+    ('pub-ciel',
+     'Gros plan vertical d’une spectatrice debout dans le public : les deux mains jointes '
+     'très haut au-dessus de la tête, le visage levé et les yeux fermés ; derrière elle, '
+     'd’autres personnes debout et du feuillage vert.',
+     'Ce que fait une salle qui chante — un geste, pas une consigne. '
+     'Everness Festival, Hongrie.',
+     CREDIT_KOVARI),
+    ('public-proche',
+     'David Lesage debout sur scène, une calebasse posée devant lui ; au premier plan, le '
+     'public assis au sol sur des tapis, à un mètre du plateau, entre des lampes-boules '
+     'blanches.',
+     'Le public installé au bord du plateau, dans une configuration assise.'),
+    ('public-echange',
+     'Vue prise depuis le bord du plateau : un public très nombreux assis dans l’herbe et '
+     'sur des tapis, sous de grandes voiles d’ombrage tendues entre des perches, en plein '
+     'air ; au fond, des rangs debout et les stands du festival sous les arbres.',
+     'Le public vu du plateau, au moment de l’échange vocal. Everness Festival, Hongrie.',
+     CREDIT_KOVARI),
+    ('proche',
+     'David Lesage en gros plan sur scène, micro-casque au visage, main tendue vers le '
+     'public, devant un décor de fils tendus colorés.',
+     'Une adresse directe au public, du début à la fin du concert.'),
+  ])}
 </div></section>
 
 <div class="divider"></div>
@@ -2069,32 +2442,56 @@ HTML = f"""<!DOCTYPE html>
        autoportrait a une caution tierce. Ne pas le retirer. -->
   <p class="dlc-srcnote">Parcours de formation documenté par le témoignage publié dans le livret des 30 ans de l’<b>AIMJ / Voy’jazz</b>, l’association du collège de jazz de Marciac (2022), qui a sollicité David Lesage en tant qu’ancien élève.</p>
   <blockquote class="dlc-quote">Sous une humilité déconcertante, David Lesage présente avec excellence la grande technicité de son répertoire abouti ; rythmes envoûtants et envolées jazz d’une voix céleste. À découvrir en live absolument.<cite>Dossier de présentation du spectacle</cite></blockquote>
-  {pic('proche',
-       'David Lesage en gros plan sur scène, micro-casque au visage, main tendue vers le public, devant un décor de fils tendus colorés.',
-       '(max-width:900px) calc(100vw - 52px), 860px',
-       'Une adresse directe au public, du début à la fin du concert.',
-       cls='dlc-fig dlc-wide')}
-  <div class="dlc-duo">
-    {pic('chanter-en-jouant',
-         'David Lesage seul sur scène, buste et visage en gros plan, la bouche grande ouverte en train de chanter et les yeux fermés, un micro-serre-tête au visage ; sa main droite est posée sur un handpan à coque claire piquée de trois disques sombres, sa main gauche sur un appareil sombre à sa gauche. Deux micros sur pieds l’encadrent, sur un fond bleu nuit strié de faisceaux clairs.',
-         '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 500px',
-         'Chanter en jouant : la voix et les mains en même temps — cinq octaves et un micro serre-tête. Everness Festival, Hongrie.',
-         credit=CREDIT_KOVARI)}
-    {pic('calebasse',
-         'David Lesage assis en tailleur derrière une grande calebasse posée sur un tapis rond rouge, les mains sur la calebasse, entouré de dizaines de petites bougies alignées au sol.',
-         '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 500px',
-         'La calebasse, frappée au poing, jouée assis sur un coussin.')}
-  </div>
-  <!-- Troisieme instrument du parcours, apres la voix et la calebasse : le
-       N'Goni. Photo posee en pleine largeur (860 px) et non ajoutee comme
-       troisieme colonne du .dlc-duo ci-dessus : la grille aurait retreci les
-       deux figures existantes a 329 px, et cette image sombre a besoin de place.
-       ⚠️ SIGNEE « MAGYE D'ART Production » en bas a droite -> credit obligatoire. -->
-  {pic('ngoni',
-       'David Lesage seul, assis au sol sur une peau claire, jouant le N’Goni — la harpe africaine, caisse de calebasse et cordes tendues sur un long manche — devant trois néons rouges verticaux et des palmes, dans une lumière chaude ; une seconde calebasse posée à sa droite.',
-       '(max-width:900px) calc(100vw - 52px), 860px',
-       'Le N’Goni, la harpe africaine à caisse de calebasse : rencontré en 2012, toujours au répertoire du concert.',
-       cls='dlc-fig dlc-wide', credit=CREDIT_MAGYE, src_w=1400)}
+  <!-- ===== CARROUSEL « LES INSTRUMENTS » (14/08/2026) ======================
+       Remplace quatre blocs empiles : 'proche' en pleine largeur, la grille
+       'chanter-en-jouant' + 'calebasse', 'ngoni' en pleine largeur, et la grille
+       des deux captures de The Voice, qui coutaient a elles seules plus de
+       2 000 px de hauteur pour dire une chose simple — voici ses instruments.
+       'proche' n'est PAS ici : elle a rejoint le carrousel du public (#salle),
+       ou son sujet est.
+       ⚠️ ORDRE : les trois photos de scene d'abord (elles sont en `eager`), les
+       deux captures TF1 ensuite. Elles restent explicitement legendees
+       « Capture de la diffusion TF1 » et le bloc « The Voice, saison 11 » qui
+       suit immediatement les explique.
+       ⚠️ 'ngoni' est SIGNEE « MAGYE D'ART Production » -> CREDIT_MAGYE
+       obligatoire ; les trois autres viennent d'Everness -> CREDIT_KOVARI pour
+       'chanter-en-jouant'. Ne pas melanger les credits. -->
+  {carousel('Les instruments', [
+    ('chanter-en-jouant',
+     'David Lesage seul sur scène, buste et visage en gros plan, la bouche grande ouverte '
+     'en train de chanter et les yeux fermés, un micro-serre-tête au visage ; sa main '
+     'droite est posée sur son Neotone — le handpan électronique à coque claire piquée de '
+     'disques sombres —, sa main gauche sur un appareil sombre à sa gauche. Deux micros sur '
+     'pieds l’encadrent, sur un fond bleu nuit strié de faisceaux clairs.',
+     'Chanter en jouant, une main sur le Neotone : la voix et les mains en même temps — '
+     'cinq octaves et un micro serre-tête. Everness Festival, Hongrie.',
+     CREDIT_KOVARI),
+    ('calebasse',
+     'David Lesage assis en tailleur derrière une grande calebasse posée sur un tapis rond '
+     'rouge, les mains sur la calebasse, entouré de dizaines de petites bougies alignées '
+     'au sol.',
+     'La calebasse, frappée au poing, jouée assis sur un coussin.'),
+    ('ngoni',
+     'David Lesage seul, assis au sol sur une peau claire, jouant le N’Goni — la harpe '
+     'africaine, caisse de calebasse et cordes tendues sur un long manche — devant trois '
+     'néons rouges verticaux et des palmes, dans une lumière chaude ; une seconde '
+     'calebasse posée à sa droite.',
+     'Le N’Goni, la harpe africaine à caisse de calebasse : rencontré en 2012, toujours au '
+     'répertoire du concert.',
+     CREDIT_MAGYE),
+    ('tv-calebasse',
+     'David Lesage seul sur le plateau de The Voice, penché sur une grande calebasse posée '
+     'devant lui, les deux mains dessus, dans une lumière bleue ; à sa droite ses handpans '
+     'sur pieds. Logos The Voice et TF1 incrustés sur l’image.',
+     'Sur le plateau de The Voice : la calebasse, frappée au poing. Capture de la '
+     'diffusion TF1.'),
+    ('tv-ngoni',
+     'David Lesage seul sur le plateau de The Voice, debout derrière deux handpans posés '
+     'sur pieds, jouant le N’Goni 14 cordes tenu contre lui, dans une lumière bleue et '
+     'verte. Logos The Voice et TF1 incrustés sur l’image.',
+     'Le même dispositif, sur un plateau de télévision : handpans, N’Goni et déclencheurs. '
+     'Capture de la diffusion TF1.'),
+  ])}
 
   <h3 class="dlc-sub">The Voice, saison 11</h3>
   <p>Pour son audition à l’aveugle de <i>The Voice</i> saison 11, sur TF1, David Lesage monte seul en scène avec ses propres instruments : la calebasse, les handpans et le N’Goni 14 cordes. Il y chante <i>Kothbiro</i>, d’Ayub Ogada, en luo — un titre toujours au répertoire du concert. La prestation est publique sur la chaîne officielle de l’émission.</p>
@@ -2105,58 +2502,72 @@ HTML = f"""<!DOCTYPE html>
                 'Voir son audition à l’aveugle — « Kothbiro »',
                 '« Ayub Ogada - Kothbiro - David Lesage | The Voice 2022 | Blind Audition » — le lecteur s’ouvre sur cette page.',
                 '(max-width:900px) calc(100vw - 52px), 560px')}
-  <div class="dlc-duo">
-    {pic('tv-calebasse',
-         'David Lesage seul sur le plateau de The Voice, penché sur une grande calebasse posée '
-         'devant lui, les deux mains dessus, dans une lumière bleue ; à sa droite ses handpans '
-         'sur pieds. Logos The Voice et TF1 incrustés sur l’image.',
-         '(max-width:860px) calc(100vw - 52px), 500px',
-         'Sur le plateau de The Voice : la calebasse, frappée au poing. Capture de la '
-         'diffusion TF1.')}
-    {pic('tv-ngoni',
-         'David Lesage seul sur le plateau de The Voice, debout derrière deux handpans posés sur '
-         'pieds, jouant le N’Goni 14 cordes tenu contre lui, dans une lumière bleue et verte. '
-         'Logos The Voice et TF1 incrustés sur l’image.',
-         '(max-width:860px) calc(100vw - 52px), 500px',
-         'Le même dispositif, sur un plateau de télévision : handpans, N’Goni et déclencheurs. '
-         'Capture de la diffusion TF1.')}
-  </div>
+  <!-- Les deux captures TF1 de cette prestation sont les deux dernieres
+       diapositives du carrousel « Les instruments », juste au-dessus. -->
 </div></section>
 
 <section class="dlc-block" id="scenes"><div class="wrap">
   <div class="dlc-h">Scènes &amp; festivals</div>
   <h2 class="sec-title">Là où ce répertoire a résonné</h2>
-  <p>Ce n’est pas un projet en rodage. <b>110 dates de scène recensées, de 2009 à 2026</b>, dans 7 pays et 47 villes — dont <b>21 dates programmées à Jazz in Marciac</b>, deux éditions du <b>Sziget</b> à Budapest, et une <b>première partie d’Amadou &amp; Mariam</b>. À quoi s’ajoutent <b>26 ateliers</b> de rythme calebasse et de harpe africaine, en France, en Suisse et en Hongrie.</p>
+  <p>Ce n’est pas un projet en rodage. <b>112 dates de scène recensées, de 2009 à 2026</b>, dans 7 pays et 50 lieux — dont <b>21 dates programmées à Jazz in Marciac</b>, deux éditions du <b>Sziget</b> à Budapest, et une <b>première partie d’Amadou &amp; Mariam</b>. À quoi s’ajoutent <b>26 ateliers</b> de rythme calebasse et de harpe africaine, en France, en Suisse et en Hongrie.</p>
   {scenes_stats()}
-  <p class="dlc-srcnote">Décompte établi le 13 août 2026 en croisant l’export officiel des annonces publiques de l’artiste, ses deux agendas professionnels, son dossier scénique et la presse. Il ne retient que les dates dont les sources établissent qu’il y jouait : sept traces supplémentaires, sur lesquelles les sources restent muettes, sont écartées. Les résidences de Marciac de 2014 et de 2016, annoncées « tous les soirs », sont comptées bien en dessous de leur durée réelle : 110 est un plancher, pas un plafond. Ne sont comptés ici ni les ateliers, ni les cercles, ni les conférences.</p>
+  <p class="dlc-srcnote">Décompte établi le 14 août 2026 en croisant <b>deux exports officiels</b> des annonces publiques de l’artiste, ses deux agendas professionnels, son dossier scénique et la presse. Il ne retient que les dates dont les sources établissent qu’il y jouait : trente et une traces supplémentaires, sur lesquelles les sources restent muettes, sont écartées. Les résidences de Marciac de 2014 et de 2016, annoncées « tous les soirs », sont comptées bien en dessous de leur durée réelle : 112 est un plancher, pas un plafond. Ne sont comptés ici ni les ateliers, ni les cercles, ni les conférences.</p>
 
   <h3 class="dlc-sub">Les références</h3>
   {scenes_refs()}
   <p>À Marciac, deux choses sont vraies et distinctes. C’est là qu’il s’est formé, au <b>collège de jazz de Marciac</b> ; et c’est là qu’il a été <b>programmé par Jazz in Marciac</b>, avec différentes formations, sur la <b>scène de la place de l’Hôtel de Ville</b> — la scène centrale du festival, aujourd’hui « Festival Bis ». <b>21 dates</b> y sont documentées entre 2009 et 2019, sur sept éditions ; le livret des 30 ans de l’association du collège fait état de <b>dix années de présence annuelle</b>. Il est par ailleurs passé par l’émission <i>The Voice</i> ; c’est à sa suite qu’il a été invité pour un concert solo en Côte d’Ivoire.</p>
-  <!-- PREMIERE PARTIE D'AMADOU & MARIAM (ajout du 14/08/2026). Placees juste
-       apres la liste des references, dont la premiere entree est precisement
-       celle-la : c'etait la reference la plus forte de la page et la seule sans
-       aucune image.
-       Traitement : les deux photos sont EMPILEES et non mises cote a cote. Leurs
-       formats sont trop dissemblables (0,474 contre 1,738) : dans une grille a
-       deux colonnes, la verticale aurait ecrase la paysage et laisse un grand
-       vide sous elle. Empilees, chacune garde le traitement de son format.
-       ⚠️ LE LIEU EST DESORMAIS CONNU (13/08/2026) : la source etait tronquee,
-       David a confirme « Salle du Jeu du Mail, Pamiers (09) » et indique que
-       l'information est publique. La date exacte, 9 septembre 2022, vient de
-       l'export officiel de ses annonces.
-       ⚠️ AMADOU & MARIAM NE SONT PAS DANS LE CADRE : les legendes attribuent
-       explicitement ce qu'on voit au set de David. Ne pas les reecrire. -->
-  {pic('am-scene',
-       'David Lesage seul au centre d’une grande scène de salle, la tête levée en train de chanter et une main en l’air, derrière un handpan clair posé sur un pied ; autour de lui son installation — pupitre, ordinateur, claviers, batterie — dans des faisceaux de lumière verte et blanche et de la fumée ; au premier plan, sa calebasse posée sur un tapis rond rouge.',
-       'min(calc(100vw - 52px), 360px)',
-       '9 septembre 2022, salle du Jeu du Mail à Pamiers, en première partie d’Amadou &amp; Mariam : le set de David Lesage, seul en scène.',
-       cls='dlc-fig dlc-tall')}
-  {pic('am-salle',
-       'Plan large depuis le fond de la salle : la scène éclairée en bleu et violet au loin, les instruments dessus, et au premier plan les silhouettes du public en contre-jour sur plusieurs rangs.',
-       '(max-width:900px) calc(100vw - 52px), 860px',
-       'La même soirée, vue du fond de la salle.',
-       cls='dlc-fig dlc-wide', src_w=1400)}
+  <!-- ===== CARROUSEL « LES GRANDES SCENES, LES FESTIVALS ET LES LIEUX DE
+       PIERRE » (14/08/2026) ==================================================
+       Il est place ICI, juste apres la liste des references, et pas en fin de
+       section : sa premiere diapositive est la PREMIERE PARTIE D'AMADOU &
+       MARIAM, qui est la reference la plus forte de la page et la premiere
+       entree de la liste juste au-dessus. Elle doit rester visible haut.
+       Il rassemble ce qui etait eparpille sur toute la section : les deux photos
+       de Pamiers (empilees, 1 391 px a elles deux), le plan de festival,
+       l'abbaye, l'eglise et le Grand Rex en pleine largeur.
+       ⚠️ AMADOU & MARIAM NE SONT PAS DANS LE CADRE : les deux legendes de
+       Pamiers attribuent explicitement ce qu'on voit au set de David. Ne pas les
+       reecrire. Le lieu, « salle du Jeu du Mail, Pamiers (09) », est confirme
+       par David (13/08/2026) et public ; la date vient de l'export officiel.
+       ⚠️ LE GRAND REX est SIGNE « MAGYE D'ART Production » -> CREDIT_MAGYE. Et
+       « 2 700 personnes » est le SEUL chiffre de public autorise sur la page. -->
+  {carousel('Les grandes scènes, les festivals et les lieux de pierre', [
+    ('am-scene',
+     'David Lesage seul au centre d’une grande scène de salle, la tête levée en train de '
+     'chanter et une main en l’air, derrière son Neotone — le handpan électronique à coque '
+     'claire — posé sur un pied ; autour de lui son installation — pupitre, ordinateur, '
+     'claviers, batterie — dans des faisceaux de lumière verte et blanche et de la fumée ; '
+     'au premier plan, sa calebasse posée sur un tapis rond rouge.',
+     '9 septembre 2022, salle du Jeu du Mail à Pamiers, en première partie d’Amadou &amp; '
+     'Mariam : le set de David Lesage, seul en scène.'),
+    ('am-salle',
+     'Plan large depuis le fond de la salle : la scène éclairée en bleu et violet au loin, '
+     'les instruments dessus, et au premier plan les silhouettes du public en contre-jour '
+     'sur plusieurs rangs.',
+     'La même soirée, vue du fond de la salle.'),
+    ('rex',
+     'Vue de scène du Grand Rex : deux artistes assis au sol au centre du plateau, face à '
+     'une salle comble sur deux niveaux, dans les faisceaux de deux projecteurs en '
+     'contre-jour.',
+     'Au Grand Rex, devant 2 700 personnes.',
+     CREDIT_MAGYE),
+    ('solo-festival',
+     'David Lesage seul debout au centre d’une scène de festival en plein air, jouant deux '
+     'handpans posés sur des pieds, devant une toile tendue multicolore et des faisceaux de '
+     'lumière verte.',
+     'En festival, seul en scène : handpans, déclencheurs et machines.'),
+    ('abbaye',
+     'Intérieur d’une abbaye en ruine, à ciel ouvert, éclairé en bleu et en orange ; au '
+     'fond le plateau et ses instruments, au premier plan un public nombreux assis face à '
+     'la scène.',
+     'Abbaye à ciel ouvert d’Alet-les-Bains : jouer sans toit, avec l’acoustique de la '
+     'pierre.'),
+    ('eglise',
+     'Vue d’ensemble d’une église transformée en salle de concert : David Lesage seul sur '
+     'l’estrade au milieu de ses instruments, une figure cymatique projetée au-dessus de '
+     'lui, et le public assis au sol sur des tapis parmi des bougies.',
+     'En église : plateau bas, public assis, projection au-dessus de la scène.'),
+  ])}
 
   <h3 class="dlc-sub">Festivals, salles et théâtres</h3>
   {scenes_liste(SCENES_LIEUX)}
@@ -2176,25 +2587,9 @@ HTML = f"""<!DOCTYPE html>
   {scenes_liste(SCENES_PIERRE)}
 
   {scenes_chrono()}
-  <div class="dlc-duo">
-    {pic('solo-festival',
-         'David Lesage seul debout au centre d’une scène de festival en plein air, jouant deux handpans posés sur des pieds, devant une toile tendue multicolore et des faisceaux de lumière verte.',
-         '(max-width:900px) calc(100vw - 52px), 340px',
-         'En festival, seul en scène : handpans, déclencheurs et machines.')}
-    {pic('abbaye',
-         'Intérieur d’une abbaye en ruine, à ciel ouvert, éclairé en bleu et en orange ; au fond le plateau et ses instruments, au premier plan un public nombreux assis face à la scène.',
-         '(max-width:900px) calc(100vw - 52px), 340px',
-         'Abbaye à ciel ouvert d’Alet-les-Bains : jouer sans toit, avec l’acoustique de la pierre.')}
-    {pic('eglise',
-         'Vue d’ensemble d’une église transformée en salle de concert : David Lesage seul sur l’estrade au milieu de ses instruments, une figure cymatique projetée au-dessus de lui, et le public assis au sol sur des tapis parmi des bougies.',
-         '(max-width:900px) calc(100vw - 52px), 340px',
-         'En église : plateau bas, public assis, projection au-dessus de la scène.')}
-  </div>
-  {pic('rex',
-       'Vue de scène du Grand Rex : deux artistes assis au sol au centre du plateau, face à une salle comble sur deux niveaux, dans les faisceaux de deux projecteurs en contre-jour.',
-       '(max-width:900px) calc(100vw - 52px), 860px',
-       'Au Grand Rex, devant 2 700 personnes.',
-       cls='dlc-fig dlc-wide', credit=CREDIT_MAGYE)}
+  <!-- Les six photos de scene de cette section (Pamiers, le Grand Rex, le
+       festival, l'abbaye, l'eglise) sont dans le carrousel place plus haut,
+       juste apres la liste des references. -->
 </div></section>
 
 <div class="divider"></div>
@@ -2230,7 +2625,7 @@ HTML = f"""<!DOCTYPE html>
   <p class="dlc-srcnote">Passage sur <b>TF1</b> dans la saison 11 de <i>The Voice</i>, diffusé le 12 février 2022 — l’audition à l’aveugle est visible plus haut sur cette page. La séquence a été reprise par <b>Orange Actualités</b>, par <b>C8</b> et par le zapping de <b>France 5</b> ; ces trois reprises n’ont pas de page publique consultable aujourd’hui, elles sont donc citées sans lien.</p>
   <div class="dlc-note">
     <div class="dlc-h">Une caution qui vient du collège de Marciac</div>
-    <p>Le parcours de formation ci-dessus n’est pas un autoportrait : il est documenté par le <b>livret des 30 ans de l’AIMJ / Voy’jazz</b>, l’association du <b>collège de jazz de Marciac</b>, qui a sollicité David Lesage en 2022 en tant qu’ancien élève. Collège de jazz dès la 6<sup>e</sup>, Conservatoire de Toulouse en horaire aménagé, <b>prix de batterie mention très bien en 2012</b>, et dix années de présence annuelle sur la scène du festival.</p>
+    <p>Le parcours de formation ci-dessus n’est pas un autoportrait : il est documenté par le <b>livret des 30 ans de l’AIMJ / Voy’jazz</b>, l’association du <b>collège de jazz de Marciac</b>, qui a sollicité David Lesage en 2022 en tant qu’ancien élève. <b>Quatre ans</b> au collège de jazz, dès la 6<sup>e</sup>, puis <b>quatre ans</b> au Conservatoire de Toulouse en horaire aménagé — baccalauréat professionnel en 2012, <b>prix de batterie mention très bien en 2013</b> —, et dix années de présence annuelle sur la scène du festival.</p>
   </div>
   <div class="dlc-note">
     <p>Le dossier de presse complet — articles, captations, photos de scène en haute définition — est adressé sur demande.</p>
@@ -2312,7 +2707,7 @@ HTML = f"""<!DOCTYPE html>
   <h2 class="sec-title">Une version plus acoustique</h2>
   <div class="dlc-split">
     <div>
-      <p>Le même répertoire existe dans une <b>direction plus acoustique</b> : porté d’abord par les <b>handpans acoustiques Yishama</b>, la voix, la calebasse et le <b>N’Goni</b> — avec beaucoup moins d’électronique.</p>
+      <p>Le même répertoire existe dans une <b>direction plus acoustique</b> : porté d’abord par les <b>handpans acoustiques</b> de {A_YISHAMA}, la voix, la calebasse et le <b>N’Goni</b> — avec beaucoup moins d’électronique.</p>
       <p>C’est une <b>option de programmation</b>, pensée pour les lieux où la pierre, le bois et le silence font déjà la moitié du travail : églises, chapelles, abbayes, lieux patrimoniaux, petites jauges assises. Ce sont exactement les <a href="#scenes">lieux de pierre déjà joués</a> — abbaye d’Alet-les-Bains, cloître de Saint-Geniez-d’Olt, basilique et église Saint-Nazaire de Carcassonne.</p>
       <p>Cette formule se construit <b>avec vous</b> : sa durée, son instrumentarium exact et ses besoins techniques ne sont pas figés et se décident au cas par cas — la <a href="#technique">fiche technique</a> publiée plus bas est celle de la configuration principale, elle ne s’applique pas telle quelle ici.</p>
       <div class="cta" style="margin-top:22px"><a class="btn ghost" href="{MAILTO_ACOUSTIQUE}">Parler de la version acoustique</a></div>
@@ -2339,32 +2734,48 @@ HTML = f"""<!DOCTYPE html>
        ⚠️ Aucun facteur d'instrument nomme dans les legendes : l'image ne permet
        pas de le certifier. -->
   {pic('deux-handpans',
-       'David Lesage seul sur scène, buste et visage de face, un micro-serre-tête au visage, penché entre deux handpans acoustiques en acier bruni posés sur pieds ; ses deux mains sont en mouvement au-dessus de celui de droite, dont les creux sont nettement visibles. Deux micros sur pieds l’encadrent ; derrière lui, de larges faisceaux de lumière verte croisent un fond bleu tendu de fils.',
+       'David Lesage seul sur scène, buste et visage de face, un micro-serre-tête au visage, penché entre deux handpans acoustiques Yishama en acier bruni posés sur pieds ; ses deux mains sont en mouvement au-dessus de celui de droite, dont les creux sont nettement visibles. Deux micros sur pieds l’encadrent ; derrière lui, de larges faisceaux de lumière verte croisent un fond bleu tendu de fils.',
        '(max-width:900px) calc(100vw - 52px), 860px',
-       'Les deux handpans acoustiques sur pieds, joués en direct. Everness Festival, Hongrie.',
+       'Les deux handpans acoustiques Yishama sur pieds, joués en direct. Everness Festival, Hongrie.',
        cls='dlc-fig dlc-wide', src_w=1400, credit=CREDIT_KOVARI)}
-  <!-- LES DEUX INSTRUMENTS ACOUSTIQUES, EN PAIRE. Les deux figures sont au meme
-       format portrait (ratio 0,667) : la grille ne peut donc pas en ecraser une,
-       ce qui etait le risque signale pour toute verticale mise en .dlc-duo.
-       'calebasse-transe' quitte son emplacement isole pour venir ici : le pan et
-       la calebasse cote a cote, c'est l'instrumentarium acoustique en une ligne. -->
-  <div class="dlc-duo">
-    {pic('handpan-jeu',
-         'Gros plan vertical : David Lesage penché sur un handpan acoustique en acier bruni posé sur pied, les deux mains sur l’instrument dont les creux et le dôme central sont nettement visibles ; cheveux longs retombant sur le côté, micro-serre-tête et micro de scène près du visage, regard baissé sur l’instrument, sur un fond bleu strié de faisceaux verts.',
-         '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 504px',
-         'Les mains sur le pan : c’est un instrument acoustique, joué au doigt et à la paume. Everness Festival, Hongrie.',
-         credit=CREDIT_KOVARI)}
-    {pic('calebasse-transe',
-         'Gros plan vertical : David Lesage assis en tailleur sur un tapis rose, derrière une grande calebasse claire, les yeux fermés et la tête renversée en arrière, ses longs cheveux traversés par un faisceau de lumière jaune ; une petite percussion bleue dans chaque main, chemise rouge à motifs et pantalon ocre, pieds nus. Derrière lui, un violoniste assis joue, et le fond de scène est dans les violets et les bleus.',
-         '(max-width:632px) calc(100vw - 52px), (max-width:1080px) calc(50vw - 36px), 504px',
-         'La calebasse, jouée assis, yeux fermés — Everness Festival, Hongrie.',
-         credit=CREDIT_KOVARI)}
-  </div>
-  {pic('vue-de-scene',
-       'Vue prise depuis la scène, au grand angle : au premier plan le plateau et ses instruments, David Lesage assis au sol de dos derrière une calebasse et, derrière lui, une violoncelliste sur une chaise ; à droite, un public nombreux assis dans l’herbe sous de grandes voiles d’ombrage.',
-       '(max-width:900px) calc(100vw - 52px), 860px',
-       'Vue depuis la scène : le plateau, la calebasse, un violoncelle — et le public à quelques mètres.',
-       cls='dlc-fig dlc-wide', src_w=1400, credit=CREDIT_KOVARI)}
+  <!-- ===== CARROUSEL « L'INSTRUMENTARIUM ACOUSTIQUE EN SCENE » (14/08/2026) ==
+       Remplace la grille de deux verticales (849 px de haut) et 'vue-de-scene'
+       en pleine largeur (647 px) : le pan, la calebasse et la vue d'ensemble se
+       lisent maintenant sur une seule ligne.
+       'deux-handpans' RESTE HORS CARROUSEL, en pleine largeur au-dessus : c'est
+       LA photo que David demandait (« il manque des photos de moi qui joue du
+       handpan Yishama, le Neotone est trop mis a l'honneur ») et elle porte
+       l'argument de la section a elle seule.
+       ⚠️ LE VIOLONISTE de 'calebasse-transe' N'EST PAS IDENTIFIE : il reste
+       decrit par son instrument. La violoncelliste de 'vue-de-scene', elle, est
+       VALERIA PRIBAY, creditee comme invitee (autorisation de David). -->
+  {carousel('L’instrumentarium acoustique en scène', [
+    ('handpan-jeu',
+     'Gros plan vertical : David Lesage penché sur un handpan acoustique Yishama en acier '
+     'bruni posé sur pied, les deux mains sur l’instrument dont les creux et le dôme '
+     'central sont nettement visibles ; cheveux longs retombant sur le côté, '
+     'micro-serre-tête et micro de scène près du visage, regard baissé sur l’instrument, '
+     'sur un fond bleu strié de faisceaux verts.',
+     'Les mains sur le pan Yishama : c’est un instrument acoustique, joué au doigt et à la '
+     'paume. Everness Festival, Hongrie.',
+     CREDIT_KOVARI),
+    ('calebasse-transe',
+     'Gros plan vertical : David Lesage assis en tailleur sur un tapis rose, derrière une '
+     'grande calebasse claire, les yeux fermés et la tête renversée en arrière, ses longs '
+     'cheveux traversés par un faisceau de lumière jaune ; une petite percussion bleue dans '
+     'chaque main, chemise rouge à motifs et pantalon ocre, pieds nus. Derrière lui, un '
+     'violoniste assis joue, et le fond de scène est dans les violets et les bleus.',
+     'La calebasse, jouée assis, yeux fermés — Everness Festival, Hongrie.',
+     CREDIT_KOVARI),
+    ('vue-de-scene',
+     'Vue prise depuis la scène, au grand angle : au premier plan le plateau et ses '
+     'instruments, David Lesage assis au sol de dos derrière une calebasse et, derrière '
+     'lui, la violoncelliste invitée Valeria Pribay sur une chaise ; à droite, un public '
+     'nombreux assis dans l’herbe sous de grandes voiles d’ombrage.',
+     'Vue depuis la scène : le plateau, la calebasse et le violoncelle de l’invitée '
+     '<b>Valeria Pribay</b> — et le public à quelques mètres.',
+     CREDIT_KOVARI),
+  ])}
 </div></section>
 
 <div class="divider"></div>
@@ -2374,14 +2785,14 @@ HTML = f"""<!DOCTYPE html>
   <h2 class="sec-title">La danse aérienne à l’élastique</h2>
   <p>Sur les plateaux qui le permettent, le concert peut accueillir <b>Iris Chasles</b> en <b>danse aérienne à l’élastique</b>, ainsi que des extraits du spectacle <a href="/e-motion">E-Motion</a>. Une silhouette suspendue au-dessus du plateau, portée par la musique jouée en direct.</p>
   <p>C’est une <b>option</b>, à décider avec vous en fonction du lieu.</p>
-  <div class="dlc-duo">
+  <div class="dlc-duo cap450">
     {pic('aerien',
          'Grande scène : à gauche David Lesage à son handpan sur un tapis, à droite Iris Chasles en tenue rouge suspendue à un élastique, en équilibre au sol, devant une vidéoprojection de nuages et de ciel bleu.',
-         '(max-width:860px) calc(100vw - 52px), 500px',
+         '(max-width:860px) min(calc(100vw - 52px), 450px), 450px',
          'Musique live et danse aérienne sur un même plateau — extrait d’E-Motion.')}
     {pic('aerien-fest',
          'Iris Chasles en tenue rouge, bras ouverts et regard vers le haut, suspendue à un élastique sur la scène en plein air de l’Everness Festival ; derrière elle, David Lesage joue debout à ses machines.',
-         '(max-width:860px) calc(100vw - 52px), 500px',
+         '(max-width:860px) min(calc(100vw - 52px), 450px), 450px',
          'Danse aérienne à l’élastique, Everness Festival.')}
   </div>
 </div></section>
@@ -2404,7 +2815,7 @@ HTML = f"""<!DOCTYPE html>
     <div class="dlc-conf">
       <span class="dlc-tag alt">Option étendue</span>
       <h4>Jusqu’à 14 entrées</h4>
-      <p>La même base, à laquelle s’ajoutent 2 à 3 <b>handpans acoustiques</b> repris au micro — un micro col de cygne et un micro contact par instrument — et, le cas échéant, les entrées des invités : voix d’Iris Chasles, tambour chamanique, cordes.</p>
+      <p>La même base, à laquelle s’ajoutent 2 à 3 <b>handpans acoustiques Yishama</b> repris au micro — un micro col de cygne et un micro contact par instrument — et, le cas échéant, les entrées des invités : voix d’Iris Chasles, tambour chamanique, cordes.</p>
     </div>
   </div>
 
@@ -2446,12 +2857,15 @@ HTML = f"""<!DOCTYPE html>
        ⚠️ LA LEGENDE NE DIT PAS que c'est le plateau de reference : c'est une
        scene de festival en plein air, pas la configuration 4 m x 5 m. Elle dit
        ce qu'on voit.
-       ⚠️ Un handpan a coque claire est visible pose au sol : NE PAS l'appeler
-       Neotone, ce n'est pas confirme. -->
+       ✅ LE PAN A COQUE CLAIRE POSE AU SOL EST BIEN LE NEOTONE (confirme par
+       David le 14/08/2026). Il est donc nomme, comme les pans acoustiques
+       Yishama : c'est exactement l'information que cherche un regisseur.
+       ⚠️ ELLE RESTE HORS CARROUSEL, volontairement : c'est la photo qui porte un
+       argument a elle seule dans une fiche technique. -->
   {pic('dispositif-scene',
-       'Plan vertical en pied : David Lesage debout et pieds nus sur une scène de festival, en tee-shirt noir et pantalon ocre, les mains au-dessus de deux handpans acoustiques posés sur pieds devant lui, un micro-serre-tête au visage et un micro sur pied à sa droite. Au premier plan au sol, sa grande calebasse claire posée sur un tapis rond, d’autres handpans et un boîtier de commande à même le sol, câbles apparents ; derrière lui, des faisceaux de lumière verte et bleue sur un fond tendu de fils.',
+       'Plan vertical en pied : David Lesage debout et pieds nus sur une scène de festival, en tee-shirt noir et pantalon ocre, les mains au-dessus de deux handpans acoustiques Yishama posés sur pieds devant lui, un micro-serre-tête au visage et un micro sur pied à sa droite. Au premier plan au sol, sa grande calebasse claire posée sur un tapis rond, son Neotone à coque claire et un boîtier de commande à même le sol, câbles apparents ; derrière lui, des faisceaux de lumière verte et bleue sur un fond tendu de fils.',
        'min(calc(100vw - 52px), 420px)',
-       'Le dispositif en fonction, sur une scène de festival : les handpans sur pieds, la calebasse au sol, tout à portée de main. Everness Festival, Hongrie.',
+       'Le dispositif en fonction, sur une scène de festival : les handpans acoustiques Yishama sur pieds, le Neotone et la calebasse au sol, tout à portée de main. Everness Festival, Hongrie.',
        cls='dlc-fig dlc-portrait', src_w=900, credit=CREDIT_KOVARI)}
 
   <h3 class="dlc-sub">Demandé à l’organisateur</h3>
@@ -2548,6 +2962,7 @@ HTML = f"""<!DOCTYPE html>
 }})();
 </script>
 {LIGHTBOX_JS}
+{CAR_JS}
 {SPOTIFY_JS}
 </body></html>"""
 
