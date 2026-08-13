@@ -17,24 +17,42 @@ REGLES QUI ONT COMMANDE CE FICHIER (ne pas les defaire) :
     pas issu d'un fichier sous licence. Il sert de repere visuel, pas de mesure :
     ce qui compte est la lisibilite des POINTS.
 
- 3. DONNEES : recopiees de `parcours_lieux.json` (47 lieux agreges par ville,
-    13/08/2026), lui-meme issu de `parcours_consolide.json`. Les coordonnees
-    viennent d'un geocodage Nominatim / OpenStreetMap fait en amont (cache
-    `geocache.json`, 39 requetes, 39 resolues). AUCUNE coordonnee n'a ete saisie
-    de memoire. Elles sont figees ici pour que le depot reste autonome : le JSON
-    d'origine est un fichier de travail temporaire, hors depot.
-      -> 47 lieux, dont 39 geolocalises et 8 sans coordonnees (au 13/08/2026,
-         apres les arbitrages de David : Sainte-Genevieve-des-Bois situee en
-         Essonne, donc geocodable ; Marciac +3 et Carcassonne +1 evenements).
-      -> les 8 sans coordonnees NE DISPARAISSENT PAS : ils sont listes en clair
+ 3. DONNEES : recopiees de `parcours_lieux.json` (50 lieux agreges par ville,
+    14/08/2026), lui-meme issu de `parcours_consolide.json`. Elles sont figees
+    ici pour que le depot reste autonome : le JSON d'origine est un fichier de
+    travail temporaire, hors depot.
+      -> 50 lieux, dont 45 GEOLOCALISES et 5 sans coordonnees.
+      -> MISE A JOUR DU 14/08/2026, apres le second export Facebook : 47 -> 50
+         lieux et 38 -> 45 points. Le gain vient de 58 COORDONNEES GPS DE
+         PREMIERE MAIN (saisies par les organisateurs eux-memes), prioritaires
+         sur le geocodage Nominatim. Cinq lieux qui n'avaient AUCUN point en ont
+         un (Le Sing Sing -> absorbe par Toulouse, Hameau de l'Etoile ->
+         Saint-Martin-de-Londres, Domaine du Balbuzard -> Condat-en-Combraille,
+         Sainte-Genevieve-des-Bois -> Essonne, HUG Fesztival -> Papateszer) et
+         trois communes nouvelles apparaissent (Flourens, Centres,
+         Cambon-et-Salvergues). Naxos est corrigee de 9,3 km (le geocodage
+         renvoyait le centroide de l'ILE, pas la ville).
+      -> ⚠️ SIX COORDONNEES FACEBOOK ONT ETE ECARTEES en amont (documentees dans
+         le fichier de travail `lieux.py`, liste `REJETES`), dont un point qui
+         tombait AU QUEBEC (« Planete Terre », interview en ligne) et le Sziget
+         place 12 km du mauvais cote de Budapest. NE PAS les reintroduire.
+      -> ⚠️ 11/09/2021 : le nouvel export situe ce concert a CROS (30) et non a
+         SAINT-HIPPOLYTE-DU-FORT (4,2 km, meme code postal 30170). On garde
+         SAINT-HIPPOLYTE-DU-FORT en attendant la confirmation de David : cette
+         carte est publique, on n'y deplace pas une ville sur une deduction.
+      -> les 5 sans coordonnees NE DISPARAISSENT PAS : ils sont listes en clair
          sous la carte (LIEUX_SANS_COORD). Une carte qui les avalerait en
          silence ferait mentir le total.
 
  4. `nb` = nombre d'EVENEMENTS recenses dans la ville, tous types confondus
     (concerts, spectacles, mais aussi ateliers, cercles, conferences). Ce n'est
-    donc PAS le decompte des 110 dates de scene : la legende de la figure le dit
+    donc PAS le decompte des 112 dates de scene : la legende de la figure le dit
     explicitement. Ne jamais presenter le total des points comme un nombre de
     concerts.
+    ⚠️ Marciac (+3) et Carcassonne (+1) portent les arbitrages de David du
+    13/08/2026, qui restent `a-confirmer` dans `parcours_consolide.json` : le
+    JSON dit 19 et 5, la carte affiche 22 et 6. Ne pas « corriger » ces deux
+    nombres vers le JSON.
 
  5. Hors Europe : le Mont Korhogo (Cote d'Ivoire) est geolocalise mais reste
     HORS des deux cartes — un planisphere pour un seul point serait illisible.
@@ -49,76 +67,95 @@ import math
 # ---------------------------------------------------------------------------
 LIEUX_GEO = [
     ('Marciac', '32', 'France', 43.52406, 0.16115, 22, '2009-2019'),
-    ('Paris', '75', 'France', 48.85350, 2.34839, 10, '2023-2026'),
-    ('Toulouse', '31', 'France', 43.60446, 1.44424, 7, '2010-2023'),
-    ('Budapest', None, 'Hongrie', 47.49788, 19.04024, 5, '2022-2024'),
+    ('Paris', '75', 'France', 48.86560, 2.37180, 11, '2023-2026'),
+    ('Toulouse', '31', 'France', 43.61174, 1.39219, 8, '2010-2023'),
     ('Carcassonne', '11', 'France', 43.21304, 2.34911, 6, '2017-2025'),
+    ('Budapest', None, 'Hongrie', 47.49788, 19.04024, 5, '2022-2024'),
     ('Dienville', '10', 'France', 48.34909, 4.53258, 5, '2024'),
-    ('Montbel', '09', 'France', 42.97578, 1.97706, 5, '2019-2024'),
-    ('Alet-les-Bains', '11', 'France', 42.99672, 2.25583, 3, '2022-2025'),
-    ('Festes-et-Saint-André', '11', 'France', 42.97422, 2.14446, 3, '2022-2025'),
-    ('Frasne-le-Château', '70', 'France', 47.46138, 5.89510, 3, '2024'),
+    ('Montbel', '09', 'France', 42.97890, 1.96980, 5, '2019-2024'),
+    ('Festes-et-Saint-André', '11', 'France', 42.96750, 2.14350, 4, '2022-2025'),
+    ('Alet-les-Bains', '11', 'France', 42.99500, 2.25610, 3, '2022-2025'),
+    ('Frasne-le-Château', '70', 'France', 47.46330, 5.89490, 3, '2024'),
     ('Martigny', None, 'Suisse', 46.10312, 7.07274, 3, '2023'),
+    ('Mirepoix', '09', 'France', 43.08850, 1.87380, 3, '2017-2021'),
     ('Roquefort-les-Cascades', '09', 'France', 42.95818, 1.76306, 3, '2019'),
-    ('Tourcoing', '59', 'France', 50.72350, 3.16057, 3, '2023'),
-    ('Aigues-Vives', '09', 'France', 42.99553, 1.87578, 2, '2021'),
-    ('Mirepoix', '09', 'France', 43.08807, 1.87432, 2, '2017-2020'),
-    ('Pamiers', '09', 'France', 43.11475, 1.60822, 2, '2022'),
+    ('Tourcoing', '59', 'France', 50.70590, 3.15610, 3, '2023'),
+    ('Aigues-Vives', '09', 'France', 42.99630, 1.87510, 2, '2021'),
+    # NOUVELLE COMMUNE (2e export) : Salon sante nature, 17/09/2016.
+    ('Flourens', '31', 'France', 43.59477, 1.56233, 2, '2016'),
+    ('Pamiers', '09', 'France', 43.12270, 1.60360, 2, '2022'),
+    # NOUVELLE CLE : le « Hameau de l'Etoile » n'avait aucun point ; il rejoint
+    # sa commune, desormais geolocalisee (code postal 34380 dans l'adresse).
+    ('Saint-Martin-de-Londres', '34', 'France', 43.81940, 3.69890, 2, '2022'),
     ('Bambecque', '59', 'France', 50.90126, 2.54768, 1, '2026'),
-    ('Daumazan-sur-Arize', '09', 'France', 43.14447, 1.30682, 1, '2023'),
-    ('Espéraza', '11', 'France', 42.93379, 2.22076, 1, '2025'),
+    # NOUVELLE COMMUNE (2e export) : spectacle E-Motion, 08/06/2024.
+    ('Cambon-et-Salvergues', '34', 'France', 43.62097, 2.85554, 1, '2024'),
+    # NOUVELLE COMMUNE (2e export) : experience immersive, 03/12/2023.
+    ('Centrès', '12', 'France', 44.16386, 2.40763, 1, '2023'),
+    # NOUVELLE CLE : le « Domaine du Balbuzard » n'avait aucun point ; il rejoint
+    # sa commune (reverse-geocodage du point Facebook -> Puy-de-Dome 63380).
+    ('Condat-en-Combraille', '63', 'France', 45.84458, 2.56181, 1, '2021'),
+    ('Daumazan-sur-Arize', '09', 'France', 43.14400, 1.30750, 1, '2023'),
+    ('Espéraza', '11', 'France', 42.93450, 2.22380, 1, '2025'),
     ('Estrée-Cauchy', '62', 'France', 50.39838, 2.60894, 1, '2023'),
     ('Fatouville-Grestain', '27', 'France', 49.40542, 0.32745, 1, '2023'),
-    ('Latrape', '31', 'France', 43.24500, 1.28708, 1, '2022'),
+    ('Latrape', '31', 'France', 43.24537, 1.28654, 1, '2022'),
     ('Lavaur', '81', 'France', 43.69893, 1.81519, 1, '2009'),
     ('Le Bosc', '09', 'France', 42.94712, 1.45959, 1, '2025'),
-    ('Naxos', None, 'Grèce', 37.06001, 25.47076, 1, '2022'),
+    # COORDONNEE CORRIGEE (14/08/2026) : l'ancien point etait le centroide de
+    # l'ILE de Naxos, a 9,3 km de la ville. Point Facebook (adresse « Naxos,
+    # 84300 Naxos ») confirme a 400 m par une requete Nominatim ciblee.
+    ('Naxos', None, 'Grèce', 37.10220, 25.38030, 1, '2022'),
     ('Perpignan', '66', 'France', 42.69853, 2.89531, 1, '2023'),
     ('Plaisance', '32', 'France', 43.60638, 0.04895, 1, '2014'),
     ('Puivert', '11', 'France', 42.91991, 2.04645, 1, '2023'),
+    # NOUVELLE COMMUNE : HUG Fesztival 2022, enfin situe. Reserve honnete : le
+    # point Facebook tombe a ~15 km a l'est du bourg geocode par Nominatim et son
+    # reverse-geocodage renvoie la commune voisine (meme code postal 8430). A
+    # l'echelle d'une carte de pays, sans effet.
+    ('Pápateszér', None, 'Hongrie', 47.35934, 17.89593, 1, '2022'),
     ('Rennes-le-Château', '11', 'France', 42.92725, 2.26275, 1, '2025'),
-    ('Rennes-les-Bains', '11', 'France', 42.92137, 2.32069, 1, '2024'),
-    ('Saint-Geniez-d’Olt', '12', 'France', 44.46575, 2.97285, 1, '2022'),
+    ('Rennes-les-Bains', '11', 'France', 42.92050, 2.32060, 1, '2024'),
+    ('Saint-Geniez-d’Olt', '12', 'France', 44.46580, 2.97440, 1, '2022'),
     ('Saint-Gervais-les-Bains', '74', 'France', 45.89285, 6.71133, 1, '2023'),
+    # ⚠️ NE PAS remplacer par Cros (30) sans l'accord de David : voir la regle 3.
     ('Saint-Hippolyte-du-Fort', '30', 'France', 43.96436, 3.85644, 1, '2021'),
     ('Sainte-Camelle', '09', 'France', 43.26900, 1.80548, 1, '2016'),
     # Departement tranche par David (13/08/2026) : Essonne (91), et non le
-    # Loiret — « en dessous de Paris, a cote de Ballainvilliers ». Geocodee
-    # a ce titre via Nominatim / OpenStreetMap le 13/08/2026 (commune 91700,
-    # arrondissement de Palaiseau). La SALLE reste inconnue : rien d'invente.
-    ('Sainte-Geneviève-des-Bois', '91', 'France', 48.64079, 2.32591, 1, '2023'),
+    # Loiret. Le 2e export apporte en plus un point GPS de premiere main, dont le
+    # reverse-geocodage confirme 91700. La SALLE reste inconnue : rien d'invente.
+    ('Sainte-Geneviève-des-Bois', '91', 'France', 48.63780, 2.33240, 1, '2023'),
     ('Siófok', None, 'Hongrie', 46.90717, 18.05416, 1, '2024'),
     ('Vevey', None, 'Suisse', 46.46030, 6.84187, 1, '2023'),
     ('Villefort', '11', 'France', 42.95395, 2.03187, 1, '2023'),
     # HORS EUROPE — geolocalise mais volontairement absent des deux cartes.
     ('Korhogo', None, 'Côte d’Ivoire', 9.45807, -5.63163, 1, ''),
 ]
-
 HORS_EUROPE = {'Korhogo'}
 
 # ---------------------------------------------------------------------------
-# 2. LES 8 LIEUX SANS COORDONNEES — affiches en texte sous la carte.
+# 2. LES 5 LIEUX SANS COORDONNEES — affiches en texte sous la carte.
 #    (libelle publiable, pays, nb d'evenements, annees)
-#    Sainte-Genevieve-des-Bois en est SORTIE le 13/08/2026 : David a tranche le
-#    departement (Essonne), la commune est donc identifiee et geocodee.
+#    Ils etaient 8 : le second export Facebook (14/08/2026) en a sorti trois —
+#    le Domaine du Balbuzard, le Hameau de l'Etoile et Le Sing Sing ont rejoint
+#    leur commune, desormais geolocalisee. Restent ceux que Facebook ne contient
+#    pas du tout : la Hongrie sans ville, l'Ardeche, la Belgique, le Mas Galifa
+#    et la Reflex Straw House. Ces cinq-la ne sortiront pas de cette source.
 # ---------------------------------------------------------------------------
 LIEUX_SANS_COORD = [
-    ('Hongrie, ville non précisée par les sources', 'Hongrie', 7, '2022-2024'),
+    ('Hongrie, ville non précisée par les sources', 'Hongrie', 6, '2023-2024'),
     ('Reflex Straw House, Hongrie', 'Hongrie', 1, '2023'),
     ('Belgique, ville non précisée', 'Belgique', 1, '2025'),
     ('Chapelle du Mas Galifa, Espagne', 'Espagne', 1, 'sans date'),
-    ('Domaine du Balbuzard', 'France', 1, '2021'),
-    ('Hameau de l’Étoile', 'France', 1, '2022'),
-    ('Le Sing Sing', 'France', 1, '2017'),
     ('Ardèche, commune inconnue', 'France', 1, '2014'),
 ]
 
-# Garde-fous de coherence avec parcours_lieux.json, arbitrages du 13/08/2026
-# integres (47 lieux / 39 geolocalises / 8 sans coordonnees).
-assert len(LIEUX_GEO) == 39, f'attendu 39 lieux geolocalises, {len(LIEUX_GEO)} trouves'
-assert len(LIEUX_SANS_COORD) == 8, 'attendu 8 lieux sans coordonnees'
+# Garde-fous de coherence avec parcours_lieux.json du 14/08/2026
+# (50 lieux / 45 geolocalises / 5 sans coordonnees), Cros non applique.
+assert len(LIEUX_GEO) == 45, f'attendu 45 lieux geolocalises, {len(LIEUX_GEO)} trouves'
+assert len(LIEUX_SANS_COORD) == 5, 'attendu 5 lieux sans coordonnees'
 NB_LIEUX = len(LIEUX_GEO) + len(LIEUX_SANS_COORD)
-assert NB_LIEUX == 47, f'attendu 47 lieux au total, {NB_LIEUX} trouves'
+assert NB_LIEUX == 50, f'attendu 50 lieux au total, {NB_LIEUX} trouves'
 
 # ---------------------------------------------------------------------------
 # 3. CONTOUR SCHEMATIQUE DE LA FRANCE — ecrit a la main (lon, lat).
@@ -235,11 +272,32 @@ def _place_labels(cands, vue, taille, obstacles=()):
     larg_car = taille * 0.52
     for nom, x, y, r in cands:
         w, h = len(nom) * larg_car + 4, taille + 3
+        # QUATRE positions cardinales, puis QUATRE diagonales en repli.
+        # ⚠️ Les diagonales ont ete ajoutees le 14/08/2026 : avec les nouvelles
+        # coordonnees GPS, Toulouse (3e ville la plus jouee) et Siofok perdaient
+        # leur etiquette faute de place, alors que la legende les annonce. Avec
+        # huit essais, les six villes francaises les plus jouees et les six lieux
+        # europeens retrouvent tous une etiquette. Ne pas retirer les diagonales
+        # sans revenir verifier la liste des etiquettes reellement posees.
+        d = 0.72                      # decalage diagonal, en fraction du rayon
         essais = [
             (x + r + 5, y + h * 0.32, 'start'),
             (x - r - 5 - w, y + h * 0.32, 'start'),
             (x - w / 2, y - r - 5, 'start'),
             (x - w / 2, y + r + h, 'start'),
+            (x + r * d + 5, y - r * d - 4, 'start'),
+            (x - r * d - 5 - w, y - r * d - 4, 'start'),
+            (x + r * d + 5, y + r * d + h, 'start'),
+            (x - r * d - 5 - w, y + r * d + h, 'start'),
+            # Dessus / dessous, mais DECALES : le bord de l'etiquette est aligne
+            # sur un bord du disque au lieu d'etre centre dessus. C'est ce qui
+            # sauve Toulouse, dont l'etiquette (85 px) ne rentre nulle part
+            # centree, prise entre Marciac a l'ouest, Lavaur a l'est et Centres
+            # au nord-est.
+            (x - w + r, y - r - 5, 'start'),
+            (x - r, y - r - 5, 'start'),
+            (x - w + r, y + r + h, 'start'),
+            (x - r, y + r + h, 'start'),
         ]
         for bx, by, anc in essais:
             b = (bx, by - h, bx + w, by + 2)
@@ -292,6 +350,12 @@ def _svg_france():
         # n'apporteraient rien puisque la legende porte les memes six noms.
         if nb >= 5:
             cands.append((f'{nom} · {nb}', x, y, r))
+        # ETAT MESURE AU 14/08/2026 : cinq des six etiquettes trouvent une place
+        # (Marciac, Paris, Toulouse, Carcassonne, Dienville). MONTBEL est au coeur
+        # de la grappe Ariege / Aude et son etiquette est ABANDONNEE — c'est le
+        # comportement voulu de _place_labels, pas un bug : son point reste, et la
+        # legende sous la carte la nomme avec son nombre. Ne pas forcer une
+        # etiquette qui recouvrirait cinq autres points.
 
     # les gros points passent DERRIERE les petits : un point 1 evenement pose sur
     # un point 19 reste visible.
@@ -301,7 +365,7 @@ def _svg_france():
     return f'''<svg class="cp-svg" viewBox="0 0 {round(vue.w)} {round(vue.h)}" role="img"
      aria-labelledby="cp-fr-t cp-fr-d" preserveAspectRatio="xMidYMid meet">
   <title id="cp-fr-t">Carte de France des villes où David Lesage s’est produit</title>
-  <desc id="cp-fr-d">Contour schématique de la France. Chaque disque doré marque une ville ; son diamètre croît avec le nombre d’événements recensés. Les plus gros disques sont Marciac dans le Gers, avec vingt-deux événements, Paris avec dix, Toulouse avec sept, Carcassonne avec six, puis Dienville et Montbel avec cinq chacun. Une grappe dense de villes se trouve dans l’Ariège et l’Aude, au sud-ouest ; le nord-est en compte quelques-unes, dont Tourcoing et Bambecque tout au nord. La liste complète des villes figure en toutes lettres sous la carte.</desc>
+  <desc id="cp-fr-d">Contour schématique de la France. Chaque disque doré marque une ville ; son diamètre croît avec le nombre d’événements recensés. Les plus gros disques sont Marciac dans le Gers, avec vingt-deux événements, Paris avec onze, Toulouse avec huit, Carcassonne avec six, puis Dienville et Montbel avec cinq chacun. Une grappe dense de villes se trouve dans l’Ariège et l’Aude, au sud-ouest ; le nord-est en compte quelques-unes, dont Tourcoing et Bambecque tout au nord. La liste complète des villes figure en toutes lettres sous la carte.</desc>
   <path class="cp-terre" d="{_path(vue, FRANCE_OUTLINE)}"/>
   <path class="cp-terre" d="{_path(vue, CORSE_OUTLINE)}"/>
   <g class="cp-pts">{''.join(h for _, h in pts)}</g>
@@ -353,7 +417,7 @@ def _svg_europe():
     return f'''<svg class="cp-svg" viewBox="0 0 {round(vue.w)} {round(vue.h)}" role="img"
      aria-labelledby="cp-eu-t cp-eu-d" preserveAspectRatio="xMidYMid meet">
   <title id="cp-eu-t">Encart : les scènes européennes hors de France</title>
-  <desc id="cp-eu-d">Même projection, cadre élargi à l’Europe. La silhouette de la France sert de repère, sur une grille de méridiens et de parallèles tous les cinq degrés. Les villes françaises y sont réduites à de petits points. Cinq lieux hors de France sont marqués : Budapest et Siófok en Hongrie, à l’est ; Martigny et Vevey en Suisse ; et Naxos, en Grèce, au sud-est. Sept dates hongroises supplémentaires, dont les sources ne précisent pas la ville, et une date en Belgique ne peuvent pas être placées ; elles sont citées sous la carte.</desc>
+  <desc id="cp-eu-d">Même projection, cadre élargi à l’Europe. La silhouette de la France sert de repère, sur une grille de méridiens et de parallèles tous les cinq degrés. Les villes françaises y sont réduites à de petits points. Six lieux hors de France sont marqués : Budapest, Pápateszér et Siófok en Hongrie, à l’est ; Martigny et Vevey en Suisse ; et Naxos, en Grèce, au sud-est. Six dates hongroises supplémentaires, dont les sources ne précisent pas la ville, et une date en Belgique ne peuvent pas être placées ; elles sont citées sous la carte.</desc>
   <g class="cp-grille">{''.join(grille)}</g>
   <path class="cp-terre cp-terre-fine" d="{_path(vue, FRANCE_OUTLINE)}"/>
   <g class="cp-pts cp-pts-min">{''.join(petits)}</g>
@@ -384,22 +448,23 @@ def carte_html():
     </div>
   </div>
   <figcaption>
-    <b>47 lieux distincts, dans 7 pays.</b> Chaque disque est une ville ; son diamètre
+    <b>50 lieux distincts, dans 7 pays.</b> Chaque disque est une ville ; son diamètre
     croît avec le nombre d’événements que les sources y recensent — concerts et
     spectacles, mais aussi ateliers, cercles et conférences, et les quelques scènes
     dont la date exacte n’est plus connue. Les six villes les plus jouées :
-    <b>Marciac</b> (Gers) 22, <b>Paris</b> 10, <b>Toulouse</b> 7,
+    <b>Marciac</b> (Gers) 22, <b>Paris</b> 11, <b>Toulouse</b> 8,
     <b>Carcassonne</b> 6, <b>Dienville</b> (Aube) 5, <b>Montbel</b> (Ariège) 5.
-    Hors de France, cinq villes sont placées dans l’encart : <b>Budapest</b> et
-    <b>Siófok</b> (Hongrie), <b>Martigny</b> et <b>Vevey</b> (Suisse), <b>Naxos</b>
-    (Grèce). 39 des 47 lieux sont géolocalisés et figurent sur la carte ; seules les
-    villes les plus jouées portent leur nom dessus, les autres gardent leur point
-    et sont nommées dans la chronologie.
+    Hors de France, six villes sont placées dans l’encart : <b>Budapest</b>,
+    <b>Pápateszér</b> et <b>Siófok</b> (Hongrie), <b>Martigny</b> et <b>Vevey</b>
+    (Suisse), <b>Naxos</b> (Grèce). <b>45 des 50 lieux sont géolocalisés</b> : 44
+    sont dessinés ici, le 45<sup>e</sup> étant hors du cadre européen — voir la note
+    sous la carte. Seules les villes les plus jouées portent leur nom dessus ; les
+    autres gardent leur point et sont nommées dans la chronologie.
   </figcaption>
   <div class="cp-note">
-    <p><b>Les 8 lieux que la carte ne peut pas placer.</b> Les sources ne les situent
+    <p><b>Les 5 lieux que la carte ne peut pas placer.</b> Les sources ne les situent
     pas à la commune : ils ne sont pas sur la carte, mais ils sont bien dans le
-    parcours, et les voici.</p>
+    parcours, et les voici. Ils étaient huit : trois ont enfin trouvé leur commune.</p>
     {_liste_sans_coord()}
     <p>Hors du cadre européen, une date de plus : un concert solo au <b>Mont Korhogo,
     en Côte d’Ivoire</b>. Un planisphère entier pour un seul point serait illisible :
