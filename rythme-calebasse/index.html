@@ -103,6 +103,11 @@ b{color:#fff;font-weight:500}
 .appel .letter .sign{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:21px;margin-top:22px}
 .badge{display:inline-flex;align-items:center;gap:9px;background:rgba(216,178,90,.14);border:1px solid var(--line);color:var(--gold2);border-radius:30px;padding:9px 18px;font-size:15px;font-weight:500;margin-bottom:16px}
 @media(max-width:620px){.appel .letter{padding-left:18px}}
+/* bloc « ce qui est deja eprouve » : l'experience d'animation, au service de
+   l'appel a candidature. Aucune classe nouvelle hors du conteneur : le bloc
+   reutilise .h-min, .blk h3, p.body et .lst deja definis plus haut. */
+.appel .xp{max-width:820px;margin-top:46px;padding-top:38px;border-top:1px solid var(--line)}
+.appel .xp h3{margin-top:0}
 /* ===== FORMULAIRE ===== */
 .form{margin-top:36px;max-width:820px;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:28px}
 .form h3{font-family:'Cormorant Garamond',Georgia,serif;color:#fff;font-size:26px;font-weight:600;line-height:1.15;margin:0}
@@ -538,6 +543,38 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
     mois est celui qui se dessine aujourd’hui, mais certains préféreraient tous les quinze jours ou
     une fois par semaine. Indique ta préférence dans le formulaire : David en tient compte pour
     fixer le rythme définitif du groupe.</p>
+  </div>
+
+  <!-- ============ EXPERIENCE D'ANIMATION (ajout 13/08/2026) ============
+       Chiffres verifies dans parcours_consolide.json : 26 ateliers musicaux
+       tous en role=confirme et confiance=haute (23 « atelier-calebasse » +
+       3 « atelier-harpe-voix »), du 15/03/2023 au 15/03/2026, en France,
+       en Suisse et en Hongrie. Aucun evenement « a-confirmer » n'est affiche.
+       Aucun nom de personne ni de participant : uniquement des lieux. -->
+  <div class="xp" id="experience">
+    <div class="h-min">Ce qui est déjà éprouvé</div>
+    <h3>26 ateliers de rythme déjà animés depuis 2023</h3>
+    <p class="body">S’engager un an, ça se décide sur du concret plutôt que sur une promesse.
+    Depuis 2023, David a animé <b>26 ateliers</b> de rythme — <b>23 à la calebasse</b> et
+    <b>3 de harpe africaine et de voix</b> — <b>en France, en Suisse et en Hongrie</b>. En petit
+    comité comme en grand cercle de festival, le dernier au Nid en mars 2026.</p>
+    <p class="body">Ces ateliers se sont tenus dans des cadres qui ont chacun leurs exigences :</p>
+    <ul class="lst">
+      <li><b>Deux maisons de percussions et de musiques du monde</b> — Percussion Du Monde, à
+      Paris (quatre ateliers), et Djoliba Instruments du Monde, à Toulouse.</li>
+      <li><b>Des festivals, en France</b> — le Festival Été Nomade, à Port Dienville (quatre
+      ateliers), le Castle Handpan Festival, au château de Frasne-le-Château, et le Festival
+      Arts Extatics.</li>
+      <li><b>En Hongrie</b> — l’Everness Festival (trois ateliers), le HUG Fesztivál, la rencontre
+      hongroise du handpan et des musiques du monde, et deux ateliers au Sziget, à Budapest.</li>
+      <li><b>En Suisse et ailleurs en France</b> — le théâtre OZ de Martigny, l’église
+      Saint-Jean-l’Évangéliste de Tourcoing, et Le Nid.</li>
+    </ul>
+    <p class="body">Ce n’est pas un palmarès. C’est ce qui permet de te proposer une année sans
+    la promettre à la légère : la manière de faire entrer un groupe dans le rythme a été éprouvée
+    assez souvent, et dans des contextes assez différents, pour ne pas s’improviser en chemin. Un
+    atelier de deux heures et un groupe suivi sur douze mois ne demandent pas la même chose — mais
+    tu ne seras pas le premier cercle que David fait démarrer.</p>
   </div>
 
   <!-- ==================== FORMULAIRE DE CANDIDATURE ====================
