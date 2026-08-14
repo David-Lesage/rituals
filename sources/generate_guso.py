@@ -238,6 +238,7 @@ CSS_PAGE = """/* ===== Guso Facile ===== */
 .aussi .u-num{display:block;margin-bottom:8px}
 .aussi p{color:#d7d4ea;font-size:15.5px}
 /* trois situations */
+.cas-note{color:var(--muted);font-size:15px;margin-top:14px;max-width:62ch}
 .cas{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:38px}
 .cas article{border-left:1px solid var(--line);padding-left:22px}
 .cas h3{font-size:25px;font-weight:600;color:#fff;line-height:1.18}
@@ -461,9 +462,18 @@ def build_html():
     # =====================================================================
     # 5. CAS D'USAGE  (section 5 du contenu fourni — verbatim)
     # =====================================================================
-    # Lea, Marco et Sophie sont des situations illustratives : aucun nom de
-    # beta-testeur, aucune coordonnee, aucune donnee reelle ne doit
-    # apparaitre ici (depot PUBLIC).
+    # Lea, Marco et Sophie sont des personnages ENTIEREMENT FICTIFS, confirme
+    # le 14/08/2026 par la session qui developpe Guso Facile : les seules
+    # personnes reelles de l'app sont David, Iris, Yannick et Christophe.
+    # Aucun nom de beta-testeur, aucune coordonnee, aucune donnee reelle ne
+    # doit apparaitre ici (depot PUBLIC).
+    #
+    # ⚠️ LE TITRE DISAIT « Trois situations REELLES » — c'etait FAUX, corrige
+    #   le 14/08/2026. Des personnages inventes presentes comme des cas reels,
+    #   sous le nom d'une association, c'est un faux temoignage. Le titre dit
+    #   desormais « typiques », et la mention « Les prenoms sont fictifs »
+    #   figure sous le titre. NE PAS REMETTRE « reelles » : ce serait
+    #   retablir l'approximation, sur le point le plus sensible de la page.
     #
     # EMPLACEMENT CAPTURE 5 — « le recapitulatif mensuel » (tableau « une
     #   ligne par GUSO » utilise pour le pointage France Travail). A poser
@@ -472,7 +482,8 @@ def build_html():
 <div class="divider"></div>
 <section id="situations" class="band"><div class="wrap">
   <p class="kick">Cas d’usage</p>
-  <h2 class="sec-title">Trois situations réelles</h2>
+  <h2 class="sec-title">Trois situations typiques</h2>
+  <p class="cas-note">Les prénoms sont fictifs ; les situations, elles, sont celles que l’outil rencontre au quotidien.</p>
 
   <div class="cas">
     <article>
