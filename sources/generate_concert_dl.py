@@ -72,6 +72,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
+import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 ADHESION = ('https://www.helloasso.com/beta/associations/resonances-productions/adhesions/'
             'adhesion-resonances-productions')
@@ -251,12 +252,13 @@ body.lb-open{overflow:hidden}
 @media print{.lb{display:none!important}}
 """
 
+# Le lecteur sert TOUS les declencheurs de la page (vignettes
+#          ET titres du repertoire) : son titre doit rester generique.
 LIGHTBOX_HTML = """
 <div class="lb" id="ytlb" role="dialog" aria-modal="true" aria-label="Lecteur vidéo" onclick="closeYT(event)">
   <div class="lb-box">
     <button class="lb-close" type="button" onclick="closeYT(event)" aria-label="Fermer la vidéo">×</button>
-    <div class="lb-frame"><!-- Le lecteur sert TOUS les declencheurs de la page (vignettes
-         ET titres du repertoire) : son titre doit rester generique. -->
+    <div class="lb-frame">
       <iframe id="ytif" title="Lecteur vidéo YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
     <a class="yt-fallback" href="{secours}" target="_blank" rel="noopener">La vidéo ne se lance pas ? Ouvrir sur YouTube ↗</a>
   </div>
@@ -813,7 +815,14 @@ DESC = ('Voix, handpan, calebasse et Ngoni : le concert-cérémonie participatif
         'on entre en spectateur, on ressort en ayant chanté. Prochaines dates : '
         '10 octobre et 28 novembre 2026.')
 
-HTML = f"""<!DOCTYPE html>
+# Le gabarit de la page est ecrit en plusieurs litteraux adjacents (concatenes
+# par Python) pour qu'on puisse glisser ENTRE EUX les notes de redaction, en
+# commentaire `#`. Ces notes vivaient en commentaires HTML : elles partaient
+# donc chez le visiteur, lisibles dans le code source de la page et indexables.
+# Elles restent ici, au-dessus du bloc qu'elles expliquent. Voir
+# `sources/verif_commentaires.py`, qui refuse desormais d'ecrire la page si un
+# commentaire de travail revenait dans le HTML.
+HTML = (f"""<!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{TITLE}</title>
@@ -924,16 +933,17 @@ HTML = f"""<!DOCTYPE html>
 
 <div class="divider"></div>
 
-<!-- PRUDENCE DE REGISTRE (impose par David, 04/08/2026) : cette section
-     n'affirme AUCUN bienfait pour la sante, aucune vertu therapeutique, aucune
-     « structuration » ou « information » de l'eau. On s'en tient a ce qui est
-     verifiable et vecu : un partenariat, une fontaine modifiee, le son du
-     concert envoye dans l'eau, et le fait de la boire. Le brevet son/lumiere
-     est ATTRIBUE a ses concepteurs, jamais affirme par l'association. Le mot
-     de la pancarte de David (« experimente ») porte tout le registre : une
-     invitation a l'experience, pas une promesse. NE RIEN AJOUTER ICI qui
-     ressemble a un effet promis. -->
-<section class="cdl-block cdl-water" id="eau"><div class="wrap">
+"""
+# PRUDENCE DE REGISTRE (impose par David, 04/08/2026) : cette section
+#      n'affirme AUCUN bienfait pour la sante, aucune vertu therapeutique, aucune
+#      « structuration » ou « information » de l'eau. On s'en tient a ce qui est
+#      verifiable et vecu : un partenariat, une fontaine modifiee, le son du
+#      concert envoye dans l'eau, et le fait de la boire. Le brevet son/lumiere
+#      est ATTRIBUE a ses concepteurs, jamais affirme par l'association. Le mot
+#      de la pancarte de David (« experimente ») porte tout le registre : une
+#      invitation a l'experience, pas une promesse. NE RIEN AJOUTER ICI qui
+#      ressemble a un effet promis.
+f"""<section class="cdl-block cdl-water" id="eau"><div class="wrap">
   <div class="cdl-h">Le son dans l’eau</div>
   <h2 class="sec-title">Boire l’eau du concert</h2>
   <p>Dans un coin de la pièce, une fontaine attend, son réservoir éclairé de bleu. Elle n’est pas là pour décorer : pendant le concert, le son qui remplit la salle est aussi envoyé, <b>en direct</b>, dans l’eau qu’elle contient. À la fin de la soirée, on remplit un gobelet — et on boit cette eau.</p>
@@ -959,14 +969,15 @@ HTML = f"""<!DOCTYPE html>
 
 <div class="divider"></div>
 
-<!-- FORMULE PLUS ACOUSTIQUE (ajout du 13/08/2026, demande de David).
-     ⚠️ AUCUNE INFORMATION PRECISE N'EXISTE sur cette formule : ni duree, ni
-     instrumentarium arrete, ni contrainte technique. On n'en invente donc
-     AUCUNE. Le texte dit exactement ce qu'on sait : la meme musique, tiree vers
-     les handpans ACOUSTIQUES Yishama, la voix, la calebasse et le N'Goni, avec
-     moins d'electronique — et le fait que ce n'est pas annonce date par date.
-     NE RIEN AJOUTER ICI qui ressemble a une garantie ou a une fiche. -->
-<section class="cdl-block" id="acoustique"><div class="wrap">
+"""
+# FORMULE PLUS ACOUSTIQUE (ajout du 13/08/2026, demande de David).
+#      ⚠️ AUCUNE INFORMATION PRECISE N'EXISTE sur cette formule : ni duree, ni
+#      instrumentarium arrete, ni contrainte technique. On n'en invente donc
+#      AUCUNE. Le texte dit exactement ce qu'on sait : la meme musique, tiree vers
+#      les handpans ACOUSTIQUES Yishama, la voix, la calebasse et le N'Goni, avec
+#      moins d'electronique — et le fait que ce n'est pas annonce date par date.
+#      NE RIEN AJOUTER ICI qui ressemble a une garantie ou a une fiche.
+f"""<section class="cdl-block" id="acoustique"><div class="wrap">
   <div class="cdl-h">Une autre couleur</div>
   <h2 class="sec-title">Certains soirs, plus acoustique</h2>
   <div class="cdl-split">
@@ -983,15 +994,16 @@ HTML = f"""<!DOCTYPE html>
                   '« Angel Voice handpan @yishama_official » — le lecteur s’ouvre sur cette page.',
                   '(max-width:860px) calc(100vw - 52px), 340px')}
   </div>
-  <!-- PHOTO DE SCENE DES HANDPANS ACOUSTIQUES YISHAMA (ajout du 14/08/2026).
-       Cette section n'avait que la vignette d'une video ou le handpan est seul,
-       sans personne : c'est la premiere fois qu'on VOIT David jouer ces
-       instruments-la. Une seule photo, en .cdl-mid (500 px) — sa plus grande
-       variante fait 900 px, .cdl-wide (820 px) la rendrait molle.
-       ⚠️ La legende NOMME le festival : cette page parle des soirees au Nid, et
-       une photo de grande scene ne doit pas passer pour une photo du Nid. Meme
-       precaution que pour la 2e photo de la section « eau ». -->
-  {pic('yishama-solo',
+"""
+# PHOTO DE SCENE DES HANDPANS ACOUSTIQUES YISHAMA (ajout du 14/08/2026).
+#        Cette section n'avait que la vignette d'une video ou le handpan est seul,
+#        sans personne : c'est la premiere fois qu'on VOIT David jouer ces
+#        instruments-la. Une seule photo, en .cdl-mid (500 px) — sa plus grande
+#        variante fait 900 px, .cdl-wide (820 px) la rendrait molle.
+#        ⚠️ La legende NOMME le festival : cette page parle des soirees au Nid, et
+#        une photo de grande scene ne doit pas passer pour une photo du Nid. Meme
+#        precaution que pour la 2e photo de la section « eau ».
+f"""  {pic('yishama-solo',
        'David Lesage seul debout au centre d’une grande scène en plein air, les mains sur deux handpans acoustiques Yishama posés sur pieds ; derrière lui une immense toile de fils tendus multicolores traversée de faisceaux de lumière verte, devant lui une calebasse sur un tapis rond rouge.',
        'min(calc(100vw - 52px), 500px)',
        'Les handpans acoustiques Yishama, sur pieds — ici sur la grande scène de l’Everness Festival, en Hongrie, et non au Nid.',
@@ -1065,10 +1077,11 @@ HTML = f"""<!DOCTYPE html>
       <a class="btn ghost" href="{IMUSICIAN}" target="_blank" rel="noopener">Les deux opus chez son distributeur ↗</a>
     </div>
   </div>
-  <!-- VIDEOS LIVE : deux ensembles tires de SES playlists (voir LIVE_CONCERTS /
-       LIVE_YISHAMA). Chaque vignette ouvre le lecteur DANS la page : aucun
-       nouvel onglet, aucune requete tierce avant le clic. -->
-  <div class="cdl-listen" id="live">
+"""
+# VIDEOS LIVE : deux ensembles tires de SES playlists (voir LIVE_CONCERTS /
+#        LIVE_YISHAMA). Chaque vignette ouvre le lecteur DANS la page : aucun
+#        nouvel onglet, aucune requete tierce avant le clic.
+f"""  <div class="cdl-listen" id="live">
     <div class="cdl-h">En vidéo</div>
     <h3 class="sec-title" style="font-size:clamp(24px,3.4vw,34px)">Deux ensembles de vidéos live</h3>
     <p>Deux sélections tirées de ses propres playlists : les <b>concerts filmés</b>, et les <b>handpans acoustiques Yishama</b>. Chaque vignette ouvre le lecteur ici même — vous ne quittez pas cette page.</p>
@@ -1171,7 +1184,7 @@ HTML = f"""<!DOCTYPE html>
 </script>
 {LIGHTBOX_JS}
 {SPOTIFY_JS}
-</body></html>"""
+</body></html>""")
 
 HTML = mobile_nav.inject(HTML)
 
@@ -1179,5 +1192,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, 'concerts-david-lesage')
 os.makedirs(OUT_DIR, exist_ok=True)
 OUT = os.path.join(OUT_DIR, 'index.html')
+# Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire HTML
+# dans la page livree (elle serait publique et indexable). Si l'une revient, on
+# abandonne et le fichier sur disque reste inchange.
+verif_commentaires.verifier(HTML, OUT)
 open(OUT, 'w', encoding='utf-8').write(HTML)
 print('WROTE', OUT, round(len(HTML) / 1024), 'KB')
