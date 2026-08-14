@@ -460,9 +460,12 @@ picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
 #
 # REGLE POSEE PAR DAVID, valable pour tout le site : une video se lit SUR le
 # site, jamais dans un nouvel onglet ni dans l'application YouTube. D'ou ce
-# lecteur en surimpression (`openYT()` / `#ytlb`), en `youtube-nocookie.com`,
-# ferme par Echap ou par un clic hors du cadre, avec le `src` de l'iframe VIDE
-# a la fermeture (sinon la video continue de jouer en arriere-plan).
+# lecteur en surimpression (`openYT()` / `#ytlb`), ferme par Echap ou par un
+# clic hors du cadre, avec le `src` de l'iframe VIDE a la fermeture (sinon la
+# video continue de jouer en arriere-plan).
+# ⚠️ Cette page charge encore `www.youtube.com`. Le passage a
+# `youtube-nocookie.com` est en cours de generalisation sur le site : quand il
+# arrivera ici, il se fera DANS ce gabarit (une seule chaine a changer).
 # Le lien `.yt-fallback` reste DANS le lecteur, discret : si l'iframe est
 # bloquee (extension, reseau d'entreprise), le visiteur a une porte de sortie.
 # Les liens de PLATEFORME (chaine YouTube, Spotify, billetterie) restent, eux,
