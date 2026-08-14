@@ -1038,7 +1038,8 @@ def main():
     # duplication (le piege des 4 cartes identiques). On refuse d'ecrire une
     # page cassee plutot que d'imprimer un avertissement qui defile.
     for marker, label in (('id="experience"', 'bloc experience (26 ateliers)'),
-                          ('data-nav="resonances-2"', 'menu partage nav_menu.py')):
+                          ('data-nav="%s"' % nav_menu.NAV_VERSION,
+                           'menu partage nav_menu.py')):
         n = html.count(marker)
         if n != 1:
             raise SystemExit(

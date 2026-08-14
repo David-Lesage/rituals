@@ -769,7 +769,8 @@ if __name__ == '__main__':
     # « Agenda » dans le menu et quatre cartes identiques.
     for _marqueur, _combien, _quoi in (
         ('<h1', 1, 'titre principal'),
-        ('data-nav="resonances-2"', 1, 'menu partage nav_menu.py'),
+        # version lue dans nav_menu (jamais recopiee ici)
+        ('data-nav="%s"' % nav_menu.NAV_VERSION, 1, 'menu partage nav_menu.py'),
         ('>Agenda</a>', 1, 'entree « Agenda » du menu'),
         ('<section class="agenda" id="agenda">', 1, 'section agenda'),
         ('class="offer offer--rare"', 1, 'carte « instruments d’exception »'),

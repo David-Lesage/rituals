@@ -521,7 +521,9 @@ def build_html():
 #: projet a deja produit quatre entrees de menu identiques par regenerations
 #: successives.
 GARDE_FOUS = (
-    ('data-nav="resonances-2"', 1, 'menu partage nav_menu.py'),
+    # version lue dans nav_menu : ce garde-fou ne doit pas devenir faux le
+    # jour ou NAV_VERSION est incrementee.
+    ('data-nav="%s"' % nav_menu.NAV_VERSION, 1, 'menu partage nav_menu.py'),
     ('.burger{', 3, 'CSS du menu hamburger'),
     ('<h1', 1, 'titre unique de la page'),
     ('class="gal-ph"', 10, 'cadres photo de la galerie'),

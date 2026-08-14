@@ -90,14 +90,18 @@ des formulations sur la beta, le futur payant et l'affiliation — c'est
 delibere, ces trois sujets sont prudents par construction.
 
 ------------------------------------------------------------------------------
-CE QUI N'EST PAS ENCORE FAIT (volontairement, ce n'est pas le role de ce script)
+LE RACCORDEMENT AU SITE (fait le 14/08/2026)
 ------------------------------------------------------------------------------
-  - AUCUNE entree « Guso Facile » dans `sources/nav_menu.py` : y toucher
-    reecrirait les 9 pages existantes. Le raccordement au menu, la redirection
-    et le `sitemap.xml` sont faits a part.
-  - La page appelle quand meme `nav_menu.inject(html, None)` : elle porte donc
-    le menu partage, sans entree marquee (« guso-facile » n'est pas une cle de
-    `PAGE_KEYS`, et ne doit pas y etre ajoutee depuis ici).
+La page n'est plus isolee. Ce qui a ete pose, et ou :
+  - `sources/nav_menu.py` : entree « Guso Facile » dans un sous-menu
+    « L’association » devenu deroulant (le pourquoi de ce placement est
+    documente dans ce fichier-la), cle `guso-facile`, NAV_VERSION passee a
+    `resonances-3` pour que les 9 autres pages recoivent le nouveau menu ;
+  - `sources/build.py` : la ligne /guso-facile (ecrit=None, passe_menu=False,
+    ce script posant lui-meme le menu) ;
+  - `sitemap.xml`, `vercel.json` (redirection /Guso-Facile -> /guso-facile,
+    l'URL ayant ete communiquee avec des majuscules), et les listes de pages
+    de `verif_site.py` / `verif_commentaires.py`, passees a 10.
 
 Usage : python3 sources/generate_guso.py   (depuis la racine du depot)
 """
@@ -626,7 +630,10 @@ def build_html():
 #: (marqueur, nombre attendu, ce que c'est)
 ANCRES = (
     ('<h1', 1, 'titre principal de la page'),
-    ('data-nav="resonances-2"', 1, 'menu partage nav_menu.py'),
+    # version lue dans nav_menu : ce garde-fou ne doit pas devenir faux le jour
+    # ou NAV_VERSION est incrementee.
+    ('data-nav="%s"' % nav_menu.NAV_VERSION, 1, 'menu partage nav_menu.py'),
+    ('href="/guso-facile"', 1, 'entree « Guso Facile » du menu partage'),
     ('id="acces"', 1, 'section « Manifester son intérêt »'),
     (URL_ACCES, 1, 'bouton « Demander un accès » (un seul sur la page)'),
     ('id="etat"', 1, 'section « Où en est le projet »'),
@@ -703,12 +710,10 @@ def _controles(html):
 def main():
     html = build_html()
     html = mobile_nav.inject(html)          # 1. le hamburger d'abord
-    # 2. puis le menu partage. `current=None` : « guso-facile » n'est PAS une
-    #    cle de nav_menu.PAGE_KEYS et ne doit pas y etre ajoutee depuis ici —
-    #    modifier nav_menu.py reecrirait les 9 pages existantes. La page porte
-    #    donc le menu sans entree marquee ; l'entree « Guso Facile » et la
-    #    mise en surbrillance seront ajoutees separement.
-    html = nav_menu.inject(html, None)
+    # 2. puis le menu partage. Depuis le 14/08/2026 « guso-facile » est une cle
+    #    de nav_menu.PAGE_KEYS : l'entree du sous-menu « L’association » porte
+    #    donc `aria-current="page"` sur cette page, et le parent est marque.
+    html = nav_menu.inject(html, 'guso-facile')
 
     _controles(html)
     # Aucune note de redaction en commentaire HTML dans la page livree : elle

@@ -29,7 +29,7 @@ CE QUE LE SCRIPT GARANTIT
    sont compares. S'ils different, c'est qu'une passe ajoute quelque chose a
    chaque fois : c'est exactement ce qui avait produit quatre entrees « Agenda »
    dans le menu et quatre cartes identiques. Le script s'arrete.
-3. LA VERIFICATION. `verif_site.py` passe sur les 9 pages a la fin.
+3. LA VERIFICATION. `verif_site.py` passe sur les 10 pages a la fin.
 4. LE RETOUR EN ARRIERE. Avant de commencer, chaque page est mise de cote. Si
    quoi que ce soit echoue, TOUTES les pages sont remises exactement comme
    avant. Un build rate ne laisse jamais le site a moitie reconstruit.
@@ -138,6 +138,12 @@ TABLEAU = (
         nom='rythme-calebasse', fichier='rythme-calebasse/index.html',
         generateur='generate_rythme.py', ecrit=None,
         passe_menu=False,  # il appelle nav_menu.inject() lui-meme
+        bloque=None,
+    ),
+    dict(
+        nom='guso-facile', fichier='guso-facile/index.html',
+        generateur='generate_guso.py', ecrit=None,
+        passe_menu=False,  # il appelle mobile_nav puis nav_menu.inject() lui-meme
         bloque=None,
     ),
 )
@@ -431,7 +437,7 @@ def main(argv=None):
     # ------------------------------------------------------------------ #
     _dit()
     _dit('  ' + '-' * 74)
-    _dit('  Verification des 9 pages…')
+    _dit('  Verification des %d pages…' % len(TABLEAU))
     r = subprocess.run([sys.executable, os.path.join(HERE, 'verif_site.py')],
                        cwd=RACINE)
     if r.returncode != 0:

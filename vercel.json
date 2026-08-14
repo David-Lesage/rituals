@@ -7,6 +7,8 @@
     { "source": "/contact", "destination": "/#contact", "permanent": true },
     { "source": "/agenda", "destination": "/le-nid#agenda", "permanent": true },
     { "source": "/statuts", "destination": "/#statuts", "permanent": true },
-    { "source": "/adherer", "destination": "/#adherer", "permanent": true }
+    { "source": "/adherer", "destination": "/#adherer", "permanent": true },
+    { "source": "/Guso-Facile", "destination": "/guso-facile", "permanent": true },
+    { "source": "/Guso-Facile/", "destination": "/guso-facile", "permanent": true }
   ]
 }

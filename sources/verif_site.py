@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Filet de securite du site : une commande qui relit les 9 pages publiees.
+"""Filet de securite du site : une commande qui relit les 10 pages publiees.
 
     python3 sources/verif_site.py        # tout verifier
     echo $?                              # 0 = rien a signaler, 1 = probleme
@@ -46,9 +46,14 @@ if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
 import verif_commentaires  # noqa: E402  (garde-fou deja ecrit, on le reutilise)
+# Le numero de version du menu est LU dans nav_menu.py, jamais recopie ici : il
+# a deja diverge une fois. Importer ce module est sans effet de bord (il ne
+# travaille que sous `if __name__ == '__main__'`), contrairement aux
+# `generate_*.py` qu'il ne faut JAMAIS importer.
+import nav_menu  # noqa: E402
 
 # --------------------------------------------------------------------------- #
-# LES 9 PAGES PUBLIEES  —  url visible <-> fichier sur disque
+# LES 10 PAGES PUBLIEES  —  url visible <-> fichier sur disque
 # --------------------------------------------------------------------------- #
 PAGES = (
     ('/',                        'index.html'),
@@ -60,6 +65,7 @@ PAGES = (
     ('/le-nid',                  'le-nid/index.html'),
     ('/le-soin-soa',             'le-soin-soa/index.html'),
     ('/rythme-calebasse',        'rythme-calebasse/index.html'),
+    ('/guso-facile',             'guso-facile/index.html'),
 )
 
 #: dossiers encore presents dans le depot mais volontairement HORS du site :
@@ -100,7 +106,18 @@ MOTS_CODE = ('code', 'digicode', 'portail', 'interphone', 'badge',
              'acces', 'accès', 'entree', 'entrée')
 
 #: contextes ou un mot de la liste ci-dessus cotoie legitimement des chiffres.
-CODES_HORS_SOUPCON = ('code ape', 'siret', 'code postal')
+#: On n'elargit JAMAIS un mot de MOTS_CODE : on inscrit ici la formule exacte,
+#: avec sa raison. Chaque entree est un faux positif MESURE, pas une supposition.
+CODES_HORS_SOUPCON = (
+    'code ape',        # « Code APE : 9001Z » — pied de page des 10 pages
+    'siret',           # « SIRET : 919 514 075 00010 » — idem
+    'code postal',
+    # /guso-facile : « un badge « droits sécurisés » dès 507 heures ». Le mot
+    # « badge » suivi d'un nombre est bien la signature d'un code d'entree,
+    # mais 507 est ici le seuil d'heures de l'intermittence, present une
+    # dizaine de fois sur la page. Faux positif mesure le 14/08/2026.
+    'droits sécurisés',
+)
 
 #: images dont la definition reste sous le double de leur largeur d'affichage.
 #: Une image nette sur ecran Retina demande 2x sa largeur CSS. Ces trois-la sont
@@ -120,9 +137,9 @@ EXCEPTIONS_HD = {
 #: script qui n'etait pas idempotent avait recopie le bloc.
 MARQUEURS_UNIQUES = {
     '*': (
-        ('data-nav="resonances-2"', 'menu partage (nav_menu.py)'),
-        ('<!-- nav_menu.py (resonances-2) -->', 'ouverture du JS du menu'),
-        ('<!-- fin nav_menu.py -->', 'fermeture du JS du menu'),
+        ('data-nav="%s"' % nav_menu.NAV_VERSION, 'menu partage (nav_menu.py)'),
+        (nav_menu.JS_MARK, 'ouverture du JS du menu'),
+        (nav_menu.JS_END, 'fermeture du JS du menu'),
         ('<footer', 'pied de page'),
         ('<body', 'corps du document'),
         ('</html>', 'fin du document'),
@@ -146,8 +163,9 @@ MARQUEURS_UNIQUES = {
 }
 
 #: nombre d'entrees attendu dans le menu partage (hors boutons de sous-menu) :
-#: Accueil + 4 « Sur scene » + 9 « Le Nid » + Association + Contact + Adherer.
-MENU_ENTREES_ATTENDUES = 17
+#: Accueil + 4 « Sur scene » + 9 « Le Nid » + 2 « L’association » (la section
+#: elle-meme + Guso Facile) + Contact + Adherer.
+MENU_ENTREES_ATTENDUES = 18
 
 
 # --------------------------------------------------------------------------- #
@@ -268,14 +286,18 @@ def controle_commentaires(pages):
 def controle_menu(pages):
     """Le menu partage : present une fois, complet, sans entree en double."""
     pbs = []
+    version = nav_menu.NAV_VERSION
     for p in pages:
-        n = p.html.count('data-nav="resonances-2"')
+        n = p.html.count('data-nav="%s"' % version)
         if n != 1:
-            pbs.append('%s : %d marqueur(s) data-nav="resonances-2", attendu 1'
-                       % (p.rel, n))
+            pbs.append('%s : %d marqueur(s) data-nav="%s", attendu 1'
+                       % (p.rel, n, version))
             continue
-        if 'data-nav="resonances-1"' in p.html:
-            pbs.append('%s : reste du menu de la version resonances-1' % p.rel)
+        # reste d'une version anterieure du menu (le passage resonances-1 ->
+        # resonances-2 en avait laisse sur une page)
+        for ancienne in set(re.findall(r'data-nav="([^"]+)"', p.html)):
+            if ancienne != version:
+                pbs.append('%s : reste du menu de la version %s' % (p.rel, ancienne))
         bloc = p.bloc_menu()
         if not bloc:
             pbs.append('%s : bloc de menu introuvable ou mal ferme' % p.rel)

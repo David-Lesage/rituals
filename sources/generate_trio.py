@@ -658,7 +658,9 @@ assert 'googleusercontent' not in html, 'il reste une URL Drive'
 # --------------------------------------------------------------------------- #
 _ATTENDU_1 = (
     ('<h1', 'titre principal de la page'),
-    ('data-nav="resonances-2"', 'menu partage nav_menu.py'),
+    # version lue dans nav_menu : ce garde-fou ne doit pas devenir faux le
+    # jour ou NAV_VERSION est incrementee.
+    ('data-nav="%s"' % nav_menu.NAV_VERSION, 'menu partage nav_menu.py'),
     # le bouton hamburger est CREE PAR LE JS : il n'existe pas en dur dans la
     # page, on compte donc la ligne du script qui le fabrique.
     ("b.className='burger'", 'bouton hamburger de mobile_nav.py'),

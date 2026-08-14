@@ -4,7 +4,7 @@
 Remplace le <div class="links"> d'une page deja construite par le menu unique
 valide par David (architecture « deux publics ») :
 
-    Accueil · Sur scene ▾ · Le Nid ▾ · L’association · Contact · [Adherer]
+    Accueil · Sur scene ▾ · Le Nid ▾ · L’association ▾ · Contact · [Adherer]
 
 ------------------------------------------------------------------------------
 UTILISATION
@@ -24,7 +24,7 @@ UTILISATION
 * `current`  : page affichee, une des CLES de PAGE_KEYS ci-dessous :
                'home', 'rituals', 'rituals-trio', 'e-motion',
                'david-lesage-en-concert', 'le-nid', 'concerts-david-lesage',
-               'rythme-calebasse', 'le-soin-soa'.
+               'rythme-calebasse', 'le-soin-soa', 'guso-facile'.
                None => aucune entree marquee.
                La cle pose `aria-current="page"` sur la bonne entree et marque
                visuellement l'entree parente (`.nm-active`).
@@ -74,7 +74,16 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
-NAV_VERSION = 'resonances-2'
+#: ⚠️ A INCREMENTER a chaque modification du menu, sinon `inject()` considere
+#: que le menu deja pose est le bon et ne le remplace PAS (garde d'idempotence).
+#: Deux fichiers suivent ce numero et doivent etre mis a jour en meme temps :
+#:   * `verif_site.py` (marqueurs uniques + controle du menu) — il le lit
+#:     directement dans ce module depuis le 14/08/2026, donc rien a y faire ;
+#:   * `verif_commentaires.py` — sa liste blanche accepte deja n'importe quel
+#:     numero (`<!-- nav_menu\.py \([^)>]*\) -->`), rien a y faire non plus.
+#: resonances-3 (14/08/2026) : « L’association » devient un menu deroulant pour
+#: accueillir « Guso Facile ».
+NAV_VERSION = 'resonances-3'
 CSS_MARK = '/* == nav_menu.py (%s) == */' % NAV_VERSION
 CSS_END = '/* == fin nav_menu.py == */'
 #: ⚠️ CES DEUX MARQUEURS SONT FONCTIONNELS — ne jamais les retirer du HTML.
@@ -109,8 +118,42 @@ NID = [
     ('Cours individuels', '/le-nid#cours-individuels', 'le-nid'),
 ]
 
+
+# --------------------------------------------------------------------------- #
+# OU RANGER « GUSO FACILE » — decision du 14/08/2026, et sa raison
+# --------------------------------------------------------------------------- #
+# Guso Facile n'est ni un spectacle (« Sur scene ») ni une activite du lieu
+# (« Le Nid ») : c'est un outil pour les artistes intermittents. Trois places
+# etaient possibles ; voici pourquoi c'est un sous-menu de « L’association ».
+#
+#  * PAS dans « Le Nid » : ce sous-menu decrit ce qui se vit AU Nid, a Paris.
+#    Un outil web n'y a pas sa place, et le public n'est pas le meme.
+#  * PAS en entree de premier niveau : la barre en compte deja six, et la
+#    contrainte est MESUREE — entre 861 et 1080 px les liens venaient toucher
+#    le nom de l'association (d'ou les deux paliers de resserrement CSS plus
+#    bas). Une septieme entree rouvrirait ce probleme ; un sous-menu ne coute
+#    que la largeur du chevron.
+#  * DONC sous « L’association », qui devient deroulant sur le modele exact de
+#    « Le Nid » : la premiere entree du panneau reste la page/section elle-meme
+#    (comme « Le Nid — Paris 20ᵉ »), l'outil vient dessous.
+#
+# ⚠️ Nuance assumee : ranger l'outil sous « L’association » ne dit PAS qu'il est
+#    porte par elle. Le libelle est un rangement de navigation ; la page, elle,
+#    porte la formulation prudente validee (« cree par David Lesage, relaye par
+#    Resonances Productions », « n'est pas un service de l'association »). Cette
+#    formulation est le point sensible du dossier : ne pas la deplacer ici.
+
+#: (libelle, href, cle de page). `None` en href = resolu a l'execution par
+#: `association_href` (auto-detecte : `#association` sur la page qui porte la
+#: section, `/#association` ailleurs).
+ASSO = [
+    ('L’association', None, None),
+    ('Guso Facile', '/guso-facile', 'guso-facile'),
+]
+
 #: cles acceptees par `current` -> utile pour valider / documenter
-PAGE_KEYS = (['home'] + [k for _, _, k in SCENE] + [k for _, _, k in NID])
+PAGE_KEYS = (['home'] + [k for _, _, k in SCENE] + [k for _, _, k in NID]
+             + [k for _, _, k in ASSO if k])
 
 
 CSS = CSS_MARK + """
@@ -302,7 +345,15 @@ JS = JS_MARK + """
 
 def _first_key_index(children, current):
     """Index du 1er enfant portant la cle `current` (une seule entree marquee,
-    sinon /le-nid aurait 4 aria-current)."""
+    sinon /le-nid aurait 4 aria-current).
+
+    ⚠️ `current is None` doit renvoyer None SANS comparer : le sous-menu
+    « L’association » a une entree dont la cle est None (la section d'accueil,
+    qui n'est pas une page). Sans cette garde, `None == None` marquerait cette
+    entree comme page courante sur toute page appelee avec `current=None`.
+    """
+    if current is None:
+        return None
     for i, (_, _, key) in enumerate(children):
         if key == current:
             return i
@@ -334,7 +385,8 @@ def build_links(current=None, contact_href='/#contact', association_href='/#asso
     out.append('%s<a href="/"%s>Accueil</a>' % (i, home_cur))
     out.append(_group('Sur scène', 'nm-sub-scene', SCENE, current, i))
     out.append(_group('Le Nid', 'nm-sub-nid', NID, current, i))
-    out.append('%s<a href="%s">L’association</a>' % (i, association_href))
+    asso = [(lbl, href if href else association_href, key) for lbl, href, key in ASSO]
+    out.append(_group('L’association', 'nm-sub-asso', asso, current, i))
     out.append('%s<a href="%s">Contact</a>' % (i, contact_href))
     out.append('%s<a class="adh" href="%s" target="_blank" rel="noopener">Adhérer</a>'
                % (i, ADHESION))
@@ -442,6 +494,7 @@ _PATH_KEYS = {
     'concerts-david-lesage': 'concerts-david-lesage',
     'rythme-calebasse': 'rythme-calebasse',
     'le-soin-soa': 'le-soin-soa',
+    'guso-facile': 'guso-facile',
 }
 
 

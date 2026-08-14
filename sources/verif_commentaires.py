@@ -48,6 +48,13 @@ import sys
 # LISTE BLANCHE — les seuls commentaires autorises dans une page livree
 # --------------------------------------------------------------------------- #
 #: (motif, raison d'etre). Le motif doit decrire le commentaire ENTIER.
+#
+# ⚠️ Le motif du marqueur d'ouverture est VOLONTAIREMENT ecrit sans le numero de
+#    version (`\([^)>]*\)`) : il accepte donc « resonances-2 », « resonances-3 »
+#    et les suivantes. Incrementer `NAV_VERSION` dans `nav_menu.py` ne demande
+#    AUCUNE modification ici — verifie le 14/08/2026 lors du passage a
+#    resonances-3. Ne pas y figer un numero : le jour ou la version bougerait
+#    sans que ce fichier suive, TOUTES les pages seraient refusees a l'ecriture.
 MOTIFS_AUTORISES = (
     (r'<!-- nav_menu\.py \([^)>]*\) -->',
      "ouverture du bloc JS du menu partage. C'est la GARDE D'IDEMPOTENCE de "
@@ -65,7 +72,7 @@ MOTIFS_AUTORISES = (
 #: note de travail deguisee en marqueur.
 LONGUEUR_MAX = 60
 
-#: les 9 pages publiees (voir REPRENDRE-RESONANCES-SITE.md).
+#: les 10 pages publiees (voir REPRENDRE-RESONANCES-SITE.md).
 PAGES = (
     'index.html',
     'rituals/index.html',
@@ -76,6 +83,7 @@ PAGES = (
     'le-nid/index.html',
     'le-soin-soa/index.html',
     'rythme-calebasse/index.html',
+    'guso-facile/index.html',
 )
 
 _RE_COMMENTAIRE = re.compile(r'<!--.*?-->', re.S)

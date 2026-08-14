@@ -333,7 +333,9 @@ HTML = nav_menu.inject(HTML, 'home')
 # --------------------------------------------------------------------------- #
 _ATTENDU = (
     ('<h1', 1, 'titre principal'),
-    ('data-nav="resonances-2"', 1, 'menu partage nav_menu.py'),
+    # version lue dans nav_menu : ce garde-fou ne doit pas devenir faux le
+    # jour ou NAV_VERSION est incrementee.
+    ('data-nav="%s"' % nav_menu.NAV_VERSION, 1, 'menu partage nav_menu.py'),
     # le bouton hamburger est CREE PAR LE JS : on compte la ligne qui le fabrique
     ("b.className='burger'", 1, 'bouton hamburger de mobile_nav.py'),
     ('/* --- lisibilite des liens', 1, 'bloc « lisibilite des liens »'),
