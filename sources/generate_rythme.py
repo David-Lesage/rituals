@@ -34,6 +34,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import nav_menu  # menu de navigation partage  # noqa: E402
+import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_IMG = os.path.join(ROOT, 'sources', 'rythme_img')
@@ -730,6 +731,19 @@ def build_html(sizes):
 """.replace('{M}', MAILTO_CONTACT))
 
     # ================================================= APPEL A CANDIDATURE
+    #
+    # ============ EXPERIENCE D'ANIMATION (ajout 13/08/2026) ============
+    # (bloc `<div class="xp" id="experience">`, plus bas dans ce gabarit)
+    # Chiffres verifies dans parcours_consolide.json : 26 ateliers musicaux
+    # tous en role=confirme et confiance=haute (23 « atelier-calebasse » +
+    # 3 « atelier-harpe-voix »), du 15/03/2023 au 15/03/2026, en France,
+    # en Suisse et en Hongrie. Aucun evenement « a-confirmer » n'est affiche.
+    # Aucun nom de personne ni de participant : uniquement des lieux.
+    #
+    # ==================== FORMULAIRE DE CANDIDATURE ====================
+    # (bloc `<form class="form" id="candidature">`, plus bas dans ce gabarit)
+    # Site statique, aucun backend : l'envoi compose un email pre-rempli.
+    # Repli sans JavaScript = action mailto native + <noscript>.
     A("""
 <section class="blk appel" id="appel"><div class="wrap">
   <div class="badge"><span aria-hidden="true">🥁</span><span>Appel à candidature · il reste environ 4 places</span></div>
@@ -775,12 +789,6 @@ def build_html(sizes):
     fixer le rythme définitif du groupe.</p>
   </div>
 
-  <!-- ============ EXPERIENCE D'ANIMATION (ajout 13/08/2026) ============
-       Chiffres verifies dans parcours_consolide.json : 26 ateliers musicaux
-       tous en role=confirme et confiance=haute (23 « atelier-calebasse » +
-       3 « atelier-harpe-voix »), du 15/03/2023 au 15/03/2026, en France,
-       en Suisse et en Hongrie. Aucun evenement « a-confirmer » n'est affiche.
-       Aucun nom de personne ni de participant : uniquement des lieux. -->
   <div class="xp" id="experience">
     <div class="h-min">Ce qui est déjà éprouvé</div>
     <h3>26 ateliers de rythme déjà animés depuis 2023</h3>
@@ -807,9 +815,6 @@ def build_html(sizes):
     tu ne seras pas le premier cercle que David fait démarrer.</p>
   </div>
 
-  <!-- ==================== FORMULAIRE DE CANDIDATURE ====================
-       Site statique, aucun backend : l'envoi compose un email pre-rempli.
-       Repli sans JavaScript = action mailto native + <noscript>. -->
   <form class="form" id="candidature"
         action="mailto:contact@resonancesproductions.org?subject=Candidature%20%E2%80%94%20groupe%20de%20pratique%20calebasse"
         method="post" enctype="text/plain">
@@ -1039,6 +1044,10 @@ def main():
             raise SystemExit(
                 '!! ABANDON : %d occurrence(s) de « %s » (%s), attendu 1. '
                 'Page NON ecrite.' % (n, marker, label))
+
+    # Aucune note de redaction en commentaire HTML dans la page livree : elles
+    # seraient publiques et indexables. Leur place est ici, en commentaire `#`.
+    verif_commentaires.verifier(html, OUT_HTML)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT_HTML, 'w', encoding='utf-8') as f:
