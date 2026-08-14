@@ -11,6 +11,7 @@ import urllib.parse
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import nav_menu  # menu de navigation partage  # noqa: E402
+import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 CAL_ID = '30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae@group.calendar.google.com'
 CAL_SUB = ('https://calendar.google.com/calendar/r?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1'
@@ -638,6 +639,10 @@ if __name__ == '__main__':
 
     # menu de navigation partage (idempotent : ne fait rien s'il est deja la)
     html = nav_menu.inject(html, 'le-nid')
+
+    # Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire
+    # HTML dans la page livree (elle serait publique et indexable).
+    verif_commentaires.verifier(html, p)
 
     with open(p, 'w', encoding='utf-8') as f:
         f.write(html)

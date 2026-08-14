@@ -6,6 +6,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
 import nav_menu  # menu de navigation partage  # noqa: E402
+import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 # Flower of life (19 circles) SVG
 def flower(r=60):
@@ -275,5 +276,8 @@ p a:not(.btn):not(.adh){text-decoration:underline;
 HTML = mobile_nav.inject(HTML)
 HTML = nav_menu.inject(HTML, 'home')
 
+# Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire HTML
+# (ce fichier est recopie tel quel dans index.html a la racine).
+verif_commentaires.verifier(HTML, 'assoc_index.html')
 open('assoc_index.html','w',encoding='utf-8').write(HTML)
 print('WROTE assoc_index.html', round(len(HTML)/1024),'KB')

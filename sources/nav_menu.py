@@ -67,11 +67,23 @@ PIEGES CONNUS DU PROJET (ne pas les reintroduire)
 * Le panneau de sous-menu est OPAQUE (`--card`) et `z-index:1200`.
 """
 
+import os
 import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 NAV_VERSION = 'resonances-2'
 CSS_MARK = '/* == nav_menu.py (%s) == */' % NAV_VERSION
 CSS_END = '/* == fin nav_menu.py == */'
+#: ⚠️ CES DEUX MARQUEURS SONT FONCTIONNELS — ne jamais les retirer du HTML.
+#: `JS_MARK` est la garde d'idempotence testee par `inject()` : sans lui le menu
+#: se reinjecte a chaque passe (l'incident des entrees de menu en double). Il
+#: porte aussi NAV_VERSION, relue pour nettoyer un ancien menu. `JS_END` est la
+#: borne de fin utilisee par `_strip()` pour ce nettoyage. Ce sont les deux
+#: seuls commentaires HTML autorises dans une page livree — liste blanche dans
+#: `sources/verif_commentaires.py`.
 JS_MARK = '<!-- nav_menu.py (%s) -->' % NAV_VERSION
 JS_END = '<!-- fin nav_menu.py -->'
 
@@ -451,6 +463,11 @@ def apply_to_file(path, current=None):
     out = inject(src, current)
     if out == src:
         return False
+    # Derniere barriere avant l'ecriture : `nav_menu.py` est le dernier script a
+    # repasser sur la plupart des pages, c'est donc ici qu'on attrape une note
+    # de redaction laissee en commentaire HTML — y compris sur une page editee
+    # a la main. Si elle est la, on n'ecrit pas.
+    verif_commentaires.verifier(out, path)
     with open(path, 'w', encoding='utf-8') as f:
         f.write(out)
     return True

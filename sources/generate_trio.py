@@ -416,10 +416,15 @@ html = mobile_nav.inject(html)
 
 # menu de navigation partage
 import nav_menu
+import verif_commentaires  # garde-fou commentaires HTML
 html = nav_menu.inject(html, 'rituals-trio')
 
 assert 'data:image' not in html.replace("data:image/webp'", ''), 'il reste du base64'
 assert 'googleusercontent' not in html, 'il reste une URL Drive'
+
+# Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire HTML
+# dans la page livree (elle serait publique et indexable).
+verif_commentaires.verifier(html, TARGET)
 
 os.makedirs(os.path.dirname(TARGET), exist_ok=True)
 with open(TARGET, 'w', encoding='utf-8') as f:

@@ -81,11 +81,17 @@ def inject(html: str) -> str:
 
 
 if __name__ == '__main__':
+    import os
     import sys
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import verif_commentaires
     for path in sys.argv[1:]:
         with open(path, encoding='utf-8') as f:
             src = f.read()
         out = inject(src)
+        # Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire
+        # HTML dans la page livree (elle serait publique et indexable).
+        verif_commentaires.verifier(out, path)
         with open(path, 'w', encoding='utf-8') as f:
             f.write(out)
         print(('OK   ' if out != src else 'SKIP ') + path)
