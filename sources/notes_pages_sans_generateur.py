@@ -3,53 +3,50 @@
 
 Ce module n'execute rien et n'est importe par personne : c'est un porte-notes.
 
-Pourquoi il existe : les notes de redaction (« pourquoi cette photo est ici »,
-« ne pas reintroduire ceci ») vivaient en commentaires HTML dans les pages
+POURQUOI IL EXISTE
+------------------
+Les notes de redaction (« pourquoi cette photo est ici », « ne pas reintroduire
+ceci », « David a dit que… ») vivaient en commentaires HTML dans les pages
 livrees — donc lisibles par n'importe quel visiteur affichant le code source, et
 indexables. Elles ont ete sorties du HTML (voir `sources/verif_commentaires.py`,
-qui refuse maintenant qu'elles y reviennent). Pour les pages produites par un
-generateur, elles sont retournees dans le generateur, juste au-dessus du code
-qui emet le bloc. Restait le cas des pages editees A LA MAIN, qui n'ont aucun
-code a elles : leurs notes sont ici.
+qui refuse maintenant qu'elles y reviennent).
 
-OU SONT LES AUTRES NOTES
-------------------------
+Pour une page produite par un generateur, la note retourne DANS le generateur,
+en commentaire Python `#`, juste au-dessus du code qui emet le bloc concerne.
+Restait le cas des pages editees A LA MAIN, qui n'ont aucun code a elles : leurs
+notes viennent ici.
+
+ETAT AU 14/08/2026 — CE FICHIER EST VIDE, ET C'EST UNE BONNE NOUVELLE
+---------------------------------------------------------------------
+Les 9 pages publiees ont desormais TOUTES un generateur. Les notes de `/e-motion`,
+qui etaient ici, sont parties dans `sources/generate_emotion.py` le jour ou cette
+page a recu le sien.
+
+  /                         sources/generate_assoc.py
   /rituals                  sources/generate_site.py
   /rituals-trio             sources/generate_trio.py
-  /e-motion                 ICI (aucun generateur)
+  /e-motion                 sources/generate_emotion.py
   /david-lesage-en-concert  sources/generate_concert_scene.py
   /concerts-david-lesage    sources/generate_concert_dl.py
   /le-nid                   sources/generate_agenda_nid.py
   /le-soin-soa              sources/generate_soin_soa.py
   /rythme-calebasse         sources/generate_rythme.py
-  /                         sources/generate_assoc.py
 
-⚠️ Le bloc « seconde photo du Grand Rex » de /rituals est lui aussi un ajout a
-la main (le generateur ne peut plus tourner, ses dossiers photos sont hors
-depot) : sa note est restee dans `sources/generate_site.py`, a l'endroit ou le
-bloc s'insere, parce que c'est le seul code qui produit cette page.
+Le tableau qui fait foi est celui de `sources/build.py` (`--liste` pour l'afficher) :
+il dit aussi ou chaque script ecrit reellement, et derriere lesquels il faut
+reposer le menu.
+
+Les deux seuls dossiers sans generateur sont `/solune` et `/au-nid` — des pages
+ORPHELINES, hors du site : absentes du plan du site, interdites dans robots.txt,
+sans entree de menu. Leur suppression n'a jamais ete tranchee par David. Elles ne
+contiennent aujourd'hui aucun commentaire HTML, donc aucune note a heberger ici.
+
+QUAND FAUT-IL REVENIR ECRIRE DANS CE FICHIER ?
+----------------------------------------------
+Le jour ou une page sera modifiee A LA MAIN sans avoir de generateur — ce que
+`python3 sources/build.py` signale explicitement, page par page, sous le titre
+« PAGES SANS GENERATEUR ». Sa note se pose alors ici, sous un en-tete au nom de
+la page, et surtout PAS en commentaire HTML dans la page livree.
 """
 
-# --------------------------------------------------------------------------- #
-# /e-motion  (e-motion/index.html)
-#
-# ⚠️ AUCUN GENERATEUR n'ecrit cette page. `sources/emotion_final.html` en est une
-# copie de travail PERIMEE (elle porte encore le menu `resonances-1`) : ne pas
-# s'en servir pour regenerer quoi que ce soit. La page se modifie directement
-# dans `e-motion/index.html`, et le menu partage se (re)pose avec
-#     python3 sources/nav_menu.py e-motion/index.html
-# --------------------------------------------------------------------------- #
-
-# --- en-tete de la page, bloc `.inner` du <header> (h1 + sous-titre) ---------
-#
-# Le titre et le sous-titre sont deja incrustes dans la banniere ci-dessus :
-# on les conserve dans le code (h1 unique, SEO + lecteurs d'ecran) mais
-# masques visuellement pour ne pas les afficher deux fois.
-#
-# (d'ou les classes `sr-only` sur `<h1>E-MOTION</h1>` et sur le `.sub`)
-
-# --- section de presentation des artistes, premiere `.figure` ---------------
-#
-# ancienne image de hero, redescendue ici (presentation des artistes)
-#
-# (il s'agit de `hero-iris-et-david-*`, qui n'est donc plus le fond du hero)
+# (aucune note en attente — voir la docstring ci-dessus)

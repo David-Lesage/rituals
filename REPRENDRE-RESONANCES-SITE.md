@@ -223,11 +223,17 @@ page `/david-lesage-en-concert`**. Dépôt public + site d'association : ça ne 
   le générateur, **juste au-dessus du code qui émet le bloc**. Pour `generate_concert_scene.py` et
   `generate_concert_dl.py`, le gabarit est désormais écrit en **plusieurs littéraux adjacents**
   (concaténés par Python) précisément pour qu'on puisse glisser les notes *entre* eux.
-- **`/e-motion` n'a aucun générateur** (`sources/emotion_final.html` est une copie **périmée**, menu
-  `resonances-1` : ne pas s'en servir). Ses notes sont dans **`sources/notes_pages_sans_generateur.py`**.
-- Le bloc « seconde photo du Grand Rex » de `/rituals` est un **ajout à la main** : sa note est dans
-  `sources/generate_site.py`, à l'endroit où le bloc s'insère. ⚠️ `generate_site.py` **ne peut plus
-  tourner** (`promo_raw/`, `web_img/` hors dépôt) — et **s'il tournait, il supprimerait cette photo**.
+- ~~`/e-motion` n'a aucun générateur~~ → **corrigé le 14/08/2026** : la page a désormais
+  **`sources/generate_emotion.py`**, qui la reproduit à l'octet près et appelle lui-même
+  `mobile_nav.inject()` puis `nav_menu.inject()`. Ses notes y sont parties. La copie périmée
+  `sources/emotion_final.html` a été **supprimée**.
+- ~~`generate_site.py` ne peut plus tourner~~ → **corrigé le 14/08/2026** : il tourne de nouveau
+  sur un simple clone. La fabrication des images dérivées (qui, elle, a toujours besoin des photos
+  d'origine hors dépôt) est passée derrière l'option **`--images`** ; sans elle, la page se
+  régénère normalement, seconde photo du Grand Rex comprise.
+- **`sources/notes_pages_sans_generateur.py` est désormais vide de notes** : les 9 pages publiées
+  ont toutes un générateur. Le fichier reste en place — c'est là que devra aller la note d'une
+  future page éditée à la main (`build.py` signale ces pages sous « PAGES SANS GÉNÉRATEUR »).
 
 **LISTE BLANCHE — les 2 seuls commentaires HTML autorisés dans une page.** Ils sont **fonctionnels**,
 les retirer casse le site :
@@ -286,7 +292,8 @@ silence, et la page concernée n'est **pas** touchée :
   des `re.sub` de nettoyage précisément parce qu'il n'est pas idempotent de nature.
 - **`generate_trio.py` (`/rituals-trio`)** — cherche encore ses photos dans `web_img/`, hors
   dépôt (`photo introuvable dans web_img/ : RITUALS_00_header.jpg`). `generate_site.py` a été
-  réparé le 14/08 sur ce point : le même traitement lui est applicable.
+  réparé le 14/08 exactement sur ce point, en passant la fabrication des images derrière une
+  option `--images` : **le même traitement lui est applicable**, c'est le plus simple des trois.
 
 **Autres pièges vérifiés :**
 
