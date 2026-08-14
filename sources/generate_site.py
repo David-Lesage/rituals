@@ -1,18 +1,33 @@
 # -*- coding: utf-8 -*-
 """Genere la page /rituals/index.html a partir de sources/rituals_source.html.
 
+    python3 sources/generate_site.py            # regenere la page (par defaut)
+    python3 sources/generate_site.py --images   # refabrique les derivees, puis la page
+
+DEUX TRAVAUX BIEN SEPARES
+-------------------------
+1. GENERER LA PAGE (ce que fait ce script par defaut). Il ne lit QUE des
+   fichiers presents dans le depot : `sources/rituals_source.html` et les
+   derivees deja optimisees de `img/rituals/`. Aucune photo d'origine, aucune
+   bibliotheque d'images : les dimensions des <picture> sont relues dans les
+   fichiers JPEG eux-memes (voir `_dim_jpeg`). Le script tourne donc partout,
+   sur un simple `git clone`.
+
+2. FABRIQUER LES DERIVEES a partir des photos d'origine (section
+   « FABRICATION »). Les dossiers d'entree `promo_raw/` et
+   `web_img/` sont HORS DEPOT : cette etape n'est faisable que sur la machine
+   qui detient les originaux, elle est donc OPTIONNELLE et ne se declenche
+   qu'avec `--images`. Son impossibilite n'empeche plus de regenerer la page.
+   Elle a aussi besoin de Pillow, importe seulement a ce moment-la.
+
 Les photos ne sont PLUS encodees en base64 dans la page (la page pesait 4,6 Mo).
-Elles sont ecrites en fichiers dans /img/rituals/ en trois largeurs
-(480 / 900 / 1400 px), en WebP + repli JPEG, et referencees par <picture>
+Elles vivent en fichiers dans /img/rituals/ en trois largeurs
+(480 / 900 / 1400 px), en WebP + repli JPEG, et sont referencees par <picture>
 avec srcset / sizes / width / height / loading / decoding.
 
-Dossiers d'entree attendus a cote de ce script (photos d'origine, hors depot) :
-  promo_raw/   web_img/
-Sortie : ../img/rituals/*.webp|jpg  et  ../rituals/index.html
+Sortie : ../rituals/index.html  (et, avec --images, ../img/rituals/*.webp|jpg)
 """
-import glob, io, os, re, sys, unicodedata, html as _html
-from PIL import Image
-Image.MAX_IMAGE_PIXELS = None
+import glob, os, re, sys, unicodedata, html as _html
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -49,32 +64,67 @@ def slug(txt):
     return SLUGS.get(txt, t)
 
 
-def variants(im, name):
-    """Ecrit name-<w>.webp et name-<w>.jpg. Retourne [(largeur, hauteur), ...]."""
-    os.makedirs(IMG_DIR, exist_ok=True)
-    im = im.convert('RGB')
-    ow, oh = im.size
-    out = []
-    for w in WIDTHS:
-        if w > ow and out:
-            break                                  # jamais de suragrandissement
-        ww = min(w, ow)
-        hh = max(1, round(oh * ww / ow))
-        r = im if (ww, hh) == (ow, oh) else im.resize((ww, hh), Image.LANCZOS)
-        r.save(os.path.join(IMG_DIR, '%s-%d.webp' % (name, ww)), 'WEBP',
-               quality=Q_WEBP, method=6)
-        r.save(os.path.join(IMG_DIR, '%s-%d.jpg' % (name, ww)), 'JPEG',
-               quality=Q_JPEG, optimize=True, progressive=True)
-        out.append((ww, hh))
-    return out
+def _dim_jpeg(chemin):
+    """(largeur, hauteur) d'un JPEG, lues dans son marqueur SOF.
+
+    Volontairement sans Pillow : generer la page ne doit dependre de rien
+    d'autre que de la bibliotheque standard.
+    """
+    with open(chemin, 'rb') as f:
+        d = f.read()
+    i = 2                                          # on saute le SOI (FFD8)
+    while i < len(d) - 9:
+        if d[i] != 0xFF:
+            i += 1
+            continue
+        m = d[i + 1]
+        if m == 0xFF:                               # octets de bourrage
+            i += 1
+            continue
+        if m in (0x01, 0xD8, 0xD9) or 0xD0 <= m <= 0xD7:
+            i += 2                                  # marqueurs sans charge utile
+            continue
+        taille = int.from_bytes(d[i + 2:i + 4], 'big')
+        # SOF0..SOF15, sauf DHT (C4), JPG (C8) et DAC (CC)
+        if 0xC0 <= m <= 0xCF and m not in (0xC4, 0xC8, 0xCC):
+            return (int.from_bytes(d[i + 7:i + 9], 'big'),
+                    int.from_bytes(d[i + 5:i + 7], 'big'))
+        i += 2 + taille
+    raise ValueError('dimensions introuvables : ' + chemin)
 
 
-def picture(name, vs, sizes, alt, cls='', extra='', img_extra='', lazy=True):
-    """Bloc <picture> : WebP d'abord, JPEG en repli pour les vieux navigateurs."""
+def derivees(name):
+    """[(largeur, hauteur), ...] des derivees deja presentes dans img/rituals/.
+
+    Remplace l'ancien appel a la fabrication d'images : la page se regenere a
+    partir de ce qui est DANS le depot. L'ordre (largeurs croissantes) est celui
+    que produisait la fabrication, et dont dependent `picture()` (attributs
+    width/height = plus grande variante) et le srcset.
+    """
+    trouves = []
+    for p in glob.glob(os.path.join(IMG_DIR, name + '-*.jpg')):
+        m = re.fullmatch(re.escape(name) + r'-(\d+)\.jpg',
+                         os.path.basename(p))
+        if m:
+            trouves.append((int(m.group(1)), p))
+    if not trouves:
+        sys.exit('derivee absente de %s : %s-<largeur>.jpg — la fabriquer avec '
+                 '`--images` (photos d\'origine requises).' % (IMG_DIR, name))
+    return [(w, _dim_jpeg(p)[1]) for w, p in sorted(trouves)]
+
+
+def picture(name, vs, sizes, alt, cls='', extra='', img_extra='', lazy=True,
+            repli=None):
+    """Bloc <picture> : WebP d'abord, JPEG en repli pour les vieux navigateurs.
+
+    `repli` force la largeur du `src` de secours (celui que servent les
+    navigateurs sans srcset). Par defaut on prend la variante la plus proche de
+    900 px ; une seule photo y deroge, voir le bloc « bras leves ».
+    """
     base = IMG_URL + '/' + name
     webp = ', '.join('%s-%d.webp %dw' % (base, w, w) for w, h in vs)
     jpeg = ', '.join('%s-%d.jpg %dw' % (base, w, w) for w, h in vs)
-    dw, dh = min(vs, key=lambda v: abs(v[0] - 900))   # repli sans srcset
+    dw = repli or min(vs, key=lambda v: abs(v[0] - 900))[0]   # repli sans srcset
     c = ' class="%s"' % cls if cls else ''
     return ('<picture%s%s><source type="image/webp" srcset="%s" sizes="%s">'
             '<img%s src="%s-%d.jpg" srcset="%s" sizes="%s" width="%d" height="%d"'
@@ -84,47 +134,37 @@ def picture(name, vs, sizes, alt, cls='', extra='', img_extra='', lazy=True):
 
 
 # ---------------------------------------------------------------- photos source
-def _open(path, mw, crop=None):
-    im = Image.open(path).convert('RGB')
-    if crop:
-        w, h = im.size
-        im = im.crop((int(crop[0] * w), int(crop[1] * h),
-                      int(crop[2] * w), int(crop[3] * h)))
-    im.thumbnail((mw, mw))
-    return im
-
-
-def find(tok):
-    hits = sorted(glob.glob(os.path.join(HERE, 'promo_raw', '*' + tok + '*')))
-    if not hits:
-        sys.exit('photo introuvable dans promo_raw/ : ' + tok)
-    return hits[0]
-
-
-def promo(tok, mw, name, crop=None):
-    return variants(_open(find(tok), mw, crop), name)
-
-
-def web(fn, mw, name, crop=None):
-    p = os.path.join(HERE, 'web_img', fn)
-    if not os.path.exists(p):
-        sys.exit('photo introuvable dans web_img/ : ' + fn)
-    return variants(_open(p, mw, crop), name)
-
-
 CAP_INTENTION = 'Le public au cœur du rituel'
 CAP_REX = 'Au Grand Rex devant 2700 personnes'
 CAP_INDUCTION = 'L’induction — la voix qui guide, vers un état de conscience élargie'
 
-print('images :')
-v_hero = web('RITUALS_00_header.jpg', 1600, 'hero-grand-rex')
-v_intention = promo('20248.', 1300, slug(CAP_INTENTION))
-v_rex = web('RITUALS_00_header.jpg', 1500, slug(CAP_REX))
-v_induction = promo('iris_priere', 1300, slug(CAP_INDUCTION))
-v_keystone = promo('20245.', 1400, 'cle-de-voute-duo-theatre')
-v_david = promo('David_Lesage_2025_Carre_HD', 900, 'portrait-david-lesage')
-v_iris = web('RITUALS_06_Iris-Chasles.jpg', 700, 'portrait-iris-chasles',
-             crop=(0.20, 0.0, 0.82, 0.78))
+# RECETTES — d'ou vient chaque derivee de img/rituals/, et comment elle a ete
+# fabriquee : (dossier d'origine, jeton ou nom de fichier, largeur max, rognage).
+# Les dossiers `promo_raw/` et `web_img/` sont HORS DEPOT : cette table ne sert
+# QU'A la fabrication (`--images`, tout en bas). La generation de la page, elle,
+# ne lit que les fichiers deja presents dans img/rituals/. On la garde ici parce
+# que sans elle plus personne ne saurait refaire une derivee a l'identique.
+# ⚠️ `grand-rex-bras-leves` n'y figure pas : cette photo a ete fournie et
+# preparee a la main (4 largeurs, jusqu'a 2000 px) ; son original n'a jamais
+# transite par ce script. La fabrication n'efface rien, elle ne la menace pas.
+RECETTES = {
+    'hero-grand-rex':           ('web',   'RITUALS_00_header.jpg', 1600, None),
+    slug(CAP_INTENTION):        ('promo', '20248.', 1300, None),
+    slug(CAP_REX):              ('web',   'RITUALS_00_header.jpg', 1500, None),
+    slug(CAP_INDUCTION):        ('promo', 'iris_priere', 1300, None),
+    'cle-de-voute-duo-theatre': ('promo', '20245.', 1400, None),
+    'portrait-david-lesage':    ('promo', 'David_Lesage_2025_Carre_HD', 900, None),
+    'portrait-iris-chasles':    ('web',   'RITUALS_06_Iris-Chasles.jpg', 700,
+                                 (0.20, 0.0, 0.82, 0.78)),
+}
+
+v_hero = derivees('hero-grand-rex')
+v_intention = derivees(slug(CAP_INTENTION))
+v_rex = derivees(slug(CAP_REX))
+v_induction = derivees(slug(CAP_INDUCTION))
+v_keystone = derivees('cle-de-voute-duo-theatre')
+v_david = derivees('portrait-david-lesage')
+v_iris = derivees('portrait-iris-chasles')
 
 GAL = [
  ('202417.', 'Le corps en mouvement'),
@@ -149,6 +189,82 @@ GAL = [
  ('iris_soa', 'Iris Chasles'),
 ]
 
+# les 20 photos du carrousel viennent toutes de promo_raw/, plafonnees a 1500 px
+RECETTES.update({slug(cap): ('promo', tok, 1500, None) for tok, cap in GAL})
+
+
+# =========================================================================== #
+# FABRICATION DES DERIVEES — OPTIONNELLE, et volontairement a part.
+#
+# Elle transforme les photos d'origine (`sources/promo_raw/`, `sources/web_img/`,
+# HORS DEPOT, plusieurs centaines de Mo) en `img/rituals/<nom>-<largeur>.webp|jpg`.
+# Rien ici n'est necessaire pour generer la page : c'est justement le piege qu'on
+# vient de desamorcer. Sans `--images`, ce bloc n'est jamais execute, Pillow n'est
+# meme pas importe, et l'absence des dossiers d'origine ne bloque plus personne.
+#
+# A relancer uniquement pour ajouter ou remplacer une photo, sur la machine qui
+# detient les originaux. La fabrication ECRASE les derivees qu'elle produit et
+# n'EFFACE jamais les autres (dont `grand-rex-bras-leves`, preparee a la main).
+# =========================================================================== #
+
+def fabriquer(noms=None):
+    """(Re)fabrique les derivees decrites par RECETTES. Necessite Pillow."""
+    from PIL import Image                          # importe ici, et ici seulement
+    Image.MAX_IMAGE_PIXELS = None
+
+    def ouvrir(chemin, mw, crop):
+        im = Image.open(chemin).convert('RGB')
+        if crop:
+            w, h = im.size
+            im = im.crop((int(crop[0] * w), int(crop[1] * h),
+                          int(crop[2] * w), int(crop[3] * h)))
+        im.thumbnail((mw, mw))
+        return im
+
+    def origine(dossier, cle):
+        if dossier == 'web':                       # nom de fichier exact
+            p = os.path.join(HERE, 'web_img', cle)
+            if not os.path.exists(p):
+                sys.exit('photo introuvable dans web_img/ : ' + cle)
+            return p
+        hits = sorted(glob.glob(os.path.join(HERE, 'promo_raw', '*' + cle + '*')))
+        if not hits:
+            sys.exit('photo introuvable dans promo_raw/ : ' + cle)
+        return hits[0]
+
+    def variantes(im, name):
+        """Ecrit name-<w>.webp et name-<w>.jpg. Retourne [(largeur, hauteur), ...]."""
+        os.makedirs(IMG_DIR, exist_ok=True)
+        ow, oh = im.size
+        out = []
+        for w in WIDTHS:
+            if w > ow and out:
+                break                              # jamais de suragrandissement
+            ww = min(w, ow)
+            hh = max(1, round(oh * ww / ow))
+            r = im if (ww, hh) == (ow, oh) else im.resize((ww, hh), Image.LANCZOS)
+            r.save(os.path.join(IMG_DIR, '%s-%d.webp' % (name, ww)), 'WEBP',
+                   quality=Q_WEBP, method=6)
+            r.save(os.path.join(IMG_DIR, '%s-%d.jpg' % (name, ww)), 'JPEG',
+                   quality=Q_JPEG, optimize=True, progressive=True)
+            out.append((ww, hh))
+        return out
+
+    for name in (noms or sorted(RECETTES)):
+        dossier, cle, mw, crop = RECETTES[name]
+        vs = variantes(ouvrir(origine(dossier, cle), mw, crop), name)
+        print('  %-38s %s' % (name, ' '.join('%dx%d' % v for v in vs)))
+
+
+if '--images' in sys.argv:
+    print('fabrication des derivees :')
+    fabriquer()
+
+
+# =========================================================================== #
+# GENERATION DE LA PAGE — ne lit que ce qui est dans le depot
+# =========================================================================== #
+
 with open(SOURCE, 'r', encoding='utf-8') as f:
     html = f.read()
 
@@ -160,7 +276,7 @@ CSS_ADD = """
 .nav .links{display:flex;align-items:center;gap:20px}
 .nav .links a{color:var(--muted);text-decoration:none;font-size:14px}
 .nav .links a:hover{color:var(--gold2)}
-@media(max-width:700px){.nav .links a.hide-s{display:none}.nav .brand{font-size:12px}}
+@media(max-width:700px){.nav .links a.hide-s{display:none}.nav .brand{font-size:13px}}
 @media print{.nav{display:none}}
 .figure{margin-top:38px;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
 .figure img{width:100%;display:block}
@@ -175,7 +291,7 @@ CSS_ADD = """
 .car-track::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
 .slide{flex:0 0 auto;scroll-snap-align:center;position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
 .slide img{height:460px;width:auto;max-width:90vw;display:block;cursor:zoom-in}
-.cap2{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.78));color:#fff;font-size:12.5px;padding:24px 14px 10px;text-align:center;font-style:italic}
+.cap2{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.78));color:#fff;font-size:13px;padding:24px 14px 10px;text-align:center;font-style:italic}
 .car-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:3;background:rgba(18,19,43,.72);color:#fff;border:1px solid var(--line);width:46px;height:46px;border-radius:50%;font-size:22px;cursor:pointer}
 .car-btn.prev{left:-4px}.car-btn.next{right:-4px}
 .car-play{display:none;position:absolute;top:-52px;right:0;z-index:4;align-items:center;gap:6px;background:var(--gold);color:#1a1608;border:none;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer}
@@ -232,13 +348,68 @@ CSS_ADD = CSS_ADD.replace('__BG__',
                                    GRAD_HERO, 'center/cover')
                           + bg_rules('keystone', 'cle-de-voute-duo-theatre',
                                      v_keystone, GRAD_KEY, 'center 35%/cover'))
+
+# --------------------------------------------------------------------------- #
+# DEUX CORRECTIFS CSS QUI ETAIENT POSES A LA MAIN DANS LA PAGE PUBLIEE.
+# Tant qu'ils n'etaient nulle part dans le generateur, toute regeneration les
+# perdait. Ils sont donc rapatries ici, avec leur raison d'etre.
+# --------------------------------------------------------------------------- #
+
+# 1) Le style du credit photo (`.cred-fig`) n'existe pas dans la source. Sans
+#    lui, les mentions « Credit photo … » sous les figures perdent leur mise en
+#    forme et leur zone tactile de 44 px. On le pose juste apres la regle de
+#    focus clavier, la ou il se trouve dans la page publiee.
+ANCRE_FOCUS = (':focus-visible{outline:2px solid var(--gold2);'
+               'outline-offset:2px;border-radius:4px}\n')
+CSS_CRED = """/* credit photo sous une figure (signature du photographe visible sur l'image) */
+.cred-fig{margin-top:8px;text-align:center;font-size:15px;color:var(--muted)}
+.cred-fig a{color:var(--gold);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px;display:inline-block;padding:11px 0}
+.cred-fig a:hover{color:var(--gold2)}
+"""
+assert ANCRE_FOCUS in html, 'ancre :focus-visible introuvable'
+if '.cred-fig{' not in html:                       # garde d'idempotence
+    html = html.replace(ANCRE_FOCUS, ANCRE_FOCUS + CSS_CRED, 1)
+
+# 2) Le bloc « lisibilite des liens » vit dans la source, donc AVANT le CSS
+#    ajoute ici. Or il doit passer APRES : `.nav .links a{font-size:14.5px}`
+#    doit l'emporter sur la regle de la barre de navigation posee plus bas, et
+#    les soulignements sur les regles de figure. On le deplace donc en fin de
+#    CSS_ADD — c'est exactement sa position dans la page publiee.
+DEB_LISI = '/* --- lisibilite des liens (demande de David : liens et dates trop petits) --- */'
+FIN_LISI = '  text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}\n'
+d = html.find(DEB_LISI)
+assert d != -1, 'bloc « lisibilite des liens » introuvable dans la source'
+f = html.find(FIN_LISI, d) + len(FIN_LISI)
+BLOC_LISI = html[d:f]
+html = html[:d - 1] + html[f:]                     # -1 : la ligne vide qui precede
+CSS_ADD = CSS_ADD.replace('</style>', '\n' + BLOC_LISI + '\n</style>', 1)
+
 html = html.replace('</style>', CSS_ADD, 1)
 
 
-def figblock(name, vs, cap, lazy=True):
+# CREDITS PHOTO. Certaines photos portent la signature du photographe, visible a
+# l'oeil sur l'image : la mention et le lien sont donc obligatoires sous la
+# figure. Le `.cred-fig` se place APRES la legende, dans le meme `.wrap` — la
+# legende reste collee a sa photo, le credit vient dessous. C'est un correctif
+# volontaire : place autrement, le credit chevauchait la legende.
+CRED = {
+    "MAGYE D'ART": 'https://magyedart.fr/',
+    'Nadine Court': 'https://kairos-photo-artisan.com/',
+}
+
+
+def credit(qui):
+    """Ligne « Credit photo <lien> » a poser sous la legende d'une figure."""
+    return ('<div class="cred-fig">Crédit photo <a href="%s" target="_blank"'
+            ' rel="noopener">%s</a></div>' % (CRED[qui], qui))
+
+
+def figblock(name, vs, cap, lazy=True, alt=None, cred=None, repli=None):
+    """Figure pleine largeur : photo + legende (+ credit photo si signee)."""
     return ('<section class="figsec"><div class="wrap"><div class="figure">'
-            + picture(name, vs, SIZES_FIG, cap, lazy=lazy)
-            + '</div><div class="cap">' + cap + '</div></div></section>\n')
+            + picture(name, vs, SIZES_FIG, alt or cap, lazy=lazy, repli=repli)
+            + '</div><div class="cap">' + cap + '</div>'
+            + (credit(cred) if cred else '') + '</div></section>\n')
 
 
 # le fond du hero est desormais pose par la feuille de style (pas de style inline)
@@ -255,7 +426,8 @@ html = html.replace(sig, sig + '\n  <div class="figure">'
 anchor_voyage = '<section class="journey"><div class="wrap">\n  <div class="kick">Le voyage</div>'
 assert anchor_voyage in html, 'ancre voyage introuvable'
 html = html.replace(anchor_voyage,
-                    figblock(slug(CAP_REX), v_rex, CAP_REX) + anchor_voyage, 1)
+                    figblock(slug(CAP_REX), v_rex, CAP_REX,
+                             cred="MAGYE D'ART") + anchor_voyage, 1)
 
 # figure de l'induction, avant la cle de voute
 assert '<section class="keystone"><div class="wrap">' in html
@@ -266,13 +438,10 @@ html = html.replace('<section class="keystone"><div class="wrap">',
 # ------------------------------------------------------------------------- #
 # GRAND REX, SECONDE PHOTO (ajout du 14/08/2026, fournie par David).
 #
-# ⚠️ CE BLOC N'EST PAS PRODUIT PAR CE SCRIPT : il a ete ajoute A LA MAIN dans
-# `rituals/index.html`, juste APRES la section `.keystone` inseree ci-dessus
-# (`<section class="figsec">` avec `grand-rex-bras-leves-*`). Ce generateur ne
-# tourne plus ici (les dossiers `promo_raw/` et `web_img/` sont hors depot), il
-# ne peut donc pas le recreer : une regeneration ferait DISPARAITRE cette photo.
-# La note est conservee ici, a l'endroit du code ou le bloc s'insere, parce que
-# c'est le seul code qui produit cette page.
+# Ce bloc etait ajoute A LA MAIN dans `rituals/index.html` : le generateur ne le
+# produisait pas, et une regeneration faisait donc DISPARAITRE la photo. Il est
+# desormais emis ici, a sa place, a partir des derivees deja presentes dans
+# `img/rituals/` — plus rien a refaire a la main, plus rien a perdre.
 #
 # Placee ICI, juste apres la cle de voute, parce qu'elle montre exactement ce
 # que la citation decrit : la salle entiere prise dans le meme geste.
@@ -292,7 +461,34 @@ html = html.replace('<section class="keystone"><div class="wrap">',
 # dans les sources du projet : conference-film-concert avec David le
 # 30/09/2023 au Theatre de l'Etang. David, lui, est le musicien ASSIS A
 # GAUCHE, derriere ses calebasses.
+#
+# ⚠️ Cette photo a ete preparee a la main : 4 largeurs, dont une de 2000 px que
+# la fabrication automatique ne produit pas (elle plafonne a 1400). Son `src` de
+# secours est en 1400 px, pas en 900 comme les autres — d'ou `repli=1400`. Elle
+# n'a pas de recette dans RECETTES : son original n'est pas dans le depot.
 # ------------------------------------------------------------------------- #
+CAP_BRAS_LEVES = ('Le même geste, sur scène et dans la salle — projeté en direct'
+                  ' sur l’écran du Grand Rex. À droite, <b>Arnaud Riou</b> au'
+                  ' tambour sur cadre.')
+ALT_BRAS_LEVES = ('Sur la scène du Grand Rex : David Lesage assis au sol à gauche,'
+                  ' derrière deux calebasses ; une rangée d’intervenants en noir'
+                  ' les bras levés ; Iris Chasles au centre en tailleur rouge,'
+                  ' bras levés ; à droite, Arnaud Riou, cheveux gris et barbe'
+                  ' blanche, qui frappe un grand tambour sur cadre. Au-dessus'
+                  ' d’eux, un écran géant montre la salle comble sur plusieurs'
+                  ' niveaux, debout, bras levés.')
+
+# ancre : la fin de la section « cle de voute » (la citation « … apaisé. »).
+# `<div class="divider">` seul ne conviendrait pas, la page en compte deux.
+ancre_keystone = 'apaisé.</div>\n</div></section>\n\n'
+assert html.count(ancre_keystone) == 1, 'ancre de la cle de voute non unique'
+if 'grand-rex-bras-leves' not in html:             # garde d'idempotence
+    html = html.replace(
+        ancre_keystone,
+        ancre_keystone + figblock('grand-rex-bras-leves',
+                                  derivees('grand-rex-bras-leves'),
+                                  CAP_BRAS_LEVES, alt=ALT_BRAS_LEVES,
+                                  cred='Nadine Court', repli=1400) + '\n', 1)
 
 # photos des artistes
 html = html.replace('<div class="artist">\n    <h3>David Lesage</h3>',
@@ -310,7 +506,7 @@ html = html.replace('<div class="artist">\n    <h3>Iris Chasles</h3>',
 slides = ''
 for i, (tok, cap) in enumerate(GAL):
     name = slug(cap)
-    vs = promo(tok, 1500, name)
+    vs = derivees(name)
     big = '%s/%s-%d' % (IMG_URL, name, vs[-1][0])
     ar = round(vs[-1][0] / vs[-1][1], 4)
     slides += ('      <div class="slide" style="--ar:%s">' % ar
@@ -356,6 +552,24 @@ html = html.replace('<style>',
 sys.path.insert(0, HERE)
 import mobile_nav
 html = mobile_nav.inject(html)
+
+# `mobile_nav.inject()` colle son CSS tout en fin de feuille de style. Dans la
+# page publiee il se trouve plus haut, juste apres les regles de mise en page
+# mobile de la galerie — position heritee d'une epoque ou CSS_ADD s'arretait la.
+# On l'y remet : ainsi le bloc « lisibilite des liens », qui doit rester le
+# dernier a parler taille de police, garde le dernier mot.
+ANCRE_HAMBURGER = ('@media(max-width:600px){.aphoto{float:none;width:62%;'
+                   'display:block;margin:0 auto 16px}.car-btn{display:none}}\n')
+assert html.count(mobile_nav.CSS) == 1, 'CSS du hamburger introuvable ou en double'
+assert html.count(ANCRE_HAMBURGER) == 1, 'ancre du hamburger non unique'
+html = html.replace(mobile_nav.CSS, '', 1)
+html = html.replace(ANCRE_HAMBURGER, ANCRE_HAMBURGER + mobile_nav.CSS, 1)
+
+# Ligne vide entre le script du hamburger et le bloc du menu partage. Elle vient
+# de la mise a jour du menu v1 -> v2 : `nav_menu._strip()` a retire l'ancien bloc
+# en laissant le saut de ligne qui le suivait. Toutes les pages publiees l'ont ;
+# on la reproduit pour qu'une regeneration ne modifie pas un octet.
+html = html.replace('</script>\n</body>', '</script>\n\n</body>', 1)
 
 # menu de navigation partage (Accueil / Sur scene / Le Nid / L'association / Contact)
 import nav_menu
