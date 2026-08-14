@@ -74,11 +74,11 @@ TABLEAU = (
         nom='accueil', fichier='index.html',
         generateur='generate_assoc.py', ecrit='assoc_index.html',
         passe_menu=False,
-        bloque="le script s'arrete sur une erreur Python : le bloc de style "
-               "ajoute vers la ligne 151 contient des accolades non echappees "
-               "dans une f-string (« NameError: name 'font' is not defined »). "
-               "La page en ligne, elle, est bonne : elle est maintenue a la "
-               "main depuis. A reparer dans le generateur avant de s'en servir.",
+        # 14/08/2026 : le generateur a ete repare (les accolades du CSS insere
+        # n'etaient pas doublees dans une f-string : « NameError: name 'font'
+        # is not defined »). Il reproduit desormais assoc_index.html a l'octet
+        # pres, et build.py le recopie sur index.html.
+        bloque=None,
     ),
     dict(
         nom='rituals', fichier='rituals/index.html',
@@ -93,8 +93,11 @@ TABLEAU = (
         nom='rituals-trio', fichier='rituals-trio/index.html',
         generateur='generate_trio.py', ecrit=None,
         passe_menu=False,
-        bloque="memes photos d'origine manquantes que /rituals "
-               "(« photo introuvable dans web_img/ »).",
+        # 14/08/2026 : repare comme /rituals — la fabrication des images
+        # derivees (qui a besoin des photos d'origine hors depot) est passee
+        # derriere l'option `--images`. Sans elle, la page se regenere a
+        # l'octet pres a partir de sources/trio_source.html.
+        bloque=None,
     ),
     dict(
         nom='e-motion', fichier='e-motion/index.html',
@@ -120,11 +123,10 @@ TABLEAU = (
         nom='le-nid', fichier='le-nid/index.html',
         generateur='generate_agenda_nid.py', ecrit=None,
         passe_menu=False,
-        bloque="ce script n'est pas un generateur complet : il RETOUCHE une page "
-               "existante qu'il va chercher dans « lenid_deploy/index.html », un "
-               "dossier qui n'existe plus dans le depot. En l'etat il s'arrete "
-               "sur « No such file or directory ». La page en ligne est "
-               "maintenue a la main.",
+        # 14/08/2026 : ce n'est plus une retouche d'une page introuvable. Le
+        # generateur part maintenant de sources/lenid_source.html, versionne
+        # dans le depot, et reproduit /le-nid a l'octet pres.
+        bloque=None,
     ),
     dict(
         nom='le-soin-soa', fichier='le-soin-soa/index.html',
