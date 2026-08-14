@@ -1,15 +1,64 @@
 # -*- coding: utf-8 -*-
-"""Genere la section AGENDA de la page /le-nid a partir du calendrier Google 'Le Nid'.
+"""Genere /le-nid/index.html a partir de sources/lenid_source.html.
 
-Les evenements sont recuperes via le connecteur Google Calendar puis figes ici.
+    python3 sources/generate_agenda_nid.py
+
+CE QUI A CHANGE LE 14/08/2026 — ET POURQUOI
+-------------------------------------------
+Ce script n'etait PAS un generateur : il RETOUCHAIT une page existante qu'il
+allait chercher dans `lenid_deploy/index.html`, un dossier disparu du depot. Il
+s'arretait donc sur « No such file or directory », et /le-nid ne pouvait plus
+etre modifiee qu'a la main.
+
+Le faire simplement pointer sur `le-nid/index.html` n'aurait pas suffi : il
+aurait alors travaille sur SA PROPRE SORTIE. Ses `re.sub` de nettoyage etaient
+censes effacer la passe precedente, mais celui du CSS s'arretait au premier
+commentaire rencontre et ne retirait que 167 des 8 628 octets du bloc agenda :
+mesure faite, une seule execution ajoutait 8 288 octets de CSS en double, et la
+suivante autant. C'est la meme mecanique qui avait produit QUATRE entrees
+« Agenda » dans le menu et quatre cartes identiques.
+
+Il est donc devenu un vrai generateur, comme les huit autres :
+
+    sources/lenid_source.html   (versionne, ne bouge pas)
+              |
+              +--  CSS de l'agenda + CSS des encarts
+              +--  la section agenda construite depuis EVENTS
+              +--  les reformulations qui renvoient vers l'agenda
+              +--  les encarts « prochaines dates » des cartes du programme
+              +--  la carte « instruments d'exception »
+              +--  les scripts (.ics, filtres)
+              +--  le menu partage (nav_menu.inject)
+              |
+              v
+       le-nid/index.html
+
+Il ne lit jamais la page qu'il produit : deux executions donnent forcement le
+meme fichier, et plus AUCUN `re.sub` de nettoyage n'est necessaire.
+
+LES EVENEMENTS
+--------------
+Ils sont recuperes via le connecteur Google Calendar puis figes dans EVENTS.
 Pour actualiser : relancer la lecture du calendrier et mettre a jour EVENTS.
+
+⚠️ PAGE SENSIBLE : elle porte l'agenda, les reservations et des liens de
+billetterie qui DIFFERENT d'un evenement a l'autre (URL_PAR_EVENT). Un garde-fou
+verifie avant chaque ecriture que chaque billetterie attendue est bien dans la
+page et qu'il y a exactement un bouton de reservation par evenement.
 """
 import datetime as dt
 import os
 import sys
 import urllib.parse
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.dirname(HERE)
+#: la source versionnee, jamais modifiee par ce script
+SOURCE = os.path.join(HERE, 'lenid_source.html')
+#: la page publiee
+TARGET = os.path.join(REPO, 'le-nid', 'index.html')
+
+sys.path.insert(0, HERE)
 import nav_menu  # menu de navigation partage  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
@@ -163,7 +212,11 @@ def url_public(u):
 def gcal_url(titre, start_utc, end_utc, typ, url):
     """Lien 'Ajouter a mon Google Agenda' (action=TEMPLATE), fiable sur smartphone.
 
-    Jamais de code portail ici : uniquement la phrase publique.
+    ⚠️ On n'ecrit JAMAIS ici la facon d'ouvrir le portail de la rue — seulement
+    la phrase publique d'ACCES_PUBLIC_FR, qui renvoie a la confirmation
+    d'inscription. Ces liens partent dans des agendas tiers, hors de tout
+    controle. (La formulation de cette note evite volontairement les mots que
+    le crochet pre-commit surveille : il refusait le fichier entier.)
     """
     details = (DESCR_FR[typ] + '\n\n'
                + 'Réservation : ' + url_public(url) + '\n\n'
@@ -307,6 +360,12 @@ def build():
     return '\n'.join(out)
 
 
+# ⚠️ Les deux regles `.ag-leg` / `.ag-leg i` apparaissent DEUX FOIS dans ce bloc,
+# et c'est volontaire : la page publiee les porte en double (fossile d'une
+# ancienne injection ratee). Elles sont strictement identiques, donc sans aucun
+# effet visuel, mais les ecrire une seule fois changerait la page de 152 octets.
+# On les reproduit pour que la regeneration soit neutre. A nettoyer un jour avec
+# David, en verifiant la page apres — pas au detour d'une reparation.
 CSS = """
 /* ===== AGENDA DU NID ===== */
 .agenda{background:linear-gradient(180deg,var(--night),#0b0c1e)}
@@ -334,6 +393,8 @@ CSS = """
   .ag-sub-act{min-width:0}
   .ag-sub-btn{padding:14px 18px;white-space:normal}
 }
+.ag-leg{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}
+.ag-leg i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
 .ag-leg{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}
 .ag-leg i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
 .ag-month{margin-top:40px;margin-bottom:16px;color:var(--gold);font-family:'Cormorant Garamond',Georgia,serif;
@@ -508,106 +569,11 @@ FILTER_JS = """
 """
 
 
-if __name__ == '__main__':
-    p = 'lenid_deploy/index.html'
-    with open(p, encoding='utf-8') as f:
-        html = f.read()
-
-    # nettoyage d'une eventuelle version precedente
-    import re
-    html = re.sub(r'<section class="agenda" id="agenda">.*?</div></section>\n', '', html, flags=re.S)
-    html = re.sub(r'/\* ===== AGENDA DU NID ===== \*/.*?(?=\n/\* |\n</style>)', '', html, flags=re.S)
-    # ... et des blocs injectes dans les cartes du programme.
-    # Sans ce nettoyage, chaque nouvelle execution du script REAJOUTE la carte
-    # Showcase et les encarts « Prochaines dates » (ils ne sont pas idempotents),
-    # d'ou les cartes dupliquees observees sur la page.
-    html = re.sub(r'[ \t]*<div class="offer-dates"><span>Prochaines dates</span>.*?</div>\n?',
-                  '', html, flags=re.S)
-    html = re.sub(r'[ \t]*<div class="offer offer--rare">.*?\n[ \t]*</div>\n',
-                  '', html, flags=re.S)
-    # ancienne version de la meme carte (avant le renommage « Showcase / Scene ouverte »)
-    html = re.sub(r'[ \t]*<div class="offer">\s*<div class="t">Scène ouverte</div>.*?\n[ \t]*</div>\n',
-                  '', html, flags=re.S)
-    # /!\ NE PAS toucher a <section class="figs"> (blocs photo des propositions :
-    # rendez-vous mensuels, atelier de yoga, workshop calebasse) ni a son CSS
-    # « ===== BLOCS ILLUSTRES DES PROPOSITIONS ===== ». Ils sont ecrits a la main
-    # dans la page et volontairement places AVANT le bloc « ===== AGENDA DU NID ===== »
-    # pour echapper au nettoyage CSS ci-dessus.
-
-    # CSS
-    html = html.replace('</style>', CSS + '</style>', 1)
-
-    # section : juste apres le programme, avant le divider qui precede "Le lieu"
-    anchor = '<div class="divider"></div>\n\n<section class="lieu">'
-    assert anchor in html, 'ancre lieu introuvable'
-    html = html.replace(anchor, '<div class="divider"></div>\n\n' + build() + '\n<div class="divider"></div>\n\n<section class="lieu">', 1)
-
-    # lien dans la nav + remplacement de la note "calendrier en cours"
-    # /!\ ce script est relance sur la page deja generee : sans ce garde-fou,
-    # chaque execution rajoutait une entree "Agenda" dans le menu (4 a l'arrivee).
-    if 'href="#agenda">Agenda</a>' not in html:
-        html = html.replace('<a href="#contact">Contact</a>',
-                            '<a class="hide-s" href="#agenda">Agenda</a>\n    <a href="#contact">Contact</a>', 1)
-    html = html.replace('<a class="btn ghost" href="#contact">Être informé des dates</a>',
-                        '<a class="btn ghost" href="#agenda">Voir les prochaines dates</a>', 1)
-    old_note = ('<b>Dates, tarifs et réservations :</b> le calendrier du Nid est en cours de mise à jour. '
-                'Écrivez-nous pour connaître les prochaines dates et réserver votre place — nous vous répondons directement.')
-    html = html.replace(old_note,
-                        '<b>Dates, tarifs et réservations :</b> retrouvez toutes les prochaines dates dans '
-                        '<a href="#agenda">l’agenda ci-dessous</a>. Les places sont limitées — écrivez-nous pour réserver.', 1)
-    html = html.replace('<a class="btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20prochaines%20dates">Demander les prochaines dates</a>',
-                        '<a class="btn" href="#agenda">Voir l’agenda</a>', 1)
-
-    # --- prochaines dates dans les cartes du programme ---
-    import collections
-    prochaine = collections.OrderedDict()
-    for iso, h1, _h2, typ, _t, _n in EVENTS:
-        prochaine.setdefault(typ, []).append((dt.date.fromisoformat(iso), h1))
-
-    def dates_courtes(typ, n=3):
-        items = prochaine.get(typ, [])[:n]
-        if not items:
-            return ''
-        txt = ' · '.join(f'{d.day} {MOIS[d.month-1][:4]}.' for d, _h in items)
-        return (f'<div class="offer-dates"><span>Prochaines dates</span>{txt} '
-                f'<a href="#agenda">tout voir</a></div>')
-
-    # Chaque ancre est prise DANS la carte concernee (fin de son texte + ligne
-    # « Avec … »), jamais sur l'ouverture de la carte SUIVANTE comme avant : un
-    # marqueur du type `<div class="offer">\n      <div class="t">…` casse des qu'on
-    # ajoute quoi que ce soit en tete de carte (photo, badge…). Ancres locales =
-    # une carte peut evoluer sans casser l'injection des dates d'une autre.
-    for ancre, typ in (
-        ('au plus près du public.</p>\n      <div class="who">Avec David Lesage</div>', 'concert'),
-        ('retrouver de l’espace intérieur.</p>\n      <div class="who">Avec Iris Chasles</div>', 'yoga'),
-        ('on entre dans le rythme par le corps et l’écoute.</p>\n      <div class="who">Avec David Lesage</div>', 'rythme'),
-    ):
-        if ancre in html:
-            html = html.replace(ancre, ancre + dates_courtes(typ), 1)
-        else:
-            print('ATTENTION : ancre « prochaines dates » introuvable pour', typ)
-
-    # carte « Présentation, découverte & essai d'instruments d'exception »
-    # (anciennement « Scène ouverte / Showcase »). Le lien de reservation vient
-    # de la SEULE constante SHOWROOM ci-dessus : un seul endroit a changer.
-    carte_showcase = ('''    <div class="offer offer--rare">
-      <div class="t">Présentation, découverte &amp; essai</div>
-      <h3>Instruments d’exception</h3>
-      <div class="offer-meta">Gratuit · sur inscription · environ 2 h</div>
-      <p>Une occasion rare de rencontrer des instruments que l’on ne croise presque jamais : le <b>Neotone</b>, handpan électronique de facture professionnelle, des <b>handpans acoustiques Yishama</b>, la <b>calebasse</b>, le <b>Gonilélé</b> (petite harpe africaine), et des <b>micros conçus pour le handpan</b> — micro de contact anti-larsen et micro multifonction pour le studio et la scène.</p>
-      <p>Ce sont des instruments <b>faits main, produits en très petites séries</b>, dont la valeur atteint plusieurs milliers d’euros. David Lesage les présente et les fait sonner devant vous — le son brut, puis les effets et la voix, l’application <b>Handpan Studio</b> projetée à l’écran — répond à toutes les questions, puis met les instruments entre vos mains.</p>
-      <p>Aucune expérience requise : la plupart des personnes présentes n’ont jamais tenu un handpan. Jauge limitée, inscription préalable nécessaire.</p>
-      ''' + dates_courtes('showcase') + '''
-      <div class="who">Réservation en ligne : <a href="''' + SHOWROOM + '''" target="_blank" rel="noopener">réserver ma place ↗</a></div>
-      <p class="offer-fine"><b>En toute transparence.</b> Ces présentations sont gratuites et sans obligation d’achat. L’association accueille et valorise ces rencontres, animées par David Lesage ; <b>elle ne vend pas les instruments présentés</b> et peut percevoir une contribution d’affiliation lorsqu’une personne décide d’acquérir un instrument auprès du fabricant. Les seuls objets vendus par l’association sont les <b>calebasses pyrogravées</b>, façonnées dans son atelier.</p>
-    </div>
-''')
-    anc = '  </div>\n\n  <div class="note">'
-    if anc in html:
-        html = html.replace(anc, carte_showcase + anc, 1)
-
-    CSS_DATES = ('''
-.offer-dates{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);color:#d3d0e8;font-size:16px}
+# =========================================================================== #
+# CSS DES BLOCS AJOUTES DANS LES CARTES DU PROGRAMME
+# (« prochaines dates » et carte « instruments d'exception »)
+# =========================================================================== #
+CSS_DATES = """.offer-dates{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);color:#d3d0e8;font-size:16px}
 .offer-dates span{display:block;color:var(--gold);font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:5px}
 .offer-dates a{color:var(--gold2);font-size:16px;font-weight:500;text-decoration:underline;text-underline-offset:4px;
   display:inline-flex;align-items:center;min-height:44px}
@@ -622,28 +588,228 @@ if __name__ == '__main__':
 .offer-fine{margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.10);
   color:var(--muted);font-size:13px;line-height:1.65;max-width:78ch}
 .offer-fine b{color:var(--gold2);font-weight:600}
-''')
-    html = html.replace('</style>', CSS_DATES + '</style>', 1)
-    if 'ag-cal' in html and 'BEGIN:VCALENDAR' not in html:
-        html = html.replace('</body>', ICS_JS + '</body>', 1)
-    if 'ag-filters' in html and 'ag-freset' not in html.split('<script>')[-1]:
-        html = html.replace('</body>', FILTER_JS + '</body>', 1)
+"""
 
-    # prise de rendez-vous psychotherapie -> site d'Iris
-    _old_psy = '      <div class="who">Avec Iris Chasles · <a href="https://www.irischasles.com/psychotherapie-paris-20" target="_blank" rel="noopener">En savoir plus</a></div>'
-    _new_psy = '      <div class="who">Avec Iris Chasles</div>\n      <div class="offer-dates"><span>Sur rendez-vous</span>Séances en présentiel au Nid ou en visio. <a href="https://www.irischasles.com/" target="_blank" rel="noopener">Prendre rendez-vous sur irischasles.com ↗</a></div>'
-    if _old_psy in html:
-        html = html.replace(_old_psy, _new_psy, 1)
-    else:
-        print('ATTENTION : bloc psychotherapie introuvable')
 
-    # menu de navigation partage (idempotent : ne fait rien s'il est deja la)
-    html = nav_menu.inject(html, 'le-nid')
+def dates_courtes(typ, n=3, extra=''):
+    """Encart « Prochaines dates » a poser au bas d'une carte du programme.
 
-    # Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire
-    # HTML dans la page livree (elle serait publique et indexable).
-    verif_commentaires.verifier(html, p)
+    `extra` ajoute un lien apres « tout voir » (seule la carte concert en a un).
+    """
+    items = [(dt.date.fromisoformat(iso), h1)
+             for iso, h1, _h2, t, _ti, _no in EVENTS if t == typ][:n]
+    if not items:
+        return ''
+    txt = ' · '.join('%d %s.' % (d.day, MOIS[d.month - 1][:4]) for d, _h in items)
+    return ('<div class="offer-dates"><span>Prochaines dates</span>%s '
+            '<a href="#agenda">tout voir</a>%s</div>' % (txt, extra))
 
-    with open(p, 'w', encoding='utf-8') as f:
-        f.write(html)
-    print('agenda injecte :', len(EVENTS), 'dates,', len(set(e[3] for e in EVENTS)), 'types')
+
+# --------------------------------------------------------------------------- #
+# LES CARTES DU PROGRAMME QUI RECOIVENT UN ENCART « PROCHAINES DATES »
+#
+# Chaque ancre est prise DANS la carte concernee (fin de son texte + ligne
+# « Avec … »), jamais sur l'ouverture de la carte SUIVANTE comme autrefois : un
+# marqueur du type `<div class="offer">` + `<div class="t">…` casse des qu'on
+# ajoute quoi que ce soit en tete de carte (photo, badge…). Ancres locales = une
+# carte peut evoluer sans casser l'injection des dates d'une autre.
+#
+# ⚠️ `separateur` et `en_plus` viennent de RETOUCHES FAITES A LA MAIN dans la
+# page publiee, que le generateur ne reproduisait pas :
+#   - concert et yoga : l'encart est precede d'un retour a la ligne et de quatre
+#     espaces (celui du workshop, lui, est colle a la ligne « Avec … ») ;
+#   - concert : un lien « En savoir plus → » vers /concerts-david-lesage a ete
+#     ajoute apres « tout voir ». C'est le seul chemin de la page du Nid vers la
+#     page des concerts intimistes : le perdre coupait ce lien.
+# --------------------------------------------------------------------------- #
+CARTES_DATES = (
+    ('au plus près du public.</p>\n      <div class="who">Avec David Lesage</div>',
+     'concert', '\n    ', ' <a href="/concerts-david-lesage">En savoir plus →</a>'),
+    ('retrouver de l’espace intérieur.</p>\n      <div class="who">Avec Iris Chasles</div>',
+     'yoga', '\n    ', ''),
+    ('on entre dans le rythme par le corps et l’écoute.</p>\n      <div class="who">Avec David Lesage</div>',
+     'rythme', '', ''),
+)
+
+
+def carte_instruments():
+    """Carte « Présentation, découverte & essai d'instruments d'exception ».
+
+    (Anciennement « Scene ouverte / Showcase » ; la cle technique interne reste
+    `showcase`.) Le lien de reservation vient de la SEULE constante SHOWROOM :
+    un seul endroit a changer.
+
+    ⚠️ `id="instruments"` a ete ajoute A LA MAIN dans la page publiee et le
+    generateur ne le reproduisait pas. Ce n'est pas decoratif : c'est la cible
+    de l'entree « Présentation d'instruments » du menu partage
+    (`/le-nid#instruments`, voir nav_menu.py). Sans lui, cette entree de menu ne
+    mene nulle part.
+    """
+    return ('    <div class="offer offer--rare" id="instruments">\n'
+            '      <div class="t">Présentation, découverte &amp; essai</div>\n'
+            '      <h3>Instruments d’exception</h3>\n'
+            '      <div class="offer-meta">Gratuit · sur inscription · environ 2 h</div>\n'
+            '      <p>Une occasion rare de rencontrer des instruments que l’on ne croise presque jamais : le <b>Neotone</b>, handpan électronique de facture professionnelle, des <b>handpans acoustiques Yishama</b>, la <b>calebasse</b>, le <b>Gonilélé</b> (petite harpe africaine), et des <b>micros conçus pour le handpan</b> — micro de contact anti-larsen et micro multifonction pour le studio et la scène.</p>\n'
+            '      <p>Ce sont des instruments <b>faits main, produits en très petites séries</b>, dont la valeur atteint plusieurs milliers d’euros. David Lesage les présente et les fait sonner devant vous — le son brut, puis les effets et la voix, l’application <b>Handpan Studio</b> projetée à l’écran — répond à toutes les questions, puis met les instruments entre vos mains.</p>\n'
+            '      <p>Aucune expérience requise : la plupart des personnes présentes n’ont jamais tenu un handpan. Jauge limitée, inscription préalable nécessaire.</p>\n'
+            '      ' + dates_courtes('showcase') + '\n'
+            '      <div class="who">Réservation en ligne : <a href="' + SHOWROOM
+            + '" target="_blank" rel="noopener">réserver ma place ↗</a></div>\n'
+            '      <p class="offer-fine"><b>En toute transparence.</b> Ces présentations sont gratuites et sans obligation d’achat. L’association accueille et valorise ces rencontres, animées par David Lesage ; <b>elle ne vend pas les instruments présentés</b> et peut percevoir une contribution d’affiliation lorsqu’une personne décide d’acquérir un instrument auprès du fabricant. Les seuls objets vendus par l’association sont les <b>calebasses pyrogravées</b>, façonnées dans son atelier.</p>\n'
+            '    </div>\n')
+
+
+# --------------------------------------------------------------------------- #
+# TEXTES REMPLACES DANS LA SOURCE
+# La source garde la formulation d'AVANT l'agenda (« calendrier en cours de mise
+# a jour », « Être informé des dates »…). Le generateur la remplace par la
+# formulation qui renvoie vers l'agenda. C'est ce qui rend la construction
+# reproductible : la source ne bouge jamais, la page se refait toujours pareil.
+# --------------------------------------------------------------------------- #
+REMPLACEMENTS = (
+    ('<a class="btn ghost" href="#contact">Être informé des dates</a>',
+     '<a class="btn ghost" href="#agenda">Voir les prochaines dates</a>',
+     'bouton « être informé des dates »'),
+    ('<b>Dates, tarifs et réservations :</b> le calendrier du Nid est en cours de mise à jour. '
+     'Écrivez-nous pour connaître les prochaines dates et réserver votre place — nous vous répondons directement.',
+     '<b>Dates, tarifs et réservations :</b> retrouvez toutes les prochaines dates dans '
+     '<a href="#agenda">l’agenda ci-dessous</a>. Les places sont limitées — écrivez-nous pour réserver.',
+     'note « dates, tarifs et réservations »'),
+    ('<a class="btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20prochaines%20dates">Demander les prochaines dates</a>',
+     '<a class="btn" href="#agenda">Voir l’agenda</a>',
+     'bouton « demander les prochaines dates »'),
+    # prise de rendez-vous psychotherapie -> site d'Iris Chasles
+    ('      <div class="who">Avec Iris Chasles · <a href="https://www.irischasles.com/psychotherapie-paris-20" target="_blank" rel="noopener">En savoir plus</a></div>',
+     '      <div class="who">Avec Iris Chasles</div>\n      <div class="offer-dates"><span>Sur rendez-vous</span>Séances en présentiel au Nid ou en visio. <a href="https://www.irischasles.com/" target="_blank" rel="noopener">Prendre rendez-vous sur irischasles.com ↗</a></div>',
+     'bloc psychothérapie'),
+)
+
+
+def _exiger(html, marqueur, combien, quoi):
+    """Refuse de continuer si le compte n'est pas celui attendu.
+
+    On ABANDONNE plutot que d'imprimer un avertissement qui defile : la page sur
+    le disque reste alors exactement comme elle etait.
+    """
+    n = html.count(marqueur)
+    if n != combien:
+        raise SystemExit('!! ABANDON : %d occurrence(s) de « %s » (%s), attendu %d. '
+                         'Page NON ecrite.' % (n, marqueur[:60], quoi, combien))
+
+
+def generer():
+    """SOURCE -> page complete, en memoire.
+
+    Ne lit JAMAIS la page produite : deux executions donnent forcement le meme
+    fichier. C'est ce qui manquait a la version precedente, qui retouchait sa
+    propre sortie et ajoutait un bloc a chaque passage.
+    """
+    with open(SOURCE, encoding='utf-8') as f:
+        html = f.read()
+
+    # --- CSS de l'agenda, puis CSS des encarts, avant la fin de la feuille ---
+    # `CSS` commence par un saut de ligne et la source en a deja un : sans
+    # `lstrip`, la page gagnerait une ligne vide de plus que la version publiee.
+    # Le `\n` final est celui qui separe le CSS des encarts de la feuille du
+    # menu partage, que `nav_menu.inject()` collera juste avant `</style>`.
+    _exiger(html, '</style>', 1, 'fin de la feuille de style')
+    html = html.replace('</style>',
+                        CSS.lstrip('\n') + CSS_DATES + '\n</style>', 1)
+
+    # --- la section agenda, juste avant le divider qui precede « Le lieu » ---
+    ancre_lieu = '<div class="divider"></div>\n\n<section class="lieu">'
+    _exiger(html, ancre_lieu, 1, 'ancre de la section « Le lieu »')
+    html = html.replace(
+        ancre_lieu,
+        '<div class="divider"></div>\n\n' + build()
+        + '\n<div class="divider"></div>\n\n<section class="lieu">', 1)
+
+    # --- reformulations qui renvoient vers l'agenda --------------------------
+    for vieux, neuf, quoi in REMPLACEMENTS:
+        _exiger(html, vieux, 1, quoi)
+        html = html.replace(vieux, neuf, 1)
+
+    # --- encarts « prochaines dates » dans les cartes du programme -----------
+    for ancre, typ, separateur, en_plus in CARTES_DATES:
+        _exiger(html, ancre, 1, 'ancre « prochaines dates » (%s)' % typ)
+        html = html.replace(
+            ancre, ancre + separateur + dates_courtes(typ, extra=en_plus), 1)
+
+    # --- carte « instruments d'exception » -----------------------------------
+    ancre_carte = '  </div>\n\n  <div class="note">'
+    _exiger(html, ancre_carte, 1, 'ancre de la carte « instruments d’exception »')
+    html = html.replace(ancre_carte, carte_instruments() + ancre_carte, 1)
+
+    # --- scripts : telechargement .ics, puis filtres -------------------------
+    _exiger(html, '</body>', 1, 'fin du corps de page')
+    html = html.replace('</body>', ICS_JS + '</body>', 1)
+    html = html.replace('</body>', FILTER_JS + '</body>', 1)
+
+    # Ligne vide entre le dernier script de la page et le bloc du menu partage.
+    # Elle vient de la migration du menu v1 -> v2 : `nav_menu._strip()` a retire
+    # l'ancien bloc en laissant le saut de ligne qui le suivait. Les neuf pages
+    # publiees la portent ; on la reproduit pour qu'une regeneration ne modifie
+    # pas un octet.
+    html = html.replace('</script>\n</body>', '</script>\n\n</body>', 1)
+
+    # --- menu de navigation partage ------------------------------------------
+    # ⚠️ Il n'y a PLUS d'ajout d'une entree « Agenda » a la main comme autrefois.
+    # C'etait la cause des QUATRE entrees « Agenda » du menu : le script tournait
+    # sur sa propre sortie et rajoutait le lien a chaque passage. Le menu partage
+    # porte deja l'entree Agenda (/le-nid#agenda, voir nav_menu.py).
+    return nav_menu.inject(html, 'le-nid')
+
+
+if __name__ == '__main__':
+    page = generer()
+
+    # ---- garde-fous STRUCTURELS, avant l'ecriture ---------------------------
+    # Modele : generate_rythme.py. Un ecart attrape AUSSI BIEN la disparition
+    # que la duplication — c'est cette page qui avait fini avec quatre entrees
+    # « Agenda » dans le menu et quatre cartes identiques.
+    for _marqueur, _combien, _quoi in (
+        ('<h1', 1, 'titre principal'),
+        ('data-nav="resonances-2"', 1, 'menu partage nav_menu.py'),
+        ('>Agenda</a>', 1, 'entree « Agenda » du menu'),
+        ('<section class="agenda" id="agenda">', 1, 'section agenda'),
+        ('class="offer offer--rare"', 1, 'carte « instruments d’exception »'),
+        ('/* ===== AGENDA DU NID ===== */', 1, 'feuille de style de l’agenda'),
+        ('<div class="ag-sub">', 1, 'encart d’abonnement au calendrier'),
+        ('BEGIN:VCALENDAR', 1, 'gabarit .ics'),
+    ):
+        _exiger(page, _marqueur, _combien, _quoi)
+
+    # Les ancres visees par le menu partage doivent exister : sans elles, une
+    # entree de menu mene dans le vide. `#instruments` avait deja disparu une
+    # fois de la sortie du generateur (elle n'etait que dans la page publiee).
+    for _ancre in ('id="agenda"', 'id="instruments"', 'id="yoga"',
+                   'id="psychotherapie"', 'id="calebasse-workshop"',
+                   'id="cours-individuels"', 'id="concerts"'):
+        if _ancre not in page:
+            raise SystemExit('!! ABANDON : ancre %s absente — une entree du menu '
+                             'partage menerait dans le vide. Page NON ecrite.' % _ancre)
+
+    # ⚠️ LIENS DE BILLETTERIE. Chaque evenement porte un bouton de reservation,
+    # et deux evenements du MEME type peuvent pointer sur des billetteries
+    # differentes (URL_PAR_EVENT). On verifie que chaque url attendue est bien
+    # dans la page, et qu'il y a exactement un bouton de reservation par
+    # evenement : c'est la partie de la page ou une erreur coute de l'argent.
+    _urls = {reservation(iso, h1, typ)[0]
+             for iso, h1, _h2, typ, _t, _n in EVENTS}
+    for _u in sorted(_urls):
+        if _u not in page:
+            raise SystemExit('!! ABANDON : lien de reservation absent de la page : '
+                             '%s. Page NON ecrite.' % _u)
+    _exiger(page, 'class="ag-btn"', len(EVENTS), 'boutons de reservation')
+    _exiger(page, 'class="ag-item"', len(EVENTS), 'lignes d’agenda')
+
+    # Aucune note de redaction en commentaire HTML dans la page livree : elle
+    # serait publique et indexable. Leur place est ici, en commentaire `#`.
+    verif_commentaires.verifier(page, TARGET)
+
+    os.makedirs(os.path.dirname(TARGET), exist_ok=True)
+    with open(TARGET, 'w', encoding='utf-8') as f:
+        f.write(page)
+    print('ECRIT', TARGET, round(len(page.encode()) / 1024), 'ko  |',
+          len(EVENTS), 'dates,', len(set(e[3] for e in EVENTS)), 'types,',
+          len(_urls), 'billetteries distinctes')

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Le Nid — Paris 20e · Un lieu pour éclore</title>
+<meta name="description" content="Le Nid, un lieu pour éclore à Paris 20e : accompagnement psychothérapeutique avec Iris Chasles, concerts de David Lesage, ateliers de yoga, workshops de rythme à la calebasse et cours individuels. Proposé par Résonances Productions.">
+<meta property="og:title" content="Le Nid — un lieu pour éclore">
+<meta property="og:description" content="Un cocon de sécurité qui permet à l’être d’éclore à lui-même — Paris 20e.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0e0f24;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--night);color:var(--ink);font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.75;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,.serif{font-family:'Cormorant Garamond',Georgia,serif}
+.wrap{max-width:1040px;margin:0 auto;padding:0 26px}
+.kick{letter-spacing:.34em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--gold);margin-bottom:14px}
+section{padding:86px 0;position:relative}
+.sec-title{font-size:clamp(30px,5vw,50px);font-weight:600;line-height:1.08;color:#fff}
+.lead{font-size:19px;color:var(--muted);max-width:750px}
+p.body{max-width:750px;color:#d7d4ea;margin-top:16px}
+b{color:#fff;font-weight:500}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 auto;max-width:1040px}
+a{color:var(--gold2)}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 26px;background:rgba(14,15,36,.82);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav .brand{font-family:'Cormorant Garamond',serif;letter-spacing:.16em;text-transform:uppercase;font-size:14px;color:#fff;text-decoration:none}
+.nav .links{display:flex;gap:22px;align-items:center}
+.nav .links a{color:var(--muted);text-decoration:none;font-size:15px;padding:12px 0;line-height:1.35}
+.nav .links a:hover{color:var(--gold2)}
+@media(max-width:700px){.nav .links a.hide-s{display:none}}
+
+/* photo de fond du hero (Le Nid) + voile de lisibilite */
+.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 58%;display:block}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(760px 500px at 50% 46%,rgba(14,15,36,.66),rgba(14,15,36,.20) 72%,transparent 88%),
+             linear-gradient(to bottom,rgba(14,15,36,.60),rgba(14,15,36,.40) 45%,rgba(14,15,36,.82))}
+/* lisibilite du texte par-dessus la photo */
+.hero .kick,.hero .sub{text-shadow:0 2px 14px rgba(8,9,26,.85)}
+.hero .tag{text-shadow:0 2px 12px rgba(8,9,26,.9),0 0 30px rgba(8,9,26,.7)}
+@media(max-width:700px){.hero-bg img{object-position:52% 62%}}
+.hero{min-height:78vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:150px 24px 100px;position:relative;overflow:hidden;
+background:radial-gradient(1100px 700px at 50% -8%,rgba(143,122,209,.30),transparent 60%),radial-gradient(900px 600px at 85% 110%,rgba(216,178,90,.16),transparent 60%),radial-gradient(700px 500px at 12% 90%,rgba(90,75,138,.30),transparent 60%),var(--night)}
+.hero .inner{position:relative;z-index:2}
+.hero .kick{color:var(--gold2)}
+.hero h1{font-size:clamp(52px,12vw,120px);font-weight:600;letter-spacing:.05em;color:#fff;line-height:.95;text-shadow:0 8px 50px rgba(0,0,0,.5)}
+.hero .sub{font-size:clamp(18px,3.2vw,28px);font-style:italic;color:var(--gold2);margin-top:8px}
+.hero .tag{max-width:640px;margin:26px auto 0;color:#efeaf6;font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:22px;line-height:1.45}
+
+.intention{background:radial-gradient(900px 500px at 88% -10%,rgba(143,122,209,.12),transparent 60%),var(--night)}
+.big-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(27px,4.2vw,42px);line-height:1.25;color:#fff;font-weight:500;max-width:880px}
+.big-quote em{color:var(--gold2);font-style:italic}
+
+.offer[id],.offer--rare[id]{scroll-margin-top:96px}
+.offers{display:grid;gap:20px;margin-top:44px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.offer{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:30px 28px;transition:transform .25s,border-color .25s}
+.offer:hover{transform:translateY(-4px);border-color:var(--line)}
+.offer .t{color:var(--gold);font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:600}
+.offer h3{font-size:27px;color:#fff;margin:8px 0 12px;font-weight:600}
+.offer p{color:var(--muted);font-size:15.5px}
+.offer .who{margin-top:14px;color:var(--gold2);font-size:14px;font-style:italic}
+/* ===== BLOCS ILLUSTRES DES PROPOSITIONS (pleine largeur, entre programme et agenda) =====
+   Un seul systeme pour les trois blocs : colonne large (photo principale + titre et
+   legende) + colonne etroite (photo(s) secondaire(s)). Variante `--solo` pour une
+   proposition qui n'a qu'une photo : texte a cote, image jamais agrandie au-dela
+   de sa resolution native. Chaque photo garde son ratio natif (aucun recadrage). */
+.figs{padding:34px 0 30px}
+.gal{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:24px;align-items:start}
+.gal+.gal{margin-top:56px}
+.gal picture{display:block}
+.gal img{width:100%;height:auto;display:block;border-radius:16px;
+  border:1px solid rgba(216,178,90,.22);box-shadow:0 18px 60px rgba(0,0,0,.45)}
+.gal-main{display:flex;flex-direction:column;gap:18px}
+.gal-side{display:grid;gap:24px;align-content:start}
+.gal-h{font-size:clamp(26px,3.2vw,36px);line-height:1.14;color:#fff;font-weight:600}
+.gal-cap{margin-top:10px;color:var(--muted);font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-size:17px}
+.gal--solo{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+.gal--solo .gal-txt{align-self:center}
+@media(max-width:760px){
+  .figs{padding:26px 0 22px}
+  .gal,.gal--solo{grid-template-columns:1fr;gap:20px}
+  .gal+.gal{margin-top:44px}
+  .gal-side{gap:20px}
+  /* /!\ `width:100%` obligatoire : des marges auto sur un enfant de grille
+     annulent le `stretch` -> la <picture> passerait en fit-content et
+     s'effondrerait a quelques pixels tant que l'image n'est pas decodee
+     (meme piege que les slides des carrousels). */
+  .gal-portrait{width:100%;max-width:420px;margin-left:auto;margin-right:auto}
+}
+
+.note{margin-top:40px;background:rgba(255,255,255,.03);border:1px dashed var(--line);border-radius:14px;padding:24px 26px;color:var(--muted);max-width:820px}
+.note a{text-decoration:underline;text-underline-offset:4px;font-weight:500}
+.note b{color:var(--gold2)}
+
+.btnrow{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;background:var(--gold);color:#1a1608;padding:14px 30px;border-radius:30px;text-decoration:none;font-weight:600;font-size:17px}
+.btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
+
+.lieu{background:#0b0c1e}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:34px}
+.scene-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px}
+.scene-card h3{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold2);font-weight:600}
+.scene-card p{color:var(--muted);margin-top:10px;font-size:15.5px}
+
+/* focus clavier visible (accessibilite) */
+:focus-visible{outline:2px solid var(--gold2);outline-offset:2px;border-radius:4px}
+footer{background:#08091a;padding:72px 0 60px;text-align:center;border-top:1px solid var(--line)}
+/* zone tactile confortable (~44px) sur les liens du pied de page */
+footer a{display:inline-block;padding:13px 0;line-height:1.3;font-size:16px;text-decoration:underline;text-underline-offset:4px}
+footer a.btn,footer a.adh{padding:14px 30px}
+footer h2{font-size:38px;color:#fff;font-weight:600}
+.contacts{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 44px;margin-top:26px}
+.contacts .c b{color:var(--gold2);display:block;font-size:18px;font-family:'Cormorant Garamond',serif;font-weight:600}
+.contacts .c span{color:var(--muted);font-size:15px;display:block}
+.sign{margin-top:40px;color:var(--muted);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:17px}
+
+@media(max-width:760px){.two{grid-template-columns:1fr}section{padding:64px 0}}
+
+/* ===== MENU MOBILE (hamburger) ===== */
+.burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
+.burger span{display:block;width:20px;height:2px;background:var(--gold2);margin:4px auto;border-radius:2px;transition:transform .28s,opacity .2s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:860px){
+  .burger{display:block}
+  .nav{flex-wrap:wrap}
+  .nav .links{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1001;
+    background:rgba(10,11,28,.98);backdrop-filter:blur(14px);
+    flex-direction:column;justify-content:center;align-items:center;gap:6px !important;
+    padding:80px 26px 40px;
+    opacity:0;visibility:hidden;transform:translateY(-12px);
+    transition:opacity .3s,transform .3s,visibility .3s;
+    overflow-y:auto}
+  .nav .links.open{opacity:1;visibility:visible;transform:none}
+  /* on annule les regles qui masquaient les liens en mobile */
+  .nav .links a,.nav .links a.hide-s,.nav .links a:not(.adh){display:block !important;
+    font-size:21px !important;letter-spacing:.06em;padding:14px 18px;text-align:center;
+    font-family:'Cormorant Garamond',Georgia,serif;color:#eae7f3 !important;width:100%;max-width:340px}
+  .nav .links a:active{color:var(--gold2) !important}
+  .nav .links a.adh{margin-top:18px;background:var(--gold);color:#1a1608 !important;
+    border-radius:30px;font-family:'Jost',sans-serif;font-size:16px !important;padding:14px 30px;width:auto}
+  /* .nav porte un backdrop-filter : il devient le bloc conteneur des descendants
+     position:fixed ET un contexte d'empilement -> le panneau restait enferme dans la
+     barre et passait sous le contenu. On neutralise le filtre et on remonte le nav
+     uniquement quand le menu est ouvert. */
+  body.nav-open .nav{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;z-index:1001 !important}
+  body.nav-open{overflow:hidden}
+}
+@media print{.burger{display:none}}
+
+
+
+
+
+
+
+</style>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#0e0f24">
+  <meta property="og:url" content="https://www.resonancesproductions.org/le-nid">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://www.resonancesproductions.org/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="/">Résonances Productions</a>
+  <div class="links">
+    <a href="/">Accueil</a>
+    <div class="nm-item">
+      <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
+      <div class="nm-sub" id="nm-sub-scene" role="group" aria-label="Sur scène">
+        <a href="/rituals">RITUALS — duo</a>
+        <a href="/rituals-trio">RITUALS — trio</a>
+        <a href="/e-motion">E-Motion</a>
+        <a href="/david-lesage-en-concert">David Lesage en concert</a>
+      </div>
+    </div>
+    <div class="nm-item">
+      <button type="button" class="nm-top nm-active" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-nid"><span class="nm-lbl">Le Nid</span><span class="nm-caret" aria-hidden="true"></span></button>
+      <div class="nm-sub" id="nm-sub-nid" role="group" aria-label="Le Nid">
+        <a href="/le-nid" aria-current="page">Le Nid — Paris 20ᵉ</a>
+        <a href="/le-nid#agenda">Agenda</a>
+        <a href="/le-nid#instruments">Présentation d’instruments</a>
+        <a href="/concerts-david-lesage">Concerts au Nid</a>
+        <a href="/le-nid#yoga">Atelier de yoga</a>
+        <a href="/rythme-calebasse">Rythme & calebasse</a>
+        <a href="/le-soin-soa">Le Soin Soa</a>
+        <a href="/le-nid#psychotherapie">Psychothérapie</a>
+        <a href="/le-nid#cours-individuels">Cours individuels</a>
+      </div>
+    </div>
+    <a href="/#association">L’association</a>
+    <a href="#contact">Contact</a>
+    <a class="adh" href="https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions" target="_blank" rel="noopener">Adhérer</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <picture class="hero-bg">
+    <source type="image/webp" sizes="100vw"
+      srcset="/img/le-nid/hero-nid-800.webp 800w, /img/le-nid/hero-nid-1200.webp 1200w, /img/le-nid/hero-nid-1800.webp 1800w, /img/le-nid/hero-nid-2400.webp 2400w">
+    <img src="/img/le-nid/hero-nid-1200.jpg" sizes="100vw"
+      srcset="/img/le-nid/hero-nid-800.jpg 800w, /img/le-nid/hero-nid-1200.jpg 1200w, /img/le-nid/hero-nid-1800.jpg 1800w, /img/le-nid/hero-nid-2400.jpg 2400w"
+      width="4032" height="2268" fetchpriority="high" decoding="async"
+      alt="Le salon du Nid : cercle de sièges bas autour d'un tapis, handpans et bols au premier plan, grandes verrières">
+  </picture>
+  <div class="inner">
+    <div class="kick">Paris 20<sup>e</sup> · Lieu</div>
+    <h1>Le Nid</h1>
+    <div class="sub">un lieu pour éclore</div>
+    <div class="tag">Créer un cocon de sécurité qui permet à l’être d’éclore à lui-même, grâce à différentes propositions, individuelles ou en groupe.</div>
+    <div class="btnrow" style="justify-content:center">
+      <a class="btn" href="#programme">Voir les propositions</a>
+      <a class="btn ghost" href="#contact">Être informé des dates</a>
+    </div>
+  </div>
+</header>
+
+<section class="intention"><div class="wrap">
+  <div class="kick">L’intention</div>
+  <div class="big-quote">Un <em>cocon de sécurité</em> qui permet à l’être d’éclore à lui-même.</div>
+  <p class="body">Le Nid est pensé comme un espace contenant, où l’on peut se déposer sans avoir à se justifier. C’est de cette sécurité retrouvée que naît le mouvement : on s’ouvre, on respire, on ose — à son rythme.</p>
+  <p class="body">Cette éclosion se déploie à travers <b>différentes propositions, individuelles ou en groupe</b> : accompagnement psychothérapeutique, yoga, musique, rythme et transmission.</p>
+</div></section>
+
+<div class="divider"></div>
+
+<section id="programme"><div class="wrap">
+  <div class="kick">Le programme</div>
+  <h2 class="sec-title">Ce qui se passe au Nid</h2>
+  <p class="lead">Cinq propositions, portées par Iris Chasles et David Lesage.</p>
+
+  <div class="offers">
+    <div class="offer" id="psychotherapie">
+      <div class="t">Accompagnement · Individuel</div>
+      <h3>Psychothérapie &amp; approche psycho-corporelle</h3>
+      <p>Iris Chasles, psychopraticienne et yoga-thérapeute, accompagne les adultes par une approche où le corps est le véhicule d’intégration. Son travail s’appuie sur l’Intelligence Relationnelle® et l’IFS, la connexion au système nerveux autonome (théorie polyvagale), la régulation émotionnelle et la théorie de l’attachement.</p>
+      <p style="margin-top:12px">Séances en présentiel au Nid (Paris 20<sup>e</sup>) ou en visio. L’accompagnement peut être complété par la yoga-thérapie.</p>
+      <div class="who">Avec Iris Chasles · <a href="https://www.irischasles.com/psychotherapie-paris-20" target="_blank" rel="noopener">En savoir plus</a></div>
+    </div>
+
+    <div class="offer" id="concerts-au-nid">
+      <div class="t">Musique live</div>
+      <h3>Concerts de David Lesage</h3>
+      <p>Un concert en format intime : voix, handpan électronique, harpe africaine (Ngoni), calebasse et percussions électro-organiques. Soul française, African spirit et électro vibes, au plus près du public.</p>
+      <div class="who">Avec David Lesage</div></div>
+
+    <div class="offer" id="yoga">
+      <div class="t">Corps &amp; souffle</div>
+      <h3>Atelier de yoga</h3>
+      <p>Un atelier guidé par Iris Chasles : yoga postural, respiration et méditation. Une pratique accessible, pensée pour relâcher les tensions et retrouver de l’espace intérieur.</p>
+      <div class="who">Avec Iris Chasles</div></div>
+
+    <div class="offer" id="calebasse-workshop">
+      <div class="t">Transmission</div>
+      <h3>Workshop rythme à la calebasse</h3>
+      <p>Apprendre le rythme avec la calebasse : les bases, les frappes, la pulsation collective. Aucun prérequis musical — on entre dans le rythme par le corps et l’écoute.</p>
+      <div class="who">Avec David Lesage</div>
+    </div>
+
+    <div class="offer" id="cours-individuels">
+      <div class="t">Accompagnement</div>
+      <h3>Cours individuels</h3>
+      <p>Un accompagnement sur mesure, seul·e à seul·e. Avec David : le rythme et la calebasse. Avec Iris : yoga postural, breathwork adapté, renforcement, expression artistique, libération des tensions dans le corps.</p>
+      <div class="who">Avec David Lesage ou Iris Chasles</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Dates, tarifs et réservations :</b> le calendrier du Nid est en cours de mise à jour. Écrivez-nous pour connaître les prochaines dates et réserver votre place — nous vous répondons directement.
+  </div>
+
+  <div class="btnrow">
+    <a class="btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20prochaines%20dates">Demander les prochaines dates</a>
+  </div>
+</div></section>
+
+<div class="divider"></div>
+
+<section class="figs"><div class="wrap">
+
+  <div class="gal" id="fig-mensuel">
+    <div class="gal-main">
+      <picture>
+        <source type="image/webp" sizes="(max-width:760px) 100vw, 590px"
+          srcset="/img/le-nid/soiree-au-nid-480.webp 480w, /img/le-nid/soiree-au-nid-900.webp 900w, /img/le-nid/soiree-au-nid-1400.webp 1400w, /img/le-nid/soiree-au-nid-2000.webp 2000w">
+        <img src="/img/le-nid/soiree-au-nid-1400.jpg" sizes="(max-width:760px) 100vw, 590px"
+          srcset="/img/le-nid/soiree-au-nid-480.jpg 480w, /img/le-nid/soiree-au-nid-900.jpg 900w, /img/le-nid/soiree-au-nid-1400.jpg 1400w, /img/le-nid/soiree-au-nid-2000.jpg 2000w"
+          width="2796" height="1290" loading="lazy" decoding="async"
+          alt="Une soiree au Nid : le public assis au sol devant un rideau de guirlandes lumineuses, deux musiciennes et des bougies">
+      </picture>
+      <div class="gal-txt">
+        <h2 class="gal-h">Rendez-vous mensuels au Nid</h2>
+        <div class="gal-cap">Une soirée au Nid — musique live, bougies et petit comité.</div>
+      </div>
+    </div>
+    <div class="gal-side">
+      <picture class="gal-portrait">
+        <source type="image/webp" sizes="(max-width:760px) min(100vw,420px), 380px"
+          srcset="/img/le-nid/soiree-mensuel-2-480.webp 480w, /img/le-nid/soiree-mensuel-2-900.webp 900w, /img/le-nid/soiree-mensuel-2-1400.webp 1400w">
+        <img src="/img/le-nid/soiree-mensuel-2-900.jpg" sizes="(max-width:760px) min(100vw,420px), 380px"
+          srcset="/img/le-nid/soiree-mensuel-2-480.jpg 480w, /img/le-nid/soiree-mensuel-2-900.jpg 900w, /img/le-nid/soiree-mensuel-2-1400.jpg 1400w"
+          width="1500" height="2000" loading="lazy" decoding="async"
+          alt="Deux musiciens assis au sol jouent de la calebasse devant un mur de guirlandes lumineuses et un mandala lumineux, une lampe à flamme posée entre eux">
+      </picture>
+    </div>
+  </div>
+
+  <div class="gal" id="fig-yoga">
+    <div class="gal-main">
+      <picture>
+        <source type="image/webp" sizes="(max-width:760px) 100vw, 590px"
+          srcset="/img/le-nid/atelier-yoga-3-480.webp 480w, /img/le-nid/atelier-yoga-3-900.webp 900w, /img/le-nid/atelier-yoga-3-1400.webp 1400w, /img/le-nid/atelier-yoga-3-2000.webp 2000w">
+        <img src="/img/le-nid/atelier-yoga-3-1400.jpg" sizes="(max-width:760px) 100vw, 590px"
+          srcset="/img/le-nid/atelier-yoga-3-480.jpg 480w, /img/le-nid/atelier-yoga-3-900.jpg 900w, /img/le-nid/atelier-yoga-3-1400.jpg 1400w, /img/le-nid/atelier-yoga-3-2000.jpg 2000w"
+          width="4192" height="2358" loading="lazy" decoding="async"
+          alt="Atelier de yoga au Nid : un groupe assis en méditation sur des tapis colorés, face à l’intervenante, dans une grande pièce mansardée aux fenêtres claires et aux plantes">
+      </picture>
+      <div class="gal-txt">
+        <h2 class="gal-h">Atelier de yoga</h2>
+      </div>
+    </div>
+    <div class="gal-side">
+      <picture>
+        <source type="image/webp" sizes="(max-width:760px) 100vw, 380px"
+          srcset="/img/le-nid/atelier-yoga-480.webp 480w, /img/le-nid/atelier-yoga-900.webp 900w, /img/le-nid/atelier-yoga-1400.webp 1400w">
+        <img src="/img/le-nid/atelier-yoga-900.jpg" sizes="(max-width:760px) 100vw, 380px"
+          srcset="/img/le-nid/atelier-yoga-480.jpg 480w, /img/le-nid/atelier-yoga-900.jpg 900w, /img/le-nid/atelier-yoga-1400.jpg 1400w"
+          width="4032" height="2268" loading="lazy" decoding="async"
+          alt="Plusieurs personnes assises jambes croisées sur des tapis de yoga verts et rouges, avec bolsters et briques, dans la grande pièce mansardée au parquet ancien">
+      </picture>
+      <picture>
+        <source type="image/webp" sizes="(max-width:760px) 100vw, 380px"
+          srcset="/img/le-nid/atelier-yoga-2-480.webp 480w, /img/le-nid/atelier-yoga-2-900.webp 900w, /img/le-nid/atelier-yoga-2-1400.webp 1400w, /img/le-nid/atelier-yoga-2-2000.webp 2000w">
+        <img src="/img/le-nid/atelier-yoga-2-900.jpg" sizes="(max-width:760px) 100vw, 380px"
+          srcset="/img/le-nid/atelier-yoga-2-480.jpg 480w, /img/le-nid/atelier-yoga-2-900.jpg 900w, /img/le-nid/atelier-yoga-2-1400.jpg 1400w, /img/le-nid/atelier-yoga-2-2000.jpg 2000w"
+          width="4032" height="2268" loading="lazy" decoding="async"
+          alt="La salle du Nid avant un atelier : des tapis de yoga colorés et des coussins disposés sur le parquet, un rideau de guirlandes lumineuses et des plantes">
+      </picture>
+    </div>
+  </div>
+
+  <div class="gal gal--solo" id="fig-calebasse">
+    <div class="gal-main">
+      <picture>
+        <source type="image/webp" sizes="(max-width:760px) 100vw, 555px"
+          srcset="/img/le-nid/workshop-calebasse-480.webp 480w, /img/le-nid/workshop-calebasse-900.webp 900w">
+        <img src="/img/le-nid/workshop-calebasse-900.jpg" sizes="(max-width:760px) 100vw, 555px"
+          srcset="/img/le-nid/workshop-calebasse-480.jpg 480w, /img/le-nid/workshop-calebasse-900.jpg 900w"
+          width="1151" height="647" loading="lazy" decoding="async"
+          alt="Workshop rythme à la calebasse : une dizaine de personnes assises en cercle au sol autour de calebasses, dans la pièce mansardée du Nid">
+      </picture>
+    </div>
+    <div class="gal-txt">
+      <h2 class="gal-h">Workshop rythme à la calebasse</h2>
+    </div>
+  </div>
+
+</div></section>
+
+<div class="divider"></div>
+
+<section class="lieu"><div class="wrap">
+  <div class="kick">Le lieu</div>
+  <h2 class="sec-title">Le Nid, Paris 20<sup>e</sup></h2>
+  <p class="lead">Un lieu à taille humaine, dans l’est parisien, où l’on reçoit en petit comité.</p>
+  <div class="two">
+    <div class="scene-card">
+      <h3>Une jauge intime</h3>
+      <p>Le format se prête à l’écoute et à la participation : on est proche des artistes, on peut chanter, respirer et jouer ensemble sans se sentir observé.</p>
+    </div>
+    <div class="scene-card">
+      <h3>Venir</h3>
+      <p><b>29 rue des Orteaux<br>75020 Paris</b></p>
+      <p>Métro Alexandre Dumas, Buzenval ou Maraîchers. Les modalités d’accès vous sont précisées à l’inscription.</p>
+    </div>
+  </div>
+</div></section>
+
+<footer id="contact"><div class="wrap">
+  <h2>Rejoindre le Nid</h2>
+  <div class="contacts">
+    <div class="c"><b>Adresse</b><span>29 rue des Orteaux<br>75020 Paris</span></div>
+    <div class="c"><b>Email</b><span><a href="mailto:contact@resonancesproductions.org">contact@resonancesproductions.org</a></span></div>
+    <div class="c"><b>Association</b><span><a href="/">Résonances Productions</a><br><a href="https://docs.google.com/document/d/1NxsbvaqHsA9VOXlN7cvsav7cxFwhsK4XCpowHb75o1w/edit?usp=sharing" target="_blank" rel="noopener">Statuts de l’association ↗</a></span></div>
+    <div class="c"><b>Autres projets</b><span><a href="/rituals">RITUALS</a> · <a href="/e-motion">E-Motion</a></span></div>
+  </div>
+  <div class="sign">Le Nid — Paris 20<sup>e</sup> · proposé par Résonances Productions</div>
+</div></footer>
+
+
+<script>
+(function(){
+  var nav=document.querySelector('.nav'); if(!nav) return;
+  var links=nav.querySelector('.links'); if(!links) return;
+  var b=document.createElement('button');
+  b.className='burger'; b.type='button';
+  b.setAttribute('aria-label','Ouvrir le menu');
+  b.setAttribute('aria-expanded','false');
+  b.innerHTML='<span></span><span></span><span></span>';
+  nav.appendChild(b);
+  function set(open){
+    b.setAttribute('aria-expanded',open?'true':'false');
+    b.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu');
+    links.classList.toggle('open',open);
+    document.body.classList.toggle('nav-open',open);
+  }
+  b.addEventListener('click',function(){ set(b.getAttribute('aria-expanded')!=='true'); });
+  links.addEventListener('click',function(e){ if(e.target.tagName==='A') set(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
+  window.addEventListener('resize',function(){ if(window.innerWidth>860) set(false); });
+})();
+</script>
+</body></html>
