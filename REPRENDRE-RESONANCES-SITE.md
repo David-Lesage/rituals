@@ -107,6 +107,50 @@ Code portail retiré des 20 événements · 3 rappels (10080/1440/120 min, popup
 ## AUTRE DÉPÔT — Handpan Studio (`~/CLAUDE/NEOTONE STUDIO/NEOTONE 1er mai 2026/`)
 Tableau de suivi des inscriptions + email de confirmation. Commits locaux `5e8eabb` → `be7b625` → `5ec34c8` → `ba99b5c`, **NON déployés**. Fichiers : `auth/showcase-panel.ts`, `supabase/functions/confirm-showcase/index.ts`, `auth/account-menu.ts`, `config.toml`. Données : table `site_leads` (Supabase `zqcuhnjjrgmybftppkcl`), aucune migration ; RLS active → lecture `service_role`, d'où l'Edge Function. Horaires dans `EVENT_HOURS`. Email validé par David (code portail, temple/déchaussage, non fumeur, copropriété d'artistes, enfants, boire sans alcool/grignoter, focus Neotone, RDV individuel payant, jauge 20, engagement/communauté, responsabilité en cas de casse). ⚠️ Jauge de 20 **non bloquée**. Déploiement : `npx supabase functions deploy confirm-showcase` + `npx vite build` + `npx vercel --prod --yes` + push + changelog + **email test à David avant tout envoi réel**.
 
+### ⚠️ PIÈGE — les commentaires HTML dans les pages livrées (réglé le 14/08/2026)
+
+Des notes de rédaction écrites en commentaires HTML (`<!-- LE GESTE (ajout du 13/08)… -->`,
+« ⚠️ AUCUNE INFORMATION PRÉCISE N'EXISTE sur cette formule… ») partaient **dans les pages
+publiques** : invisibles à l'écran, mais lisibles par n'importe qui via « afficher le code source »,
+et indexables. **44 commentaires, 16 148 caractères** au total, dont **18 (10 182 car.) sur la seule
+page `/david-lesage-en-concert`**. Dépôt public + site d'association : ça ne doit plus arriver.
+
+- **Les notes n'ont pas été détruites, elles ont été déplacées** — en commentaires Python `#`, dans
+  le générateur, **juste au-dessus du code qui émet le bloc**. Pour `generate_concert_scene.py` et
+  `generate_concert_dl.py`, le gabarit est désormais écrit en **plusieurs littéraux adjacents**
+  (concaténés par Python) précisément pour qu'on puisse glisser les notes *entre* eux.
+- **`/e-motion` n'a aucun générateur** (`sources/emotion_final.html` est une copie **périmée**, menu
+  `resonances-1` : ne pas s'en servir). Ses notes sont dans **`sources/notes_pages_sans_generateur.py`**.
+- Le bloc « seconde photo du Grand Rex » de `/rituals` est un **ajout à la main** : sa note est dans
+  `sources/generate_site.py`, à l'endroit où le bloc s'insère. ⚠️ `generate_site.py` **ne peut plus
+  tourner** (`promo_raw/`, `web_img/` hors dépôt) — et **s'il tournait, il supprimerait cette photo**.
+
+**LISTE BLANCHE — les 2 seuls commentaires HTML autorisés dans une page.** Ils sont **fonctionnels**,
+les retirer casse le site :
+
+| Marqueur | Pourquoi il est indispensable |
+|---|---|
+| `<!-- nav_menu.py (resonances-2) -->` | `JS_MARK` de `nav_menu.py` : **garde d'idempotence** testée par `inject()`. Sans lui le menu se réinjecte à chaque passe (l'incident des entrées de menu en double). Porte aussi `NAV_VERSION`, relue pour nettoyer un ancien menu. |
+| `<!-- fin nav_menu.py -->` | `JS_END` : **borne de fin** utilisée par `_strip()` pour retirer le JS d'une ancienne version du menu. Sans elle le nettoyage ne sait plus où s'arrêter. |
+
+(`<!--INDUCTION_FIG-->` et `<!--JULIEN_PHOTO-->` de `sources/trio_source.html` sont des **balises de
+substitution**, remplacées par `generate_trio.py` : elles n'atteignent jamais la page. Si l'une
+apparaissait dans le HTML livré, ce serait un bug — d'où leur absence de la liste blanche.)
+
+**Le garde-fou : `sources/verif_commentaires.py`.**
+
+```bash
+python3 sources/verif_commentaires.py     # les 9 pages d'un coup ; $? = 1 si problème
+```
+
+À lancer **avant tout déploiement**. Il est aussi appelé **avant chaque écriture de fichier** dans
+`generate_site.py`, `generate_trio.py`, `generate_concert_dl.py`, `generate_concert_scene.py`,
+`generate_rythme.py`, `generate_agenda_nid.py`, `generate_soin_soa.py`, `generate_assoc.py`,
+`nav_menu.py` (`apply_to_file`) et `mobile_nav.py` : tout commentaire hors liste blanche — ou tout
+marqueur autorisé dépassant **60 caractères** — **abandonne l'écriture**, la page sur disque reste
+intacte. Même parti-pris que le garde-fou structurel de `generate_rythme.py`. Testé en le cassant
+exprès : écriture refusée, page inchangée.
+
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
 ## Journal
