@@ -94,8 +94,9 @@ service_role_key[^<>]{0,6}[:=][^<>]{0,6}[A-Za-z0-9._-]{20,}
 gh[pousr]_[A-Za-z0-9]{20,}
 xox[baprs]-[A-Za-z0-9-]{10,}
 eyJhbGciOi[A-Za-z0-9_-]{20,}
-(code|digicode|portail|interphone)[^<>]{0,40}[:=][^<>]{0,10}[0-9]{3,6}
-(api.?key|secret|password|passwd|mot de passe)[^<>]{0,15}[:=][^<>]{0,4}.\{8,\}"
+(digicode|interphone).{0,40}[:=].{0,10}[A-Za-z0-9]{4,8}
+code.{0,14}(acc.s|entr.e|porte|portail|immeuble|b.timent).{0,24}[:=].{0,10}[A-Za-z0-9]{4,8}
+(api.?key|secret|password|passwd|mot de passe)[^<>]{0,15}[:=][^<>]{0,4}.{8,}"
 
 printf '%s\n' "$FICHIERS" | while IFS= read -r f; do
   [ -n "$f" ] || continue
