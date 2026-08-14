@@ -62,6 +62,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
 import carte_parcours  # noqa: E402  (carte SVG du parcours, sans dependance)
+import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 HELLO_ASSO = ('https://www.helloasso.com/beta/associations/resonances-productions/'
               'adhesions/adhesion-resonances-productions')
@@ -724,12 +725,13 @@ body.lb-open{overflow:hidden}
 .dlc-block .spf-note{color:var(--muted);font-size:14px;font-style:italic;margin-top:12px;max-width:640px}
 """
 
+# Le lecteur sert TOUS les declencheurs de la page (vignettes
+#          ET titres du repertoire) : son titre doit rester generique.
 LIGHTBOX_HTML = """
 <div class="lb" id="ytlb" role="dialog" aria-modal="true" aria-label="Lecteur vidéo" onclick="closeYT(event)">
   <div class="lb-box">
     <button class="lb-close" type="button" onclick="closeYT(event)" aria-label="Fermer la vidéo">×</button>
-    <div class="lb-frame"><!-- Le lecteur sert TOUS les declencheurs de la page (vignettes
-         ET titres du repertoire) : son titre doit rester generique. -->
+    <div class="lb-frame">
       <iframe id="ytif" title="Lecteur vidéo YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
     <a class="yt-fallback" href="{secours}" target="_blank" rel="noopener">La vidéo ne se lance pas ? Ouvrir sur YouTube ↗</a>
   </div>
@@ -2253,7 +2255,14 @@ DESC = ('Voix, handpan, calebasse, N’Goni et électronique : une expérience i
         'configuration de référence à 9 entrées, plateau 4 m × 5 m. Option danse '
         'aérienne à l’élastique.')
 
-HTML = f"""<!DOCTYPE html>
+# Le gabarit de la page est ecrit en plusieurs litteraux adjacents (concatenes
+# par Python) pour qu'on puisse glisser ENTRE EUX les notes de redaction, en
+# commentaire `#`. Ces notes vivaient en commentaires HTML : elles partaient
+# donc chez le visiteur, lisibles dans le code source de la page et indexables.
+# Elles restent ici, au-dessus du bloc qu'elles expliquent. Voir
+# `sources/verif_commentaires.py`, qui refuse desormais d'ecrire la page si un
+# commentaire de travail revenait dans le HTML.
+HTML = (f"""<!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{TITLE}</title>
@@ -2339,37 +2348,39 @@ HTML = f"""<!DOCTYPE html>
   <h2 class="sec-title">Ce que fait une salle qui chante</h2>
   <p>La partie participative n’est pas un supplément : c’est le cœur du format. Le public chante des voyelles et découvre, projetée en direct, la figure que sa voix dessine sur l’eau — c’est la <b>cymatique</b>, expliquée pas à pas avant d’être vécue. Puis viennent les <b>échanges vocaux</b> : une ligne de chant lancée depuis la scène, que la salle renvoie.</p>
   <p>Les <b>vidéoprojections</b> et les ambiances sonores — nature, animaux — tiennent le fil visuel et donnent au plateau une profondeur qui fonctionne aussi bien dans une grande salle qu’en plein air.</p>
-  <!-- LE GESTE (ajout du 13/08/2026). C'est l'image que cette section attendait :
-       jusqu'ici on y voyait le public, les projections, le plateau — mais jamais
-       DAVID EN TRAIN DE FAIRE CHANTER. Elle est donc placee en tete de section,
-       en pleine largeur, avant les deux grilles.
-       Les deux photos de public sont CONSERVEES et non remplacees : celle-ci
-       apporte le geste, elles apportent l'echelle. Ce sont deux arguments
-       differents pour un programmateur, et la section peut porter les deux sans
-       se repeter (aucune ne montre la meme chose).
-       ⚠️ LE PUBLIC EST HORS CHAMP. La legende dit d'ou part la ligne de chant,
-       elle n'affirme pas qu'on voit le public : ce serait faux.
-       ⚠️ Credit Kovari Rudolf obligatoire (condition posee par David). -->
-  {pic('chant-guide',
+"""
+#   LE GESTE (ajout du 13/08/2026). C'est l'image que cette section attendait :
+#       jusqu'ici on y voyait le public, les projections, le plateau — mais jamais
+#       DAVID EN TRAIN DE FAIRE CHANTER. Elle est donc placee en tete de section,
+#       en pleine largeur, avant les deux grilles.
+#       Les deux photos de public sont CONSERVEES et non remplacees : celle-ci
+#       apporte le geste, elles apportent l'echelle. Ce sont deux arguments
+#       differents pour un programmateur, et la section peut porter les deux sans
+#       se repeter (aucune ne montre la meme chose).
+#       ⚠️ LE PUBLIC EST HORS CHAMP. La legende dit d'ou part la ligne de chant,
+#       elle n'affirme pas qu'on voit le public : ce serait faux.
+#       ⚠️ Credit Kovari Rudolf obligatoire (condition posee par David).
+f"""  {pic('chant-guide',
        'David Lesage assis sur ses talons au bord d’un plateau de festival, derrière une grande calebasse claire posée sur un tapis rond rouge, pieds nus, en tee-shirt noir et pantalon ocre : les deux bras tendus devant lui et l’index pointé vers le public hors champ, la bouche ouverte en train de chanter. Derrière lui, des panneaux peints de couleurs vives, la violoncelliste invitée Valeria Pribay assise sur une chaise qui joue, et deux banderoles du festival Everness ; au fond, une tente de plein air et des arbres.',
        '(max-width:900px) calc(100vw - 52px), 860px',
        'Guider le chant : la ligne est lancée depuis le plateau, à la main et à la voix. Everness Festival, Hongrie — avec la violoncelliste invitée <b>Valeria Pribay</b>.',
        cls='dlc-fig dlc-wide', src_w=1400, credit=CREDIT_KOVARI)}
-  <!-- ===== CARROUSEL « LE PUBLIC ET LES ECHANGES VOCAUX » (14/08/2026) =====
-       Remplace les deux grilles .dlc-duo qui empilaient quatre figures, et
-       accueille quatre images de plus sans allonger la section :
-         * 'public-echange', RETIREE le 13/08 par manque de place, revient ici.
-           Rappel : DAVID N'EST PAS DANS LE CADRE (il l'avait fournie comme
-           « je donne une indication vocale au public ») -> sa legende decrit le
-           public vu du plateau, elle n'affirme pas qu'on l'y voit.
-         * 'proche' DESCEND DE #parcours : « une adresse directe au public », sa
-           place est dans la section qui parle du public, pas dans le parcours.
-         * LES TROIS VISAGES DU PUBLIC (voir DLC_PHOTOS) : trois adultes, aucun
-           enfant, sur ~65 gros plans disponibles.
-       'chant-guide' RESTE HORS CARROUSEL, en pleine largeur au-dessus : c'est
-       l'image qui porte l'argument de la section a elle seule. Un carrousel
-       range, il ne met pas en valeur. -->
-  {carousel('Le public et les échanges vocaux', [
+"""
+#   ===== CARROUSEL « LE PUBLIC ET LES ECHANGES VOCAUX » (14/08/2026) =====
+#       Remplace les deux grilles .dlc-duo qui empilaient quatre figures, et
+#       accueille quatre images de plus sans allonger la section :
+#         * 'public-echange', RETIREE le 13/08 par manque de place, revient ici.
+#           Rappel : DAVID N'EST PAS DANS LE CADRE (il l'avait fournie comme
+#           « je donne une indication vocale au public ») -> sa legende decrit le
+#           public vu du plateau, elle n'affirme pas qu'on l'y voit.
+#         * 'proche' DESCEND DE #parcours : « une adresse directe au public », sa
+#           place est dans la section qui parle du public, pas dans le parcours.
+#         * LES TROIS VISAGES DU PUBLIC (voir DLC_PHOTOS) : trois adultes, aucun
+#           enfant, sur ~65 gros plans disponibles.
+#       'chant-guide' RESTE HORS CARROUSEL, en pleine largeur au-dessus : c'est
+#       l'image qui porte l'argument de la section a elle seule. Un carrousel
+#       range, il ne met pas en valeur.
+f"""  {carousel('Le public et les échanges vocaux', [
     ('pub-coeur',
      'Gros plan vertical d’une spectatrice au milieu du public, en plein air : les yeux '
      'fermés, la bouche ouverte en train de chanter, une main à plat sur le sternum ; '
@@ -2438,25 +2449,27 @@ HTML = f"""<!DOCTYPE html>
          '(max-width:860px) min(calc(100vw - 52px), 420px), 340px')}
   </div>
   <dl class="dlc-rep">{''.join(f'<dt>{k}</dt><dd>{v}</dd>' for k, v in REPERES)}</dl>
-  <!-- CREDIT DE SOURCE OBLIGATOIRE : c'est lui qui fait passer ce parcours d'un
-       autoportrait a une caution tierce. Ne pas le retirer. -->
-  <p class="dlc-srcnote">Parcours de formation documenté par le témoignage publié dans le livret des 30 ans de l’<b>AIMJ / Voy’jazz</b>, l’association du collège de jazz de Marciac (2022), qui a sollicité David Lesage en tant qu’ancien élève.</p>
+"""
+#   CREDIT DE SOURCE OBLIGATOIRE : c'est lui qui fait passer ce parcours d'un
+#       autoportrait a une caution tierce. Ne pas le retirer.
+f"""  <p class="dlc-srcnote">Parcours de formation documenté par le témoignage publié dans le livret des 30 ans de l’<b>AIMJ / Voy’jazz</b>, l’association du collège de jazz de Marciac (2022), qui a sollicité David Lesage en tant qu’ancien élève.</p>
   <blockquote class="dlc-quote">Sous une humilité déconcertante, David Lesage présente avec excellence la grande technicité de son répertoire abouti ; rythmes envoûtants et envolées jazz d’une voix céleste. À découvrir en live absolument.<cite>Dossier de présentation du spectacle</cite></blockquote>
-  <!-- ===== CARROUSEL « LES INSTRUMENTS » (14/08/2026) ======================
-       Remplace quatre blocs empiles : 'proche' en pleine largeur, la grille
-       'chanter-en-jouant' + 'calebasse', 'ngoni' en pleine largeur, et la grille
-       des deux captures de The Voice, qui coutaient a elles seules plus de
-       2 000 px de hauteur pour dire une chose simple — voici ses instruments.
-       'proche' n'est PAS ici : elle a rejoint le carrousel du public (#salle),
-       ou son sujet est.
-       ⚠️ ORDRE : les trois photos de scene d'abord (elles sont en `eager`), les
-       deux captures TF1 ensuite. Elles restent explicitement legendees
-       « Capture de la diffusion TF1 » et le bloc « The Voice, saison 11 » qui
-       suit immediatement les explique.
-       ⚠️ 'ngoni' est SIGNEE « MAGYE D'ART Production » -> CREDIT_MAGYE
-       obligatoire ; les trois autres viennent d'Everness -> CREDIT_KOVARI pour
-       'chanter-en-jouant'. Ne pas melanger les credits. -->
-  {carousel('Les instruments', [
+"""
+#   ===== CARROUSEL « LES INSTRUMENTS » (14/08/2026) ======================
+#       Remplace quatre blocs empiles : 'proche' en pleine largeur, la grille
+#       'chanter-en-jouant' + 'calebasse', 'ngoni' en pleine largeur, et la grille
+#       des deux captures de The Voice, qui coutaient a elles seules plus de
+#       2 000 px de hauteur pour dire une chose simple — voici ses instruments.
+#       'proche' n'est PAS ici : elle a rejoint le carrousel du public (#salle),
+#       ou son sujet est.
+#       ⚠️ ORDRE : les trois photos de scene d'abord (elles sont en `eager`), les
+#       deux captures TF1 ensuite. Elles restent explicitement legendees
+#       « Capture de la diffusion TF1 » et le bloc « The Voice, saison 11 » qui
+#       suit immediatement les explique.
+#       ⚠️ 'ngoni' est SIGNEE « MAGYE D'ART Production » -> CREDIT_MAGYE
+#       obligatoire ; les trois autres viennent d'Everness -> CREDIT_KOVARI pour
+#       'chanter-en-jouant'. Ne pas melanger les credits.
+f"""  {carousel('Les instruments', [
     ('chanter-en-jouant',
      'David Lesage seul sur scène, buste et visage en gros plan, la bouche grande ouverte '
      'en train de chanter et les yeux fermés, un micro-serre-tête au visage ; sa main '
@@ -2502,9 +2515,10 @@ HTML = f"""<!DOCTYPE html>
                 'Voir son audition à l’aveugle — « Kothbiro »',
                 '« Ayub Ogada - Kothbiro - David Lesage | The Voice 2022 | Blind Audition » — le lecteur s’ouvre sur cette page.',
                 '(max-width:900px) calc(100vw - 52px), 560px')}
-  <!-- Les deux captures TF1 de cette prestation sont les deux dernieres
-       diapositives du carrousel « Les instruments », juste au-dessus. -->
-</div></section>
+"""
+#   Les deux captures TF1 de cette prestation sont les deux dernieres
+#       diapositives du carrousel « Les instruments », juste au-dessus.
+f"""</div></section>
 
 <section class="dlc-block" id="scenes"><div class="wrap">
   <div class="dlc-h">Scènes &amp; festivals</div>
@@ -2516,22 +2530,23 @@ HTML = f"""<!DOCTYPE html>
   <h3 class="dlc-sub">Les références</h3>
   {scenes_refs()}
   <p>À Marciac, deux choses sont vraies et distinctes. C’est là qu’il s’est formé, au <b>collège de jazz de Marciac</b> ; et c’est là qu’il a été <b>programmé par Jazz in Marciac</b>, avec différentes formations, sur la <b>scène de la place de l’Hôtel de Ville</b> — la scène centrale du festival, aujourd’hui « Festival Bis ». <b>21 dates</b> y sont documentées entre 2009 et 2019, sur sept éditions ; le livret des 30 ans de l’association du collège fait état de <b>dix années de présence annuelle</b>. Il est par ailleurs passé par l’émission <i>The Voice</i> ; c’est à sa suite qu’il a été invité pour un concert solo en Côte d’Ivoire.</p>
-  <!-- ===== CARROUSEL « LES GRANDES SCENES, LES FESTIVALS ET LES LIEUX DE
-       PIERRE » (14/08/2026) ==================================================
-       Il est place ICI, juste apres la liste des references, et pas en fin de
-       section : sa premiere diapositive est la PREMIERE PARTIE D'AMADOU &
-       MARIAM, qui est la reference la plus forte de la page et la premiere
-       entree de la liste juste au-dessus. Elle doit rester visible haut.
-       Il rassemble ce qui etait eparpille sur toute la section : les deux photos
-       de Pamiers (empilees, 1 391 px a elles deux), le plan de festival,
-       l'abbaye, l'eglise et le Grand Rex en pleine largeur.
-       ⚠️ AMADOU & MARIAM NE SONT PAS DANS LE CADRE : les deux legendes de
-       Pamiers attribuent explicitement ce qu'on voit au set de David. Ne pas les
-       reecrire. Le lieu, « salle du Jeu du Mail, Pamiers (09) », est confirme
-       par David (13/08/2026) et public ; la date vient de l'export officiel.
-       ⚠️ LE GRAND REX est SIGNE « MAGYE D'ART Production » -> CREDIT_MAGYE. Et
-       « 2 700 personnes » est le SEUL chiffre de public autorise sur la page. -->
-  {carousel('Les grandes scènes, les festivals et les lieux de pierre', [
+"""
+#   ===== CARROUSEL « LES GRANDES SCENES, LES FESTIVALS ET LES LIEUX DE
+#       PIERRE » (14/08/2026) ==================================================
+#       Il est place ICI, juste apres la liste des references, et pas en fin de
+#       section : sa premiere diapositive est la PREMIERE PARTIE D'AMADOU &
+#       MARIAM, qui est la reference la plus forte de la page et la premiere
+#       entree de la liste juste au-dessus. Elle doit rester visible haut.
+#       Il rassemble ce qui etait eparpille sur toute la section : les deux photos
+#       de Pamiers (empilees, 1 391 px a elles deux), le plan de festival,
+#       l'abbaye, l'eglise et le Grand Rex en pleine largeur.
+#       ⚠️ AMADOU & MARIAM NE SONT PAS DANS LE CADRE : les deux legendes de
+#       Pamiers attribuent explicitement ce qu'on voit au set de David. Ne pas les
+#       reecrire. Le lieu, « salle du Jeu du Mail, Pamiers (09) », est confirme
+#       par David (13/08/2026) et public ; la date vient de l'export officiel.
+#       ⚠️ LE GRAND REX est SIGNE « MAGYE D'ART Production » -> CREDIT_MAGYE. Et
+#       « 2 700 personnes » est le SEUL chiffre de public autorise sur la page.
+f"""  {carousel('Les grandes scènes, les festivals et les lieux de pierre', [
     ('am-scene',
      'David Lesage seul au centre d’une grande scène de salle, la tête levée en train de '
      'chanter et une main en l’air, derrière son Neotone — le handpan électronique à coque '
@@ -2587,23 +2602,25 @@ HTML = f"""<!DOCTYPE html>
   {scenes_liste(SCENES_PIERRE)}
 
   {scenes_chrono()}
-  <!-- Les six photos de scene de cette section (Pamiers, le Grand Rex, le
-       festival, l'abbaye, l'eglise) sont dans le carrousel place plus haut,
-       juste apres la liste des references. -->
-</div></section>
+"""
+#   Les six photos de scene de cette section (Pamiers, le Grand Rex, le
+#       festival, l'abbaye, l'eglise) sont dans le carrousel place plus haut,
+#       juste apres la liste des references.
+f"""</div></section>
 
 <div class="divider"></div>
 
-<!-- ===== CARTE DU PARCOURS =================================================
-     SVG ecrit a la main par `sources/carte_parcours.py` : aucune bibliotheque,
-     aucune tuile, aucune requete reseau, aucun cookie tiers. Voir l'en-tete de
-     ce module pour les regles (contour schematique ecrit a la main, donnees
-     figees depuis parcours_lieux.json, les 9 lieux non geolocalises cites en
-     clair sous la carte).
-     Le survol enrichit (nom, nombre d'evenements, annees, via <title> SVG natif)
-     mais l'information essentielle est dans la legende et dans les listes : la
-     majorite des visiteurs sont sur mobile et ne survolent rien. -->
-<section class="dlc-block band" id="carte"><div class="wrap">
+"""
+# ===== CARTE DU PARCOURS =================================================
+#     SVG ecrit a la main par `sources/carte_parcours.py` : aucune bibliotheque,
+#     aucune tuile, aucune requete reseau, aucun cookie tiers. Voir l'en-tete de
+#     ce module pour les regles (contour schematique ecrit a la main, donnees
+#     figees depuis parcours_lieux.json, les 9 lieux non geolocalises cites en
+#     clair sous la carte).
+#     Le survol enrichit (nom, nombre d'evenements, annees, via <title> SVG natif)
+#     mais l'information essentielle est dans la legende et dans les listes : la
+#     majorite des visiteurs sont sur mobile et ne survolent rien.
+f"""<section class="dlc-block band" id="carte"><div class="wrap">
   <div class="dlc-h">La carte du parcours</div>
   <h2 class="sec-title">Dix-sept ans de scène, vus d’en haut</h2>
   <p>Une liste de dates se lit ; une carte se voit. Celle-ci porte un point par ville, dont le diamètre grandit avec le nombre d’événements que les sources y recensent. Elle dit deux choses d’un coup d’œil : un ancrage profond dans le Sud-Ouest — Marciac, Toulouse, l’Ariège et l’Aude — et une diffusion qui va de la Flandre à la Hongrie.</p>
@@ -2612,12 +2629,13 @@ HTML = f"""<!DOCTYPE html>
 
 <div class="divider"></div>
 
-<!-- ===== PRESSE ============================================================
-     Liens sortants uniquement. Aucun PDF, aucune capture, aucune photo de
-     presse hebergee ; une citation de 15 mots maximum par entree, attribuee.
-     Les dates sont affichees a dessein : les quatre retombees sont concentrees
-     sur fevrier-mars 2022 et il vaut mieux l'assumer que le masquer. -->
-<section class="dlc-block" id="presse"><div class="wrap">
+"""
+# ===== PRESSE ============================================================
+#     Liens sortants uniquement. Aucun PDF, aucune capture, aucune photo de
+#     presse hebergee ; une citation de 15 mots maximum par entree, attribuee.
+#     Les dates sont affichees a dessein : les quatre retombees sont concentrees
+#     sur fevrier-mars 2022 et il vaut mieux l'assumer que le masquer.
+f"""<section class="dlc-block" id="presse"><div class="wrap">
   <div class="dlc-h">Ils en ont parlé</div>
   <h2 class="sec-title">La presse</h2>
   <p>Trois articles, tous parus entre <b>février et mars 2022</b>, dans les semaines qui ont suivi la diffusion de son audition à l’aveugle dans <i>The Voice</i>. C’est de ce moment que vient l’expression de « <b>griot cathare</b> » : elle a été écrite par <b>La Dépêche du Midi</b>, elle n’est pas de lui.</p>
@@ -2664,10 +2682,11 @@ HTML = f"""<!DOCTYPE html>
       <a class="btn ghost" href="{IMUSICIAN}" target="_blank" rel="noopener">Les deux opus chez son distributeur ↗</a>
     </div>
   </div>
-  <!-- VIDEOS LIVE : deux ensembles tires de SES playlists (voir LIVE_CONCERTS /
-       LIVE_YISHAMA). Chaque vignette ouvre le lecteur DANS la page : aucun
-       nouvel onglet, aucune requete tierce avant le clic. -->
-  <div class="dlc-listen" id="live">
+"""
+#   VIDEOS LIVE : deux ensembles tires de SES playlists (voir LIVE_CONCERTS /
+#       LIVE_YISHAMA). Chaque vignette ouvre le lecteur DANS la page : aucun
+#       nouvel onglet, aucune requete tierce avant le clic.
+f"""  <div class="dlc-listen" id="live">
     <div class="dlc-h">En vidéo</div>
     <h3 class="sec-title" style="font-size:clamp(24px,3.4vw,34px)">Deux ensembles de vidéos live</h3>
     <p>De quoi juger du live sans quitter cette page. Deux sélections tirées de ses propres playlists : les <b>concerts filmés</b>, et les <b>handpans acoustiques Yishama</b>. Chaque vignette ouvre le lecteur ici même.</p>
@@ -2693,16 +2712,17 @@ HTML = f"""<!DOCTYPE html>
   </div>
 </div></section>
 
-<!-- VERSION PLUS ACOUSTIQUE (ajout du 13/08/2026, demande de David).
-     ⚠️ AUCUNE INFORMATION PRECISE N'EXISTE sur cette formule : ni duree, ni
-     instrumentarium arrete, ni patch, ni contrainte de plateau. On n'en invente
-     AUCUNE, et on ne recycle SURTOUT PAS les chiffres de la fiche technique de
-     la configuration principale (9 entrees, 4x5 m, Bose S1+Sub1) : ils ne
-     valent pas pour cette formule. Le texte dit exactement ce qu'on sait — la
-     meme musique tiree vers les handpans ACOUSTIQUES Yishama, la voix, la
-     calebasse et le N'Goni, avec moins d'electronique — et renvoie a un
-     echange. NE RIEN AJOUTER ICI qui ressemble a une fiche ou a un engagement. -->
-<section class="dlc-block" id="acoustique"><div class="wrap">
+"""
+# VERSION PLUS ACOUSTIQUE (ajout du 13/08/2026, demande de David).
+#     ⚠️ AUCUNE INFORMATION PRECISE N'EXISTE sur cette formule : ni duree, ni
+#     instrumentarium arrete, ni patch, ni contrainte de plateau. On n'en invente
+#     AUCUNE, et on ne recycle SURTOUT PAS les chiffres de la fiche technique de
+#     la configuration principale (9 entrees, 4x5 m, Bose S1+Sub1) : ils ne
+#     valent pas pour cette formule. Le texte dit exactement ce qu'on sait — la
+#     meme musique tiree vers les handpans ACOUSTIQUES Yishama, la voix, la
+#     calebasse et le N'Goni, avec moins d'electronique — et renvoie a un
+#     echange. NE RIEN AJOUTER ICI qui ressemble a une fiche ou a un engagement.
+f"""<section class="dlc-block" id="acoustique"><div class="wrap">
   <div class="dlc-h">Autre formule</div>
   <h2 class="sec-title">Une version plus acoustique</h2>
   <div class="dlc-split">
@@ -2720,36 +2740,38 @@ HTML = f"""<!DOCTYPE html>
                   '« Angel Voice handpan @yishama_official » — le lecteur s’ouvre sur cette page.',
                   '(max-width:860px) calc(100vw - 52px), 340px')}
   </div>
-  <!-- LE HANDPAN ACOUSTIQUE, ENFIN EN IMAGE (13/08/2026).
-       C'est le manque que David avait nomme lui-meme : « il manque des photos de
-       moi qui joue du handpan Yishama, le Neotone est trop mis a l'honneur ».
-       Jusqu'ici cette section ne montrait qu'une vignette de video (l'instrument
-       seul, sans personne) et un plan large ou David faisait 40 px de haut.
-       ⚠️ CETTE PAIRE REMPLACE 'yishama-solo', qui etait le DOUBLON de
-       'solo-festival' publie en #scenes (voir la note dans DLC_PHOTOS). La page
-       ne sert donc plus deux fois la meme image.
-       ⚠️ Le texte de la section ne dit PAS que ces concerts etaient « la version
-       acoustique » : rien ne l'etablit. Les legendes decrivent ce qu'on voit et
-       nomment le festival, rien de plus.
-       ⚠️ Aucun facteur d'instrument nomme dans les legendes : l'image ne permet
-       pas de le certifier. -->
-  {pic('deux-handpans',
+"""
+#   LE HANDPAN ACOUSTIQUE, ENFIN EN IMAGE (13/08/2026).
+#       C'est le manque que David avait nomme lui-meme : « il manque des photos de
+#       moi qui joue du handpan Yishama, le Neotone est trop mis a l'honneur ».
+#       Jusqu'ici cette section ne montrait qu'une vignette de video (l'instrument
+#       seul, sans personne) et un plan large ou David faisait 40 px de haut.
+#       ⚠️ CETTE PAIRE REMPLACE 'yishama-solo', qui etait le DOUBLON de
+#       'solo-festival' publie en #scenes (voir la note dans DLC_PHOTOS). La page
+#       ne sert donc plus deux fois la meme image.
+#       ⚠️ Le texte de la section ne dit PAS que ces concerts etaient « la version
+#       acoustique » : rien ne l'etablit. Les legendes decrivent ce qu'on voit et
+#       nomment le festival, rien de plus.
+#       ⚠️ Aucun facteur d'instrument nomme dans les legendes : l'image ne permet
+#       pas de le certifier.
+f"""  {pic('deux-handpans',
        'David Lesage seul sur scène, buste et visage de face, un micro-serre-tête au visage, penché entre deux handpans acoustiques Yishama en acier bruni posés sur pieds ; ses deux mains sont en mouvement au-dessus de celui de droite, dont les creux sont nettement visibles. Deux micros sur pieds l’encadrent ; derrière lui, de larges faisceaux de lumière verte croisent un fond bleu tendu de fils.',
        '(max-width:900px) calc(100vw - 52px), 860px',
        'Les deux handpans acoustiques Yishama sur pieds, joués en direct. Everness Festival, Hongrie.',
        cls='dlc-fig dlc-wide', src_w=1400, credit=CREDIT_KOVARI)}
-  <!-- ===== CARROUSEL « L'INSTRUMENTARIUM ACOUSTIQUE EN SCENE » (14/08/2026) ==
-       Remplace la grille de deux verticales (849 px de haut) et 'vue-de-scene'
-       en pleine largeur (647 px) : le pan, la calebasse et la vue d'ensemble se
-       lisent maintenant sur une seule ligne.
-       'deux-handpans' RESTE HORS CARROUSEL, en pleine largeur au-dessus : c'est
-       LA photo que David demandait (« il manque des photos de moi qui joue du
-       handpan Yishama, le Neotone est trop mis a l'honneur ») et elle porte
-       l'argument de la section a elle seule.
-       ⚠️ LE VIOLONISTE de 'calebasse-transe' N'EST PAS IDENTIFIE : il reste
-       decrit par son instrument. La violoncelliste de 'vue-de-scene', elle, est
-       VALERIA PRIBAY, creditee comme invitee (autorisation de David). -->
-  {carousel('L’instrumentarium acoustique en scène', [
+"""
+#   ===== CARROUSEL « L'INSTRUMENTARIUM ACOUSTIQUE EN SCENE » (14/08/2026) ==
+#       Remplace la grille de deux verticales (849 px de haut) et 'vue-de-scene'
+#       en pleine largeur (647 px) : le pan, la calebasse et la vue d'ensemble se
+#       lisent maintenant sur une seule ligne.
+#       'deux-handpans' RESTE HORS CARROUSEL, en pleine largeur au-dessus : c'est
+#       LA photo que David demandait (« il manque des photos de moi qui joue du
+#       handpan Yishama, le Neotone est trop mis a l'honneur ») et elle porte
+#       l'argument de la section a elle seule.
+#       ⚠️ LE VIOLONISTE de 'calebasse-transe' N'EST PAS IDENTIFIE : il reste
+#       decrit par son instrument. La violoncelliste de 'vue-de-scene', elle, est
+#       VALERIA PRIBAY, creditee comme invitee (autorisation de David).
+f"""  {carousel('L’instrumentarium acoustique en scène', [
     ('handpan-jeu',
      'Gros plan vertical : David Lesage penché sur un handpan acoustique Yishama en acier '
      'bruni posé sur pied, les deux mains sur l’instrument dont les creux et le dôme '
@@ -2844,25 +2866,26 @@ HTML = f"""<!DOCTYPE html>
          '(max-width:860px) calc(100vw - 52px), 500px',
          'Un plateau installé avant l’ouverture des portes — 4 m × 5 m suffisent.')}
   </div>
-  <!-- LE DISPOSITIF EN FONCTION (ajout du 13/08/2026). Elle est ICI et pas en
-       #scenes, contrairement a ce qui etait propose, et c'est un choix :
-       les deux photos ci-dessus montrent le plateau VIDE et vu du dessus, et
-       AUCUNE image de la page ne montrait le plateau EN FONCTION avec l'artiste
-       debout dedans, en pied, a une echelle lisible. C'est exactement ce que
-       cherche la personne qui lit un patch et un plan de scene. #scenes, elle,
-       porte deja sept visuels et trois plans larges de cette meme scene.
-       ⚠️ Format PORTRAIT (ratio 0,667) -> .dlc-portrait, 420 px, SEULE. Ne pas la
-       mettre dans .dlc-duo avec les deux photos de plateau (paysage) : la grille
-       l'etirerait.
-       ⚠️ LA LEGENDE NE DIT PAS que c'est le plateau de reference : c'est une
-       scene de festival en plein air, pas la configuration 4 m x 5 m. Elle dit
-       ce qu'on voit.
-       ✅ LE PAN A COQUE CLAIRE POSE AU SOL EST BIEN LE NEOTONE (confirme par
-       David le 14/08/2026). Il est donc nomme, comme les pans acoustiques
-       Yishama : c'est exactement l'information que cherche un regisseur.
-       ⚠️ ELLE RESTE HORS CARROUSEL, volontairement : c'est la photo qui porte un
-       argument a elle seule dans une fiche technique. -->
-  {pic('dispositif-scene',
+"""
+#   LE DISPOSITIF EN FONCTION (ajout du 13/08/2026). Elle est ICI et pas en
+#       #scenes, contrairement a ce qui etait propose, et c'est un choix :
+#       les deux photos ci-dessus montrent le plateau VIDE et vu du dessus, et
+#       AUCUNE image de la page ne montrait le plateau EN FONCTION avec l'artiste
+#       debout dedans, en pied, a une echelle lisible. C'est exactement ce que
+#       cherche la personne qui lit un patch et un plan de scene. #scenes, elle,
+#       porte deja sept visuels et trois plans larges de cette meme scene.
+#       ⚠️ Format PORTRAIT (ratio 0,667) -> .dlc-portrait, 420 px, SEULE. Ne pas la
+#       mettre dans .dlc-duo avec les deux photos de plateau (paysage) : la grille
+#       l'etirerait.
+#       ⚠️ LA LEGENDE NE DIT PAS que c'est le plateau de reference : c'est une
+#       scene de festival en plein air, pas la configuration 4 m x 5 m. Elle dit
+#       ce qu'on voit.
+#       ✅ LE PAN A COQUE CLAIRE POSE AU SOL EST BIEN LE NEOTONE (confirme par
+#       David le 14/08/2026). Il est donc nomme, comme les pans acoustiques
+#       Yishama : c'est exactement l'information que cherche un regisseur.
+#       ⚠️ ELLE RESTE HORS CARROUSEL, volontairement : c'est la photo qui porte un
+#       argument a elle seule dans une fiche technique.
+f"""  {pic('dispositif-scene',
        'Plan vertical en pied : David Lesage debout et pieds nus sur une scène de festival, en tee-shirt noir et pantalon ocre, les mains au-dessus de deux handpans acoustiques Yishama posés sur pieds devant lui, un micro-serre-tête au visage et un micro sur pied à sa droite. Au premier plan au sol, sa grande calebasse claire posée sur un tapis rond, son Neotone à coque claire et un boîtier de commande à même le sol, câbles apparents ; derrière lui, des faisceaux de lumière verte et bleue sur un fond tendu de fils.',
        'min(calc(100vw - 52px), 420px)',
        'Le dispositif en fonction, sur une scène de festival : les handpans acoustiques Yishama sur pieds, le Neotone et la calebasse au sol, tout à portée de main. Everness Festival, Hongrie.',
@@ -2907,18 +2930,19 @@ HTML = f"""<!DOCTYPE html>
     <div class="cta" style="margin-top:22px"><a class="btn" href="{MAILTO_PROG}">Programmer ce concert</a><a class="btn ghost" href="{MAILTO_DOSSIER}">Demander le dossier</a></div>
     <p style="margin-top:20px"><a href="mailto:{MAIL}">{MAIL}</a></p>
   </div>
-  <!-- AFFICHE OFFICIELLE (ajout du 14/08/2026). Placee EN FIN DE PAGE, dans la
-       section de programmation, parce que c'est la qu'elle est un objet de
-       communication et non une photo de scene : la personne qui lit ce bloc est
-       celle qui aura a annoncer la date.
-       ⚠️ Elle porte deja le logo d'artiste en haut a droite : elle est donc
-       tenue A DISTANCE du logo pose en tete de la section #parcours — les mettre
-       cote a cote ferait doublon.
-       ⚠️ Format PORTRAIT (natif 3508x4961) : .dlc-portrait la borne a 420 px,
-       elle n'entre dans aucune grille de photos de scene.
-       ⚠️ La legende ne promet RIEN (ni fichier haute definition, ni personnalisation
-       de l'affiche) : aucun engagement de ce genre n'a ete valide. -->
-  {pic('affiche',
+"""
+#   AFFICHE OFFICIELLE (ajout du 14/08/2026). Placee EN FIN DE PAGE, dans la
+#       section de programmation, parce que c'est la qu'elle est un objet de
+#       communication et non une photo de scene : la personne qui lit ce bloc est
+#       celle qui aura a annoncer la date.
+#       ⚠️ Elle porte deja le logo d'artiste en haut a droite : elle est donc
+#       tenue A DISTANCE du logo pose en tete de la section #parcours — les mettre
+#       cote a cote ferait doublon.
+#       ⚠️ Format PORTRAIT (natif 3508x4961) : .dlc-portrait la borne a 420 px,
+#       elle n'entre dans aucune grille de photos de scene.
+#       ⚠️ La legende ne promet RIEN (ni fichier haute definition, ni personnalisation
+#       de l'affiche) : aucun engagement de ce genre n'a ete valide.
+f"""  {pic('affiche',
        'Affiche « EN CONCERT » de David Lesage : portrait de profil, yeux baissés, longs cheveux éclairés d’orange, devant un handpan vu de face dans une brume dorée ; en haut à droite, le logo « David Lesage » ; au centre, le titre « EN CONCERT » souligné d’un trait doré, sur fond noir.',
        'min(calc(100vw - 52px), 420px)',
        'L’affiche officielle du concert.',
@@ -2964,7 +2988,7 @@ HTML = f"""<!DOCTYPE html>
 {LIGHTBOX_JS}
 {CAR_JS}
 {SPOTIFY_JS}
-</body></html>"""
+</body></html>""")
 
 HTML = mobile_nav.inject(HTML)
 
@@ -2972,5 +2996,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, 'david-lesage-en-concert')
 os.makedirs(OUT_DIR, exist_ok=True)
 OUT = os.path.join(OUT_DIR, 'index.html')
+# Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire HTML
+# dans la page livree (elle serait publique et indexable). Si l'une revient, on
+# abandonne et le fichier sur disque reste inchange.
+verif_commentaires.verifier(HTML, OUT)
 open(OUT, 'w', encoding='utf-8').write(HTML)
 print('WROTE', OUT, round(len(HTML) / 1024), 'KB')
