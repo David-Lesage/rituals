@@ -3,7 +3,12 @@ import math
 import os
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.dirname(HERE)
+#: build.py recopie ce fichier en index.html a la racine (voir son TABLEAU).
+SORTIE = os.path.join(REPO, 'assoc_index.html')
+
+sys.path.insert(0, HERE)
 import mobile_nav  # noqa: E402
 import nav_menu  # menu de navigation partage  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
@@ -105,10 +110,23 @@ PREST=[
  ('feature','Concert-Rituel','RITUALS','Une prière chantée où le public devient souffle, voix et battement. Musique live, chant collectif et induction, par David Lesage &amp; Iris Chasles. Disponible en <b>duo</b> ou en <b>trio</b> avec saxophones et flûtes.','Découvrir la page','/rituals'),
  ('feature','Spectacle immersif participatif','« E-Motion »','Spectacle immersif et participatif avec <b>danse aérienne à l’élastique</b> et <b>musique live</b>, par <b>ID duo</b> (Iris Chasles &amp; David Lesage). Chant, guidances et pratiques corporelles autour des cinq éléments — le public devient acteur de la représentation.','Découvrir la page','/e-motion'),
  ('','Paris 20ᵉ · Un lieu pour éclore','Le Nid','Un cocon de sécurité qui permet à l’être d’éclore à lui-même : accompagnement psychothérapeutique avec Iris Chasles, concerts de David Lesage, yoga, rythme à la calebasse et cours individuels.','Voir le programme','/le-nid'),
- ('','Musique & voix','David Lesage','Handpan électronique, harpe africaine (Ngoni), voix, percussions et électro : soul française et spiritualité des musiques du monde. Vu à The Voice 11.','',''),
+ # La carte « David Lesage » a recu son lien A LA MAIN dans index.html : ici
+ # elle n'en avait pas, donc elle n'etait pas cliquable, et une regeneration
+ # aurait fait perdre le lien vers la page des concerts au Nid.
+ ('','Musique & voix','David Lesage','Handpan électronique, harpe africaine (Ngoni), voix, percussions et électro : soul française et spiritualité des musiques du monde. Vu à The Voice 11.','Voir les concerts','/concerts-david-lesage'),
  ('','Soin d’incarnation · Paris 20ᵉ','Le Soin Soa','Un soin holistique né de la rencontre de trois approches complémentaires : le <b>toucher thérapeutique</b>, l’<b>intelligence relationnelle</b> et l’<b>alchimie vocale</b>. Une immersion d’un week-end au Nid, en tout petit groupe.','En savoir plus','/le-soin-soa'),
- ('','Sons & vibrations','Bains sonores & soins vibratoires','Des voyages sonores immersifs pour ralentir, se déposer et se régénérer — au diapason du vivant.','',''),
- ('','Transmission','Ateliers & formations','Souffle, voix, mouvement et présence : transmettre des outils simples et concrets pour mieux vivre au quotidien.','',''),
+ # ⚠️ DEUX CARTES ONT ETE RETIREES DE LA PAGE PUBLIEE, a la main. Ne pas les
+ # remettre sans l'accord de David :
+ #   « Sons & vibrations / Bains sonores & soins vibratoires »
+ #   « Transmission / Ateliers & formations »
+ # Motif : aucune proposition concrete derriere, aucun lien, aucune date — une
+ # carte qui ne mene nulle part sur la page d'accueil d'une association.
+ # ⚠️ Incident deja vecu : une tentative de restauration de « Bains sonores »
+ # avait ete inseree A L'INTERIEUR de la carte « Ateliers & formations » et
+ # cassait le HTML. Si elles doivent revenir un jour, c'est ICI, en ajoutant un
+ # n-uplet complet a cette liste — jamais dans le HTML.
+ # La carte « Événements & création » ci-dessous a le meme defaut (aucun lien) ;
+ # son sort est encore en attente de decision (point 7 du handoff). Elle reste.
  ('','Rencontres','Événements & création','Imaginer et soutenir des espaces de partage, de créativité, de bien-être et d’élévation de la conscience.','',''),
 ]
 
@@ -135,19 +153,18 @@ VALS=[
 def vals():
     return ''.join(f'<div class="val"><h3>{h}</h3><p>{p}</p></div>' for h,p in VALS)
 
-HELLO='https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions'
-
-HTML=f"""<!DOCTYPE html>
-<html lang="fr"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Résonances Productions — Association loi 1901 · Art du spectacle vivant</title>
-<meta name="description" content="Résonances Productions : association loi 1901 qui accompagne, promeut et soutient des artistes. Concert-rituel RITUALS, spectacles, bains sonores, ateliers et événements — l'humain, la vibration.">
-<meta property="og:title" content="Résonances Productions">
-<meta property="og:description" content="L'humain, la vibration — accompagnement, promotion et soutien d'artistes.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>{CSS}
-/* --- lisibilite des liens (demande de David : liens et dates trop petits) --- */
+# ⚠️ CE BLOC EST UNE CHAINE ORDINAIRE, PAS UNE f-STRING. C'ETAIT LA PANNE.
+# Il etait ecrit tel quel dans le gabarit `HTML=f"""…"""` plus bas. Python y lit
+# toute accolade comme le debut d'une expression a evaluer : la premiere regle,
+# `.jo a{font-size:15px…}`, devenait donc l'expression « font-size:15px… » et le
+# script s'arretait sur « NameError: name 'font' is not defined », avant d'avoir
+# rien ecrit. Resultat : le generateur de la page la PLUS VUE du site ne tournait
+# plus du tout, et l'accueil ne pouvait plus etre modifie qu'a la main.
+# On SORT le CSS de la f-string plutot que de doubler ses accolades : les doubler
+# rendrait le CSS illisible, et la prochaine regle ajoutee ici reintroduirait la
+# panne. Sorti de la f-string, on peut y coller du CSS tel quel sans y penser.
+# ⚠️ Meme regle pour tout futur bloc de CSS : hors de la f-string.
+CSS_LISI = """/* --- lisibilite des liens (demande de David : liens et dates trop petits) --- */
 .jo a{font-size:15px;display:inline-block;padding:6px 0;text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px}
 .jo a:hover{text-decoration-color:var(--gold2)}
@@ -159,7 +176,20 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 .nav .links a.adh{font-size:15px}
 p a:not(.btn):not(.adh){text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
-</style>  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+"""
+
+HELLO='https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions'
+
+HTML=f"""<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Résonances Productions — Association loi 1901 · Art du spectacle vivant</title>
+<meta name="description" content="Résonances Productions : association loi 1901 qui accompagne, promeut et soutient des artistes. Concert-rituel RITUALS, spectacles, bains sonores, ateliers et événements — l'humain, la vibration.">
+<meta property="og:title" content="Résonances Productions">
+<meta property="og:description" content="L'humain, la vibration — accompagnement, promotion et soutien d'artistes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>{CSS}</style>  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="theme-color" content="#0e0f24">
@@ -274,10 +304,66 @@ p a:not(.btn):not(.adh){text-decoration:underline;
 </body></html>"""
 
 HTML = mobile_nav.inject(HTML)
+
+# Le bloc « lisibilite des liens » doit rester le DERNIER a parler taille de
+# police : `.nav .links a{font-size:14.5px}` doit l'emporter sur la regle de la
+# barre de navigation, et `mobile_nav.inject()` vient justement de coller sa
+# propre feuille de style en fin de <style>. On pose donc CSS_LISI derriere lui
+# — c'est exactement son ordre dans la page publiee. (Le CSS de `nav_menu`,
+# ajoute ensuite, est cadre par ses propres selecteurs et ne rentre pas en
+# conflit.)
+assert HTML.count('</style>') == 1, 'une seule feuille de style attendue'
+if '/* --- lisibilite des liens' not in HTML:          # garde d'idempotence
+    HTML = HTML.replace('</style>', '\n' + CSS_LISI + '\n</style>', 1)
+
+# Ligne vide entre le script du hamburger et le bloc du menu partage. Elle vient
+# de la mise a jour du menu v1 -> v2 : `nav_menu._strip()` a retire l'ancien bloc
+# en laissant le saut de ligne qui le suivait. Les neuf pages publiees l'ont ; on
+# la reproduit pour qu'une regeneration ne modifie pas un octet.
+HTML = HTML.replace('</script>\n</body>', '</script>\n\n</body>', 1)
+
 HTML = nav_menu.inject(HTML, 'home')
+
+# --------------------------------------------------------------------------- #
+# GARDE-FOUS STRUCTURELS, AVANT L'ECRITURE. Modele : generate_rythme.py.
+# On compte les ancres qui doivent etre uniques et les six cartes de
+# prestations : un ecart les attrape AUSSI BIEN en disparition qu'en
+# duplication (le piege des quatre cartes identiques). On REFUSE d'ecrire une
+# page cassee plutot que d'imprimer un avertissement qui defile.
+# --------------------------------------------------------------------------- #
+_ATTENDU = (
+    ('<h1', 1, 'titre principal'),
+    ('data-nav="resonances-2"', 1, 'menu partage nav_menu.py'),
+    # le bouton hamburger est CREE PAR LE JS : on compte la ligne qui le fabrique
+    ("b.className='burger'", 1, 'bouton hamburger de mobile_nav.py'),
+    ('/* --- lisibilite des liens', 1, 'bloc « lisibilite des liens »'),
+    ('id="association"', 1, 'ancre #association'),
+    ('id="prestations"', 1, 'ancre #prestations'),
+    ('id="statuts"', 1, 'ancre #statuts'),
+    ('<svg class="flower"', 1, 'fleur de vie du hero'),
+    ('<circle ', 19, 'les 19 cercles de la fleur de vie'),
+    # SIX cartes, pas huit : voir la note sur PREST. Ce compte est la pour que
+    # les deux cartes retirees ne reviennent pas par accident, et pour attraper
+    # une carte perdue.
+    ('class="card', len(PREST), 'cartes de prestations'),
+)
+for _marqueur, _combien, _quoi in _ATTENDU:
+    _n = HTML.count(_marqueur)
+    if _n != _combien:
+        raise SystemExit('!! ABANDON : %d occurrence(s) de « %s » (%s), attendu %d. '
+                         'Page NON ecrite.' % (_n, _marqueur, _quoi, _combien))
+
+# La carte « David Lesage » doit rester cliquable (son lien avait ete pose a la
+# main). Une carte sans href est rendue en <div> : elle ne mene nulle part.
+if '<a class="card " href="/concerts-david-lesage">' not in HTML:
+    raise SystemExit('!! ABANDON : la carte « David Lesage » n\'est pas un lien '
+                     'vers /concerts-david-lesage. Page NON ecrite.')
 
 # Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire HTML
 # (ce fichier est recopie tel quel dans index.html a la racine).
-verif_commentaires.verifier(HTML, 'assoc_index.html')
-open('assoc_index.html','w',encoding='utf-8').write(HTML)
-print('WROTE assoc_index.html', round(len(HTML)/1024),'KB')
+verif_commentaires.verifier(HTML, SORTIE)
+# Chemin ABSOLU : ce script etait lance depuis n'importe ou et ecrivait son
+# `assoc_index.html` dans le repertoire courant. build.py, lui, va le chercher a
+# la racine du depot pour le recopier en index.html.
+open(SORTIE,'w',encoding='utf-8').write(HTML)
+print('WROTE', SORTIE, round(len(HTML)/1024),'KB')
