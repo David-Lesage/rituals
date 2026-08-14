@@ -619,6 +619,52 @@ HTML = mobile_nav.inject(HTML)
 # menu de navigation partage : remplace le <div class="links"> ci-dessus
 HTML = nav_menu.inject(HTML, 'le-soin-soa')
 
+
+# --------------------------------------------------------------------------- #
+# RETOUCHES FAITES A LA MAIN SUR LA PAGE PUBLIEE — rapatriees ici le 14/08/2026
+# --------------------------------------------------------------------------- #
+# `le-soin-soa/index.html` avait ete edite directement apres sa derniere
+# generation. Resultat : `build.py` signalait la page « MISE A JOUR » a chaque
+# passage, et une regeneration modifiait des octets sans qu'aucun texte, aucune
+# couleur ni aucune mise en page ne bouge. Les trois ecarts sont reproduits ici
+# pour que le generateur redonne la page publiee A L'OCTET PRES.
+#
+# AUCUN des trois n'a d'effet visuel :
+#   * le bloc `.who-site` (3 lignes) est simplement plus bas dans la feuille de
+#     style. Aucune regle du menu ne parle de `.who-site` : la cascade est
+#     inchangee. On le remet ou il est dans la page publiee.
+#   * les deux lignes vides sont un FOSSILE de la montee resonances-1 ->
+#     resonances-2 faite sur le fichier : `nav_menu._strip()` avait retire
+#     l'ancien bloc en laissant le saut de ligne qui le precedait. Meme fossile,
+#     meme traitement que dans `generate_trio.py` (voir son commentaire
+#     « Ligne vide entre le script du hamburger et le bloc du menu partage »).
+
+def _rapatrier_retouches(html):
+    """Reproduit les retouches manuelles de la page publiee. Refuse si une ancre
+    a bouge : mieux vaut s'arreter que d'ecrire une page a moitie rapatriee."""
+    # 1. le bloc `.who-site` descend en toute fin de feuille de style
+    lignes = [l for l in html.split('\n') if l.startswith('.who-site')]
+    if len(lignes) != 3:
+        raise SystemExit('!! ABANDON : %d ligne(s) de style « .who-site », attendu 3. '
+                         'Page NON ecrite.' % len(lignes))
+    bloc = '\n'.join(lignes) + '\n'
+    if html.count(bloc) != 1 or html.count('</style>') != 1:
+        raise SystemExit('!! ABANDON : le bloc « .who-site » ou le </style> n\'est '
+                         'pas unique. Page NON ecrite.')
+    html = html.replace(bloc, '', 1)
+    html = html.replace('</style>', bloc + '</style>', 1)
+
+    # 2. les deux lignes vides qui precedent les marqueurs du menu partage
+    for marqueur in (nav_menu.CSS_MARK, nav_menu.JS_MARK):
+        if html.count('\n' + marqueur) != 1:
+            raise SystemExit('!! ABANDON : marqueur du menu introuvable ou en '
+                             'double (%s). Page NON ecrite.' % marqueur)
+        html = html.replace('\n' + marqueur, '\n\n' + marqueur, 1)
+    return html
+
+
+HTML = _rapatrier_retouches(HTML)
+
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'soin_soa_final.html')
 # Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire HTML
 # (ce fichier est recopie tel quel dans le-soin-soa/index.html).
