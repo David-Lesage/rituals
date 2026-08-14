@@ -1,0 +1,53 @@
+#!/bin/sh
+# ---------------------------------------------------------------------------
+# CROCHET « pre-push » — le dernier controle avant la mise en ligne
+# ---------------------------------------------------------------------------
+# SUR CE PROJET, POUSSER = PUBLIER. Vercel surveille la branche `main` et met
+# le site en ligne tout seul, environ 40 secondes apres le push. Il n'y a donc
+# aucune etape de relecture entre « git push » et « c'est visible par tout le
+# monde ». Ce crochet est cette etape.
+#
+# Il lance `sources/verif_site.py` sur les 9 pages publiees. Si un seul controle
+# echoue, le push est refuse et rien ne part en ligne.
+#
+# Pour l'activer sur une nouvelle copie du depot (une seule fois) :
+#     git config core.hooksPath .githooks
+# ---------------------------------------------------------------------------
+
+RACINE=$(git rev-parse --show-toplevel)
+
+echo ""
+echo "  ================================================================"
+echo "   PUBLICATION DU SITE — verification des 9 pages avant mise en ligne"
+echo "  ================================================================"
+
+python3 "$RACINE/sources/verif_site.py"
+CODE=$?
+
+if [ "$CODE" -ne 0 ]; then
+  echo "  ================================================================"
+  echo "   PUBLICATION REFUSEE"
+  echo "  ================================================================"
+  echo ""
+  echo "  Rien n'a ete envoye : le site en ligne n'a pas bouge."
+  echo ""
+  echo "  Ce qui ne va pas est ecrit juste au-dessus, une ligne par probleme."
+  echo "  La marche a suivre :"
+  echo ""
+  echo "    1. corriger la SOURCE dans sources/ — jamais le fichier HTML"
+  echo "       directement quand la page a un generateur, il serait ecrase"
+  echo "    2. python3 sources/build.py"
+  echo "    3. python3 sources/verif_site.py     (doit afficher 9/9)"
+  echo "    4. git add … && git commit && git push"
+  echo ""
+  echo "  En cas d'urgence absolue, pour publier quand meme :"
+  echo "      git push --no-verify"
+  echo "  (ce qui est signale ci-dessus sera alors visible en ligne)"
+  echo ""
+  exit 1
+fi
+
+echo "  Verification passee — publication autorisee."
+echo "  Le site sera en ligne dans environ 40 secondes."
+echo ""
+exit 0

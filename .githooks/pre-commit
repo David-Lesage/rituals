@@ -1,0 +1,133 @@
+#!/bin/sh
+# ---------------------------------------------------------------------------
+# CROCHET « pre-commit » — passe juste avant qu'une sauvegarde soit enregistree
+# ---------------------------------------------------------------------------
+# Il ne regarde QUE les fichiers ajoutes a la sauvegarde en cours, et il est
+# rapide : c'est le controle d'hygiene. La verification du site, elle, se fait
+# au moment de publier (voir le crochet « pre-push »).
+#
+# Trois choses le font refuser :
+#   1. un fichier « Icon » de Google Drive (ils polluent le depot)
+#   2. un fichier de plus de 10 Mo qui n'est pas une image
+#   3. quelque chose qui ressemble a un mot de passe, une cle ou un code d'acces
+#
+# Pour l'activer sur une nouvelle copie du depot (une seule fois) :
+#     git config core.hooksPath .githooks
+# ---------------------------------------------------------------------------
+
+RACINE=$(git rev-parse --show-toplevel)
+DRAPEAU="$RACINE/.git/pre-commit-refus"
+LIMITE_OCTETS=10485760      # 10 Mo
+
+rm -f "$DRAPEAU"
+FICHIERS=$(git diff --cached --name-only --diff-filter=ACMR)
+
+echo ""
+echo "  Controle avant sauvegarde…"
+
+# --------------------------------------------------------------------------- #
+# 1. Fichiers « Icon » de Google Drive
+# --------------------------------------------------------------------------- #
+# Google Drive depose un fichier nomme « Icon » suivi d'un retour chariot
+# invisible dans chaque dossier qu'il synchronise. Ils n'ont rien a faire ici.
+# ⚠️ PIEGE CONNU : « icon-app.svg », « icons.ts » et « iconv-lite » commencent
+# aussi par « Icon ». On ne vise donc QUE le nom exact « Icon », eventuellement
+# suivi d'UN caractere invisible — jamais un simple prefixe.
+ICONES=$(printf '%s\n' "$FICHIERS" | grep -E '(^|/)Icon.?$')
+if [ -n "$ICONES" ]; then
+  echo ""
+  echo "  REFUSE — des fichiers « Icon » de Google Drive sont dans la sauvegarde :"
+  printf '%s\n' "$ICONES" | sed 's/^/      /'
+  echo ""
+  echo "  Ce ne sont pas des fichiers du site : c'est Google Drive qui les depose"
+  echo "  dans chaque dossier qu'il synchronise. Pour les sortir du suivi sans"
+  echo "  rien effacer sur le disque :"
+  echo ""
+  echo "      git rm --cached \"<le fichier>\""
+  echo ""
+  touch "$DRAPEAU"
+fi
+
+# --------------------------------------------------------------------------- #
+# 2. Gros fichiers qui ne sont pas des images
+# --------------------------------------------------------------------------- #
+# Le depot pese deja ~40 Mo d'images et un push trop lourd echoue en HTTP 400.
+# Les images sont tolerees (c'est un site de photos), le reste non.
+for f in $FICHIERS; do
+  [ -f "$RACINE/$f" ] || continue
+  case "$f" in
+    *.jpg|*.jpeg|*.png|*.webp|*.gif|*.svg|*.ico|*.avif) continue ;;
+  esac
+  TAILLE=$(wc -c < "$RACINE/$f" | tr -d ' ')
+  if [ "$TAILLE" -gt "$LIMITE_OCTETS" ]; then
+    echo ""
+    echo "  REFUSE — fichier trop lourd : $f"
+    echo "      $((TAILLE / 1048576)) Mo, alors que la limite est de 10 Mo"
+    echo "      (les images, elles, sont acceptees sans limite)."
+    echo "  Ce fichier n'a probablement pas sa place dans le depot."
+    touch "$DRAPEAU"
+  fi
+done
+
+# --------------------------------------------------------------------------- #
+# 3. Secrets et codes d'acces
+# --------------------------------------------------------------------------- #
+# Le depot GitHub est PUBLIC. Le code du portail du Nid a deja fuite DEUX fois
+# sur ce projet — une fois dans une page, une fois dans le fichier de reprise.
+# Tout ce qui ressemble a une cle ou a un code d'entree bloque la sauvegarde.
+# Les motifs sont volontairement etroits : mieux vaut en attraper peu et sur.
+MOTIFS="BEGIN [A-Z ]*PRIVATE KEY
+sk_live_[A-Za-z0-9]{8}
+service_role
+AKIA[0-9A-Z]{16}
+gh[pousr]_[A-Za-z0-9]{20,}
+xox[baprs]-[A-Za-z0-9-]{10,}
+eyJhbGciOi[A-Za-z0-9_-]{20,}
+(code|digicode|portail|interphone)[^<>]{0,40}[:=][^<>]{0,10}[0-9]{3,6}
+(api.?key|secret|password|passwd|mot de passe)[^<>]{0,15}[:=][^<>]{0,4}.\{8,\}"
+
+for f in $FICHIERS; do
+  [ -f "$RACINE/$f" ] || continue
+  case "$f" in
+    *.jpg|*.jpeg|*.png|*.webp|*.gif|*.ico|*.zip|*.pdf|*.mp3|*.mp4) continue ;;
+    # Les crochets eux-memes CONTIENNENT la liste des motifs recherches : sans
+    # cette exception ils se signaleraient l'un l'autre a chaque sauvegarde.
+    .githooks/*) continue ;;
+  esac
+  CONTENU=$(git show ":$f" 2>/dev/null)
+  [ -n "$CONTENU" ] || continue
+  printf '%s\n' "$MOTIFS" | while IFS= read -r motif; do
+    [ -n "$motif" ] || continue
+    LIGNE=$(printf '%s\n' "$CONTENU" | grep -niE "$motif" | head -3)
+    if [ -n "$LIGNE" ]; then
+      echo ""
+      echo "  REFUSE — quelque chose ressemble a un secret dans : $f"
+      printf '%s\n' "$LIGNE" | cut -c1-110 | sed 's/^/      /'
+      touch "$DRAPEAU"
+    fi
+  done
+done
+
+# --------------------------------------------------------------------------- #
+if [ -f "$DRAPEAU" ]; then
+  rm -f "$DRAPEAU"
+  echo ""
+  echo "  Rappel : le depot GitHub est PUBLIC. Tout ce qui est sauvegarde ici"
+  echo "  devient lisible par n'importe qui, et le reste dans l'historique meme"
+  echo "  si on l'efface ensuite."
+  echo ""
+  echo "  ---------------------------------------------------------------"
+  echo "  SAUVEGARDE ANNULEE. Rien n'est perdu : tes modifications sont"
+  echo "  toujours la. Retire ce qui est signale ci-dessus, puis relance la"
+  echo "  meme commande."
+  echo ""
+  echo "  En cas d'urgence absolue, pour passer outre :"
+  echo "      git commit --no-verify -m \"…\""
+  echo "  (a n'utiliser que si tu sais precisement pourquoi)"
+  echo ""
+  exit 1
+fi
+
+echo "  OK — rien a signaler."
+echo ""
+exit 0
