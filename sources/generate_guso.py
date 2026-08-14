@@ -90,6 +90,45 @@ des formulations sur la beta, le futur payant et l'affiliation — c'est
 delibere, ces trois sujets sont prudents par construction.
 
 ------------------------------------------------------------------------------
+MISE A JOUR DU 14/08/2026 (soir) — 4 titres corriges, 3 blocs ajoutes
+------------------------------------------------------------------------------
+Apport de la session qui developpe Guso Facile. Regle qui a guide chaque
+formulation : CE QUI EST LIVRE S'ECRIT AU PRESENT, CE QUI NE L'EST PAS S'ECRIT
+AU FUTUR ET PORTE « (a venir) ». Un beta-testeur verifie en trois clics.
+
+a) Les 4 univers portaient des intitules APPROCHANTS. Les vrais, releves dans
+   le code de l'application, sont desormais ecrits mot pour mot, VIRGULE
+   COMPRISE (c'est elle qui donne le rythme) :
+       « Suivi des droits »          -> « Tes droits, maitrises »
+       « Organisation de tournee »   -> « Ta tournee, organisee »
+       « Espace structure »          -> « Ta structure, connectee »
+       « Entraide entre artistes »   -> « Ton cercle, solidaire »
+   SEULS les titres ont bouge ; le contenu des cartes est inchange.
+
+b) « Faire decouvrir l'outil » (cooptation) — fonctionnalite LIVREE, ajoutee
+   dans l'univers 4, AU PRESENT, sans mention « a venir ».
+
+c) « L'entraide entre artistes » (la Guilde) — fonctionnalite NON LIVREE (la
+   base existe, l'ecran non), ajoutee dans l'univers 4, AU FUTUR et marquee
+   « (a venir) ». ⚠️ Bloc le plus sensible de la page apres celui du lien avec
+   l'association : voir la CONTRAINTE REDACTIONNELLE STRICTE ecrite juste
+   au-dessus de lui dans le gabarit, et le garde-fou `_controle_guilde()`.
+
+d) « Je cree mon contrat » — fonctionnalite NON LIVREE (le modele en 12
+   rubriques existe en base, l'ecran non), ajoutee dans l'univers 2, AU FUTUR
+   et marquee « (a venir) ».
+
+e) « Points de vigilance cote structure » et « Confidentialite graduee »
+   etaient DEJA presents et DEJA marques « (a venir) » : rien a faire.
+
+Le reste de la page n'a pas ete touche — en particulier « cree par David
+Lesage · relaye par l'association », « Pourquoi Resonances Productions le
+relaie », l'encadre « n'est pas un service de l'association », le titre
+« Trois situations typiques » et sa note sur les prenoms fictifs, le badge
+« Beta privee · places limitees » du hero, le bouton unique et les deux
+mentions sur les donnees personnelles.
+
+------------------------------------------------------------------------------
 LE RACCORDEMENT AU SITE (fait le 14/08/2026)
 ------------------------------------------------------------------------------
 La page n'est plus isolee. Ce qui a ete pose, et ou :
@@ -397,7 +436,7 @@ def build_html():
 
     <article class="u-card">
       <p class="u-num">Univers 1</p>
-      <h3>Suivi des droits</h3>
+      <h3>Tes droits, maîtrisés</h3>
       <p class="u-sub">Ne plus jamais perdre une heure ni rater une échéance.</p>
       <ul>
         <li><b>Jauge des 507 heures</b> — la progression vers l’ouverture de droits, toujours visible.</li>
@@ -411,7 +450,7 @@ def build_html():
 
     <article class="u-card">
       <p class="u-num">Univers 2</p>
-      <h3>Organisation de tournée</h3>
+      <h3>Ta tournée, organisée</h3>
       <p class="u-sub">Développer, relancer, négocier — et savoir avant de dire oui.</p>
       <ul>
         <li><b>Carte des dates</b> — les concerts géolocalisés, avec le calcul des kilomètres parcourus depuis le domicile, utile pour les frais.</li>
@@ -420,12 +459,29 @@ def build_html():
         <li><b>Modèles de mails</b> — relance, présentation, remerciement, pré-remplis avec la dernière date jouée avec l’interlocuteur.</li>
         <li><b>Évaluation d’une proposition</b> — l’offre reçue comparée aux conditions idéales de l’artiste, avec un verdict vert, jaune ou rouge avant de s’engager.</li>
         <li><b>Suivi de négociation</b> — statut du contrat, échéance de signature, informations manquantes, et une demande d’informations prête à envoyer.</li>
+"""
+      # -------------------------------------------------------------------
+      # « Je cree mon contrat » — FONCTIONNALITE NON LIVREE : ECRITE AU FUTUR
+      # -------------------------------------------------------------------
+      # Etat au 14/08/2026, donne par la session qui developpe Guso Facile :
+      # le modele d'engagement en 12 rubriques existe EN BASE DE DONNEES,
+      # mais l'ECRAN qui le remplit N'EXISTE PAS ENCORE. L'ecrire au present
+      # reviendrait a vendre une fonctionnalite qu'un beta-testeur constate
+      # absente en trois clics — sur le site public d'une association.
+      # D'ou : meme traitement visuel « a venir » que les deux mentions deja
+      # presentes dans l'univers 4 (`<i>(a venir)</i>`, rendu en gris par
+      # `.u-card li i`), et formulation SOBRE — aucune description du contenu
+      # des rubriques, aucune date de livraison annoncee.
+      # Cette ligne est placee dans l'univers 2 (« Ta tournee, organisee »)
+      # parce que c'est la que se traite la relation a l'organisateur :
+      # evaluation de la proposition, puis suivi de negociation, puis contrat.
+      """        <li><b>Je crée mon contrat</b> <i>(à venir)</i> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
       </ul>
     </article>
 
     <article class="u-card">
       <p class="u-num">Univers 3</p>
-      <h3>Espace structure</h3>
+      <h3>Ta structure, connectée</h3>
       <p class="u-sub">Pour celles et ceux qui emploient et accompagnent les artistes.</p>
       <ul>
         <li><b>Back-office transversal</b> — toutes les DPAE, feuillets GUSO et factures à faire, tous artistes confondus, au même endroit.</li>
@@ -439,11 +495,69 @@ def build_html():
 
     <article class="u-card">
       <p class="u-num">Univers 4</p>
-      <h3>Entraide entre artistes</h3>
+      <h3>Ton cercle, solidaire</h3>
       <p class="u-sub">Parce qu’on avance mieux à plusieurs. Cet univers est en cours de déploiement.</p>
       <ul>
         <li><b>Vue groupe</b> — où en est chaque membre du groupe, pour se soutenir avant que la situation ne coince.</li>
         <li><b>« J’ai besoin d’aide »</b> — trois questions simples, un premier conseil concret, et la possibilité de prévenir qui l’on veut.</li>
+"""
+      # -------------------------------------------------------------------
+      # « Faire decouvrir l'outil » (cooptation) — FONCTIONNALITE LIVREE
+      # -------------------------------------------------------------------
+      # Celle-ci EST en production (etat au 14/08/2026) : elle s'ecrit donc au
+      # PRESENT, sans mention « a venir ». Texte repris quasi verbatim de la
+      # session qui developpe Guso Facile ; seule la ponctuation a ete alignee
+      # sur le gabarit des puces (titre en <b>, tiret cadratin, puis la
+      # phrase). Ne pas la reformuler en promesse commerciale : la derniere
+      # phrase (« Chaque acces reste une decision, jamais une inscription
+      # automatique ») dit la meme chose que les deux mentions sous le bouton
+      # de la section « Manifester son interet » — c'est voulu, la page doit
+      # etre coherente d'un bout a l'autre sur ce point.
+      """        <li><b>Faire découvrir l’outil</b> — un membre peut recommander Guso Facile à un autre artiste : il renseigne ses coordonnées, l’application prépare un message qu’il peut modifier, et la demande arrive chez David, qui l’étudie personnellement. Chaque accès reste une décision, jamais une inscription automatique.</li>
+"""
+      # ===================================================================
+      # ⚠️⚠️ « L'ENTRAIDE ENTRE ARTISTES » (la Guilde) — CONTRAINTE
+      #        REDACTIONNELLE STRICTE. LIRE AVANT DE TOUCHER A CE BLOC.
+      # ===================================================================
+      # 1. C'est une fonctionnalite NON LIVREE : la base de donnees existe,
+      #    L'ECRAN N'EXISTE PAS ENCORE (etat au 14/08/2026). Elle s'ecrit donc
+      #    AU FUTUR et porte OBLIGATOIREMENT la mention `<i>(a venir)</i>`,
+      #    comme les autres a-venir de la page. Ne jamais la passer au present
+      #    « parce que la phrase coule mieux ».
+      #
+      # 2. LE POINT DELICAT : cette fonctionnalite fait porter a des artistes
+      #    des AFFIRMATIONS FACTUELLES SUR DES EMPLOYEURS IDENTIFIABLES. Elle
+      #    est reservee aux membres connectes, mais LA PAGE QUI LA DECRIT EST
+      #    PUBLIQUE ET INDEXEE. Si ce paragraphe se lit comme « une plateforme
+      #    qui note les employeurs du spectacle », un programmateur mecontent
+      #    ecrira a l'association — qui n'heberge meme pas l'outil.
+      #
+      # 3. VOCABULAIRE INTERDIT DANS CE BLOC, sans exception ni synonyme
+      #    deguise :
+      #        noter · notation · signaler · denoncer · avis · evaluation ·
+      #        blacklist · reputation
+      #    (Ces mots existent ailleurs sur la page — « signaler un bug »,
+      #     « Evaluation d'une proposition » — c'est normal : l'interdit porte
+      #     sur CE bloc, et le garde-fou `_controle_guilde()` plus bas ne
+      #     controle que lui.)
+      #
+      # 4. POINTS D'APPUI a utiliser si le texte doit un jour etre retravaille :
+      #        - reserve aux MEMBRES CONNECTES : jamais public, jamais indexe ;
+      #        - uniquement des FAITS BINAIRES (contrat fourni / pas fourni,
+      #          paye dans les delais / non) ;
+      #        - AUCUN commentaire libre, AUCUN espace de debat ;
+      #        - la sortie proposee est constructive (un modele de contrat a
+      #          poser la prochaine fois), pas punitive.
+      #
+      # 5. Le texte ci-dessous est celui VALIDE par la session qui developpe
+      #    Guso Facile, repris quasi verbatim. Seule la ponctuation a ete
+      #    adaptee au gabarit des puces. Ne pas le « fluidifier ».
+      """        <li><b>L’entraide entre artistes</b> <i>(à venir)</i> — entre membres, on partagera ce qui s’est
+          concrètement passé sur une date : le contrat a-t-il été fourni, le paiement est-il arrivé dans les
+          délais, les conditions annoncées ont-elles été tenues. Rien que des faits, jamais d’appréciation.
+          L’idée n’est pas de juger qui que ce soit, mais de s’informer entre pairs — comme on le fait déjà
+          de bouche à oreille, en tournée ou en loge. Et quand le cadre a manqué, l’outil proposera plutôt
+          d’aider à le poser la prochaine fois, avec un modèle de contrat prêt à personnaliser.</li>
         <li><b>Points de vigilance côté structure</b> <i>(à venir)</i> — qui approche du seuil, qui aurait besoin d’un coup de main.</li>
         <li><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
       </ul>
@@ -650,6 +764,25 @@ ANCRES = (
     ('id="etat"', 1, 'section « Où en est le projet »'),
     ('class="badge"', 1, 'badge « Bêta privée · places limitées »'),
     ('class="u-card"', 4, 'les 4 univers de fonctionnalités'),
+    # Les intitules EXACTS des 4 univers, virgule comprise. Ils ont ete releves
+    # dans le code de l'application le 14/08/2026 : la page portait jusque-la
+    # des titres approchants (« Suivi des droits », « Organisation de tournee »,
+    # « Espace structure », « Entraide entre artistes »). La virgule donne son
+    # rythme a chaque intitule — ce n'est pas une coquille, ne pas la retirer.
+    ('<h3>Tes droits, maîtrisés</h3>', 1, 'titre exact de l’univers 1'),
+    ('<h3>Ta tournée, organisée</h3>', 1, 'titre exact de l’univers 2'),
+    ('<h3>Ta structure, connectée</h3>', 1, 'titre exact de l’univers 3'),
+    ('<h3>Ton cercle, solidaire</h3>', 1, 'titre exact de l’univers 4'),
+    # Les trois blocs ajoutes le 14/08/2026 (voir les commentaires au-dessus de
+    # chacun d'eux dans le gabarit).
+    ('<b>Faire découvrir l’outil</b>', 1, 'cooptation — fonctionnalité LIVRÉE, au présent'),
+    ('<b>L’entraide entre artistes</b>', 1, 'la Guilde — fonctionnalité À VENIR'),
+    ('<b>Je crée mon contrat</b>', 1, 'modèle de contrat — fonctionnalité À VENIR'),
+    # 4 mentions « a venir » : Guilde + « Je cree mon contrat » + les deux deja
+    # presentes (points de vigilance, confidentialite graduee). Si ce compte
+    # tombe a 3, c'est qu'une fonctionnalite non livree vient d'etre presentee
+    # comme disponible : l'ecriture est refusee.
+    ('<i>(à venir)</i>', 4, 'les mentions « à venir » des fonctionnalités non livrées'),
     # le hamburger est cree en JS par mobile_nav.py : c'est son CSS qui
     # atteste sa presence. `.burger span{` n'existe qu'une fois (`.burger{`
     # apparait 3 fois : regle de base + media 860 + media print).
@@ -671,6 +804,69 @@ HOTES_AUTORISES = (
     'docs.google.com',
     'www.resonancesproductions.org',
 )
+
+
+#: Le vocabulaire proscrit dans le bloc « L'entraide entre artistes ».
+#: (motif, mot tel qu'il est interdit). Voir le long commentaire au-dessus du
+#: bloc dans le gabarit : la fonctionnalite fait porter a des artistes des
+#: affirmations factuelles sur des employeurs identifiables, sur une page
+#: PUBLIQUE. Le bloc ne doit jamais se lire comme « une plateforme qui note les
+#: employeurs du spectacle ».
+#: ⚠️ L'interdit porte sur CE BLOC SEULEMENT : « signaler un bug » et
+#: « Evaluation d'une proposition » sont legitimes ailleurs sur la page.
+MOTS_INTERDITS_GUILDE = (
+    (r'\bnot(?:e|es|er|ée?s?|ation|ations)\b', 'noter / notation'),
+    (r'\bsignal\w*', 'signaler'),
+    (r'\bdénonc\w*|\bdenonc\w*', 'dénoncer'),
+    (r'\bavis\b', 'avis'),
+    (r'\bévalu\w*|\bevalu\w*', 'évaluation'),
+    (r'\bblacklist\w*', 'blacklist'),
+    (r'\bréputation\w*|\breputation\w*', 'réputation'),
+)
+
+#: ce qui identifie le bloc Guilde dans la page livree.
+_MARQUEUR_GUILDE = '<b>L’entraide entre artistes</b>'
+
+
+def _controle_guilde(html):
+    """Refuse d'ecrire si le bloc « Guilde » derape.
+
+    Deux exigences, toutes deux liees au fait que la page est PUBLIQUE alors
+    que la fonctionnalite, elle, sera reservee aux membres connectes :
+      - la mention « (a venir) » y figure (la fonctionnalite n'est pas livree) ;
+      - aucun mot du vocabulaire proscrit n'y apparait.
+    """
+    import re
+
+    debut = html.find(_MARQUEUR_GUILDE)
+    if debut < 0:
+        raise SystemExit('!! ABANDON : bloc « Guilde » introuvable. Page NON ecrite.')
+    ouvre = html.rfind('<li>', 0, debut)
+    ferme = html.find('</li>', debut)
+    if ouvre < 0 or ferme < 0:
+        raise SystemExit('!! ABANDON : bloc « Guilde » mal delimite (pas de <li>…</li> '
+                         'autour). Page NON ecrite.')
+    bloc = html[ouvre:ferme + len('</li>')]
+
+    if '(à venir)' not in bloc:
+        raise SystemExit(
+            '!! ABANDON : le bloc « Guilde » ne porte plus la mention « (à venir) ». '
+            'La base existe mais l\'ecran n\'est PAS livre : l\'annoncer comme '
+            'disponible serait verifiable en trois clics par un beta-testeur. '
+            'Page NON ecrite.')
+
+    for motif, mot in MOTS_INTERDITS_GUILDE:
+        m = re.search(motif, bloc, re.I)
+        if m:
+            raise SystemExit(
+                '!! ABANDON : mot interdit « %s » (ici : « %s ») dans le bloc '
+                '« L\'entraide entre artistes ».\n'
+                '   Ce bloc decrit des artistes qui affirment des faits sur des '
+                'employeurs identifiables, sur une page PUBLIQUE. Il ne doit jamais '
+                'se lire comme une plateforme de notation des employeurs.\n'
+                '   Points d\'appui : membres connectes uniquement, faits binaires, '
+                'aucun commentaire libre.\n'
+                '   Page NON ecrite.' % (mot, m.group(0)))
 
 
 def _controles(html):
@@ -716,6 +912,9 @@ def _controles(html):
         if re.search(motif, html):
             raise SystemExit('!! ABANDON : ce qui ressemble a un %s dans la page. '
                              'Page NON ecrite.' % quoi)
+
+    # le bloc le plus sensible de la page depuis le 14/08/2026
+    _controle_guilde(html)
 
 
 def main():
