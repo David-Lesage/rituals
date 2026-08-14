@@ -81,11 +81,16 @@ done
 # Le depot GitHub est PUBLIC. Le code du portail du Nid a deja fuite DEUX fois
 # sur ce projet — une fois dans une page, une fois dans le fichier de reprise.
 # Tout ce qui ressemble a une cle ou a un code d'entree bloque la sauvegarde.
-# Les motifs sont volontairement etroits : mieux vaut en attraper peu et sur.
+# Les motifs sont volontairement etroits. Un garde-fou qui crie au loup est un
+# garde-fou qu'on finit par contourner d'office avec --no-verify : chaque motif
+# doit donc viser une VRAIE cle, pas un mot du vocabulaire. Exemple vecu : le
+# simple mot « service_role » a d'abord ete cherche tel quel, et il bloquait une
+# phrase du fichier de reprise qui expliquait un reglage Supabase. Ce qui fuit
+# vraiment, c'est la CLE (« eyJhbGciOi… ») — c'est elle qui est cherchee.
 MOTIFS="BEGIN [A-Z ]*PRIVATE KEY
 sk_live_[A-Za-z0-9]{8}
-service_role
 AKIA[0-9A-Z]{16}
+service_role_key[^<>]{0,6}[:=][^<>]{0,6}[A-Za-z0-9._-]{20,}
 gh[pousr]_[A-Za-z0-9]{20,}
 xox[baprs]-[A-Za-z0-9-]{10,}
 eyJhbGciOi[A-Za-z0-9_-]{20,}

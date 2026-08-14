@@ -6,6 +6,110 @@
 > ⚠️ ~40 Mo d'images → `git config http.postBuffer 524288000` (fait) sinon le push échoue en HTTP 400.
 > ⚠️ `git` de `/usr/bin` est bloqué par la licence Xcode → `export DEVELOPER_DIR=/Library/Developer/CommandLineTools`. Correctif définitif : `sudo xcodebuild -license`.
 
+---
+
+# 🟢 COMMENT ON MODIFIE LE SITE — la marche à suivre (14/08/2026)
+
+*Cette section est écrite pour David. Pas besoin d'être développeur pour la suivre.*
+
+## Ce qui se passe quand tu demandes une modification
+
+Quatre étapes, toujours les mêmes, toujours dans cet ordre :
+
+| | Quoi | La commande |
+|---|---|---|
+| 1 | On modifie **la source**, pas la page | (dans `sources/`) |
+| 2 | On **reconstruit** le site | `python3 sources/build.py` |
+| 3 | On **vérifie** les 9 pages | `python3 sources/verif_site.py` |
+| 4 | On **sauvegarde et on publie** | `git add …` puis `git commit` puis `git push` |
+
+Puis **Vercel met le site en ligne tout seul, environ 40 secondes après le `push`**.
+Il n'y a rien d'autre à faire, aucun bouton à cliquer nulle part.
+
+> **`git push` = publier.** Sur ce projet, pousser et mettre en ligne sont la même
+> chose. C'est pour ça qu'il y a maintenant une vérification automatique juste avant
+> (voir plus bas).
+
+## Pourquoi on ne modifie jamais le fichier HTML directement
+
+La plupart des pages ne sont pas écrites à la main : elles sont **fabriquées** par un
+script Python, à partir d'une source. Si on corrige une faute directement dans la page,
+la correction disparaît **à la prochaine reconstruction** — le script réécrit la page en
+entier par-dessus. C'est déjà arrivé.
+
+Pour savoir si une page a un générateur :
+
+```bash
+python3 sources/build.py --liste
+```
+
+Le tableau dit, pour chacune des 9 pages, quel script la fabrique. Les seules pages
+qu'on a le droit de modifier à la main sont celles marquées **« aucun générateur »**.
+
+## Les deux commandes à connaître
+
+```bash
+python3 sources/build.py               # reconstruit tout le site
+python3 sources/build.py --page le-nid  # ou juste une page
+```
+
+`build.py` connaît l'ordre des opérations (quel script, faut-il reposer le menu
+derrière, faut-il recopier un fichier intermédiaire). Il construit **chaque page deux
+fois et compare** : si le résultat n'est pas identique, c'est qu'un bloc s'ajoute à
+chaque passage — le défaut qui avait produit quatre entrées « Agenda » dans le menu et
+quatre cartes identiques. Dans ce cas il **s'arrête et remet tout comme avant**.
+
+```bash
+python3 sources/verif_site.py          # vérifie les 9 pages
+```
+
+Neuf contrôles, un par incident déjà vécu sur ce projet. Il ne modifie rien.
+Il finit par **« 9/9 pages conformes »** quand tout va bien.
+
+## La sécurité automatique — tu n'as rien à lancer
+
+Deux garde-fous se déclenchent tout seuls (activés une fois pour toutes par
+`git config core.hooksPath .githooks`) :
+
+- **au moment de `git commit`** : refuse un fichier `Icon` de Google Drive, un fichier
+  de plus de 10 Mo qui n'est pas une image, ou tout ce qui ressemble à une clé ou à un
+  **code d'accès** (le dépôt est public — un code de portail a déjà fuité deux fois).
+- **au moment de `git push`** : lance la vérification des 9 pages et **refuse de publier**
+  si quoi que ce soit cloche. Une page cassée ne peut plus partir en ligne.
+
+## Comment vérifier que la mise en ligne a bien eu lieu
+
+1. Attendre ~40 secondes après le `push`.
+2. Ouvrir `https://www.resonancesproductions.org/` (ou la page modifiée) et **recharger
+   en forçant** : `Cmd + Shift + R`. Sans ça, le navigateur peut afficher l'ancienne
+   version gardée en mémoire.
+3. Si le changement n'apparaît pas, vérifier que le push est bien parti :
+   `git log origin/main --oneline -1` doit afficher ta dernière sauvegarde.
+
+## Que faire si une vérification bloque
+
+Le message dit **ce qui ne va pas et sur quelle page**, en français, une ligne par
+problème. Dans l'ordre :
+
+1. Lire la ou les lignes qui commencent par `>`.
+2. Corriger **la source** dans `sources/` (jamais la page HTML si elle a un générateur).
+3. `python3 sources/build.py` puis `python3 sources/verif_site.py`.
+4. Quand c'est `9/9`, refaire `git commit` et `git push`.
+
+**En cas d'urgence absolue**, on peut passer outre avec `git commit --no-verify` ou
+`git push --no-verify` — mais ce qui a été signalé se retrouve alors en ligne. À ne
+faire qu'en sachant précisément pourquoi.
+
+## Sur une nouvelle copie du dépôt (nouvel ordinateur, nouveau clone)
+
+Une seule commande à taper une fois, sinon les garde-fous ne se déclenchent pas :
+
+```bash
+git config core.hooksPath .githooks
+```
+
+---
+
 ## LES 9 PAGES EN LIGNE (2026-08-04)
 
 | URL | Rôle | Public |
@@ -150,6 +254,71 @@ python3 sources/verif_commentaires.py     # les 9 pages d'un coup ; $? = 1 si pr
 marqueur autorisé dépassant **60 caractères** — **abandonne l'écriture**, la page sur disque reste
 intacte. Même parti-pris que le garde-fou structurel de `generate_rythme.py`. Testé en le cassant
 exprès : écriture refusée, page inchangée.
+
+### ⚠️ PIÈGES DE LA CHAÎNE DE FABRICATION (mesurés le 14/08/2026)
+
+Tout ce qui suit a été **vérifié en exécutant**, pas déduit. C'est ce que `sources/build.py`
+encode dans son tableau ; cette section est là pour la prochaine session.
+
+| Page | Générateur | Écrit où | Menu à reposer ? | État mesuré |
+|---|---|---|---|---|
+| `/` | `generate_assoc.py` | `assoc_index.html` puis à recopier | non | 🔴 **ne tourne pas** |
+| `/rituals` | `generate_site.py` | directement | non | ✅ réparé le 14/08 |
+| `/rituals-trio` | `generate_trio.py` | directement | non | 🔴 **ne tourne pas** |
+| `/e-motion` | `generate_emotion.py` | directement | non | ✅ créé le 14/08 |
+| `/david-lesage-en-concert` | `generate_concert_scene.py` | directement | **OUI** | ✅ |
+| `/concerts-david-lesage` | `generate_concert_dl.py` | directement | **OUI** | ✅ |
+| `/le-nid` | `generate_agenda_nid.py` | *retouche une page existante* | non | 🔴 **ne tourne pas** |
+| `/le-soin-soa` | `generate_soin_soa.py` | `sources/soin_soa_final.html` puis à recopier | non | ✅ |
+| `/rythme-calebasse` | `generate_rythme.py` | directement | non | ✅ |
+
+**Les trois générateurs qui ne tournent plus** — signalés à chaque `build.py`, jamais en
+silence, et la page concernée n'est **pas** touchée :
+
+- **`generate_assoc.py` (l'accueil) — vrai bug Python.** Le bloc de style ajouté vers la
+  ligne 151 est écrit dans une f-string mais ses accolades CSS ne sont pas doublées :
+  `NameError: name 'font' is not defined`. Le script s'arrête avant d'écrire quoi que ce
+  soit. **La page en ligne est bonne** (maintenue à la main depuis). Correction : doubler
+  les `{` `}` du CSS inséré, ou sortir ce bloc de la f-string.
+- **`generate_agenda_nid.py` (`/le-nid`) — ce n'est pas un générateur complet.** Il *retouche*
+  une page existante qu'il va chercher dans `lenid_deploy/index.html`, dossier qui n'existe
+  plus. Il faudrait le faire pointer sur `le-nid/index.html`. ⚠️ Attention : il contient déjà
+  des `re.sub` de nettoyage précisément parce qu'il n'est pas idempotent de nature.
+- **`generate_trio.py` (`/rituals-trio`)** — cherche encore ses photos dans `web_img/`, hors
+  dépôt (`photo introuvable dans web_img/ : RITUALS_00_header.jpg`). `generate_site.py` a été
+  réparé le 14/08 sur ce point : le même traitement lui est applicable.
+
+**Autres pièges vérifiés :**
+
+- ⚠️ **`generate_concert_scene.py` et `generate_concert_dl.py` ne posent pas le menu.** Il faut
+  lancer `python3 sources/nav_menu.py <page>/index.html` **derrière** eux — sinon la page part
+  sans menu. Écart mesuré sans cette passe : 217 et 218 lignes. `build.py` le fait tout seul.
+- ⚠️ **Ne JAMAIS faire `import generate_concert_scene`** (ni `generate_concert_dl`) : ces scripts
+  travaillent au moment de l'import et **réécrivent la page sans le menu**. `build.py` les lance
+  en sous-processus, jamais par import.
+- ⚠️ **`le-soin-soa/index.html` a été retouché à la main après sa dernière génération** : trois
+  lignes de CSS (`.who-site`) ont été déplacées dans la feuille de style. Le premier `build.py`
+  les remettra à leur place d'origine — **aucun effet visuel**, mais la page sera signalée
+  « MISE À JOUR ». C'est normal, ce n'est pas une régression.
+- ⚠️ **git échappe les noms de fichiers contenant un caractère invisible.** `sources/Icon` suivi
+  d'un retour chariot sort `"sources/Icon\r"` dans `git diff --name-only`. Toute recherche sur le
+  vrai nom échoue : il faut `-z`. C'est ce qui avait laissé passer un fichier `Icon` au premier
+  essai du crochet `pre-commit`.
+- ⚠️ **Fichiers `Icon` de Google Drive : 26 sur le disque, 1 seul était suivi par git** (plus 3
+  `.DS_Store`). Tous sortis du suivi le 14/08, aucun effacé. Le motif `Icon?` du `.gitignore` vise
+  le nom exact + un caractère : il ne touche ni `favicon.ico`, ni `apple-touch-icon.png`, ni un
+  futur `icons.ts` — le piège documenté.
+- ⚠️ **Sur `/le-nid`, les attributs `width`/`height` des images portent les dimensions de la photo
+  d'ORIGINE** (4032 px pour une photo d'iPhone), pas la largeur d'affichage : c'est le couple
+  `srcset`+`sizes` qui décide. `verif_site.py` en tient compte — il ne contrôle `width` que sur les
+  images sans `sizes`, et vérifie surtout que **chaque largeur annoncée dans un `srcset` correspond
+  au vrai fichier** (c'est ça, « une image affichée au-delà de sa définition »).
+- **Trois portraits de `/le-soin-soa`** (260 px affichés à 150 px = 1,73× au lieu de 2×) sont dans
+  une liste d'exceptions explicite de `verif_site.py`, avec leur raison. Ils seraient nets sur écran
+  Retina avec une variante 300 px. Toute **nouvelle** image sous le seuil fera échouer le contrôle.
+- **`/solune` et `/au-nid`** : toujours dans le dépôt, absents du `sitemap.xml`, interdits dans
+  `robots.txt`. Cohérence vérifiée automatiquement. Leur suppression n'a jamais été tranchée par
+  David : **on n'y touche pas**, `build.py` les rappelle à chaque passage.
 
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
