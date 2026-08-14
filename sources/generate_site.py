@@ -263,6 +263,37 @@ html = html.replace('<section class="keystone"><div class="wrap">',
                     figblock(slug(CAP_INDUCTION), v_induction, CAP_INDUCTION)
                     + '<section class="keystone"><div class="wrap">', 1)
 
+# ------------------------------------------------------------------------- #
+# GRAND REX, SECONDE PHOTO (ajout du 14/08/2026, fournie par David).
+#
+# ⚠️ CE BLOC N'EST PAS PRODUIT PAR CE SCRIPT : il a ete ajoute A LA MAIN dans
+# `rituals/index.html`, juste APRES la section `.keystone` inseree ci-dessus
+# (`<section class="figsec">` avec `grand-rex-bras-leves-*`). Ce generateur ne
+# tourne plus ici (les dossiers `promo_raw/` et `web_img/` sont hors depot), il
+# ne peut donc pas le recreer : une regeneration ferait DISPARAITRE cette photo.
+# La note est conservee ici, a l'endroit du code ou le bloc s'insere, parce que
+# c'est le seul code qui produit cette page.
+#
+# Placee ICI, juste apres la cle de voute, parce qu'elle montre exactement ce
+# que la citation decrit : la salle entiere prise dans le meme geste.
+# ⚠️ Elle ne remplace PAS `au-grand-rex` (plus haut) : les deux angles sont
+# opposes — celui-la est pris DEPUIS LA SALLE et montre le plateau, l'ecran
+# geant et les bras leves, la ou `au-grand-rex` et le fond du hero sont pris
+# DEPUIS LA SCENE. Trois sections les separent : aucune repetition.
+# ⚠️ CREDIT PHOTO : signee « Nadine Court PHOTOGRAPHE » en bas a droite, pas
+# MAGYE D'ART comme les deux autres. Site fourni par David et verifie
+# (kairos-photo-artisan.com, « Kairos Photographie »). A CONFIRMER : le titre
+# du site affiche « Nadine Tremblay » ; on credite « Nadine Court », le nom
+# signe sur la photo.
+# ⚠️ David a decrit « David a droite avec un tambour » : c'est INEXACT. Le
+# joueur de tambour sur cadre, a droite, est ARNAUD RIOU — identifie par David
+# lui-meme le 13/08/2026, avec son accord explicite pour etre cite (« il est
+# tres connu dans un certain milieu »). Auteur et conferencier, deja present
+# dans les sources du projet : conference-film-concert avec David le
+# 30/09/2023 au Theatre de l'Etang. David, lui, est le musicien ASSIS A
+# GAUCHE, derriere ses calebasses.
+# ------------------------------------------------------------------------- #
+
 # photos des artistes
 html = html.replace('<div class="artist">\n    <h3>David Lesage</h3>',
                     '<div class="artist">\n    '
@@ -331,6 +362,11 @@ import nav_menu
 html = nav_menu.inject(html, 'rituals')
 
 assert 'data:image' not in html.replace("data:image/webp'", ''), 'il reste du base64'
+
+# Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire HTML
+# dans la page livree (elle serait publique et indexable).
+import verif_commentaires
+verif_commentaires.verifier(html, TARGET)
 
 os.makedirs(os.path.dirname(TARGET), exist_ok=True)
 with open(TARGET, 'w', encoding='utf-8') as f:
