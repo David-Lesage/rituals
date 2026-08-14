@@ -142,6 +142,91 @@ La page n'est plus isolee. Ce qui a ete pose, et ou :
     l'URL ayant ete communiquee avec des majuscules), et les listes de pages
     de `verif_site.py` / `verif_commentaires.py`, passees a 10.
 
+------------------------------------------------------------------------------
+LES 6 MAQUETTES D'INTERFACE (posees le 14/08/2026 — la page ne montrait rien)
+------------------------------------------------------------------------------
+Verdict de David : « tres plate, elle ne montre rien de l'app ». Le texte
+n'etait pas en cause : il manquait le visuel. Six blocs HTML/CSS PURS (aucune
+image, aucun script, aucune capture d'ecran) reproduisent des ecrans reels de
+l'application avec des donnees INVENTEES.
+
+  Matiere d'origine (LECTURE SEULE, ne jamais editer ni deplacer) :
+      /Users/davidlesage/CLAUDE/GUSO-FACILE-BACKUPS/maquettes-pour-resonances.html
+  Elle est fournie par la session qui developpe Guso Facile.
+
+CE QUI EST INTEGRE, ET OU
+  1. Jauge des 507 h ............ HERO, colonne de droite (grille 1fr / 400px
+                                  au-dela de 1000 px, empilee en dessous)
+  2. « A faire maintenant » ..... fin de #promesse
+  3. Fiche de date .............. #fonctionnalites, dans la grille des univers,
+                                  juste apres les univers 1 et 2
+  5. Ma tournee ................. idem, a cote de la fiche de date
+  6. Tableau de bord structure .. idem, pleine largeur, apres l'univers 4
+  4. Recap mensuel France Travail #situations, sous les trois cas d'usage
+     (il illustre litteralement le cas de Marco, « Pointer France Travail en
+      cinq minutes »)
+
+LES TROIS EXIGENCES QUI NE SE NEGOCIENT PAS
+  a) CHAQUE bloc porte, en <figcaption class="gf-cap">, la mention VISIBLE
+     « Aperçu de l’interface — données fictives ». Une reproduction credible
+     sans mention est indistinguable d'une vraie capture : cette page a deja
+     du corriger « situations reelles » pour exactement ce motif.
+  b) CE SONT DES ILLUSTRATIONS, PAS DES INTERFACES. Zero <button>, zero
+     <input>, zero <a>, zero [tabindex] a l'interieur d'un bloc : un visiteur
+     ne doit pas croire qu'il peut cliquer. Chaque bloc porte role="img" +
+     aria-label. Garde-fou : `_controle_maquettes()`.
+  c) RIEN QUI N'EXISTE PAS. La Guilde et « Je cree mon contrat » ne sont PAS
+     illustrees : la page les ecrit au futur, les illustrer les ferait passer
+     pour livrees.
+
+CE QUI A ETE CORRIGE DANS LA MATIERE FOURNIE (l'auteur n'a pu tester que son
+propre fichier, jamais dans cette page) :
+  - Maquette 1, l'anneau etait MAL CALE : l'arc « dates possibles » allait de
+    293deg a 336deg, soit 43 degres pour 43 HEURES — l'auteur a pris des heures
+    pour des degres. 43 h sur 507 valent 30,5deg : l'arc s'arrete desormais a
+    323deg ((412+43)/507 = 89,7 %).
+  - Maquette 3, la liste des etapes affichait DEUX FOIS « Salaire reçu » et
+    omettait « Actualisation France Travail », alors que son propre aria-label
+    et sa note de livraison annoncent les cinq etapes de l'app. Corrige.
+  - Maquette 4, le CSS DE LA VERSION EN CARTES N'EXISTAIT PAS dans le fichier
+    source : seul restait celui de l'ancienne version en tableau (.gf-tw,
+    .gf-tbl, .gf-th), qui ne stylait plus rien. Le bloc en cartes est donc
+    habille ici (.gf-recmonth / .gf-reccard / .gf-rectot…), et le CSS de
+    tableau, devenu inutile, n'a pas ete repris.
+  - Maquette 5, LE KILOMETRAGE A ETE RETIRE. La note de livraison de l'auteur
+    dit noir sur blanc : « L'espace Ma tournee de l'app liste les dates et les
+    contacts, mais NE CALCULE PAS de kilometrage ». Illustrer « 1 240 km
+    parcourus » aurait donc mis en image une fonction qui n'existe pas — la
+    regle (c) l'interdit. Le bloc montre ce qui EST livre : l'enchainement
+    chronologique des dates et le signalement des lieux a confirmer.
+    ⚠️ A ARBITRER PAR DAVID : la puce de l'univers 2, elle, ecrit AU PRESENT
+    « avec le calcul des kilometres parcourus depuis le domicile ». Le texte
+    est valide et protege, je n'y ai pas touche — mais il dit le contraire de
+    ce que dit l'auteur de l'app. L'un des deux doit bouger.
+  - Maquette 6, l'aria-label annoncait un indicateur « vert, orange ou rouge »
+    alors que la charte n'a ni vert ni rouge et que le rendu emploie la FORME
+    de la pastille + un libelle. Un lecteur d'ecran entendait donc des couleurs
+    absentes. Reecrit avec les trois libelles reellement affiches.
+  - Les deux emoji (🔔 et 🎤) ont ete retires : la charte de la page l'interdit
+    (« Aucun emoji », voir le commentaire de la section 4). La classe .gf-ico
+    qui les portait a disparu avec eux.
+  - Donnees harmonisees entre les six blocs pour qu'un lecteur attentif ne
+    trouve pas de contradiction : Association Chant Libre est a Limoges
+    partout (la maquette 4 la mettait a Pau), et la tournee ne liste que des
+    dates qui existent dans les autres blocs.
+
+MISE EN PAGE — la grille des univers passe a DEUX COLONNES
+  Elle etait en `auto-fit minmax(320px,1fr)` : a 1440 px cela donnait TROIS
+  cartes sur la premiere ligne et la QUATRIEME toute seule sur la deuxieme, en
+  colonne de 328 px pour 1224 px de haut. L'ajout des maquettes n'aurait fait
+  qu'aggraver ce desequilibre. Elle est desormais a une colonne sous 761 px et
+  a DEUX colonnes au-dela : les univers se lisent 2 + 2, et les illustrations
+  s'inserent naturellement entre les deux rangees (la vue structure prenant la
+  pleine largeur, `.gf-wide`). Deux colonnes plutot qu'un `grid-column:1/-1`
+  sur la seule carte 4 : la carte 4 est justement celle dont la plupart des
+  puces sont « (a venir) », l'etaler sur toute la largeur l'aurait mise en
+  avant plus que les trois autres.
+
 Usage : python3 sources/generate_guso.py   (depuis la racine du depot)
 """
 
@@ -262,8 +347,12 @@ CSS_PAGE = """/* ===== Guso Facile ===== */
 .badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}
 .gf-top .cta{margin-top:30px}
 .band{background:linear-gradient(180deg,#0b0c1e,var(--night))}
-/* quatre univers */
-.univers{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;margin-top:38px}
+/* hero : texte a gauche, jauge des 507 h a droite (empile sous 1000 px) */
+.gf-topgrid{display:grid;gap:34px;align-items:center}
+@media(min-width:1000px){.gf-topgrid{grid-template-columns:minmax(0,1fr) 400px}}
+/* quatre univers — DEUX colonnes, jamais trois : voir l'entete du fichier */
+.univers{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;margin-top:38px}
+@media(min-width:761px){.univers{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .u-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-top:2px solid var(--line);border-radius:16px;padding:28px 26px 24px}
 .u-num{letter-spacing:.28em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--gold)}
 .u-card h3{font-size:27px;font-weight:600;color:#fff;line-height:1.15;margin-top:7px}
@@ -301,6 +390,476 @@ CSS_PAGE = """/* ===== Guso Facile ===== */
 @media print{.totop{display:none}}
 """
 
+# --- CSS des 6 maquettes d'interface --------------------------------------
+# Repris de `GUSO-FACILE-BACKUPS/maquettes-pour-resonances.html` (LECTURE
+# SEULE), avec les corrections listees dans l'entete du fichier. Regles :
+#   - aucune couleur litterale : uniquement les var(--…) de la charte, pour
+#     qu'une retouche du theme entraine les maquettes avec elle ;
+#   - rien sous 13 px (plancher typographique du site, verifie par _controles) ;
+#   - `.gf-shot{overflow:hidden}` : une maquette ne peut pas pousser la page,
+#     quoi qu'il arrive a l'interieur ;
+#   - toutes les rangees sont en `flex-wrap:wrap` avec un `flex-basis` modeste :
+#     c'est ce qui les fait tenir dans une colonne de 306 px a 390 px de large.
+# Le `:root` du fichier d'origine n'est PAS repris (les variables existent deja
+# sur le site), ni son cadre de page `.gf-page-*` (decor de son fichier de
+# test), ni le CSS de l'ancienne version en tableau de la maquette 4.
+CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interface reelle) ===== */
+.gf-block{margin:30px 0 0;max-width:820px}
+.gf-topgrid .gf-block,.univers .gf-block{margin:0;max-width:none}
+.univers .gf-wide{grid-column:1/-1}
+.gf-shot{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px 16px;margin:0 0 10px;color:var(--ink);font-size:15px;line-height:1.5;max-width:100%;overflow:hidden}
+.gf-shot *{box-sizing:border-box}
+.gf-cap{display:block;font-size:13px;line-height:1.4;color:var(--muted);letter-spacing:.02em;margin:0 0 0 2px}
+.gf-bar{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+.gf-bar-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:var(--ink)}
+.gf-bar-s{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.gf-hint{font-size:13px;color:var(--muted);margin:0 0 14px}
+/* 1 — jauge des 507 h : anneau en conic-gradient, aucune image */
+.gf-hero{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.gf-ring{position:relative;flex:0 0 auto;width:146px;height:146px;border-radius:50%;background:conic-gradient(var(--gold) 0 293deg,var(--plum) 293deg 323deg,var(--night2) 323deg 360deg);display:flex;align-items:center;justify-content:center;margin:0 auto}
+.gf-ring-in{width:112px;height:112px;border-radius:50%;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--line)}
+.gf-ring-n{font-family:'Cormorant Garamond',Georgia,serif;font-size:38px;line-height:1;font-weight:600;color:var(--gold2)}
+.gf-ring-l{font-size:13px;color:var(--muted);margin-top:3px}
+.gf-hero-txt{flex:1 1 200px;min-width:0}
+.gf-hero-l{font-size:15px;margin:0 0 6px}
+.gf-hero-l b{color:var(--gold2);font-weight:600}
+.gf-tag{display:inline-block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:5px}
+.gf-anniv{font-size:13px;color:var(--muted);border-left:2px solid var(--gold);padding-left:10px;margin-top:12px}
+.gf-split{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.gf-split-c{flex:1 1 140px;min-width:0;background:var(--night2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.gf-split-v{font-size:19px;font-weight:600;color:var(--gold2)}
+.gf-split-v.gf-poss{color:var(--plum)}
+.gf-split-k{font-size:13px;color:var(--muted)}
+.gf-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:13px;color:var(--muted)}
+.gf-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+.gf-dot-gold{background:var(--gold)}
+.gf-dot-plum{background:var(--plum)}
+.gf-dot-empty{background:var(--night2);border:1px solid var(--line)}
+/* 2 — « A faire maintenant » : pastilles urgent / en retard / a venir */
+.gf-tn-head{display:flex;align-items:baseline;gap:9px;margin-bottom:12px}
+.gf-tn-t{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.gf-tn-n{margin-left:auto;font-size:13px;font-weight:600;color:var(--night);background:var(--gold);border-radius:999px;padding:1px 9px}
+.gf-tn-row{display:flex;align-items:center;gap:11px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:11px 12px;margin-bottom:8px}
+.gf-tn-pill{flex:0 0 auto;width:10px;height:10px;border-radius:50%}
+.gf-tn-pill.gf-urgent{background:var(--gold)}
+.gf-tn-pill.gf-late{background:var(--plum)}
+.gf-tn-pill.gf-soon{background:transparent;border:2px solid var(--gold)}
+.gf-tn-main{flex:1 1 150px;min-width:0}
+.gf-tn-lbl{display:block;font-size:15px;font-weight:600;color:var(--ink)}
+.gf-tn-meta{display:block;font-size:13px;color:var(--muted)}
+.gf-tn-when{flex:0 0 auto;font-size:13px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:2px 9px;color:var(--muted)}
+.gf-tn-when.gf-urgent{color:var(--night);background:var(--gold);border-color:var(--gold);font-weight:600}
+.gf-tn-when.gf-late{color:var(--gold2)}
+/* 3 — fiche d'une date et ses cinq etapes administratives */
+.gf-kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 14px;margin:0 0 16px;font-size:15px}
+.gf-kv .gf-k{color:var(--muted);font-size:13px;letter-spacing:.04em}
+.gf-kv .gf-v{color:var(--ink);font-weight:500;min-width:0;overflow-wrap:anywhere}
+.gf-mini{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0 0 9px}
+.gf-steps{display:flex;flex-wrap:wrap;gap:8px}
+.gf-step{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;background:var(--night2);padding:6px 12px;font-size:13px;color:var(--muted)}
+.gf-step .gf-box{width:16px;height:16px;border-radius:5px;border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;color:var(--night);flex:0 0 auto}
+.gf-step.gf-done{color:var(--ink);border-color:var(--gold)}
+.gf-step.gf-done .gf-box{background:var(--gold);border-color:var(--gold)}
+/* 4 — recap mensuel France Travail, en cartes groupees par mois */
+.gf-recmonth{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+.gf-reccard{border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:10px 12px;margin-bottom:9px}
+.gf-recwhen{font-size:13px;color:var(--muted)}
+.gf-recnums{font-size:15px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.gf-recnums em{font-style:normal;color:var(--gold2)}
+.gf-recmeta{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.gf-rectot{display:flex;gap:8px 14px;align-items:baseline;flex-wrap:wrap;justify-content:space-between;border-top:1px solid var(--gold);margin-top:12px;padding-top:11px}
+.gf-rl{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.gf-rv{font-size:15px;font-weight:600;color:var(--gold2);font-variant-numeric:tabular-nums}
+/* 5 — ma tournee : enchainement chronologique, filet + pastilles, zero image */
+.gf-route{position:relative;margin:0;padding:0 0 0 24px;list-style:none}
+.gf-route::before{content:'';position:absolute;left:5px;top:9px;bottom:9px;width:1px;background:var(--line)}
+.gf-stop{position:relative;padding:0 0 15px}
+.gf-stop:last-child{padding-bottom:0}
+.gf-stop::before{content:'';position:absolute;left:-23px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--night2);border:1px solid var(--gold)}
+.gf-stop.gf-cur::before{background:var(--gold)}
+.gf-stop.gf-tbc::before{border-style:dashed}
+.gf-stop-top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.gf-stop-city{font-size:15px;font-weight:600;color:var(--ink)}
+.gf-stop-st{margin-left:auto;font-size:13px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:1px 9px}
+.gf-stop.gf-tbc .gf-stop-st{color:var(--plum)}
+.gf-stop-meta{display:block;font-size:13px;color:var(--muted)}
+.gf-route-tot{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.gf-route-tot-v{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;color:var(--gold2)}
+.gf-route-tot-k{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+/* 6 — tableau de bord d'une structure. La vigilance se lit a la FORME de la
+   pastille et a son libelle, pas seulement a la couleur (la charte n'a ni
+   vert ni rouge, et un daltonien doit pouvoir la lire). */
+.gf-art{display:flex;flex-direction:column;gap:9px}
+.gf-art-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:11px 12px}
+.gf-av{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--gold2);background:var(--card)}
+.gf-art-txt{flex:1 1 130px;min-width:0}
+.gf-art-n{display:block;font-size:15px;font-weight:600}
+.gf-art-m{display:block;font-size:13px;color:var(--muted)}
+.gf-art-h{flex:0 0 auto;text-align:right;font-variant-numeric:tabular-nums}
+.gf-art-hv{font-size:15px;font-weight:600;color:var(--gold2)}
+.gf-art-hk{display:block;font-size:13px;color:var(--muted)}
+.gf-mbar{flex:1 1 100%;height:5px;margin-top:3px;border-radius:3px;background:var(--night);border:1px solid var(--line);overflow:hidden}
+.gf-mbar i{display:block;height:100%;background:var(--gold)}
+.gf-vig{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-size:13px;letter-spacing:.05em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+.gf-vig-s{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.gf-vig.gf-ok .gf-vig-s{background:var(--gold)}
+.gf-vig.gf-warn .gf-vig-s{background:transparent;border:2px solid var(--gold)}
+.gf-vig.gf-bad .gf-vig-s{background:transparent;border:2px solid var(--plum);box-shadow:inset 0 0 0 2px var(--plum)}
+.gf-vig.gf-bad{color:var(--ink);border-color:var(--plum)}
+@media(max-width:760px){.gf-shot{padding:15px 13px 13px}}
+"""
+
+
+# =========================================================================
+# LES 6 MAQUETTES — le HTML de chaque bloc
+# =========================================================================
+# ⚠️ REGLE ABSOLUE POUR CES SIX BLOCS : ce sont des ILLUSTRATIONS.
+#    Aucun <a>, <button>, <input>, <select>, <textarea>, aucun [tabindex] :
+#    rien de focusable, rien de cliquable, rien qui laisse croire au visiteur
+#    qu'il manipule le logiciel depuis le site de l'association. Le garde-fou
+#    `_controle_maquettes()` refuse d'ecrire la page au premier ecart.
+#    Le gabarit est toujours le meme :
+#        <figure class="gf-block">
+#          <div class="gf-shot" role="img" aria-label="…"> … </div>
+#          <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+#        </figure>
+#    <figure>/<figcaption> plutot que <section> : c'est exactement une
+#    illustration accompagnee de sa legende, et cela evite au passage
+#    d'heriter du `section{padding:78px 0}` du site.
+
+#: la mention VISIBLE, identique sur les six blocs. Elle n'est pas decorative :
+#: une reproduction credible sans mention est indistinguable d'une vraie
+#: capture d'ecran. Comptee par `_controle_maquettes()`.
+MENTION_FICTIVE = 'Aperçu de l’interface — données fictives'
+
+
+def _figure(aria, corps, classe=''):
+    """Enveloppe un bloc de maquette : role=img + aria-label + mention visible."""
+    return ('<figure class="gf-block%s">\n'
+            '  <div class="gf-shot" role="img" aria-label="%s">%s</div>\n'
+            '  <figcaption class="gf-cap">%s</figcaption>\n'
+            '</figure>\n' % (classe, aria, corps, MENTION_FICTIVE))
+
+
+# --- 1. LA JAUGE DES 507 H (hero) ----------------------------------------
+# Ecran reproduit : tableau de bord, bloc « Ou j'en suis — periode en cours ».
+# C'est l'image signature de l'outil, d'ou sa place dans le hero.
+# ⚠️ L'ANNEAU : 412/507 = 81,26 % -> 293deg pour l'arc « heures validees ».
+#    Les 43 h de dates possibles valent 43/507 x 360 = 30,5deg, DONC l'arc
+#    prune s'arrete a 323deg. Le fichier d'origine ecrivait 336deg (= 293+43),
+#    en prenant des heures pour des degres : la jauge annoncait visuellement
+#    ~12 % de dates possibles au lieu de 8,5 %. Corrige ici.
+# Coherence des donnees fictives (Camille Ferrand) : 28 cachets x 12 h = 336 h,
+# + 76 h de repetitions = 412 h. Reste 95 h = 8 cachets, ou 4 cachets + 47 h.
+MAQ_JAUGE = _figure(
+    'Tableau de bord de Guso Facile : la jauge des 507 heures, 412 heures '
+    'validées sur 507, il reste 95 heures à trouver avant la date anniversaire '
+    'du 16 août.',
+    """
+    <div class="gf-bar">
+      <span class="gf-bar-t">Où j’en suis — période en cours</span>
+      <span class="gf-bar-s">Camille Ferrand</span>
+    </div>
+    <p class="gf-hint">Période du 17 août 2025 au 16 août 2026 — les 12 mois qui comptent pour les 507 h.</p>
+    <div class="gf-hero">
+      <div class="gf-ring">
+        <div class="gf-ring-in">
+          <span class="gf-ring-n">412</span>
+          <span class="gf-ring-l">/ 507 h</span>
+        </div>
+      </div>
+      <div class="gf-hero-txt">
+        <p class="gf-hero-l">J’ai effectué <b>412 h</b> sur <b>507 h</b><span class="gf-tag">confirmé</span></p>
+        <p class="gf-hero-l">Il me reste <b>95 h</b> à trouver</p>
+        <p class="gf-hero-l">dans <b>47 jours</b></p>
+        <p class="gf-anniv">Date anniversaire le <b>16 août</b> — soit environ 8 cachets, ou 4 cachets et 47 h de répétitions.</p>
+      </div>
+    </div>
+    <div class="gf-split">
+      <div class="gf-split-c">
+        <div class="gf-split-v">412 h</div>
+        <div class="gf-split-k">heures validées — 24 dates confirmées</div>
+      </div>
+      <div class="gf-split-c">
+        <div class="gf-split-v gf-poss">+ 43 h</div>
+        <div class="gf-split-k">dates possibles — 3 options à confirmer</div>
+      </div>
+      <div class="gf-split-c">
+        <div class="gf-split-v">28 · 76 h</div>
+        <div class="gf-split-k">cachets · heures de répétition</div>
+      </div>
+    </div>
+    <p class="gf-legend">
+      <span><span class="gf-dot gf-dot-gold"></span>heures validées</span>
+      <span><span class="gf-dot gf-dot-plum"></span>dates possibles</span>
+      <span><span class="gf-dot gf-dot-empty"></span>reste à trouver</span>
+    </p>
+  """)
+
+
+# --- 2. « A FAIRE MAINTENANT » (fin de #promesse) -------------------------
+# Ecran reproduit : bloc #todoNow du tableau de bord, echeances triees par
+# urgence. Il repond litteralement a la derniere phrase du paragraphe qui le
+# precede : « qu'est-ce que j'ai a faire maintenant ? ».
+# L'emoji 🔔 du fichier d'origine a ete retire (charte : aucun emoji).
+MAQ_TODO = _figure(
+    'Bloc « À faire maintenant » de Guso Facile : trois échéances '
+    'administratives triées par urgence — une DPAE à faire dans 2 jours, un '
+    'feuillet GUSO en retard et une facture encore à envoyer.',
+    """
+    <div class="gf-tn-head">
+      <span class="gf-tn-t">À faire maintenant</span>
+      <span class="gf-tn-n">3</span>
+    </div>
+    <div class="gf-tn-row">
+      <span class="gf-tn-pill gf-urgent"></span>
+      <span class="gf-tn-main">
+        <span class="gf-tn-lbl">DPAE à faire</span>
+        <span class="gf-tn-meta">Théâtre du Pont Tournant, Bordeaux · 12 juin 2026</span>
+      </span>
+      <span class="gf-tn-when gf-urgent">dans 2 j</span>
+    </div>
+    <div class="gf-tn-row">
+      <span class="gf-tn-pill gf-late"></span>
+      <span class="gf-tn-main">
+        <span class="gf-tn-lbl">Feuillet GUSO à éditer</span>
+        <span class="gf-tn-meta">Le Rocher de Palmer, Cenon · 14 mars 2026</span>
+      </span>
+      <span class="gf-tn-when gf-late">en retard</span>
+    </div>
+    <div class="gf-tn-row">
+      <span class="gf-tn-pill gf-soon"></span>
+      <span class="gf-tn-main">
+        <span class="gf-tn-lbl">Facture à envoyer</span>
+        <span class="gf-tn-meta">Festival Ouvre-Boîte, Pau · 2 mai 2026</span>
+      </span>
+      <span class="gf-tn-when gf-late">en attente</span>
+    </div>
+  """)
+
+
+# --- 3. LA FICHE D'UNE DATE (grille des univers) --------------------------
+# Ecran reproduit : la fenetre de detail d'une date, avec ses CINQ etapes
+# administratives — celles de l'app, exactement : DPAE, feuillet GUSO, facture
+# reglee, salaire recu, actualisation France Travail.
+# ⚠️ Le fichier d'origine listait DEUX FOIS « Salaire recu » (une cochee, une
+#    non) et omettait « Actualisation France Travail », alors que son propre
+#    aria-label annonce cinq etapes dont trois cochees. Corrige ici.
+# L'emoji 🎤 du titre a ete retire (charte : aucun emoji).
+MAQ_FICHE = _figure(
+    'Fiche d’une date dans Guso Facile : concert au Rocher de Palmer à Cenon '
+    'le 14 mars 2026, 2 cachets soit 24 heures, avec les cinq étapes '
+    'administratives dont trois sont cochées.',
+    """
+    <div class="gf-bar">
+      <span class="gf-bar-t">Concert — Le Rocher de Palmer, Cenon</span>
+      <span class="gf-bar-s">14 mars 2026</span>
+    </div>
+    <p class="gf-hint">Camille Ferrand · artiste (annexe 10) · date confirmée</p>
+    <div class="gf-kv">
+      <div class="gf-k">Période</div><div class="gf-v">14 mars 2026</div>
+      <div class="gf-k">Lieu</div><div class="gf-v">Le Rocher de Palmer — Cenon (33)</div>
+      <div class="gf-k">Cachets</div><div class="gf-v">2 cachets = 24 h</div>
+      <div class="gf-k">Répétition</div><div class="gf-v">0 h</div>
+      <div class="gf-k">Total comptabilisé</div><div class="gf-v">24 h</div>
+      <div class="gf-k">Salaire brut</div><div class="gf-v">1 084,00 €</div>
+    </div>
+    <p class="gf-mini">Étapes administratives</p>
+    <div class="gf-steps">
+      <span class="gf-step gf-done"><span class="gf-box">✓</span>DPAE</span>
+      <span class="gf-step gf-done"><span class="gf-box">✓</span>Feuillet GUSO</span>
+      <span class="gf-step gf-done"><span class="gf-box">✓</span>Salaire reçu</span>
+      <span class="gf-step"><span class="gf-box"></span>Facture réglée</span>
+      <span class="gf-step"><span class="gf-box"></span>Actualisation France Travail</span>
+    </div>
+  """)
+
+
+# --- 4. LE RECAP MENSUEL FRANCE TRAVAIL (#situations) ---------------------
+# Ecran reproduit : la fenetre « Recap mensuel », qui groupe les declarations
+# par mois — UNE CARTE par declaration, comme dans l'app (buildRecap).
+# ⚠️ Le fichier d'origine avait ete refait en cartes, MAIS SANS SON CSS : seul
+#    subsistait celui de l'ancienne version en tableau. Les classes .gf-rec*
+#    sont donc habillees ici (voir CSS_MAQUETTES).
+# ⚠️ « Association Chant Libre » est a LIMOGES (le fichier d'origine la mettait
+#    a Pau dans ce bloc et a Limoges dans la tournee).
+# Comptes verifies : 2+1+2 = 5 cachets ; 24+12+33 = 69 h ;
+#                    1084,00 + 528,00 + 1246,50 = 2 858,50 €.
+# Place sous les trois cas d'usage parce qu'il illustre LITTERALEMENT celui de
+# Marco (« Le recapitulatif mensuel lui donne une ligne par GUSO »).
+MAQ_RECAP = _figure(
+    'Récapitulatif mensuel de Guso Facile pour mars 2026 : les déclarations du '
+    'mois, chacune avec sa date, ses cachets, ses heures et son salaire brut, '
+    'puis le total du mois à reporter sur l’actualisation France Travail.',
+    """
+    <div class="gf-bar">
+      <span class="gf-bar-t">Mes activités à déclarer</span>
+      <span class="gf-bar-s">Récap mensuel</span>
+    </div>
+    <p class="gf-recmonth">Mars 2026</p>
+    <div class="gf-reccard">
+      <div class="gf-recwhen">14 mars 2026</div>
+      <div class="gf-recnums">2 cachets · 24 h · <em>1 084,00 €</em></div>
+      <div class="gf-recmeta">Le Rocher de Palmer, Cenon · GUSO n° 6 508 798 010</div>
+    </div>
+    <div class="gf-reccard">
+      <div class="gf-recwhen">21 mars 2026</div>
+      <div class="gf-recnums">1 cachet · 12 h · <em>528,00 €</em></div>
+      <div class="gf-recmeta">Association Chant Libre, Limoges · GUSO n° 6 494 883 156</div>
+    </div>
+    <div class="gf-reccard">
+      <div class="gf-recwhen">27 au 29 mars 2026</div>
+      <div class="gf-recnums">2 cachets · 33 h · <em>1 246,50 €</em></div>
+      <div class="gf-recmeta">Scène Nationale, Bayonne · GUSO n° 6 454 979 578 · 9 h de répétition</div>
+    </div>
+    <div class="gf-rectot">
+      <span class="gf-rl">Total du mois</span>
+      <span class="gf-rv">5 cachets · 69 h · 2 858,50 € bruts</span>
+    </div>
+  """)
+
+
+# --- 5. MA TOURNEE (grille des univers) -----------------------------------
+# Ecran reproduit : l'espace « Ma tournee » — les dates enchainees
+# chronologiquement, les lieux encore a confirmer signales.
+# ⚠️⚠️ LE KILOMETRAGE A ETE RETIRE. La note de livraison du fichier d'origine
+#    dit : « L'espace Ma tournee de l'app liste les dates et les contacts, mais
+#    ne calcule pas de kilometrage […] elle ne correspond pas (encore) a une
+#    fonction existante de l'application. » Illustrer « 1 240 km parcourus »
+#    aurait donc mis en image une fonction inexistante — exactement ce que la
+#    page s'interdit ailleurs (la Guilde, « Je cree mon contrat »).
+#    ⚠️ A ARBITRER PAR DAVID : la puce « Carte des dates » de l'univers 2 ecrit
+#    pourtant AU PRESENT « avec le calcul des kilometres parcourus depuis le
+#    domicile ». Texte valide, non modifie ici — mais il contredit l'auteur de
+#    l'application. L'un des deux doit bouger.
+# Les six etapes ne citent que des dates et des lieux qui existent DEJA dans
+# les autres maquettes (Cenon, Limoges, Bayonne, Pau, Bordeaux), plus une
+# option a confirmer, seule facon d'illustrer « les lieux a confirmer sont
+# signales » sans contredire les autres blocs.
+MAQ_TOURNEE = _figure(
+    'Espace « Ma tournée » de Guso Facile : six étapes reliées '
+    'chronologiquement, de Cenon à La Rochelle, dont cinq dates confirmées et '
+    'une option encore à confirmer.',
+    """
+    <div class="gf-bar">
+      <span class="gf-bar-t">Ma tournée — saison 2026</span>
+      <span class="gf-bar-s">6 étapes</span>
+    </div>
+    <ul class="gf-route">
+      <li class="gf-stop">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">Cenon</span>
+          <span class="gf-stop-st">confirmée</span>
+        </span>
+        <span class="gf-stop-meta">14 mars · Le Rocher de Palmer · 2 cachets</span>
+      </li>
+      <li class="gf-stop">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">Limoges</span>
+          <span class="gf-stop-st">confirmée</span>
+        </span>
+        <span class="gf-stop-meta">21 mars · Association Chant Libre · 1 cachet</span>
+      </li>
+      <li class="gf-stop">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">Bayonne</span>
+          <span class="gf-stop-st">confirmée</span>
+        </span>
+        <span class="gf-stop-meta">27 au 29 mars · Scène Nationale · 2 cachets</span>
+      </li>
+      <li class="gf-stop">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">Pau</span>
+          <span class="gf-stop-st">confirmée</span>
+        </span>
+        <span class="gf-stop-meta">2 mai · Festival Ouvre-Boîte · 2 cachets</span>
+      </li>
+      <li class="gf-stop gf-cur">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">Bordeaux</span>
+          <span class="gf-stop-st">confirmée</span>
+        </span>
+        <span class="gf-stop-meta">12 juin · Théâtre du Pont Tournant · 1 cachet</span>
+      </li>
+      <li class="gf-stop gf-tbc">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">La Rochelle</span>
+          <span class="gf-stop-st">à confirmer</span>
+        </span>
+        <span class="gf-stop-meta">3 juillet · lieu non encore arrêté · option</span>
+      </li>
+    </ul>
+    <p class="gf-route-tot">
+      <span class="gf-route-tot-v">8 cachets</span>
+      <span class="gf-route-tot-k">sur 5 dates confirmées · 1 option à confirmer</span>
+    </p>
+  """)
+
+
+# --- 6. LE TABLEAU DE BORD D'UNE STRUCTURE (grille des univers) -----------
+# Ecran reproduit : la vue « Mes artistes » du back-office structure.
+# Il illustre l'univers 3 ET le cas de Sophie ; place en PLEINE LARGEUR de la
+# grille (.gf-wide) parce que ses rangees sont larges par nature.
+# ⚠️ L'aria-label d'origine annoncait un indicateur « vert, orange ou rouge » :
+#    la charte n'a ni vert ni rouge, le rendu emploie la FORME de la pastille
+#    (pleine / contour / contour epais) et un libelle. Un lecteur d'ecran
+#    entendait donc des couleurs absentes de l'ecran. Reecrit avec les trois
+#    libelles reellement affiches.
+# Barres : 412/507 = 81 % · 348 = 69 % · 261 = 51 % · 154 = 30 %.
+MAQ_STRUCTURE = _figure(
+    'Tableau de bord d’une structure dans Guso Facile : quatre artistes, leur '
+    'compteur d’heures sur 507 et leur niveau de vigilance — bon rythme, à '
+    'surveiller ou seuil menacé.',
+    """
+    <div class="gf-bar">
+      <span class="gf-bar-t">Mes artistes</span>
+      <span class="gf-bar-s">Espace structure</span>
+    </div>
+    <p class="gf-hint">Chaque artiste, ses heures sur la période, et le niveau de vigilance avant sa date anniversaire.</p>
+    <div class="gf-art">
+      <div class="gf-art-row">
+        <span class="gf-av">CF</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Camille Ferrand</span>
+          <span class="gf-art-m">Chanteuse · anniversaire le 16 août</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">412 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-ok"><span class="gf-vig-s"></span>bon rythme</span>
+        <span class="gf-mbar"><i style="width:81%"></i></span>
+      </div>
+      <div class="gf-art-row">
+        <span class="gf-av">NB</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Nadia Belkacem</span>
+          <span class="gf-art-m">Violoncelliste · anniversaire le 3 octobre</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">348 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-ok"><span class="gf-vig-s"></span>bon rythme</span>
+        <span class="gf-mbar"><i style="width:69%"></i></span>
+      </div>
+      <div class="gf-art-row">
+        <span class="gf-av">TR</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Tomas Riveiro</span>
+          <span class="gf-art-m">Percussionniste · anniversaire le 21 juillet</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">261 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-warn"><span class="gf-vig-s"></span>à surveiller</span>
+        <span class="gf-mbar"><i style="width:51%"></i></span>
+      </div>
+      <div class="gf-art-row">
+        <span class="gf-av">EV</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Émile Vasseur</span>
+          <span class="gf-art-m">Ingénieur du son · anniversaire le 9 juin</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">154 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-bad"><span class="gf-vig-s"></span>seuil menacé</span>
+        <span class="gf-mbar"><i style="width:30%"></i></span>
+      </div>
+    </div>
+  """, classe=' gf-wide')
+
 
 def build_html():
     """Construit la page complete (sans le menu : il est injecte apres)."""
@@ -310,6 +869,7 @@ def build_html():
     A(HEAD)
     A(CSS_BASE)
     A(CSS_PAGE)
+    A(CSS_MAQUETTES)
     A('</style>\n</head>\n')
     A('<body id="top">\n')
 
@@ -336,16 +896,17 @@ def build_html():
     # Le badge « Beta privee · places limitees » est ICI et non dans la
     # section 6 : l'acces limite doit se voir sans faire defiler la page.
     #
-    # EMPLACEMENT CAPTURE 1 — « le tableau de bord avec la jauge des
-    #   507 heures », l'image signature de l'outil. A poser en colonne de
-    #   droite de ce hero (grille 1fr / 380px, qui repasse en une colonne
-    #   sous 860 px), cadrage serre sur la jauge et son compteur, fond
-    #   #0e0f24, filet 1px var(--line). Prevoir une variante verticale
-    #   (telephone) : l'outil est beaucoup utilise sur mobile.
-    #   Balisage attendu : <picture> + <img loading="eager" width= height=
-    #   alt="…"> — jamais de capture avec des donnees reelles.
+    # MAQUETTE 1 (`MAQ_JAUGE`) — « le tableau de bord avec la jauge des
+    #   507 heures », l'image signature de l'outil. Elle est en colonne de
+    #   DROITE de ce hero (grille `minmax(0,1fr) 400px` au-dela de 1000 px,
+    #   empilee sous le bouton en dessous : l'outil est beaucoup utilise sur
+    #   telephone, et la jauge doit y rester la premiere chose qu'on voit
+    #   apres le titre).
+    #   Ce n'est PAS une capture d'ecran : aucune image n'entre sur cette page
+    #   (l'anneau est un `conic-gradient`). Voir l'entete du fichier.
     A("""
-<header class="gf-top"><div class="wrap">
+<header class="gf-top"><div class="wrap"><div class="gf-topgrid">
+  <div>
   <p class="kick">Créé par David Lesage · relayé par l’association</p>
   <h1>Guso Facile</h1>
   <p class="gf-claim">L’intermittence est un métier. La paperasse ne devrait pas en être un deuxième.</p>
@@ -356,16 +917,19 @@ def build_html():
   <div class="cta">
     <a class="btn ghost" href="#acces">Comment demander un accès</a>
   </div>
-</div></header>
+  </div>
+""")
+    A(MAQ_JAUGE)
+    A("""</div></div></header>
 """)
 
     # =====================================================================
     # 2. LA PROMESSE  (section 2 du contenu fourni — verbatim)
     # =====================================================================
-    # EMPLACEMENT CAPTURE 2 — « le panneau A faire maintenant » (DPAE,
-    #   feuillets et factures classes par urgence, pastilles J-3 / J-7).
-    #   A poser en fin de cette section, pleine largeur du .wrap, cadrage
-    #   serre sur la liste. Meme regle : donnees de demonstration seulement.
+    # MAQUETTE 2 (`MAQ_TODO`) — « A faire maintenant » : DPAE, feuillets et
+    #   factures classes par urgence. Elle est posee EN FIN de cette section,
+    #   juste sous la phrase qui la nomme (« qu'est-ce que j'ai a faire
+    #   maintenant ? ») : c'est la reponse en image a la question du texte.
     A("""
 <div class="divider"></div>
 <section id="promesse"><div class="wrap">
@@ -379,7 +943,9 @@ def build_html():
   <p class="body">Concrètement, l’artiste saisit ses dates ; l’outil en déduit les heures acquises, les
     échéances, les documents à produire et les sommes à encaisser. Rien à installer : cela fonctionne
     dans un navigateur, sur ordinateur comme sur téléphone.</p>
-</div></section>
+""")
+    A(MAQ_TODO)
+    A("""</div></section>
 """)
 
     # =====================================================================
@@ -419,13 +985,18 @@ def build_html():
     # Quatre blocs, intitules en Cormorant Garamond, puces en point d'or.
     # Aucun emoji, conformement a la charte.
     #
-    # EMPLACEMENT CAPTURE 3 — « la carte de tournee » (dates geolocalisees et
-    #   reliees chronologiquement). A poser JUSTE SOUS le bloc « Univers 2 »,
-    #   pleine largeur du .wrap, cadrage large : c'est l'element le plus
-    #   visuel de l'outil.
-    # EMPLACEMENT CAPTURE 4 — « le back-office structure » (vue transversale
-    #   multi-artistes). A poser sous le bloc « Univers 3 ». Indispensable
-    #   pour parler aux structures, et a l'association elle-meme.
+    # LES TROIS MAQUETTES DE CETTE SECTION sont des elements de la grille
+    # `.univers`, pas des blocs poses a cote d'elle : la grille est a DEUX
+    # colonnes au-dela de 761 px, la lecture donne donc
+    #     univers 1 | univers 2
+    #     fiche de date | ma tournee
+    #     univers 3 | univers 4
+    #     tableau de bord structure (pleine largeur)
+    # et, en une colonne sur telephone, le meme ordre a la verticale.
+    # ⚠️ NI la Guilde NI « Je cree mon contrat » ne sont illustrees : ces deux
+    #    fonctionnalites sont « (a venir) » (la base existe, l'ecran non). Les
+    #    mettre en image les ferait passer pour livrees, ce que trois clics
+    #    d'un beta-testeur suffiraient a dementir.
     A("""
 <div class="divider"></div>
 <section id="fonctionnalites"><div class="wrap">
@@ -478,7 +1049,19 @@ def build_html():
       """        <li><b>Je crée mon contrat</b> <i>(à venir)</i> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
       </ul>
     </article>
+""")
 
+    # MAQUETTE 3 (`MAQ_FICHE`) — la fiche d'une date et ses cinq etapes
+    #   administratives, et MAQUETTE 5 (`MAQ_TOURNEE`) — l'enchainement
+    #   chronologique des dates. Elles closent la rangee des univers 1 et 2 :
+    #   la premiere montre ce que devient UNE date une fois saisie, la seconde
+    #   ce que devient la SUITE des dates. (Le kilometrage annonce dans le
+    #   fichier d'origine a ete retire : voir l'entete, il ne correspond a
+    #   aucune fonction livree.)
+    A(MAQ_FICHE)
+    A(MAQ_TOURNEE)
+
+    A("""
     <article class="u-card">
       <p class="u-num">Univers 3</p>
       <h3>Ta structure, connectée</h3>
@@ -562,7 +1145,15 @@ def build_html():
         <li><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
       </ul>
     </article>
+""")
 
+    # MAQUETTE 6 (`MAQ_STRUCTURE`) — la vue « Mes artistes » du back-office.
+    #   Pleine largeur de la grille (`.gf-wide`) : ses rangees sont larges par
+    #   nature, et c'est l'ecran qui parle aux STRUCTURES — donc aussi a
+    #   l'association elle-meme, qui accompagne des artistes.
+    A(MAQ_STRUCTURE)
+
+    A("""
   </div>
 
   <div class="aussi">
@@ -589,9 +1180,12 @@ def build_html():
     #   figure sous le titre. NE PAS REMETTRE « reelles » : ce serait
     #   retablir l'approximation, sur le point le plus sensible de la page.
     #
-    # EMPLACEMENT CAPTURE 5 — « le recapitulatif mensuel » (tableau « une
-    #   ligne par GUSO » utilise pour le pointage France Travail). A poser
-    #   sous le cas de Marco, qu'il illustre directement.
+    # MAQUETTE 4 (`MAQ_RECAP`) — le recapitulatif mensuel utilise pour le
+    #   pointage France Travail. Il illustre LITTERALEMENT le cas de Marco
+    #   (« Le recapitulatif mensuel lui donne une ligne par GUSO »), d'ou sa
+    #   place a la suite des trois cas, et non dans la section precedente.
+    #   Dans l'app le recap s'affiche en CARTES groupees par mois : c'est
+    #   cette version-la qui est reproduite, pas un tableau.
     A("""
 <div class="divider"></div>
 <section id="situations" class="band"><div class="wrap">
@@ -621,7 +1215,9 @@ def build_html():
         échéance et tous artistes confondus.</p>
     </article>
   </div>
-</div></section>
+""")
+    A(MAQ_RECAP)
+    A("""</div></section>
 """)
 
     # =====================================================================
@@ -674,9 +1270,13 @@ def build_html():
     #    de demarchage, pas de revente, pas de partage a des tiers,
     #    suppression sur demande) sans la recopier.
     #
-    # EMPLACEMENT CAPTURE 6 (facultatif) — « la modale Demander un acces ».
-    #   A poser a droite du bouton, en petit format, uniquement si l'on veut
-    #   montrer la demarche avant de cliquer.
+    # PAS DE MAQUETTE ICI, C'EST DELIBERE. Le sixieme emplacement prevu etait
+    # « la modale Demander un acces », a poser a cote du bouton. Ecarte : c'est
+    # le seul endroit de la page ou l'on CLIQUE vraiment, et y coller la
+    # reproduction d'une fenetre avec ses champs — non focusables, donc morts
+    # au clic — juste a cote du vrai bouton, c'est fabriquer une hesitation
+    # a l'endroit exact ou il ne doit pas y en avoir. Cinq maquettes qui
+    # montrent l'outil valent mieux qu'une sixieme qui brouille l'action.
     A("""
 <div class="divider"></div>
 <section id="acces" class="band"><div class="wrap">
@@ -752,6 +1352,11 @@ def build_html():
 # c'est qu'un bloc a ete duplique (le piege des 4 cartes identiques) ou qu'il
 # a disparu. Les deux cas sont attrapes.
 
+#: nombre de maquettes d'interface posees dans la page. Il sert TROIS fois :
+#: autant de blocs, autant de mentions « données fictives », autant de
+#: role="img". Si l'un des trois comptes s'ecarte, la page n'est pas ecrite.
+NB_MAQUETTES = 6
+
 #: (marqueur, nombre attendu, ce que c'est)
 ANCRES = (
     ('<h1', 1, 'titre principal de la page'),
@@ -788,7 +1393,87 @@ ANCRES = (
     # apparait 3 fois : regle de base + media 860 + media print).
     ('.burger span{', 1, 'CSS du hamburger (mobile_nav.py)'),
     ('id="contact"', 1, 'pied de page / ancre Contact'),
+    # --- les 6 maquettes d'interface (14/08/2026) ------------------------
+    # Trois comptes qui doivent rester egaux : un bloc = une mention visible
+    # « données fictives » = un role="img". Si l'un decroche, soit un bloc a
+    # ete duplique, soit une mention a saute — et une reproduction credible
+    # sans mention est indistinguable d'une vraie capture d'ecran.
+    ('<figure class="gf-block', NB_MAQUETTES, 'les maquettes d’interface'),
+    ('<div class="gf-shot" role="img"', NB_MAQUETTES,
+     'chaque maquette est une IMAGE pour les technologies d’assistance'),
+    ('<figcaption class="gf-cap">' + MENTION_FICTIVE + '</figcaption>',
+     NB_MAQUETTES, 'la mention visible « Aperçu de l’interface — données fictives »'),
+    # Ce sont des illustrations, pas des interfaces : rien de focusable, rien
+    # de saisissable NULLE PART sur la page hors du menu.
+    # ⚠️ MESURE, pas supposition : la page contient bien 3 <button>, et
+    #    seulement 3 — les trois ouvertures de sous-menu (« Sur scene »,
+    #    « Le Nid », « L’association ») posees par nav_menu.py, plus le
+    #    hamburger qui, lui, est cree en JavaScript et n'apparait donc pas
+    #    sous forme de balise dans le fichier livre. Le compte est verifie
+    #    HORS DU MENU par `_controle_maquettes()`, pour qu'un sous-menu de
+    #    plus ou de moins ne fasse pas echouer l'ecriture pour rien.
+    ('<input', 0, 'aucun champ de saisie dans la page'),
+    ('tabindex', 0, 'aucun ordre de tabulation force'),
 )
+
+#: ce qu'aucune maquette ne doit contenir : elles ILLUSTRENT l'outil, elles ne
+#: le rejouent pas. Un visiteur qui peut poser le focus dans une reproduction
+#: croit manipuler le logiciel depuis le site de l'association.
+_FOCUSABLES = (
+    r'<a\b', r'<button\b', r'<input\b', r'<select\b', r'<textarea\b',
+    r'<iframe\b', r'<details\b', r'<summary\b', r'<audio\b', r'<video\b',
+    r'\btabindex\s*=', r'\bcontenteditable\b', r'\bonclick\b',
+)
+
+
+def _controle_maquettes(html):
+    """Refuse d'ecrire si une maquette n'est pas une simple illustration.
+
+    Trois exigences, bloc par bloc (le compte global, lui, est dans ANCRES) :
+      - un `role="img"` ET un `aria-label` non vide : sans quoi un lecteur
+        d'ecran enonce une bouillie de chiffres hors contexte ;
+      - la mention visible « données fictives », exactement une fois ;
+      - AUCUN element focusable a l'interieur.
+    """
+    import re
+
+    # Aucun bouton hors du menu partage. Le corps de la page ne doit contenir
+    # que du texte, des liens, et des illustrations inertes.
+    corps = re.sub(r'<nav\b.*?</nav>', '', html, flags=re.S)
+    if '<button' in corps:
+        raise SystemExit('!! ABANDON : un <button> hors du menu de navigation. '
+                         'Le corps de la page n\'a aucune commande a offrir : le '
+                         'seul geste possible est le lien « Demander un accès ». '
+                         'Page NON ecrite.')
+
+    blocs = re.findall(r'<figure class="gf-block[^"]*">(.*?)</figure>', html, re.S)
+    if len(blocs) != NB_MAQUETTES:
+        raise SystemExit('!! ABANDON : %d bloc(s) <figure class="gf-block"> refermé(s) '
+                         'correctement, attendu %d. Page NON ecrite.'
+                         % (len(blocs), NB_MAQUETTES))
+
+    for i, bloc in enumerate(blocs, 1):
+        m = re.search(r'role="img" aria-label="([^"]{20,})"', bloc)
+        if not m:
+            raise SystemExit('!! ABANDON : maquette %d — role="img" ou aria-label '
+                             'manquant (ou trop court pour decrire l\'ecran). '
+                             'Page NON ecrite.' % i)
+        if bloc.count(MENTION_FICTIVE) != 1:
+            raise SystemExit(
+                '!! ABANDON : maquette %d — la mention « %s » doit y figurer une '
+                'fois et une seule. Sans elle, une reproduction credible de '
+                'l\'interface est indistinguable d\'une vraie capture d\'ecran ; '
+                'cette page a deja du corriger « situations reelles » pour ce '
+                'motif exact. Page NON ecrite.' % (i, MENTION_FICTIVE))
+        for motif in _FOCUSABLES:
+            trouve = re.search(motif, bloc, re.I)
+            if trouve:
+                raise SystemExit(
+                    '!! ABANDON : maquette %d — element focusable ou interactif '
+                    '« %s ».\n   Les maquettes sont des ILLUSTRATIONS : un visiteur '
+                    'ne doit pas pouvoir croire qu\'il pilote l\'outil depuis le '
+                    'site de l\'association.\n   Page NON ecrite.'
+                    % (i, trouve.group(0)))
 
 #: seuls domaines externes autorises. Tout autre `https://` dans la page fait
 #: echouer l'ecriture : zero traceur, zero script tiers, zero iframe.
@@ -915,6 +1600,8 @@ def _controles(html):
 
     # le bloc le plus sensible de la page depuis le 14/08/2026
     _controle_guilde(html)
+    # les 6 maquettes : illustrations, jamais interfaces
+    _controle_maquettes(html)
 
 
 def main():

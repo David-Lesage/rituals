@@ -73,8 +73,12 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 .badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}
 .gf-top .cta{margin-top:30px}
 .band{background:linear-gradient(180deg,#0b0c1e,var(--night))}
-/* quatre univers */
-.univers{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;margin-top:38px}
+/* hero : texte a gauche, jauge des 507 h a droite (empile sous 1000 px) */
+.gf-topgrid{display:grid;gap:34px;align-items:center}
+@media(min-width:1000px){.gf-topgrid{grid-template-columns:minmax(0,1fr) 400px}}
+/* quatre univers — DEUX colonnes, jamais trois : voir l'entete du fichier */
+.univers{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;margin-top:38px}
+@media(min-width:761px){.univers{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .u-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-top:2px solid var(--line);border-radius:16px;padding:28px 26px 24px}
 .u-num{letter-spacing:.28em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--gold)}
 .u-card h3{font-size:27px;font-weight:600;color:#fff;line-height:1.15;margin-top:7px}
@@ -110,6 +114,110 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
   .cas article{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:20px}
 }
 @media print{.totop{display:none}}
+/* ===== maquettes d'interface (illustrations, pas d'interface reelle) ===== */
+.gf-block{margin:30px 0 0;max-width:820px}
+.gf-topgrid .gf-block,.univers .gf-block{margin:0;max-width:none}
+.univers .gf-wide{grid-column:1/-1}
+.gf-shot{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px 16px;margin:0 0 10px;color:var(--ink);font-size:15px;line-height:1.5;max-width:100%;overflow:hidden}
+.gf-shot *{box-sizing:border-box}
+.gf-cap{display:block;font-size:13px;line-height:1.4;color:var(--muted);letter-spacing:.02em;margin:0 0 0 2px}
+.gf-bar{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+.gf-bar-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:var(--ink)}
+.gf-bar-s{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.gf-hint{font-size:13px;color:var(--muted);margin:0 0 14px}
+/* 1 — jauge des 507 h : anneau en conic-gradient, aucune image */
+.gf-hero{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.gf-ring{position:relative;flex:0 0 auto;width:146px;height:146px;border-radius:50%;background:conic-gradient(var(--gold) 0 293deg,var(--plum) 293deg 323deg,var(--night2) 323deg 360deg);display:flex;align-items:center;justify-content:center;margin:0 auto}
+.gf-ring-in{width:112px;height:112px;border-radius:50%;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--line)}
+.gf-ring-n{font-family:'Cormorant Garamond',Georgia,serif;font-size:38px;line-height:1;font-weight:600;color:var(--gold2)}
+.gf-ring-l{font-size:13px;color:var(--muted);margin-top:3px}
+.gf-hero-txt{flex:1 1 200px;min-width:0}
+.gf-hero-l{font-size:15px;margin:0 0 6px}
+.gf-hero-l b{color:var(--gold2);font-weight:600}
+.gf-tag{display:inline-block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:5px}
+.gf-anniv{font-size:13px;color:var(--muted);border-left:2px solid var(--gold);padding-left:10px;margin-top:12px}
+.gf-split{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.gf-split-c{flex:1 1 140px;min-width:0;background:var(--night2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.gf-split-v{font-size:19px;font-weight:600;color:var(--gold2)}
+.gf-split-v.gf-poss{color:var(--plum)}
+.gf-split-k{font-size:13px;color:var(--muted)}
+.gf-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:13px;color:var(--muted)}
+.gf-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+.gf-dot-gold{background:var(--gold)}
+.gf-dot-plum{background:var(--plum)}
+.gf-dot-empty{background:var(--night2);border:1px solid var(--line)}
+/* 2 — « A faire maintenant » : pastilles urgent / en retard / a venir */
+.gf-tn-head{display:flex;align-items:baseline;gap:9px;margin-bottom:12px}
+.gf-tn-t{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.gf-tn-n{margin-left:auto;font-size:13px;font-weight:600;color:var(--night);background:var(--gold);border-radius:999px;padding:1px 9px}
+.gf-tn-row{display:flex;align-items:center;gap:11px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:11px 12px;margin-bottom:8px}
+.gf-tn-pill{flex:0 0 auto;width:10px;height:10px;border-radius:50%}
+.gf-tn-pill.gf-urgent{background:var(--gold)}
+.gf-tn-pill.gf-late{background:var(--plum)}
+.gf-tn-pill.gf-soon{background:transparent;border:2px solid var(--gold)}
+.gf-tn-main{flex:1 1 150px;min-width:0}
+.gf-tn-lbl{display:block;font-size:15px;font-weight:600;color:var(--ink)}
+.gf-tn-meta{display:block;font-size:13px;color:var(--muted)}
+.gf-tn-when{flex:0 0 auto;font-size:13px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:2px 9px;color:var(--muted)}
+.gf-tn-when.gf-urgent{color:var(--night);background:var(--gold);border-color:var(--gold);font-weight:600}
+.gf-tn-when.gf-late{color:var(--gold2)}
+/* 3 — fiche d'une date et ses cinq etapes administratives */
+.gf-kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 14px;margin:0 0 16px;font-size:15px}
+.gf-kv .gf-k{color:var(--muted);font-size:13px;letter-spacing:.04em}
+.gf-kv .gf-v{color:var(--ink);font-weight:500;min-width:0;overflow-wrap:anywhere}
+.gf-mini{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0 0 9px}
+.gf-steps{display:flex;flex-wrap:wrap;gap:8px}
+.gf-step{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;background:var(--night2);padding:6px 12px;font-size:13px;color:var(--muted)}
+.gf-step .gf-box{width:16px;height:16px;border-radius:5px;border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;color:var(--night);flex:0 0 auto}
+.gf-step.gf-done{color:var(--ink);border-color:var(--gold)}
+.gf-step.gf-done .gf-box{background:var(--gold);border-color:var(--gold)}
+/* 4 — recap mensuel France Travail, en cartes groupees par mois */
+.gf-recmonth{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+.gf-reccard{border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:10px 12px;margin-bottom:9px}
+.gf-recwhen{font-size:13px;color:var(--muted)}
+.gf-recnums{font-size:15px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.gf-recnums em{font-style:normal;color:var(--gold2)}
+.gf-recmeta{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.gf-rectot{display:flex;gap:8px 14px;align-items:baseline;flex-wrap:wrap;justify-content:space-between;border-top:1px solid var(--gold);margin-top:12px;padding-top:11px}
+.gf-rl{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.gf-rv{font-size:15px;font-weight:600;color:var(--gold2);font-variant-numeric:tabular-nums}
+/* 5 — ma tournee : enchainement chronologique, filet + pastilles, zero image */
+.gf-route{position:relative;margin:0;padding:0 0 0 24px;list-style:none}
+.gf-route::before{content:'';position:absolute;left:5px;top:9px;bottom:9px;width:1px;background:var(--line)}
+.gf-stop{position:relative;padding:0 0 15px}
+.gf-stop:last-child{padding-bottom:0}
+.gf-stop::before{content:'';position:absolute;left:-23px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--night2);border:1px solid var(--gold)}
+.gf-stop.gf-cur::before{background:var(--gold)}
+.gf-stop.gf-tbc::before{border-style:dashed}
+.gf-stop-top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.gf-stop-city{font-size:15px;font-weight:600;color:var(--ink)}
+.gf-stop-st{margin-left:auto;font-size:13px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:1px 9px}
+.gf-stop.gf-tbc .gf-stop-st{color:var(--plum)}
+.gf-stop-meta{display:block;font-size:13px;color:var(--muted)}
+.gf-route-tot{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.gf-route-tot-v{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;color:var(--gold2)}
+.gf-route-tot-k{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+/* 6 — tableau de bord d'une structure. La vigilance se lit a la FORME de la
+   pastille et a son libelle, pas seulement a la couleur (la charte n'a ni
+   vert ni rouge, et un daltonien doit pouvoir la lire). */
+.gf-art{display:flex;flex-direction:column;gap:9px}
+.gf-art-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:11px 12px}
+.gf-av{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--gold2);background:var(--card)}
+.gf-art-txt{flex:1 1 130px;min-width:0}
+.gf-art-n{display:block;font-size:15px;font-weight:600}
+.gf-art-m{display:block;font-size:13px;color:var(--muted)}
+.gf-art-h{flex:0 0 auto;text-align:right;font-variant-numeric:tabular-nums}
+.gf-art-hv{font-size:15px;font-weight:600;color:var(--gold2)}
+.gf-art-hk{display:block;font-size:13px;color:var(--muted)}
+.gf-mbar{flex:1 1 100%;height:5px;margin-top:3px;border-radius:3px;background:var(--night);border:1px solid var(--line);overflow:hidden}
+.gf-mbar i{display:block;height:100%;background:var(--gold)}
+.gf-vig{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-size:13px;letter-spacing:.05em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+.gf-vig-s{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.gf-vig.gf-ok .gf-vig-s{background:var(--gold)}
+.gf-vig.gf-warn .gf-vig-s{background:transparent;border:2px solid var(--gold)}
+.gf-vig.gf-bad .gf-vig-s{background:transparent;border:2px solid var(--plum);box-shadow:inset 0 0 0 2px var(--plum)}
+.gf-vig.gf-bad{color:var(--ink);border-color:var(--plum)}
+@media(max-width:760px){.gf-shot{padding:15px 13px 13px}}
 
 /* ===== MENU MOBILE (hamburger) ===== */
 .burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
@@ -272,7 +380,8 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
   </div>
 </nav>
 
-<header class="gf-top"><div class="wrap">
+<header class="gf-top"><div class="wrap"><div class="gf-topgrid">
+  <div>
   <p class="kick">Créé par David Lesage · relayé par l’association</p>
   <h1>Guso Facile</h1>
   <p class="gf-claim">L’intermittence est un métier. La paperasse ne devrait pas en être un deuxième.</p>
@@ -283,7 +392,51 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
   <div class="cta">
     <a class="btn ghost" href="#acces">Comment demander un accès</a>
   </div>
-</div></header>
+  </div>
+<figure class="gf-block">
+  <div class="gf-shot" role="img" aria-label="Tableau de bord de Guso Facile : la jauge des 507 heures, 412 heures validées sur 507, il reste 95 heures à trouver avant la date anniversaire du 16 août.">
+    <div class="gf-bar">
+      <span class="gf-bar-t">Où j’en suis — période en cours</span>
+      <span class="gf-bar-s">Camille Ferrand</span>
+    </div>
+    <p class="gf-hint">Période du 17 août 2025 au 16 août 2026 — les 12 mois qui comptent pour les 507 h.</p>
+    <div class="gf-hero">
+      <div class="gf-ring">
+        <div class="gf-ring-in">
+          <span class="gf-ring-n">412</span>
+          <span class="gf-ring-l">/ 507 h</span>
+        </div>
+      </div>
+      <div class="gf-hero-txt">
+        <p class="gf-hero-l">J’ai effectué <b>412 h</b> sur <b>507 h</b><span class="gf-tag">confirmé</span></p>
+        <p class="gf-hero-l">Il me reste <b>95 h</b> à trouver</p>
+        <p class="gf-hero-l">dans <b>47 jours</b></p>
+        <p class="gf-anniv">Date anniversaire le <b>16 août</b> — soit environ 8 cachets, ou 4 cachets et 47 h de répétitions.</p>
+      </div>
+    </div>
+    <div class="gf-split">
+      <div class="gf-split-c">
+        <div class="gf-split-v">412 h</div>
+        <div class="gf-split-k">heures validées — 24 dates confirmées</div>
+      </div>
+      <div class="gf-split-c">
+        <div class="gf-split-v gf-poss">+ 43 h</div>
+        <div class="gf-split-k">dates possibles — 3 options à confirmer</div>
+      </div>
+      <div class="gf-split-c">
+        <div class="gf-split-v">28 · 76 h</div>
+        <div class="gf-split-k">cachets · heures de répétition</div>
+      </div>
+    </div>
+    <p class="gf-legend">
+      <span><span class="gf-dot gf-dot-gold"></span>heures validées</span>
+      <span><span class="gf-dot gf-dot-plum"></span>dates possibles</span>
+      <span><span class="gf-dot gf-dot-empty"></span>reste à trouver</span>
+    </p>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+</figure>
+</div></div></header>
 
 <div class="divider"></div>
 <section id="promesse"><div class="wrap">
@@ -297,6 +450,39 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
   <p class="body">Concrètement, l’artiste saisit ses dates ; l’outil en déduit les heures acquises, les
     échéances, les documents à produire et les sommes à encaisser. Rien à installer : cela fonctionne
     dans un navigateur, sur ordinateur comme sur téléphone.</p>
+<figure class="gf-block">
+  <div class="gf-shot" role="img" aria-label="Bloc « À faire maintenant » de Guso Facile : trois échéances administratives triées par urgence — une DPAE à faire dans 2 jours, un feuillet GUSO en retard et une facture encore à envoyer.">
+    <div class="gf-tn-head">
+      <span class="gf-tn-t">À faire maintenant</span>
+      <span class="gf-tn-n">3</span>
+    </div>
+    <div class="gf-tn-row">
+      <span class="gf-tn-pill gf-urgent"></span>
+      <span class="gf-tn-main">
+        <span class="gf-tn-lbl">DPAE à faire</span>
+        <span class="gf-tn-meta">Théâtre du Pont Tournant, Bordeaux · 12 juin 2026</span>
+      </span>
+      <span class="gf-tn-when gf-urgent">dans 2 j</span>
+    </div>
+    <div class="gf-tn-row">
+      <span class="gf-tn-pill gf-late"></span>
+      <span class="gf-tn-main">
+        <span class="gf-tn-lbl">Feuillet GUSO à éditer</span>
+        <span class="gf-tn-meta">Le Rocher de Palmer, Cenon · 14 mars 2026</span>
+      </span>
+      <span class="gf-tn-when gf-late">en retard</span>
+    </div>
+    <div class="gf-tn-row">
+      <span class="gf-tn-pill gf-soon"></span>
+      <span class="gf-tn-main">
+        <span class="gf-tn-lbl">Facture à envoyer</span>
+        <span class="gf-tn-meta">Festival Ouvre-Boîte, Pau · 2 mai 2026</span>
+      </span>
+      <span class="gf-tn-when gf-late">en attente</span>
+    </div>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+</figure>
 </div></section>
 
 <div class="divider"></div>
@@ -350,6 +536,89 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
         <li><b>Je crée mon contrat</b> <i>(à venir)</i> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
       </ul>
     </article>
+<figure class="gf-block">
+  <div class="gf-shot" role="img" aria-label="Fiche d’une date dans Guso Facile : concert au Rocher de Palmer à Cenon le 14 mars 2026, 2 cachets soit 24 heures, avec les cinq étapes administratives dont trois sont cochées.">
+    <div class="gf-bar">
+      <span class="gf-bar-t">Concert — Le Rocher de Palmer, Cenon</span>
+      <span class="gf-bar-s">14 mars 2026</span>
+    </div>
+    <p class="gf-hint">Camille Ferrand · artiste (annexe 10) · date confirmée</p>
+    <div class="gf-kv">
+      <div class="gf-k">Période</div><div class="gf-v">14 mars 2026</div>
+      <div class="gf-k">Lieu</div><div class="gf-v">Le Rocher de Palmer — Cenon (33)</div>
+      <div class="gf-k">Cachets</div><div class="gf-v">2 cachets = 24 h</div>
+      <div class="gf-k">Répétition</div><div class="gf-v">0 h</div>
+      <div class="gf-k">Total comptabilisé</div><div class="gf-v">24 h</div>
+      <div class="gf-k">Salaire brut</div><div class="gf-v">1 084,00 €</div>
+    </div>
+    <p class="gf-mini">Étapes administratives</p>
+    <div class="gf-steps">
+      <span class="gf-step gf-done"><span class="gf-box">✓</span>DPAE</span>
+      <span class="gf-step gf-done"><span class="gf-box">✓</span>Feuillet GUSO</span>
+      <span class="gf-step gf-done"><span class="gf-box">✓</span>Salaire reçu</span>
+      <span class="gf-step"><span class="gf-box"></span>Facture réglée</span>
+      <span class="gf-step"><span class="gf-box"></span>Actualisation France Travail</span>
+    </div>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+</figure>
+<figure class="gf-block">
+  <div class="gf-shot" role="img" aria-label="Espace « Ma tournée » de Guso Facile : six étapes reliées chronologiquement, de Cenon à La Rochelle, dont cinq dates confirmées et une option encore à confirmer.">
+    <div class="gf-bar">
+      <span class="gf-bar-t">Ma tournée — saison 2026</span>
+      <span class="gf-bar-s">6 étapes</span>
+    </div>
+    <ul class="gf-route">
+      <li class="gf-stop">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">Cenon</span>
+          <span class="gf-stop-st">confirmée</span>
+        </span>
+        <span class="gf-stop-meta">14 mars · Le Rocher de Palmer · 2 cachets</span>
+      </li>
+      <li class="gf-stop">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">Limoges</span>
+          <span class="gf-stop-st">confirmée</span>
+        </span>
+        <span class="gf-stop-meta">21 mars · Association Chant Libre · 1 cachet</span>
+      </li>
+      <li class="gf-stop">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">Bayonne</span>
+          <span class="gf-stop-st">confirmée</span>
+        </span>
+        <span class="gf-stop-meta">27 au 29 mars · Scène Nationale · 2 cachets</span>
+      </li>
+      <li class="gf-stop">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">Pau</span>
+          <span class="gf-stop-st">confirmée</span>
+        </span>
+        <span class="gf-stop-meta">2 mai · Festival Ouvre-Boîte · 2 cachets</span>
+      </li>
+      <li class="gf-stop gf-cur">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">Bordeaux</span>
+          <span class="gf-stop-st">confirmée</span>
+        </span>
+        <span class="gf-stop-meta">12 juin · Théâtre du Pont Tournant · 1 cachet</span>
+      </li>
+      <li class="gf-stop gf-tbc">
+        <span class="gf-stop-top">
+          <span class="gf-stop-city">La Rochelle</span>
+          <span class="gf-stop-st">à confirmer</span>
+        </span>
+        <span class="gf-stop-meta">3 juillet · lieu non encore arrêté · option</span>
+      </li>
+    </ul>
+    <p class="gf-route-tot">
+      <span class="gf-route-tot-v">8 cachets</span>
+      <span class="gf-route-tot-k">sur 5 dates confirmées · 1 option à confirmer</span>
+    </p>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+</figure>
 
     <article class="u-card">
       <p class="u-num">Univers 3</p>
@@ -383,6 +652,58 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
         <li><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
       </ul>
     </article>
+<figure class="gf-block gf-wide">
+  <div class="gf-shot" role="img" aria-label="Tableau de bord d’une structure dans Guso Facile : quatre artistes, leur compteur d’heures sur 507 et leur niveau de vigilance — bon rythme, à surveiller ou seuil menacé.">
+    <div class="gf-bar">
+      <span class="gf-bar-t">Mes artistes</span>
+      <span class="gf-bar-s">Espace structure</span>
+    </div>
+    <p class="gf-hint">Chaque artiste, ses heures sur la période, et le niveau de vigilance avant sa date anniversaire.</p>
+    <div class="gf-art">
+      <div class="gf-art-row">
+        <span class="gf-av">CF</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Camille Ferrand</span>
+          <span class="gf-art-m">Chanteuse · anniversaire le 16 août</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">412 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-ok"><span class="gf-vig-s"></span>bon rythme</span>
+        <span class="gf-mbar"><i style="width:81%"></i></span>
+      </div>
+      <div class="gf-art-row">
+        <span class="gf-av">NB</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Nadia Belkacem</span>
+          <span class="gf-art-m">Violoncelliste · anniversaire le 3 octobre</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">348 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-ok"><span class="gf-vig-s"></span>bon rythme</span>
+        <span class="gf-mbar"><i style="width:69%"></i></span>
+      </div>
+      <div class="gf-art-row">
+        <span class="gf-av">TR</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Tomas Riveiro</span>
+          <span class="gf-art-m">Percussionniste · anniversaire le 21 juillet</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">261 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-warn"><span class="gf-vig-s"></span>à surveiller</span>
+        <span class="gf-mbar"><i style="width:51%"></i></span>
+      </div>
+      <div class="gf-art-row">
+        <span class="gf-av">EV</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Émile Vasseur</span>
+          <span class="gf-art-m">Ingénieur du son · anniversaire le 9 juin</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">154 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-bad"><span class="gf-vig-s"></span>seuil menacé</span>
+        <span class="gf-mbar"><i style="width:30%"></i></span>
+      </div>
+    </div>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+</figure>
 
   </div>
 
@@ -421,6 +742,35 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
         échéance et tous artistes confondus.</p>
     </article>
   </div>
+<figure class="gf-block">
+  <div class="gf-shot" role="img" aria-label="Récapitulatif mensuel de Guso Facile pour mars 2026 : les déclarations du mois, chacune avec sa date, ses cachets, ses heures et son salaire brut, puis le total du mois à reporter sur l’actualisation France Travail.">
+    <div class="gf-bar">
+      <span class="gf-bar-t">Mes activités à déclarer</span>
+      <span class="gf-bar-s">Récap mensuel</span>
+    </div>
+    <p class="gf-recmonth">Mars 2026</p>
+    <div class="gf-reccard">
+      <div class="gf-recwhen">14 mars 2026</div>
+      <div class="gf-recnums">2 cachets · 24 h · <em>1 084,00 €</em></div>
+      <div class="gf-recmeta">Le Rocher de Palmer, Cenon · GUSO n° 6 508 798 010</div>
+    </div>
+    <div class="gf-reccard">
+      <div class="gf-recwhen">21 mars 2026</div>
+      <div class="gf-recnums">1 cachet · 12 h · <em>528,00 €</em></div>
+      <div class="gf-recmeta">Association Chant Libre, Limoges · GUSO n° 6 494 883 156</div>
+    </div>
+    <div class="gf-reccard">
+      <div class="gf-recwhen">27 au 29 mars 2026</div>
+      <div class="gf-recnums">2 cachets · 33 h · <em>1 246,50 €</em></div>
+      <div class="gf-recmeta">Scène Nationale, Bayonne · GUSO n° 6 454 979 578 · 9 h de répétition</div>
+    </div>
+    <div class="gf-rectot">
+      <span class="gf-rl">Total du mois</span>
+      <span class="gf-rv">5 cachets · 69 h · 2 858,50 € bruts</span>
+    </div>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+</figure>
 </div></section>
 
 <div class="divider"></div>
