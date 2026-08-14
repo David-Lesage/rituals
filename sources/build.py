@@ -84,11 +84,10 @@ TABLEAU = (
         nom='rituals', fichier='rituals/index.html',
         generateur='generate_site.py', ecrit=None,
         passe_menu=False,
-        bloque="les photos d'origine (web_img/, promo_raw/) ne sont pas dans le "
-               "depot : le script s'arrete sur « photo introuvable dans "
-               "web_img/ ». ⚠️ De plus, la seconde photo du Grand Rex a ete "
-               "ajoutee a la main dans la page : une regeneration la ferait "
-               "disparaitre.",
+        # 14/08/2026 : le generateur a ete repare et reproduit desormais la
+        # page publiee a l'octet pres, photos comprises. Il n'a plus besoin des
+        # dossiers photos hors depot.
+        bloque=None,
     ),
     dict(
         nom='rituals-trio', fichier='rituals-trio/index.html',
@@ -100,9 +99,10 @@ TABLEAU = (
     dict(
         nom='e-motion', fichier='e-motion/index.html',
         generateur='generate_emotion.py', ecrit=None,
-        passe_menu=False,
+        passe_menu=False,  # il appelle nav_menu.inject() lui-meme
         bloque=None,      # si le generateur existe, on s'en sert ; sinon la
-                          # page est signalee comme maintenue a la main.
+                          # page est signalee comme maintenue a la main
+                          # (c'etait le cas jusqu'au 14/08/2026).
     ),
     dict(
         nom='david-lesage-en-concert', fichier='david-lesage-en-concert/index.html',
@@ -403,10 +403,10 @@ def main(argv=None):
         _dit()
         _dit('  ARRET : %s' % e)
         _dit()
-        _dit('  %d fichier(s) remis exactement comme avant. Le site sur le disque'
-             % remis)
-        _dit('  est dans l\'etat ou il etait avant cette commande : rien n\'est')
-        _dit('  casse, rien n\'a ete publie.')
+        _dit('  %s Le site sur le disque est dans l\'etat ou il etait avant'
+             % ('Aucun fichier n\'avait ete modifie.' if not remis
+                else '%d fichier(s) remis exactement comme avant.' % remis))
+        _dit('  cette commande : rien n\'est casse, rien n\'a ete publie.')
         _dit()
         return 1
 
@@ -435,8 +435,9 @@ def main(argv=None):
     if r.returncode != 0:
         remis = _restaurer(coffre)
         _dit('  ARRET : la verification a trouve un probleme (voir ci-dessus).')
-        _dit('  %d fichier(s) remis exactement comme avant : rien n\'a ete ecrit.'
-             % remis)
+        _dit('  %s Rien n\'a ete ecrit.'
+             % ('Aucun fichier n\'avait ete modifie.' if not remis
+                else '%d fichier(s) remis exactement comme avant.' % remis))
         _dit()
         return 1
 

@@ -20,7 +20,12 @@ DRAPEAU="$RACINE/.git/pre-commit-refus"
 LIMITE_OCTETS=10485760      # 10 Mo
 
 rm -f "$DRAPEAU"
-FICHIERS=$(git diff --cached --name-only --diff-filter=ACMR)
+# ⚠️ « -z » est indispensable : sans lui, git ENTOURE DE GUILLEMETS et echappe
+# les noms contenant un caractere invisible. Le fichier « Icon » de Google Drive
+# se termine justement par un retour chariot : git l'affiche « "Icon\r" », et
+# aucune recherche sur le vrai nom ne le trouvait. C'est ce qui avait laisse
+# passer un fichier Icon lors du premier essai de ce crochet.
+FICHIERS=$(git diff --cached --name-only --diff-filter=ACMR -z | tr '\0' '\n')
 
 echo ""
 echo "  Controle avant sauvegarde…"
@@ -53,7 +58,8 @@ fi
 # --------------------------------------------------------------------------- #
 # Le depot pese deja ~40 Mo d'images et un push trop lourd echoue en HTTP 400.
 # Les images sont tolerees (c'est un site de photos), le reste non.
-for f in $FICHIERS; do
+printf '%s\n' "$FICHIERS" | while IFS= read -r f; do
+  [ -n "$f" ] || continue
   [ -f "$RACINE/$f" ] || continue
   case "$f" in
     *.jpg|*.jpeg|*.png|*.webp|*.gif|*.svg|*.ico|*.avif) continue ;;
@@ -86,7 +92,8 @@ eyJhbGciOi[A-Za-z0-9_-]{20,}
 (code|digicode|portail|interphone)[^<>]{0,40}[:=][^<>]{0,10}[0-9]{3,6}
 (api.?key|secret|password|passwd|mot de passe)[^<>]{0,15}[:=][^<>]{0,4}.\{8,\}"
 
-for f in $FICHIERS; do
+printf '%s\n' "$FICHIERS" | while IFS= read -r f; do
+  [ -n "$f" ] || continue
   [ -f "$RACINE/$f" ] || continue
   case "$f" in
     *.jpg|*.jpeg|*.png|*.webp|*.gif|*.ico|*.zip|*.pdf|*.mp3|*.mp4) continue ;;
