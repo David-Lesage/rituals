@@ -1,2 +1,46 @@
+# ---------------------------------------------------------------------------
+# Ce que git doit ignorer sur ce projet
+# ---------------------------------------------------------------------------
+
+# --- Google Drive -----------------------------------------------------------
+# Le dossier du projet est sauvegarde par Google Drive, qui depose un fichier
+# vide nomme « Icon » suivi d'un retour chariot invisible dans CHAQUE dossier
+# synchronise (il y en a une vingtaine ici).
+# ⚠️ « Icon? » vise le nom exact « Icon » + un caractere. Il ne touche ni a
+#    « favicon.ico », ni a « apple-touch-icon.png », ni a un futur « icons.ts ».
 Icon?
-sources/__pycache__/
+
+# --- macOS ------------------------------------------------------------------
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# --- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# --- fichiers de travail produits par les outils ----------------------------
+# `generate_assoc.py` ecrit d'abord ce fichier, qui est ensuite recopie dans
+# index.html : c'est un intermediaire, pas une page du site.
+/assoc_index.html
+# meme logique pour la plaquette du trio (document hors site)
+/plaquette_trio.html
+# ancien dossier de travail de generate_agenda_nid.py
+/lenid_deploy/
+
+# --- essais et brouillons ---------------------------------------------------
+*.tmp
+*.bak
+*.orig
+*.rej
+*~
+/tmp/
+/essai/
+*.log
+
+# --- serveurs locaux de verification ----------------------------------------
+# (`python3 -m http.server` pour regarder le site avant publication)
+.serveur-local.pid
