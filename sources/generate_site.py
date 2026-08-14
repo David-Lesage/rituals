@@ -40,6 +40,16 @@ WIDTHS = (480, 900, 1400)
 Q_WEBP = 80
 Q_JPEG = 82
 
+#: photos dont le jeu de derivees n'est PAS celui de WIDTHS. Une seule a ce
+#: jour : `grand-rex-bras-leves` a ete preparee A LA MAIN, hors de ce script,
+#: en quatre largeurs dont une de 2000 px que la fabrication automatique ne
+#: produit pas (elle plafonne a 1400). Voir le bloc « bras leves » plus bas.
+#: Toute autre photo doit avoir exactement WIDTHS : c'est ce que verifie
+#: `derivees()`.
+LARGEURS_PARTICULIERES = {
+    'grand-rex-bras-leves': (480, 900, 1400, 2000),
+}
+
 # largeur d'affichage reelle, pour que le navigateur choisisse la bonne variante
 SIZES_FIG = '(max-width:1040px) calc(100vw - 52px), 988px'
 SIZES_SLIDE = '(max-width:900px) 86vw, 700px'
@@ -110,7 +120,33 @@ def derivees(name):
     if not trouves:
         sys.exit('derivee absente de %s : %s-<largeur>.jpg — la fabriquer avec '
                  '`--images` (photos d\'origine requises).' % (IMG_DIR, name))
-    return [(w, _dim_jpeg(p)[1]) for w, p in sorted(trouves)]
+    trouves.sort()
+    ws = [w for w, _p in trouves]
+    largeurs = LARGEURS_PARTICULIERES.get(name, WIDTHS)
+
+    # ⚠️ Un JEU INCOMPLET est plus dangereux qu'un jeu absent : sans ce controle,
+    # un fichier efface par megarde ne fait pas echouer le script — il produit
+    # simplement un srcset ampute, donc une page differente de la publiee, en
+    # silence. (Mesure du 14/08/2026 : retirer une seule derivee de 900 px
+    # laissait le script ecrire une page degradee, code de sortie 0.) Meme
+    # remede que `generate_trio.py`, qui portait exactement la meme faille.
+    # Les largeurs doivent etre WIDTHS dans l'ordre, la derniere pouvant etre
+    # plus petite que prevu quand l'original ne permettait pas d'aller plus haut
+    # (la fabrication ne suragrandit jamais).
+    attendu = list(largeurs[:len(ws)])
+    contigu = (len(ws) <= len(largeurs)
+               and (ws == attendu
+                    or (ws[:-1] == attendu[:-1] and ws[-1] < attendu[-1])))
+    if not contigu:
+        sys.exit('largeurs incoherentes pour %s dans %s : %s (attendu un debut de '
+                 '%s). Un fichier a du etre efface ; refabriquer avec `--images`.'
+                 % (name, IMG_DIR, ws, list(largeurs)))
+    for w, _p in trouves:                              # chaque JPEG a son WebP
+        jumeau = os.path.join(IMG_DIR, '%s-%d.webp' % (name, w))
+        if not os.path.exists(jumeau):
+            sys.exit('WebP manquant : %s (le srcset le referencerait quand meme).'
+                     % jumeau)
+    return [(w, _dim_jpeg(p)[1]) for w, p in trouves]
 
 
 def picture(name, vs, sizes, alt, cls='', extra='', img_extra='', lazy=True,
