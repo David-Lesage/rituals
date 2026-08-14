@@ -7,8 +7,12 @@
 # aucune etape de relecture entre « git push » et « c'est visible par tout le
 # monde ». Ce crochet est cette etape.
 #
-# Il lance `sources/verif_site.py` sur les 9 pages publiees. Si un seul controle
+# Il lance `sources/verif_site.py` sur les 10 pages publiees. Si un seul controle
 # echoue, le push est refuse et rien ne part en ligne.
+#
+# ⚠️ Le nombre de pages est ecrit ici A LA MAIN, uniquement dans les messages :
+#    la SOURCE DE VERITE est la table PAGES de `sources/verif_site.py`. Quand une
+#    page est ajoutee au site, penser a ces trois lignes de texte.
 #
 # Pour l'activer sur une nouvelle copie du depot (une seule fois) :
 #     git config core.hooksPath .githooks
@@ -18,7 +22,7 @@ RACINE=$(git rev-parse --show-toplevel)
 
 echo ""
 echo "  ================================================================"
-echo "   PUBLICATION DU SITE — verification des 9 pages avant mise en ligne"
+echo "   PUBLICATION DU SITE — verification des 10 pages avant mise en ligne"
 echo "  ================================================================"
 
 python3 "$RACINE/sources/verif_site.py"
@@ -37,7 +41,7 @@ if [ "$CODE" -ne 0 ]; then
   echo "    1. corriger la SOURCE dans sources/ — jamais le fichier HTML"
   echo "       directement quand la page a un generateur, il serait ecrase"
   echo "    2. python3 sources/build.py"
-  echo "    3. python3 sources/verif_site.py     (doit afficher 9/9)"
+  echo "    3. python3 sources/verif_site.py     (doit afficher 10/10)"
   echo "    4. git add … && git commit && git push"
   echo ""
   echo "  En cas d'urgence absolue, pour publier quand meme :"
