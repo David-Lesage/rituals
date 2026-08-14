@@ -20,7 +20,7 @@ Quatre étapes, toujours les mêmes, toujours dans cet ordre :
 |---|---|---|
 | 1 | On modifie **la source**, pas la page | (dans `sources/`) |
 | 2 | On **reconstruit** le site | `python3 sources/build.py` |
-| 3 | On **vérifie** les 9 pages | `python3 sources/verif_site.py` |
+| 3 | On **vérifie** les 10 pages | `python3 sources/verif_site.py` |
 | 4 | On **sauvegarde et on publie** | `git add …` puis `git commit` puis `git push` |
 
 Puis **Vercel met le site en ligne tout seul, environ 40 secondes après le `push`**.
@@ -43,7 +43,7 @@ Pour savoir si une page a un générateur :
 python3 sources/build.py --liste
 ```
 
-Le tableau dit, pour chacune des 9 pages, quel script la fabrique. Les seules pages
+Le tableau dit, pour chacune des 10 pages, quel script la fabrique. Les seules pages
 qu'on a le droit de modifier à la main sont celles marquées **« aucun générateur »**.
 
 ## Les deux commandes à connaître
@@ -60,11 +60,11 @@ chaque passage — le défaut qui avait produit quatre entrées « Agenda » dan
 quatre cartes identiques. Dans ce cas il **s'arrête et remet tout comme avant**.
 
 ```bash
-python3 sources/verif_site.py          # vérifie les 9 pages
+python3 sources/verif_site.py          # vérifie les 10 pages
 ```
 
 Neuf contrôles, un par incident déjà vécu sur ce projet. Il ne modifie rien.
-Il finit par **« 9/9 pages conformes »** quand tout va bien.
+Il finit par **« 10/10 pages conformes »** quand tout va bien.
 
 ## La sécurité automatique — tu n'as rien à lancer
 
@@ -74,7 +74,7 @@ Deux garde-fous se déclenchent tout seuls (activés une fois pour toutes par
 - **au moment de `git commit`** : refuse un fichier `Icon` de Google Drive, un fichier
   de plus de 10 Mo qui n'est pas une image, ou tout ce qui ressemble à une clé ou à un
   **code d'accès** (le dépôt est public — un code de portail a déjà fuité deux fois).
-- **au moment de `git push`** : lance la vérification des 9 pages et **refuse de publier**
+- **au moment de `git push`** : lance la vérification des 10 pages et **refuse de publier**
   si quoi que ce soit cloche. Une page cassée ne peut plus partir en ligne.
 
 ## Comment vérifier que la mise en ligne a bien eu lieu
@@ -94,7 +94,7 @@ problème. Dans l'ordre :
 1. Lire la ou les lignes qui commencent par `>`.
 2. Corriger **la source** dans `sources/` (jamais la page HTML si elle a un générateur).
 3. `python3 sources/build.py` puis `python3 sources/verif_site.py`.
-4. Quand c'est `9/9`, refaire `git commit` et `git push`.
+4. Quand c'est `10/10`, refaire `git commit` et `git push`.
 
 **En cas d'urgence absolue**, on peut passer outre avec `git commit --no-verify` ou
 `git push --no-verify` — mais ce qui a été signalé se retrouve alors en ligne. À ne
@@ -110,7 +110,7 @@ git config core.hooksPath .githooks
 
 ---
 
-## LES 9 PAGES EN LIGNE (2026-08-04)
+## LES 10 PAGES EN LIGNE (2026-08-14)
 
 | URL | Rôle | Public |
 |---|---|---|
@@ -123,6 +123,26 @@ git config core.hooksPath .githooks
 | `/le-nid` | Le lieu, programme, agenda | particuliers Paris |
 | `/le-soin-soa` | Week-end d'immersion (Iris, Gaïa, David) | particuliers |
 | `/rythme-calebasse` | Workshops + appel à candidature groupe de pratique | particuliers |
+| `/guso-facile` | **Outil web d'administratif de l'intermittence** (bêta privée) | **artistes intermittents** et structures qui les emploient |
+
+### ⚠️ `/guso-facile` — la formulation est délibérée, ne pas la « corriger »
+
+La page dit que Guso Facile est **« créé par David Lesage, relayé par Résonances
+Productions »**, et **jamais « porté par »**. Ce n'est pas une maladresse :
+
+- l'infrastructure est **entièrement personnelle** (projets Supabase et Vercel sur les
+  comptes propres de David, dépôt git privé à son nom, e-mails via son Workspace
+  `contact@lesagedavid.fr`) ;
+- les données traitées sont **sensibles** : numéros de sécurité sociale, IBAN, salaires,
+  feuillets GUSO de personnes réelles ;
+- le modèle payant + affiliation envisagé est, en l'état, hors du champ associatif.
+
+Écrire « porté par l'association » sur le site public d'une association, à propos d'un
+outil qui traite des numéros de sécurité sociale, serait une approximation au pire
+endroit possible. Un portage associatif demanderait une **décision explicite, actée en
+procès-verbal**. Les mots retenus sont donc : « créé par », « relaie », « n'est pas un
+service de l'association ». Le raisonnement complet est en tête de
+`sources/generate_guso.py`. **Ne toucher à aucune de ces formulations.**
 
 Orphelines encore en ligne : `/solune`, `/au-nid` (suppression jamais confirmée ; exclues du sitemap et interdites dans `robots.txt`).
 
@@ -131,12 +151,29 @@ Orphelines encore en ligne : `/solune`, `/au-nid` (suppression jamais confirmée
 Principe qu'il a posé : **deux publics distincts** — ceux qui achètent un spectacle, et ceux qui viennent vivre quelque chose au Nid. Ils ne se croisent jamais et le site doit le refléter.
 Sur le mot à employer : « spectacle » est trop pauvre (RITUALS est un *concert-rituel*), et ils sont « à la frontière de tous ces mondes ». Terme retenu en façade : **« Sur scène »**. Chaque page garde son terme précis (concert-rituel, spectacle immersif participatif, concert-cérémonie participatif). Tactique conseillée pour les programmateurs : sous le nom d'auteur, ajouter *« Se programme en : festival · salle · lieu patrimonial · événement d'entreprise »* et *« S'inscrit dans : musiques du monde · création pluridisciplinaire · spectacle participatif »* — ces lignes font le classement à leur place.
 
-**Menu unifié, en place sur les 9 pages** (composant partagé `sources/nav_menu.py`, idempotent via `data-nav="resonances-1"`, `NAV_VERSION` à incrémenter pour régénérer ; sous-menus déroulants en desktop — un seul ouvert à la fois — et accordéons dans le panneau hamburger en mobile ; `aria-current` + parent marqué ; vérifié sur les 9 pages à 390/820/1080/1440 px, 0 débordement, écart mini brand↔liens 158 px) :
+**Menu unifié, en place sur les 10 pages** (composant partagé `sources/nav_menu.py`, idempotent via `data-nav="resonances-3"`, `NAV_VERSION` à incrémenter pour régénérer ; sous-menus déroulants en desktop — un seul ouvert à la fois — et accordéons dans le panneau hamburger en mobile ; `aria-current` + parent marqué ; vérifié sur les 10 pages à 390/820/1440 px, 0 débordement) :
 
 - **Accueil**
 - **Sur scène** ▾ → `/rituals` (RITUALS — duo) · `/rituals-trio` (RITUALS — trio) · `/e-motion` (E-Motion) · `/david-lesage-en-concert` (David Lesage en concert)
-- **Le Nid** ▾ → `/le-nid#agenda` (Agenda) · `/le-nid#instruments` (Présentation d'instruments) · `/concerts-david-lesage` (Concerts au Nid) · `/le-nid#yoga` (Atelier de yoga) · `/rythme-calebasse` (Rythme & calebasse) · `/le-soin-soa` (Le Soin Soa) · `/le-nid#psychotherapie` (Psychothérapie) · `/le-nid#cours-individuels` (Cours individuels)
-- **L'association** · **Contact** · bouton **Adhérer**
+- **Le Nid** ▾ → `/le-nid` (Le Nid — Paris 20ᵉ) · `/le-nid#agenda` (Agenda) · `/le-nid#instruments` (Présentation d'instruments) · `/concerts-david-lesage` (Concerts au Nid) · `/le-nid#yoga` (Atelier de yoga) · `/rythme-calebasse` (Rythme & calebasse) · `/le-soin-soa` (Le Soin Soa) · `/le-nid#psychotherapie` (Psychothérapie) · `/le-nid#cours-individuels` (Cours individuels)
+- **L'association** ▾ → `/#association` (L'association) · **`/guso-facile` (Guso Facile)**
+- **Contact** · bouton **Adhérer**
+
+**Pourquoi « Guso Facile » est sous « L'association » (décision du 14/08/2026)** — ce
+n'est ni un spectacle (« Sur scène ») ni une activité du lieu (« Le Nid ») : c'est un
+outil pour les artistes. Trois places étaient possibles ; le raisonnement complet est
+écrit dans `sources/nav_menu.py`, juste au-dessus de la table `ASSO`. En bref :
+*(a)* pas dans « Le Nid », qui décrit ce qui se vit **au** Nid, à Paris ; *(b)* pas en
+entrée de premier niveau, parce que la barre en compte déjà six et que la contrainte est
+**mesurée** — entre 861 et 1080 px les liens venaient toucher le nom de l'association ;
+un sous-menu ne coûte que la largeur du chevron ; *(c)* donc sous « L'association », qui
+devient déroulant **sur le modèle exact de « Le Nid »** (première entrée du panneau = la
+section elle-même, comme « Le Nid — Paris 20ᵉ »).
+⚠️ Nuance assumée : ce rangement de navigation **ne dit pas** que l'outil est porté par
+l'association — la page, elle, porte la formulation prudente validée (voir plus haut).
+Si David préfère une entrée de premier niveau, c'est **une ligne à changer** dans
+`build_links()` + `MENU_ENTREES_ATTENDUES` dans `verif_site.py`, et un `NAV_VERSION` à
+incrémenter.
 
 Les ancres `#psychotherapie`, `#concerts-au-nid`, `#yoga`, `#calebasse-workshop`, `#cours-individuels`, `#instruments` **existent déjà** sur `/le-nid` (+ `#agenda`, `#concerts` pré-filtre concerts). Prérequis fait.
 ⚠️ Contrainte mesurée : à 9 entrées la barre touchait le nom de l'association entre 861 et 1080 px → resserrement CSS + `white-space:nowrap` déjà en place sur certaines pages. Un menu déroulant règle le problème de fond.
@@ -151,7 +188,7 @@ Toutes les images locales dans `/img/` (WebP + repli JPEG, 3-4 largeurs). Plus a
 Générateurs : produisent des fichiers image. Ils ne tournent pas ici (dossiers photos sources absents) sauf `generate_rythme.py` (ses originaux sont versionnés dans `sources/rythme_img/`).
 
 ### Accessibilité / SEO (terminé)
-Cibles tactiles 44 px · plancher typo 13 px (hors `<sup>`) · `:focus-visible` doré · `alt` recopiés des légendes · téléphones en `tel:` · favicon (`favicon.svg`/`.ico`/`apple-touch-icon.png`) · `og-image.jpg` 1200×630 · `og:url` · `twitter:card` · `theme-color` · **`robots.txt` + `sitemap.xml`** (9 URL, toutes vérifiées 200).
+Cibles tactiles 44 px · plancher typo 13 px (hors `<sup>`) · `:focus-visible` doré · `alt` recopiés des légendes · téléphones en `tel:` · favicon (`favicon.svg`/`.ico`/`apple-touch-icon.png`) · `og-image.jpg` 1200×630 · `og:url` · `twitter:card` · `theme-color` · **`robots.txt` + `sitemap.xml`** (10 URL depuis le 14/08/2026).
 
 ### Contenu (terminé)
 - **Hero du Nid** : photo du salon en fond, voile radial + linéaire, ombres de texte.
@@ -231,7 +268,7 @@ page `/david-lesage-en-concert`**. Dépôt public + site d'association : ça ne 
   sur un simple clone. La fabrication des images dérivées (qui, elle, a toujours besoin des photos
   d'origine hors dépôt) est passée derrière l'option **`--images`** ; sans elle, la page se
   régénère normalement, seconde photo du Grand Rex comprise.
-- **`sources/notes_pages_sans_generateur.py` est désormais vide de notes** : les 9 pages publiées
+- **`sources/notes_pages_sans_generateur.py` est désormais vide de notes** : les 10 pages publiées
   ont toutes un générateur. Le fichier reste en place — c'est là que devra aller la note d'une
   future page éditée à la main (`build.py` signale ces pages sous « PAGES SANS GÉNÉRATEUR »).
 
@@ -240,8 +277,15 @@ les retirer casse le site :
 
 | Marqueur | Pourquoi il est indispensable |
 |---|---|
-| `<!-- nav_menu.py (resonances-2) -->` | `JS_MARK` de `nav_menu.py` : **garde d'idempotence** testée par `inject()`. Sans lui le menu se réinjecte à chaque passe (l'incident des entrées de menu en double). Porte aussi `NAV_VERSION`, relue pour nettoyer un ancien menu. |
+| `<!-- nav_menu.py (resonances-3) -->` | `JS_MARK` de `nav_menu.py` : **garde d'idempotence** testée par `inject()`. Sans lui le menu se réinjecte à chaque passe (l'incident des entrées de menu en double). Porte aussi `NAV_VERSION`, relue pour nettoyer un ancien menu. |
 | `<!-- fin nav_menu.py -->` | `JS_END` : **borne de fin** utilisée par `_strip()` pour retirer le JS d'une ancienne version du menu. Sans elle le nettoyage ne sait plus où s'arrêter. |
+
+> ✅ **Incrémenter `NAV_VERSION` ne demande RIEN dans `verif_commentaires.py`** (vérifié le
+> 14/08/2026 au passage `resonances-2 → resonances-3`) : le motif de la liste blanche est écrit
+> **sans le numéro** — `<!-- nav_menu\.py \([^)>]*\) -->`. Ne jamais y figer un numéro : le jour
+> où la version bougerait sans que ce fichier suive, **toutes** les pages seraient refusées à
+> l'écriture. `verif_site.py`, lui, lit désormais `nav_menu.NAV_VERSION` directement (il avait
+> divergé une fois).
 
 (`<!--INDUCTION_FIG-->` et `<!--JULIEN_PHOTO-->` de `sources/trio_source.html` sont des **balises de
 substitution**, remplacées par `generate_trio.py` : elles n'atteignent jamais la page. Si l'une
@@ -250,7 +294,7 @@ apparaissait dans le HTML livré, ce serait un bug — d'où leur absence de la 
 **Le garde-fou : `sources/verif_commentaires.py`.**
 
 ```bash
-python3 sources/verif_commentaires.py     # les 9 pages d'un coup ; $? = 1 si problème
+python3 sources/verif_commentaires.py     # les 10 pages d'un coup ; $? = 1 si problème
 ```
 
 À lancer **avant tout déploiement**. Il est aussi appelé **avant chaque écriture de fichier** dans
@@ -268,32 +312,32 @@ encode dans son tableau ; cette section est là pour la prochaine session.
 
 | Page | Générateur | Écrit où | Menu à reposer ? | État mesuré |
 |---|---|---|---|---|
-| `/` | `generate_assoc.py` | `assoc_index.html` puis à recopier | non | 🔴 **ne tourne pas** |
+| `/` | `generate_assoc.py` | `assoc_index.html` puis à recopier | non | ✅ **débloqué le 14/08** |
 | `/rituals` | `generate_site.py` | directement | non | ✅ réparé le 14/08 |
-| `/rituals-trio` | `generate_trio.py` | directement | non | 🔴 **ne tourne pas** |
+| `/rituals-trio` | `generate_trio.py` | directement | non | ✅ **débloqué le 14/08** |
 | `/e-motion` | `generate_emotion.py` | directement | non | ✅ créé le 14/08 |
 | `/david-lesage-en-concert` | `generate_concert_scene.py` | directement | **OUI** | ✅ |
 | `/concerts-david-lesage` | `generate_concert_dl.py` | directement | **OUI** | ✅ |
-| `/le-nid` | `generate_agenda_nid.py` | *retouche une page existante* | non | 🔴 **ne tourne pas** |
+| `/le-nid` | `generate_agenda_nid.py` | directement (source : `sources/lenid_source.html`) | non | ✅ **débloqué le 14/08** |
 | `/le-soin-soa` | `generate_soin_soa.py` | `sources/soin_soa_final.html` puis à recopier | non | ✅ |
 | `/rythme-calebasse` | `generate_rythme.py` | directement | non | ✅ |
+| `/guso-facile` | `generate_guso.py` | directement | non | ✅ **inscrit le 14/08** |
 
-**Les trois générateurs qui ne tournent plus** — signalés à chaque `build.py`, jamais en
-silence, et la page concernée n'est **pas** touchée :
+**Les 10 générateurs tournent, et reproduisent leur page à l'octet près.** Plus aucune
+ligne `bloque=` dans `sources/build.py`. Deux `build.py` de suite ne changent plus un
+seul octet.
 
-- **`generate_assoc.py` (l'accueil) — vrai bug Python.** Le bloc de style ajouté vers la
-  ligne 151 est écrit dans une f-string mais ses accolades CSS ne sont pas doublées :
-  `NameError: name 'font' is not defined`. Le script s'arrête avant d'écrire quoi que ce
-  soit. **La page en ligne est bonne** (maintenue à la main depuis). Correction : doubler
-  les `{` `}` du CSS inséré, ou sortir ce bloc de la f-string.
-- **`generate_agenda_nid.py` (`/le-nid`) — ce n'est pas un générateur complet.** Il *retouche*
-  une page existante qu'il va chercher dans `lenid_deploy/index.html`, dossier qui n'existe
-  plus. Il faudrait le faire pointer sur `le-nid/index.html`. ⚠️ Attention : il contient déjà
-  des `re.sub` de nettoyage précisément parce qu'il n'est pas idempotent de nature.
-- **`generate_trio.py` (`/rituals-trio`)** — cherche encore ses photos dans `web_img/`, hors
-  dépôt (`photo introuvable dans web_img/ : RITUALS_00_header.jpg`). `generate_site.py` a été
-  réparé le 14/08 exactement sur ce point, en passant la fabrication des images derrière une
-  option `--images` : **le même traitement lui est applicable**, c'est le plus simple des trois.
+**Ce qui les bloquait, et comment ça a été levé** (gardé comme mémoire des pièges) :
+
+- **`generate_assoc.py` (l'accueil)** — les accolades CSS d'un bloc de style inséré dans
+  une f-string n'étaient pas doublées (`NameError: name 'font' is not defined`).
+- **`generate_agenda_nid.py` (`/le-nid`)** — il *retouchait* une page qu'il allait chercher
+  dans `lenid_deploy/index.html`, dossier disparu. Il part maintenant d'une vraie source
+  versionnée, **`sources/lenid_source.html`**. ⚠️ Il contient toujours des `re.sub` de
+  nettoyage parce qu'il n'est pas idempotent de nature : ne pas les retirer.
+- **`generate_trio.py` (`/rituals-trio`)** — cherchait ses photos dans `web_img/`, hors dépôt.
+  Même remède que `generate_site.py` : la fabrication des images est passée derrière l'option
+  **`--images`**, la page se régénère depuis les dérivées déjà présentes dans `img/`.
 
 **Autres pièges vérifiés :**
 
@@ -303,10 +347,18 @@ silence, et la page concernée n'est **pas** touchée :
 - ⚠️ **Ne JAMAIS faire `import generate_concert_scene`** (ni `generate_concert_dl`) : ces scripts
   travaillent au moment de l'import et **réécrivent la page sans le menu**. `build.py` les lance
   en sous-processus, jamais par import.
-- ⚠️ **`le-soin-soa/index.html` a été retouché à la main après sa dernière génération** : trois
-  lignes de CSS (`.who-site`) ont été déplacées dans la feuille de style. Le premier `build.py`
-  les remettra à leur place d'origine — **aucun effet visuel**, mais la page sera signalée
-  « MISE À JOUR ». C'est normal, ce n'est pas une régression.
+- ✅ **`le-soin-soa/index.html` avait été retouché à la main après génération** — rapatrié
+  le 14/08/2026 dans `sources/generate_soin_soa.py` (fonction `_rapatrier_retouches`). Trois
+  écarts, **aucun effet visuel**, tous reproduits pour que la page redevienne identique à
+  l'octet : (1) les 3 lignes de CSS `.who-site` descendues en fin de feuille de style ;
+  (2)+(3) deux **lignes vides fossiles** devant les marqueurs du menu, restes de la montée
+  `resonances-1 → resonances-2` faite sur le fichier (`nav_menu._strip()` laisse le saut de
+  ligne qui précédait). Même technique que `generate_trio.py`. La page n'est plus signalée
+  « MISE À JOUR ». La fonction **refuse d'écrire** si une ancre a bougé (testé).
+- ⚠️ **Les lignes vides devant `/* == nav_menu.py … */` et `<!-- nav_menu.py … -->` sont des
+  fossiles à préserver** : elles ne sont pas sur toutes les pages (mesuré : présentes sur
+  `/`, rituals, trio, e-motion, le-nid, le-soin-soa ; absentes ailleurs). Chaque générateur
+  reproduit celles de SA page. Ne pas « harmoniser ».
 - ⚠️ **git échappe les noms de fichiers contenant un caractère invisible.** `sources/Icon` suivi
   d'un retour chariot sort `"sources/Icon\r"` dans `git diff --name-only`. Toute recherche sur le
   vrai nom échoue : il faut `-z`. C'est ce qui avait laissé passer un fichier `Icon` au premier
@@ -333,3 +385,32 @@ silence, et la page concernée n'est **pas** touchée :
 - **2026-08-03** — Bascule Cowork → Claude Code. Clone, sources copiées, fix hamburger (cause : `backdrop-filter` du `.nav`), enrichissement Google Agenda, audit des liens /le-nid, tableau admin showcase (autre dépôt).
 - **2026-08-04 (nuit)** — `robots.txt` + `sitemap.xml` · vidéos en lecteur de page (`youtube-nocookie`, Échap, src vidée, lien de secours dynamique) · fontaine Mélusine installée au Nid · The Voice : **la vraie vidéo** (audition à l'aveugle « Kothbiro » d'Ayub Ogada, chaîne officielle TF1) + 2 erreurs factuelles corrigées (ce n'était ni « Une Âme » ni 2021) · bloc « Écouter · Soutenir » (Spotify, chaîne, album « L'Alliance du Phoenix ») · **menu unifié sur les 9 pages**. ⚠️ `@DavidLesageMusique` est un **lien mort** : la seule chaîne est `@DavidLesageArtiste` — et `lesagedavid.fr` pointe vers la morte.
 - **2026-08-04** — Calendrier /le-nid (filtres, boutons, abonnement) · dédoublonnages + causes corrigées dans les générateurs · adresse asso + statuts + data.gouv · Google Agenda nettoyé + 3 rappels · incident code portail dans ce handoff public (historique réécrit) · audit UX complet · quick wins accessibilité/SEO · **chantier images terminé** · hero du Nid · `/le-soin-soa` créée puis adaptée · « Showcase » renommé partout · crédits MAGYE D'ART · `/concerts-david-lesage` · `/david-lesage-en-concert` + fiche technique · `/rythme-calebasse` + appel à candidature · « Boire l'eau du concert » · robots.txt + sitemap.xml. **Tout déployé et vérifié en ligne.**
+- **2026-08-14 (soir)** — **`/guso-facile` raccordée au site, et la chaîne de fabrication est complète.**
+  *(1)* Les trois `bloque=` restants de `sources/build.py` retirés (accueil, `/rituals-trio`, `/le-nid`) :
+  leurs générateurs étaient réparés depuis, `build.py` les sautait encore en silence avec un message
+  périmé. **Les 10 générateurs tournent et reproduisent leur page à l'octet près.**
+  *(2)* Menu : `NAV_VERSION` → **`resonances-3`**, « L'association » devient **déroulant** et accueille
+  **« Guso Facile »** (raisonnement du placement dans `nav_menu.py` et plus haut dans ce fichier) ;
+  `guso-facile` ajoutée à `PAGE_KEYS` et `_PATH_KEYS` ; `generate_guso.py` passe désormais la clé
+  `'guso-facile'` (donc `aria-current`). **18 entrées** de menu attendues (`verif_site.py`).
+  *(3)* `sitemap.xml` (10 URL), `vercel.json` (redirections **`/Guso-Facile` → `/guso-facile`**, l'URL
+  ayant été communiquée avec des majuscules et les chemins Vercel étant sensibles à la casse),
+  `verif_site.py` et `verif_commentaires.py` passés à 10 pages. `robots.txt` : rien à changer (`Allow: /`).
+  *(4)* **Deux failles de robustesse comblées** : `generate_site.py` portait la même que `generate_trio.py`
+  — une dérivée d'image manquante produisait un `srcset` amputé **en sortant en code 0** ; il exige
+  maintenant un jeu de largeurs contigu **et** le jumeau WebP de chaque JPEG, et **refuse d'écrire** sinon
+  (testé dans les deux sens, page inchangée, code 1). Exception documentée : `grand-rex-bras-leves`
+  a 4 largeurs (jusqu'à 2000 px), préparées à la main → table `LARGEURS_PARTICULIERES`.
+  Et la retouche manuelle de `le-soin-soa/index.html` est rapatriée dans son générateur.
+  *(5)* Cinq générateurs codaient `data-nav="resonances-2"` **en dur** dans leurs garde-fous : ils lisent
+  maintenant `nav_menu.NAV_VERSION`. Idem pour `verif_site.py`. Une montée de version ne casse plus rien.
+  *(6)* **Nouveau faux positif du contrôle « code d'accès »** : sur `/guso-facile`, « un badge
+  « droits sécurisés » dès 507 heures » (mot `badge` + nombre). Traité par une entrée de liste blanche
+  **documentée** dans `CODES_HORS_SOUPCON`, jamais par un `--no-verify`.
+  **Mesuré** : `build.py` → 10 pages, deux exécutions de suite sans un octet de différence ;
+  `verif_site.py` → **10/10 conformes** ; les 9 pages existantes **ne diffèrent de leur version
+  précédente que par leur bloc de menu** (comparaison menu neutralisé : identiques) ; **0 débordement
+  horizontal à 390 / 820 / 1440 px sur les 10 pages** (mesuré en iframe de largeur imposée —
+  ⚠️ `resize_window` de l'extension répond « succès » sans effet, le volet reste à sa largeur) ;
+  hamburger vérifié à l'ouverture **et** à la fermeture, un seul menu et un seul `<h1>` par page,
+  0 lien mort, 0 ancre morte.
