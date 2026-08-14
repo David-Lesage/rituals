@@ -66,61 +66,107 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:60px 0}}
 p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 /* ===== Guso Facile ===== */
-.gf-top{padding:128px 0 66px;background:radial-gradient(900px 560px at 8% -10%,rgba(143,122,209,.20),transparent 62%),radial-gradient(720px 470px at 94% 104%,rgba(216,178,90,.12),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
-.gf-top h1{font-size:clamp(38px,7vw,72px);font-weight:600;line-height:1.02;color:#fff;letter-spacing:.02em}
-.gf-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.8vw,28px);line-height:1.3;margin-top:14px;max-width:720px}
-.badge{display:inline-flex;align-items:center;gap:9px;margin-top:26px;padding:8px 17px;border:1px solid var(--line);border-radius:30px;color:var(--gold2);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;background:rgba(216,178,90,.06)}
-.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}
-.gf-top .cta{margin-top:30px}
-.band{background:linear-gradient(180deg,#0b0c1e,var(--night))}
+/* --- le degrade signature, decline partout ------------------------------ */
+:root{--coral:#e08a72;--plum2:#b3a2e4;
+--grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
+--grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral))}
+.gf-defs{position:absolute;width:0;height:0;overflow:hidden}
+.ic{width:23px;height:23px;display:block;flex:0 0 auto}
+.grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
+/* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice » */
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(224,138,114,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(143,122,209,.12),transparent 62%)}
+section{padding:92px 0}
+.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent)}
+.kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.sec-title{letter-spacing:.01em}
+.lead b,.body b{color:#fff}
+/* boutons : le principal porte le degrade chaud, le fantome un filet dore */
+.btn{border-radius:999px;padding:15px 28px}
+.btn svg{width:18px;height:18px;flex:0 0 auto}
+.acces .btn{background:var(--grad-warm);color:#1b1206;box-shadow:0 14px 34px -16px rgba(224,138,114,.6)}
+/* la fleche du bouton reprend la couleur du TEXTE : le degrade signature, clair, disparaissait sur le bouton clair (mesure a l'ecran) */
+.acces .btn svg{stroke:#1b1206}
+.acces .btn:hover{box-shadow:0 20px 42px -14px rgba(224,138,114,.7)}
+.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(240,209,138,.3);color:var(--gold2)}
+.btn.ghost:hover{border-color:rgba(240,209,138,.55)}
+/* --- hero ---------------------------------------------------------------- */
+.gf-top{padding:132px 0 78px;background:radial-gradient(900px 560px at 6% -12%,rgba(143,122,209,.22),transparent 62%),radial-gradient(760px 480px at 96% 8%,rgba(224,138,114,.14),transparent 62%),radial-gradient(720px 470px at 60% 108%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+.gf-top h1{font-size:clamp(38px,7vw,74px);font-weight:600;line-height:1.02;letter-spacing:.02em}
+.gf-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(20px,2.9vw,29px);line-height:1.32;margin-top:16px;max-width:720px}
+.badge{display:inline-flex;align-items:center;gap:9px;margin-top:28px;padding:9px 18px;border:1px solid rgba(240,209,138,.34);border-radius:999px;color:var(--gold2);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;background:linear-gradient(90deg,rgba(216,178,90,.14),rgba(224,138,114,.10))}
+.badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--grad-warm);flex:0 0 auto}
+.gf-top .cta{margin-top:32px}
+.band{background:linear-gradient(180deg,#0b0c1e,#101128 55%,var(--night))}
 /* hero : texte a gauche, jauge des 507 h a droite (empile sous 1000 px) */
-.gf-topgrid{display:grid;gap:34px;align-items:center}
+.gf-topgrid{display:grid;gap:38px;align-items:center}
 @media(min-width:1000px){.gf-topgrid{grid-template-columns:minmax(0,1fr) 400px}}
-/* quatre univers — DEUX colonnes, jamais trois : voir l'entete du fichier */
-.univers{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;margin-top:38px}
+/* --- les quatre univers — DEUX colonnes, jamais trois (voir l'entete) ---- */
+.univers{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:42px}
 @media(min-width:761px){.univers{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.u-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-top:2px solid var(--line);border-radius:16px;padding:28px 26px 24px}
+.u-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#1c1e46,#171935);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:30px 28px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
+.u-card::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.u-head{display:flex;align-items:center;gap:14px}
+.u-ico{flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(240,209,138,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(224,138,114,.12) 55%,rgba(143,122,209,.14))}
 .u-num{letter-spacing:.28em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--gold)}
-.u-card h3{font-size:27px;font-weight:600;color:#fff;line-height:1.15;margin-top:7px}
-.u-sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--plum);font-size:18px;line-height:1.4;margin-top:8px}
-.u-card ul{list-style:none;margin-top:18px}
-.u-card li{position:relative;padding-left:19px;margin-top:13px;color:#d7d4ea;font-size:15.5px;line-height:1.6}
-.u-card li::before{content:'';position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.u-card h3{font-size:27px;font-weight:600;color:#fff;line-height:1.15;margin-top:3px}
+.u-sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--plum2);font-size:18.5px;line-height:1.4;margin-top:12px}
+.u-card ul{list-style:none;margin-top:20px}
+.u-card li{position:relative;padding-left:24px;margin-top:14px;color:#d7d4ea;font-size:15.5px;line-height:1.62}
+.u-card li::before{content:'';position:absolute;left:1px;top:9px;width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
+.u-card li.soon::before{background:none;border:1.5px solid var(--plum2)}
 .u-card li b{color:#fff;font-weight:500}
-.u-card li i{font-style:normal;color:var(--muted)}
-.aussi{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255,255,.07);max-width:900px}
+.u-card li i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,162,228,.4);background:rgba(143,122,209,.12);border-radius:999px;padding:1px 9px;line-height:1.5}
+.aussi{margin-top:40px;padding:26px 28px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));display:flex;gap:18px;align-items:flex-start}
+.aussi .ic-w,.precision .ic-w{flex:0 0 auto;line-height:0;margin-top:3px}
+.aussi .ic{width:26px;height:26px}
 .aussi .u-num{display:block;margin-bottom:8px}
 .aussi p{color:#d7d4ea;font-size:15.5px}
-/* trois situations */
+/* --- trois situations : de vraies cartes, plus un simple filet a gauche -- */
 .cas-note{color:var(--muted);font-size:15px;margin-top:14px;max-width:62ch}
-.cas{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:38px}
-.cas article{border-left:1px solid var(--line);padding-left:22px}
+.cas{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:26px;margin-top:42px}
+.cas article{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.07);border-radius:22px;background:linear-gradient(180deg,#1c1e46,#171935);padding:28px 26px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
+.cas article::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.cas-ico{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(240,209,138,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(224,138,114,.12) 55%,rgba(143,122,209,.14));margin-bottom:16px}
 .cas h3{font-size:25px;font-weight:600;color:#fff;line-height:1.18}
 .cas p{color:#d7d4ea;font-size:15.5px;margin-top:11px}
-/* l'etat du projet */
-.etat{margin-top:34px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(25,27,61,.85),rgba(20,22,51,.55));padding:34px 32px;max-width:900px}
+/* --- l'etat du projet ---------------------------------------------------- */
+.etat{position:relative;overflow:hidden;margin-top:38px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:linear-gradient(180deg,rgba(28,30,70,.9),rgba(20,22,51,.6));padding:38px 36px;max-width:900px;box-shadow:0 26px 60px -40px rgba(0,0,0,.95)}
+.etat::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .etat p{color:#d7d4ea;font-size:16px}
 .etat p + p{margin-top:16px}
-.etat .first{color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(21px,3vw,27px);line-height:1.3;font-style:italic}
-/* appel a l'action */
-.acces{max-width:820px}
-.acces .cta{margin-top:28px}
+.etat .first{color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(21px,3vw,28px);line-height:1.3;font-style:italic}
+/* --- le lien avec l'association : la precision sort en encadre ----------- */
+.precision{display:flex;gap:14px;align-items:flex-start;margin-top:28px;max-width:760px;padding:20px 22px;border:1px solid rgba(179,162,228,.28);border-radius:18px;background:linear-gradient(135deg,rgba(143,122,209,.12),rgba(224,138,114,.07))}
+.precision .ic{width:24px;height:24px}
+.precision p{color:#d7d4ea;font-size:15px;line-height:1.65;margin:0}
+/* --- appel a l'action : un panneau, pas une fin de page ------------------ */
+.acces{position:relative;overflow:hidden;max-width:880px;border:1px solid rgba(255,255,255,.09);border-radius:26px;padding:46px 42px 40px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(224,138,114,.10) 48%,rgba(143,122,209,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
+.acces::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.acces .cta{margin-top:30px}
 .mention{margin-top:20px;max-width:660px;color:var(--muted);font-size:14px;line-height:1.65}
 .mention + .mention{margin-top:12px}
 @media(max-width:760px){
-  .gf-top{padding:108px 0 54px}
-  .u-card{padding:24px 21px 21px}
-  .etat{padding:26px 22px}
-  .cas article{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:20px}
+  section{padding:66px 0}
+  .gf-top{padding:110px 0 60px}
+  .u-card{padding:26px 22px 22px}
+  .cas article{padding:26px 22px 22px}
+  .etat{padding:28px 24px}
+  .acces{padding:32px 24px 28px}
+  .aussi{padding:22px 20px;gap:14px}
 }
-@media print{.totop{display:none}}
+@media print{.totop{display:none}.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
 /* ===== maquettes d'interface (illustrations, pas d'interface reelle) ===== */
-.gf-block{margin:30px 0 0;max-width:820px}
+.gf-block{margin:34px 0 0;max-width:820px}
 .gf-topgrid .gf-block,.univers .gf-block{margin:0;max-width:none}
 .univers .gf-wide{grid-column:1/-1}
-.gf-shot{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px 16px;margin:0 0 10px;color:var(--ink);font-size:15px;line-height:1.5;max-width:100%;overflow:hidden}
+.gf-shot{position:relative;background:linear-gradient(180deg,#1d1f47,#171935);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px 18px 18px;margin:0 0 11px;color:var(--ink);font-size:15px;line-height:1.5;max-width:100%;overflow:hidden;box-shadow:0 24px 50px -34px rgba(0,0,0,.95)}
+.gf-shot::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad);opacity:.85}
+/* la jauge du hero est l'image signature de la page : elle porte un halo */
+.gf-topgrid .gf-shot{box-shadow:0 30px 64px -34px rgba(0,0,0,.95),0 0 70px -26px rgba(224,138,114,.45)}
 .gf-shot *{box-sizing:border-box}
-.gf-cap{display:block;font-size:13px;line-height:1.4;color:var(--muted);letter-spacing:.02em;margin:0 0 0 2px}
+.gf-cap{display:block;font-size:13px;line-height:1.4;color:var(--muted);letter-spacing:.02em;margin:0 0 0 4px}
+.gf-cap::before{content:'';display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);margin-right:9px;vertical-align:1px}
 .gf-bar{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
 .gf-bar-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:var(--ink)}
 .gf-bar-s{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
@@ -137,9 +183,9 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 .gf-tag{display:inline-block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:5px}
 .gf-anniv{font-size:13px;color:var(--muted);border-left:2px solid var(--gold);padding-left:10px;margin-top:12px}
 .gf-split{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.gf-split-c{flex:1 1 140px;min-width:0;background:var(--night2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.gf-split-c{flex:1 1 140px;min-width:0;background:linear-gradient(180deg,#1b1d42,#15172f);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:11px 13px}
 .gf-split-v{font-size:19px;font-weight:600;color:var(--gold2)}
-.gf-split-v.gf-poss{color:var(--plum)}
+.gf-split-v.gf-poss{color:var(--plum2)}
 .gf-split-k{font-size:13px;color:var(--muted)}
 .gf-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:13px;color:var(--muted)}
 .gf-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:baseline}
@@ -149,8 +195,8 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 /* 2 — « A faire maintenant » : pastilles urgent / en retard / a venir */
 .gf-tn-head{display:flex;align-items:baseline;gap:9px;margin-bottom:12px}
 .gf-tn-t{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
-.gf-tn-n{margin-left:auto;font-size:13px;font-weight:600;color:var(--night);background:var(--gold);border-radius:999px;padding:1px 9px}
-.gf-tn-row{display:flex;align-items:center;gap:11px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:11px 12px;margin-bottom:8px}
+.gf-tn-n{margin-left:auto;font-size:13px;font-weight:600;color:#1b1206;background:var(--grad-warm);border-radius:999px;padding:1px 9px}
+.gf-tn-row{display:flex;align-items:center;gap:11px;flex-wrap:wrap;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:12px 13px;margin-bottom:9px}
 .gf-tn-pill{flex:0 0 auto;width:10px;height:10px;border-radius:50%}
 .gf-tn-pill.gf-urgent{background:var(--gold)}
 .gf-tn-pill.gf-late{background:var(--plum)}
@@ -159,7 +205,7 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 .gf-tn-lbl{display:block;font-size:15px;font-weight:600;color:var(--ink)}
 .gf-tn-meta{display:block;font-size:13px;color:var(--muted)}
 .gf-tn-when{flex:0 0 auto;font-size:13px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:2px 9px;color:var(--muted)}
-.gf-tn-when.gf-urgent{color:var(--night);background:var(--gold);border-color:var(--gold);font-weight:600}
+.gf-tn-when.gf-urgent{color:#1b1206;background:var(--grad-warm);border-color:transparent;font-weight:600}
 .gf-tn-when.gf-late{color:var(--gold2)}
 /* 3 — fiche d'une date et ses cinq etapes administratives */
 .gf-kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 14px;margin:0 0 16px;font-size:15px}
@@ -173,12 +219,12 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 .gf-step.gf-done .gf-box{background:var(--gold);border-color:var(--gold)}
 /* 4 — recap mensuel France Travail, en cartes groupees par mois */
 .gf-recmonth{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
-.gf-reccard{border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:10px 12px;margin-bottom:9px}
+.gf-reccard{border:1px solid rgba(255,255,255,.07);border-radius:13px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:11px 13px;margin-bottom:9px}
 .gf-recwhen{font-size:13px;color:var(--muted)}
 .gf-recnums{font-size:15px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
 .gf-recnums em{font-style:normal;color:var(--gold2)}
 .gf-recmeta{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
-.gf-rectot{display:flex;gap:8px 14px;align-items:baseline;flex-wrap:wrap;justify-content:space-between;border-top:1px solid var(--gold);margin-top:12px;padding-top:11px}
+.gf-rectot{display:flex;gap:8px 14px;align-items:baseline;flex-wrap:wrap;justify-content:space-between;border-top:1px solid rgba(216,178,90,.55);margin-top:13px;padding-top:12px}
 .gf-rl{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .gf-rv{font-size:15px;font-weight:600;color:var(--gold2);font-variant-numeric:tabular-nums}
 /* 5 — ma tournee : enchainement chronologique, filet + pastilles, zero image */
@@ -192,16 +238,18 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 .gf-stop-top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
 .gf-stop-city{font-size:15px;font-weight:600;color:var(--ink)}
 .gf-stop-st{margin-left:auto;font-size:13px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:1px 9px}
-.gf-stop.gf-tbc .gf-stop-st{color:var(--plum)}
+.gf-stop.gf-tbc .gf-stop-st{color:var(--plum2)}
 .gf-stop-meta{display:block;font-size:13px;color:var(--muted)}
-.gf-route-tot{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
-.gf-route-tot-v{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;color:var(--gold2)}
+.gf-route-tot{display:flex;gap:8px 20px;align-items:baseline;flex-wrap:wrap;margin-top:16px;border-top:1px solid rgba(216,178,90,.4);padding-top:13px}
+.gf-route-tot span{display:block}
+.gf-route-tot-p{flex:1 1 130px;min-width:0}
+.gf-route-tot-v{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;line-height:1.15;color:var(--gold2)}
 .gf-route-tot-k{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 /* 6 — tableau de bord d'une structure. La vigilance se lit a la FORME de la
    pastille et a son libelle, pas seulement a la couleur (la charte n'a ni
    vert ni rouge, et un daltonien doit pouvoir la lire). */
 .gf-art{display:flex;flex-direction:column;gap:9px}
-.gf-art-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:11px 12px}
+.gf-art-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:12px 13px}
 .gf-av{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--gold2);background:var(--card)}
 .gf-art-txt{flex:1 1 130px;min-width:0}
 .gf-art-n{display:block;font-size:15px;font-weight:600}
@@ -210,13 +258,13 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 .gf-art-hv{font-size:15px;font-weight:600;color:var(--gold2)}
 .gf-art-hk{display:block;font-size:13px;color:var(--muted)}
 .gf-mbar{flex:1 1 100%;height:5px;margin-top:3px;border-radius:3px;background:var(--night);border:1px solid var(--line);overflow:hidden}
-.gf-mbar i{display:block;height:100%;background:var(--gold)}
+.gf-mbar i{display:block;height:100%;background:var(--grad-warm)}
 .gf-vig{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-size:13px;letter-spacing:.05em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
 .gf-vig-s{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
 .gf-vig.gf-ok .gf-vig-s{background:var(--gold)}
 .gf-vig.gf-warn .gf-vig-s{background:transparent;border:2px solid var(--gold)}
 .gf-vig.gf-bad .gf-vig-s{background:transparent;border:2px solid var(--plum);box-shadow:inset 0 0 0 2px var(--plum)}
-.gf-vig.gf-bad{color:var(--ink);border-color:var(--plum)}
+.gf-vig.gf-bad{color:var(--ink);border-color:var(--plum2)}
 @media(max-width:760px){.gf-shot{padding:15px 13px 13px}}
 
 /* ===== MENU MOBILE (hamburger) ===== */
@@ -379,15 +427,16 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
     <a class="adh" href="https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions" target="_blank" rel="noopener">Adhérer</a>
   </div>
 </nav>
+<svg class="gf-defs" aria-hidden="true" focusable="false"><defs><linearGradient id="gf-ink" gradientUnits="userSpaceOnUse" x1="3" y1="4" x2="21" y2="20"><stop offset="0" stop-color="#f0d18a"/><stop offset=".42" stop-color="#d8b25a"/><stop offset=".74" stop-color="#e08a72"/><stop offset="1" stop-color="#b3a2e4"/></linearGradient></defs></svg>
 
 <header class="gf-top"><div class="wrap"><div class="gf-topgrid">
   <div>
   <p class="kick">Créé par David Lesage · relayé par l’association</p>
-  <h1>Guso Facile</h1>
-  <p class="gf-claim">L’intermittence est un métier. La paperasse ne devrait pas en être un deuxième.</p>
+  <h1 class="grad-t">Guso Facile</h1>
+  <p class="gf-claim">L’intermittence est <span class="mark">un métier</span>. La paperasse ne devrait pas en être un deuxième.</p>
   <p class="lead">Guso Facile est un outil web qui prend en charge le suivi administratif du spectacle
-    vivant — heures, déclarations, feuillets, factures — pour que les artistes gardent leur énergie là
-    où elle compte.</p>
+    vivant — heures, déclarations, feuillets, factures — pour que les artistes gardent leur énergie
+    <span class="mark">là où elle compte</span>.</p>
   <p class="badge">Bêta privée · places limitées</p>
   <div class="cta">
     <a class="btn ghost" href="#acces">Comment demander un accès</a>
@@ -441,7 +490,7 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 <div class="divider"></div>
 <section id="promesse"><div class="wrap">
   <p class="kick">La promesse</p>
-  <h2 class="sec-title">Ce que l’outil résout</h2>
+  <h2 class="sec-title">Garde ton énergie pour la scène</h2>
   <p class="body">La charge mentale de l’intermittence ne vient pas des heures jouées, mais de tout ce
     qui les entoure : savoir où l’on en est de ses 507 heures, ne pas rater une DPAE, retrouver le
     feuillet GUSO du mois dernier, relancer une facture impayée, et pointer juste chaque fin de mois à
@@ -486,31 +535,82 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 </div></section>
 
 <div class="divider"></div>
-<section id="association-lien" class="band"><div class="wrap">
-  <p class="kick">Le lien avec l’association</p>
-  <h2 class="sec-title">Pourquoi Résonances Productions le relaie</h2>
-  <p class="body">Guso Facile est un outil <b>créé par David Lesage</b>, musicien intermittent et
-    co-fondateur de l’association. Résonances Productions le <b>relaie</b> parce qu’il sert directement
-    son objet : le soutien aux artistes.</p>
-  <p class="body">L’objet de Résonances Productions est le soutien et la promotion des artistes. Ce
-    soutien est d’abord artistique, mais il est aussi, très concrètement, administratif : une grande
-    part du temps que l’association passe auprès des artistes qu’elle accompagne est consacrée à des
-    déclarations, des feuillets et des échéances. Guso Facile est né de ce constat, et son développement
-    continue de se nourrir des retours des artistes qui l’utilisent.</p>
-  <p class="mention">Précision : Guso Facile n’est pas un service de l’association. L’outil, son
-    hébergement et les données qu’il traite relèvent de son créateur.</p>
+<section id="situations" class="band"><div class="wrap">
+  <p class="kick">Cas d’usage</p>
+  <h2 class="sec-title">Trois situations typiques</h2>
+  <p class="cas-note">Les prénoms sont fictifs ; les situations, elles, sont celles que l’outil rencontre au quotidien.</p>
+
+  <div class="cas">
+    <article>
+      <span class="cas-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.2 3.6h9.6"/><path d="M7.2 20.4h9.6"/><path d="M8.4 3.6v3.1c0 2 3.6 3.6 3.6 5.3s-3.6 3.3-3.6 5.3v3.1"/><path d="M15.6 3.6v3.1c0 2-3.6 3.6-3.6 5.3s3.6 3.3 3.6 5.3v3.1"/></svg></span>
+      <h3>Atteindre ses 507 heures sans angoisse</h3>
+      <p>En mars, Léa était à 380 heures et se réveillait la nuit. La jauge lui a montré, non pas le
+        chiffre manquant, mais ce qu’il représentait en dates concrètes ; et la projection lui a dit ce
+        que ses dates encore incertaines changeraient si elles se confirmaient. Le compte à rebours est
+        devenu un plan, mois par mois.</p>
+    </article>
+    <article>
+      <span class="cas-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.5" y="5.2" width="17" height="15.2" rx="3"/><path d="M3.5 9.9h17"/><path d="M8.2 3.6v3.1"/><path d="M15.8 3.6v3.1"/><path d="M9 14.8l2.2 2.2 4-4.3"/></svg></span>
+      <h3>Pointer France Travail en cinq minutes</h3>
+      <p>Chaque 28 du mois, Marco redoutait son actualisation : retrouver les feuillets, recompter les
+        cachets, espérer ne pas se tromper. Le récapitulatif mensuel lui donne une ligne par GUSO, avec
+        les heures et le brut déjà calculés. Il recopie, il valide, c’est terminé.</p>
+    </article>
+    <article>
+      <span class="cas-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9.2" cy="8.4" r="3.1"/><path d="M3.8 19.6c0-3 2.4-5.1 5.4-5.1s5.4 2.1 5.4 5.1"/><path d="M16.2 6.2a3.1 3.1 0 0 1 0 6.1"/><path d="M17.3 14.8c1.9.7 3 2.4 3 4.8"/></svg></span>
+      <h3>Accompagner quatre artistes sans tableur</h3>
+      <p>Sophie gère quatre artistes au sein d’une structure. Elle voyait passer les DPAE dans ses mails
+        et tenait un tableur qui n’était jamais à jour. Le back-office lui affiche désormais, sur un seul
+        écran, toutes les déclarations, tous les feuillets et toutes les factures à faire, classés par
+        échéance et tous artistes confondus.</p>
+    </article>
+  </div>
+<figure class="gf-block">
+  <div class="gf-shot" role="img" aria-label="Récapitulatif mensuel de Guso Facile pour mars 2026 : les déclarations du mois, chacune avec sa date, ses cachets, ses heures et son salaire brut, puis le total du mois à reporter sur l’actualisation France Travail.">
+    <div class="gf-bar">
+      <span class="gf-bar-t">Mes activités à déclarer</span>
+      <span class="gf-bar-s">Récap mensuel</span>
+    </div>
+    <p class="gf-recmonth">Mars 2026</p>
+    <div class="gf-reccard">
+      <div class="gf-recwhen">14 mars 2026</div>
+      <div class="gf-recnums">2 cachets · 24 h · <em>1 084,00 €</em></div>
+      <div class="gf-recmeta">Le Rocher de Palmer, Cenon</div>
+    </div>
+    <div class="gf-reccard">
+      <div class="gf-recwhen">21 mars 2026</div>
+      <div class="gf-recnums">1 cachet · 12 h · <em>528,00 €</em></div>
+      <div class="gf-recmeta">Association Chant Libre, Limoges</div>
+    </div>
+    <div class="gf-reccard">
+      <div class="gf-recwhen">27 au 29 mars 2026</div>
+      <div class="gf-recnums">2 cachets · 33 h · <em>1 246,50 €</em></div>
+      <div class="gf-recmeta">Scène Nationale, Bayonne · 9 h de répétition</div>
+    </div>
+    <div class="gf-rectot">
+      <span class="gf-rl">Total du mois</span>
+      <span class="gf-rv">5 cachets · 69 h · 2 858,50 € bruts</span>
+    </div>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+</figure>
 </div></section>
 
 <div class="divider"></div>
 <section id="fonctionnalites"><div class="wrap">
   <p class="kick">Les fonctionnalités</p>
-  <h2 class="sec-title">Ce que fait l’outil</h2>
+  <h2 class="sec-title">Bien plus qu’un compteur d’heures</h2>
 
   <div class="univers">
 
     <article class="u-card">
-      <p class="u-num">Univers 1</p>
-      <h3>Tes droits, maîtrisés</h3>
+      <div class="u-head">
+        <span class="u-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 18a8.4 8.4 0 1 1 16.8 0"/><path d="M12 18l4.4-5.4"/><circle cx="12" cy="18" r="1.15"/></svg></span>
+        <div>
+          <p class="u-num">Univers 1</p>
+          <h3>Tes droits, maîtrisés</h3>
+        </div>
+      </div>
       <p class="u-sub">Ne plus jamais perdre une heure ni rater une échéance.</p>
       <ul>
         <li><b>Jauge des 507 heures</b> — la progression vers l’ouverture de droits, toujours visible.</li>
@@ -523,17 +623,22 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
     </article>
 
     <article class="u-card">
-      <p class="u-num">Univers 2</p>
-      <h3>Ta tournée, organisée</h3>
+      <div class="u-head">
+        <span class="u-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.4 4.6a2.7 2.7 0 0 1 2.7 2.7c0 2-2.7 4.6-2.7 4.6S4.7 9.3 4.7 7.3a2.7 2.7 0 0 1 2.7-2.7Z"/><circle cx="7.4" cy="7.3" r=".9"/><path d="M16.6 12.3a2.7 2.7 0 0 1 2.7 2.7c0 2-2.7 4.6-2.7 4.6s-2.7-2.6-2.7-4.6a2.7 2.7 0 0 1 2.7-2.7Z"/><path d="M9.9 11.6c1.7 1.3 2.3 2.7 4.5 3.5" stroke-dasharray="2 2.6"/></svg></span>
+        <div>
+          <p class="u-num">Univers 2</p>
+          <h3>Ta tournée, organisée</h3>
+        </div>
+      </div>
       <p class="u-sub">Développer, relancer, négocier — et savoir avant de dire oui.</p>
       <ul>
-        <li><b>Carte des dates</b> — les concerts géolocalisés, pour visualiser d’un coup d’œil où la saison vous emmène.</li>
+        <li><b>Carte des dates</b> — les concerts géolocalisés, avec le calcul des kilomètres parcourus depuis le domicile, utile pour les frais.</li>
         <li><b>Tournée reliée</b> — les dates s’enchaînent chronologiquement sur la carte, les lieux à confirmer sont signalés, les adresses en autocomplétion.</li>
         <li><b>Carnet de contacts</b> — les organisateurs rassemblés automatiquement, avec l’historique des dates jouées ensemble.</li>
         <li><b>Modèles de mails</b> — relance, présentation, remerciement, pré-remplis avec la dernière date jouée avec l’interlocuteur.</li>
         <li><b>Évaluation d’une proposition</b> — l’offre reçue comparée aux conditions idéales de l’artiste, avec un verdict vert, jaune ou rouge avant de s’engager.</li>
         <li><b>Suivi de négociation</b> — statut du contrat, échéance de signature, informations manquantes, et une demande d’informations prête à envoyer.</li>
-        <li><b>Je crée mon contrat</b> <i>(à venir)</i> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
+        <li class="soon"><b>Je crée mon contrat</b> <i>(à venir)</i> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
       </ul>
     </article>
 <figure class="gf-block">
@@ -563,7 +668,7 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
   <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
 </figure>
 <figure class="gf-block">
-  <div class="gf-shot" role="img" aria-label="Espace « Ma tournée » de Guso Facile : six étapes reliées chronologiquement, de Cenon à La Rochelle, dont cinq dates confirmées et une option encore à confirmer.">
+  <div class="gf-shot" role="img" aria-label="Espace « Ma tournée » de Guso Facile : six étapes reliées chronologiquement, de Cenon à La Rochelle, dont cinq dates confirmées et une option encore à confirmer, soit 8 cachets et environ 1 240 kilomètres parcourus depuis le domicile, aller-retour compris.">
     <div class="gf-bar">
       <span class="gf-bar-t">Ma tournée — saison 2026</span>
       <span class="gf-bar-s">6 étapes</span>
@@ -613,16 +718,27 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
       </li>
     </ul>
     <p class="gf-route-tot">
-      <span class="gf-route-tot-v">8 cachets</span>
-      <span class="gf-route-tot-k">sur 5 dates confirmées · 1 option à confirmer</span>
+      <span class="gf-route-tot-p">
+        <span class="gf-route-tot-v">8 cachets</span>
+        <span class="gf-route-tot-k">sur 5 dates confirmées · 1 option à confirmer</span>
+      </span>
+      <span class="gf-route-tot-p">
+        <span class="gf-route-tot-v">1 240 km</span>
+        <span class="gf-route-tot-k">parcourus depuis le domicile · aller-retour</span>
+      </span>
     </p>
   </div>
   <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
 </figure>
 
     <article class="u-card">
-      <p class="u-num">Univers 3</p>
-      <h3>Ta structure, connectée</h3>
+      <div class="u-head">
+        <span class="u-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.4 20.4h17.2"/><path d="M5.6 20.4V9.8L12 5.6l6.4 4.2v10.6"/><path d="M9.6 20.4v-4.8h4.8v4.8"/><path d="M9.6 12.2h4.8"/></svg></span>
+        <div>
+          <p class="u-num">Univers 3</p>
+          <h3>Ta structure, connectée</h3>
+        </div>
+      </div>
       <p class="u-sub">Pour celles et ceux qui emploient et accompagnent les artistes.</p>
       <ul>
         <li><b>Back-office transversal</b> — toutes les DPAE, feuillets GUSO et factures à faire, tous artistes confondus, au même endroit.</li>
@@ -635,21 +751,26 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
     </article>
 
     <article class="u-card">
-      <p class="u-num">Univers 4</p>
-      <h3>Ton cercle, solidaire</h3>
+      <div class="u-head">
+        <span class="u-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="5.6" r="2.1"/><circle cx="5.7" cy="16.4" r="2.1"/><circle cx="18.3" cy="16.4" r="2.1"/><path d="M10.4 7.4 7.2 14.2"/><path d="M13.6 7.4l3.2 6.8"/><path d="M7.8 16.4h8.4"/></svg></span>
+        <div>
+          <p class="u-num">Univers 4</p>
+          <h3>Ton cercle, solidaire</h3>
+        </div>
+      </div>
       <p class="u-sub">Parce qu’on avance mieux à plusieurs. Cet univers est en cours de déploiement.</p>
       <ul>
         <li><b>Vue groupe</b> — où en est chaque membre du groupe, pour se soutenir avant que la situation ne coince.</li>
         <li><b>« J’ai besoin d’aide »</b> — trois questions simples, un premier conseil concret, et la possibilité de prévenir qui l’on veut.</li>
         <li><b>Faire découvrir l’outil</b> — un membre peut recommander Guso Facile à un autre artiste : il renseigne ses coordonnées, l’application prépare un message qu’il peut modifier, et la demande arrive chez David, qui l’étudie personnellement. Chaque accès reste une décision, jamais une inscription automatique.</li>
-        <li><b>L’entraide entre artistes</b> <i>(à venir)</i> — entre membres, on partagera ce qui s’est
+        <li class="soon"><b>L’entraide entre artistes</b> <i>(à venir)</i> — entre membres, on partagera ce qui s’est
           concrètement passé sur une date : le contrat a-t-il été fourni, le paiement est-il arrivé dans les
           délais, les conditions annoncées ont-elles été tenues. Rien que des faits, jamais d’appréciation.
           L’idée n’est pas de juger qui que ce soit, mais de s’informer entre pairs — comme on le fait déjà
           de bouche à oreille, en tournée ou en loge. Et quand le cadre a manqué, l’outil proposera plutôt
           d’aider à le poser la prochaine fois, avec un modèle de contrat prêt à personnaliser.</li>
-        <li><b>Points de vigilance côté structure</b> <i>(à venir)</i> — qui approche du seuil, qui aurait besoin d’un coup de main.</li>
-        <li><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
+        <li class="soon"><b>Points de vigilance côté structure</b> <i>(à venir)</i> — qui approche du seuil, qui aurait besoin d’un coup de main.</li>
+        <li class="soon"><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
       </ul>
     </article>
 <figure class="gf-block gf-wide">
@@ -708,75 +829,38 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
   </div>
 
   <div class="aussi">
-    <p class="u-num">Et aussi</p>
-    <p>Export et import des données · fonctionne sur mobile sans installation · liens directs vers une
-      date · comptes sécurisés · un bouton pour signaler un bug depuis n’importe quel écran.</p>
+    <span class="ic-w"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11.6 3.6l1.8 4.9 4.9 1.8-4.9 1.8-1.8 4.9-1.8-4.9-4.9-1.8 4.9-1.8Z"/><path d="M18.4 15.4l.7 1.9 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7Z"/></svg></span>
+    <div>
+      <p class="u-num">Et aussi</p>
+      <p>Export et import des données · fonctionne sur mobile sans installation · liens directs vers une
+        date · comptes sécurisés · un bouton pour signaler un bug depuis n’importe quel écran.</p>
+    </div>
   </div>
 </div></section>
 
 <div class="divider"></div>
-<section id="situations" class="band"><div class="wrap">
-  <p class="kick">Cas d’usage</p>
-  <h2 class="sec-title">Trois situations typiques</h2>
-  <p class="cas-note">Les prénoms sont fictifs ; les situations, elles, sont celles que l’outil rencontre au quotidien.</p>
-
-  <div class="cas">
-    <article>
-      <h3>Atteindre ses 507 heures sans angoisse</h3>
-      <p>En mars, Léa était à 380 heures et se réveillait la nuit. La jauge lui a montré, non pas le
-        chiffre manquant, mais ce qu’il représentait en dates concrètes ; et la projection lui a dit ce
-        que ses dates encore incertaines changeraient si elles se confirmaient. Le compte à rebours est
-        devenu un plan, mois par mois.</p>
-    </article>
-    <article>
-      <h3>Pointer France Travail en cinq minutes</h3>
-      <p>Chaque 28 du mois, Marco redoutait son actualisation : retrouver les feuillets, recompter les
-        cachets, espérer ne pas se tromper. Le récapitulatif mensuel lui donne une ligne par GUSO, avec
-        les heures et le brut déjà calculés. Il recopie, il valide, c’est terminé.</p>
-    </article>
-    <article>
-      <h3>Accompagner quatre artistes sans tableur</h3>
-      <p>Sophie gère quatre artistes au sein d’une structure. Elle voyait passer les DPAE dans ses mails
-        et tenait un tableur qui n’était jamais à jour. Le back-office lui affiche désormais, sur un seul
-        écran, toutes les déclarations, tous les feuillets et toutes les factures à faire, classés par
-        échéance et tous artistes confondus.</p>
-    </article>
+<section id="association-lien" class="band"><div class="wrap">
+  <p class="kick">Le lien avec l’association</p>
+  <h2 class="sec-title">Pourquoi Résonances Productions le relaie</h2>
+  <p class="body">Guso Facile est un outil <b>créé par David Lesage</b>, musicien intermittent et
+    co-fondateur de l’association. Résonances Productions le <b>relaie</b> parce qu’il sert directement
+    son objet : le soutien aux artistes.</p>
+  <p class="body">L’objet de Résonances Productions est le soutien et la promotion des artistes. Ce
+    soutien est d’abord artistique, mais il est aussi, très concrètement, administratif : une grande
+    part du temps que l’association passe auprès des artistes qu’elle accompagne est consacrée à des
+    déclarations, des feuillets et des échéances. Guso Facile est né de ce constat, et son développement
+    continue de se nourrir des retours des artistes qui l’utilisent.</p>
+  <div class="precision">
+    <span class="ic-w"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5l7 2.5v5.2c0 4.2-2.8 7.4-7 9.3-4.2-1.9-7-5.1-7-9.3V6z"/><path d="M9.3 12.1l2 2 3.5-3.9"/></svg></span>
+    <p>Précision : Guso Facile n’est pas un service de l’association. L’outil, son
+      hébergement et les données qu’il traite relèvent de son créateur.</p>
   </div>
-<figure class="gf-block">
-  <div class="gf-shot" role="img" aria-label="Récapitulatif mensuel de Guso Facile pour mars 2026 : les déclarations du mois, chacune avec sa date, ses cachets, ses heures et son salaire brut, puis le total du mois à reporter sur l’actualisation France Travail.">
-    <div class="gf-bar">
-      <span class="gf-bar-t">Mes activités à déclarer</span>
-      <span class="gf-bar-s">Récap mensuel</span>
-    </div>
-    <p class="gf-recmonth">Mars 2026</p>
-    <div class="gf-reccard">
-      <div class="gf-recwhen">14 mars 2026</div>
-      <div class="gf-recnums">2 cachets · 24 h · <em>1 084,00 €</em></div>
-      <div class="gf-recmeta">Le Rocher de Palmer, Cenon</div>
-    </div>
-    <div class="gf-reccard">
-      <div class="gf-recwhen">21 mars 2026</div>
-      <div class="gf-recnums">1 cachet · 12 h · <em>528,00 €</em></div>
-      <div class="gf-recmeta">Association Chant Libre, Limoges</div>
-    </div>
-    <div class="gf-reccard">
-      <div class="gf-recwhen">27 au 29 mars 2026</div>
-      <div class="gf-recnums">2 cachets · 33 h · <em>1 246,50 €</em></div>
-      <div class="gf-recmeta">Scène Nationale, Bayonne · 9 h de répétition</div>
-    </div>
-    <div class="gf-rectot">
-      <span class="gf-rl">Total du mois</span>
-      <span class="gf-rv">5 cachets · 69 h · 2 858,50 € bruts</span>
-    </div>
-  </div>
-  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
-</figure>
 </div></section>
 
 <div class="divider"></div>
 <section id="etat"><div class="wrap">
   <p class="kick">L’état du projet</p>
-  <h2 class="sec-title">Où en est le projet</h2>
+  <h2 class="sec-title">Jouons cartes sur table</h2>
 
   <div class="etat">
     <p class="first">Guso Facile est aujourd’hui en bêta privée, avec un nombre de places limité.</p>
@@ -799,14 +883,14 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 <div class="divider"></div>
 <section id="acces" class="band"><div class="wrap">
   <div class="acces">
-    <p class="kick">Appel à l’action</p>
-    <h2 class="sec-title">Manifester son intérêt</h2>
+    <p class="kick">Faire connaissance</p>
+    <h2 class="sec-title">Reprends la main sur ton administratif</h2>
     <p class="body">Puisque l’accès est limité, il n’y a pas d’inscription immédiate : on commence par
       se dire bonjour. Le formulaire « Demander un accès » recueille le nom, le prénom, l’adresse
       e-mail, le numéro de téléphone et la nature du demandeur — artiste ou structure. Chaque demande
       est ensuite lue et traitée personnellement, et une réponse est apportée par e-mail.</p>
     <div class="cta">
-      <a class="btn" href="https://guso-facile.vercel.app/presentation.html" target="_blank" rel="noopener">Demander un accès</a>
+      <a class="btn" href="https://guso-facile.vercel.app/presentation.html" target="_blank" rel="noopener">Demander un accès<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/></svg></a>
     </div>
     <p class="mention">Le bouton « Demander un accès » se trouve en haut et en bas de la page de
       présentation. Aucune inscription automatique : chaque demande est étudiée personnellement.</p>

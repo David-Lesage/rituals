@@ -193,16 +193,19 @@ propre fichier, jamais dans cette page) :
     .gf-tbl, .gf-th), qui ne stylait plus rien. Le bloc en cartes est donc
     habille ici (.gf-recmonth / .gf-reccard / .gf-rectot…), et le CSS de
     tableau, devenu inutile, n'a pas ete repris.
-  - Maquette 5, LE KILOMETRAGE A ETE RETIRE. La note de livraison de l'auteur
-    dit noir sur blanc : « L'espace Ma tournee de l'app liste les dates et les
-    contacts, mais NE CALCULE PAS de kilometrage ». Illustrer « 1 240 km
-    parcourus » aurait donc mis en image une fonction qui n'existe pas — la
-    regle (c) l'interdit. Le bloc montre ce qui EST livre : l'enchainement
-    chronologique des dates et le signalement des lieux a confirmer.
-    ⚠️ A ARBITRER PAR DAVID : la puce de l'univers 2, elle, ecrit AU PRESENT
-    « avec le calcul des kilometres parcourus depuis le domicile ». Le texte
-    est valide et protege, je n'y ai pas touche — mais il dit le contraire de
-    ce que dit l'auteur de l'app. L'un des deux doit bouger.
+  - Maquette 5, LE KILOMETRAGE : retire le matin, RETABLI LE SOIR (14/08/2026).
+    La note de livraison de l'auteur disait « L'espace Ma tournee de l'app
+    liste les dates et les contacts, mais NE CALCULE PAS de kilometrage » ; par
+    prudence le total avait donc ete retire, et la contradiction avec la puce
+    « Carte des dates » de l'univers 2 laissee a l'arbitrage.
+    VERIFICATION FAITE DEPUIS DANS LE CODE DE L'APPLICATION : la fonction est
+    LIVREE. `haversineKm()` est appelee, le panneau affiche « ≈ X km parcourus
+    (aller-retour) », les info-bulles donnent le kilometrage par date, et le
+    journal de test releve « 7 dates localisees, ≈ 3 050 km (A/R) », haversine
+    valide sur Paris -> Lyon = 391 km. La note de livraison etait en retard sur
+    l'application. Le total « 1 240 km » est donc revenu dans la maquette, la
+    puce de l'univers 2 a retrouve sa formulation complete, et l'aria-label de
+    ce bloc — le SEUL des six a avoir bouge — annonce desormais le chiffre.
   - Maquette 6, l'aria-label annoncait un indicateur « vert, orange ou rouge »
     alors que la charte n'a ni vert ni rouge et que le rendu emploie la FORME
     de la pastille + un libelle. Un lecteur d'ecran entendait donc des couleurs
@@ -226,6 +229,78 @@ MISE EN PAGE — la grille des univers passe a DEUX COLONNES
   sur la seule carte 4 : la carte 4 est justement celle dont la plupart des
   puces sont « (a venir) », l'etaler sur toute la largeur l'aurait mise en
   avant plus que les trois autres.
+
+------------------------------------------------------------------------------
+LA REFONTE VISUELLE DU 14/08/2026 (soir) — « on s'adresse a des artistes »
+------------------------------------------------------------------------------
+Verdict de David, apres la mise en ligne : « la page de promo est TROP FROIDE.
+En reprenant les codes couleur de Resonances Productions on a perdu quelque
+chose, et meme dans la facon dont c'est presente. On s'adresse a des artistes,
+il faut les seduire. Quelque chose d'avenant. PAS UN ENIEME LOGICIEL CHIANT ET
+MOCHE. » Sa reference : `guso-facile.vercel.app/presentation.html`, « vraiment
+plus avenante » dans son organisation ET ses couleurs.
+
+Il avait raison : la page etait juste, rigoureuse… et austere. Elle ressemblait
+a une notice, pas a une invitation. Ce qui a change, et RIEN D'AUTRE :
+
+1. UN DEGRADE SIGNATURE, tire de la palette maison + UNE couleur d'appoint.
+       --grad = or clair (#f0d18a) -> or (#d8b25a) 32% -> CORAIL (#e08a72) 66%
+                -> prune claire (#b3a2e4)
+   Le corail `--coral #e08a72` est la seule couleur ajoutee. Elle est chaude,
+   elle tient entre l'or et la prune, et elle affiche 7,2:1 sur `--night` (donc
+   utilisable meme en texte courant). La prune claire `--plum2 #b3a2e4` n'est
+   pas un ajout de charte mais une CORRECTION DE CONTRASTE : le `--plum`
+   d'origine tombait a 4,6:1 sur `--card`, tout juste ; `--plum2` est a 7,3:1.
+   `--plum` reste, pour les aplats decoratifs (anneau de la jauge, pastilles).
+   Le degrade revient : filet de 3 px en tete de chaque carte, texte des
+   sur-titres et du <h1>, soulignement des mots-cles (`.mark`), marqueur de
+   puce en losange, bouton principal, filets de separation, halo de la jauge.
+   ⚠️ Il existe en DEUX exemplaires — CSS (`--grad`) et SVG (`#gf-ink`) — parce
+   qu'un degrade CSS ne peut pas peindre le trait d'une icone. Les deux sont
+   comptes par `ANCRES` : si l'un disparait, la page perd sa chaleur d'un seul
+   cote, et c'est precisement ce qui ne se voit pas tout de suite.
+
+2. DES FORMES DOUCES. Rayons de 18 a 26 px (contre 14/16/18), fonds de
+   panneaux legerement degrades (jamais un aplat sec), ombres portees basses et
+   larges, halos par `box-shadow` — et JAMAIS par un pseudo-element deborde,
+   qui aurait pu creer un debordement horizontal. Plus d'air : sections a
+   92 px (66 px sur telephone) au lieu de 78/60.
+
+3. QUATRE TITRES DE SECTION REECRITS — « ils doivent tutoyer et promettre » :
+       « Ce que l'outil resout »   -> « Garde ton energie pour la scene »
+       « Ce que fait l'outil »     -> « Bien plus qu'un compteur d'heures »
+       « Ou en est le projet »     -> « Jouons cartes sur table »
+       « Manifester son interet »  -> « Reprends la main sur ton administratif »
+       (+ le sur-titre « Appel a l'action » -> « Faire connaissance »)
+   Le tutoiement des titres n'est pas une incoherence avec le corps de page,
+   qui reste neutre : les QUATRE intitules d'univers tutoient deja (« Tes
+   droits, maitrises »…). Les titres accueillent, le corps informe.
+   ⚠️ AUCUN CORPS DE TEXTE N'A ETE TOUCHE, et aucune formulation protegee : ni
+   « cree par David Lesage · relaye par l'association », ni « Pourquoi
+   Resonances Productions le relaie », ni « n'est pas un service de
+   l'association », ni « Trois situations typiques » et sa note sur les
+   prenoms fictifs, ni le badge « Beta privee · places limitees », ni le bouton
+   unique, ni les deux mentions sur les donnees personnelles, ni le bloc
+   Guilde, ni aucune mention « (a venir) ».
+
+4. DIX PICTOGRAMMES DESSINES A LA MAIN (voir la section « LES PICTOGRAMMES »).
+   ZERO EMOJI — regle du site, et demande explicite de David.
+
+5. L'ORDRE DES SECTIONS A CHANGE (deux blocs deplaces, texte inchange) :
+       avant : hero · promesse · LIEN ASSOCIATION · fonctionnalites ·
+               situations · etat · acces
+       apres : hero · promesse · SITUATIONS · fonctionnalites ·
+               LIEN ASSOCIATION · etat · acces
+   Motif : sur la page qui a seduit David, ce qui vient tot ce sont des GENS,
+   l'inventaire vient apres. Lea, Marco et Sophie repondent a « est-ce que
+   c'est pour moi ? » ; les 25 puces des univers repondent a « qu'est-ce qu'il
+   y a dedans ? » — on ne lit la seconde question que si l'on a dit oui a la
+   premiere. Et le lien avec l'association est du CADRE : il tombait pile a
+   l'endroit ou un artiste decide s'il continue de lire. Il forme desormais un
+   bloc coherent avec l'etat du projet (« d'ou ca vient, ou ca en est »), juste
+   avant le seul bouton de la page. Sa « Precision » finale y GAGNE en
+   visibilite : elle passe de mention grise a encadre a filet prune.
+   Ces deux deplacements sont chacun UN BLOC a remonter si David prefere.
 
 Usage : python3 sources/generate_guso.py   (depuis la racine du depot)
 """
@@ -336,58 +411,117 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 """
 
 # --- CSS propre a la page -------------------------------------------------
-# Sobre et sombre : l'or sert de filet, de puce et de badge, jamais d'aplat
-# (hors bouton principal). Les fonds de cartes restent sur --card. Rien ne
-# descend sous 13 px, plancher typographique du site.
+# ⚠️ CETTE FEUILLE EST CELLE DE LA REFONTE DU 14/08/2026 (soir). Le principe
+# n'est plus « sobre et sombre » mais « chaleureux SANS quitter la famille » :
+# le squelette (CSS_BASE) reste celui des 9 autres pages a l'octet pres, et
+# toute la chaleur passe par CETTE feuille-ci. Voir l'entete du fichier,
+# section « LA REFONTE VISUELLE ».
+#
+# Les quatre leviers, dans l'ordre de leur poids visuel :
+#   1. LE DEGRADE SIGNATURE `--grad` — or clair -> or -> corail -> prune. Il
+#      revient en filet de 3 px sur chaque carte, en texte sur les sur-titres,
+#      en soulignement des mots-cles, en marqueur de puce et en bouton.
+#   2. DES FORMES DOUCES — rayons de 18 a 26 px, fonds de panneaux LEGEREMENT
+#      degrades (jamais un aplat sec), ombres portees basses et larges.
+#   3. DE L'AIR — sections a 92 px (66 px sur telephone) au lieu de 78/60.
+#   4. DES HALOS — trois lueurs fixes tres basses en opacite derriere la page.
+#
+# ⚠️ Rien ne descend sous 13 px (plancher typographique du site, verifie par
+#    `_controles`). ⚠️ Aucune couleur de texte introduite ici n'est sous 4,5:1
+#    sur son fond : `--coral` = 7,2:1 sur `--night`, `--plum2` = 7,3:1 sur
+#    `--card` (le `--plum` d'origine y etait a 4,6:1, tout juste — d'ou
+#    `--plum2` pour TOUS les textes, `--plum` restant aux aplats decoratifs).
 CSS_PAGE = """/* ===== Guso Facile ===== */
-.gf-top{padding:128px 0 66px;background:radial-gradient(900px 560px at 8% -10%,rgba(143,122,209,.20),transparent 62%),radial-gradient(720px 470px at 94% 104%,rgba(216,178,90,.12),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
-.gf-top h1{font-size:clamp(38px,7vw,72px);font-weight:600;line-height:1.02;color:#fff;letter-spacing:.02em}
-.gf-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.8vw,28px);line-height:1.3;margin-top:14px;max-width:720px}
-.badge{display:inline-flex;align-items:center;gap:9px;margin-top:26px;padding:8px 17px;border:1px solid var(--line);border-radius:30px;color:var(--gold2);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;background:rgba(216,178,90,.06)}
-.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex:0 0 auto}
-.gf-top .cta{margin-top:30px}
-.band{background:linear-gradient(180deg,#0b0c1e,var(--night))}
+/* --- le degrade signature, decline partout ------------------------------ */
+:root{--coral:#e08a72;--plum2:#b3a2e4;
+--grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
+--grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral))}
+.gf-defs{position:absolute;width:0;height:0;overflow:hidden}
+.ic{width:23px;height:23px;display:block;flex:0 0 auto}
+.grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
+/* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice » */
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(224,138,114,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(143,122,209,.12),transparent 62%)}
+section{padding:92px 0}
+.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent)}
+.kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.sec-title{letter-spacing:.01em}
+.lead b,.body b{color:#fff}
+/* boutons : le principal porte le degrade chaud, le fantome un filet dore */
+.btn{border-radius:999px;padding:15px 28px}
+.btn svg{width:18px;height:18px;flex:0 0 auto}
+.acces .btn{background:var(--grad-warm);color:#1b1206;box-shadow:0 14px 34px -16px rgba(224,138,114,.6)}
+/* la fleche du bouton reprend la couleur du TEXTE : le degrade signature, clair, disparaissait sur le bouton clair (mesure a l'ecran) */
+.acces .btn svg{stroke:#1b1206}
+.acces .btn:hover{box-shadow:0 20px 42px -14px rgba(224,138,114,.7)}
+.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(240,209,138,.3);color:var(--gold2)}
+.btn.ghost:hover{border-color:rgba(240,209,138,.55)}
+/* --- hero ---------------------------------------------------------------- */
+.gf-top{padding:132px 0 78px;background:radial-gradient(900px 560px at 6% -12%,rgba(143,122,209,.22),transparent 62%),radial-gradient(760px 480px at 96% 8%,rgba(224,138,114,.14),transparent 62%),radial-gradient(720px 470px at 60% 108%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+.gf-top h1{font-size:clamp(38px,7vw,74px);font-weight:600;line-height:1.02;letter-spacing:.02em}
+.gf-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(20px,2.9vw,29px);line-height:1.32;margin-top:16px;max-width:720px}
+.badge{display:inline-flex;align-items:center;gap:9px;margin-top:28px;padding:9px 18px;border:1px solid rgba(240,209,138,.34);border-radius:999px;color:var(--gold2);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;background:linear-gradient(90deg,rgba(216,178,90,.14),rgba(224,138,114,.10))}
+.badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--grad-warm);flex:0 0 auto}
+.gf-top .cta{margin-top:32px}
+.band{background:linear-gradient(180deg,#0b0c1e,#101128 55%,var(--night))}
 /* hero : texte a gauche, jauge des 507 h a droite (empile sous 1000 px) */
-.gf-topgrid{display:grid;gap:34px;align-items:center}
+.gf-topgrid{display:grid;gap:38px;align-items:center}
 @media(min-width:1000px){.gf-topgrid{grid-template-columns:minmax(0,1fr) 400px}}
-/* quatre univers — DEUX colonnes, jamais trois : voir l'entete du fichier */
-.univers{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;margin-top:38px}
+/* --- les quatre univers — DEUX colonnes, jamais trois (voir l'entete) ---- */
+.univers{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:42px}
 @media(min-width:761px){.univers{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.u-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-top:2px solid var(--line);border-radius:16px;padding:28px 26px 24px}
+.u-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#1c1e46,#171935);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:30px 28px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
+.u-card::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.u-head{display:flex;align-items:center;gap:14px}
+.u-ico{flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(240,209,138,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(224,138,114,.12) 55%,rgba(143,122,209,.14))}
 .u-num{letter-spacing:.28em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--gold)}
-.u-card h3{font-size:27px;font-weight:600;color:#fff;line-height:1.15;margin-top:7px}
-.u-sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--plum);font-size:18px;line-height:1.4;margin-top:8px}
-.u-card ul{list-style:none;margin-top:18px}
-.u-card li{position:relative;padding-left:19px;margin-top:13px;color:#d7d4ea;font-size:15.5px;line-height:1.6}
-.u-card li::before{content:'';position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.u-card h3{font-size:27px;font-weight:600;color:#fff;line-height:1.15;margin-top:3px}
+.u-sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--plum2);font-size:18.5px;line-height:1.4;margin-top:12px}
+.u-card ul{list-style:none;margin-top:20px}
+.u-card li{position:relative;padding-left:24px;margin-top:14px;color:#d7d4ea;font-size:15.5px;line-height:1.62}
+.u-card li::before{content:'';position:absolute;left:1px;top:9px;width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
+.u-card li.soon::before{background:none;border:1.5px solid var(--plum2)}
 .u-card li b{color:#fff;font-weight:500}
-.u-card li i{font-style:normal;color:var(--muted)}
-.aussi{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255,255,.07);max-width:900px}
+.u-card li i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,162,228,.4);background:rgba(143,122,209,.12);border-radius:999px;padding:1px 9px;line-height:1.5}
+.aussi{margin-top:40px;padding:26px 28px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));display:flex;gap:18px;align-items:flex-start}
+.aussi .ic-w,.precision .ic-w{flex:0 0 auto;line-height:0;margin-top:3px}
+.aussi .ic{width:26px;height:26px}
 .aussi .u-num{display:block;margin-bottom:8px}
 .aussi p{color:#d7d4ea;font-size:15.5px}
-/* trois situations */
+/* --- trois situations : de vraies cartes, plus un simple filet a gauche -- */
 .cas-note{color:var(--muted);font-size:15px;margin-top:14px;max-width:62ch}
-.cas{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:38px}
-.cas article{border-left:1px solid var(--line);padding-left:22px}
+.cas{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:26px;margin-top:42px}
+.cas article{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.07);border-radius:22px;background:linear-gradient(180deg,#1c1e46,#171935);padding:28px 26px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
+.cas article::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.cas-ico{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(240,209,138,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(224,138,114,.12) 55%,rgba(143,122,209,.14));margin-bottom:16px}
 .cas h3{font-size:25px;font-weight:600;color:#fff;line-height:1.18}
 .cas p{color:#d7d4ea;font-size:15.5px;margin-top:11px}
-/* l'etat du projet */
-.etat{margin-top:34px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(25,27,61,.85),rgba(20,22,51,.55));padding:34px 32px;max-width:900px}
+/* --- l'etat du projet ---------------------------------------------------- */
+.etat{position:relative;overflow:hidden;margin-top:38px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:linear-gradient(180deg,rgba(28,30,70,.9),rgba(20,22,51,.6));padding:38px 36px;max-width:900px;box-shadow:0 26px 60px -40px rgba(0,0,0,.95)}
+.etat::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .etat p{color:#d7d4ea;font-size:16px}
 .etat p + p{margin-top:16px}
-.etat .first{color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(21px,3vw,27px);line-height:1.3;font-style:italic}
-/* appel a l'action */
-.acces{max-width:820px}
-.acces .cta{margin-top:28px}
+.etat .first{color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(21px,3vw,28px);line-height:1.3;font-style:italic}
+/* --- le lien avec l'association : la precision sort en encadre ----------- */
+.precision{display:flex;gap:14px;align-items:flex-start;margin-top:28px;max-width:760px;padding:20px 22px;border:1px solid rgba(179,162,228,.28);border-radius:18px;background:linear-gradient(135deg,rgba(143,122,209,.12),rgba(224,138,114,.07))}
+.precision .ic{width:24px;height:24px}
+.precision p{color:#d7d4ea;font-size:15px;line-height:1.65;margin:0}
+/* --- appel a l'action : un panneau, pas une fin de page ------------------ */
+.acces{position:relative;overflow:hidden;max-width:880px;border:1px solid rgba(255,255,255,.09);border-radius:26px;padding:46px 42px 40px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(224,138,114,.10) 48%,rgba(143,122,209,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
+.acces::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.acces .cta{margin-top:30px}
 .mention{margin-top:20px;max-width:660px;color:var(--muted);font-size:14px;line-height:1.65}
 .mention + .mention{margin-top:12px}
 @media(max-width:760px){
-  .gf-top{padding:108px 0 54px}
-  .u-card{padding:24px 21px 21px}
-  .etat{padding:26px 22px}
-  .cas article{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:20px}
+  section{padding:66px 0}
+  .gf-top{padding:110px 0 60px}
+  .u-card{padding:26px 22px 22px}
+  .cas article{padding:26px 22px 22px}
+  .etat{padding:28px 24px}
+  .acces{padding:32px 24px 28px}
+  .aussi{padding:22px 20px;gap:14px}
 }
-@media print{.totop{display:none}}
+@media print{.totop{display:none}.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
 """
 
 # --- CSS des 6 maquettes d'interface --------------------------------------
@@ -404,12 +538,16 @@ CSS_PAGE = """/* ===== Guso Facile ===== */
 # sur le site), ni son cadre de page `.gf-page-*` (decor de son fichier de
 # test), ni le CSS de l'ancienne version en tableau de la maquette 4.
 CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interface reelle) ===== */
-.gf-block{margin:30px 0 0;max-width:820px}
+.gf-block{margin:34px 0 0;max-width:820px}
 .gf-topgrid .gf-block,.univers .gf-block{margin:0;max-width:none}
 .univers .gf-wide{grid-column:1/-1}
-.gf-shot{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px 16px;margin:0 0 10px;color:var(--ink);font-size:15px;line-height:1.5;max-width:100%;overflow:hidden}
+.gf-shot{position:relative;background:linear-gradient(180deg,#1d1f47,#171935);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px 18px 18px;margin:0 0 11px;color:var(--ink);font-size:15px;line-height:1.5;max-width:100%;overflow:hidden;box-shadow:0 24px 50px -34px rgba(0,0,0,.95)}
+.gf-shot::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad);opacity:.85}
+/* la jauge du hero est l'image signature de la page : elle porte un halo */
+.gf-topgrid .gf-shot{box-shadow:0 30px 64px -34px rgba(0,0,0,.95),0 0 70px -26px rgba(224,138,114,.45)}
 .gf-shot *{box-sizing:border-box}
-.gf-cap{display:block;font-size:13px;line-height:1.4;color:var(--muted);letter-spacing:.02em;margin:0 0 0 2px}
+.gf-cap{display:block;font-size:13px;line-height:1.4;color:var(--muted);letter-spacing:.02em;margin:0 0 0 4px}
+.gf-cap::before{content:'';display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);margin-right:9px;vertical-align:1px}
 .gf-bar{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
 .gf-bar-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:var(--ink)}
 .gf-bar-s{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
@@ -426,9 +564,9 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-tag{display:inline-block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:5px}
 .gf-anniv{font-size:13px;color:var(--muted);border-left:2px solid var(--gold);padding-left:10px;margin-top:12px}
 .gf-split{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.gf-split-c{flex:1 1 140px;min-width:0;background:var(--night2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.gf-split-c{flex:1 1 140px;min-width:0;background:linear-gradient(180deg,#1b1d42,#15172f);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:11px 13px}
 .gf-split-v{font-size:19px;font-weight:600;color:var(--gold2)}
-.gf-split-v.gf-poss{color:var(--plum)}
+.gf-split-v.gf-poss{color:var(--plum2)}
 .gf-split-k{font-size:13px;color:var(--muted)}
 .gf-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:13px;color:var(--muted)}
 .gf-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:baseline}
@@ -438,8 +576,8 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 /* 2 — « A faire maintenant » : pastilles urgent / en retard / a venir */
 .gf-tn-head{display:flex;align-items:baseline;gap:9px;margin-bottom:12px}
 .gf-tn-t{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
-.gf-tn-n{margin-left:auto;font-size:13px;font-weight:600;color:var(--night);background:var(--gold);border-radius:999px;padding:1px 9px}
-.gf-tn-row{display:flex;align-items:center;gap:11px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:11px 12px;margin-bottom:8px}
+.gf-tn-n{margin-left:auto;font-size:13px;font-weight:600;color:#1b1206;background:var(--grad-warm);border-radius:999px;padding:1px 9px}
+.gf-tn-row{display:flex;align-items:center;gap:11px;flex-wrap:wrap;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:12px 13px;margin-bottom:9px}
 .gf-tn-pill{flex:0 0 auto;width:10px;height:10px;border-radius:50%}
 .gf-tn-pill.gf-urgent{background:var(--gold)}
 .gf-tn-pill.gf-late{background:var(--plum)}
@@ -448,7 +586,7 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-tn-lbl{display:block;font-size:15px;font-weight:600;color:var(--ink)}
 .gf-tn-meta{display:block;font-size:13px;color:var(--muted)}
 .gf-tn-when{flex:0 0 auto;font-size:13px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:2px 9px;color:var(--muted)}
-.gf-tn-when.gf-urgent{color:var(--night);background:var(--gold);border-color:var(--gold);font-weight:600}
+.gf-tn-when.gf-urgent{color:#1b1206;background:var(--grad-warm);border-color:transparent;font-weight:600}
 .gf-tn-when.gf-late{color:var(--gold2)}
 /* 3 — fiche d'une date et ses cinq etapes administratives */
 .gf-kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 14px;margin:0 0 16px;font-size:15px}
@@ -462,12 +600,12 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-step.gf-done .gf-box{background:var(--gold);border-color:var(--gold)}
 /* 4 — recap mensuel France Travail, en cartes groupees par mois */
 .gf-recmonth{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
-.gf-reccard{border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:10px 12px;margin-bottom:9px}
+.gf-reccard{border:1px solid rgba(255,255,255,.07);border-radius:13px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:11px 13px;margin-bottom:9px}
 .gf-recwhen{font-size:13px;color:var(--muted)}
 .gf-recnums{font-size:15px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
 .gf-recnums em{font-style:normal;color:var(--gold2)}
 .gf-recmeta{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
-.gf-rectot{display:flex;gap:8px 14px;align-items:baseline;flex-wrap:wrap;justify-content:space-between;border-top:1px solid var(--gold);margin-top:12px;padding-top:11px}
+.gf-rectot{display:flex;gap:8px 14px;align-items:baseline;flex-wrap:wrap;justify-content:space-between;border-top:1px solid rgba(216,178,90,.55);margin-top:13px;padding-top:12px}
 .gf-rl{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .gf-rv{font-size:15px;font-weight:600;color:var(--gold2);font-variant-numeric:tabular-nums}
 /* 5 — ma tournee : enchainement chronologique, filet + pastilles, zero image */
@@ -481,16 +619,18 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-stop-top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
 .gf-stop-city{font-size:15px;font-weight:600;color:var(--ink)}
 .gf-stop-st{margin-left:auto;font-size:13px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:1px 9px}
-.gf-stop.gf-tbc .gf-stop-st{color:var(--plum)}
+.gf-stop.gf-tbc .gf-stop-st{color:var(--plum2)}
 .gf-stop-meta{display:block;font-size:13px;color:var(--muted)}
-.gf-route-tot{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
-.gf-route-tot-v{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;color:var(--gold2)}
+.gf-route-tot{display:flex;gap:8px 20px;align-items:baseline;flex-wrap:wrap;margin-top:16px;border-top:1px solid rgba(216,178,90,.4);padding-top:13px}
+.gf-route-tot span{display:block}
+.gf-route-tot-p{flex:1 1 130px;min-width:0}
+.gf-route-tot-v{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;line-height:1.15;color:var(--gold2)}
 .gf-route-tot-k{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 /* 6 — tableau de bord d'une structure. La vigilance se lit a la FORME de la
    pastille et a son libelle, pas seulement a la couleur (la charte n'a ni
    vert ni rouge, et un daltonien doit pouvoir la lire). */
 .gf-art{display:flex;flex-direction:column;gap:9px}
-.gf-art-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;background:var(--night2);padding:11px 12px}
+.gf-art-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:12px 13px}
 .gf-av{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--gold2);background:var(--card)}
 .gf-art-txt{flex:1 1 130px;min-width:0}
 .gf-art-n{display:block;font-size:15px;font-weight:600}
@@ -499,13 +639,13 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-art-hv{font-size:15px;font-weight:600;color:var(--gold2)}
 .gf-art-hk{display:block;font-size:13px;color:var(--muted)}
 .gf-mbar{flex:1 1 100%;height:5px;margin-top:3px;border-radius:3px;background:var(--night);border:1px solid var(--line);overflow:hidden}
-.gf-mbar i{display:block;height:100%;background:var(--gold)}
+.gf-mbar i{display:block;height:100%;background:var(--grad-warm)}
 .gf-vig{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-size:13px;letter-spacing:.05em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
 .gf-vig-s{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
 .gf-vig.gf-ok .gf-vig-s{background:var(--gold)}
 .gf-vig.gf-warn .gf-vig-s{background:transparent;border:2px solid var(--gold)}
 .gf-vig.gf-bad .gf-vig-s{background:transparent;border:2px solid var(--plum);box-shadow:inset 0 0 0 2px var(--plum)}
-.gf-vig.gf-bad{color:var(--ink);border-color:var(--plum)}
+.gf-vig.gf-bad{color:var(--ink);border-color:var(--plum2)}
 @media(max-width:760px){.gf-shot{padding:15px 13px 13px}}
 """
 
@@ -722,16 +862,30 @@ MAQ_RECAP = _figure(
 # --- 5. MA TOURNEE (grille des univers) -----------------------------------
 # Ecran reproduit : l'espace « Ma tournee » — les dates enchainees
 # chronologiquement, les lieux encore a confirmer signales.
-# ⚠️⚠️ LE KILOMETRAGE A ETE RETIRE. La note de livraison du fichier d'origine
-#    dit : « L'espace Ma tournee de l'app liste les dates et les contacts, mais
-#    ne calcule pas de kilometrage […] elle ne correspond pas (encore) a une
-#    fonction existante de l'application. » Illustrer « 1 240 km parcourus »
-#    aurait donc mis en image une fonction inexistante — exactement ce que la
-#    page s'interdit ailleurs (la Guilde, « Je cree mon contrat »).
-#    ⚠️ A ARBITRER PAR DAVID : la puce « Carte des dates » de l'univers 2 ecrit
-#    pourtant AU PRESENT « avec le calcul des kilometres parcourus depuis le
-#    domicile ». Texte valide, non modifie ici — mais il contredit l'auteur de
-#    l'application. L'un des deux doit bouger.
+# ⚠️⚠️ LE KILOMETRAGE : RETIRE LE 14/08/2026 AU MATIN, RETABLI LE MEME SOIR.
+#    HISTOIRE COMPLETE, parce que le sujet a deja coute deux allers-retours :
+#      - la note de livraison du fichier d'origine affirmait « L'espace Ma
+#        tournee de l'app liste les dates et les contacts, mais NE CALCULE PAS
+#        de kilometrage » ; par prudence, le total « 1 240 km » avait donc ete
+#        retire de la maquette, et la contradiction avec la puce « Carte des
+#        dates » de l'univers 2 (qui l'ecrit au present) laissee a l'arbitrage ;
+#      - VERIFICATION FAITE DEPUIS DANS LE CODE DE L'APPLICATION : la fonction
+#        est bien LIVREE. `haversineKm()` est appelee, le panneau affiche
+#        « ≈ X km parcourus (aller-retour) », les info-bulles donnent le
+#        kilometrage par date, et le journal de test releve « 7 dates
+#        localisees, ≈ 3 050 km (A/R) », haversine valide sur Paris -> Lyon
+#        = 391 km.
+#    La note de livraison etait donc en retard sur l'application. Le total est
+#    remis dans la maquette ET la puce de l'univers 2 est revenue a sa
+#    formulation complete : les deux disent de nouveau la meme chose.
+#    ⚠️ L'aria-label de CE bloc a ete complete en consequence (il annonce
+#    desormais le kilometrage). C'est la seule maquette dont le libelle a
+#    bouge : un lecteur d'ecran ne doit pas manquer un chiffre affiche.
+# Coherence du chiffre fictif : domicile en Gironde, aller-retour cumule des
+# CINQ dates confirmees (Cenon, Limoges, Bayonne, Pau, Bordeaux) — l'option de
+# La Rochelle, non confirmee, n'est pas comptee. L'ordre de grandeur reel de
+# ces cinq trajets est d'environ 1 300 km : 1 240 km est plausible et reste
+# une donnee fictive, comme le dit la mention sous le bloc.
 # Les six etapes ne citent que des dates et des lieux qui existent DEJA dans
 # les autres maquettes (Cenon, Limoges, Bayonne, Pau, Bordeaux), plus une
 # option a confirmer, seule facon d'illustrer « les lieux a confirmer sont
@@ -739,7 +893,8 @@ MAQ_RECAP = _figure(
 MAQ_TOURNEE = _figure(
     'Espace « Ma tournée » de Guso Facile : six étapes reliées '
     'chronologiquement, de Cenon à La Rochelle, dont cinq dates confirmées et '
-    'une option encore à confirmer.',
+    'une option encore à confirmer, soit 8 cachets et environ 1 240 kilomètres '
+    'parcourus depuis le domicile, aller-retour compris.',
     """
     <div class="gf-bar">
       <span class="gf-bar-t">Ma tournée — saison 2026</span>
@@ -790,8 +945,14 @@ MAQ_TOURNEE = _figure(
       </li>
     </ul>
     <p class="gf-route-tot">
-      <span class="gf-route-tot-v">8 cachets</span>
-      <span class="gf-route-tot-k">sur 5 dates confirmées · 1 option à confirmer</span>
+      <span class="gf-route-tot-p">
+        <span class="gf-route-tot-v">8 cachets</span>
+        <span class="gf-route-tot-k">sur 5 dates confirmées · 1 option à confirmer</span>
+      </span>
+      <span class="gf-route-tot-p">
+        <span class="gf-route-tot-v">1 240 km</span>
+        <span class="gf-route-tot-k">parcourus depuis le domicile · aller-retour</span>
+      </span>
     </p>
   """)
 
@@ -861,6 +1022,99 @@ MAQ_STRUCTURE = _figure(
   """, classe=' gf-wide')
 
 
+# =========================================================================
+# LES PICTOGRAMMES — dix icones dessinees a la main, en SVG en ligne
+# =========================================================================
+# ⚠️ AUCUN EMOJI SUR CETTE PAGE. C'est la charte du site, et c'est surtout une
+#    demande explicite de David : sortir des emoji « enfantins » au profit
+#    d'icones de signature, au trait. La page de reference qui l'a seduit en
+#    comptait 71 — on obtient la meme chaleur avec dix traits fins, sans le
+#    registre puéril ni la loterie du rendu emoji (qui change d'un systeme a
+#    l'autre, et qu'un lecteur d'ecran enonce a voix haute).
+#
+# TROIS CONTRAINTES TECHNIQUES, chacune pour une raison mesuree :
+#
+#  a) AUCUN `xmlns` sur ces <svg>. Inutile en HTML (l'analyseur place lui-meme
+#     les balises dans l'espace de noms SVG), et surtout : `xmlns` vaut
+#     « http://www.w3.org/2000/svg », que le garde-fou des hotes externes de
+#     `_controles` lirait comme un domaine tiers et refuserait. Le controle est
+#     bon, c'est l'attribut qui est superflu — on ne desarme pas le garde-fou.
+#
+#  b) `aria-hidden="true"` + `focusable="false"` sur CHAQUE icone. Elles
+#     doublent un texte qui est deja la : les enoncer une seconde fois serait
+#     du bruit, et sans `focusable="false"` d'anciens moteurs les inserent dans
+#     l'ordre de tabulation. Garde-fou : `_controle_icones()`.
+#
+#  c) UNE SEULE definition de degrade pour toutes (`#gf-ink`), posee en tete de
+#     page dans un <svg> de taille nulle. `gradientUnits="userSpaceOnUse"` et
+#     non le defaut `objectBoundingBox` : sans cela chaque trace recevrait le
+#     degrade entier sur SA boite englobante, et deux icones cote a cote ne
+#     seraient plus dans la meme lumiere. Les couleurs y sont ecrites en clair
+#     (un attribut `stop-color` ne lit pas les variables CSS de facon fiable) :
+#     ce sont exactement --gold2, --gold, --coral et --plum2.
+#     La couleur ecrite APRES l'url() est le repli du paint server SVG 1.1 : si
+#     le degrade n'etait pas resolu, l'icone reste doree au lieu de disparaitre.
+
+SVG_DEFS = ('<svg class="gf-defs" aria-hidden="true" focusable="false">'
+            '<defs><linearGradient id="gf-ink" gradientUnits="userSpaceOnUse" '
+            'x1="3" y1="4" x2="21" y2="20">'
+            '<stop offset="0" stop-color="#f0d18a"/>'
+            '<stop offset=".42" stop-color="#d8b25a"/>'
+            '<stop offset=".74" stop-color="#e08a72"/>'
+            '<stop offset="1" stop-color="#b3a2e4"/>'
+            '</linearGradient></defs></svg>\n')
+
+#: le trace de chacune des dix icones. Grille de 24, trait de 1,4 px, bouts et
+#: raccords arrondis : c'est ce qui donne le trait « fin et chaleureux » plutot
+#: que le pictogramme d'application administrative.
+ICONES = {
+    # univers 1 — « Tes droits, maitrises » : un cadran et son aiguille.
+    'jauge': '<path d="M3.6 18a8.4 8.4 0 1 1 16.8 0"/><path d="M12 18l4.4-5.4"/>'
+             '<circle cx="12" cy="18" r="1.15"/>',
+    # univers 2 — « Ta tournee, organisee » : deux reperes relies par la route.
+    'route': '<path d="M7.4 4.6a2.7 2.7 0 0 1 2.7 2.7c0 2-2.7 4.6-2.7 4.6S4.7 9.3 4.7 7.3a2.7 2.7 0 0 1 2.7-2.7Z"/>'
+             '<circle cx="7.4" cy="7.3" r=".9"/>'
+             '<path d="M16.6 12.3a2.7 2.7 0 0 1 2.7 2.7c0 2-2.7 4.6-2.7 4.6s-2.7-2.6-2.7-4.6a2.7 2.7 0 0 1 2.7-2.7Z"/>'
+             '<path d="M9.9 11.6c1.7 1.3 2.3 2.7 4.5 3.5" stroke-dasharray="2 2.6"/>',
+    # univers 3 — « Ta structure, connectee » : un fronton, pas un gratte-ciel.
+    'maison': '<path d="M3.4 20.4h17.2"/><path d="M5.6 20.4V9.8L12 5.6l6.4 4.2v10.6"/>'
+              '<path d="M9.6 20.4v-4.8h4.8v4.8"/><path d="M9.6 12.2h4.8"/>',
+    # univers 4 — « Ton cercle, solidaire » : trois presences reliees.
+    'cercle': '<circle cx="12" cy="5.6" r="2.1"/><circle cx="5.7" cy="16.4" r="2.1"/>'
+              '<circle cx="18.3" cy="16.4" r="2.1"/>'
+              '<path d="M10.4 7.4 7.2 14.2"/><path d="M13.6 7.4l3.2 6.8"/><path d="M7.8 16.4h8.4"/>',
+    # cas 1 — atteindre ses 507 heures : le sablier, pas le chronometre.
+    'sablier': '<path d="M7.2 3.6h9.6"/><path d="M7.2 20.4h9.6"/>'
+               '<path d="M8.4 3.6v3.1c0 2 3.6 3.6 3.6 5.3s-3.6 3.3-3.6 5.3v3.1"/>'
+               '<path d="M15.6 3.6v3.1c0 2-3.6 3.6-3.6 5.3s3.6 3.3 3.6 5.3v3.1"/>',
+    # cas 2 — pointer France Travail : le mois, et la coche.
+    'calendrier': '<rect x="3.5" y="5.2" width="17" height="15.2" rx="3"/>'
+                  '<path d="M3.5 9.9h17"/><path d="M8.2 3.6v3.1"/><path d="M15.8 3.6v3.1"/>'
+                  '<path d="M9 14.8l2.2 2.2 4-4.3"/>',
+    # cas 3 — accompagner quatre artistes : un groupe, pas un organigramme.
+    'groupe': '<circle cx="9.2" cy="8.4" r="3.1"/>'
+              '<path d="M3.8 19.6c0-3 2.4-5.1 5.4-5.1s5.4 2.1 5.4 5.1"/>'
+              '<path d="M16.2 6.2a3.1 3.1 0 0 1 0 6.1"/>'
+              '<path d="M17.3 14.8c1.9.7 3 2.4 3 4.8"/>',
+    # « Et aussi » — l'etincelle, seul picto ouvertement decoratif de la page.
+    'etincelle': '<path d="M11.6 3.6l1.8 4.9 4.9 1.8-4.9 1.8-1.8 4.9-1.8-4.9-4.9-1.8 4.9-1.8Z"/>'
+                 '<path d="M18.4 15.4l.7 1.9 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7Z"/>',
+    # la precision « pas un service de l'association » : le cadre, protecteur.
+    'bouclier': '<path d="M12 3.5l7 2.5v5.2c0 4.2-2.8 7.4-7 9.3-4.2-1.9-7-5.1-7-9.3V6z"/>'
+                '<path d="M9.3 12.1l2 2 3.5-3.9"/>',
+    # le bouton unique de la page : la fleche qui invite, sans insister.
+    'fleche': '<path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/>',
+}
+
+
+def _ic(nom, classe='ic'):
+    """Une icone en ligne, decorative (le texte qu'elle accompagne suffit)."""
+    return ('<svg class="%s" viewBox="0 0 24 24" fill="none" '
+            'stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" '
+            'stroke-linecap="round" stroke-linejoin="round" '
+            'aria-hidden="true" focusable="false">%s</svg>' % (classe, ICONES[nom]))
+
+
 def build_html():
     """Construit la page complete (sans le menu : il est injecte apres)."""
     B = []
@@ -904,15 +1158,22 @@ def build_html():
     #   apres le titre).
     #   Ce n'est PAS une capture d'ecran : aucune image n'entre sur cette page
     #   (l'anneau est un `conic-gradient`). Voir l'entete du fichier.
+    # Le degrade signature entre en scene des le titre : c'est lui, et non les
+    # fonds, qui porte la chaleur de la page (`.grad-t`). Les deux `.mark` sont
+    # les seuls soulignements degrades du hero — un par phrase, pas davantage :
+    # au-dela, le procede se voit et ne souligne plus rien.
+    # AUCUN MOT n'est modifie ici : `<span class="mark">` n'enveloppe que du
+    # texte deja valide.
+    A(SVG_DEFS)
     A("""
 <header class="gf-top"><div class="wrap"><div class="gf-topgrid">
   <div>
   <p class="kick">Créé par David Lesage · relayé par l’association</p>
-  <h1>Guso Facile</h1>
-  <p class="gf-claim">L’intermittence est un métier. La paperasse ne devrait pas en être un deuxième.</p>
+  <h1 class="grad-t">Guso Facile</h1>
+  <p class="gf-claim">L’intermittence est <span class="mark">un métier</span>. La paperasse ne devrait pas en être un deuxième.</p>
   <p class="lead">Guso Facile est un outil web qui prend en charge le suivi administratif du spectacle
-    vivant — heures, déclarations, feuillets, factures — pour que les artistes gardent leur énergie là
-    où elle compte.</p>
+    vivant — heures, déclarations, feuillets, factures — pour que les artistes gardent leur énergie
+    <span class="mark">là où elle compte</span>.</p>
   <p class="badge">Bêta privée · places limitées</p>
   <div class="cta">
     <a class="btn ghost" href="#acces">Comment demander un accès</a>
@@ -934,7 +1195,7 @@ def build_html():
 <div class="divider"></div>
 <section id="promesse"><div class="wrap">
   <p class="kick">La promesse</p>
-  <h2 class="sec-title">Ce que l’outil résout</h2>
+  <h2 class="sec-title">Garde ton énergie pour la scène</h2>
   <p class="body">La charge mentale de l’intermittence ne vient pas des heures jouées, mais de tout ce
     qui les entoure : savoir où l’on en est de ses 507 heures, ne pas rater une DPAE, retrouver le
     feuillet GUSO du mois dernier, relancer une facture impayée, et pointer juste chaque fin de mois à
@@ -949,34 +1210,73 @@ def build_html():
 """)
 
     # =====================================================================
-    # 3. LE LIEN AVEC L'ASSOCIATION  (section 3 du contenu fourni, CORRIGEE)
+    # 3e A L'ECRAN — CAS D'USAGE  (section 5 du contenu fourni — verbatim)
     # =====================================================================
-    # ⚠️ SECTION LA PLUS SENSIBLE DE LA PAGE. Lire l'entete du fichier avant
-    # d'y toucher : « porte par », « projet de l'association », « mis a
-    # disposition par l'association » sont FAUX a ce jour et seraient
-    # ecrits sur le site public d'une association a propos d'un outil qui
-    # traite des numeros de securite sociale et des IBAN.
+    # ⚠️ SECTION DEPLACEE le 14/08/2026 (refonte visuelle) : elle etait en 5e
+    # position, apres l'inventaire des fonctionnalites. Elle est desormais la
+    # TROISIEME, juste apres la promesse et AVANT les quatre univers. Motif :
+    # sur la page qui a seduit David, ce qui vient tot, ce sont des gens
+    # (« On veille les uns sur les autres »), et l'inventaire vient apres. Ici
+    # Lea, Marco et Sophie repondent a « est-ce que c'est pour moi ? » ; les
+    # 25 puces des univers repondent a « qu'est-ce qu'il y a dedans ? » — on ne
+    # lit la seconde question que si l'on a dit oui a la premiere.
+    # Le TEXTE de la section n'a pas bouge d'un mot ; seuls son rang et son
+    # habillage (cartes a filet degrade, pictogramme) ont change.
     #
-    # L'argumentaire du contenu fourni est conserve tel quel — il est bon :
-    # un outil qui simplifie l'administratif des intermittents entre
-    # pleinement dans l'objet d'une structure de soutien aux artistes. Seul
-    # le lien juridique est corrige.
+    # Lea, Marco et Sophie sont des personnages ENTIEREMENT FICTIFS, confirme
+    # le 14/08/2026 par la session qui developpe Guso Facile : les seules
+    # personnes reelles de l'app sont David, Iris, Yannick et Christophe.
+    # Aucun nom de beta-testeur, aucune coordonnee, aucune donnee reelle ne
+    # doit apparaitre ici (depot PUBLIC).
+    #
+    # ⚠️ LE TITRE DISAIT « Trois situations REELLES » — c'etait FAUX, corrige
+    #   le 14/08/2026. Des personnages inventes presentes comme des cas reels,
+    #   sous le nom d'une association, c'est un faux temoignage. Le titre dit
+    #   desormais « typiques », et la mention « Les prenoms sont fictifs »
+    #   figure sous le titre. NE PAS REMETTRE « reelles » : ce serait
+    #   retablir l'approximation, sur le point le plus sensible de la page.
+    #
+    # MAQUETTE 4 (`MAQ_RECAP`) — le recapitulatif mensuel utilise pour le
+    #   pointage France Travail. Il illustre LITTERALEMENT le cas de Marco
+    #   (« Le recapitulatif mensuel lui donne une ligne par GUSO »), d'ou sa
+    #   place a la suite des trois cas, et non dans la section precedente.
+    #   Dans l'app le recap s'affiche en CARTES groupees par mois : c'est
+    #   cette version-la qui est reproduite, pas un tableau.
     A("""
 <div class="divider"></div>
-<section id="association-lien" class="band"><div class="wrap">
-  <p class="kick">Le lien avec l’association</p>
-  <h2 class="sec-title">Pourquoi Résonances Productions le relaie</h2>
-  <p class="body">Guso Facile est un outil <b>créé par David Lesage</b>, musicien intermittent et
-    co-fondateur de l’association. Résonances Productions le <b>relaie</b> parce qu’il sert directement
-    son objet : le soutien aux artistes.</p>
-  <p class="body">L’objet de Résonances Productions est le soutien et la promotion des artistes. Ce
-    soutien est d’abord artistique, mais il est aussi, très concrètement, administratif : une grande
-    part du temps que l’association passe auprès des artistes qu’elle accompagne est consacrée à des
-    déclarations, des feuillets et des échéances. Guso Facile est né de ce constat, et son développement
-    continue de se nourrir des retours des artistes qui l’utilisent.</p>
-  <p class="mention">Précision : Guso Facile n’est pas un service de l’association. L’outil, son
-    hébergement et les données qu’il traite relèvent de son créateur.</p>
-</div></section>
+<section id="situations" class="band"><div class="wrap">
+  <p class="kick">Cas d’usage</p>
+  <h2 class="sec-title">Trois situations typiques</h2>
+  <p class="cas-note">Les prénoms sont fictifs ; les situations, elles, sont celles que l’outil rencontre au quotidien.</p>
+
+  <div class="cas">
+    <article>
+      <span class="cas-ico">""" + _ic('sablier') + """</span>
+      <h3>Atteindre ses 507 heures sans angoisse</h3>
+      <p>En mars, Léa était à 380 heures et se réveillait la nuit. La jauge lui a montré, non pas le
+        chiffre manquant, mais ce qu’il représentait en dates concrètes ; et la projection lui a dit ce
+        que ses dates encore incertaines changeraient si elles se confirmaient. Le compte à rebours est
+        devenu un plan, mois par mois.</p>
+    </article>
+    <article>
+      <span class="cas-ico">""" + _ic('calendrier') + """</span>
+      <h3>Pointer France Travail en cinq minutes</h3>
+      <p>Chaque 28 du mois, Marco redoutait son actualisation : retrouver les feuillets, recompter les
+        cachets, espérer ne pas se tromper. Le récapitulatif mensuel lui donne une ligne par GUSO, avec
+        les heures et le brut déjà calculés. Il recopie, il valide, c’est terminé.</p>
+    </article>
+    <article>
+      <span class="cas-ico">""" + _ic('groupe') + """</span>
+      <h3>Accompagner quatre artistes sans tableur</h3>
+      <p>Sophie gère quatre artistes au sein d’une structure. Elle voyait passer les DPAE dans ses mails
+        et tenait un tableur qui n’était jamais à jour. Le back-office lui affiche désormais, sur un seul
+        écran, toutes les déclarations, tous les feuillets et toutes les factures à faire, classés par
+        échéance et tous artistes confondus.</p>
+    </article>
+  </div>
+""")
+    A(MAQ_RECAP)
+    A("""</div></section>
 """)
 
     # =====================================================================
@@ -1001,13 +1301,18 @@ def build_html():
 <div class="divider"></div>
 <section id="fonctionnalites"><div class="wrap">
   <p class="kick">Les fonctionnalités</p>
-  <h2 class="sec-title">Ce que fait l’outil</h2>
+  <h2 class="sec-title">Bien plus qu’un compteur d’heures</h2>
 
   <div class="univers">
 
     <article class="u-card">
-      <p class="u-num">Univers 1</p>
-      <h3>Tes droits, maîtrisés</h3>
+      <div class="u-head">
+        <span class="u-ico">""" + _ic('jauge') + """</span>
+        <div>
+          <p class="u-num">Univers 1</p>
+          <h3>Tes droits, maîtrisés</h3>
+        </div>
+      </div>
       <p class="u-sub">Ne plus jamais perdre une heure ni rater une échéance.</p>
       <ul>
         <li><b>Jauge des 507 heures</b> — la progression vers l’ouverture de droits, toujours visible.</li>
@@ -1020,11 +1325,16 @@ def build_html():
     </article>
 
     <article class="u-card">
-      <p class="u-num">Univers 2</p>
-      <h3>Ta tournée, organisée</h3>
+      <div class="u-head">
+        <span class="u-ico">""" + _ic('route') + """</span>
+        <div>
+          <p class="u-num">Univers 2</p>
+          <h3>Ta tournée, organisée</h3>
+        </div>
+      </div>
       <p class="u-sub">Développer, relancer, négocier — et savoir avant de dire oui.</p>
       <ul>
-        <li><b>Carte des dates</b> — les concerts géolocalisés, pour visualiser d’un coup d’œil où la saison vous emmène.</li>
+        <li><b>Carte des dates</b> — les concerts géolocalisés, avec le calcul des kilomètres parcourus depuis le domicile, utile pour les frais.</li>
         <li><b>Tournée reliée</b> — les dates s’enchaînent chronologiquement sur la carte, les lieux à confirmer sont signalés, les adresses en autocomplétion.</li>
         <li><b>Carnet de contacts</b> — les organisateurs rassemblés automatiquement, avec l’historique des dates jouées ensemble.</li>
         <li><b>Modèles de mails</b> — relance, présentation, remerciement, pré-remplis avec la dernière date jouée avec l’interlocuteur.</li>
@@ -1046,7 +1356,7 @@ def build_html():
       # Cette ligne est placee dans l'univers 2 (« Ta tournee, organisee »)
       # parce que c'est la que se traite la relation a l'organisateur :
       # evaluation de la proposition, puis suivi de negociation, puis contrat.
-      """        <li><b>Je crée mon contrat</b> <i>(à venir)</i> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
+      """        <li class="soon"><b>Je crée mon contrat</b> <i>(à venir)</i> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
       </ul>
     </article>
 """)
@@ -1063,8 +1373,13 @@ def build_html():
 
     A("""
     <article class="u-card">
-      <p class="u-num">Univers 3</p>
-      <h3>Ta structure, connectée</h3>
+      <div class="u-head">
+        <span class="u-ico">""" + _ic('maison') + """</span>
+        <div>
+          <p class="u-num">Univers 3</p>
+          <h3>Ta structure, connectée</h3>
+        </div>
+      </div>
       <p class="u-sub">Pour celles et ceux qui emploient et accompagnent les artistes.</p>
       <ul>
         <li><b>Back-office transversal</b> — toutes les DPAE, feuillets GUSO et factures à faire, tous artistes confondus, au même endroit.</li>
@@ -1077,8 +1392,13 @@ def build_html():
     </article>
 
     <article class="u-card">
-      <p class="u-num">Univers 4</p>
-      <h3>Ton cercle, solidaire</h3>
+      <div class="u-head">
+        <span class="u-ico">""" + _ic('cercle') + """</span>
+        <div>
+          <p class="u-num">Univers 4</p>
+          <h3>Ton cercle, solidaire</h3>
+        </div>
+      </div>
       <p class="u-sub">Parce qu’on avance mieux à plusieurs. Cet univers est en cours de déploiement.</p>
       <ul>
         <li><b>Vue groupe</b> — où en est chaque membre du groupe, pour se soutenir avant que la situation ne coince.</li>
@@ -1135,14 +1455,14 @@ def build_html():
       # 5. Le texte ci-dessous est celui VALIDE par la session qui developpe
       #    Guso Facile, repris quasi verbatim. Seule la ponctuation a ete
       #    adaptee au gabarit des puces. Ne pas le « fluidifier ».
-      """        <li><b>L’entraide entre artistes</b> <i>(à venir)</i> — entre membres, on partagera ce qui s’est
+      """        <li class="soon"><b>L’entraide entre artistes</b> <i>(à venir)</i> — entre membres, on partagera ce qui s’est
           concrètement passé sur une date : le contrat a-t-il été fourni, le paiement est-il arrivé dans les
           délais, les conditions annoncées ont-elles été tenues. Rien que des faits, jamais d’appréciation.
           L’idée n’est pas de juger qui que ce soit, mais de s’informer entre pairs — comme on le fait déjà
           de bouche à oreille, en tournée ou en loge. Et quand le cadre a manqué, l’outil proposera plutôt
           d’aider à le poser la prochaine fois, avec un modèle de contrat prêt à personnaliser.</li>
-        <li><b>Points de vigilance côté structure</b> <i>(à venir)</i> — qui approche du seuil, qui aurait besoin d’un coup de main.</li>
-        <li><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
+        <li class="soon"><b>Points de vigilance côté structure</b> <i>(à venir)</i> — qui approche du seuil, qui aurait besoin d’un coup de main.</li>
+        <li class="soon"><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
       </ul>
     </article>
 """)
@@ -1157,67 +1477,61 @@ def build_html():
   </div>
 
   <div class="aussi">
-    <p class="u-num">Et aussi</p>
-    <p>Export et import des données · fonctionne sur mobile sans installation · liens directs vers une
-      date · comptes sécurisés · un bouton pour signaler un bug depuis n’importe quel écran.</p>
+    <span class="ic-w">""" + _ic('etincelle') + """</span>
+    <div>
+      <p class="u-num">Et aussi</p>
+      <p>Export et import des données · fonctionne sur mobile sans installation · liens directs vers une
+        date · comptes sécurisés · un bouton pour signaler un bug depuis n’importe quel écran.</p>
+    </div>
   </div>
 </div></section>
 """)
 
     # =====================================================================
-    # 5. CAS D'USAGE  (section 5 du contenu fourni — verbatim)
+    # 5e A L'ECRAN — LE LIEN AVEC L'ASSOCIATION  (section 3, CORRIGEE)
     # =====================================================================
-    # Lea, Marco et Sophie sont des personnages ENTIEREMENT FICTIFS, confirme
-    # le 14/08/2026 par la session qui developpe Guso Facile : les seules
-    # personnes reelles de l'app sont David, Iris, Yannick et Christophe.
-    # Aucun nom de beta-testeur, aucune coordonnee, aucune donnee reelle ne
-    # doit apparaitre ici (depot PUBLIC).
+    # ⚠️ SECTION DEPLACEE le 14/08/2026 (refonte visuelle) : elle etait la
+    # TROISIEME, entre la promesse et les fonctionnalites. Elle est desormais
+    # la CINQUIEME, juste avant « Ou en est le projet ». Motif : c'est du
+    # CADRE (qui porte quoi, qui heberge quoi), pas de la seduction — et elle
+    # tombait pile a l'endroit ou un artiste decide s'il continue de lire. Le
+    # cadre se lit tres bien juste avant l'etat du projet, avec lequel il
+    # forme un bloc coherent (« voila d'ou ca vient, voila ou ca en est »),
+    # et juste avant le seul bouton de la page.
+    # ⚠️ AUCUN MOT n'a change : ni le titre, ni la phrase d'ouverture, ni la
+    # precision finale — qui gagne meme en visibilite (elle passe de mention
+    # grise en pied de section a encadre a filet prune). Si David prefere
+    # cette section plus haut, c'est un seul bloc a remonter.
     #
-    # ⚠️ LE TITRE DISAIT « Trois situations REELLES » — c'etait FAUX, corrige
-    #   le 14/08/2026. Des personnages inventes presentes comme des cas reels,
-    #   sous le nom d'une association, c'est un faux temoignage. Le titre dit
-    #   desormais « typiques », et la mention « Les prenoms sont fictifs »
-    #   figure sous le titre. NE PAS REMETTRE « reelles » : ce serait
-    #   retablir l'approximation, sur le point le plus sensible de la page.
+    # ⚠️ SECTION LA PLUS SENSIBLE DE LA PAGE. Lire l'entete du fichier avant
+    # d'y toucher : « porte par », « projet de l'association », « mis a
+    # disposition par l'association » sont FAUX a ce jour et seraient
+    # ecrits sur le site public d'une association a propos d'un outil qui
+    # traite des numeros de securite sociale et des IBAN.
     #
-    # MAQUETTE 4 (`MAQ_RECAP`) — le recapitulatif mensuel utilise pour le
-    #   pointage France Travail. Il illustre LITTERALEMENT le cas de Marco
-    #   (« Le recapitulatif mensuel lui donne une ligne par GUSO »), d'ou sa
-    #   place a la suite des trois cas, et non dans la section precedente.
-    #   Dans l'app le recap s'affiche en CARTES groupees par mois : c'est
-    #   cette version-la qui est reproduite, pas un tableau.
+    # L'argumentaire du contenu fourni est conserve tel quel — il est bon :
+    # un outil qui simplifie l'administratif des intermittents entre
+    # pleinement dans l'objet d'une structure de soutien aux artistes. Seul
+    # le lien juridique est corrige.
     A("""
 <div class="divider"></div>
-<section id="situations" class="band"><div class="wrap">
-  <p class="kick">Cas d’usage</p>
-  <h2 class="sec-title">Trois situations typiques</h2>
-  <p class="cas-note">Les prénoms sont fictifs ; les situations, elles, sont celles que l’outil rencontre au quotidien.</p>
-
-  <div class="cas">
-    <article>
-      <h3>Atteindre ses 507 heures sans angoisse</h3>
-      <p>En mars, Léa était à 380 heures et se réveillait la nuit. La jauge lui a montré, non pas le
-        chiffre manquant, mais ce qu’il représentait en dates concrètes ; et la projection lui a dit ce
-        que ses dates encore incertaines changeraient si elles se confirmaient. Le compte à rebours est
-        devenu un plan, mois par mois.</p>
-    </article>
-    <article>
-      <h3>Pointer France Travail en cinq minutes</h3>
-      <p>Chaque 28 du mois, Marco redoutait son actualisation : retrouver les feuillets, recompter les
-        cachets, espérer ne pas se tromper. Le récapitulatif mensuel lui donne une ligne par GUSO, avec
-        les heures et le brut déjà calculés. Il recopie, il valide, c’est terminé.</p>
-    </article>
-    <article>
-      <h3>Accompagner quatre artistes sans tableur</h3>
-      <p>Sophie gère quatre artistes au sein d’une structure. Elle voyait passer les DPAE dans ses mails
-        et tenait un tableur qui n’était jamais à jour. Le back-office lui affiche désormais, sur un seul
-        écran, toutes les déclarations, tous les feuillets et toutes les factures à faire, classés par
-        échéance et tous artistes confondus.</p>
-    </article>
+<section id="association-lien" class="band"><div class="wrap">
+  <p class="kick">Le lien avec l’association</p>
+  <h2 class="sec-title">Pourquoi Résonances Productions le relaie</h2>
+  <p class="body">Guso Facile est un outil <b>créé par David Lesage</b>, musicien intermittent et
+    co-fondateur de l’association. Résonances Productions le <b>relaie</b> parce qu’il sert directement
+    son objet : le soutien aux artistes.</p>
+  <p class="body">L’objet de Résonances Productions est le soutien et la promotion des artistes. Ce
+    soutien est d’abord artistique, mais il est aussi, très concrètement, administratif : une grande
+    part du temps que l’association passe auprès des artistes qu’elle accompagne est consacrée à des
+    déclarations, des feuillets et des échéances. Guso Facile est né de ce constat, et son développement
+    continue de se nourrir des retours des artistes qui l’utilisent.</p>
+  <div class="precision">
+    <span class="ic-w">""" + _ic('bouclier') + """</span>
+    <p>Précision : Guso Facile n’est pas un service de l’association. L’outil, son
+      hébergement et les données qu’il traite relèvent de son créateur.</p>
   </div>
-""")
-    A(MAQ_RECAP)
-    A("""</div></section>
+</div></section>
 """)
 
     # =====================================================================
@@ -1232,7 +1546,7 @@ def build_html():
 <div class="divider"></div>
 <section id="etat"><div class="wrap">
   <p class="kick">L’état du projet</p>
-  <h2 class="sec-title">Où en est le projet</h2>
+  <h2 class="sec-title">Jouons cartes sur table</h2>
 
   <div class="etat">
     <p class="first">Guso Facile est aujourd’hui en bêta privée, avec un nombre de places limité.</p>
@@ -1277,18 +1591,18 @@ def build_html():
     # au clic — juste a cote du vrai bouton, c'est fabriquer une hesitation
     # a l'endroit exact ou il ne doit pas y en avoir. Cinq maquettes qui
     # montrent l'outil valent mieux qu'une sixieme qui brouille l'action.
-    A("""
+    A(("""
 <div class="divider"></div>
 <section id="acces" class="band"><div class="wrap">
   <div class="acces">
-    <p class="kick">Appel à l’action</p>
-    <h2 class="sec-title">Manifester son intérêt</h2>
+    <p class="kick">Faire connaissance</p>
+    <h2 class="sec-title">Reprends la main sur ton administratif</h2>
     <p class="body">Puisque l’accès est limité, il n’y a pas d’inscription immédiate : on commence par
       se dire bonjour. Le formulaire « Demander un accès » recueille le nom, le prénom, l’adresse
       e-mail, le numéro de téléphone et la nature du demandeur — artiste ou structure. Chaque demande
       est ensuite lue et traitée personnellement, et une réponse est apportée par e-mail.</p>
     <div class="cta">
-      <a class="btn" href="URL_ACCES" target="_blank" rel="noopener">Demander un accès</a>
+      <a class="btn" href="URL_ACCES" target="_blank" rel="noopener">Demander un accès""" + _ic('fleche') + """</a>
     </div>
     <p class="mention">Le bouton « Demander un accès » se trouve en haut et en bas de la page de
       présentation. Aucune inscription automatique : chaque demande est étudiée personnellement.</p>
@@ -1297,7 +1611,7 @@ def build_html():
       Le formulaire porte sa propre mention d’information.</p>
   </div>
 </div></section>
-""".replace('URL_ACCES', URL_ACCES))
+""").replace('URL_ACCES', URL_ACCES))
 
     # --- retour en haut + pied de page ------------------------------------
     # Pied de page identique aux 9 pages, a une correction pres : le lien
@@ -1364,9 +1678,9 @@ ANCRES = (
     # ou NAV_VERSION est incrementee.
     ('data-nav="%s"' % nav_menu.NAV_VERSION, 1, 'menu partage nav_menu.py'),
     ('href="/guso-facile"', 1, 'entree « Guso Facile » du menu partage'),
-    ('id="acces"', 1, 'section « Manifester son intérêt »'),
+    ('id="acces"', 1, 'section « Reprends la main sur ton administratif »'),
     (URL_ACCES, 1, 'bouton « Demander un accès » (un seul sur la page)'),
-    ('id="etat"', 1, 'section « Où en est le projet »'),
+    ('id="etat"', 1, 'section « Jouons cartes sur table »'),
     ('class="badge"', 1, 'badge « Bêta privée · places limitées »'),
     ('class="u-card"', 4, 'les 4 univers de fonctionnalités'),
     # Les intitules EXACTS des 4 univers, virgule comprise. Ils ont ete releves
@@ -1412,6 +1726,18 @@ ANCRES = (
     #    sous forme de balise dans le fichier livre. Le compte est verifie
     #    HORS DU MENU par `_controle_maquettes()`, pour qu'un sous-menu de
     #    plus ou de moins ne fasse pas echouer l'ecriture pour rien.
+    # --- la refonte visuelle du 14/08/2026 (soir) ------------------------
+    # Le degrade signature est defini UNE fois pour le CSS et UNE fois pour les
+    # SVG. Si l'un des deux disparait, la page perd sa chaleur d'un cote
+    # seulement — le pire des cas, parce qu'il ne se voit pas tout de suite.
+    ('--grad:linear-gradient', 1, 'le degrade signature (version CSS)'),
+    ('id="gf-ink"', 1, 'le degrade signature (version SVG, partagee)'),
+    ('class="u-ico"', 4, 'le pictogramme de chacun des 4 univers'),
+    ('class="cas-ico"', 3, 'le pictogramme de chacun des 3 cas d’usage'),
+    # 4 puces « a venir » = 4 marqueurs creux. Ce compte double celui de
+    # `<i>(à venir)</i>` : c'est voulu, une puce pleine devant une
+    # fonctionnalite non livree la ferait passer pour disponible.
+    ('<li class="soon">', 4, 'les puces des fonctionnalités non livrées'),
     ('<input', 0, 'aucun champ de saisie dans la page'),
     ('tabindex', 0, 'aucun ordre de tabulation force'),
 )
@@ -1526,7 +1852,11 @@ def _controle_guilde(html):
     debut = html.find(_MARQUEUR_GUILDE)
     if debut < 0:
         raise SystemExit('!! ABANDON : bloc « Guilde » introuvable. Page NON ecrite.')
-    ouvre = html.rfind('<li>', 0, debut)
+    # `<li` et non `<li>` : depuis la refonte du 14/08/2026 les puces « a
+    # venir » portent `class="soon"`. Chercher `<li>` exactement ferait
+    # remonter la borne a la puce PRECEDENTE (la cooptation) et controlerait
+    # un texte qui n'est pas celui de la Guilde.
+    ouvre = html.rfind('<li', 0, debut)
     ferme = html.find('</li>', debut)
     if ouvre < 0 or ferme < 0:
         raise SystemExit('!! ABANDON : bloc « Guilde » mal delimite (pas de <li>…</li> '
@@ -1552,6 +1882,51 @@ def _controle_guilde(html):
                 '   Points d\'appui : membres connectes uniquement, faits binaires, '
                 'aucun commentaire libre.\n'
                 '   Page NON ecrite.' % (mot, m.group(0)))
+
+
+#: nombre de pictogrammes POSES dans la page (le dictionnaire `ICONES` en
+#: definit dix, chacun servant exactement une fois), plus le <svg> de taille
+#: nulle qui porte la definition du degrade. Un ecart = un picto duplique ou
+#: disparu.
+NB_PICTOS = 10
+
+
+def _controle_icones(html):
+    """Refuse d'ecrire si un pictogramme cesse d'etre purement decoratif.
+
+    Les icones DOUBLENT un texte qui est deja la. Trois exigences :
+      - `aria-hidden="true"` : sinon un lecteur d'ecran annonce « image » (ou
+        pire, epelle le trace) avant chaque titre deja lu ;
+      - `focusable="false"` : d'anciens moteurs inserent les <svg> dans l'ordre
+        de tabulation, ce qui ajoute dix arrets pour rien au clavier ;
+      - aucun `xmlns` : inutile en HTML, et il vaut « http://www.w3.org/… »,
+        que le controle des hotes externes lirait comme un domaine tiers. Le
+        message ci-dessous evite de chercher pourquoi la page est refusee.
+    """
+    import re
+
+    balises = re.findall(r'<svg\b[^>]*>', html)
+    if len(balises) != NB_PICTOS + 1:
+        raise SystemExit('!! ABANDON : %d balise(s) <svg>, attendu %d (les %d '
+                         'pictogrammes + le bloc de definitions du degrade). '
+                         'Page NON ecrite.'
+                         % (len(balises), NB_PICTOS + 1, NB_PICTOS))
+    for b in balises:
+        if 'aria-hidden="true"' not in b or 'focusable="false"' not in b:
+            raise SystemExit('!! ABANDON : pictogramme sans aria-hidden="true" ou '
+                             'sans focusable="false" :\n   %s\n   Ces icones doublent '
+                             'un texte deja present : les annoncer ou les rendre '
+                             'atteignables au clavier n\'ajoute que du bruit. '
+                             'Page NON ecrite.' % b)
+        if 'xmlns' in b:
+            raise SystemExit('!! ABANDON : attribut xmlns sur un <svg> en ligne. Il '
+                             'est inutile en HTML et vaut une URL w3.org, que le '
+                             'controle des hotes externes refuserait avec un message '
+                             'incomprehensible. Retirer l\'attribut. Page NON ecrite.')
+    for interdit in ('<image', '<foreignObject'):
+        if interdit in html:
+            raise SystemExit('!! ABANDON : « %s » dans un SVG — la page n\'embarque '
+                             'ni image ni contenu importe. Page NON ecrite.' % interdit)
 
 
 def _controles(html):
@@ -1602,6 +1977,8 @@ def _controles(html):
     _controle_guilde(html)
     # les 6 maquettes : illustrations, jamais interfaces
     _controle_maquettes(html)
+    # les 10 pictogrammes : decoratifs, jamais annonces ni focusables
+    _controle_icones(html)
 
 
 def main():
