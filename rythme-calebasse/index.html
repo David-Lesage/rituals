@@ -203,6 +203,64 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
   body.nav-open{overflow:hidden}
 }
 @media print{.burger,.totop{display:none}}
+
+/* ===== couche chaleureuse commune (sources/theme_chaleur.py) =============
+   Le degrade signature de /guso-facile, propage a tout le site. Par touches :
+   filets, sur-titres, puces, bouton. Jamais en aplat de fond. */
+:root{--coral:#e08a72;--plum2:#b3a2e4;
+--grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
+--grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral));
+/* meme degrade, axe VERTICAL : pour les filets de 3 px places sur le cote
+   d'une carte. Avec `--grad` (95deg) un filet haut de 200 px et large de 3
+   affiche le degrade de biais — mesure a l'ecran, c'est du hasard, pas un
+   choix. `--grad-v` le fait courir franchement de haut en bas. */
+--grad-v:linear-gradient(180deg,var(--gold2),var(--gold) 30%,var(--coral) 66%,var(--plum2))}
+/* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice ».
+   position:fixed + inset:0 -> aucun risque de debordement horizontal. */
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(224,138,114,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(143,122,209,.12),transparent 62%)}
+/* texte peint au degrade (titres, sur-titres) */
+.grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* soulignement degrade de 2 px sous un mot-cle */
+.mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
+.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent)}
+.kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* boutons : le principal porte le degrade chaud, le fantome un filet dore */
+.btn{border-radius:999px}
+.btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(224,138,114,.55)}
+.btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(224,138,114,.65)}
+.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(240,209,138,.3);color:var(--gold2)}
+.btn.ghost:hover{border-color:rgba(240,209,138,.55)}
+/* contraste du pied de page : 3,8:1 -> 5,96:1 sur #08091a (seuil 4,5:1) */
+.legal{color:#8b8ba6}
+/* a l'impression, un texte peint au degrade sort blanc : on le rend a l'or */
+@media print{.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
+/* les pictogrammes en ligne (voir ICONES plus bas) */
+.ic{width:23px;height:23px;display:block;flex:0 0 auto}
+.tc-defs{position:absolute;width:0;height:0;overflow:hidden}
+/* ===== Rythme & calebasse : declinaisons chaleureuses ===== */
+section{padding:92px 0}
+.top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
+.h-min{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* filets de cote : le trait or (ou prune) plein devient le degrade signature */
+.note,.quote,.appel .letter{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
+.note{border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
+.date{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box;border-radius:18px}
+/* filets de tete */
+.fact{border-top-width:3px;border-top-color:transparent;background-image:var(--grad);background-repeat:no-repeat;background-size:100% 3px;background-position:0 0;background-origin:border-box;border-radius:18px}
+.card{border-top-width:3px;border-top-color:transparent;background-image:var(--grad);background-repeat:no-repeat;background-size:100% 3px;background-position:0 0;background-origin:border-box;border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
+/* puces : rond dore plein -> losange au degrade chaud */
+.lst li::before{width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);top:19px;left:3px}
+/* la prune revient en accent de texte (--plum2 : 8,3:1 sur --night) */
+.quote .who{color:var(--plum2)}
+/* le badge de l'appel a candidature : fond chaud, plus un aplat dore */
+.badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(224,138,114,.11));border-color:rgba(240,209,138,.34);border-radius:999px}
+/* les deux icones qui remplacent les emoji (voir theme_chaleur.ICONES) */
+.badge .ic{width:20px;height:20px}
+.appel .letter .emo{display:inline-block;vertical-align:-4px;line-height:0}
+.appel .letter .emo .ic{width:21px;height:21px}
+.appel .xp{border-top-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+.hero-fig,.fig,.form{border-radius:18px}
+@media(max-width:760px){section{padding:66px 0}}
 /* == nav_menu.py (resonances-3) == */
 /* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
 .nav .links{flex-wrap:nowrap}
@@ -292,6 +350,8 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 </style>
 </head>
 <body>
+<svg class="tc-defs" aria-hidden="true" focusable="false"><defs><linearGradient id="gf-ink" gradientUnits="userSpaceOnUse" x1="3" y1="4" x2="21" y2="20"><stop offset="0" stop-color="#f0d18a"/><stop offset=".42" stop-color="#d8b25a"/><stop offset=".74" stop-color="#e08a72"/><stop offset="1" stop-color="#b3a2e4"/></linearGradient></defs></svg>
+
 <nav class="nav">
   <a href="/" class="brand">Résonances Productions</a>
   <div class="links" data-nav="resonances-3">
@@ -507,7 +567,7 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 
 
 <section class="blk appel" id="appel"><div class="wrap">
-  <div class="badge"><span aria-hidden="true">🥁</span><span>Appel à candidature · il reste environ 4 places</span></div>
+  <div class="badge"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.7 16.3a7.3 7.3 0 0 1 14.6 0"/><path d="M2.9 16.3h18.2"/><path d="M9.5 16.3a2.5 2.5 0 0 1 5 0"/><path d="M6.1 6.6c-.9.8-1.5 1.9-1.7 3.1"/><path d="M17.9 6.6c.9.8 1.5 1.9 1.7 3.1"/></svg><span>Appel à candidature · il reste environ 4 places</span></div>
   <h2>Créons un groupe de pratique à Paris</h2>
 
   <div class="letter">
@@ -527,7 +587,7 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
     <p>Ce que je demande, en revanche, c’est l’<b>engagement</b> : un groupe de pratique ne tient
     que si les gens sont là. Le noyau existe déjà, <b>il me manque environ quatre personnes</b>
     pour lancer.</p>
-    <p><span class="emo">❤️</span>Et ce n’est qu’un début. Mon rêve, c’est de faire de cet espace un lieu vivant : une
+    <p><span class="emo"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20.3 4.9 13.2a4.6 4.6 0 0 1 6.5-6.5l.6.6.6-.6a4.6 4.6 0 0 1 6.5 6.5Z"/></svg></span>Et ce n’est qu’un début. Mon rêve, c’est de faire de cet espace un lieu vivant : une
     communauté autour du rythme et de cette approche de la musique, mais aussi de petits concerts
     et des soirées partage, où chacun peut venir être qui il est, dans la bienveillance et le
     soutien. J’aimerais que tu en sois.</p>

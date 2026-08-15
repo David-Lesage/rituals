@@ -34,6 +34,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import nav_menu  # menu de navigation partage  # noqa: E402
+import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -338,6 +339,53 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 @media print{.burger,.totop{display:none}}
 """
 
+
+# --------------------------------------------------------------------------
+# LA COUCHE CHALEUREUSE (refonte du 15/08/2026)
+# --------------------------------------------------------------------------
+# « Ramener de la couleur prune, ca fait du bien. Resonances a besoin d'avoir
+#   une image classe mais aussi chaleureuse. » — David, 15/08/2026.
+# Langage visuel repris de `/guso-facile` ; la partie commune vit dans
+# `sources/theme_chaleur.py`. Ici, seules les declinaisons propres aux classes
+# de CETTE page. AUCUN TEXTE N'A BOUGE.
+#
+# ⚠️ TECHNIQUE EMPLOYEE POUR LES FILETS : on PEINT LA BORDURE avec un
+#    `background-image` cadre sur `border-box`, au lieu d'ajouter un
+#    pseudo-element positionne. Deux raisons mesurees : un `::before` en
+#    `position:absolute` demande un `overflow:hidden` qui rognerait les coins
+#    arrondis, et il s'ajoute au-dessus du contenu de cartes qui en ont deja
+#    (`.fact`, `.date`). Peindre la bordure ne deplace rien.
+# ⚠️ `--grad-v` (vertical) pour les filets de COTE, `--grad` (95deg) pour ceux
+#    du HAUT : dans un filet haut de 200 px et large de 3, le degrade a 95deg
+#    tombe de biais.
+CSS_CHALEUR = """/* ===== Rythme & calebasse : declinaisons chaleureuses ===== */
+section{padding:92px 0}
+.top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
+.h-min{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* filets de cote : le trait or (ou prune) plein devient le degrade signature */
+.note,.quote,.appel .letter{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
+.note{border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
+.date{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box;border-radius:18px}
+/* filets de tete */
+.fact{border-top-width:3px;border-top-color:transparent;background-image:var(--grad);background-repeat:no-repeat;background-size:100% 3px;background-position:0 0;background-origin:border-box;border-radius:18px}
+.card{border-top-width:3px;border-top-color:transparent;background-image:var(--grad);background-repeat:no-repeat;background-size:100% 3px;background-position:0 0;background-origin:border-box;border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
+/* puces : rond dore plein -> losange au degrade chaud */
+.lst li::before{width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);top:19px;left:3px}
+/* la prune revient en accent de texte (--plum2 : 8,3:1 sur --night) */
+.quote .who{color:var(--plum2)}
+/* le badge de l'appel a candidature : fond chaud, plus un aplat dore */
+.badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(224,138,114,.11));border-color:rgba(240,209,138,.34);border-radius:999px}
+/* les deux icones qui remplacent les emoji (voir theme_chaleur.ICONES) */
+.badge .ic{width:20px;height:20px}
+.appel .letter .emo{display:inline-block;vertical-align:-4px;line-height:0}
+.appel .letter .emo .ic{width:21px;height:21px}
+.appel .xp{border-top-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+.hero-fig,.fig,.form{border-radius:18px}
+@media(max-width:760px){section{padding:66px 0}}
+"""
+
+CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
+
 NAV = """<nav class="nav">
   <a href="/" class="brand">Résonances Productions</a>
   <div class="links">
@@ -561,6 +609,8 @@ def build_html(sizes):
     body = []
     A = body.append
 
+    # le degrade des pictogrammes : une seule definition, en tete de page
+    A(theme_chaleur.SVG_DEFS)
     A(NAV)
 
     # ---------------------------------------------------------------- HERO
@@ -746,7 +796,7 @@ def build_html(sizes):
     # Repli sans JavaScript = action mailto native + <noscript>.
     A("""
 <section class="blk appel" id="appel"><div class="wrap">
-  <div class="badge"><span aria-hidden="true">🥁</span><span>Appel à candidature · il reste environ 4 places</span></div>
+  <div class="badge">""" + theme_chaleur.ic('calebasse') + """<span>Appel à candidature · il reste environ 4 places</span></div>
   <h2>Créons un groupe de pratique à Paris</h2>
 
   <div class="letter">
@@ -766,7 +816,7 @@ def build_html(sizes):
     <p>Ce que je demande, en revanche, c’est l’<b>engagement</b> : un groupe de pratique ne tient
     que si les gens sont là. Le noyau existe déjà, <b>il me manque environ quatre personnes</b>
     pour lancer.</p>
-    <p><span class="emo">❤️</span>Et ce n’est qu’un début. Mon rêve, c’est de faire de cet espace un lieu vivant : une
+    <p><span class="emo">""" + theme_chaleur.ic('coeur') + """</span>Et ce n’est qu’un début. Mon rêve, c’est de faire de cet espace un lieu vivant : une
     communauté autour du rythme et de cette approche de la musique, mais aussi de petits concerts
     et des soirées partage, où chacun peut venir être qui il est, dans la bienveillance et le
     soutien. J’aimerais que tu en sois.</p>

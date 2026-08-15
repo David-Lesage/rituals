@@ -195,6 +195,9 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .legal{color:#8b8ba6}
 /* a l'impression, un texte peint au degrade sort blanc : on le rend a l'or */
 @media print{.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
+/* les pictogrammes en ligne (voir ICONES plus bas) */
+.ic{width:23px;height:23px;display:block;flex:0 0 auto}
+.tc-defs{position:absolute;width:0;height:0;overflow:hidden}
 /* ===== Le Soin Soa : declinaisons chaleureuses ===== */
 section{padding:92px 0}
 .soa-top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}

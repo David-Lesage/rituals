@@ -103,4 +103,66 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .legal{color:#8b8ba6}
 /* a l'impression, un texte peint au degrade sort blanc : on le rend a l'or */
 @media print{.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
+/* les pictogrammes en ligne (voir ICONES plus bas) */
+.ic{width:23px;height:23px;display:block;flex:0 0 auto}
+.tc-defs{position:absolute;width:0;height:0;overflow:hidden}
 """
+
+
+# =========================================================================
+# LES PICTOGRAMMES — des icones dessinees, JAMAIS un emoji
+# =========================================================================
+# Regle du site, et demande explicite de David : des icones « signature » en
+# trait fin. Grille de 24, trait de 1,5, bouts et raccords arrondis — memes
+# reglages que les dix pictogrammes de `/guso-facile`, pour que deux icones
+# venues de deux pages se ressemblent.
+#
+# ⚠️ `gradientUnits="userSpaceOnUse"` et non le defaut `objectBoundingBox` :
+#    sans cela chaque trace recevrait le degrade entier sur SA boite
+#    englobante, et deux icones cote a cote ne seraient plus dans la meme
+#    lumiere. Les couleurs sont ecrites en clair (un `stop-color` ne lit pas
+#    les variables CSS de facon fiable) : ce sont exactement --gold2, --gold,
+#    --coral et --plum2.
+# ⚠️ La couleur ecrite APRES l'`url()` est le repli du paint server SVG 1.1 :
+#    si le degrade n'etait pas resolu, l'icone reste doree au lieu de
+#    disparaitre.
+# ⚠️ L'identifiant `gf-ink` est CELUI DE `/guso-facile`, volontairement : une
+#    page n'embarque jamais les deux definitions (chaque generateur pose la
+#    sienne), et garder le meme nom evite qu'un copier-coller d'un fragment
+#    d'une page a l'autre se retrouve sans degrade.
+
+SVG_DEFS = ('<svg class="tc-defs" aria-hidden="true" focusable="false">'
+            '<defs><linearGradient id="gf-ink" gradientUnits="userSpaceOnUse" '
+            'x1="3" y1="4" x2="21" y2="20">'
+            '<stop offset="0" stop-color="#f0d18a"/>'
+            '<stop offset=".42" stop-color="#d8b25a"/>'
+            '<stop offset=".74" stop-color="#e08a72"/>'
+            '<stop offset="1" stop-color="#b3a2e4"/>'
+            '</linearGradient></defs></svg>\n')
+
+ICONES = {
+    # remplace l'emoji ❤️ de /rythme-calebasse : le coeur, en trait, pas en
+    # aplat rouge — c'est une page sombre et sobre.
+    'coeur': '<path d="M12 20.3 4.9 13.2a4.6 4.6 0 0 1 6.5-6.5l.6.6.6-.6a4.6 4.6 0'
+             ' 0 1 6.5 6.5Z"/>',
+    # remplace l'emoji 🥁 de /rythme-calebasse. Ce n'est pas une batterie : la
+    # calebasse se pose au sol et se joue a mains nues -> un dome, le sol, et
+    # la main qui frappe au centre.
+    'calebasse': '<path d="M4.7 16.3a7.3 7.3 0 0 1 14.6 0"/><path d="M2.9 16.3h18.2"/>'
+                 '<path d="M9.5 16.3a2.5 2.5 0 0 1 5 0"/>'
+                 '<path d="M6.1 6.6c-.9.8-1.5 1.9-1.7 3.1"/>'
+                 '<path d="M17.9 6.6c.9.8 1.5 1.9 1.7 3.1"/>',
+}
+
+
+def ic(nom, classe='ic'):
+    """Une icone en ligne, DECORATIVE : le texte qu'elle accompagne suffit.
+
+    `aria-hidden` + `focusable="false"` : elle double un texte deja present,
+    l'enoncer une seconde fois serait du bruit, et sans `focusable` d'anciens
+    moteurs l'inserent dans l'ordre de tabulation.
+    """
+    return ('<svg class="%s" viewBox="0 0 24 24" fill="none" '
+            'stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" '
+            'stroke-linecap="round" stroke-linejoin="round" '
+            'aria-hidden="true" focusable="false">%s</svg>' % (classe, ICONES[nom]))
