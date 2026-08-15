@@ -207,6 +207,15 @@ ICONES = {
                  '<path d="M9.5 16.3a2.5 2.5 0 0 1 5 0"/>'
                  '<path d="M6.1 6.6c-.9.8-1.5 1.9-1.7 3.1"/>'
                  '<path d="M17.9 6.6c.9.8 1.5 1.9 1.7 3.1"/>',
+    # Ajoutees le 15/08/2026 pour /association (identification, adresses). Meme
+    # grille de 24 et meme trait de 1,5 que les precedentes : deux icones venues
+    # de deux pages doivent se ressembler.
+    # Un feuillet corne : les identifiants officiels (RNA, SIRET, code APE).
+    'document': '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/>'
+                '<path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h4"/>',
+    # Un reperage de carte : le siege social et l'adresse de correspondance.
+    'lieu': '<path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z"/>'
+            '<circle cx="12" cy="10" r="2.6"/>',
 }
 
 
