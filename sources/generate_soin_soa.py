@@ -74,6 +74,19 @@ import nav_menu  # noqa: E402
 import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
+# ⚠️ RETRAIT DU 15/08/2026 — une regle CSS de moins dans le bloc ci-dessous.
+# La ligne suivante y figurait :
+#     @media(min-width:861px) and (max-width:1000px){.nav .links a[href="/#statuts"]{display:none}}
+# C'etait un vestige du menu d'AVANT `resonances-1`, quand chaque page portait
+# sa propre barre avec une entree « Statuts ». Le menu partage n'en a plus, donc
+# le selecteur ne designait plus rien. Il est devenu genant le jour ou la section
+# « Cadre legal · Les statuts » a quitte l'accueil pour /association :
+# `verif_site.controle_liens` lit la page ENTIERE, feuille de style comprise, et
+# comptait ce selecteur comme un lien vers l'ancre morte `/#statuts`. La page
+# aurait ete refusee a la publication pour une regle qui ne servait a rien.
+# ⚠️ Les regles voisines `[href="/#association"]` et `[href="/#prestations"]` sont
+#    des vestiges du meme menu, mais leurs ancres existent toujours sur l'accueil :
+#    elles ne declenchent rien et ne sont PAS touchees ici.
 CSS = """
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -101,7 +114,6 @@ b{color:#fff;font-weight:500}
    On ne descend jamais sous 13 px (plancher typographique du site) : dans la bande
    la plus etroite on masque plutot « Statuts », qui reste dans le pied de page. */
 @media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
-@media(min-width:861px) and (max-width:1000px){.nav .links a[href="/#statuts"]{display:none}}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 26px;border-radius:40px;font-size:15px;transition:transform .2s,box-shadow .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
