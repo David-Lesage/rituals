@@ -146,6 +146,17 @@ TABLEAU = (
         passe_menu=False,  # il appelle mobile_nav puis nav_menu.inject() lui-meme
         bloque=None,
     ),
+    # Le blog de Guso Facile : UN generateur pour 19 pages (l'index + 18
+    # articles). `fichier` ne nomme que l'index — c'est lui que le controle
+    # d'idempotence compare —, mais le generateur reecrit bien les 19 a chaque
+    # passage. Il importe `theme_chaleur` : c'est un module de style, pas un
+    # generateur, l'importer n'ecrit aucune page.
+    dict(
+        nom='guso-facile-blog', fichier='guso-facile/blog/index.html',
+        generateur='generate_guso_blog.py', ecrit=None,
+        passe_menu=False,  # il appelle mobile_nav puis nav_menu.inject() lui-meme
+        bloque=None,
+    ),
 )
 
 #: dossiers encore presents dans le depot mais qui ne font plus partie du site.
