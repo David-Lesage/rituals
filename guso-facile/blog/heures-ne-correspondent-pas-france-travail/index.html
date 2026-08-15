@@ -166,6 +166,23 @@ section{padding:92px 0}
 .enc-t{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:6px}
 .enc p{font-size:16.5px}
 .enc p:first-of-type{margin-top:8px}
+/* la reserve posee A L'ENDROIT d'une affirmation non tranchee : un filet chaud
+   de 2 px et un texte prune, rien de plus. Selecteur `.art .reserve` (0,2,0) et
+   non `.reserve` (0,1,0) : `.art p` vaut (0,1,1) et l'emporterait sinon. */
+.art .reserve{position:relative;margin-top:22px;padding:3px 0 3px 19px;font-size:15px;line-height:1.62;color:var(--plum2)}
+.art .reserve::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;border-radius:2px;background:var(--grad-warm)}
+.art .reserve b{color:var(--gold2);font-weight:500}
+.art .reserve a{color:var(--gold2)}
+/* l'encadre « ou verifier » de fin d'article : plus sobre que .enc (filet de
+   2 px, fond a peine tire, texte plus petit) — il informe, il n'alerte pas. */
+.avert{position:relative;overflow:hidden;margin-top:52px;padding:24px 26px 22px;border:1px solid rgba(179,162,228,.2);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.6),rgba(23,25,53,.38))}
+.avert::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad)}
+.avert-t{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--gold)}
+.avert-t .ic{width:19px;height:19px}
+.art .avert p{margin-top:11px;font-size:15px;line-height:1.68;color:#c9c5e0}
+.art .avert p.avert-t{margin-top:0}
+.art .avert a{color:var(--plum2)}
+.art .avert a:hover{color:var(--gold2)}
 /* le panneau de conclusion */
 .final{position:relative;overflow:hidden;margin-top:52px;padding:38px 34px 34px;border:1px solid rgba(255,255,255,.09);border-radius:26px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(224,138,114,.10) 48%,rgba(143,122,209,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
 .final::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
@@ -203,11 +220,15 @@ section{padding:92px 0}
 .somm ul{list-style:none;display:flex;flex-wrap:wrap;gap:9px 10px}
 .somm a{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border:1px solid rgba(240,209,138,.24);border-radius:999px;font-size:13.5px;color:var(--gold2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
 .somm a:hover{border-color:rgba(240,209,138,.55)}
+/* la ligne de renvoi aux organismes, sous le chapo de l'index */
+.bl-note{color:var(--plum2);font-size:15px;line-height:1.62;margin-top:14px;max-width:66ch}
+.bl-note a{color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:3px}
 @media(max-width:760px){
   section{padding:66px 0}
   .bl-top{padding:106px 0 48px}
   .art{padding:44px 0 0}
   .enc{padding:22px 20px 20px}
+  .avert{padding:21px 19px 18px}
   .final{padding:28px 22px 24px}
   .carte{padding:22px 19px 19px}
   .somm{padding:20px 18px}
@@ -506,6 +527,7 @@ section{padding:92px 0}
   <p><b>Comment le vérifier :</b> confirme ta date anniversaire dans ton espace France Travail Spectacle, puis recompte sur la bonne fenêtre. Un article de ce blog y est consacré.</p>
   <h2>Cause n° 6 — Annexe 8, annexe 10, et ce que ça change</h2>
   <p>Si tu fais à la fois de l'artistique (annexe 10) et de la technique (annexe 8), les deux types d'heures <b>se cumulent pour atteindre les 507</b>. En revanche, l'annexe sous laquelle tu es indemnisé est, en principe, celle où tu as le plus d'heures sur la période — et cela peut changer les paramètres de ton indemnisation.</p>
+  <p class="reserve"><b>Point à vérifier auprès de <a href="https://www.francetravail.fr" target="_blank" rel="noopener">France Travail</a></b> — sur l'annexe retenue quand on cumule annexe 8 et annexe 10, les sources se contredisent et la réponse dépend du dossier.</p>
   <p>C'est un point technique où les sources en ligne se contredisent souvent, et où ta situation personnelle compte. <b>Ne tranche pas ça seul</b> : c'est exactement le genre de question à poser à ton conseiller France Travail Spectacle ou à ton syndicat.</p>
   <h2>Cause n° 7 — Une erreur sur la déclaration elle-même</h2>
   <p>Un mauvais nombre de cachets, un numéro de sécurité sociale erroné, une date de fin de contrat fausse, ton nom mal orthographié : la déclaration existe, mais elle ne se rattache pas correctement à ton dossier, ou elle porte de mauvais chiffres.</p>
@@ -531,6 +553,12 @@ section{padding:92px 0}
   <p>Ce qui rend ces vérifications pénibles, ce n'est pas leur difficulté : c'est de devoir reconstituer une année entière depuis des mails, des SMS et des PDF éparpillés.</p>
   <p><b>Guso Facile</b> garde ta ligne de compte, date par date : cachets, heures de répétition, type d'activité, feuillet GUSO reçu ou non. Un <b>récap mensuel</b> te présente tes dates regroupées par déclaration et par mois — pensé pour se rapprocher de ton actualisation — et un <b>bilan imprimable</b> signale les incohérences avant que tu ne les découvres trop tard. De quoi arriver à un échange avec un dossier, pas avec une impression. L'app est en bêta, accessible sur cooptation.</p>
   <p>Moins d'énergie dans les recomptages, plus dans la musique.</p>
+  <aside class="avert">
+    <p class="avert-t"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M15.1 8.9l-1.7 4.5-4.5 1.7 1.7-4.5z"/></svg>Où vérifier</p>
+    <p>Cet article partage une information générale, née de la pratique du terrain. Ce n'est pas un conseil juridique : les règles évoluent, et chaque situation a ses particularités.</p>
+    <p>En cas de doute, ce sont <a href="https://www.francetravail.fr" target="_blank" rel="noopener">France Travail</a> et le <a href="https://www.guso.fr" target="_blank" rel="noopener">GUSO</a> qui répondent, et c'est leur réponse qui fait foi pour un dossier. <a href="https://www.service-public.fr" target="_blank" rel="noopener">service-public.fr</a> donne la référence des textes.</p>
+    <p>Résonances Productions relaie ces repères sans se substituer à ces organismes : l'association n'engage pas sa responsabilité sur l'interprétation d'un cas particulier.</p>
+  </aside>
   <nav class="suite" aria-label="À lire ensuite">
     <h2>À lire ensuite</h2>
     <div class="cartes">

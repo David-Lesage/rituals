@@ -111,6 +111,33 @@ vers une ancre qui n'existe pas est un lien mort silencieux ; le lien vers la
 page, lui, ne peut pas se perimer.
 
 
+L'AVERTISSEMENT ET LES RESERVES (15/08/2026)
+---------------------------------------------
+Ces articles parlent de droits sociaux. Decision de David, verbatim en tete de
+`bloc_avertissement()` : on PUBLIE, l'association N'AFFIRME PAS, et on RENVOIE
+AUX SOURCES OFFICIELLES. Concretement, trois ajouts — et rien d'autre :
+
+  * un encadre « Ou verifier » en fin de CHACUN des 18 articles, avant « A lire
+    ensuite » (`bloc_avertissement()`), avec les liens vers France Travail, le
+    GUSO et service-public.fr ;
+  * une reserve « Point a verifier aupres de… » posee A L'ENDROIT PRECIS des
+    affirmations que le README des articles neufs signale comme non tranchees
+    (`RESERVES_ATTENDUES`, sept endroits) ;
+  * une ligne de renvoi sous le chapo de l'index (`.bl-note`).
+
+⚠️ AUCUN MOT DES ARTICLES N'A ETE CHANGE. Pas une affirmation reformulee, pas
+   une regle precisee, pas un debat tranche : on AJOUTE une reserve a cote,
+   jamais on ne corrige le texte de son auteur. C'est la meme discipline que
+   pour les emoji, et pour la meme raison — ce n'est pas notre texte.
+
+⚠️ LES ADRESSES SONT DES RACINES (`LIENS_OFFICIELS`), jamais des URL profondes,
+   et elles se testent par `curl` avant d'entrer ici. Un lien mort dans un
+   avertissement decredibilise exactement ce qu'il devait solidifier.
+
+`_controle_article()` et `_controle_index()` refusent d'ecrire si l'encadre,
+les trois liens ou une reserve attendue manquent.
+
+
 LES REGLES DE LA MAISON, ET OU ELLES SONT VERIFIEES
 ---------------------------------------------------
   * aucune image, aucune iframe, aucune ressource externe (hors la feuille de
@@ -351,6 +378,23 @@ section{padding:92px 0}
 .enc-t{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:6px}
 .enc p{font-size:16.5px}
 .enc p:first-of-type{margin-top:8px}
+/* la reserve posee A L'ENDROIT d'une affirmation non tranchee : un filet chaud
+   de 2 px et un texte prune, rien de plus. Selecteur `.art .reserve` (0,2,0) et
+   non `.reserve` (0,1,0) : `.art p` vaut (0,1,1) et l'emporterait sinon. */
+.art .reserve{position:relative;margin-top:22px;padding:3px 0 3px 19px;font-size:15px;line-height:1.62;color:var(--plum2)}
+.art .reserve::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;border-radius:2px;background:var(--grad-warm)}
+.art .reserve b{color:var(--gold2);font-weight:500}
+.art .reserve a{color:var(--gold2)}
+/* l'encadre « ou verifier » de fin d'article : plus sobre que .enc (filet de
+   2 px, fond a peine tire, texte plus petit) — il informe, il n'alerte pas. */
+.avert{position:relative;overflow:hidden;margin-top:52px;padding:24px 26px 22px;border:1px solid rgba(179,162,228,.2);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.6),rgba(23,25,53,.38))}
+.avert::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad)}
+.avert-t{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--gold)}
+.avert-t .ic{width:19px;height:19px}
+.art .avert p{margin-top:11px;font-size:15px;line-height:1.68;color:#c9c5e0}
+.art .avert p.avert-t{margin-top:0}
+.art .avert a{color:var(--plum2)}
+.art .avert a:hover{color:var(--gold2)}
 /* le panneau de conclusion */
 .final{position:relative;overflow:hidden;margin-top:52px;padding:38px 34px 34px;border:1px solid rgba(255,255,255,.09);border-radius:26px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(224,138,114,.10) 48%,rgba(143,122,209,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
 .final::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
@@ -388,11 +432,15 @@ section{padding:92px 0}
 .somm ul{list-style:none;display:flex;flex-wrap:wrap;gap:9px 10px}
 .somm a{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border:1px solid rgba(240,209,138,.24);border-radius:999px;font-size:13.5px;color:var(--gold2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
 .somm a:hover{border-color:rgba(240,209,138,.55)}
+/* la ligne de renvoi aux organismes, sous le chapo de l'index */
+.bl-note{color:var(--plum2);font-size:15px;line-height:1.62;margin-top:14px;max-width:66ch}
+.bl-note a{color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:3px}
 @media(max-width:760px){
   section{padding:66px 0}
   .bl-top{padding:106px 0 48px}
   .art{padding:44px 0 0}
   .enc{padding:22px 20px 20px}
+  .avert{padding:21px 19px 18px}
   .final{padding:28px 22px 24px}
   .carte{padding:22px 19px 19px}
   .somm{padding:20px 18px}
@@ -469,6 +517,12 @@ ICONES = {
     'structure': '<rect x="3.6" y="9.4" width="16.8" height="10.9" rx="3"/>'
                  '<path d="M8.8 9.4V6.6a2 2 0 0 1 2-2h2.4a2 2 0 0 1 2 2v2.8"/>'
                  '<path d="M3.6 14.2h16.8"/>',
+    # l'encadre « ou verifier » de fin d'article : une BOUSSOLE, pas un panneau
+    # de danger. Le geste demande par David est « renvoyer aux sources
+    # officielles », pas « effrayer le lecteur » — un triangle d'alerte aurait
+    # dit le contraire du texte qu'il accompagne.
+    'boussole': '<circle cx="12" cy="12" r="8.4"/>'
+                '<path d="M15.1 8.9l-1.7 4.5-4.5 1.7 1.7-4.5z"/>',
     # le blog lui-meme : un carnet ouvert
     'carnet': '<path d="M12 6.6C10.3 5.2 8.4 4.6 5.4 4.6v12.6c3 0 4.9.6 6.6 2 1.7-1.4 3.6-2 6.6-2V4.6c-3 0-4.9.6-6.6 2Z"/>'
               '<path d="M12 6.6v14"/>',
@@ -556,6 +610,23 @@ def _echap(t):
     return t.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
 
 
+#: Les SEULES adresses externes que le mini-Markdown accepte, et les seules qui
+#: apparaissent dans l'avertissement et dans les reserves.
+#:
+#: ⚠️ Ce sont des RACINES, jamais des URL profondes. Mesure faite le 15/08/2026 :
+#:    `francetravail.fr/candidat/.../lintermittence-du-spectacle.html`, qui
+#:    circule partout, repond 404. Une page d'organisme se deplace au fil des
+#:    refontes ; la racine, non. Et un lien mort DANS un avertissement est pire
+#:    que pas de lien du tout : il decredibilise exactement ce qu'il devait
+#:    solidifier. Toute adresse ajoutee ici se teste par `curl` avant d'entrer
+#:    dans le fichier (les trois ci-dessous : 200).
+LIENS_OFFICIELS = (
+    'https://www.francetravail.fr',
+    'https://www.guso.fr',
+    'https://www.service-public.fr',
+)
+
+
 def _cible(href):
     """Resout un lien de la source vers son URL definitive sur le site.
 
@@ -571,9 +642,24 @@ def _cible(href):
         slug = href[:-len('.html')].rsplit('/', 1)[-1]
         if slug in SLUGS:
             return '%s/%s' % (URL_BLOG, slug)
+    if href in LIENS_OFFICIELS:
+        return href
     if href.startswith('/') and not href.startswith('//'):
         return href
     raise ValueError('lien interne non resolu : %r' % href)
+
+
+def _lien(texte, href):
+    """Une balise <a>. Les adresses officielles s'ouvrent en nouvel onglet.
+
+    Meme regle que les liens de plateformes du reste du site : on ne sort pas
+    quelqu'un de sa lecture pour l'envoyer chez un organisme. `rel="noopener"`
+    est systematique (controle par `_controle_page` et par `verif_site.py`).
+    """
+    cible = _cible(href)
+    if cible.startswith('http'):
+        return '<a href="%s" target="_blank" rel="noopener">%s</a>' % (cible, texte)
+    return '<a href="%s">%s</a>' % (cible, texte)
 
 
 def _jeton_icone(m):
@@ -590,7 +676,7 @@ def _inline(t):
     t = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', t)
     t = re.sub(r'\*(.+?)\*', r'<i>\1</i>', t)
     t = re.sub(r'\[([^\]]+)\]\(([^)\s]+)\)',
-               lambda m: '<a href="%s">%s</a>' % (_cible(m.group(2)), m.group(1)), t)
+               lambda m: _lien(m.group(1), m.group(2)), t)
     # en dernier : le SVG produit contient des chevrons qu'il ne faut surtout
     # pas repasser dans `_echap`, et un jeton doit pouvoir vivre a l'interieur
     # d'un `**gras**` (c'etait le cas des pastilles de verdict).
@@ -636,6 +722,9 @@ def _md_blocs(md):
         elif l.startswith('@scene '):
             blocs.append(('scene', l[7:].strip()))
             i += 1
+        elif l.startswith('@reserve '):
+            blocs.append(('reserve', l[9:].strip()))
+            i += 1
         elif l.startswith('> '):
             items = []
             while i < n and lignes[i].startswith('> '):
@@ -658,7 +747,8 @@ def _md_blocs(md):
             para = [l.strip()]
             i += 1
             while (i < n and lignes[i].strip()
-                   and not re.match(r'^(::: |### |## |@lead |@scene |> |- |\d+\.\s)', lignes[i])):
+                   and not re.match(r'^(::: |### |## |@lead |@scene |@reserve |> |- |\d+\.\s)',
+                                    lignes[i])):
                 para.append(lignes[i].strip())
                 i += 1
             blocs.append(('p', ' '.join(para)))
@@ -676,6 +766,13 @@ def _bloc_a_html(genre, charge):
         return '  <p class="attaque">%s</p>\n' % _inline(charge)
     if genre == 'scene':
         return '  <p class="scene">%s</p>\n' % _inline(charge)
+    # La RESERVE : elle se pose a l'endroit precis d'une affirmation que le
+    # README des articles neufs signale comme non tranchee. Elle N'EST PAS une
+    # correction — le texte de l'auteur n'est pas touche — c'est une mention
+    # ajoutee a cote. Volontairement discrete : un filet au degrade chaud, pas
+    # un bandeau rouge. Voir `RESERVES_ATTENDUES`.
+    if genre == 'reserve':
+        return '  <p class="reserve">%s</p>\n' % _inline(charge)
     if genre == 'h2':
         return '  <h2>%s</h2>\n' % _inline(charge)
     if genre == 'h3':
@@ -706,6 +803,88 @@ def md_en_html(md):
 
 
 # =========================================================================
+# L'AVERTISSEMENT DE FIN D'ARTICLE
+# =========================================================================
+# ⚠️ C'EST LA DECISION DE DAVID, du 15/08/2026, et rien d'autre. Question
+#    posee : « faut-il faire relire les articles juridiques avant de les
+#    publier ? ». Reponse, mot pour mot :
+#
+#        « Je ne sais pas te repondre pour l'articulation DPAE/GUSO. Pour les
+#          articles, precise de se referer a France Travail. L'asso ne prend
+#          pas responsabilite d'affirmer une verite non verifiable, mais on
+#          peut en parler. J'ai pas bien le contexte en fait pour pouvoir te
+#          repondre clairement. »
+#
+#    Trois consequences, et elles suffisent :
+#      1. ON PUBLIE. Aucun article n'est retire, aucun passage n'est censure.
+#      2. L'ASSOCIATION N'AFFIRME PAS. Ce qui n'est pas verifiable doit se lire
+#         comme une information generale, pas comme une verite etablie.
+#      3. ON RENVOIE AUX SOURCES OFFICIELLES, France Travail en premier.
+#
+# Le texte est ecrit une fois, ici, et pose par le generateur sur les 18
+# articles (jamais recopie dans les `md` : recopier, c'est se garantir que 17
+# seront corriges un jour et pas le 18e). `_controle_article()` refuse d'ecrire
+# une page d'article qui ne le porterait pas.
+#
+# Registre : celui du blog. Sobre, pas un pave juridique. Une boussole, pas un
+# triangle d'alerte. C'est un encadre qui dit ou aller, pas un encadre qui fait
+# peur — un lecteur effraye ne clique sur rien.
+
+#: ⚠️ COURT, et mesure. « Information generale — ou verifier » passait sur DEUX
+#:    lignes a 390 px (13 px, majuscules, interlettrage a .2em) : l'icone, en
+#:    `align-items:center`, se retrouvait coincee entre les deux lignes. Le
+#:    premier paragraphe de l'encadre dit deja « information generale, pas un
+#:    conseil juridique » ; l'etiquette n'a qu'a dire a quoi sert le bloc.
+AVERT_TITRE = 'Où vérifier'
+
+#: Le premier paragraphe : « information generale, pas un conseil juridique ».
+#: Il est SAUTE sur les deux articles qui portent deja, en tete, un
+#: avertissement ecrit par leur auteur (voir `AVERT_DEJA_EN_TETE`).
+AVERT_INTRO = ("Cet article partage une information générale, née de la pratique du terrain. "
+               "Ce n'est pas un conseil juridique : les règles évoluent, et chaque situation "
+               "a ses particularités.")
+
+AVERT_SOCLE = (
+    "En cas de doute, ce sont [France Travail](https://www.francetravail.fr) et le "
+    "[GUSO](https://www.guso.fr) qui répondent, et c'est leur réponse qui fait foi pour un "
+    "dossier. [service-public.fr](https://www.service-public.fr) donne la référence des textes.",
+    "Résonances Productions relaie ces repères sans se substituer à ces organismes : "
+    "l'association n'engage pas sa responsabilité sur l'interprétation d'un cas particulier.",
+)
+
+#: Les DEUX articles qui portaient deja un avertissement, ecrit par l'auteur des
+#: 10 articles neufs, en tete de leur texte :
+#:
+#:   employeur-ne-m-a-pas-paye-mon-cachet
+#:     « Precision utile : cet article explique un fonctionnement general, il ne
+#:       constitue pas un conseil juridique. Chaque situation a ses
+#:       particularites. […] »
+#:   structure-comment-gerer-les-guso-de-mes-artistes
+#:     « A savoir : cet article decrit un fonctionnement general. Il ne remplace
+#:       ni le site officiel guso.fr, ni un conseil professionnel. […] »
+#:
+#: FUSION, et non doublon : leur texte d'origine n'est pas touche (ce sont les
+#: mots de leur auteur, a l'endroit ou il les a mis, en tete des deux articles
+#: les plus sensibles du blog), et l'encadre de fin SAUTE alors son premier
+#: paragraphe — celui qui redirait exactement la meme chose. Ce qu'il apporte,
+#: lui, et qu'aucun des deux ne portait : les liens vers les organismes, et la
+#: position de l'association. Les deux se completent au lieu de se repeter.
+AVERT_DEJA_EN_TETE = (
+    'employeur-ne-m-a-pas-paye-mon-cachet',
+    'structure-comment-gerer-les-guso-de-mes-artistes',
+)
+
+
+def bloc_avertissement(slug):
+    lignes = list(AVERT_SOCLE)
+    if slug not in AVERT_DEJA_EN_TETE:
+        lignes.insert(0, AVERT_INTRO)
+    ps = ''.join('    <p>%s</p>\n' % _inline(x) for x in lignes)
+    return ('  <aside class="avert">\n    <p class="avert-t">%s%s</p>\n%s  </aside>\n'
+            % (_ic('boussole'), _echap(AVERT_TITRE), ps))
+
+
+# =========================================================================
 # LES 18 ARTICLES
 # =========================================================================
 # ⚠️ LE TEXTE CI-DESSOUS EST CELUI DE SES AUTEURS. On le met en forme, on ne
@@ -715,6 +894,11 @@ def md_en_html(md):
 #    le README des articles neufs (articulation DPAE/GUSO, annexes 8 et 10
 #    cumulees, convention 2121 du studio) sont a faire relire par un
 #    professionnel — ils ne se corrigent pas ici.
+#    Depuis le 15/08/2026 ils portent en revanche une RESERVE a l'endroit de
+#    l'affirmation (les lignes `@reserve`, voir `RESERVES_ATTENDUES`) : c'est un
+#    ajout a cote du texte, pas une retouche du texte. Une relecture par un
+#    professionnel reste a faire ; la reserve dit au lecteur de ne pas s'en
+#    passer, elle ne la remplace pas.
 #
 # Champs :
 #   slug        l'URL, telle que la fixe la section 1 du dossier SEO
@@ -1149,6 +1333,8 @@ Une session d'enregistrement relève de l'**édition phonographique (convention 
 
 Une session d'enregistrement relève de l'**édition phonographique** (convention collective 2121), pas du spectacle vivant. Elle n'est donc **pas déclarée via un GUSO** mais généralement réglée au **chèque-intermittents**. Bref, ce n'est pas le même formulaire, pas le même employeur, pas le même document.
 
+@reserve **Point à vérifier auprès de [France Travail](https://www.francetravail.fr) ou du [GUSO](https://www.guso.fr)** — la convention collective applicable dépend de l'employeur et du contrat : elle est à confirmer pour chaque session.
+
 ::: encadre Dans l'app
 
 À la création d'une date, choisis le type **« studio »**. L'app sait alors que cette date sort du circuit GUSO : elle n'apparaît pas dans les feuillets GUSO ni dans la to-do de la structure, qui ne la gère pas.
@@ -1318,6 +1504,8 @@ Selon conditions, donc : c'est exactement le genre de décision qui dépend de t
 
 Il existe des mécanismes de sécurité — notamment une **clause de rattrapage** et des allocations spécifiques de fin de droits. Leurs conditions et leurs montants évoluent au fil des accords sur l'assurance chômage, et ils ne se déclenchent pas tous automatiquement.
 
+@reserve **Point à vérifier auprès de [France Travail](https://www.francetravail.fr)** — les conditions et les montants de ces mécanismes changent à chaque accord sur l'assurance chômage : ce qui était vrai l'an dernier ne l'est pas forcément aujourd'hui.
+
 Deux réflexes valent mieux que dix pages lues en ligne : **anticiper** dès qu'on voit que le compte ne rentre pas, et **appeler France Travail avant** la date anniversaire, pas après. Un dossier examiné à froid se répare beaucoup mieux qu'un dossier examiné dans la panique.
 
 ## Une date qui travaille pour toi
@@ -1399,6 +1587,8 @@ Deux choses à savoir :
 
 - Pour une créance de salaire non contestée dans son principe, une procédure **en référé** existe — elle vise à obtenir plus vite une décision provisoire. Le conseil de prud'hommes du lieu concerné peut t'indiquer la marche à suivre.
 - Le délai pour agir sur des salaires est de **trois ans** à compter du jour où le salaire aurait dû être payé (article L. 3245-1 du code du travail). C'est confortable, mais ne t'endors pas dessus : les preuves et les témoignages, eux, s'effacent vite. D'autres délais, plus courts, peuvent s'appliquer à d'autres types de demandes (rupture du contrat, par exemple) — d'où l'intérêt de faire vérifier ta situation.
+
+@reserve **Point à vérifier auprès d'un professionnel du droit** — les délais applicables et la recevabilité d'un référé dépendent de la situation. Un syndicat, un point-justice ou le conseil de prud'hommes du lieu concerné répondent sur un cas précis ; [service-public.fr](https://www.service-public.fr) donne la référence des textes.
 
 ## Le cas particulier : tu n'as jamais été déclaré
 
@@ -1583,6 +1773,8 @@ En parallèle, et sans que tu aies rien à faire, le GUSO transmet à **France T
 - **La DPAE** (déclaration préalable à l'embauche) doit intervenir **avant** que tu ne commences à travailler — au plus tôt dans les huit jours précédant l'embauche. Elle se fait via le site du GUSO quand l'employeur passe par ce dispositif. Sur son articulation exacte avec la déclaration principale, les pratiques varient selon les situations : le mieux est de s'appuyer sur le site officiel **guso.fr** ou d'appeler leur service, qui répond aux employeurs comme aux salariés.
 - **Les cotisations** sont dues dans les jours qui suivent la fin du contrat. Un retard expose l'employeur à des majorations.
 
+@reserve **Point à vérifier auprès du [GUSO](https://www.guso.fr)** — sur l'articulation exacte entre la DPAE et la déclaration GUSO, les sources publiques ne disent pas toutes la même chose et les pratiques varient selon les cas.
+
 Ce que ça implique concrètement : la période autour de la date est plus tendue qu'on ne croit. Une DPAE avant, une déclaration dans les quinze jours après. C'est très exactement là que se perdent les heures des gens.
 
 ## Ce que le GUSO n'est pas
@@ -1644,6 +1836,8 @@ Comme pour les concerts : **c'est l'employeur**.
 Quand il s'agit d'un employeur occasionnel qui passe par le GUSO, le principe est simple et souvent mal appliqué : **les répétitions se déclarent avec le spectacle, sur la même déclaration**, dès lors qu'elles se rattachent au même engagement. Les heures de répétition rémunérées apparaissent alors en plus des cachets, comme telles.
 
 Il faut aussi, comme pour tout, une **DPAE** couvrant la période de travail. Une bonne nouvelle sur ce point : une même déclaration préalable peut couvrir **plusieurs dates rapprochées** — typiquement une semaine avec deux répétitions et un concert. Ça évite d'en multiplier une par jour de présence.
+
+@reserve **Point à vérifier auprès du [GUSO](https://www.guso.fr)** — sur l'articulation exacte entre la DPAE et la déclaration GUSO, les pratiques varient selon les cas.
 
 ## Les erreurs fréquentes
 
@@ -1856,6 +2050,8 @@ Ton compteur court sur les **365 jours précédant ta date anniversaire**. Si tu
 
 Si tu fais à la fois de l'artistique (annexe 10) et de la technique (annexe 8), les deux types d'heures **se cumulent pour atteindre les 507**. En revanche, l'annexe sous laquelle tu es indemnisé est, en principe, celle où tu as le plus d'heures sur la période — et cela peut changer les paramètres de ton indemnisation.
 
+@reserve **Point à vérifier auprès de [France Travail](https://www.francetravail.fr)** — sur l'annexe retenue quand on cumule annexe 8 et annexe 10, les sources se contredisent et la réponse dépend du dossier.
+
 C'est un point technique où les sources en ligne se contredisent souvent, et où ta situation personnelle compte. **Ne tranche pas ça seul** : c'est exactement le genre de question à poser à ton conseiller France Travail Spectacle ou à ton syndicat.
 
 ## Cause n° 7 — Une erreur sur la déclaration elle-même
@@ -2028,6 +2224,8 @@ Le GUSO transmet aussi les **attestations d'emploi** à France Travail Spectacle
 C'est là que tout se joue. Quatre moments.
 
 **Avant la date — la DPAE.** La déclaration préalable à l'embauche doit intervenir **avant que l'artiste ne commence à travailler**, au plus tôt dans les huit jours qui précèdent. Elle se fait via le site du GUSO. Elle porte sur l'identité du salarié — pas sur le lieu — ce qui permet, dans une même période resserrée, de couvrir plusieurs journées de travail rapprochées. C'est la formalité la plus souvent oubliée, et l'une des plus sensibles.
+
+@reserve **Point à vérifier auprès du [GUSO](https://www.guso.fr)** — sur l'articulation exacte entre la DPAE et la déclaration GUSO, les sources publiques ne disent pas toutes la même chose et les pratiques varient selon les cas.
 
 **Avant la date — le contrat.** Le contrat de travail (CDD d'usage) doit être **écrit**, et transmis au salarié **au plus tard dans les deux jours ouvrables suivant l'embauche**. L'absence d'écrit expose à une requalification en CDI à temps plein en cas de litige. C'est le risque juridique le plus lourd que court une petite structure, et c'est celui qu'on prend le plus souvent sans le savoir.
 
@@ -2426,6 +2624,14 @@ def build_index():
       'les structures qui les emploient : le compteur des 507 heures, les DPAE, les feuillets '
       'GUSO, l’actualisation France Travail, le contrat, l’impayé, la tournée. Chacun part '
       'd’une situation concrète et s’arrête à ce qui est utile.</p>\n')
+    # La ligne demandee par David le 15/08/2026, sous le chapo : une phrase, et
+    # les deux organismes en toutes lettres. Elle dit sur l'index ce que
+    # l'encadre de fin dit sur chaque article — le lecteur qui n'ouvre qu'une
+    # page d'index doit deja savoir ou est la source qui fait foi.
+    A('      <p class="bl-note">Ces articles partagent une expérience de terrain ; pour ce '
+      'qui fait foi, la référence reste <a href="https://www.francetravail.fr" '
+      'target="_blank" rel="noopener">France Travail</a> et le <a href="https://www.guso.fr" '
+      'target="_blank" rel="noopener">GUSO</a>.</p>\n')
     A('      <p class="bl-meta"><span>%s18 articles</span>'
       '<span>%sMis à jour le <time datetime="%s">%s</time></span></p>\n'
       % (_ic('carnet'), _ic('calendrier'), DATE_MAJ, DATE_MAJ_FR))
@@ -2511,6 +2717,11 @@ def build_article(a):
     A('<main>\n<article class="art"><div class="wrap"><div class="col fin">\n')
     A(md_en_html(a['md']))
 
+    # L'avertissement arrive APRES le texte et AVANT « A lire ensuite » : le
+    # lecteur a lu l'article, il repart avec l'adresse ou verifier. Le mettre en
+    # tete aurait fait fuir avant la premiere phrase.
+    A(bloc_avertissement(a['slug']))
+
     A('  <nav class="suite" aria-label="À lire ensuite">\n')
     A('    <h2>À lire ensuite</h2>\n')
     A('    <div class="cartes">\n')
@@ -2543,6 +2754,45 @@ def build_article(a):
 PRENOMS_FICTIFS = ('Léa', 'Marco', 'Sophie', 'Camille', 'Nino', 'Awa',
                    'Salomé', 'Théo', 'Elsa', 'Bastien')
 
+#: OU UNE RESERVE DOIT ETRE POSEE, ET COMBIEN.
+#:
+#: Le README des 10 articles neufs (`~/CLAUDE/GUSO-FACILE-BACKUPS/
+#: blog-nouveaux-articles/README.md`, section « Ce sur quoi je suis reste
+#: volontairement flou ») liste NEUF points ou son auteur ne s'est pas engage.
+#: Quatre d'entre eux sont AFFIRMES quelque part dans le texte publie : ceux-la
+#: portent une reserve a l'endroit meme de l'affirmation, en plus de l'encadre
+#: de fin. Les cinq autres sont deja ecrits au conditionnel ou renvoyes a
+#: France Travail par leur auteur — les surcharger d'une marque n'ajouterait
+#: rien et diluerait celles qui comptent.
+#:
+#:   articulation DPAE <-> GUSO ... 3 articles (le point que David lui-meme ne
+#:                                  peut pas trancher : « Je ne sais pas te
+#:                                  repondre pour l'articulation DPAE/GUSO »)
+#:   cumul annexes 8 et 10 ....... heures-ne-correspondent-pas-france-travail
+#:   convention 2121 du studio ... studio-et-cheque-intermittents
+#:   prescription 3 ans / refere . employeur-ne-m-a-pas-paye-mon-cachet
+#:
+#: + UN AJOUT, hors des quatre demandes (point 5 du README) : la clause de
+#:   rattrapage et les allocations de fin de droits, dans
+#:   `quand-tombe-ma-date-anniversaire`. Leurs parametres changent a chaque
+#:   accord sur l'assurance chomage — c'est le passage du blog qui se perimera
+#:   le plus vite, et il est presente comme un fait acquis (« Il existe des
+#:   mecanismes de securite »).
+#:
+#: ⚠️ Ce tableau est un GARDE-FOU, pas une note : `_controle_article()` compte
+#:    les reserves reellement presentes dans la page et refuse d'ecrire si le
+#:    compte n'y est pas. Retirer un `@reserve` d'un article sans le retirer
+#:    d'ici arrete le generateur, page inchangee sur le disque.
+RESERVES_ATTENDUES = {
+    'c-est-quoi-le-guso-concretement': 1,
+    'comment-declarer-une-repetition': 1,
+    'structure-comment-gerer-les-guso-de-mes-artistes': 1,
+    'heures-ne-correspondent-pas-france-travail': 1,
+    'studio-et-cheque-intermittents': 1,
+    'employeur-ne-m-a-pas-paye-mon-cachet': 1,
+    'quand-tombe-ma-date-anniversaire': 1,
+}
+
 #: les motifs qui trahissent un reliquat de mini-Markdown non converti.
 RELIQUATS = (
     ('**', 'gras Markdown non converti'),
@@ -2553,6 +2803,7 @@ RELIQUATS = (
     ('::: ', 'bloc « ::: » non converti'),
     ('@lead ', 'marqueur @lead non converti'),
     ('@scene ', 'marqueur @scene non converti'),
+    ('@reserve ', 'marqueur @reserve non converti'),
     ('{ico:', 'jeton d’icone non converti'),
 )
 
@@ -2642,7 +2893,10 @@ def _controle_page(html, nom):
     for u in externes:
         hote = u.split('/')[2]
         if hote not in ('www.resonancesproductions.org', 'fonts.googleapis.com',
-                        'www.facebook.com', 'www.helloasso.com', 'docs.google.com'):
+                        'www.facebook.com', 'www.helloasso.com', 'docs.google.com',
+                        # les trois sources officielles de l'avertissement et des
+                        # reserves. Racines seulement — voir `LIENS_OFFICIELS`.
+                        'www.francetravail.fr', 'www.guso.fr', 'www.service-public.fr'):
             ennuis.append('ressource externe inattendue : %s' % u)
 
     # tout target="_blank" porte rel="noopener" (regle du site)
@@ -2702,6 +2956,52 @@ def _controle_page(html, nom):
             % (nom, '\n'.join('   - ' + e for e in ennuis)))
 
 
+def _controle_article(html, a):
+    """Ce qu'une page d'ARTICLE doit porter depuis le 15/08/2026.
+
+    Separe de `_controle_page()` parce que l'index, lui, n'a pas d'encadre.
+    Meme parti-pris que partout ici : on refuse d'ecrire, on n'avertit pas.
+    """
+    ennuis = []
+
+    if html.count('<aside class="avert">') != 1:
+        ennuis.append('%d encadre d’avertissement (attendu : 1)'
+                      % html.count('<aside class="avert">'))
+    # les trois sources officielles, en toutes lettres et cliquables. Un
+    # avertissement qui dit « renseignez-vous » sans dire OU ne sert a rien.
+    for u in LIENS_OFFICIELS:
+        if 'href="%s"' % u not in html:
+            ennuis.append('l’avertissement ne renvoie pas vers %s' % u)
+
+    attendu = RESERVES_ATTENDUES.get(a['slug'], 0)
+    trouve = html.count('<p class="reserve">')
+    if trouve != attendu:
+        ennuis.append('%d reserve(s) « Point a verifier » (attendu : %d) — voir '
+                      'RESERVES_ATTENDUES' % (trouve, attendu))
+
+    if ennuis:
+        raise SystemExit(
+            '!! ABANDON : guso-facile/blog/%s/index.html\n%s\n'
+            '   Aucune page ecrite (le disque est inchange).'
+            % (a['slug'], '\n'.join('   - ' + e for e in ennuis)))
+
+
+def _controle_index(html):
+    """L'index porte la ligne de renvoi aux organismes, et ses deux liens."""
+    ennuis = []
+    if html.count('<p class="bl-note">') != 1:
+        ennuis.append('%d ligne de renvoi aux organismes (attendu : 1)'
+                      % html.count('<p class="bl-note">'))
+    for u in ('https://www.francetravail.fr', 'https://www.guso.fr'):
+        if 'href="%s"' % u not in html:
+            ennuis.append('l’index ne renvoie pas vers %s' % u)
+    if ennuis:
+        raise SystemExit(
+            '!! ABANDON : guso-facile/blog/index.html\n%s\n'
+            '   Aucune page ecrite (le disque est inchange).'
+            % '\n'.join('   - ' + e for e in ennuis))
+
+
 def _controles_structure():
     """Ce qui se verifie AVANT de construire quoi que ce soit."""
     ennuis = []
@@ -2734,6 +3034,21 @@ def _controles_structure():
                 ennuis.append('%s renvoie vers un article inconnu : %s' % (a['slug'], s))
             if s == a['slug']:
                 ennuis.append('%s se renvoie a lui-meme' % a['slug'])
+    # les reserves attendues sont bien ecrites dans le texte source, et nulle
+    # part ailleurs : un `@reserve` oublie dans un article non repertorie
+    # passerait sinon inapercu jusqu'a la relecture visuelle.
+    for a in ARTICLES:
+        attendu = RESERVES_ATTENDUES.get(a['slug'], 0)
+        trouve = a['md'].count('@reserve ')
+        if trouve != attendu:
+            ennuis.append('%s : %d « @reserve » dans le texte (attendu : %d)'
+                          % (a['slug'], trouve, attendu))
+    for slug in RESERVES_ATTENDUES:
+        if slug not in SLUGS:
+            ennuis.append('RESERVES_ATTENDUES vise un article inconnu : %s' % slug)
+    for slug in AVERT_DEJA_EN_TETE:
+        if slug not in SLUGS:
+            ennuis.append('AVERT_DEJA_EN_TETE vise un article inconnu : %s' % slug)
     if ennuis:
         raise SystemExit('!! ABANDON (structure) :\n%s'
                          % '\n'.join('   - ' + e for e in ennuis))
@@ -2752,6 +3067,7 @@ def main():
     html = mobile_nav.inject(html)          # 1. le hamburger d'abord
     html = nav_menu.inject(html, 'guso-facile')   # 2. puis le menu partage
     _controle_page(html, 'guso-facile/blog/index.html')
+    _controle_index(html)
     if html.count('href="%s/' % URL_BLOG) != len(ARTICLES):
         raise SystemExit('!! ABANDON : l’index ne renvoie pas vers exactement %d articles.'
                          % len(ARTICLES))
@@ -2762,6 +3078,7 @@ def main():
         h = mobile_nav.inject(h)
         h = nav_menu.inject(h, 'guso-facile')
         _controle_page(h, 'guso-facile/blog/%s/index.html' % a['slug'])
+        _controle_article(h, a)
         pages.append((os.path.join(OUT_DIR, a['slug'], 'index.html'), h))
 
     if len(pages) != 19:
