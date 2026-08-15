@@ -71,6 +71,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
 import nav_menu  # noqa: E402
+import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 CSS = """
@@ -224,6 +225,59 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 p a:not(.btn):not(.adh){text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 """
+
+# --------------------------------------------------------------------------
+# LA COUCHE CHALEUREUSE (refonte du 15/08/2026)
+# --------------------------------------------------------------------------
+# « Ramener de la couleur prune, ca fait du bien. Resonances a besoin d'avoir
+#   une image classe mais aussi chaleureuse. » — David, 15/08/2026.
+#
+# Le langage visuel vient de `/guso-facile` (voir l'entete de
+# `sources/generate_guso.py`, section « LA REFONTE VISUELLE ») et sa partie
+# commune vit dans `sources/theme_chaleur.py`. Ici, seules les DECLINAISONS
+# propres aux classes de cette page.
+#
+# ⚠️ AUCUN TEXTE N'A BOUGE. Pas un mot, pas un chiffre, pas un lien, pas une
+#    image, pas l'ordre des sections. Uniquement des declarations CSS ajoutees
+#    EN FIN de feuille — le CSS d'origine n'est pas touche d'une ligne.
+#
+# Ce que la page recoit :
+#   * les sur-titres `.soa-h` et le <h1> peints au degrade signature ;
+#   * les cartes a filet gauche (`.soa-who`, `.soa-line`, `.soa-note`,
+#     `.soa-quote`) : le filet or plein devient un filet DEGRADE de 3 px ;
+#   * les cartes sans filet (`.soa-day`, `.soa-price`) : filet degrade de 3 px
+#     EN TETE, comme sur /guso-facile ;
+#   * les puces rondes dorees deviennent des LOSANGES au degrade chaud ;
+#   * la prune revient en accent de TEXTE (`--plum2`) sur les intitules de role
+#     et sur la liste « ce que ce n'est pas » ;
+#   * des rayons plus genereux (14/16 -> 18 px) et plus d'air (78 -> 92 px).
+CSS_CHALEUR = """/* ===== Le Soin Soa : declinaisons chaleureuses ===== */
+section{padding:92px 0}
+.soa-top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
+.soa-h{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* cartes a filet gauche : le trait or plein devient le degrade signature */
+.soa-who,.soa-line,.soa-note{position:relative;overflow:hidden;border-left-color:transparent;border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
+.soa-who::before,.soa-line::before,.soa-note::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:var(--grad-v)}
+.soa-quote{position:relative;border-left-color:transparent}
+.soa-quote::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;border-radius:2px;background:var(--grad-v)}
+/* cartes sans filet : le degrade passe en tete, comme sur /guso-facile */
+.soa-day,.soa-price{position:relative;overflow:hidden;border-radius:18px}
+.soa-day::before,.soa-price::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.soa-day{box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
+.soa-price{box-shadow:0 26px 60px -42px rgba(0,0,0,.95)}
+.soa-fig{border-radius:18px}
+/* puces : rond dore plein -> losange au degrade chaud */
+.soa-list li::before{width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);top:18px;left:3px}
+.soa-list.no li::before{background:none;border:1.5px solid var(--plum2);width:8px;height:8px;border-radius:2px}
+/* la prune revient en accent de texte (--plum2 : 7,3:1 sur --card) */
+.soa-who .role,.who-txt .role{color:var(--plum2)}
+/* le sommaire : deux filets degrades a la place des deux traits dores */
+.toc{border-top-color:transparent;border-bottom-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent),linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0,0 100%}
+.toc a::before{color:var(--coral)}
+@media(max-width:760px){section{padding:66px 0}}
+"""
+
+CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
 
 IMGDIR = '/img/soin-soa'
 SOA_PHOTOS = {
