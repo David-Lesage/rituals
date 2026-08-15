@@ -497,8 +497,14 @@ def controle_donnees(pages):
     re_tel = re.compile(r'(?:\+33[\s.\-]?|0)[1-9](?:[\s.\-]?\d{2}){4}')
     re_mail = re.compile(r'[\w.+-]+@[\w.-]+\.[a-z]{2,}', re.I)
     mots = '|'.join(re.escape(m) for m in MOTS_CODE)
+    # ⚠️ La forme du code compte autant que le mot qui le precede. Le code qui a
+    # REELLEMENT fuite deux fois sur ce projet s'ecrit « AB0569 » : DEUX lettres
+    # puis quatre chiffres. L'ancienne forme n'acceptait qu'UNE lettre avant les
+    # chiffres (`[A-Za-z][0-9]{3,6}`) et laissait donc passer le seul code qu'on
+    # ait jamais eu a chasser ici — verifie le 15/08/2026. On accepte desormais
+    # jusqu'a trois lettres avant et deux apres.
     re_code = re.compile(r'(?i)\b(%s)\b([^<>]{0,45}?)'
-                         r'\b([0-9]{3,6}[A-Za-z]?|[A-Za-z][0-9]{3,6})\b' % mots)
+                         r'\b([A-Za-z]{0,3}[0-9]{3,6}[A-Za-z]{0,2})\b' % mots)
 
     for p in pages:
         texte = p.html
@@ -514,7 +520,16 @@ def controle_donnees(pages):
             if m.lower() not in EMAILS_AUTORISES:
                 pbs.append('%s : adresse email NON PREVUE « %s ». A confirmer avant '
                            'publication (elle sera aspiree par les robots).' % (p.rel, m))
-        for m in re_code.finditer(texte):
+        # Le controle des codes d'acces ne regarde QUE le texte de la page :
+        # les feuilles de style et les scripts sont retires d'abord. Un code de
+        # portail ne se cache pas dans du CSS, alors que le CSS, lui, aligne des
+        # nombres a longueur de ligne — « .badge{background:linear-gradient(
+        # 90deg,rgba(216… » a bloque une publication le 15/08/2026, « badge »
+        # suivi de « 216 » ayant tous les traits d'un code d'entree. Un
+        # garde-fou qui crie au loup finit contourne : on retire donc le bruit
+        # a la source plutot que d'allonger la liste des exceptions.
+        texte_sans_style = re.sub(r'(?is)<(style|script)\b[^>]*>.*?</\1>', ' ', texte)
+        for m in re_code.finditer(texte_sans_style):
             contexte = ' '.join(m.group(0).split())
             if any(x in contexte.lower() for x in CODES_HORS_SOUPCON):
                 continue
