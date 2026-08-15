@@ -260,7 +260,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 /* la pastille de lecture du teaser : degrade chaud au lieu de l'or plein */
 .tz .play{background:var(--grad-warm)}
 
-/* == nav_menu.py (resonances-3) == */
+/* == nav_menu.py (resonances-4) == */
 /* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
@@ -358,7 +358,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 
 <nav class="nav">
   <a class="brand" href="/">Résonances Productions</a>
-  <div class="links" data-nav="resonances-3">
+  <div class="links" data-nav="resonances-4">
     <a href="/">Accueil</a>
     <div class="nm-item">
       <button type="button" class="nm-top nm-active" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
@@ -386,7 +386,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
     <div class="nm-item">
       <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-asso"><span class="nm-lbl">L’association</span><span class="nm-caret" aria-hidden="true"></span></button>
       <div class="nm-sub" id="nm-sub-asso" role="group" aria-label="L’association">
-        <a href="/#association">L’association</a>
+        <a href="/association">L’association</a>
         <a href="/guso-facile">Guso Facile</a>
       </div>
     </div>
@@ -597,7 +597,7 @@ document.querySelectorAll('.tz').forEach(function(t){t.addEventListener('keydown
 })();
 </script>
 
-<!-- nav_menu.py (resonances-3) -->
+<!-- nav_menu.py (resonances-4) -->
 <script>
 /* Sous-menus du menu partage (voir sources/nav_menu.py).
    Desktop : survol + clic + clavier. Mobile : accordeons dans le panneau du hamburger. */

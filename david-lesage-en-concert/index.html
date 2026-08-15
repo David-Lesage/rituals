@@ -48,7 +48,6 @@ b{color:#fff;font-weight:500}
    `white-space:nowrap` sur les liens : sans lui, sous 1340 px les libelles se
    coupaient en deux lignes et la barre passait de 61 a 96 px de haut. */
 @media(min-width:861px) and (max-width:1340px){.nav{padding:8px 16px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:0 14px}}
-@media(min-width:861px) and (max-width:1340px){.nav .links a[href="/#statuts"]{display:none}}
 @media(min-width:861px) and (max-width:1060px){.nav .links a[href="/#association"]{display:none}}
 @media(min-width:861px) and (max-width:960px){.nav .links a[href="/#prestations"]{display:none}}
 @media(min-width:861px) and (max-width:920px){.nav .links a[href="#contact"]{display:none}}
@@ -634,7 +633,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   body.nav-open{overflow:hidden}
 }
 @media print{.burger{display:none}}
-/* == nav_menu.py (resonances-3) == */
+/* == nav_menu.py (resonances-4) == */
 /* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
@@ -726,7 +725,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 
 <nav class="nav">
   <a href="/" class="brand">Résonances Productions</a>
-  <div class="links" data-nav="resonances-3">
+  <div class="links" data-nav="resonances-4">
     <a href="/">Accueil</a>
     <div class="nm-item">
       <button type="button" class="nm-top nm-active" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
@@ -754,7 +753,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
     <div class="nm-item">
       <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-asso"><span class="nm-lbl">L’association</span><span class="nm-caret" aria-hidden="true"></span></button>
       <div class="nm-sub" id="nm-sub-asso" role="group" aria-label="L’association">
-        <a href="/#association">L’association</a>
+        <a href="/association">L’association</a>
         <a href="/guso-facile">Guso Facile</a>
       </div>
     </div>
@@ -1263,7 +1262,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   window.addEventListener('resize',function(){ if(window.innerWidth>860) set(false); });
 })();
 </script>
-<!-- nav_menu.py (resonances-3) -->
+<!-- nav_menu.py (resonances-4) -->
 <script>
 /* Sous-menus du menu partage (voir sources/nav_menu.py).
    Desktop : survol + clic + clavier. Mobile : accordeons dans le panneau du hamburger. */

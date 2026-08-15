@@ -44,7 +44,6 @@ b{color:#fff;font-weight:500}
    On ne descend jamais sous 13 px (plancher typographique du site) : dans la bande
    la plus etroite on masque plutot « Statuts », qui reste dans le pied de page. */
 @media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
-@media(min-width:861px) and (max-width:1000px){.nav .links a[href="/#statuts"]{display:none}}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 26px;border-radius:40px;font-size:15px;transition:transform .2s,box-shadow .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
@@ -256,7 +255,7 @@ section{padding:92px 0}
 }
 @media print{.burger{display:none}}
 
-/* == nav_menu.py (resonances-3) == */
+/* == nav_menu.py (resonances-4) == */
 /* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
@@ -351,7 +350,7 @@ section{padding:92px 0}
 
 <nav class="nav">
   <a href="/" class="brand">Résonances Productions</a>
-  <div class="links" data-nav="resonances-3">
+  <div class="links" data-nav="resonances-4">
     <a href="/">Accueil</a>
     <div class="nm-item">
       <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
@@ -379,7 +378,7 @@ section{padding:92px 0}
     <div class="nm-item">
       <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-asso"><span class="nm-lbl">L’association</span><span class="nm-caret" aria-hidden="true"></span></button>
       <div class="nm-sub" id="nm-sub-asso" role="group" aria-label="L’association">
-        <a href="/#association">L’association</a>
+        <a href="/association">L’association</a>
         <a href="/guso-facile">Guso Facile</a>
       </div>
     </div>
@@ -561,7 +560,7 @@ section{padding:92px 0}
 })();
 </script>
 
-<!-- nav_menu.py (resonances-3) -->
+<!-- nav_menu.py (resonances-4) -->
 <script>
 /* Sous-menus du menu partage (voir sources/nav_menu.py).
    Desktop : survol + clic + clavier. Mobile : accordeons dans le panneau du hamburger. */

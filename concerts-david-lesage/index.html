@@ -49,7 +49,6 @@ b{color:#fff;font-weight:500}
    dans la bande la plus etroite on masque « Statuts » puis « L'association »,
    qui restent joignables depuis le pied de page et l'accueil. */
 @media(min-width:861px) and (max-width:1080px){.nav{padding:8px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:0 14px}}
-@media(min-width:861px) and (max-width:1080px){.nav .links a[href="/#statuts"]{display:none}}
 @media(min-width:861px) and (max-width:980px){.nav .links a[href="/#association"]{display:none}}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 28px;border-radius:40px;font-size:16px;min-height:48px;transition:transform .2s,box-shadow .2s}
@@ -348,7 +347,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   body.nav-open{overflow:hidden}
 }
 @media print{.burger{display:none}}
-/* == nav_menu.py (resonances-3) == */
+/* == nav_menu.py (resonances-4) == */
 /* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
@@ -440,7 +439,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 
 <nav class="nav">
   <a href="/" class="brand">Résonances Productions</a>
-  <div class="links" data-nav="resonances-3">
+  <div class="links" data-nav="resonances-4">
     <a href="/">Accueil</a>
     <div class="nm-item">
       <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
@@ -468,7 +467,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
     <div class="nm-item">
       <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-asso"><span class="nm-lbl">L’association</span><span class="nm-caret" aria-hidden="true"></span></button>
       <div class="nm-sub" id="nm-sub-asso" role="group" aria-label="L’association">
-        <a href="/#association">L’association</a>
+        <a href="/association">L’association</a>
         <a href="/guso-facile">Guso Facile</a>
       </div>
     </div>
@@ -808,7 +807,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   window.addEventListener('resize',function(){ if(window.innerWidth>860) set(false); });
 })();
 </script>
-<!-- nav_menu.py (resonances-3) -->
+<!-- nav_menu.py (resonances-4) -->
 <script>
 /* Sous-menus du menu partage (voir sources/nav_menu.py).
    Desktop : survol + clic + clavier. Mobile : accordeons dans le panneau du hamburger. */
