@@ -45,6 +45,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav          # menu hamburger mobile             # noqa: E402
 import nav_menu            # menu de navigation partage        # noqa: E402
+import theme_chaleur       # couche chaleureuse commune        # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML       # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -239,7 +240,49 @@ picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
 .affiche picture>img{width:100%;height:auto;max-width:100%;max-height:none}
 /* L'ancienne photo de hero (hero-iris-et-david) n'est plus en fond ici :
    elle est desormais affichee dans la presentation des artistes, en <picture>. */
-
+"""
+# --------------------------------------------------------------------------
+# LA COUCHE CHALEUREUSE (refonte du 15/08/2026)
+# --------------------------------------------------------------------------
+# « Ramener de la couleur prune, ca fait du bien. Resonances a besoin d'avoir
+#   une image classe mais aussi chaleureuse. » — David, 15/08/2026.
+# La partie commune vit dans `sources/theme_chaleur.py` ; elle est concatenee
+# ici, EN FIN de feuille de style, pour surcharger sans rien reecrire.
+# AUCUN TEXTE N'A BOUGE.
+#
+# ⚠️ ELLE ENTRE AVANT `</style>`, ET C'EST VOULU : `nav_menu.inject()` insere
+#    SON css juste avant ce meme `</style>`, donc apres nous. Verifie : il ne
+#    declare que des selecteurs de menu (`.nav …`, `.nm-*`), aucun de ceux
+#    d'ici. Le menu garde sa pastille « Adherer » en or plein.
+# ⚠️ PAS DE TITRE PEINT AU DEGRADE SUR CETTE PAGE : son `<h1>` est en
+#    `sr-only` (le titre est incruste dans l'image de banniere) et les
+#    `.sec-title` restent blancs, comme sur /le-soin-soa. Ce qui porte le
+#    degrade, ce sont les sur-titres `.kick`, les filets et les puces.
++ theme_chaleur.CSS +
+"""/* ===== E-Motion : declinaisons chaleureuses ===== */
+/* les cartes des cinq elements : filet de tete au degrade, coins plus doux.
+   Le filet est PEINT sur la bordure (background-image cadre sur `border-box`)
+   plutot qu'ajoute en pseudo-element : `.card` s'anime deja au survol
+   (`transform:translateY(-4px)`), un `::before` positionne s'y ajouterait mal,
+   et la boite ne bouge ainsi pas d'un pixel. */
+.card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
+.card:hover{border-color:transparent}
+/* le grand chiffre de chaque carte, peint au degrade */
+.card .n{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* citations : le trait or plein de 3 px devient le degrade vertical */
+.q{border-left-color:transparent;border-radius:14px;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
+/* les deux cartes « se programme en / s'inscrit dans » : filet de tete */
+.scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
+/* la prune revient en accent de TEXTE (--plum2 : 7,3:1 sur --card) */
+.artist .role{color:var(--plum2)}
+/* le filet qui separe les deux artistes : degrade, comme le .divider */
+.artist{border-top-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+/* arrondis genereux, memes valeurs que sur /guso-facile */
+.figure,.tz,.affiche img,.aphoto,picture.aphoto,.gal-item,.lb-frame{border-radius:18px}
+/* la pastille de lecture du teaser : degrade chaud au lieu de l'or plein */
+.tz .play{background:var(--grad-warm)}
+"""
++ """
 </style>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="alternate icon" href="/favicon.ico" sizes="any">
