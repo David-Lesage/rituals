@@ -11,8 +11,36 @@ SORTIE = os.path.join(REPO, 'assoc_index.html')
 sys.path.insert(0, HERE)
 import mobile_nav  # noqa: E402
 import nav_menu  # menu de navigation partage  # noqa: E402
+import textes_association as T  # textes partages avec /association  # noqa: E402
 import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
+
+# --------------------------------------------------------------------------- #
+# CE QUE CETTE PAGE A CEDE A /association LE 15/08/2026
+# --------------------------------------------------------------------------- #
+# David avait remarque que « Accueil » et « L’association » menaient tous les
+# deux ici. Derriere ce doublon de menu, un probleme de fond : CETTE PAGE
+# FAISAIT CINQ METIERS (`#association`, `#statuts`, `#adherer`, `#contact`,
+# `#prestations`) en plus de presenter les six cartes de spectacles.
+#
+# Sont partis vers `sources/generate_association.py` -> `/association` :
+#   * le DEUXIEME paragraphe de l'objet (supports et moyens) ;
+#   * TOUTE la section « Cadre legal · Les statuts » — les deux articles, le
+#     renvoi au Journal officiel avec le n° RNA, le lien vers le document des
+#     statuts et la fiche de l'annuaire des entreprises (data.gouv.fr).
+#     L'ancre `#statuts` a donc quitte cette page. Mesure faite avant de
+#     trancher : AUCUNE page du site ne pointait vers `/#statuts` dans son
+#     corps de texte. Le seul renvoi reel etait la redirection `/statuts` de
+#     `vercel.json`, qui vise maintenant `/association#statuts`.
+#
+# Sont RESTES ici, et les ancres avec :
+#   * `#association` — la presentation courte (OBJET_P1, inchange) suivie du
+#     bouton « En savoir plus sur l’association » ;
+#   * `#prestations`, `#adherer`, `#contact`, et les quatre engagements.
+#
+# ⚠️ Les textes communs aux deux pages vivent dans
+#    `sources/textes_association.py`. Ne pas les recopier ici : une correction
+#    de David doit n'avoir qu'un seul endroit ou se faire.
 
 # Flower of life (19 circles) SVG
 def flower(r=60):
@@ -30,6 +58,18 @@ def flower(r=60):
 
 FL=flower()
 
+# ⚠️ RETRAIT DU 15/08/2026 — six regles CSS de moins dans le bloc ci-dessous.
+# Le groupe `/* statuts */` y figurait :
+#     .statuts .box{margin-top:34px;…;border-radius:16px;padding:28px;max-width:900px}
+#     .statuts .box p{…}  .statuts .box .art{…}  .statuts .box .jo{…}
+#     .statuts .box .jo a{…}
+# Il habillait la section « Cadre legal · Les statuts », partie sur /association.
+# Les regles ne sont pas perdues : leur equivalent vit dans
+# `sources/generate_association.py` (bloc CSS_PAGE, classes `.box`, `.art`, `.jo`).
+# Deux autres groupes ont suivi pour la meme raison : `.statuts .box .art` et
+# `.statuts .box .jo` dans CSS_CHALEUR, et les deux regles `.jo a` de CSS_LISI.
+# Une feuille de style qui decrit une section absente de la page est exactement ce
+# qui fait perdre une demi-heure a la session suivante.
 CSS="""
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -85,12 +125,6 @@ background:radial-gradient(1100px 720px at 50% -6%,rgba(143,122,209,.28),transpa
 /* adhesion */
 .adhesion{text-align:center;background:radial-gradient(800px 460px at 50% 40%,rgba(216,178,90,.12),transparent 65%),#0b0c1e}
 .adhesion .big{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,40px);color:#fff;font-weight:500;max-width:760px;margin:0 auto}
-/* statuts */
-.statuts .box{margin-top:34px;background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:28px;max-width:900px}
-.statuts .box p{color:#d3d0e8;margin-bottom:12px}
-.statuts .box .art{color:var(--gold);font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
-.statuts .box .jo{color:var(--muted);font-size:13.5px;border-left:2px solid var(--gold);padding-left:14px;margin-top:16px}
-.statuts .box .jo a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(216,178,90,.4)}
 /* footer */
 /* focus clavier visible (accessibilite) */
 :focus-visible{outline:2px solid var(--gold2);outline-offset:2px;border-radius:4px}
@@ -134,7 +168,6 @@ CSS_CHALEUR = """/* ===== Accueil : declinaisons chaleureuses ===== */
 .hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
 /* sur-titre des cartes de prestations, peint au degrade */
 .card .t{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-.statuts .box .art{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 /* cartes de prestations : filet de tete au degrade, coins plus genereux */
 .card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
 /* ⚠️ LA REGLE QUI SUIT DOIT REPETER TOUTES LES LONGHANDS. Mesure faite a
@@ -150,10 +183,6 @@ CSS_CHALEUR = """/* ===== Accueil : declinaisons chaleureuses ===== */
 .val{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.5),rgba(224,138,114,.5) 55%,rgba(179,162,228,.45));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
 /* la prune revient en accent de TEXTE (--plum2 : 8,6:1 sur --night) */
 .val h3{color:var(--plum2)}
-/* l'encadre des statuts : coins genereux, et ses renvois passent du trait
-   dore plein au degrade vertical */
-.statuts .box{border-radius:18px}
-.statuts .box .jo{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
 """
 
 CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
@@ -196,12 +225,9 @@ def cards():
 #   sources/generate_soin_soa.py  ->  le-soin-soa/index.html
 # (l'accueil n'en garde que la carte de prestations ci-dessus, qui y renvoie).
 
-VALS=[
- ('Le vivant','Placer l’humain, la nature et la vibration au cœur de chaque projet.'),
- ('La créativité','Accompagner et produire des artistes, dans tous les domaines.'),
- ('Le bien-être','Proposer des expériences qui apaisent, relient et élèvent.'),
- ('L’indépendance','Une démarche libre, inclusive, sans appartenance religieuse, philosophique ou politique.'),
-]
+# Les quatre engagements sont partages avec `/association` (ils y figurent sous
+# le meme intitule) : une seule ecriture, dans textes_association.py.
+VALS = T.VALS
 def vals():
     return ''.join(f'<div class="val"><h3>{h}</h3><p>{p}</p></div>' for h,p in VALS)
 
@@ -216,10 +242,10 @@ def vals():
 # rendrait le CSS illisible, et la prochaine regle ajoutee ici reintroduirait la
 # panne. Sorti de la f-string, on peut y coller du CSS tel quel sans y penser.
 # ⚠️ Meme regle pour tout futur bloc de CSS : hors de la f-string.
+# ⚠️ Les deux regles `.jo a` de ce bloc sont parties le 15/08/2026 avec la
+#    section des statuts : plus aucun element de cette page ne porte `.jo`.
+#    Elles sont reprises telles quelles dans `generate_association.py`.
 CSS_LISI = """/* --- lisibilite des liens (demande de David : liens et dates trop petits) --- */
-.jo a{font-size:15px;display:inline-block;padding:6px 0;text-decoration:underline;
-  text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px}
-.jo a:hover{text-decoration-color:var(--gold2)}
 footer p,footer a{font-size:16px}
 footer a{padding:13px 0}
 footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.35);
@@ -230,8 +256,24 @@ p a:not(.btn):not(.adh){text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 """
 
-HELLO='https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions'
+# Meme URL que `nav_menu.ADHESION` et que le bouton de `/association` : elle est
+# ecrite une fois dans textes_association.py.
+HELLO = T.HELLOASSO
 
+# --------------------------------------------------------------------------- #
+# GOOGLE SEARCH CONSOLE — la balise de verification, ICI ET NULLE PART AILLEURS
+# --------------------------------------------------------------------------- #
+# Code fourni par David le 15/08/2026. Il verifie la propriete « prefixe d'URL »
+# (https://www.resonancesproductions.org/) : Google ne lit la balise que sur la
+# page demandee, donc UNE pose sur l'accueil suffit. La repeter sur les 30 pages
+# ne verifierait rien de plus et rendrait son retrait hasardeux le jour ou il
+# faudra le faire. `sources/generate_association.py` REFUSE d'ecrire sa page si
+# la balise s'y trouve — le garde-fou est du cote de la page qui ne doit pas la
+# porter, pas du cote de celle qui la porte.
+# ⚠️ David pose en parallele un enregistrement TXT dans la zone DNS OVH pour la
+#    propriete « domaine ». Les deux methodes coexistent sans conflit, et un
+#    enregistrement `google-site-verification` existe deja dans cette zone : ne
+#    pas le remplacer en croyant faire le menage.
 HTML=f"""<!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -250,6 +292,7 @@ HTML=f"""<!DOCTYPE html>
   <meta property="og:image" content="https://www.resonancesproductions.org/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta name="google-site-verification" content="iPTmSfVj4xlmO8MwL_FnR4VJS583WHokrohFreY6pjk">
 </head>
 <body>
 
@@ -283,9 +326,9 @@ HTML=f"""<!DOCTYPE html>
 
 <section class="assoc" id="association"><div class="wrap">
   <div class="kick">L’association</div>
-  <h2 class="sec-title">Mettre l’art au service du vivant</h2>
-  <p class="body">L’Association <b>Résonances Productions</b> (loi 1901) a pour objectif l’<b>accompagnement</b>, la <b>promotion</b>, la <b>production</b> et le <b>soutien d’artistes</b> dans tous les domaines, ainsi que d’initier ou de soutenir des actions autour d’alternatives de toutes natures — écologiques, économiques, culturelles, techniques et humaines.</p>
-  <p class="body">Elle s’appuie sur plusieurs supports (lettres d’information, site internet, plateformes multimédias, format papier…) et plusieurs moyens : journalisme, publications, formations, organisation d’événements. Les activités de l’association s’exercent <b>indépendamment de toute appartenance religieuse, philosophique ou politique</b>.</p>
+  <h2 class="sec-title">{T.OBJET_TITRE}</h2>
+  <p class="body">{T.OBJET_P1}</p>
+  <div class="cta" style="margin-top:28px"><a class="btn ghost" href="/association">En savoir plus sur l’association</a></div>
 </div></section>
 
 <div class="divider"></div>
@@ -313,21 +356,6 @@ HTML=f"""<!DOCTYPE html>
 </div></section>
 
 <div class="divider"></div>
-
-<section class="statuts" id="statuts"><div class="wrap">
-  <div class="kick">Cadre légal</div>
-  <h2 class="sec-title">Les statuts</h2>
-  <div class="box">
-    <div class="art">Article 1 — Constitution & dénomination</div>
-    <p>Association régie par la loi du 1<sup>er</sup> juillet 1901 et le décret du 16 août 1901, sous la dénomination « <b>Résonances Productions</b> ».</p>
-    <div class="art">Article 2 — Objet</div>
-    <p>« L’accompagnement, la promotion, la production et le soutien dans tous les domaines ainsi que d’initier ou de soutenir des actions à propos d’alternatives de toutes natures (écologiques, économiques, culturelles, techniques et humaines). Elle utilisera pour cela plusieurs supports (lettres d’information, site internet, plateforme multimédias, format papier etc.) et de plusieurs moyens (journalisme, publications, formations, organisations d’évènements etc.). Les activités de l’association s’exercent indépendamment de toute appartenance religieuse, philosophique ou politique. L’association pourra réaliser toutes opérations avec les tiers liées directement ou indirectement à son objet. »</p>
-    <p class="jo">Objet officiel tel que déclaré au <b>Journal officiel des associations</b>. Déclaration à la sous-préfecture de Pamiers, publiée le 28 octobre 2017 — n° RNA <b>W092002501</b>. <a href="https://www.journal-officiel.gouv.fr/document/associations_b/201700430125" target="_blank" rel="noopener">Consulter l’annonce officielle (JOAFE)</a></p>
-    
-    <p class="jo"><a href="https://docs.google.com/document/d/1NxsbvaqHsA9VOXlN7cvsav7cxFwhsK4XCpowHb75o1w/edit?usp=sharing" target="_blank" rel="noopener">Statuts de l’association</a></p>
-        <p class="jo"><a href="https://annuaire-entreprises.data.gouv.fr/entreprise/resonances-productions-919514075" target="_blank" rel="noopener">Fiche officielle de l’association (annuaire des entreprises — data.gouv.fr)</a></p>
-  </div>
-</div></section>
 
 <footer id="contact"><div class="wrap">
   <div class="fgrid">
@@ -393,7 +421,21 @@ _ATTENDU = (
     ('/* --- lisibilite des liens', 1, 'bloc « lisibilite des liens »'),
     ('id="association"', 1, 'ancre #association'),
     ('id="prestations"', 1, 'ancre #prestations'),
-    ('id="statuts"', 1, 'ancre #statuts'),
+    ('id="adherer"', 1, 'ancre #adherer'),
+    # ⚠️ `id="statuts"` NE DOIT PLUS ETRE ICI : la section a demenage vers
+    #    /association le 15/08/2026. Si elle revenait sur l'accueil, deux pages
+    #    porteraient la meme ancre et la redirection `/statuts` de vercel.json
+    #    (qui vise desormais `/association#statuts`) deviendrait ambigue. On
+    #    verifie donc son ABSENCE, pas sa presence.
+    ('id="statuts"', 0, 'ancre #statuts — partie sur /association'),
+    ('class="statuts"', 0, 'section des statuts — partie sur /association'),
+    # le pont vers la nouvelle page : sans lui, /association ne serait
+    # atteignable que par le menu.
+    ('<a class="btn ghost" href="/association">En savoir plus sur l’association</a>',
+     1, 'bouton « En savoir plus » vers /association'),
+    # la balise de verification Google Search Console : ICI, et sur aucune des
+    # 29 autres pages (generate_association.py refuse d'ecrire si elle y est).
+    ('name="google-site-verification"', 1, 'verification Google Search Console'),
     ('<svg class="flower"', 1, 'fleur de vie du hero'),
     ('<circle ', 19, 'les 19 cercles de la fleur de vie'),
     # SIX cartes, pas huit : voir la note sur PREST. Ce compte est la pour que
