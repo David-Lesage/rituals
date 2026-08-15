@@ -421,43 +421,19 @@ picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
   .slide img{height:auto;width:100%;max-width:100%;max-height:none}
 }
 @media print{.slide{width:100%!important}.slide picture{width:100%!important}}
-__BG__""" + theme_chaleur.CSS + """/* ===== RITUALS trio : declinaisons chaleureuses (15/08/2026) =====
+__BG__""" + theme_chaleur.CSS + theme_chaleur.CSS_RITUALS + """/* ===== RITUALS trio : ce qui n'existe QUE sur la page du trio =====
    « Ramener de la couleur prune, ca fait du bien. Resonances a besoin d'avoir
      une image classe mais aussi chaleureuse. » — David, 15/08/2026.
-   La partie commune vit dans `sources/theme_chaleur.py`, concatenee juste
-   au-dessus. Ici, seules les declinaisons propres aux classes de CETTE page.
-   AUCUN TEXTE N'A BOUGE, et la geometrie du carrousel n'est PAS touchee :
-   on ne change que le rayon des coins des diapos, jamais leur largeur ni leur
-   `--ar` (le remede documente contre l'effondrement a 2 px). */
-.hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
-.step .t,.spec .k{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* les cartes numerotees : filet de tete au degrade + chiffre peint.
-   Le filet est PEINT sur la bordure plutot qu'ajoute en pseudo-element : la
-   carte s'anime deja au survol (`translateY(-4px)`), et un `::before`
-   demanderait un `overflow:hidden` qui rognerait les coins arrondis. */
-.card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
-.card:hover{border-color:transparent}
-.card .n{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* le fil du parcours : le trait vertical dore devient le degrade, et la pastille
-   de chaque etape passe au degrade chaud */
-.steps{border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:2px 100%;background-position:0 0;background-origin:border-box}
-.step:before{background:var(--grad-warm);box-shadow:0 0 0 5px rgba(224,138,114,.14)}
-/* citations : le trait or plein de 3 px devient le degrade vertical */
-.q{border-left-color:transparent;border-radius:14px;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
-/* les deux cartes « se programme en / s'inscrit dans » : filet de tete */
-.scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
-/* la prune revient en accent de TEXTE (--plum2 : 8,6:1 sur --night) */
-.artist .role{color:var(--plum2)}
-/* le filet qui separe les artistes, et ceux de la fiche technique */
-.artist,.spec div{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.42),rgba(224,138,114,.42) 55%,rgba(179,162,228,.38));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+   La couche commune (halos, degrades, .btn, .legal) et la declinaison des DEUX
+   pages RITUALS sont concatenees juste au-dessus, depuis theme_chaleur.py :
+   /rituals et /rituals-trio sont jumelles, leurs feuilles de style ne different
+   que de deux regles — celles-ci. Les ecrire deux fois, c'etait se garantir
+   qu'un jour l'une des deux pages resterait froide.
+   AUCUN TEXTE N'A BOUGE. */
 /* la pastille « trio » : un fond chaud degrade au lieu d'un aplat dore */
 .trio-badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(224,138,114,.11));border-color:rgba(240,209,138,.34)}
-/* les deux boutons dores pleins qui ne portent pas la classe .btn */
-.dlbtn,.car-play{background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(224,138,114,.55)}
-.dlbtn:hover{box-shadow:0 18px 40px -16px rgba(224,138,114,.65)}
-/* arrondis genereux — la LARGEUR des diapos n'est pas touchee */
-.figure,.jgal figure,.aphoto,picture.aphoto,.ask .item,.third,.tbl-wrap,.lb-frame{border-radius:18px}
-.slide{border-radius:16px}
+/* la galerie de Julien : memes coins que les autres figures */
+.jgal figure{border-radius:18px}
 </style>"""
 
 

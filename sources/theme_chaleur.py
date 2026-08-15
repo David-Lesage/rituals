@@ -110,6 +110,61 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 
 
 # =========================================================================
+# LA DECLINAISON DES DEUX PAGES RITUALS — une seule ecriture
+# =========================================================================
+# `/rituals` et `/rituals-trio` sont deux pages jumelles : leurs feuilles de
+# style (`sources/rituals_source.html` et `sources/trio_source.html`) ne
+# different que de DEUX regles — `.jgal` et `.trio-badge`, propres au trio.
+# Mesure faite : `diff` des deux blocs `<style>` = 2 lignes.
+#
+# Ecrire la declinaison chaleureuse deux fois, c'est exactement le scenario
+# que ce module existe pour eviter : une retouche du filet du parcours en
+# corrigerait une, et l'autre resterait froide sans que personne le voie. Les
+# deux generateurs concatenent donc CETTE constante ; ce qui est propre au trio
+# reste dans `generate_trio.py`, juste derriere.
+#
+# ⚠️ POURQUOI ON PEINT LES BORDURES au lieu d'ajouter des pseudo-elements :
+#    `.card` s'anime au survol (`translateY(-4px)`) et un `::before` positionne
+#    demanderait un `overflow:hidden` qui rognerait les coins arrondis. Peindre
+#    la bordure (`background-image` cadre sur `border-box`) ne deplace rien.
+# ⚠️ `--grad-v` (vertical) pour les filets de COTE, `--grad` (95deg) pour ceux
+#    du HAUT : dans un filet haut de 200 px et large de 3, un degrade a 95deg
+#    tombe de biais.
+# ⚠️ LE CARROUSEL N'EST PAS TOUCHE : ni la largeur des diapos, ni `--ar`, ni le
+#    `eager` des trois premieres. Seul le rayon de leurs coins change. Le
+#    remede contre l'effondrement a 2 px doit rester intact.
+CSS_RITUALS = """/* ===== RITUALS : declinaisons chaleureuses (15/08/2026) =====
+   Communes a /rituals et /rituals-trio — ecrites UNE fois, dans
+   sources/theme_chaleur.py, pour que les deux pages jumelles ne divergent pas. */
+.hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
+.step .t,.spec .k{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* les cartes numerotees : filet de tete au degrade + chiffre peint */
+.card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
+.card:hover{border-color:transparent}
+.card .n{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* le fil du parcours : le trait vertical dore devient le degrade, et la pastille
+   de chaque etape passe au degrade chaud */
+.steps{border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:2px 100%;background-position:0 0;background-origin:border-box}
+.step:before{background:var(--grad-warm);box-shadow:0 0 0 5px rgba(224,138,114,.14)}
+/* citations : le trait or plein de 3 px devient le degrade vertical */
+.q{border-left-color:transparent;border-radius:14px;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
+/* les deux cartes « se programme en / s'inscrit dans » : filet de tete */
+.scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
+/* la prune revient en accent de TEXTE (--plum2 : 8,6:1 sur --night) */
+.artist .role{color:var(--plum2)}
+/* le filet qui separe les artistes, et ceux de la fiche technique */
+.artist,.spec div{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.42),rgba(224,138,114,.42) 55%,rgba(179,162,228,.38));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+/* les deux boutons dores PLEINS qui ne portent pas la classe .btn : la couche
+   commune ne les atteint pas, il faut les nommer */
+.dlbtn,.car-play{background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(224,138,114,.55)}
+.dlbtn:hover{box-shadow:0 18px 40px -16px rgba(224,138,114,.65)}
+/* arrondis genereux — la LARGEUR des diapos n'est pas touchee */
+.figure,.aphoto,picture.aphoto,.ask .item,.third,.tbl-wrap,.lb-frame{border-radius:18px}
+.slide{border-radius:16px}
+"""
+
+
+# =========================================================================
 # LES PICTOGRAMMES — des icones dessinees, JAMAIS un emoji
 # =========================================================================
 # Regle du site, et demande explicite de David : des icones « signature » en
