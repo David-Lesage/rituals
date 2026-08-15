@@ -72,6 +72,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
+import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 ADHESION = ('https://www.helloasso.com/beta/associations/resonances-productions/adhesions/'
@@ -807,6 +808,61 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh){font-size:inherit;text-decorati
 .spf iframe{display:block;width:100%;border:0;border-radius:12px;background:var(--card)}
 .cdl-block .spf-note{color:var(--muted);font-size:14px;font-style:italic;margin-top:12px;max-width:640px}
 """ + LIGHTBOX_CSS
+
+
+# --------------------------------------------------------------------------
+# LA COUCHE CHALEUREUSE (refonte du 15/08/2026)
+# --------------------------------------------------------------------------
+# « Ramener de la couleur prune, ca fait du bien. Resonances a besoin d'avoir
+#   une image classe mais aussi chaleureuse. » — David, 15/08/2026.
+# La partie commune vit dans `sources/theme_chaleur.py` (halos, degrades,
+# `.divider`, `.btn`, contraste du `.legal`). Ici, uniquement les declinaisons
+# propres aux classes `cdl-*` de CETTE page. AUCUN TEXTE N'A BOUGE.
+#
+# ⚠️ POURQUOI ON PEINT LA BORDURE plutot que d'ajouter un pseudo-element :
+#    `.cdl-card`, `.cdl-note` et `.cdl-quote` portent deja un `border-left`
+#    de 2 px en or PLEIN. Un `::before` positionne demanderait un
+#    `overflow:hidden` qui rognerait les coins arrondis, et se superposerait au
+#    contenu. On rend donc la bordure transparente et on peint un
+#    `background-image` cadre sur `border-box` : la boite ne bouge pas d'un
+#    pixel, seule la couleur change.
+# ⚠️ `--grad-v` (vertical) pour les filets de COTE, `--grad` (95deg) pour ceux
+#    du HAUT : dans un filet haut de 200 px et large de 3, un degrade a 95deg
+#    tombe de biais — c'est du hasard, pas un choix.
+# ⚠️ LA PRUNE EST EN `--plum2` (#b3a2e4) partout ou elle porte du TEXTE :
+#    `--plum` (#8f7ad1) est a 4,64:1 sur `--card`, tout juste au seuil. Ici
+#    elle prend les sous-titres du repertoire et les numeros du sommaire —
+#    deux endroits ou elle repond a l'or sans lui disputer la page.
+CSS_CHALEUR = """/* ===== Concerts de David Lesage : declinaisons chaleureuses ===== */
+.cdl-top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
+.cdl-h{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* filets de cote : le trait or plein de 2 px devient le degrade signature */
+.cdl-quote,.cdl-note,.cdl-card{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
+/* `.cdl-note` et `.cdl-card` ont un fond plein (`--card`) : le degrade doit se
+   poser PAR-DESSUS, d'ou les deux couches (le filet d'abord, le fond ensuite). */
+.cdl-note,.cdl-card{background-image:var(--grad-v),linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%,100% 100%;background-repeat:no-repeat,no-repeat,no-repeat;background-position:0 0,0 0,0 0;border-radius:18px}
+/* la carte de date : filet de tete au degrade, coins plus genereux */
+.cdl-date{border-top-width:3px;border-top-color:transparent;background-image:var(--grad),linear-gradient(160deg,rgba(216,178,90,.12),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat,no-repeat;background-position:0 0,0 0;background-origin:border-box,padding-box;border-radius:18px}
+/* arrondis genereux, memes valeurs que sur /guso-facile */
+.cdl-fig,.lvc,.spf iframe{border-radius:18px}
+.cdl-video .shot img{border-radius:14px}
+/* La prune revient en accent de TEXTE (--plum2, 7,3:1 sur --card).
+   ⚠️ `li>span` et pas `li span` : la pastille `.pico` (le petit ▸) est un
+   <span> DESCENDANT, place dans le <button> du titre. Avec `li span` elle
+   virait au prune elle aussi, alors qu'elle doit rester doree — c'est le
+   reperage de « ce titre s'ecoute ». Le sous-titre d'artiste, lui, est bien un
+   enfant DIRECT du <li>. `:not(.rep-t)` ecarte le titre sans video. */
+.cdl-card .sub,.cdl-card li>span:not(.rep-t):not(.pico){color:var(--plum2)}
+.toc a::before{color:var(--plum2)}
+/* les pastilles de citation : un fond chaud degrade plutot qu'un aplat dore */
+.cdl-cites li{background:linear-gradient(100deg,rgba(216,178,90,.10),rgba(224,138,114,.08) 62%,rgba(179,162,228,.09));border-color:rgba(240,209,138,.3)}
+/* le petit rond du repertoire prend le degrade au survol au lieu de l'or plein */
+.cdl-card li button.rep-t:hover .pico,.cdl-card li button.rep-t:focus-visible .pico{background:var(--grad-warm);border-color:transparent}
+/* le bouton « retour en haut » : un halo chaud, pas un aplat */
+.totop{border-color:rgba(240,209,138,.34);box-shadow:0 10px 26px -14px rgba(224,138,114,.5)}
+"""
+
+CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
 
 TITLE = ('Concerts de David Lesage — concert-cérémonie participatif au Nid, '
          'Paris 20ᵉ · Résonances Productions')
