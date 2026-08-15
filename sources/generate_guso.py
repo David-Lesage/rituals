@@ -302,6 +302,115 @@ a une notice, pas a une invitation. Ce qui a change, et RIEN D'AUTRE :
    visibilite : elle passe de mention grise a encadre a filet prune.
    Ces deux deplacements sont chacun UN BLOC a remonter si David prefere.
 
+------------------------------------------------------------------------------
+L'ABSORPTION DU 15/08/2026 — la page devient LA VERSION DE REFERENCE
+------------------------------------------------------------------------------
+`guso-facile.vercel.app/presentation.html` porte desormais un `canonical` vers
+CETTE page : c'est elle que Google doit indexer, donc tout ce qui ne vivait que
+sur Vercel devait etre rapatrie. Matiere (LECTURE SEULE, ne jamais editer) :
+
+    /Users/davidlesage/CLAUDE/GUSO FACILE/presentation.html
+    /Users/davidlesage/CLAUDE/GUSO-FACILE-BACKUPS/dossier-seo-guso-facile.md
+    /Users/davidlesage/CLAUDE/GUSO-FACILE-BACKUPS/manifeste-la-guilde.md
+
+CE QUI A ETE RAPATRIE (et pourquoi la page ne gonfle pas pour autant)
+  1. LA FAQ — 6 questions/reponses, en TEXTE VISIBLE (section #faq, en fin de
+     page, apres l'appel a l'action). ⚠️ Elle n'est pas decorative : le bloc
+     JSON-LD `FAQPage` pose plus bas n'est LEGITIME QUE SI les 6 Q/R figurent
+     reellement dans la page — sinon c'est une violation des consignes Google.
+     Le garde-fou `_controle_jsonld()` verifie exactement cela, question par
+     question ET reponse par reponse.
+     ⚠️ Elles sont REPLIEES dans des <details> natifs, PAS empilees : la page
+     mesurait deja 15 151 px de haut a 390 px, et six paragraphes ouverts en
+     auraient ajoute ~1 800. Un <details> est du HTML pur (aucun JavaScript,
+     regle de la maison) et Google indexe le contenu d'un accordeon.
+  2. « Trois etapes, c'est tout » — le mode d'emploi en trois temps, absent de
+     la page, present sur Vercel. Bande compacte en fin de #promesse.
+  3. Deux puces d'inventaire reellement manquantes : « Profil complet »
+     (univers 1) et « Fiche structure » (univers 3). Elles vivaient dans la
+     section « Pensee pour les artistes et les structures » de Vercel, pas
+     dans ses quatre univers — d'ou l'oubli.
+  4. La phrase de cloture de « Ou en est le projet » : « un outil deja solide,
+     une porte encore etroite… ». Mots de David, rendus en serif (registre des
+     titres) pour ne pas introduire de tutoiement dans un CORPS de texte.
+  5. LA GUILDE (voir la section dediee ci-dessous).
+  6. Les liens vers le blog (voir « LE MAILLAGE » ci-dessous).
+
+CE QUI A ETE LAISSE SUR VERCEL, ET POURQUOI
+  - « Pensee pour les artistes et les structures » (deux colonnes artistes /
+    structures) : c'est un RESUME des univers 1 et 3, deja integralement
+    presents ici. Le reprendre, c'est ecrire deux fois le meme inventaire.
+  - « On veille les uns sur les autres » (le groupe / la structure /
+    l'artiste seul) : couvert par l'univers 4, l'univers 3 et les trois cas
+    d'usage. Et il nomme une structure (« Des Sons et Des Liens ») et une
+    personne (« Marius ») inventees : sur le site public d'une ASSOCIATION,
+    des exemples nominatifs non signales comme fictifs sont exactement ce que
+    la correction « situations reelles » -> « typiques » a deja coute.
+  - La section detaillee « J'ai besoin d'aide » (3 questions, un conseil,
+    prevenir qui l'on veut) : deja resumee en une puce de l'univers 4.
+  - La bande « Le probleme » (5 pictogrammes : 507 h, DPAE, GUSO, factures,
+    France Travail) : deja dite en prose dans #promesse, mieux.
+  - Le second bouton « Se connecter » du hero : la page n'a QU'UN bouton, par
+    decision — voir l'ecart n°8 plus haut.
+  - « Beta OUVERTE » de Vercel : ici c'est « Beta PRIVEE », formulation
+    validee. Ne pas harmoniser dans ce sens-la.
+
+LE SEO — SECTION 2 DU DOSSIER, APPLIQUEE
+  - `<title>` : « Guso Facile — gerer son intermittence et ses 507 h » (50 car.,
+    valeur exacte du dossier). L'ancien titre portait « · Resonances
+    Productions » ; le dossier ne le reprend pas et la balise est deja a la
+    bonne longueur — on suit le dossier.
+  - `meta description` : valeur exacte du dossier (154 car.).
+  - `h1` : « Guso Facile — la gestion de l'intermittence, simplifiee ». Il ne
+    valait que « Guso Facile », ce que le dossier designe comme « la principale
+    faiblesse restante ». La marque reste en grand, la suite passe en seconde
+    ligne plus petite DANS le meme <h1> (le texte du titre est donc complet
+    pour Google et pour un lecteur d'ecran).
+  - JSON-LD : bloc du dossier COLLE TEL QUEL (Organization + WebApplication +
+    FAQPage + BreadcrumbList). Il est parse par `json.loads()` avant chaque
+    ecriture : un JSON-LD casse vaut moins que pas de JSON-LD du tout.
+  - `<main>` ajoute (le dossier le rappelle en tete de sa section 2).
+
+LE MAILLAGE (section 6 du dossier)
+  DEUX liens descendants vers `/guso-facile/blog`, tous deux a ancre
+  DESCRIPTIVE (jamais « en savoir plus ») : un a la suite des cas d'usage,
+  un en fin de FAQ — c'est le placement de la page Vercel.
+  ⚠️ Le blog est construit par un AUTRE generateur (`generate_guso_blog.py`) :
+  tant que `guso-facile/blog/` n'existe pas, `verif_site.py` signale a juste
+  titre « lien interne mort ». Ce n'est pas un defaut de cette page.
+
+------------------------------------------------------------------------------
+LA GUILDE — QUELLE LONGUEUR, ET CE QUI A ETE ADOUCI
+------------------------------------------------------------------------------
+Le manifeste (`manifeste-la-guilde.md`) existe en TROIS longueurs. Retenue
+ici : l'ACCROCHE (version tres courte) comme phrase d'ouverture + l'ENCART
+(version courte) comme corps. PAS la version longue : ceci est une page
+produit, pas un manifeste — et la page mesure deja 15 000 px sur telephone.
+La version longue fera un tres bon article de blog.
+
+⚠️ CE BLOC EST SOUMIS AU MEME INTERDIT QUE LA PUCE « L'entraide entre
+artistes » : meme vocabulaire proscrit, meme obligation de « (a venir) ».
+Garde-fou : `_controle_guilde_encart()`, jumeau de `_controle_guilde()`.
+
+CE QUI A ETE ADOUCI PAR RAPPORT AU MANIFESTE (esprit garde, charge retiree) :
+  - « dans ce metier, l'abus est ordinaire. Pas spectaculaire : ORDINAIRE. »
+    -> « ce qui manque le plus souvent n'est pas la bonne foi : c'est le
+    cadre ». Le manifeste s'adresse a des membres connectes ; ici la phrase
+    serait lue par un programmateur sur le site d'une association, comme un
+    constat general d'abus porte par elle.
+  - « personne ne reste seul face a un abus » -> « personne ne reste seul ».
+    Meme motif, et l'accroche y gagne en rythme.
+  - « Pas d'appreciation, pas de recit, pas de reglement de comptes. Ce n'est
+    ni un espace therapeutique, ni un tribunal » -> « Rien que des faits,
+    aucun commentaire libre, aucun tribunal. » Trois negations valent mieux
+    que six : au-dela, se defendre devient se justifier.
+  - AJOUTE (demande explicite des « Notes d'emploi » du manifeste) : « Cet
+    espace sera reserve aux membres connectes de Guso Facile » — sinon on cree
+    de la frustration chez un lecteur qui cliquerait pour voir.
+  - Aucun lieu, aucune personne nommes : les phrases citees restent generiques,
+    comme l'exige le manifeste lui-meme.
+  - Tout est au FUTUR et porte « (a venir) » : la base existe, l'ecran non.
+
 Usage : python3 sources/generate_guso.py   (depuis la racine du depot)
 """
 
@@ -341,8 +450,8 @@ URL_ACCES = 'https://guso-facile.vercel.app/presentation.html'
 HEAD = """<!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Guso Facile — l’administratif de l’intermittence, simplifié · Résonances Productions</title>
-<meta name="description" content="Guso Facile : un outil web créé par David Lesage, relayé par Résonances Productions, qui allège la charge administrative des artistes intermittents. Suivi des 507 heures, DPAE, feuillets GUSO, factures, pointage France Travail. Accès en bêta privée, sur cooptation.">
+<title>Guso Facile — gérer son intermittence et ses 507 h</title>
+<meta name="description" content="Suivi des 507 heures, DPAE, feuillets GUSO, factures et pointage France Travail réunis dans une seule application claire, pour les artistes intermittents.">
 <meta property="og:title" content="Guso Facile — l’administratif de l’intermittence, simplifié">
 <meta property="og:description" content="Suivi des 507 heures, DPAE, feuillets GUSO, factures, pointage France Travail : un outil web pour les artistes intermittents et les structures qui les accompagnent. Bêta privée, sur invitation ou cooptation.">
 <meta property="og:type" content="website">
@@ -360,6 +469,164 @@ HEAD = """<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 """
+
+# --- les donnees structurees (JSON-LD) ------------------------------------
+# ⚠️ BLOC COLLE TEL QUEL depuis la section 2.1 de
+#    `GUSO-FACILE-BACKUPS/dossier-seo-guso-facile.md` (LECTURE SEULE). Ne pas
+#    le « nettoyer » : chaque champ y a ete pese, et c'est la seule exception
+#    a la regle « aucun script » de cette page (un <script type="application/
+#    ld+json"> n'execute rien, ce sont des donnees).
+#
+# TROIS POINTS A NE PAS PERDRE DE VUE :
+#  a) LE `FAQPage` N'EST LEGITIME QUE SI LES 6 Q/R SONT VISIBLES DANS LA PAGE.
+#     Annoncer a Google une FAQ absente de l'ecran est une violation explicite
+#     de ses consignes, sanctionnable. La section #faq les porte, et
+#     `_controle_jsonld()` refuse d'ecrire si une seule question — ou une seule
+#     reponse — manque au texte visible.
+#  b) IL EST PARSE PAR `json.loads()` AVANT CHAQUE ECRITURE. Un JSON-LD casse
+#     vaut moins que pas de JSON-LD : Google ignore le bloc entier, et l'erreur
+#     ne se voit NULLE PART a l'ecran.
+#  c) `schema.org` a du etre ajoute a `HOTES_AUTORISES` : le controle des hotes
+#     externes lit les `https://schema.org/…` du vocabulaire comme un domaine
+#     tiers. C'est le controle qui est bon ; l'URL, elle, n'est jamais chargee
+#     (c'est un identifiant de vocabulaire, pas une ressource).
+JSONLD = """<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.resonancesproductions.org/#organization",
+      "name": "Résonances Productions",
+      "url": "https://www.resonancesproductions.org/"
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://www.resonancesproductions.org/guso-facile#app",
+      "name": "Guso Facile",
+      "url": "https://www.resonancesproductions.org/guso-facile",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Gestion administrative de l'intermittence du spectacle",
+      "operatingSystem": "Tout navigateur web",
+      "browserRequirements": "Navigateur web moderne, aucune installation",
+      "inLanguage": "fr-FR",
+      "description": "Application web qui réunit le suivi des 507 heures, les DPAE, les feuillets GUSO, les factures et le pointage France Travail des artistes intermittents et des structures qui les accompagnent.",
+      "image": "https://www.resonancesproductions.org/og-image.jpg",
+      "author": {
+        "@type": "Person",
+        "name": "David Lesage",
+        "url": "https://www.resonancesproductions.org/david-lesage-en-concert"
+      },
+      "creator": {
+        "@type": "Person",
+        "name": "David Lesage",
+        "url": "https://www.resonancesproductions.org/david-lesage-en-concert"
+      },
+      "publisher": {
+        "@id": "https://www.resonancesproductions.org/#organization"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Artistes intermittents du spectacle et structures de production",
+        "geographicArea": {
+          "@type": "Country",
+          "name": "France"
+        }
+      },
+      "featureList": [
+        "Suivi glissant des 507 heures avec date anniversaire",
+        "Bloc « À faire maintenant » : DPAE, feuillets GUSO et factures à échéance",
+        "Récap mensuel pour l'actualisation France Travail (1 GUSO = 1 ligne)",
+        "Dates partagées entre plusieurs artistes, avec DPAE nominative",
+        "Évaluateur de date : bon plan, à négocier, à éviter",
+        "Carte des trajets, carnet de contacts et mails types de tournée",
+        "Back-office transversal pour les structures qui accompagnent des artistes"
+      ],
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/LimitedAvailability",
+        "description": "Phase de test — accès sur demande."
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.resonancesproductions.org/guso-facile#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "C'est quoi le GUSO ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le GUSO est le Guichet unique du spectacle occasionnel : le dispositif qui permet à un employeur dont le spectacle n'est pas l'activité principale de déclarer et de rémunérer un artiste ou un technicien en une seule démarche. C'est lui qui produit le feuillet remis à l'artiste après la date."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Combien d'heures faut-il pour être intermittent ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Il faut réunir 507 heures de travail sur les 12 mois qui précèdent sa date anniversaire pour ouvrir ou renouveler ses droits au titre des annexes 8 et 10 de l'assurance chômage. Le calcul est glissant : chaque jour, les heures les plus anciennes sortent du compte."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Combien de cachets pour atteindre 507 heures ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Un cachet équivaut à 12 heures. Il faut donc environ 43 cachets pour atteindre les 507 heures, si l'on ne compte que des cachets — les heures de répétition et de technique s'y ajoutent et réduisent d'autant ce nombre."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "C'est quoi une DPAE, et qui doit la faire ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La DPAE est la déclaration préalable à l'embauche. Elle est faite par la structure employeuse, avant le début du contrat, à partir des nom, prénom et date de naissance de l'artiste. Sur une date jouée à deux, il en faut une par artiste."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Une session de studio compte-t-elle dans les 507 heures ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui. Une session d'enregistrement relève de l'édition phonographique (convention collective 2121) et n'est pas déclarée via un GUSO, mais elle compte comme un cachet, soit 12 heures, dans le total des 507 heures."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment obtenir un accès à Guso Facile ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "L'application est en phase de test : l'accès se fait sur demande, via le formulaire « Demander un accès ». Chaque demande est étudiée personnellement par David Lesage, son créateur."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Résonances Productions",
+          "item": "https://www.resonancesproductions.org/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guso Facile",
+          "item": "https://www.resonancesproductions.org/guso-facile"
+        }
+      ]
+    }
+  ]
+}
+</script>
+"""
+
 
 # --- socle commun aux 9 pages (couleurs, typo, nav, boutons, footer) ------
 CSS_BASE = """:root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
@@ -512,6 +779,50 @@ section{padding:92px 0}
 .acces .cta{margin-top:30px}
 .mention{margin-top:20px;max-width:660px;color:var(--muted);font-size:14px;line-height:1.65}
 .mention + .mention{margin-top:12px}
+/* --- le titre principal porte la phrase complete (dossier SEO, section 2) - */
+/* La marque reste en grand ; la suite passe en seconde ligne, a l'interieur du
+   MEME titre — celui que lisent Google et un lecteur d'ecran est donc entier.
+   (Ne pas ecrire la balise en toutes lettres dans ce commentaire : le
+   garde-fou compte ses occurrences dans la page livree, CSS compris.) */
+.gf-top h1 .h1-sous{display:block;font-size:clamp(17px,2.4vw,26px);font-weight:500;line-height:1.24;letter-spacing:.02em;margin-top:10px}
+/* --- « Trois etapes, c'est tout » : une bande legere, pas des cartes ----- */
+.etapes-t{margin-top:40px}
+.etapes{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:16px}
+@media(min-width:761px){.etapes{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}
+.etape{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.07);border-radius:18px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));padding:22px 22px 20px}
+.etape::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.etape h3{font-size:21px;font-weight:600;color:#fff;line-height:1.2;margin-top:4px}
+.etape .etape-d{color:#d7d4ea;font-size:15.5px;margin-top:9px}
+/* --- l'encart « la Guilde » (longueur retenue et adoucissements : entete) - */
+.guilde{display:flex;gap:18px;align-items:flex-start;margin-top:40px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(179,162,228,.28);border-radius:22px;background:linear-gradient(135deg,rgba(143,122,209,.13),rgba(224,138,114,.08) 62%,rgba(216,178,90,.08));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+.guilde .ic-w{flex:0 0 auto;line-height:0;margin-top:4px}
+.guilde .ic{width:26px;height:26px}
+.guilde .u-num{display:block;margin-bottom:8px}
+.guilde i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,162,228,.4);background:rgba(143,122,209,.12);border-radius:999px;padding:1px 9px;line-height:1.5;margin-left:5px}
+.guilde-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
+.guilde .guilde-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
+/* --- la cloture de « Jouons cartes sur table » (mots de David) ----------- */
+/* En serif italique : c'est le registre des TITRES de cette page, celui qui a
+   le droit de tutoyer. Le corps, lui, reste neutre (voir l'entete, point 3). */
+.etat .etat-fin{color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(19px,2.4vw,24px);line-height:1.32;margin-top:24px;padding-top:20px;border-top:1px solid rgba(216,178,90,.28)}
+/* --- la FAQ : REPLIEE, jamais empilee (voir l'entete) -------------------- */
+/* <details> natif : aucun JavaScript, et le contenu d'un accordeon reste lu
+   par Google. La fleche est dessinee en CSS (deux bords tournes a 45deg) —
+   ni image, ni emoji, ni onzieme pictogramme a maintenir. */
+.faq{max-width:860px;margin-top:34px}
+.faq-q{border:1px solid rgba(255,255,255,.08);border-radius:18px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));margin-bottom:11px;overflow:hidden}
+.faq-q summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:16px;padding:15px 20px;min-height:44px}
+.faq-q summary::-webkit-details-marker{display:none}
+.faq-q summary h3{flex:1 1 auto;min-width:0;font-size:21px;font-weight:600;color:#fff;line-height:1.28}
+.faq-q summary::after{content:'';flex:0 0 auto;width:9px;height:9px;margin-right:3px;border-right:1.6px solid var(--gold2);border-bottom:1.6px solid var(--gold2);transform:rotate(45deg) translateY(-3px)}
+.faq-q[open] summary{border-bottom:1px solid rgba(216,178,90,.22)}
+.faq-q[open] summary::after{transform:rotate(225deg) translateY(-3px)}
+.faq-q .faq-r{color:#d7d4ea;font-size:15.5px;padding:15px 20px 18px}
+/* --- les deux liens descendants vers le blog (maillage, dossier §6) ------ */
+.blog-lien{margin-top:32px;font-size:16px}
+.blog-lien a{display:inline-flex;align-items:center;gap:11px;color:var(--gold2);padding:11px 0;text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:4px}
+.blog-lien a::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
+.blog-lien a:hover{text-decoration-color:var(--gold2)}
 @media(max-width:760px){
   section{padding:66px 0}
   .gf-top{padding:110px 0 60px}
@@ -520,6 +831,10 @@ section{padding:92px 0}
   .etat{padding:28px 24px}
   .acces{padding:32px 24px 28px}
   .aussi{padding:22px 20px;gap:14px}
+  .guilde{padding:22px 20px 20px;gap:14px}
+  .etape{padding:20px 18px 18px}
+  .faq-q summary{padding:14px 17px;gap:13px}
+  .faq-q .faq-r{padding:14px 17px 16px}
 }
 @media print{.totop{display:none}.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
 """
@@ -1083,6 +1398,10 @@ ICONES = {
     'cercle': '<circle cx="12" cy="5.6" r="2.1"/><circle cx="5.7" cy="16.4" r="2.1"/>'
               '<circle cx="18.3" cy="16.4" r="2.1"/>'
               '<path d="M10.4 7.4 7.2 14.2"/><path d="M13.6 7.4l3.2 6.8"/><path d="M7.8 16.4h8.4"/>',
+    # l'encart « la Guilde » — deux anneaux qui se recouvrent : l'alliance,
+    # pas la chaine. Volontairement DIFFERENT de 'cercle' (trois presences
+    # reliees, univers 4) : l'un dit le groupe, l'autre dit le pacte.
+    'guilde': '<circle cx="9.2" cy="12" r="5.3"/><circle cx="14.8" cy="12" r="5.3"/>',
     # cas 1 — atteindre ses 507 heures : le sablier, pas le chronometre.
     'sablier': '<path d="M7.2 3.6h9.6"/><path d="M7.2 20.4h9.6"/>'
                '<path d="M8.4 3.6v3.1c0 2 3.6 3.6 3.6 5.3s-3.6 3.3-3.6 5.3v3.1"/>'
@@ -1115,6 +1434,65 @@ def _ic(nom, classe='ic'):
             'aria-hidden="true" focusable="false">%s</svg>' % (classe, ICONES[nom]))
 
 
+# =========================================================================
+# LA FAQ — 6 QUESTIONS/REPONSES EN TEXTE VISIBLE
+# =========================================================================
+# ⚠️ CE BLOC N'EST PAS DECORATIF. Le `FAQPage` du JSON-LD n'est LEGITIME que si
+#    ces 6 questions/reponses figurent REELLEMENT, en texte, dans la page :
+#    annoncer a Google une FAQ absente de l'ecran est une violation explicite
+#    de ses consignes. `_controle_jsonld()` verifie question par question ET
+#    reponse par reponse, en normalisant la seule difference volontaire :
+#    l'apostrophe. Le dossier SEO ecrit « C'est », le site ecrit « C’est ».
+#
+# ⚠️ REPLIEES, PAS EMPILEES. La page mesurait deja 15 151 px de haut a 390 px
+#    avant cet ajout ; six reponses ouvertes en auraient ajoute pres de 1 800.
+#    `<details>`/`<summary>` sont du HTML natif — aucun JavaScript (regle de la
+#    maison), et Google indexe le contenu d'un accordeon. La question reste
+#    en `<h3>` a l'interieur du `<summary>` (le modele de contenu de <summary>
+#    accepte un titre), comme le demande le dossier SEO.
+#
+# Texte repris MOT POUR MOT de `presentation.html` (section #faq), qui est
+# aussi celui du JSON-LD. Ne pas le reformuler d'un cote sans l'autre.
+FAQ = (
+    ('C’est quoi le GUSO ?',
+     'Le GUSO est le Guichet unique du spectacle occasionnel : le dispositif qui '
+     'permet à un employeur dont le spectacle n’est pas l’activité principale de '
+     'déclarer et de rémunérer un artiste ou un technicien en une seule démarche. '
+     'C’est lui qui produit le feuillet remis à l’artiste après la date.'),
+    ('Combien d’heures faut-il pour être intermittent ?',
+     'Il faut réunir 507 heures de travail sur les 12 mois qui précèdent sa date '
+     'anniversaire pour ouvrir ou renouveler ses droits au titre des annexes 8 et 10 '
+     'de l’assurance chômage. Le calcul est glissant : chaque jour, les heures les '
+     'plus anciennes sortent du compte.'),
+    ('Combien de cachets pour atteindre 507 heures ?',
+     'Un cachet équivaut à 12 heures. Il faut donc environ 43 cachets pour atteindre '
+     'les 507 heures, si l’on ne compte que des cachets — les heures de répétition et '
+     'de technique s’y ajoutent et réduisent d’autant ce nombre.'),
+    ('C’est quoi une DPAE, et qui doit la faire ?',
+     'La DPAE est la déclaration préalable à l’embauche. Elle est faite par la '
+     'structure employeuse, avant le début du contrat, à partir des nom, prénom et '
+     'date de naissance de l’artiste. Sur une date jouée à deux, il en faut une par '
+     'artiste.'),
+    ('Une session de studio compte-t-elle dans les 507 heures ?',
+     'Oui. Une session d’enregistrement relève de l’édition phonographique (convention '
+     'collective 2121) et n’est pas déclarée via un GUSO, mais elle compte comme un '
+     'cachet, soit 12 heures, dans le total des 507 heures.'),
+    ('Comment obtenir un accès à Guso Facile ?',
+     'L’application est en phase de test : l’accès se fait sur demande, via le '
+     'formulaire « Demander un accès ». Chaque demande est étudiée personnellement par '
+     'David Lesage, son créateur.'),
+)
+
+
+def _faq_html():
+    """Les 6 Q/R en accordeons natifs. Aucun script, aucun [tabindex] ajoute."""
+    return ''.join(
+        '    <details class="faq-q">\n'
+        '      <summary><h3>%s</h3></summary>\n'
+        '      <p class="faq-r">%s</p>\n'
+        '    </details>\n' % (q, r) for q, r in FAQ)
+
+
 def build_html():
     """Construit la page complete (sans le menu : il est injecte apres)."""
     B = []
@@ -1124,7 +1502,13 @@ def build_html():
     A(CSS_BASE)
     A(CSS_PAGE)
     A(CSS_MAQUETTES)
-    A('</style>\n</head>\n')
+    # Les donnees structurees ferment le <head>. Elles sont posees APRES
+    # `</style>` a dessein : `mobile_nav.inject()` et `nav_menu.inject()`
+    # ajoutent leur CSS en remplacant la PREMIERE occurrence de `</style>` —
+    # rien ne doit s'intercaler entre le CSS de la page et cette balise.
+    A('</style>\n')
+    A(JSONLD)
+    A('</head>\n')
     A('<body id="top">\n')
 
     # --- barre de navigation ---------------------------------------------
@@ -1165,11 +1549,22 @@ def build_html():
     # AUCUN MOT n'est modifie ici : `<span class="mark">` n'enveloppe que du
     # texte deja valide.
     A(SVG_DEFS)
+    # `<main>` : rappel de la section 2 du dossier SEO (« <main>, <article>,
+    # <nav> présents »). Il enveloppe tout le contenu editorial, du hero a la
+    # FAQ — le menu et le pied de page restent dehors, c'est tout son interet.
+    A('<main>\n')
+    # ⚠️ LE <h1> A CHANGE LE 15/08/2026 (dossier SEO, section 2.1). Il ne
+    #    portait que « Guso Facile », ce que le dossier designe comme « la
+    #    principale faiblesse restante » de la page : c'est le signal on-page
+    #    le plus fort apres le <title>. Le titre recommande est ecrit ENTIER
+    #    dans la balise — la marque en grand, la suite en seconde ligne plus
+    #    petite (`.h1-sous`). Aucun texte n'est masque : `textContent` vaut
+    #    bien « Guso Facile — la gestion de l’intermittence, simplifiée ».
     A("""
 <header class="gf-top"><div class="wrap"><div class="gf-topgrid">
   <div>
   <p class="kick">Créé par David Lesage · relayé par l’association</p>
-  <h1 class="grad-t">Guso Facile</h1>
+  <h1 class="grad-t">Guso Facile <span class="h1-sous">— la gestion de l’intermittence, simplifiée</span></h1>
   <p class="gf-claim">L’intermittence est <span class="mark">un métier</span>. La paperasse ne devrait pas en être un deuxième.</p>
   <p class="lead">Guso Facile est un outil web qui prend en charge le suivi administratif du spectacle
     vivant — heures, déclarations, feuillets, factures — pour que les artistes gardent leur énergie
@@ -1206,6 +1601,44 @@ def build_html():
     dans un navigateur, sur ordinateur comme sur téléphone.</p>
 """)
     A(MAQ_TODO)
+
+    # -------------------------------------------------------------------
+    # « Trois etapes, c'est tout » — RAPATRIE DE presentation.html (15/08)
+    # -------------------------------------------------------------------
+    # Ce bloc n'existait que sur Vercel. Il repond a la seule question que le
+    # texte de #promesse laisse en suspens : « oui, mais concretement, je fais
+    # quoi ? ». Trois lignes, pas une carte de plus — la page mesure deja
+    # 15 000 px sur telephone.
+    # ⚠️ Il est place APRES la maquette « À faire maintenant », pas avant :
+    #    cette maquette doit rester COLLEE au paragraphe qui la nomme
+    #    (« qu'est-ce que j'ai a faire maintenant ? »), c'est tout son sens.
+    # ⚠️ Les mots de David sont au TUTOIEMENT sur Vercel (« Tu te concentres
+    #    sur ton art »). Ils sont remis au registre NEUTRE du corps de cette
+    #    page-ci — regle posee lors de la refonte : les titres tutoient, le
+    #    corps informe. Le sens et l'ordre des trois etapes sont intacts.
+    A("""
+  <p class="kick etapes-t">Comment ça marche — trois étapes, c’est tout</p>
+  <div class="etapes">
+    <div class="etape">
+      <p class="u-num">Étape 1</p>
+      <h3>Renseigner son profil</h3>
+      <p class="etape-d">Identité, coordonnées bancaires, numéro GUSO, conditions idéales : une seule
+        fois, réutilisés partout.</p>
+    </div>
+    <div class="etape">
+      <p class="u-num">Étape 2</p>
+      <h3>Ajouter ses dates</h3>
+      <p class="etape-d">Concerts, cachets, contrats : l’outil en déduit les heures, les échéances et
+        les documents à produire.</p>
+    </div>
+    <div class="etape">
+      <p class="u-num">Étape 3</p>
+      <h3>Se laisser guider</h3>
+      <p class="etape-d">« À faire maintenant » dit quoi faire, et quand. Le reste du temps est pour
+        la musique.</p>
+    </div>
+  </div>
+""")
     A("""</div></section>
 """)
 
@@ -1276,6 +1709,21 @@ def build_html():
   </div>
 """)
     A(MAQ_RECAP)
+
+    # -------------------------------------------------------------------
+    # PREMIER des deux liens descendants vers le blog (dossier SEO, §6)
+    # -------------------------------------------------------------------
+    # Regle du dossier : ancre DESCRIPTIVE, jamais « en savoir plus » ni
+    # « lire la suite ». Placement repris de la page Vercel, qui pose le meme
+    # lien juste apres ses cas d'usage : trois situations donnent envie d'en
+    # lire d'autres, et il y en a dix-huit de l'autre cote.
+    # ⚠️ `/guso-facile/blog` est construit par `generate_guso_blog.py`, un
+    #    AUTRE generateur. Tant que le dossier n'existe pas, `verif_site.py`
+    #    signale un « lien interne mort » — a juste titre, et ce n'est pas un
+    #    defaut de cette page-ci.
+    A("""
+  <p class="blog-lien"><a href="/guso-facile/blog">D’autres cas d’usage concrets sur le blog de Guso Facile</a></p>
+""")
     A("""</div></section>
 """)
 
@@ -1321,6 +1769,18 @@ def build_html():
         <li><b>Récapitulatif mensuel</b> — GUSO, cachets, heures et brut mois par mois, prêt à reporter dans l’actualisation France Travail.</li>
         <li><b>Bilan imprimable</b> — un contrôle de cohérence complet de la période, exporté en un document propre.</li>
         <li><b>Graphique annuel</b> — les heures acquises, et ce que les dates encore « possibles » ajouteraient à la projection.</li>
+"""
+      # -------------------------------------------------------------------
+      # « Profil complet » — RAPATRIE DE presentation.html (15/08/2026)
+      # -------------------------------------------------------------------
+      # Fonctionnalite LIVREE, donc au present, sans mention « a venir ».
+      # Elle manquait ici parce qu'elle ne figure PAS dans les quatre univers
+      # de la page Vercel : elle vit dans sa section « Pour les artistes »,
+      # qui resume les memes univers autrement. C'est le seul endroit ou
+      # l'inventaire des univers etait reellement incomplet cote artiste.
+      # « IBAN » est ecrit « coordonnees bancaires », comme partout ailleurs
+      # sur cette page (et le mot brut cotoie mal le controle anti-IBAN).
+      """        <li><b>Profil complet</b> — identité, coordonnées bancaires, instruments et contrats, renseignés une seule fois et prêts à partager avec une structure.</li>
       </ul>
     </article>
 
@@ -1387,6 +1847,7 @@ def build_html():
         <li><b>DPAE regroupées</b> — les dates proches (à sept jours près) rassemblées pour tout déclarer d’un coup.</li>
         <li><b>Factures et salaires</b> — dépôt des factures, marquage « facture réglée » et « salaire reçu » : qui est payé, ce qui reste dû.</li>
         <li><b>Multi-artistes</b> — conditions idéales, coordonnées bancaires, contrats, plusieurs artistes gérés côte à côte.</li>
+        <li><b>Fiche structure</b> — SIRET, coordonnées bancaires et coordonnées postales centralisés, réutilisés partout.</li>
         <li><b>Synchronisation</b> — ce que l’artiste renseigne apparaît côté structure en temps réel, et inversement.</li>
       </ul>
     </article>
@@ -1473,7 +1934,76 @@ def build_html():
     #   l'association elle-meme, qui accompagne des artistes.
     A(MAQ_STRUCTURE)
 
+    # ===================================================================
+    # ⚠️⚠️ L'ENCART « LA GUILDE » — MEME CONTRAINTE REDACTIONNELLE STRICTE
+    #        QUE LA PUCE « L'entraide entre artistes ». LIRE AVANT DE TOUCHER.
+    # ===================================================================
+    # SOURCE : `GUSO-FACILE-BACKUPS/manifeste-la-guilde.md` (LECTURE SEULE),
+    # qui existe en TROIS longueurs. Retenues ici : l'ACCROCHE (version tres
+    # courte) en phrase d'ouverture, puis l'ENCART (version courte) en corps.
+    # PAS la version longue : ceci est une page produit, pas un manifeste, et
+    # la page mesure deja 15 000 px sur telephone. La version longue fera un
+    # excellent article de blog.
+    #
+    # 1. FONCTIONNALITE NON LIVREE : la base existe, l'ecran non. Tout est au
+    #    FUTUR et le titre porte OBLIGATOIREMENT `<i>(à venir)</i>`.
+    #
+    # 2. LE POINT DELICAT, identique a celui de la puce : des artistes y
+    #    porteront des AFFIRMATIONS FACTUELLES SUR DES EMPLOYEURS
+    #    IDENTIFIABLES, et LA PAGE QUI LE DECRIT EST PUBLIQUE ET INDEXEE. Ce
+    #    bloc ne doit jamais se lire comme « une plateforme qui note les
+    #    employeurs du spectacle ».
+    #
+    # 3. VOCABULAIRE INTERDIT ICI, sans exception ni synonyme deguise :
+    #        noter · notation · signaler · denoncer · avis · evaluation ·
+    #        blacklist · reputation
+    #    Garde-fou : `_controle_guilde_encart()`, jumeau de `_controle_guilde()`.
+    #
+    # 4. CE QUI A ETE ADOUCI PAR RAPPORT AU MANIFESTE (esprit garde) :
+    #      - « dans ce metier, l'abus est ordinaire. Pas spectaculaire :
+    #        ORDINAIRE. » -> « ce qui manque le plus souvent n'est pas la bonne
+    #        foi : c'est le cadre. » Le manifeste parle a des membres
+    #        connectes ; ici la phrase serait lue par un programmateur, sur le
+    #        site d'une association, comme un constat d'abus porte par elle.
+    #      - « personne ne reste seul face a un abus » -> « personne ne reste
+    #        seul ». Meme motif, et l'accroche y gagne en rythme.
+    #      - « Pas d'appreciation, pas de recit, pas de reglement de comptes.
+    #        Ce n'est ni un espace therapeutique, ni un tribunal » -> « Rien
+    #        que des faits, aucun commentaire libre, aucun tribunal. » Trois
+    #        negations valent mieux que six : au-dela, se defendre devient se
+    #        justifier.
+    #      - AJOUTE, demande explicite des « Notes d'emploi » du manifeste :
+    #        « Cet espace sera reserve aux membres connectes de Guso Facile »
+    #        — sinon on cree de la frustration chez un lecteur qui cliquerait.
+    #      - Aucun lieu, aucune personne nommes : les deux phrases citees sont
+    #        generiques et le restent, comme l'exige le manifeste.
+    #
+    # 5. PLACEMENT : juste apres la grille des univers, donc juste apres
+    #    l'univers 4 « Ton cercle, solidaire » dont il donne le nom et le
+    #    pourquoi. La puce dit CE QUE ce sera ; l'encart dit POURQUOI. Aucune
+    #    des deux ne se suffit : la puce sans le motif est un gadget, le motif
+    #    sans la puce est un discours.
     A("""
+  </div>
+
+  <div class="guilde">
+    <span class="ic-w">""" + _ic('guilde') + """</span>
+    <div>
+      <p class="u-num">Ce cercle a un nom — la Guilde <i>(à venir)</i></p>
+      <p class="guilde-claim">Une guilde d’artistes qui se soutiennent. On pose le cadre avant, on se dit
+        les faits après, personne ne reste seul.</p>
+      <p class="guilde-p">Une guilde, c’est un groupe de gens du même métier qui se protègent
+        mutuellement. Dans le spectacle, ce qui manque le plus souvent n’est pas la bonne foi : c’est le
+        cadre. Pas de contrat, des conditions dites à l’oral, un montant « on verra ». Et il suffit
+        parfois d’une phrase — « tu vas jouer devant du monde, ça va te faire connaître » — pour que la
+        valeur s’inverse : celui qui apporte son travail se retrouve à recevoir une faveur. Cela
+        fonctionne, parce qu’un artiste a besoin de jouer pour exister.</p>
+      <p class="guilde-p">La Guilde fera donc deux choses : donner de quoi <b>poser le cadre avant</b> —
+        contrat, conditions, délais de paiement — et permettre de <b>se dire les faits après</b>, entre
+        membres : payé ou non, dans les délais ou non, conditions annoncées tenues ou non. Rien que des
+        faits, aucun commentaire libre, aucun tribunal. Cet espace sera réservé aux membres connectés de
+        Guso Facile.</p>
+    </div>
   </div>
 
   <div class="aussi">
@@ -1563,6 +2093,19 @@ def build_html():
       système d’affiliation est prévu pour récompenser celles et ceux qui le font découvrir, par exemple
       sous la forme d’un tarif préférentiel sur leur propre abonnement. Rien n’est chiffré à ce jour, et
       les bêta-testeurs seront prévenus bien en amont.</p>
+"""
+      # -------------------------------------------------------------------
+      # La cloture — RAPATRIEE DE presentation.html (15/08/2026), verbatim
+      # -------------------------------------------------------------------
+      # Mots de David. Elle manquait ici : la section s'arretait sur le futur
+      # payant, c'est-a-dire sur la seule reserve de tout le bloc. Cette
+      # phrase referme « Jouons cartes sur table » sur ce qu'elle voulait dire.
+      # ⚠️ Elle TUTOIE (« avec toi »). C'est assume et c'est pour cela qu'elle
+      #    est rendue en SERIF ITALIQUE, le registre des titres de cette page
+      #    — les titres accueillent et tutoient, le corps informe et reste
+      #    neutre. Si David prefere, c'est UNE ligne a retirer.
+      """    <p class="etat-fin">En résumé : un outil déjà solide, une porte encore étroite, et une envie
+      sincère de le construire avec toi.</p>
   </div>
 </div></section>
 """)
@@ -1612,6 +2155,36 @@ def build_html():
   </div>
 </div></section>
 """).replace('URL_ACCES', URL_ACCES))
+
+    # =====================================================================
+    # 8. LA FAQ  (rapatriee de presentation.html le 15/08/2026)
+    # =====================================================================
+    # POURQUOI ELLE EST ICI, ET PAS AVANT LE BOUTON : la page n'a qu'UN geste
+    # possible, et il ne doit pas etre precede de six questions. La FAQ est du
+    # contenu de reference — on la lit quand on hesite encore, ou quand on
+    # arrive dessus depuis une recherche. Sur `presentation.html` elle passe
+    # avant l'appel a l'action ; ici l'appel a l'action est un panneau qui
+    # conclut, et l'enterrer sous la FAQ lui ferait perdre sa place.
+    #
+    # ⚠️ `id="faq"` est l'ancre citee par le `@id` du bloc `FAQPage` du
+    #    JSON-LD (« …/guso-facile#faq »). Ne pas la renommer sans changer
+    #    l'autre.
+    #
+    # SECOND des deux liens descendants vers le blog (dossier SEO, §6), avec
+    # l'ancre descriptive de la page Vercel.
+    A("""
+<div class="divider"></div>
+<section id="faq"><div class="wrap">
+  <p class="kick">Questions fréquentes</p>
+  <h2 class="sec-title">Les questions qu’on se pose sur l’intermittence</h2>
+  <p class="lead">Les réponses courtes aux questions qui reviennent le plus — sur le GUSO, les
+    507 heures et les démarches.</p>
+  <div class="faq">
+""" + _faq_html() + """  </div>
+  <p class="blog-lien"><a href="/guso-facile/blog">Toutes les situations concrètes sur le blog de Guso Facile</a></p>
+</div></section>
+</main>
+""")
 
     # --- retour en haut + pied de page ------------------------------------
     # Pied de page identique aux 9 pages, a une correction pres : le lien
@@ -1697,11 +2270,12 @@ ANCRES = (
     ('<b>Faire découvrir l’outil</b>', 1, 'cooptation — fonctionnalité LIVRÉE, au présent'),
     ('<b>L’entraide entre artistes</b>', 1, 'la Guilde — fonctionnalité À VENIR'),
     ('<b>Je crée mon contrat</b>', 1, 'modèle de contrat — fonctionnalité À VENIR'),
-    # 4 mentions « a venir » : Guilde + « Je cree mon contrat » + les deux deja
-    # presentes (points de vigilance, confidentialite graduee). Si ce compte
-    # tombe a 3, c'est qu'une fonctionnalite non livree vient d'etre presentee
-    # comme disponible : l'ecriture est refusee.
-    ('<i>(à venir)</i>', 4, 'les mentions « à venir » des fonctionnalités non livrées'),
+    # 5 mentions « a venir » depuis le 15/08/2026 : la puce Guilde, « Je cree
+    # mon contrat », les deux deja presentes (points de vigilance,
+    # confidentialite graduee) — et le TITRE DE L'ENCART « la Guilde ». Si ce
+    # compte tombe a 4, c'est qu'une fonctionnalite non livree vient d'etre
+    # presentee comme disponible : l'ecriture est refusee.
+    ('<i>(à venir)</i>', 5, 'les mentions « à venir » des fonctionnalités non livrées'),
     # le hamburger est cree en JS par mobile_nav.py : c'est son CSS qui
     # atteste sa presence. `.burger span{` n'existe qu'une fois (`.burger{`
     # apparait 3 fois : regle de base + media 860 + media print).
@@ -1740,6 +2314,27 @@ ANCRES = (
     ('<li class="soon">', 4, 'les puces des fonctionnalités non livrées'),
     ('<input', 0, 'aucun champ de saisie dans la page'),
     ('tabindex', 0, 'aucun ordre de tabulation force'),
+    # --- l'absorption du 15/08/2026 --------------------------------------
+    # Le JSON-LD : un seul bloc, et il ferme le <head>. Sa validite, elle, est
+    # controlee par `_controle_jsonld()` — ici on ne compte que sa presence.
+    ('<script type="application/ld+json">', 1, 'les données structurées (JSON-LD)'),
+    ('<main>', 1, 'le conteneur <main> (rappel de la section 2 du dossier SEO)'),
+    ('</main>', 1, 'la fermeture de <main>'),
+    # La FAQ VISIBLE. Ce compte n'est pas cosmetique : sans ces six blocs, le
+    # `FAQPage` annonce a Google une FAQ qui n'existe pas a l'ecran.
+    ('id="faq"', 1, 'la section « Questions fréquentes »'),
+    ('<details class="faq-q">', len(FAQ), 'les 6 questions/réponses visibles'),
+    ('<p class="faq-r">', len(FAQ), 'les 6 réponses visibles'),
+    # Le maillage vers le blog (dossier SEO, §6) : deux liens, ancres
+    # descriptives. ⚠️ `href="/guso-facile"` compte 1 juste au-dessus : la
+    # guillemet fermante l'empeche de compter ces deux-la.
+    ('href="/guso-facile/blog"', 2, 'les deux liens descendants vers le blog'),
+    ('class="guilde"', 1, 'l’encart « la Guilde »'),
+    ('class="guilde-claim"', 1, 'l’accroche du manifeste de la Guilde'),
+    ('class="etapes"', 1, 'la bande « trois étapes, c’est tout »'),
+    ('class="etape"', 3, 'les trois étapes'),
+    ('class="etat-fin"', 1, 'la phrase de clôture de « Jouons cartes sur table »'),
+    ('class="h1-sous"', 1, 'la seconde ligne du <h1> (dossier SEO, section 2.1)'),
 )
 
 #: ce qu'aucune maquette ne doit contenir : elles ILLUSTRENT l'outil, elles ne
@@ -1806,7 +2401,13 @@ def _controle_maquettes(html):
 #: fonts.googleapis.com / fonts.gstatic.com sont ceux des 9 pages existantes —
 #: ce n'est pas une police SUPPLEMENTAIRE, c'est la meme feuille, deja chargee
 #: partout sur le site.
+#: ⚠️ `schema.org` (15/08/2026) n'est PAS une ressource chargee : c'est
+#: l'identifiant du vocabulaire des donnees structurees, ecrit dans le JSON-LD
+#: (`"@context"`, `"availability"`). Le controle des hotes le lit comme un
+#: domaine tiers — le controle est bon, c'est le cas qui est particulier. Aucun
+#: octet n'est demande a ce domaine par le navigateur.
 HOTES_AUTORISES = (
+    'schema.org',
     'fonts.googleapis.com',
     'fonts.gstatic.com',
     'www.helloasso.com',
@@ -1837,6 +2438,15 @@ MOTS_INTERDITS_GUILDE = (
 
 #: ce qui identifie le bloc Guilde dans la page livree.
 _MARQUEUR_GUILDE = '<b>L’entraide entre artistes</b>'
+
+#: ce qui delimite l'ENCART « la Guilde » ajoute le 15/08/2026. Il tombe sous
+#: exactement le meme interdit que la puce : meme vocabulaire proscrit, meme
+#: obligation de « (a venir) ». Deux blocs, un seul jeu de regles.
+#: (ouverture, borne de fin). La borne de fin est le bloc SUIVANT dans la page,
+#: pas un `</div>` : compter des `</div>` imbriques a la main est exactement le
+#: genre de fragilite qui finit par controler le mauvais texte en silence.
+_ENCART_OUVRE = '<div class="guilde">'
+_ENCART_SUIVANT = '<div class="aussi">'
 
 
 def _controle_guilde(html):
@@ -1884,11 +2494,157 @@ def _controle_guilde(html):
                 '   Page NON ecrite.' % (mot, m.group(0)))
 
 
-#: nombre de pictogrammes POSES dans la page (le dictionnaire `ICONES` en
-#: definit dix, chacun servant exactement une fois), plus le <svg> de taille
+def _controle_guilde_encart(html):
+    """Meme controle que `_controle_guilde()`, mais sur l'ENCART « la Guilde ».
+
+    Deux blocs de la page decrivent la meme fonctionnalite a venir : la puce
+    « L'entraide entre artistes » (univers 4) et cet encart (15/08/2026). Ils
+    tombent sous UN SEUL jeu de regles — il aurait ete absurde de proteger le
+    premier et de laisser le second libre, alors que c'est l'encart qui porte
+    le texte le plus long et le plus argumente.
+    """
+    import re
+
+    debut = html.find(_ENCART_OUVRE)
+    if debut < 0:
+        raise SystemExit('!! ABANDON : encart « la Guilde » introuvable. '
+                         'Page NON ecrite.')
+    fin = html.find(_ENCART_SUIVANT, debut)
+    if fin < 0:
+        raise SystemExit('!! ABANDON : encart « la Guilde » mal delimite (le bloc '
+                         '« Et aussi » qui doit le suivre est introuvable). '
+                         'Page NON ecrite.')
+    bloc = html[debut:fin]
+
+    if '(à venir)' not in bloc:
+        raise SystemExit(
+            '!! ABANDON : l\'encart « la Guilde » ne porte plus la mention '
+            '« (à venir) ». La base existe mais l\'ecran n\'est PAS livre : '
+            'l\'annoncer comme disponible serait verifiable en trois clics par un '
+            'beta-testeur. Page NON ecrite.')
+
+    # Demande explicite des « Notes d'emploi » du manifeste : dire que l'espace
+    # est reserve aux membres connectes, sinon on cree de la frustration chez
+    # un lecteur qui cliquerait pour voir.
+    if 'membres connectés' not in bloc:
+        raise SystemExit(
+            '!! ABANDON : l\'encart « la Guilde » ne precise plus que l\'espace sera '
+            'reserve aux MEMBRES CONNECTES. C\'est une demande explicite du '
+            'manifeste (`manifeste-la-guilde.md`, « Notes d\'emploi ») : sans elle, '
+            'la page promet a un visiteur un espace qu\'il ne verra jamais. '
+            'Page NON ecrite.')
+
+    for motif, mot in MOTS_INTERDITS_GUILDE:
+        m = re.search(motif, bloc, re.I)
+        if m:
+            raise SystemExit(
+                '!! ABANDON : mot interdit « %s » (ici : « %s ») dans l\'encart '
+                '« la Guilde ».\n'
+                '   Cet encart decrit des artistes qui affirmeront des faits sur des '
+                'employeurs identifiables, sur une page PUBLIQUE. Il ne doit jamais '
+                'se lire comme une plateforme de notation des employeurs.\n'
+                '   Points d\'appui : membres connectes uniquement, faits binaires, '
+                'aucun commentaire libre, sortie constructive (poser le cadre la '
+                'prochaine fois).\n'
+                '   Page NON ecrite.' % (mot, m.group(0)))
+
+
+def _sans_balises(html):
+    """Le texte visible de la page : sans <script>, sans <style>, sans balises.
+
+    Sert au controle du JSON-LD : c'est exactement ce qu'un visiteur lit, donc
+    exactement ce que Google exige de trouver quand un `FAQPage` est declare.
+    """
+    import re
+
+    txt = re.sub(r'<script\b.*?</script>', ' ', html, flags=re.S | re.I)
+    txt = re.sub(r'<style\b.*?</style>', ' ', txt, flags=re.S | re.I)
+    txt = re.sub(r'<[^>]+>', ' ', txt)
+    return txt
+
+
+def _norm_apostrophes(txt):
+    """Apostrophe droite, espaces normalises.
+
+    UNE seule difference est admise entre le JSON-LD et le texte a l'ecran :
+    le dossier SEO ecrit « C'est », le site ecrit « C’est ». Tout le reste doit
+    coincider mot pour mot — sinon le `FAQPage` decrit une page qui n'existe
+    pas. On normalise donc l'apostrophe et les espaces, rien d'autre.
+    """
+    import re
+
+    for mauvais in ('’', 'ʼ', '′'):
+        txt = txt.replace(mauvais, "'")
+    txt = txt.replace(' ', ' ').replace(' ', ' ')
+    return re.sub(r'\s+', ' ', txt).strip()
+
+
+def _controle_jsonld(html):
+    """Refuse d'ecrire si les donnees structurees sont cassees ou mensongeres.
+
+    DEUX exigences, et la seconde est la plus importante :
+
+      1. LE BLOC DOIT ETRE DU JSON VALIDE. Un JSON-LD casse vaut MOINS que pas
+         de JSON-LD du tout : Google ignore le bloc entier, et l'erreur ne se
+         voit nulle part a l'ecran. On le parse ici, avant toute ecriture.
+
+      2. LE `FAQPage` DOIT DIRE LA VERITE. Declarer une FAQ que la page
+         n'affiche pas est une violation explicite des consignes Google,
+         sanctionnable — et c'est exactement le piege que cette page a deja
+         connu ailleurs (« situations reelles » pour des personnages fictifs).
+         Chaque question ET chaque reponse du bloc est donc cherchee dans le
+         TEXTE VISIBLE de la page.
+    """
+    import json
+    import re
+
+    blocs = re.findall(r'<script type="application/ld\+json">(.*?)</script>',
+                       html, re.S)
+    if len(blocs) != 1:
+        raise SystemExit('!! ABANDON : %d bloc(s) JSON-LD, attendu 1. '
+                         'Page NON ecrite.' % len(blocs))
+    try:
+        data = json.loads(blocs[0])
+    except ValueError as err:
+        raise SystemExit('!! ABANDON : le JSON-LD n\'est pas du JSON valide '
+                         '(%s).\n   Un JSON-LD casse vaut moins que pas de JSON-LD : '
+                         'Google ignore le bloc entier et rien ne se voit a l\'ecran. '
+                         'Page NON ecrite.' % err)
+
+    graphe = data.get('@graph')
+    if not isinstance(graphe, list):
+        raise SystemExit('!! ABANDON : JSON-LD sans « @graph ». Page NON ecrite.')
+    types = [n.get('@type') for n in graphe]
+    for attendu in ('Organization', 'WebApplication', 'FAQPage', 'BreadcrumbList'):
+        if attendu not in types:
+            raise SystemExit('!! ABANDON : JSON-LD sans noeud « %s » (presents : %s). '
+                             'Page NON ecrite.' % (attendu, ', '.join(map(str, types))))
+
+    visible = _norm_apostrophes(_sans_balises(html))
+    faq = [n for n in graphe if n.get('@type') == 'FAQPage'][0]
+    questions = faq.get('mainEntity') or []
+    if len(questions) != len(FAQ):
+        raise SystemExit('!! ABANDON : %d question(s) dans le FAQPage, %d dans la '
+                         'page. Page NON ecrite.' % (len(questions), len(FAQ)))
+    for q in questions:
+        for quoi, texte in (('question', q.get('name', '')),
+                            ('réponse', (q.get('acceptedAnswer') or {}).get('text', ''))):
+            if _norm_apostrophes(texte) not in visible:
+                raise SystemExit(
+                    '!! ABANDON : cette %s du bloc FAQPage est ABSENTE du texte '
+                    'visible de la page :\n   « %s »\n'
+                    '   Declarer a Google une FAQ que la page n\'affiche pas est une '
+                    'violation explicite de ses consignes. Soit on ecrit les 6 Q/R a '
+                    'l\'ecran, soit on retire le FAQPage — jamais l\'un sans '
+                    'l\'autre. Page NON ecrite.' % (quoi, texte[:90]))
+
+
+#: nombre de pictogrammes POSES dans la page. Le dictionnaire `ICONES` en
+#: definit onze depuis le 15/08/2026 (le onzieme, « guilde », habille l'encart
+#: du meme nom), chacun servant exactement une fois — plus le <svg> de taille
 #: nulle qui porte la definition du degrade. Un ecart = un picto duplique ou
 #: disparu.
-NB_PICTOS = 10
+NB_PICTOS = 11
 
 
 def _controle_icones(html):
@@ -1973,11 +2729,15 @@ def _controles(html):
             raise SystemExit('!! ABANDON : ce qui ressemble a un %s dans la page. '
                              'Page NON ecrite.' % quoi)
 
-    # le bloc le plus sensible de la page depuis le 14/08/2026
+    # le bloc le plus sensible de la page depuis le 14/08/2026 — DEUX blocs
+    # depuis le 15/08 : la puce de l'univers 4 et l'encart « la Guilde ».
     _controle_guilde(html)
+    _controle_guilde_encart(html)
+    # les donnees structurees : valides, et fideles a ce que la page affiche
+    _controle_jsonld(html)
     # les 6 maquettes : illustrations, jamais interfaces
     _controle_maquettes(html)
-    # les 10 pictogrammes : decoratifs, jamais annonces ni focusables
+    # les 11 pictogrammes : decoratifs, jamais annonces ni focusables
     _controle_icones(html)
 
 

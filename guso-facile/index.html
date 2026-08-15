@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Guso Facile — l’administratif de l’intermittence, simplifié · Résonances Productions</title>
-<meta name="description" content="Guso Facile : un outil web créé par David Lesage, relayé par Résonances Productions, qui allège la charge administrative des artistes intermittents. Suivi des 507 heures, DPAE, feuillets GUSO, factures, pointage France Travail. Accès en bêta privée, sur cooptation.">
+<title>Guso Facile — gérer son intermittence et ses 507 h</title>
+<meta name="description" content="Suivi des 507 heures, DPAE, feuillets GUSO, factures et pointage France Travail réunis dans une seule application claire, pour les artistes intermittents.">
 <meta property="og:title" content="Guso Facile — l’administratif de l’intermittence, simplifié">
 <meta property="og:description" content="Suivi des 507 heures, DPAE, feuillets GUSO, factures, pointage France Travail : un outil web pour les artistes intermittents et les structures qui les accompagnent. Bêta privée, sur invitation ou cooptation.">
 <meta property="og:type" content="website">
@@ -146,6 +146,50 @@ section{padding:92px 0}
 .acces .cta{margin-top:30px}
 .mention{margin-top:20px;max-width:660px;color:var(--muted);font-size:14px;line-height:1.65}
 .mention + .mention{margin-top:12px}
+/* --- le titre principal porte la phrase complete (dossier SEO, section 2) - */
+/* La marque reste en grand ; la suite passe en seconde ligne, a l'interieur du
+   MEME titre — celui que lisent Google et un lecteur d'ecran est donc entier.
+   (Ne pas ecrire la balise en toutes lettres dans ce commentaire : le
+   garde-fou compte ses occurrences dans la page livree, CSS compris.) */
+.gf-top h1 .h1-sous{display:block;font-size:clamp(17px,2.4vw,26px);font-weight:500;line-height:1.24;letter-spacing:.02em;margin-top:10px}
+/* --- « Trois etapes, c'est tout » : une bande legere, pas des cartes ----- */
+.etapes-t{margin-top:40px}
+.etapes{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:16px}
+@media(min-width:761px){.etapes{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}
+.etape{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.07);border-radius:18px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));padding:22px 22px 20px}
+.etape::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.etape h3{font-size:21px;font-weight:600;color:#fff;line-height:1.2;margin-top:4px}
+.etape .etape-d{color:#d7d4ea;font-size:15.5px;margin-top:9px}
+/* --- l'encart « la Guilde » (longueur retenue et adoucissements : entete) - */
+.guilde{display:flex;gap:18px;align-items:flex-start;margin-top:40px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(179,162,228,.28);border-radius:22px;background:linear-gradient(135deg,rgba(143,122,209,.13),rgba(224,138,114,.08) 62%,rgba(216,178,90,.08));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+.guilde .ic-w{flex:0 0 auto;line-height:0;margin-top:4px}
+.guilde .ic{width:26px;height:26px}
+.guilde .u-num{display:block;margin-bottom:8px}
+.guilde i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,162,228,.4);background:rgba(143,122,209,.12);border-radius:999px;padding:1px 9px;line-height:1.5;margin-left:5px}
+.guilde-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
+.guilde .guilde-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
+/* --- la cloture de « Jouons cartes sur table » (mots de David) ----------- */
+/* En serif italique : c'est le registre des TITRES de cette page, celui qui a
+   le droit de tutoyer. Le corps, lui, reste neutre (voir l'entete, point 3). */
+.etat .etat-fin{color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(19px,2.4vw,24px);line-height:1.32;margin-top:24px;padding-top:20px;border-top:1px solid rgba(216,178,90,.28)}
+/* --- la FAQ : REPLIEE, jamais empilee (voir l'entete) -------------------- */
+/* <details> natif : aucun JavaScript, et le contenu d'un accordeon reste lu
+   par Google. La fleche est dessinee en CSS (deux bords tournes a 45deg) —
+   ni image, ni emoji, ni onzieme pictogramme a maintenir. */
+.faq{max-width:860px;margin-top:34px}
+.faq-q{border:1px solid rgba(255,255,255,.08);border-radius:18px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));margin-bottom:11px;overflow:hidden}
+.faq-q summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:16px;padding:15px 20px;min-height:44px}
+.faq-q summary::-webkit-details-marker{display:none}
+.faq-q summary h3{flex:1 1 auto;min-width:0;font-size:21px;font-weight:600;color:#fff;line-height:1.28}
+.faq-q summary::after{content:'';flex:0 0 auto;width:9px;height:9px;margin-right:3px;border-right:1.6px solid var(--gold2);border-bottom:1.6px solid var(--gold2);transform:rotate(45deg) translateY(-3px)}
+.faq-q[open] summary{border-bottom:1px solid rgba(216,178,90,.22)}
+.faq-q[open] summary::after{transform:rotate(225deg) translateY(-3px)}
+.faq-q .faq-r{color:#d7d4ea;font-size:15.5px;padding:15px 20px 18px}
+/* --- les deux liens descendants vers le blog (maillage, dossier §6) ------ */
+.blog-lien{margin-top:32px;font-size:16px}
+.blog-lien a{display:inline-flex;align-items:center;gap:11px;color:var(--gold2);padding:11px 0;text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:4px}
+.blog-lien a::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
+.blog-lien a:hover{text-decoration-color:var(--gold2)}
 @media(max-width:760px){
   section{padding:66px 0}
   .gf-top{padding:110px 0 60px}
@@ -154,6 +198,10 @@ section{padding:92px 0}
   .etat{padding:28px 24px}
   .acces{padding:32px 24px 28px}
   .aussi{padding:22px 20px;gap:14px}
+  .guilde{padding:22px 20px 20px;gap:14px}
+  .etape{padding:20px 18px 18px}
+  .faq-q summary{padding:14px 17px;gap:13px}
+  .faq-q .faq-r{padding:14px 17px 16px}
 }
 @media print{.totop{display:none}.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
 /* ===== maquettes d'interface (illustrations, pas d'interface reelle) ===== */
@@ -386,6 +434,141 @@ section{padding:92px 0}
 @media print{.nm-sub{display:none}}
 /* == fin nav_menu.py == */
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.resonancesproductions.org/#organization",
+      "name": "Résonances Productions",
+      "url": "https://www.resonancesproductions.org/"
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://www.resonancesproductions.org/guso-facile#app",
+      "name": "Guso Facile",
+      "url": "https://www.resonancesproductions.org/guso-facile",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Gestion administrative de l'intermittence du spectacle",
+      "operatingSystem": "Tout navigateur web",
+      "browserRequirements": "Navigateur web moderne, aucune installation",
+      "inLanguage": "fr-FR",
+      "description": "Application web qui réunit le suivi des 507 heures, les DPAE, les feuillets GUSO, les factures et le pointage France Travail des artistes intermittents et des structures qui les accompagnent.",
+      "image": "https://www.resonancesproductions.org/og-image.jpg",
+      "author": {
+        "@type": "Person",
+        "name": "David Lesage",
+        "url": "https://www.resonancesproductions.org/david-lesage-en-concert"
+      },
+      "creator": {
+        "@type": "Person",
+        "name": "David Lesage",
+        "url": "https://www.resonancesproductions.org/david-lesage-en-concert"
+      },
+      "publisher": {
+        "@id": "https://www.resonancesproductions.org/#organization"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Artistes intermittents du spectacle et structures de production",
+        "geographicArea": {
+          "@type": "Country",
+          "name": "France"
+        }
+      },
+      "featureList": [
+        "Suivi glissant des 507 heures avec date anniversaire",
+        "Bloc « À faire maintenant » : DPAE, feuillets GUSO et factures à échéance",
+        "Récap mensuel pour l'actualisation France Travail (1 GUSO = 1 ligne)",
+        "Dates partagées entre plusieurs artistes, avec DPAE nominative",
+        "Évaluateur de date : bon plan, à négocier, à éviter",
+        "Carte des trajets, carnet de contacts et mails types de tournée",
+        "Back-office transversal pour les structures qui accompagnent des artistes"
+      ],
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/LimitedAvailability",
+        "description": "Phase de test — accès sur demande."
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.resonancesproductions.org/guso-facile#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "C'est quoi le GUSO ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le GUSO est le Guichet unique du spectacle occasionnel : le dispositif qui permet à un employeur dont le spectacle n'est pas l'activité principale de déclarer et de rémunérer un artiste ou un technicien en une seule démarche. C'est lui qui produit le feuillet remis à l'artiste après la date."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Combien d'heures faut-il pour être intermittent ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Il faut réunir 507 heures de travail sur les 12 mois qui précèdent sa date anniversaire pour ouvrir ou renouveler ses droits au titre des annexes 8 et 10 de l'assurance chômage. Le calcul est glissant : chaque jour, les heures les plus anciennes sortent du compte."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Combien de cachets pour atteindre 507 heures ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Un cachet équivaut à 12 heures. Il faut donc environ 43 cachets pour atteindre les 507 heures, si l'on ne compte que des cachets — les heures de répétition et de technique s'y ajoutent et réduisent d'autant ce nombre."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "C'est quoi une DPAE, et qui doit la faire ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La DPAE est la déclaration préalable à l'embauche. Elle est faite par la structure employeuse, avant le début du contrat, à partir des nom, prénom et date de naissance de l'artiste. Sur une date jouée à deux, il en faut une par artiste."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Une session de studio compte-t-elle dans les 507 heures ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui. Une session d'enregistrement relève de l'édition phonographique (convention collective 2121) et n'est pas déclarée via un GUSO, mais elle compte comme un cachet, soit 12 heures, dans le total des 507 heures."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment obtenir un accès à Guso Facile ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "L'application est en phase de test : l'accès se fait sur demande, via le formulaire « Demander un accès ». Chaque demande est étudiée personnellement par David Lesage, son créateur."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Résonances Productions",
+          "item": "https://www.resonancesproductions.org/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guso Facile",
+          "item": "https://www.resonancesproductions.org/guso-facile"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body id="top">
 
@@ -428,11 +611,12 @@ section{padding:92px 0}
   </div>
 </nav>
 <svg class="gf-defs" aria-hidden="true" focusable="false"><defs><linearGradient id="gf-ink" gradientUnits="userSpaceOnUse" x1="3" y1="4" x2="21" y2="20"><stop offset="0" stop-color="#f0d18a"/><stop offset=".42" stop-color="#d8b25a"/><stop offset=".74" stop-color="#e08a72"/><stop offset="1" stop-color="#b3a2e4"/></linearGradient></defs></svg>
+<main>
 
 <header class="gf-top"><div class="wrap"><div class="gf-topgrid">
   <div>
   <p class="kick">Créé par David Lesage · relayé par l’association</p>
-  <h1 class="grad-t">Guso Facile</h1>
+  <h1 class="grad-t">Guso Facile <span class="h1-sous">— la gestion de l’intermittence, simplifiée</span></h1>
   <p class="gf-claim">L’intermittence est <span class="mark">un métier</span>. La paperasse ne devrait pas en être un deuxième.</p>
   <p class="lead">Guso Facile est un outil web qui prend en charge le suivi administratif du spectacle
     vivant — heures, déclarations, feuillets, factures — pour que les artistes gardent leur énergie
@@ -532,6 +716,28 @@ section{padding:92px 0}
   </div>
   <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
 </figure>
+
+  <p class="kick etapes-t">Comment ça marche — trois étapes, c’est tout</p>
+  <div class="etapes">
+    <div class="etape">
+      <p class="u-num">Étape 1</p>
+      <h3>Renseigner son profil</h3>
+      <p class="etape-d">Identité, coordonnées bancaires, numéro GUSO, conditions idéales : une seule
+        fois, réutilisés partout.</p>
+    </div>
+    <div class="etape">
+      <p class="u-num">Étape 2</p>
+      <h3>Ajouter ses dates</h3>
+      <p class="etape-d">Concerts, cachets, contrats : l’outil en déduit les heures, les échéances et
+        les documents à produire.</p>
+    </div>
+    <div class="etape">
+      <p class="u-num">Étape 3</p>
+      <h3>Se laisser guider</h3>
+      <p class="etape-d">« À faire maintenant » dit quoi faire, et quand. Le reste du temps est pour
+        la musique.</p>
+    </div>
+  </div>
 </div></section>
 
 <div class="divider"></div>
@@ -594,6 +800,8 @@ section{padding:92px 0}
   </div>
   <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
 </figure>
+
+  <p class="blog-lien"><a href="/guso-facile/blog">D’autres cas d’usage concrets sur le blog de Guso Facile</a></p>
 </div></section>
 
 <div class="divider"></div>
@@ -619,6 +827,7 @@ section{padding:92px 0}
         <li><b>Récapitulatif mensuel</b> — GUSO, cachets, heures et brut mois par mois, prêt à reporter dans l’actualisation France Travail.</li>
         <li><b>Bilan imprimable</b> — un contrôle de cohérence complet de la période, exporté en un document propre.</li>
         <li><b>Graphique annuel</b> — les heures acquises, et ce que les dates encore « possibles » ajouteraient à la projection.</li>
+        <li><b>Profil complet</b> — identité, coordonnées bancaires, instruments et contrats, renseignés une seule fois et prêts à partager avec une structure.</li>
       </ul>
     </article>
 
@@ -746,6 +955,7 @@ section{padding:92px 0}
         <li><b>DPAE regroupées</b> — les dates proches (à sept jours près) rassemblées pour tout déclarer d’un coup.</li>
         <li><b>Factures et salaires</b> — dépôt des factures, marquage « facture réglée » et « salaire reçu » : qui est payé, ce qui reste dû.</li>
         <li><b>Multi-artistes</b> — conditions idéales, coordonnées bancaires, contrats, plusieurs artistes gérés côte à côte.</li>
+        <li><b>Fiche structure</b> — SIRET, coordonnées bancaires et coordonnées postales centralisés, réutilisés partout.</li>
         <li><b>Synchronisation</b> — ce que l’artiste renseigne apparaît côté structure en temps réel, et inversement.</li>
       </ul>
     </article>
@@ -828,6 +1038,26 @@ section{padding:92px 0}
 
   </div>
 
+  <div class="guilde">
+    <span class="ic-w"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9.2" cy="12" r="5.3"/><circle cx="14.8" cy="12" r="5.3"/></svg></span>
+    <div>
+      <p class="u-num">Ce cercle a un nom — la Guilde <i>(à venir)</i></p>
+      <p class="guilde-claim">Une guilde d’artistes qui se soutiennent. On pose le cadre avant, on se dit
+        les faits après, personne ne reste seul.</p>
+      <p class="guilde-p">Une guilde, c’est un groupe de gens du même métier qui se protègent
+        mutuellement. Dans le spectacle, ce qui manque le plus souvent n’est pas la bonne foi : c’est le
+        cadre. Pas de contrat, des conditions dites à l’oral, un montant « on verra ». Et il suffit
+        parfois d’une phrase — « tu vas jouer devant du monde, ça va te faire connaître » — pour que la
+        valeur s’inverse : celui qui apporte son travail se retrouve à recevoir une faveur. Cela
+        fonctionne, parce qu’un artiste a besoin de jouer pour exister.</p>
+      <p class="guilde-p">La Guilde fera donc deux choses : donner de quoi <b>poser le cadre avant</b> —
+        contrat, conditions, délais de paiement — et permettre de <b>se dire les faits après</b>, entre
+        membres : payé ou non, dans les délais ou non, conditions annoncées tenues ou non. Rien que des
+        faits, aucun commentaire libre, aucun tribunal. Cet espace sera réservé aux membres connectés de
+        Guso Facile.</p>
+    </div>
+  </div>
+
   <div class="aussi">
     <span class="ic-w"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11.6 3.6l1.8 4.9 4.9 1.8-4.9 1.8-1.8 4.9-1.8-4.9-4.9-1.8 4.9-1.8Z"/><path d="M18.4 15.4l.7 1.9 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7Z"/></svg></span>
     <div>
@@ -877,6 +1107,8 @@ section{padding:92px 0}
       système d’affiliation est prévu pour récompenser celles et ceux qui le font découvrir, par exemple
       sous la forme d’un tarif préférentiel sur leur propre abonnement. Rien n’est chiffré à ce jour, et
       les bêta-testeurs seront prévenus bien en amont.</p>
+    <p class="etat-fin">En résumé : un outil déjà solide, une porte encore étroite, et une envie
+      sincère de le construire avec toi.</p>
   </div>
 </div></section>
 
@@ -899,6 +1131,42 @@ section{padding:92px 0}
       Le formulaire porte sa propre mention d’information.</p>
   </div>
 </div></section>
+
+<div class="divider"></div>
+<section id="faq"><div class="wrap">
+  <p class="kick">Questions fréquentes</p>
+  <h2 class="sec-title">Les questions qu’on se pose sur l’intermittence</h2>
+  <p class="lead">Les réponses courtes aux questions qui reviennent le plus — sur le GUSO, les
+    507 heures et les démarches.</p>
+  <div class="faq">
+    <details class="faq-q">
+      <summary><h3>C’est quoi le GUSO ?</h3></summary>
+      <p class="faq-r">Le GUSO est le Guichet unique du spectacle occasionnel : le dispositif qui permet à un employeur dont le spectacle n’est pas l’activité principale de déclarer et de rémunérer un artiste ou un technicien en une seule démarche. C’est lui qui produit le feuillet remis à l’artiste après la date.</p>
+    </details>
+    <details class="faq-q">
+      <summary><h3>Combien d’heures faut-il pour être intermittent ?</h3></summary>
+      <p class="faq-r">Il faut réunir 507 heures de travail sur les 12 mois qui précèdent sa date anniversaire pour ouvrir ou renouveler ses droits au titre des annexes 8 et 10 de l’assurance chômage. Le calcul est glissant : chaque jour, les heures les plus anciennes sortent du compte.</p>
+    </details>
+    <details class="faq-q">
+      <summary><h3>Combien de cachets pour atteindre 507 heures ?</h3></summary>
+      <p class="faq-r">Un cachet équivaut à 12 heures. Il faut donc environ 43 cachets pour atteindre les 507 heures, si l’on ne compte que des cachets — les heures de répétition et de technique s’y ajoutent et réduisent d’autant ce nombre.</p>
+    </details>
+    <details class="faq-q">
+      <summary><h3>C’est quoi une DPAE, et qui doit la faire ?</h3></summary>
+      <p class="faq-r">La DPAE est la déclaration préalable à l’embauche. Elle est faite par la structure employeuse, avant le début du contrat, à partir des nom, prénom et date de naissance de l’artiste. Sur une date jouée à deux, il en faut une par artiste.</p>
+    </details>
+    <details class="faq-q">
+      <summary><h3>Une session de studio compte-t-elle dans les 507 heures ?</h3></summary>
+      <p class="faq-r">Oui. Une session d’enregistrement relève de l’édition phonographique (convention collective 2121) et n’est pas déclarée via un GUSO, mais elle compte comme un cachet, soit 12 heures, dans le total des 507 heures.</p>
+    </details>
+    <details class="faq-q">
+      <summary><h3>Comment obtenir un accès à Guso Facile ?</h3></summary>
+      <p class="faq-r">L’application est en phase de test : l’accès se fait sur demande, via le formulaire « Demander un accès ». Chaque demande est étudiée personnellement par David Lesage, son créateur.</p>
+    </details>
+  </div>
+  <p class="blog-lien"><a href="/guso-facile/blog">Toutes les situations concrètes sur le blog de Guso Facile</a></p>
+</div></section>
+</main>
 
 <a class="totop" href="#top" aria-label="Revenir en haut de la page">↑</a>
 
