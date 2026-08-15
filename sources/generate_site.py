@@ -31,6 +31,9 @@ import glob, os, re, sys, unicodedata, html as _html
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+import theme_chaleur  # couche chaleureuse commune  # noqa: E402
+
 IMG_DIR = os.path.join(REPO, 'img', 'rituals')
 IMG_URL = '/img/rituals'
 SOURCE = os.path.join(HERE, 'rituals_source.html')
@@ -358,7 +361,7 @@ picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
   .slide img{height:auto;width:100%;max-width:100%;max-height:none}
 }
 @media print{.slide{width:100%!important}.slide picture{width:100%!important}}
-__BG__</style>"""
+__BG__""" + theme_chaleur.CSS + theme_chaleur.CSS_RITUALS + """</style>"""
 
 
 def bg_rules(sel, name, vs, grad, pos):
