@@ -62,6 +62,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
 import carte_parcours  # noqa: E402  (carte SVG du parcours, sans dependance)
+import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 HELLO_ASSO = ('https://www.helloasso.com/beta/associations/resonances-productions/'
@@ -2244,6 +2245,69 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh),dd a:not(.btn):not(.adh){font-s
   .slide img{aspect-ratio:auto}
 }
 """ + LIGHTBOX_CSS + carte_parcours.CSS_CARTE
+
+
+# --------------------------------------------------------------------------
+# LA COUCHE CHALEUREUSE (refonte du 15/08/2026)
+# --------------------------------------------------------------------------
+# « Ramener de la couleur prune, ca fait du bien. Resonances a besoin d'avoir
+#   une image classe mais aussi chaleureuse. » — David, 15/08/2026.
+# La partie commune vit dans `sources/theme_chaleur.py`. Ici, uniquement les
+# declinaisons propres aux classes `dlc-*` de CETTE page. AUCUN TEXTE N'A BOUGE.
+#
+# ⚠️ ELLE ARRIVE APRES `carte_parcours.CSS_CARTE`, ET C'EST VOULU : la carte du
+#    parcours est un SVG a elle, entierement en selecteurs `.cp-*`. Verifie :
+#    aucun ne croise ceux d'ici. La carte n'est pas touchee.
+# ⚠️ POURQUOI ON PEINT LA BORDURE plutot que d'ajouter un pseudo-element : les
+#    cartes de cette page portent deja un `border-left`/`border-top` de 2 px en
+#    or PLEIN, et plusieurs contiennent des elements positionnes. On rend la
+#    bordure transparente et on peint un `background-image` cadre sur
+#    `border-box` : la boite ne bouge pas d'un pixel.
+# ⚠️ `.dlc-conf.reco` DOIT ETRE NOMMEE A PART. Elle repose son
+#    `border-top-color` en `--gold2` avec une specificite de (0,2,0), qui bat
+#    le (0,1,0) de `.dlc-conf` : sans cette ligne, la configuration
+#    recommandee serait la seule a garder un trait dore plein au milieu de
+#    filets degrades. Son liere `box-shadow` de mise en avant reste intact.
+# ⚠️ `.dlc-tag.alt` n'est PAS reprise, et c'est voulu : elle porte
+#    `background:transparent` en (0,2,0), donc elle reste une pastille fantome
+#    face a la pastille pleine — la distinction qu'elle sert a faire.
+# ⚠️ LE CARROUSEL N'EST PAS TOUCHE : ni la largeur des diapos, ni `--ar`, ni le
+#    `eager` des premieres. Seul le rayon de leurs coins change.
+CSS_CHALEUR = """/* ===== David Lesage en concert : declinaisons chaleureuses ===== */
+.dlc-top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
+.dlc-h{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* les grands chiffres du bandeau de reperes, et les annees de la chronologie */
+.dlc-stats b,.dlc-chrono dt{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* filets de cote : le trait or plein de 2 px devient le degrade vertical */
+.dlc-quote{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
+.dlc-note,.dlc-card,.dlc-refs li,.dlc-presse li{border-left-width:3px;border-left-color:transparent;border-radius:18px;background-image:var(--grad-v),linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
+/* filets de tete */
+.dlc-grid li,.dlc-conf{border-top-width:3px;border-top-color:transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
+.dlc-conf.reco{border-top-color:transparent}
+/* la pastille pleine passe au degrade chaud ; « .alt » reste fantome */
+.dlc-tag{background:var(--grad-warm);color:#1b1206}
+/* puces : rond dore plein -> losange au degrade chaud */
+.dlc-list li::before{width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);top:15px;left:1px}
+/* La prune revient en accent de TEXTE (--plum2, 7,3:1 sur --card).
+   ⚠️ `li>span` et pas `li span` : la pastille `.pico` (le petit ▸ qui signale
+   « ce titre s'ecoute ») est un <span> DESCENDANT, dans le <button> du titre.
+   Avec `li span` elle virait au prune elle aussi et perdait son role. */
+.dlc-card .sub,.dlc-card li>span:not(.rep-t):not(.pico){color:var(--plum2)}
+.dlc-lieux li span,.toc a::before{color:var(--plum2)}
+/* les pastilles de citation : un fond chaud tres dilue au lieu d'un aplat dore */
+.dlc-cites li{background:linear-gradient(100deg,rgba(216,178,90,.10),rgba(224,138,114,.08) 62%,rgba(179,162,228,.09));border-color:rgba(240,209,138,.3)}
+/* le petit rond du repertoire prend le degrade au survol au lieu de l'or plein */
+.dlc-card li button.rep-t:hover .pico,.dlc-card li button.rep-t:focus-visible .pico{background:var(--grad-warm);border-color:transparent}
+/* les deux filets qui encadrent le bandeau de reperes */
+.dlc-stats{border-top-color:transparent;border-bottom-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent),linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0,0 100%}
+/* arrondis genereux — la LARGEUR des diapos n'est pas touchee */
+.dlc-fig,.dlc-more,.dlc-tw,.dlc-cross{border-radius:18px}
+.slide{border-radius:16px}
+/* le bouton « retour en haut » : un halo chaud, pas un aplat */
+.totop{border-color:rgba(240,209,138,.34);box-shadow:0 10px 26px -14px rgba(224,138,114,.5)}
+"""
+
+CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
 
 TITLE = ('David Lesage en concert — concert-cérémonie participatif pour grandes scènes '
          'et festivals · Résonances Productions')
