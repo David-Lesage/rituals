@@ -60,6 +60,7 @@ TARGET = os.path.join(REPO, 'le-nid', 'index.html')
 
 sys.path.insert(0, HERE)
 import nav_menu  # menu de navigation partage  # noqa: E402
+import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 CAL_ID = '30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae@group.calendar.google.com'
@@ -591,6 +592,59 @@ CSS_DATES = """.offer-dates{margin-top:14px;padding-top:12px;border-top:1px soli
 """
 
 
+# =========================================================================== #
+# LA COUCHE CHALEUREUSE (refonte du 15/08/2026)
+# =========================================================================== #
+# « Ramener de la couleur prune, ca fait du bien. Resonances a besoin d'avoir
+#   une image classe mais aussi chaleureuse. » — David, 15/08/2026.
+# La partie commune vit dans `sources/theme_chaleur.py`. Ici, uniquement les
+# declinaisons propres a CETTE page. AUCUN TEXTE N'A BOUGE, et aucun des
+# 20 boutons de reservation n'est touche (voir juste en dessous).
+#
+# 🚫 CE QU'ON NE TOUCHE PAS, ET POURQUOI : L'AGENDA A UN CODE COULEUR QUI PORTE
+#    DU SENS. Chaque type d'evenement a sa teinte, passee en variable `--c`, et
+#    elle sert dans SIX endroits qui doivent rester d'accord entre eux :
+#    `.ag-leg i` (la legende), `.ag-f.is-on` (le filtre actif), `.ag-item`
+#    (le filet gauche de la ligne), `.ag-type`, `.ag-btn` (le contour et le
+#    texte des 20 boutons de reservation) et `.ag-btn:hover`. Y poser un
+#    degrade, c'est effacer l'information : on ne saurait plus lire quel filtre
+#    est actif ni a quel type appartient une date. Le degrade s'arrete donc au
+#    bord de la liste. Ce qui, dans l'agenda, N'EST PAS pilote par `--c` —
+#    l'encart d'abonnement et les noms de mois — le recoit normalement.
+#
+# ⚠️ `.offer--rare` DOIT ETRE NOMMEE A PART, meme piege que `.card.feature` sur
+#    l'accueil : elle pose son fond avec la propriete RACCOURCIE
+#    `background:linear-gradient(…)`, a specificite EGALE (0,1,0) a `.offer`.
+#    Comme cette couche arrive apres, un `.offer{background-image:…}` seul lui
+#    ferait PERDRE son voile dore — la carte « instruments d'exception », la
+#    seule pleine largeur, redeviendrait une carte ordinaire. On lui rend donc
+#    son voile explicitement, filet de tete compris.
+CSS_CHALEUR = """/* ===== Le Nid : declinaisons chaleureuses ===== */
+.hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
+/* ⚠️ `width:fit-content` ET SURTOUT PAS `display:inline-block` ici. Mesure
+   faite a l'ecran : `.offer-dates span` est un BLOC suivi, dans le meme
+   parent, du texte des dates. Passe en inline-block, l'etiquette venait se
+   coller aux dates — « PROCHAINES DATES6 sept. · 4 octo. ». `fit-content`
+   retrecit la boite au texte (ce dont le degrade a besoin pour balayer les
+   MOTS et non toute la carte) sans toucher au flux. */
+.offer .t,.offer-dates span,.ag-sub-kick,.ag-month{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* cartes du programme : filet de tete au degrade, coins plus genereux */
+.offer{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
+.offer--rare{background-image:var(--grad),linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));background-size:100% 3px,100% 100%;background-repeat:no-repeat,no-repeat;background-position:0 0,0 0;background-origin:border-box,padding-box}
+/* la prune revient en accent de TEXTE (--plum2 : 7,3:1 sur --card) */
+.offer .who,.offer--rare .offer-meta{color:var(--plum2)}
+/* l'encart d'abonnement au calendrier : il n'est PAS pilote par --c */
+.ag-sub{border-radius:18px;border-color:rgba(240,209,138,.34)}
+.ag-sub li::before{width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
+/* les deux cartes « se programme en / s'inscrit dans » et l'encart en pointilles */
+.scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
+.note{border-radius:18px;border-color:rgba(240,209,138,.3)}
+.note b{color:var(--plum2)}
+/* arrondis genereux — `.gal img` etait a 16 px, les autres pages sont a 18 */
+.gal img{border-radius:18px}
+"""
+
+
 def dates_courtes(typ, n=3, extra=''):
     """Encart « Prochaines dates » a poser au bas d'une carte du programme.
 
@@ -714,7 +768,8 @@ def generer():
     # menu partage, que `nav_menu.inject()` collera juste avant `</style>`.
     _exiger(html, '</style>', 1, 'fin de la feuille de style')
     html = html.replace('</style>',
-                        CSS.lstrip('\n') + CSS_DATES + '\n</style>', 1)
+                        CSS.lstrip('\n') + CSS_DATES
+                        + theme_chaleur.CSS + CSS_CHALEUR + '\n</style>', 1)
 
     # --- la section agenda, juste avant le divider qui precede « Le lieu » ---
     ancre_lieu = '<div class="divider"></div>\n\n<section class="lieu">'
