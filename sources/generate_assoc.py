@@ -11,6 +11,7 @@ SORTIE = os.path.join(REPO, 'assoc_index.html')
 sys.path.insert(0, HERE)
 import mobile_nav  # noqa: E402
 import nav_menu  # menu de navigation partage  # noqa: E402
+import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 # Flower of life (19 circles) SVG
@@ -105,6 +106,57 @@ footer a:hover{color:var(--gold2)}
 .legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:13px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:66px 0}}
 """
+
+# --------------------------------------------------------------------------
+# LA COUCHE CHALEUREUSE (refonte du 15/08/2026)
+# --------------------------------------------------------------------------
+# « Ramener de la couleur prune, ca fait du bien. Resonances a besoin d'avoir
+#   une image classe mais aussi chaleureuse. » — David, 15/08/2026.
+# La partie commune vit dans `sources/theme_chaleur.py`. Ici, seules les
+# declinaisons propres aux classes de CETTE page. AUCUN TEXTE N'A BOUGE.
+#
+# ⚠️ Ce bloc est une CHAINE ORDINAIRE, comme CSS_LISI plus bas, et pour la meme
+#    raison : la panne historique de ce fichier venait d'un CSS colle DANS la
+#    f-string `HTML=f"""…"""`, ou Python lit chaque accolade comme une
+#    expression. On le concatene a CSS avant la f-string ; celle-ci ne voit
+#    plus qu'une variable.
+# ⚠️ `.hero h1` : `width:fit-content` SEUL casserait le centrage du hero (la
+#    boite se retrecit au texte et se colle a gauche). D'ou `margin:0 auto`.
+#    C'est ce qui permet au degrade de courir sur la LARGEUR DES MOTS et non
+#    sur toute la page — sans quoi le titre, centre, ne prendrait que la
+#    teinte du milieu et le balayage or -> corail -> prune ne se verrait pas.
+# ⚠️ POURQUOI ON PEINT LA BORDURE des cartes plutot que d'ajouter un
+#    pseudo-element : `.card` s'anime deja au survol (`translateY(-5px)`) et
+#    `.card.feature` porte un fond en degrade. Un `::before` positionne
+#    demanderait un `overflow:hidden` qui rognerait les coins arrondis. La
+#    bordure peinte ne deplace rien.
+CSS_CHALEUR = """/* ===== Accueil : declinaisons chaleureuses ===== */
+.hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
+/* sur-titre des cartes de prestations, peint au degrade */
+.card .t{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.statuts .box .art{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* cartes de prestations : filet de tete au degrade, coins plus genereux */
+.card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
+/* ⚠️ LA REGLE QUI SUIT DOIT REPETER TOUTES LES LONGHANDS. Mesure faite a
+   l'ecran : sans elles, les deux cartes « feature » recevaient le degrade EN
+   APLAT SUR TOUTE LEUR SURFACE et leur texte devenait illisible. Raison :
+   `.card.feature{background:…}` plus haut est une PROPRIETE RACCOURCIE, qui
+   remet `background-size/repeat/position/origin` a leur valeur initiale — et
+   elle est plus specifique (0,2,0) que le `.card{background-size:…}` d'ici
+   (0,1,0). Le `100% 3px` du filet etait donc ecrase par un `auto`. */
+.card.feature{border-color:transparent;background-image:var(--grad),linear-gradient(160deg,rgba(143,122,209,.16),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat,no-repeat;background-position:0 0,0 0;background-origin:border-box,padding-box;background-attachment:scroll,scroll}
+.card:hover{border-color:transparent}
+/* les quatre engagements : le trait dore de tete devient le filet degrade */
+.val{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.5),rgba(224,138,114,.5) 55%,rgba(179,162,228,.45));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+/* la prune revient en accent de TEXTE (--plum2 : 8,6:1 sur --night) */
+.val h3{color:var(--plum2)}
+/* l'encadre des statuts : coins genereux, et ses renvois passent du trait
+   dore plein au degrade vertical */
+.statuts .box{border-radius:18px}
+.statuts .box .jo{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
+"""
+
+CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
 
 PREST=[
  ('feature','Concert-Rituel','RITUALS','Une prière chantée où le public devient souffle, voix et battement. Musique live, chant collectif et induction, par David Lesage &amp; Iris Chasles. Disponible en <b>duo</b> ou en <b>trio</b> avec saxophones et flûtes.','Découvrir la page','/rituals'),
