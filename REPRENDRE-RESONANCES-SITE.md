@@ -123,6 +123,7 @@ git config core.hooksPath .githooks
 | `/le-nid` | Le lieu, programme, agenda | particuliers Paris |
 | `/le-soin-soa` | Week-end d'immersion (Iris, Gaïa, David) | particuliers |
 | `/rythme-calebasse` | Workshops + appel à candidature groupe de pratique | particuliers |
+| `/association` | **L'association** : objet, valeurs, statuts, mentions légales, adresses, adhésion, contact | mixte |
 | `/guso-facile` | **Outil web d'administratif de l'intermittence** (bêta privée) | **artistes intermittents** et structures qui les emploient |
 
 ### ⚠️ `/guso-facile` — la formulation est délibérée, ne pas la « corriger »
@@ -151,12 +152,12 @@ Orphelines encore en ligne : `/solune`, `/au-nid` (suppression jamais confirmée
 Principe qu'il a posé : **deux publics distincts** — ceux qui achètent un spectacle, et ceux qui viennent vivre quelque chose au Nid. Ils ne se croisent jamais et le site doit le refléter.
 Sur le mot à employer : « spectacle » est trop pauvre (RITUALS est un *concert-rituel*), et ils sont « à la frontière de tous ces mondes ». Terme retenu en façade : **« Sur scène »**. Chaque page garde son terme précis (concert-rituel, spectacle immersif participatif, concert-cérémonie participatif). Tactique conseillée pour les programmateurs : sous le nom d'auteur, ajouter *« Se programme en : festival · salle · lieu patrimonial · événement d'entreprise »* et *« S'inscrit dans : musiques du monde · création pluridisciplinaire · spectacle participatif »* — ces lignes font le classement à leur place.
 
-**Menu unifié, en place sur les 10 pages** (composant partagé `sources/nav_menu.py`, idempotent via `data-nav="resonances-3"`, `NAV_VERSION` à incrémenter pour régénérer ; sous-menus déroulants en desktop — un seul ouvert à la fois — et accordéons dans le panneau hamburger en mobile ; `aria-current` + parent marqué ; vérifié sur les 10 pages à 390/820/1440 px, 0 débordement) :
+**Menu unifié, en place sur les 30 pages** (composant partagé `sources/nav_menu.py`, idempotent via `data-nav="resonances-4"`, `NAV_VERSION` à incrémenter pour régénérer ; sous-menus déroulants en desktop — un seul ouvert à la fois — et accordéons dans le panneau hamburger en mobile ; `aria-current` + parent marqué ; vérifié sur les 10 pages à 390/820/1440 px, 0 débordement) :
 
 - **Accueil**
 - **Sur scène** ▾ → `/rituals` (RITUALS — duo) · `/rituals-trio` (RITUALS — trio) · `/e-motion` (E-Motion) · `/david-lesage-en-concert` (David Lesage en concert)
 - **Le Nid** ▾ → `/le-nid` (Le Nid — Paris 20ᵉ) · `/le-nid#agenda` (Agenda) · `/le-nid#instruments` (Présentation d'instruments) · `/concerts-david-lesage` (Concerts au Nid) · `/le-nid#yoga` (Atelier de yoga) · `/rythme-calebasse` (Rythme & calebasse) · `/le-soin-soa` (Le Soin Soa) · `/le-nid#psychotherapie` (Psychothérapie) · `/le-nid#cours-individuels` (Cours individuels)
-- **L'association** ▾ → `/#association` (L'association) · **`/guso-facile` (Guso Facile)**
+- **L'association** ▾ → **`/association` (L'association)** · **`/guso-facile` (Guso Facile)**
 - **Contact** · bouton **Adhérer**
 
 **Pourquoi « Guso Facile » est sous « L'association » (décision du 14/08/2026)** — ce
@@ -174,6 +175,56 @@ l'association — la page, elle, porte la formulation prudente validée (voir pl
 Si David préfère une entrée de premier niveau, c'est **une ligne à changer** dans
 `build_links()` + `MENU_ENTREES_ATTENDUES` dans `verif_site.py`, et un `NAV_VERSION` à
 incrémenter.
+
+### ⚠️ `/association` est une VRAIE PAGE depuis le 15/08/2026 — et les ancres qui vont avec
+
+David avait remarqué que **« Accueil » et « L'association » menaient tous les deux à la
+page d'accueil** (le second vers `/#association`). Derrière ce doublon de menu, un
+problème de fond : **l'accueil faisait cinq métiers** (`#association`, `#statuts`,
+`#adherer`, `#contact`, `#prestations`) en plus de présenter les spectacles. Il a
+tranché pour la solution de fond.
+
+**Ce qui a déménagé de `/` vers `/association`** : le 2ᵉ paragraphe de l'objet, et toute
+la section « Cadre légal · Les statuts » (les deux articles, le renvoi au Journal
+officiel avec le n° RNA, le lien vers le document des statuts, la fiche data.gouv.fr).
+**Ce qui reste sur `/`** : la présentation courte (1ᵉʳ paragraphe de l'objet, pas un mot
+changé) + un bouton « En savoir plus sur l'association », les quatre engagements, les
+prestations, l'adhésion, le pied de page.
+
+**Les ancres, une par une** :
+
+| Ancre | Décision | Pourquoi |
+|---|---|---|
+| `/#association` | **reste sur l'accueil** | le bloc court y est toujours ; c'est la cible historique du menu jusqu'à `resonances-3` |
+| `/#adherer` | **reste** | la section « Adhésion » n'a pas bougé. `/association#adherer` existe **en plus** |
+| `/#contact` | **reste** | c'est le pied de page, présent sur les 30 pages |
+| `/#prestations` | **reste** | les six cartes n'ont pas bougé |
+| `/#statuts` | **part** sur `/association#statuts` | mesuré avant de trancher : **aucune page ne pointait vers `/#statuts`** dans son corps de texte. Seuls subsistaient 3 sélecteurs CSS `.nav .links a[href="/#statuts"]`, vestiges d'un menu remplacé depuis — retirés. Le seul renvoi réel était la redirection `/statuts` de `vercel.json`, qui vise maintenant `/association#statuts` |
+
+⚠️ **Une redirection Vercel ne peut RIEN pour un lien interne** : `/#statuts` écrit dans
+une page n'est jamais une requête vers `/statuts`, c'est une requête vers `/` suivie d'un
+saut côté navigateur. Rediriger ne répare que les URL tapées à la main. C'est pourquoi le
+choix s'est fait ancre par ancre, et pas « on redirigera ».
+
+⚠️ **Les textes partagés entre `/` et `/association` vivent dans
+`sources/textes_association.py`** — ce n'est PAS un générateur (il n'écrit aucune page,
+il n'a donc pas de ligne dans `build.py`, dont le contrôle ne regarde que les
+`generate_*.py`). Une correction de David n'a qu'un seul endroit où se faire.
+
+⚠️ **`association_href` n'existe plus** dans `nav_menu.build_links()` / `inject()` :
+l'entrée porte un href en dur. Pour revenir à l'ancre d'accueil, remettre `None` dans
+`ASSO[0]`, restaurer les quatre lignes (historique git) et incrémenter `NAV_VERSION`.
+
+### Google Search Console (15/08/2026)
+
+`<meta name="google-site-verification" content="iPTmSfVj…">` est dans le `<head>` de
+**l'accueil, et de nulle part ailleurs** : elle vérifie la propriété « préfixe d'URL »,
+et Google ne la lit que sur la page demandée — une pose suffit. Un dixième contrôle
+(`google`) dans `verif_site.py` refuse toute copie sur une autre page, et
+`generate_association.py` refuse d'écrire si la balise s'y trouve. David pose en
+parallèle un TXT dans la zone DNS OVH pour la propriété « domaine » ; les deux méthodes
+coexistent, et un enregistrement `google-site-verification` **existe déjà** dans cette
+zone.
 
 Les ancres `#psychotherapie`, `#concerts-au-nid`, `#yoga`, `#calebasse-workshop`, `#cours-individuels`, `#instruments` **existent déjà** sur `/le-nid` (+ `#agenda`, `#concerts` pré-filtre concerts). Prérequis fait.
 ⚠️ Contrainte mesurée : à 9 entrées la barre touchait le nom de l'association entre 861 et 1080 px → resserrement CSS + `white-space:nowrap` déjà en place sur certaines pages. Un menu déroulant règle le problème de fond.
@@ -277,7 +328,7 @@ les retirer casse le site :
 
 | Marqueur | Pourquoi il est indispensable |
 |---|---|
-| `<!-- nav_menu.py (resonances-3) -->` | `JS_MARK` de `nav_menu.py` : **garde d'idempotence** testée par `inject()`. Sans lui le menu se réinjecte à chaque passe (l'incident des entrées de menu en double). Porte aussi `NAV_VERSION`, relue pour nettoyer un ancien menu. |
+| `<!-- nav_menu.py (resonances-4) -->` | `JS_MARK` de `nav_menu.py` : **garde d'idempotence** testée par `inject()`. Sans lui le menu se réinjecte à chaque passe (l'incident des entrées de menu en double). Porte aussi `NAV_VERSION`, relue pour nettoyer un ancien menu. |
 | `<!-- fin nav_menu.py -->` | `JS_END` : **borne de fin** utilisée par `_strip()` pour retirer le JS d'une ancienne version du menu. Sans elle le nettoyage ne sait plus où s'arrêter. |
 
 > ✅ **Incrémenter `NAV_VERSION` ne demande RIEN dans `verif_commentaires.py`** (vérifié le
@@ -382,6 +433,33 @@ seul octet.
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
 ## Journal
+- **2026-08-15 (soir)** — **`/association` créée : le doublon de menu réglé à la racine.**
+  *(1)* `sources/generate_association.py` → `association/index.html` (objet, valeurs,
+  statuts, mentions légales RNA/SIRET/APE, siège + correspondance, adhésion, contact).
+  Zéro JS de page, zéro image, zéro iframe, zéro tiers. Il appelle lui-même
+  `mobile_nav.inject()` puis `nav_menu.inject('association')`, et **refuse d'écrire** sur
+  une ancre manquante/dupliquée, un `target=_blank` sans `noopener`, un hôte hors liste,
+  un texte sous 13 px, un emoji, ou la balise Google.
+  *(2)* Menu : **`NAV_VERSION` → `resonances-4`**, « L'association » → `/association`,
+  clé `association` dans `PAGE_KEYS` (via `ASSO`) et `_PATH_KEYS`. **18 entrées** de menu,
+  inchangé. Vérifié AVANT la montée : plus aucun générateur ne code un numéro en dur.
+  *(3)* Accueil déchargé (voir la section dédiée plus haut) ; 6 règles CSS `.statuts …`
+  + 2 règles `.jo a` retirées avec la section ; 3 sélecteurs `[href="/#statuts"]` morts
+  retirés de `generate_concert_dl/scene` et `generate_soin_soa`.
+  *(4)* `build.py`, `sitemap.xml` (0.6 mensuel), `verif_site.py` + `verif_commentaires.py`
+  **29 → 30 pages**, `vercel.json` (`/statuts` → `/association#statuts`, plus
+  `/l-association` et `/mentions-legales`).
+  **Mesuré** : `build.py` → 30 pages, deux exécutions sans un octet de différence, aucune
+  page « MISE À JOUR » à la 2ᵉ passe ; `verif_site.py` **30/30** code 0 ;
+  `verif_commentaires.py` 30/30 ; **25 des 29 pages existantes sont identiques** une fois
+  le bloc de menu neutralisé (les 3 autres = la ligne CSS morte, + l'accueil qui change
+  volontairement) ; **les 138 fragments de texte de l'ancien accueil se retrouvent tous**
+  sur `/` ou `/association`, le seul texte nouveau étant le libellé du bouton ;
+  0 débordement à 390/820/1440 px sur les 30 pages, 1 seul `<h1>`, hamburger vérifié à
+  l'ouverture ET à la fermeture, `aria-current` juste, 0 lien mort, 0 ancre morte,
+  balise Google **1 seule occurrence sur tout le site**.
+  ⚠️ Reste ouvert : la page ne nomme **ni directeur de la publication ni hébergeur** —
+  aucun des deux n'a été validé par David. On n'invente pas une mention légale.
 - **2026-08-03** — Bascule Cowork → Claude Code. Clone, sources copiées, fix hamburger (cause : `backdrop-filter` du `.nav`), enrichissement Google Agenda, audit des liens /le-nid, tableau admin showcase (autre dépôt).
 - **2026-08-04 (nuit)** — `robots.txt` + `sitemap.xml` · vidéos en lecteur de page (`youtube-nocookie`, Échap, src vidée, lien de secours dynamique) · fontaine Mélusine installée au Nid · The Voice : **la vraie vidéo** (audition à l'aveugle « Kothbiro » d'Ayub Ogada, chaîne officielle TF1) + 2 erreurs factuelles corrigées (ce n'était ni « Une Âme » ni 2021) · bloc « Écouter · Soutenir » (Spotify, chaîne, album « L'Alliance du Phoenix ») · **menu unifié sur les 9 pages**. ⚠️ `@DavidLesageMusique` est un **lien mort** : la seule chaîne est `@DavidLesageArtiste` — et `lesagedavid.fr` pointe vers la morte.
 - **2026-08-04** — Calendrier /le-nid (filtres, boutons, abonnement) · dédoublonnages + causes corrigées dans les générateurs · adresse asso + statuts + data.gouv · Google Agenda nettoyé + 3 rappels · incident code portail dans ce handoff public (historique réécrit) · audit UX complet · quick wins accessibilité/SEO · **chantier images terminé** · hero du Nid · `/le-soin-soa` créée puis adaptée · « Showcase » renommé partout · crédits MAGYE D'ART · `/concerts-david-lesage` · `/david-lesage-en-concert` + fiche technique · `/rythme-calebasse` + appel à candidature · « Boire l'eau du concert » · robots.txt + sitemap.xml. **Tout déployé et vérifié en ligne.**
