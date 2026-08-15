@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Accepter ou refuser un cachet : évaluer une date</title>
+<meta name="description" content="90 € et logé chez l'habitant : bon plan ou pas ? Comparer l'offre à ses conditions idéales, réclamer les infos manquantes et négocier sans culpabiliser.">
+<meta name="author" content="David Lesage">
+<meta property="og:title" content="Évaluer si une date est un bon plan">
+<meta property="og:description" content="90 € et logé chez l'habitant : bon plan ou pas ? Comparer l'offre à ses conditions idéales, réclamer les infos manquantes et négocier sans culpabiliser.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.resonancesproductions.org/guso-facile/blog/evaluer-si-une-date-est-un-bon-plan">
+<meta property="og:site_name" content="Résonances Productions">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://www.resonancesproductions.org/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://www.resonancesproductions.org/guso-facile/blog/evaluer-si-une-date-est-un-bon-plan">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0e0f24">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--night);color:var(--ink);font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.75;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4,.serif{font-family:'Cormorant Garamond',Georgia,serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 26px}
+.kick{letter-spacing:.32em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--gold);margin-bottom:14px}
+section{padding:78px 0;position:relative}
+.sec-title{font-size:clamp(30px,5vw,50px);font-weight:600;line-height:1.08;color:#fff}
+.lead{font-size:19px;color:var(--muted);max-width:760px;margin-top:16px}
+p.body{max-width:820px;color:#d7d4ea;margin-top:16px}
+b{color:#fff;font-weight:500}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);max-width:1080px;margin:0 auto}
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px 26px;background:rgba(14,15,36,.6);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.05)}
+.nav .brand{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;letter-spacing:.12em;color:#fff;text-transform:uppercase}
+.nav .links{display:flex;align-items:center;gap:19px;font-size:13.5px;letter-spacing:.04em}
+.nav .links a{color:var(--muted);transition:color .2s}
+.nav .links a:hover{color:var(--gold2)}
+.nav .adh{color:#1a1608!important;background:var(--gold);padding:8px 16px;border-radius:30px;font-weight:600}
+@media(max-width:760px){.nav .links a:not(.adh){display:none}}
+@media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
+.nav .links a[aria-current="page"]{color:var(--gold2)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 26px;border-radius:40px;font-size:15px;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
+.btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+/* retour en haut */
+.totop{position:fixed;right:18px;bottom:18px;z-index:35;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(25,27,61,.92);border:1px solid var(--line);color:var(--gold2);font-size:19px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
+.totop.on{opacity:1;visibility:visible}
+.totop:hover{transform:translateY(-2px)}
+/* focus clavier visible (accessibilite) */
+:focus-visible{outline:2px solid var(--gold2);outline-offset:2px;border-radius:4px}
+footer{background:#08091a;padding:70px 0 56px;border-top:1px solid var(--line)}
+.fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:34px}
+footer h4{font-family:'Cormorant Garamond',serif;color:#fff;font-size:22px;font-weight:600;margin-bottom:10px}
+footer p,footer a{color:var(--muted);font-size:16px}
+footer a{display:inline-block;padding:13px 0;line-height:1.3}
+footer a.btn,footer a.adh{padding:14px 30px}
+footer a:hover{color:var(--gold2)}
+footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.35);text-underline-offset:3px}
+.fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
+.legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:13px}
+@media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:60px 0}}
+p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
+
+/* ===== couche chaleureuse commune (sources/theme_chaleur.py) =============
+   Le degrade signature de /guso-facile, propage a tout le site. Par touches :
+   filets, sur-titres, puces, bouton. Jamais en aplat de fond. */
+:root{--coral:#e08a72;--plum2:#b3a2e4;
+--grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
+--grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral));
+/* meme degrade, axe VERTICAL : pour les filets de 3 px places sur le cote
+   d'une carte. Avec `--grad` (95deg) un filet haut de 200 px et large de 3
+   affiche le degrade de biais — mesure a l'ecran, c'est du hasard, pas un
+   choix. `--grad-v` le fait courir franchement de haut en bas. */
+--grad-v:linear-gradient(180deg,var(--gold2),var(--gold) 30%,var(--coral) 66%,var(--plum2))}
+/* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice ».
+   position:fixed + inset:0 -> aucun risque de debordement horizontal. */
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(224,138,114,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(143,122,209,.12),transparent 62%)}
+/* texte peint au degrade (titres, sur-titres) */
+.grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* soulignement degrade de 2 px sous un mot-cle */
+.mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
+.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent)}
+.kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/* boutons : le principal porte le degrade chaud, le fantome un filet dore */
+.btn{border-radius:999px}
+.btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(224,138,114,.55)}
+.btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(224,138,114,.65)}
+.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(240,209,138,.3);color:var(--gold2)}
+.btn.ghost:hover{border-color:rgba(240,209,138,.55)}
+/* contraste du pied de page : 3,8:1 -> 5,96:1 sur #08091a (seuil 4,5:1) */
+.legal{color:#8b8ba6}
+/* a l'impression, un texte peint au degrade sort blanc : on le rend a l'or */
+@media print{.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
+/* les pictogrammes en ligne (voir ICONES plus bas) */
+.ic{width:23px;height:23px;display:block;flex:0 0 auto}
+.tc-defs{position:absolute;width:0;height:0;overflow:hidden}
+/* ===== Blog Guso Facile ===== */
+/* Les variables (--coral, --plum2, --grad, --grad-warm), les halos de fond, le
+   .divider, le .kick peint au degrade, le bouton principal et la correction de
+   contraste du .legal viennent de la couche commune `theme_chaleur.CSS`,
+   inseree JUSTE AVANT cette feuille. On ne redeclare ici que ce qui est propre
+   au blog, ou les quelques valeurs ou il s'en ecarte volontairement. */
+.ic{width:22px;height:22px;display:block;flex:0 0 auto}
+/* les pictogrammes POSES DANS UNE PHRASE (ceux qui remplacent un emoji du
+   texte d'origine) : ils doivent s'aligner sur la ligne de base, pas former un
+   bloc comme ceux des etiquettes. */
+.ic-in{display:inline-block;width:17px;height:17px;vertical-align:-3px;margin:0}
+section{padding:92px 0}
+.kick{margin-bottom:12px}
+.btn{padding:15px 28px}
+.btn svg{width:18px;height:18px;flex:0 0 auto;stroke:currentColor}
+/* --- tete de page (index et article) ------------------------------------ */
+.bl-top{padding:126px 0 62px;background:radial-gradient(900px 560px at 6% -12%,rgba(143,122,209,.22),transparent 62%),radial-gradient(760px 480px at 96% 8%,rgba(224,138,114,.14),transparent 62%),radial-gradient(720px 470px at 60% 108%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+.bl-top h1{font-size:clamp(33px,5.6vw,60px);font-weight:600;line-height:1.06;letter-spacing:.01em;color:#fff;max-width:20ch}
+.bl-top .col{max-width:760px}
+.bl-dek{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.6vw,26px);line-height:1.36;margin-top:16px;max-width:60ch}
+.bl-intro{color:#d7d4ea;font-size:17px;margin-top:20px;max-width:66ch}
+/* fil d'Ariane : il double le BreadcrumbList du JSON-LD (section 6 du dossier) */
+.fil{margin-bottom:20px}
+.fil ol{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:5px 9px;font-size:13px;letter-spacing:.05em;color:var(--muted)}
+.fil li{display:inline-flex;align-items:center;gap:9px}
+.fil li+li::before{content:'';width:5px;height:5px;border-radius:1px;background:var(--grad-warm);transform:rotate(45deg);flex:0 0 auto}
+.fil a{color:var(--plum2)}
+.fil a:hover{color:var(--gold2)}
+.fil [aria-current="page"]{color:var(--muted)}
+/* la ligne de service : rubrique, duree, public, date de mise a jour */
+.bl-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:26px;font-size:13.5px;color:var(--muted)}
+.bl-meta span{display:inline-flex;align-items:center;gap:7px}
+.bl-meta .ic{width:17px;height:17px}
+.rub{display:inline-flex;align-items:center;gap:8px;padding:6px 15px;border:1px solid rgba(240,209,138,.34);border-radius:999px;color:var(--gold2);font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;background:linear-gradient(90deg,rgba(216,178,90,.14),rgba(224,138,114,.10))}
+.rub::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--grad-warm);flex:0 0 auto}
+/* --- corps d'article ---------------------------------------------------- */
+.art{padding:58px 0 0}
+.art .wrap{max-width:812px}
+.art .col{max-width:760px}
+.art h2{font-size:clamp(25px,3.6vw,33px);font-weight:600;color:#fff;line-height:1.16;margin:46px 0 4px}
+.art h3{font-size:clamp(20px,2.6vw,24px);font-weight:600;color:var(--gold2);line-height:1.24;margin:34px 0 2px}
+.art p{color:#d7d4ea;margin-top:16px;font-size:17px}
+.art p.attaque{font-size:19px;color:var(--ink)}
+.art b{color:#fff;font-weight:500}
+.art a:not(.btn){color:var(--plum2);text-decoration:underline;text-decoration-color:rgba(179,162,228,.5);text-underline-offset:3px}
+.art a:not(.btn):hover{color:var(--gold2)}
+.art ul,.art ol{margin-top:16px;padding-left:0;list-style:none;counter-reset:pas}
+.art li{position:relative;padding-left:27px;margin-top:12px;color:#d7d4ea;font-size:16.5px;line-height:1.68}
+.art ul li::before{content:'';position:absolute;left:2px;top:10px;width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
+.art ol li{padding-left:36px}
+.art ol li::before{counter-increment:pas;content:counter(pas);position:absolute;left:0;top:2px;width:25px;height:25px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;font-weight:600;color:var(--gold2);border:1px solid rgba(240,209,138,.28);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(224,138,114,.12) 55%,rgba(143,122,209,.14))}
+/* la petite scene d'ouverture des 8 anciens articles */
+.scene{position:relative;margin-top:26px;padding:4px 0 4px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(19px,2.4vw,23px);line-height:1.44;color:var(--plum2)}
+.scene::before{content:'';position:absolute;left:0;top:2px;bottom:2px;width:2px;border-radius:2px;background:var(--grad)}
+/* citations et modeles de messages */
+.art blockquote{position:relative;overflow:hidden;margin-top:26px;padding:22px 24px;border:1px solid rgba(179,162,228,.26);border-radius:18px;background:linear-gradient(135deg,rgba(143,122,209,.12),rgba(224,138,114,.06))}
+.art blockquote p{margin-top:9px;font-size:16.5px;color:var(--ink)}
+.art blockquote p:first-child{margin-top:0}
+/* encadres « En bref » et « Dans l'app » */
+.enc{position:relative;overflow:hidden;margin-top:30px;padding:26px 26px 24px;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:linear-gradient(180deg,#1c1e46,#171935);box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
+.enc::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.enc-t{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:6px}
+.enc p{font-size:16.5px}
+.enc p:first-of-type{margin-top:8px}
+/* le panneau de conclusion */
+.final{position:relative;overflow:hidden;margin-top:52px;padding:38px 34px 34px;border:1px solid rgba(255,255,255,.09);border-radius:26px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(224,138,114,.10) 48%,rgba(143,122,209,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
+.final::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.final h2{margin:0;font-size:clamp(24px,3.4vw,31px)}
+.final .cta{margin-top:24px}
+.mention{margin-top:18px;color:var(--muted);font-size:14px;line-height:1.65;max-width:64ch}
+/* --- « A lire ensuite » -------------------------------------------------- */
+.suite{margin-top:58px}
+.suite h2{font-size:13px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;margin:0 0 20px;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;font-family:'Jost',sans-serif}
+.cartes{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:20px}
+.carte{position:relative;overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,#1c1e46,#171935);padding:24px 22px 22px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95);transition:transform .2s,border-color .2s}
+.carte::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.carte:hover{transform:translateY(-3px);border-color:rgba(240,209,138,.34)}
+.carte-r{font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:9px}
+.carte-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;font-weight:600;color:#fff;line-height:1.2}
+.carte-d{color:#cfcbe4;font-size:15px;line-height:1.6;margin-top:11px}
+.carte-l{margin-top:16px;padding-top:13px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;letter-spacing:.06em;color:var(--plum2)}
+.carte-l .ic{width:17px;height:17px}
+/* pied d'article : les deux remontees obligatoires */
+.remonte{display:flex;flex-wrap:wrap;gap:12px 26px;margin:52px 0 0;padding:24px 0 0;border-top:1px solid rgba(255,255,255,.08);font-size:15px}
+.remonte a{display:inline-flex;align-items:center;gap:9px;color:var(--plum2)}
+.remonte a:hover{color:var(--gold2)}
+.remonte .ic{width:18px;height:18px}
+.art .fin{padding-bottom:86px}
+/* --- index du blog ------------------------------------------------------- */
+.theme{padding:0;margin-top:64px}
+.theme:first-of-type{margin-top:8px}
+.theme-h{display:flex;align-items:center;gap:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.theme-h h2{font-size:clamp(24px,3.2vw,31px);font-weight:600;color:#fff;line-height:1.15}
+.theme-ico{flex:0 0 auto;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(240,209,138,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(224,138,114,.12) 55%,rgba(143,122,209,.14))}
+.theme-n{margin-left:auto;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.theme .cartes{margin-top:24px}
+.somm{margin-top:34px;padding:24px 26px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5))}
+.somm-t{font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:12px}
+.somm ul{list-style:none;display:flex;flex-wrap:wrap;gap:9px 10px}
+.somm a{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border:1px solid rgba(240,209,138,.24);border-radius:999px;font-size:13.5px;color:var(--gold2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
+.somm a:hover{border-color:rgba(240,209,138,.55)}
+@media(max-width:760px){
+  section{padding:66px 0}
+  .bl-top{padding:106px 0 48px}
+  .art{padding:44px 0 0}
+  .enc{padding:22px 20px 20px}
+  .final{padding:28px 22px 24px}
+  .carte{padding:22px 19px 19px}
+  .somm{padding:20px 18px}
+  .theme{margin-top:52px}
+}
+@media print{.totop{display:none}.kick,.suite h2{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
+
+/* ===== MENU MOBILE (hamburger) ===== */
+.burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
+.burger span{display:block;width:20px;height:2px;background:var(--gold2);margin:4px auto;border-radius:2px;transition:transform .28s,opacity .2s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:860px){
+  .burger{display:block}
+  .nav{flex-wrap:wrap}
+  .nav .links{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1001;
+    background:rgba(10,11,28,.98);backdrop-filter:blur(14px);
+    flex-direction:column;justify-content:center;align-items:center;gap:6px !important;
+    padding:80px 26px 40px;
+    opacity:0;visibility:hidden;transform:translateY(-12px);
+    transition:opacity .3s,transform .3s,visibility .3s;
+    overflow-y:auto}
+  .nav .links.open{opacity:1;visibility:visible;transform:none}
+  /* on annule les regles qui masquaient les liens en mobile */
+  .nav .links a,.nav .links a.hide-s,.nav .links a:not(.adh){display:block !important;
+    font-size:21px !important;letter-spacing:.06em;padding:14px 18px;text-align:center;
+    font-family:'Cormorant Garamond',Georgia,serif;color:#eae7f3 !important;width:100%;max-width:340px}
+  .nav .links a:active{color:var(--gold2) !important}
+  .nav .links a.adh{margin-top:18px;background:var(--gold);color:#1a1608 !important;
+    border-radius:30px;font-family:'Jost',sans-serif;font-size:16px !important;padding:14px 30px;width:auto}
+  /* .nav porte un backdrop-filter : il devient le bloc conteneur des descendants
+     position:fixed ET un contexte d'empilement -> le panneau restait enferme dans la
+     barre et passait sous le contenu. On neutralise le filtre et on remonte le nav
+     uniquement quand le menu est ouvert. */
+  body.nav-open .nav{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;z-index:1001 !important}
+  body.nav-open{overflow:hidden}
+}
+@media print{.burger{display:none}}
+/* == nav_menu.py (resonances-3) == */
+/* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
+.nav .links{flex-wrap:nowrap}
+.nav .links a[aria-current="page"]{color:var(--gold2)}
+.nav .links>a[aria-current="page"]{border-bottom:1px solid rgba(216,178,90,.62);padding-bottom:2px}
+@media(min-width:861px){.nav .links a:not(.adh),.nm-top{font-size:15px}}
+.nm-item{position:relative;display:flex;align-items:center;padding:15px 0;margin:-15px 0}
+.nm-top{font-family:'Jost',system-ui,-apple-system,sans-serif;font-weight:400;background:none;
+  border:0;padding:0;margin:0;cursor:pointer;color:var(--muted);display:inline-flex;
+  align-items:center;gap:7px;letter-spacing:.04em;line-height:1.35;font-size:15px;
+  white-space:nowrap;transition:color .2s}
+.nm-top:hover,.nm-top:focus-visible{color:var(--gold2)}
+.nm-item.nm-open>.nm-top{color:var(--gold2)}
+.nm-lbl{border-bottom:1px solid transparent;padding-bottom:2px}
+.nm-top.nm-active{color:var(--gold2)}
+.nm-top.nm-active .nm-lbl{border-bottom-color:rgba(216,178,90,.62)}
+.nm-caret{width:6px;height:6px;flex:0 0 auto;border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor;transform:translateY(-2px) rotate(45deg);
+  transition:transform .22s}
+.nm-item.nm-open>.nm-top .nm-caret{transform:translateY(1px) rotate(-135deg)}
+.nm-sub{background:var(--card)}
+@media(min-width:861px){
+  .nm-sub{position:absolute;top:100%;left:50%;min-width:252px;max-width:min(330px,90vw);
+    transform:translateX(-50%) translateY(3px);
+    background:var(--card);border:1px solid rgba(216,178,90,.28);border-radius:14px;
+    box-shadow:0 24px 48px rgba(0,0,0,.6);padding:8px;z-index:1200;
+    display:flex;flex-direction:column;gap:1px;
+    opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .18s,transform .18s,visibility .18s}
+  .nm-item.nm-open>.nm-sub{opacity:1;visibility:visible;pointer-events:auto;
+    transform:translateX(-50%) translateY(0)}
+  .nav .links .nm-sub a{display:flex;align-items:center;min-height:44px;
+    padding:10px 14px;border-radius:9px;font-size:15px;line-height:1.3;
+    font-family:'Jost',system-ui,-apple-system,sans-serif;
+    color:#dedaf0;text-align:left;text-decoration:none;white-space:normal}
+  .nav .links .nm-sub a:hover,.nav .links .nm-sub a:focus-visible{
+    background:rgba(216,178,90,.15);color:var(--gold2)}
+  .nav .links .nm-sub a[aria-current="page"]{color:var(--gold2);background:rgba(216,178,90,.10)}
+  /* zone tampon : le survol ne doit pas casser entre le parent et le panneau */
+  .nm-item.nm-open::after{content:'';position:absolute;top:100%;left:-30px;right:-30px;height:8px}
+  /* bouton Adherer : 4 des 7 pages n'avaient pas de regle .nav .adh */
+  .nav .links a.adh{color:#1a1608 !important;background:var(--gold);
+    padding:8px 16px;border-radius:30px;font-weight:600;font-size:15px;
+    font-family:'Jost',system-ui,-apple-system,sans-serif;white-space:nowrap;
+    border-bottom:0;min-height:0}
+  .nav .links a.adh:hover,.nav .links a.adh:focus-visible{background:var(--gold2)}
+}
+/* barre serree quand la place manque (le nom de l'association ne doit jamais etre touche) */
+@media(min-width:861px) and (max-width:1120px){
+  .nav{padding-left:18px;padding-right:18px}
+  .nav .brand{white-space:nowrap;font-size:16px}
+  .nav .links{gap:13px}
+  .nav .links a.adh{padding-left:13px;padding-right:13px}
+}
+@media(min-width:861px) and (max-width:980px){
+  .nav .links{gap:10px}
+  .nav .links a:not(.adh),.nm-top{font-size:14px}
+  .nav .brand{font-size:14px;letter-spacing:.1em}
+}
+/* ---- mobile : les sous-menus deviennent des accordeons ---- */
+@media(max-width:860px){
+  /* flex-wrap:nowrap est INDISPENSABLE : le panneau est en flex-direction:column,
+     autoriser le retour a la ligne le decoupe en 2-3 COLONNES au lieu de defiler. */
+  .nav .links{flex-wrap:nowrap !important;justify-content:flex-start !important}
+  .nav .links>:first-child{margin-top:auto}
+  .nav .links>:last-child{margin-bottom:auto}
+  .nm-item{display:block;width:100%;max-width:340px;position:static;padding:0;margin:0}
+  .nav .links .nm-top{display:flex;width:100%;justify-content:center;gap:11px;
+    min-height:52px;padding:12px 18px;border-radius:12px;
+    font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;letter-spacing:.06em;
+    color:#eae7f3;white-space:normal;text-align:center}
+  .nav .links .nm-item.nm-open>.nm-top{color:var(--gold2)}
+  .nav .links .nm-top .nm-caret{width:8px;height:8px}
+  .nm-sub{display:none;background:transparent;border:0;padding:2px 0 12px;margin:0}
+  .nm-item.nm-open>.nm-sub{display:block}
+  .nav .links .nm-sub a{display:flex !important;align-items:center;justify-content:center;
+    min-height:44px;width:100% !important;max-width:none !important;
+    padding:10px 14px !important;border-radius:10px;
+    font-family:'Jost',system-ui,-apple-system,sans-serif !important;
+    font-size:16.5px !important;letter-spacing:.02em;color:#cfcbe6 !important;
+    text-align:center}
+  .nav .links .nm-sub a[aria-current="page"]{color:var(--gold2) !important}
+  .nav .links .nm-sub a:active{background:rgba(216,178,90,.14)}
+}
+@media print{.nm-sub{display:none}}
+/* == fin nav_menu.py == */
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.resonancesproductions.org/#organization",
+      "name": "Résonances Productions",
+      "url": "https://www.resonancesproductions.org/"
+    },
+    {
+      "@type": "BlogPosting",
+      "@id": "https://www.resonancesproductions.org/guso-facile/blog/evaluer-si-une-date-est-un-bon-plan#article",
+      "headline": "Évaluer si une date est un bon plan",
+      "name": "Évaluer si une date est un bon plan",
+      "description": "90 € et logé chez l'habitant : bon plan ou pas ? Comparer l'offre à ses conditions idéales, réclamer les infos manquantes et négocier sans culpabiliser.",
+      "url": "https://www.resonancesproductions.org/guso-facile/blog/evaluer-si-une-date-est-un-bon-plan",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.resonancesproductions.org/guso-facile/blog/evaluer-si-une-date-est-un-bon-plan"
+      },
+      "inLanguage": "fr-FR",
+      "datePublished": "2026-07-18",
+      "dateModified": "2026-08-15",
+      "author": {
+        "@type": "Person",
+        "name": "David Lesage",
+        "url": "https://www.resonancesproductions.org/david-lesage-en-concert"
+      },
+      "publisher": {
+        "@id": "https://www.resonancesproductions.org/#organization"
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://www.resonancesproductions.org/og-image.jpg",
+        "width": 1200,
+        "height": 630
+      },
+      "articleSection": "Négociation",
+      "keywords": "cachet, négociation, conditions, tournée, intermittent",
+      "timeRequired": "PT4M",
+      "isPartOf": {
+        "@type": "Blog",
+        "@id": "https://www.resonancesproductions.org/guso-facile/blog#blog",
+        "name": "Le blog de Guso Facile",
+        "url": "https://www.resonancesproductions.org/guso-facile/blog"
+      },
+      "isAccessibleForFree": true
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Résonances Productions",
+          "item": "https://www.resonancesproductions.org/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guso Facile",
+          "item": "https://www.resonancesproductions.org/guso-facile"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Blog",
+          "item": "https://www.resonancesproductions.org/guso-facile/blog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Évaluer si une date est un bon plan",
+          "item": "https://www.resonancesproductions.org/guso-facile/blog/evaluer-si-une-date-est-un-bon-plan"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+
+<nav class="nav">
+  <a href="/" class="brand">Résonances Productions</a>
+  <div class="links" data-nav="resonances-3">
+    <a href="/">Accueil</a>
+    <div class="nm-item">
+      <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
+      <div class="nm-sub" id="nm-sub-scene" role="group" aria-label="Sur scène">
+        <a href="/rituals">RITUALS — duo</a>
+        <a href="/rituals-trio">RITUALS — trio</a>
+        <a href="/e-motion">E-Motion</a>
+        <a href="/david-lesage-en-concert">David Lesage en concert</a>
+      </div>
+    </div>
+    <div class="nm-item">
+      <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-nid"><span class="nm-lbl">Le Nid</span><span class="nm-caret" aria-hidden="true"></span></button>
+      <div class="nm-sub" id="nm-sub-nid" role="group" aria-label="Le Nid">
+        <a href="/le-nid">Le Nid — Paris 20ᵉ</a>
+        <a href="/le-nid#agenda">Agenda</a>
+        <a href="/le-nid#instruments">Présentation d’instruments</a>
+        <a href="/concerts-david-lesage">Concerts au Nid</a>
+        <a href="/le-nid#yoga">Atelier de yoga</a>
+        <a href="/rythme-calebasse">Rythme & calebasse</a>
+        <a href="/le-soin-soa">Le Soin Soa</a>
+        <a href="/le-nid#psychotherapie">Psychothérapie</a>
+        <a href="/le-nid#cours-individuels">Cours individuels</a>
+      </div>
+    </div>
+    <div class="nm-item">
+      <button type="button" class="nm-top nm-active" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-asso"><span class="nm-lbl">L’association</span><span class="nm-caret" aria-hidden="true"></span></button>
+      <div class="nm-sub" id="nm-sub-asso" role="group" aria-label="L’association">
+        <a href="/#association">L’association</a>
+        <a href="/guso-facile" aria-current="page">Guso Facile</a>
+      </div>
+    </div>
+    <a href="#contact">Contact</a>
+    <a class="adh" href="https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions" target="_blank" rel="noopener">Adhérer</a>
+  </div>
+</nav>
+<svg class="tc-defs" aria-hidden="true" focusable="false"><defs><linearGradient id="gf-ink" gradientUnits="userSpaceOnUse" x1="3" y1="4" x2="21" y2="20"><stop offset="0" stop-color="#f0d18a"/><stop offset=".42" stop-color="#d8b25a"/><stop offset=".74" stop-color="#e08a72"/><stop offset="1" stop-color="#b3a2e4"/></linearGradient></defs></svg>
+<header class="bl-top"><div class="wrap">
+    <nav class="fil" aria-label="Fil d’Ariane">
+      <ol>
+      <li><a href="/">Résonances Productions</a></li>
+      <li><a href="/guso-facile">Guso Facile</a></li>
+      <li><a href="/guso-facile/blog">Blog</a></li>
+      <li><span aria-current="page">Évaluer si une date est un bon plan</span></li>
+      </ol>
+    </nav>
+    <div class="col">
+      <p class="rub">Négociation</p>
+      <h1>Évaluer si une date est un bon plan</h1>
+      <p class="bl-dek">« 90 € et logé chez l'habitant. » Bon plan ou piège ? Quand on a besoin d'heures, difficile de dire non. Voici comment décider avec la tête, pas avec la culpabilité.</p>
+      <p class="bl-meta"><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 7.3V12l3.2 2"/></svg>4 min de lecture</span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9.2" cy="8.4" r="3.1"/><path d="M3.8 19.6c0-3 2.4-5.1 5.4-5.1s5.4 2.1 5.4 5.1"/><path d="M16.2 6.2a3.1 3.1 0 0 1 0 6.1"/><path d="M17.3 14.8c1.9.7 3 2.4 3 4.8"/></svg>Pour les artistes</span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.5" y="5.2" width="17" height="15.2" rx="3"/><path d="M3.5 9.9h17"/><path d="M8.2 3.6v3.1"/><path d="M15.8 3.6v3.1"/><path d="M9 14.8l2.2 2.2 4-4.3"/></svg>Mis à jour le <time datetime="2026-08-15">15 août 2026</time></span></p>
+    </div>
+</div></header>
+<div class="divider"></div>
+<main>
+<article class="art"><div class="wrap"><div class="col fin">
+  <aside class="enc">
+    <p class="enc-t"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13.4 3.2L5.6 13.4h5.2l-.9 7.4 8-10.2h-5.2z"/></svg>En bref</p>
+    <p>Décider d'accepter une date revient à comparer l'offre réelle à ses <b>conditions idéales définies à l'avance</b> : cachet minimum, distance acceptable, prise en charge du trajet, logement, loge, taille de scène, ingé son, sono, visibilité. Guso Facile rend un verdict <svg class="ic ic-in" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M8.2 12.2l2.6 2.6 5-5.4"/></svg> bon plan / <svg class="ic ic-in" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 7.6v5"/><path d="M12 16.2h.01"/></svg> à négocier / <svg class="ic ic-in" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M6.6 6.6l10.8 10.8"/></svg> à éviter, critère par critère, rassemble les <b>informations manquantes</b> à réclamer à l'organisateur et suit l'échéance de signature. Une date acceptée nourrit ensuite <a href="/guso-facile/blog/atteindre-507-heures-sans-angoisse">le compteur des 507 heures</a>.</p>
+  </aside>
+  <p class="scene">Marco reçoit un message : une date dans deux mois, à 250 km, 90 € net, « logé chez l'habitant, on ne peut pas faire les trajets ». Il hésite. Il a besoin d'heures, alors une petite voix lui dit oui. Une autre lui rappelle les fois où il a roulé quatre heures pour rentrer déficitaire. Comment trancher sans culpabiliser ?</p>
+  <p class="attaque">Dire oui à tout, c'est s'épuiser ; dire non au hasard, c'est risquer de refuser une belle rencontre. La bonne décision demande de <b>comparer l'offre à ses propres critères</b>, froidement. C'est exactement ce que fait l'évaluateur de Guso Facile.</p>
+  <h2>D'abord, tes conditions idéales</h2>
+  <p>Dans ton profil, tu définis une fois pour toutes tes <b>conditions idéales</b> : cachet minimum, distance acceptable, prise en charge du trajet, logement, loge, taille de scène, présence d'un ingé son, sono fournie ou à amener, visibilité attendue. C'est ta boussole personnelle — celle que l'émotion du moment a tendance à faire oublier.</p>
+  <h2>Ensuite, l'évaluateur « Bon plan ? »</h2>
+  <p>Sur une date, tu saisis les <b>conditions réelles</b> proposées par l'organisateur. L'app les compare à ton profil et rend un <b>verdict</b> immédiat : <b><svg class="ic ic-in" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M8.2 12.2l2.6 2.6 5-5.4"/></svg> bon plan</b>, <b><svg class="ic ic-in" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 7.6v5"/><path d="M12 16.2h.01"/></svg> à négocier</b>, ou <b><svg class="ic ic-in" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M6.6 6.6l10.8 10.8"/></svg> à éviter</b>. Chaque critère est détaillé, <svg class="ic ic-in" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="coche" focusable="false"><title>coche</title><path d="M4.8 12.6l4.6 4.6 9.8-10.4"/></svg> ou <svg class="ic ic-in" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="croix" focusable="false"><title>croix</title><path d="M6.4 6.4l11.2 11.2"/><path d="M17.6 6.4L6.4 17.6"/></svg>, pour que tu voies <i>où</i> ça coince. Pour l'offre de Marco, le cachet et le trajet non pris en charge font plonger le score : verdict <svg class="ic ic-in" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.4"/><path d="M12 7.6v5"/><path d="M12 16.2h.01"/></svg>, à négocier.</p>
+  <aside class="enc">
+    <p class="enc-t"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9.6 17.6a5.8 5.8 0 1 1 4.8 0"/><path d="M9.7 17.6h4.6"/><path d="M10.4 20.4h3.2"/></svg>Dans l'app</p>
+    <p>Le bouton <b>« Bon plan ? »</b>, dans le détail d'un concert, ouvre l'évaluateur. Si trop peu d'infos sont comparables, il reste prudemment neutre plutôt que de trancher à l'aveugle.</p>
+  </aside>
+  <h2>Les infos manquantes : demander avant de décider</h2>
+  <p>Souvent, on hésite parce qu'il <b>manque des informations</b> : montant net exact, prise en charge des repas, matériel sur place. L'app rassemble ces zones d'ombre dans un bloc <b>« Infos manquantes »</b> et génère, d'un bouton, un <b>message poli prêt à envoyer</b> qui liste précisément ce qu'il reste à préciser, signé de ton prénom. Marco l'envoie tel quel : il négocie sans avoir à trouver les mots.</p>
+  <aside class="enc">
+    <p class="enc-t"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9.6 17.6a5.8 5.8 0 1 1 4.8 0"/><path d="M9.7 17.6h4.6"/><path d="M10.4 20.4h3.2"/></svg>Dans l'app</p>
+    <p>Le bouton <b>« Copier la demande d'infos »</b> met le message dans ton presse-papier, prêt à coller dans un mail ou un WhatsApp.</p>
+  </aside>
+  <h2>Ne pas laisser filer une signature</h2>
+  <p>Une négociation a une <b>échéance</b>. Dans le suivi de la date, tu notes le statut (contact, négociation, contrat envoyé, signé) et une <b>date limite de signature</b>. L'app affiche alors « à signer avant le… », en jaune quand ça approche, en rouge si c'est dépassé. Plus de « bon plan » qui s'évapore faute d'avoir répondu à temps.</p>
+  <div class="final">
+    <h2>Dire non devient un choix, pas un déchirement</h2>
+    <p>Quand une méthode remplace la culpabilité, refuser une mauvaise date ou en négocier une bonne devient simple et serein. Tu protèges ton énergie — et tu la gardes pour la scène.</p>
+    <div class="cta"><a class="btn" href="/guso-facile">Découvrir Guso Facile<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/></svg></a></div>
+  </div>
+  <nav class="suite" aria-label="À lire ensuite">
+    <h2>À lire ensuite</h2>
+    <div class="cartes">
+    <a class="carte" href="/guso-facile/blog/organiser-une-tournee-qui-tient-la-route">
+      <p class="carte-r">Développement</p>
+      <p class="carte-t">Organiser une tournée qui tient la route</p>
+      <span class="carte-l">4 min de lecture<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/></svg></span>
+    </a>
+    <a class="carte" href="/guso-facile/blog/travailler-a-deux-artistes-dates-partagees">
+      <p class="carte-r">Duo &amp; groupe</p>
+      <p class="carte-t">Travailler à deux : les dates partagées</p>
+      <span class="carte-l">4 min de lecture<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/></svg></span>
+    </a>
+    <a class="carte" href="/guso-facile/blog/atteindre-507-heures-sans-angoisse">
+      <p class="carte-r">Suivi des heures</p>
+      <p class="carte-t">Atteindre ses 507 heures sans angoisse</p>
+      <span class="carte-l">4 min de lecture<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/></svg></span>
+    </a>
+    </div>
+  </nav>
+  <p class="remonte"><a href="/guso-facile/blog"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19.4 12H5.8"/><path d="M10.9 17.6L5.2 12l5.7-5.6"/></svg>Tous les articles du blog</a><a href="/guso-facile"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/></svg>Découvrir Guso Facile</a></p>
+</div></div></article>
+</main>
+
+<a class="totop" href="#top" aria-label="Revenir en haut de la page">↑</a>
+
+<footer id="contact"><div class="wrap">
+  <div class="fgrid">
+    <div>
+      <div class="fbrand">Résonances Productions</div>
+      <p style="margin-top:8px">Association loi 1901 — Art du spectacle vivant.<br>« l’humain, la vibration »</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p><a href="mailto:contact@resonancesproductions.org">contact@resonancesproductions.org</a></p>
+      <p><b>Siège social</b><br>2 impasse des Bleuets<br>09600 Aigues-Vives</p>
+      <p><b>Adresse de correspondance</b><br>29 rue des Orteaux<br>75020 Paris</p>
+      <p style="margin-top:8px"><a href="https://www.facebook.com/resonancesproductions" target="_blank" rel="noopener">Facebook</a></p>
+    </div>
+    <div>
+      <h4>Informations</h4>
+      <p>SIRET : 919 514 075 00010</p>
+      <p>Code APE : 9001Z<br>Arts du spectacle vivant</p>
+      <p style="margin-top:8px"><a href="https://www.helloasso.com/associations/resonances-productions" target="_blank" rel="noopener">Adhérer / soutenir</a></p>
+      <p style="margin-top:8px"><a href="https://docs.google.com/document/d/1NxsbvaqHsA9VOXlN7cvsav7cxFwhsK4XCpowHb75o1w/edit?usp=sharing" target="_blank" rel="noopener">Statuts de l’association</a></p>
+    </div>
+  </div>
+  <div class="legal">© 2026 Résonances Productions · resonancesproductions.org</div>
+</div></footer>
+
+<script>
+(function(){
+  var b=document.querySelector('.totop'); if(!b) return;
+  function upd(){ b.classList.toggle('on', window.scrollY>700); }
+  upd(); window.addEventListener('scroll',upd,{passive:true});
+})();
+</script>
+
+<script>
+(function(){
+  var nav=document.querySelector('.nav'); if(!nav) return;
+  var links=nav.querySelector('.links'); if(!links) return;
+  var b=document.createElement('button');
+  b.className='burger'; b.type='button';
+  b.setAttribute('aria-label','Ouvrir le menu');
+  b.setAttribute('aria-expanded','false');
+  b.innerHTML='<span></span><span></span><span></span>';
+  nav.appendChild(b);
+  function set(open){
+    b.setAttribute('aria-expanded',open?'true':'false');
+    b.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu');
+    links.classList.toggle('open',open);
+    document.body.classList.toggle('nav-open',open);
+  }
+  b.addEventListener('click',function(){ set(b.getAttribute('aria-expanded')!=='true'); });
+  links.addEventListener('click',function(e){ if(e.target.tagName==='A') set(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
+  window.addEventListener('resize',function(){ if(window.innerWidth>860) set(false); });
+})();
+</script>
+<!-- nav_menu.py (resonances-3) -->
+<script>
+/* Sous-menus du menu partage (voir sources/nav_menu.py).
+   Desktop : survol + clic + clavier. Mobile : accordeons dans le panneau du hamburger. */
+(function(){
+  var nav=document.querySelector('.nav'); if(!nav) return;
+  var links=nav.querySelector('.links[data-nav]'); if(!links) return;
+  if(links.getAttribute('data-nav-ready')==='1') return;   /* garde-fou anti-doublon */
+  links.setAttribute('data-nav-ready','1');
+  var items=Array.prototype.slice.call(links.querySelectorAll('.nm-item'));
+  if(!items.length) return;
+  var mq=window.matchMedia('(min-width:861px)');
+  var timer=null;
+  function desktop(){ return mq.matches; }
+  function sub(it){ return it.querySelector('.nm-sub'); }
+  function top(it){ return it.querySelector('.nm-top'); }
+  function shut(it){
+    it.classList.remove('nm-open');
+    top(it).setAttribute('aria-expanded','false');
+    var s=sub(it); if(s) s.style.marginLeft='';
+  }
+  function shutAll(except){
+    items.forEach(function(o){ if(o!==except) shut(o); });
+  }
+  /* garde le panneau dans la fenetre (la barre se resserre entre 861 et 1120px) */
+  function place(it){
+    var s=sub(it); if(!s) return;
+    s.style.marginLeft='0px';
+    var r=s.getBoundingClientRect(), pad=12, d=0;
+    if(r.right>window.innerWidth-pad) d=(window.innerWidth-pad)-r.right;
+    if(r.left+d<pad) d=pad-r.left;
+    if(d) s.style.marginLeft=Math.round(d)+'px';
+  }
+  function show(it,focusIdx){
+    /* desktop : un seul panneau a la fois. mobile : les deux accordeons
+       peuvent rester ouverts (le panneau defile). */
+    if(desktop()) shutAll(it);
+    it.classList.add('nm-open');
+    top(it).setAttribute('aria-expanded','true');
+    if(desktop()) place(it);
+    if(focusIdx!=null){
+      var a=sub(it).querySelectorAll('a');
+      if(a.length){ (focusIdx<0?a[a.length-1]:a[focusIdx]).focus(); }
+    }
+  }
+  items.forEach(function(it){
+    var btn=top(it), panel=sub(it);
+    btn.addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation();
+      if(it.classList.contains('nm-open')) shut(it); else show(it,null);
+    });
+    btn.addEventListener('keydown',function(e){
+      if(e.key==='ArrowDown'){ e.preventDefault(); show(it,0); }
+      else if(e.key==='ArrowUp'){ e.preventDefault(); show(it,-1); }
+      else if(e.key==='Escape'){ shut(it); }
+    });
+    it.addEventListener('mouseenter',function(){
+      if(!desktop()) return; clearTimeout(timer); show(it,null);
+    });
+    it.addEventListener('mouseleave',function(){
+      if(!desktop()) return;
+      clearTimeout(timer);
+      timer=setTimeout(function(){ shut(it); },220);
+    });
+    it.addEventListener('focusout',function(e){
+      if(!desktop()) return;
+      if(!e.relatedTarget || !it.contains(e.relatedTarget)) shut(it);
+    });
+    if(panel){
+      panel.addEventListener('keydown',function(e){
+        var a=Array.prototype.slice.call(panel.querySelectorAll('a'));
+        var i=a.indexOf(document.activeElement);
+        if(e.key==='ArrowDown'){ e.preventDefault(); a[(i+1)%a.length].focus(); }
+        else if(e.key==='ArrowUp'){ e.preventDefault(); a[(i-1+a.length)%a.length].focus(); }
+        else if(e.key==='Home'){ e.preventDefault(); a[0].focus(); }
+        else if(e.key==='End'){ e.preventDefault(); a[a.length-1].focus(); }
+        else if(e.key==='Escape'){ e.preventDefault(); shut(it); btn.focus(); }
+        else if(e.key==='Tab' && !e.shiftKey && i===a.length-1){ shut(it); }
+      });
+    }
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape') return;
+    var o=links.querySelector('.nm-item.nm-open');
+    if(o){ var b=top(o); shutAll(null); if(b && desktop()) b.focus(); }
+  });
+  document.addEventListener('click',function(e){
+    if(!links.contains(e.target)) shutAll(null);
+  });
+  window.addEventListener('resize',function(){ shutAll(null); });
+})();
+</script>
+<!-- fin nav_menu.py -->
+</body></html>
