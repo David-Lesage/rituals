@@ -14,8 +14,7 @@ UTILISATION
     html = nav_menu.inject(html, 'rituals') # 2. puis le menu
 
     inject(html: str, current: str | None = None, *,
-           contact_href: str | None = None,
-           association_href: str | None = None) -> str
+           contact_href: str | None = None) -> str
 
 * `html`     : page complete. Doit contenir un `<nav class="nav">` avec un
                `<div class="links"> ... </div>` (c'est ce bloc qui est remplace),
@@ -24,14 +23,16 @@ UTILISATION
 * `current`  : page affichee, une des CLES de PAGE_KEYS ci-dessous :
                'home', 'rituals', 'rituals-trio', 'e-motion',
                'david-lesage-en-concert', 'le-nid', 'concerts-david-lesage',
-               'rythme-calebasse', 'le-soin-soa', 'guso-facile'.
+               'rythme-calebasse', 'le-soin-soa', 'association', 'guso-facile'.
                None => aucune entree marquee.
                La cle pose `aria-current="page"` sur la bonne entree et marque
                visuellement l'entree parente (`.nm-active`).
-* `contact_href` / `association_href` : surcharges facultatives. Par defaut la
-               fonction AUTO-DETECTE : si la page contient `id="contact"` le
-               lien Contact devient `#contact` (ancre locale), sinon `/#contact`.
-               Idem pour `id="association"` -> `#association`.
+* `contact_href` : surcharge facultative. Par defaut la fonction AUTO-DETECTE :
+               si la page contient `id="contact"` le lien Contact devient
+               `#contact` (ancre locale), sinon `/#contact`.
+               (Il y avait un `association_href` jumeau jusqu'au 15/08/2026 ;
+               il a disparu avec le passage de l'entree « L’association » a la
+               vraie page `/association` — voir la note au-dessus de `ASSO`.)
 
 Fonction pratique pour un fichier deja ecrit sur le disque :
 
@@ -83,7 +84,16 @@ import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 #:     numero (`<!-- nav_menu\.py \([^)>]*\) -->`), rien a y faire non plus.
 #: resonances-3 (14/08/2026) : « L’association » devient un menu deroulant pour
 #: accueillir « Guso Facile ».
-NAV_VERSION = 'resonances-3'
+#: resonances-4 (15/08/2026) : « L’association » ne renvoie plus a l'ancre
+#: `/#association` de l'accueil mais a la VRAIE page `/association`. David avait
+#: remarque que « Accueil » et « L’association » menaient au meme endroit.
+#: ⚠️ Cinq generateurs lisent `nav_menu.NAV_VERSION` dans leurs garde-fous
+#:    depuis le 14/08/2026 (ils codaient `resonances-2` en dur avant, et une
+#:    montee de version les faisait tous refuser d'ecrire). Verifie AVANT cette
+#:    montee : plus aucune occurrence de « resonances-2 » ni « resonances-3 » en
+#:    dur dans sources/. `verif_site.py` et `verif_commentaires.py` suivent aussi
+#:    tout seuls (le motif de la liste blanche est ecrit SANS le numero).
+NAV_VERSION = 'resonances-4'
 CSS_MARK = '/* == nav_menu.py (%s) == */' % NAV_VERSION
 CSS_END = '/* == fin nav_menu.py == */'
 #: ⚠️ CES DEUX MARQUEURS SONT FONCTIONNELS — ne jamais les retirer du HTML.
@@ -143,15 +153,35 @@ NID = [
 #    Resonances Productions », « n'est pas un service de l'association »). Cette
 #    formulation est le point sensible du dossier : ne pas la deplacer ici.
 
-#: (libelle, href, cle de page). `None` en href = resolu a l'execution par
-#: `association_href` (auto-detecte : `#association` sur la page qui porte la
-#: section, `/#association` ailleurs).
+# --------------------------------------------------------------------------- #
+# « L’ASSOCIATION » MENE A UNE VRAIE PAGE — changement du 15/08/2026
+# --------------------------------------------------------------------------- #
+# Jusqu'a `resonances-3`, cette entree pointait vers l'ancre `/#association` :
+# « Accueil » et « L’association » menaient donc tous les deux a la page
+# d'accueil. David l'a remarque et a tranche pour la solution de fond — une page
+# `/association` qui rassemble l'objet, les valeurs, les statuts, les mentions
+# legales, les adresses, l'adhesion et le contact.
+#
+# ⚠️ CE QUI A DISPARU AVEC CE CHANGEMENT : le parametre `association_href` de
+#    `build_links()` et `inject()`, et son auto-detection (`#association` si la
+#    page portait `id="association"`, `/#association` sinon). L'entree porte
+#    desormais un href EN DUR, donc la valeur calculee n'aurait plus ete lue
+#    nulle part : la laisser aurait fait croire, a la prochaine session, qu'un
+#    `id="association"` pose sur une page change encore le menu. `contact_href`,
+#    lui, reste utile et fonctionne toujours de la meme facon.
+#    Pour revenir en arriere : remettre `None` en href ci-dessous, et remettre
+#    les quatre lignes de `association_href` (voir l'historique git de ce
+#    fichier), puis incrementer NAV_VERSION.
+#
+#: (libelle, href, cle de page)
 ASSO = [
-    ('L’association', None, None),
+    ('L’association', '/association', 'association'),
     ('Guso Facile', '/guso-facile', 'guso-facile'),
 ]
 
-#: cles acceptees par `current` -> utile pour valider / documenter
+#: cles acceptees par `current` -> utile pour valider / documenter.
+#: `association` y est entree le 15/08/2026, par la table ASSO ci-dessus : il n'y
+#: a rien a ajouter ici, la liste se deduit des trois tables.
 PAGE_KEYS = (['home'] + [k for _, _, k in SCENE] + [k for _, _, k in NID]
              + [k for _, _, k in ASSO if k])
 
@@ -347,10 +377,12 @@ def _first_key_index(children, current):
     """Index du 1er enfant portant la cle `current` (une seule entree marquee,
     sinon /le-nid aurait 4 aria-current).
 
-    ⚠️ `current is None` doit renvoyer None SANS comparer : le sous-menu
-    « L’association » a une entree dont la cle est None (la section d'accueil,
-    qui n'est pas une page). Sans cette garde, `None == None` marquerait cette
-    entree comme page courante sur toute page appelee avec `current=None`.
+    ⚠️ `current is None` doit renvoyer None SANS comparer. Depuis le 15/08/2026
+    plus aucune entree ne porte une cle `None` (« L’association » est devenue une
+    vraie page), mais la garde reste : le jour ou une entree de menu redeviendra
+    une simple ancre sans page — c'etait le cas de « L’association » jusqu'a
+    `resonances-3` —, `None == None` marquerait cette entree comme page courante
+    sur TOUTE page appelee avec `current=None`.
     """
     if current is None:
         return None
@@ -377,7 +409,7 @@ def _group(label, sub_id, children, current, indent='    '):
     return '\n'.join(o)
 
 
-def build_links(current=None, contact_href='/#contact', association_href='/#association'):
+def build_links(current=None, contact_href='/#contact'):
     """Renvoie le `<div class="links" data-nav="...">…</div>` complet."""
     i = '    '
     home_cur = ' aria-current="page"' if current == 'home' else ''
@@ -385,8 +417,7 @@ def build_links(current=None, contact_href='/#contact', association_href='/#asso
     out.append('%s<a href="/"%s>Accueil</a>' % (i, home_cur))
     out.append(_group('Sur scène', 'nm-sub-scene', SCENE, current, i))
     out.append(_group('Le Nid', 'nm-sub-nid', NID, current, i))
-    asso = [(lbl, href if href else association_href, key) for lbl, href, key in ASSO]
-    out.append(_group('L’association', 'nm-sub-asso', asso, current, i))
+    out.append(_group('L’association', 'nm-sub-asso', ASSO, current, i))
     out.append('%s<a href="%s">Contact</a>' % (i, contact_href))
     out.append('%s<a class="adh" href="%s" target="_blank" rel="noopener">Adhérer</a>'
                % (i, ADHESION))
@@ -439,7 +470,7 @@ def _strip(html, mark, end):
     return html[:a] + html[b + len(end):]
 
 
-def inject(html, current=None, contact_href=None, association_href=None):
+def inject(html, current=None, contact_href=None):
     """Applique le menu partage a une page HTML complete.
 
     Voir le docstring du module pour la description des parametres.
@@ -463,10 +494,8 @@ def inject(html, current=None, contact_href=None, association_href=None):
 
     if contact_href is None:
         contact_href = '#contact' if 'id="contact"' in html else '/#contact'
-    if association_href is None:
-        association_href = '#association' if 'id="association"' in html else '/#association'
 
-    html = _replace_links_block(html, build_links(current, contact_href, association_href))
+    html = _replace_links_block(html, build_links(current, contact_href))
 
     if '</style>' in html:
         html = html.replace('</style>', CSS + '</style>', 1)
@@ -494,6 +523,7 @@ _PATH_KEYS = {
     'concerts-david-lesage': 'concerts-david-lesage',
     'rythme-calebasse': 'rythme-calebasse',
     'le-soin-soa': 'le-soin-soa',
+    'association': 'association',
     'guso-facile': 'guso-facile',
 }
 
