@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Filet de securite du site : une commande qui relit les 10 pages publiees.
+"""Filet de securite du site : une commande qui relit les 30 pages publiees.
 
     python3 sources/verif_site.py        # tout verifier
     echo $?                              # 0 = rien a signaler, 1 = probleme
@@ -24,6 +24,8 @@ a la main et trop tard. Ils sont ici pour qu'aucun ne puisse recommencer.
                       autre nombre
   9. plan du site     sitemap / robots.txt / vercel.json en desaccord avec les
                       pages qui existent vraiment
+ 10. google           la balise de verification Search Console recopiee sur
+                      toutes les pages au lieu de la seule page d'accueil
 
 CE QU'IL NE FAIT PAS
 --------------------
@@ -53,7 +55,7 @@ import verif_commentaires  # noqa: E402  (garde-fou deja ecrit, on le reutilise)
 import nav_menu  # noqa: E402
 
 # --------------------------------------------------------------------------- #
-# LES 10 PAGES PUBLIEES  —  url visible <-> fichier sur disque
+# LES 30 PAGES PUBLIEES  —  url visible <-> fichier sur disque
 # --------------------------------------------------------------------------- #
 PAGES = (
     ('/',                        'index.html'),
@@ -65,6 +67,7 @@ PAGES = (
     ('/le-nid',                  'le-nid/index.html'),
     ('/le-soin-soa',             'le-soin-soa/index.html'),
     ('/rythme-calebasse',        'rythme-calebasse/index.html'),
+    ('/association',             'association/index.html'),
     ('/guso-facile',             'guso-facile/index.html'),
     ('/guso-facile/blog',        'guso-facile/blog/index.html'),
     ('/guso-facile/blog/atteindre-507-heures-sans-angoisse', 'guso-facile/blog/atteindre-507-heures-sans-angoisse/index.html'),
@@ -128,7 +131,7 @@ MOTS_CODE = ('code', 'digicode', 'portail', 'interphone', 'badge',
 #: On n'elargit JAMAIS un mot de MOTS_CODE : on inscrit ici la formule exacte,
 #: avec sa raison. Chaque entree est un faux positif MESURE, pas une supposition.
 CODES_HORS_SOUPCON = (
-    'code ape',        # « Code APE : 9001Z » — pied de page des 10 pages
+    'code ape',        # « Code APE : 9001Z » — pied de page des 30 pages
     'siret',           # « SIRET : 919 514 075 00010 » — idem
     'code postal',
     # /guso-facile : « un badge « droits sécurisés » dès 507 heures ». Le mot
@@ -174,16 +177,32 @@ MARQUEURS_UNIQUES = {
         ('id="experience"', 'bloc experience (26 ateliers)'),
         ('id="appel"', 'appel a candidature'),
     ),
+    # ⚠️ `id="statuts"` A QUITTE L'ACCUEIL le 15/08/2026 : la section « Cadre
+    #    legal · Les statuts » est passee sur /association. L'accueil garde une
+    #    presentation COURTE de l'association (`#association`) et un bouton
+    #    « En savoir plus ». Les trois autres ancres de l'accueil ne bougent
+    #    pas : `#adherer`, `#prestations` et `#contact` y sont toujours.
     'index.html': (
         ('id="association"', "section association"),
-        ('id="statuts"', 'section statuts'),
+        ('id="adherer"', 'section adhesion'),
+        ('id="prestations"', 'section prestations'),
         ('id="contact"', 'section contact'),
+        # (pas de marqueur `href="/association"` ici : il apparait DEUX fois sur
+        #  l'accueil — l'entree de menu et le bouton « En savoir plus ». Le
+        #  bouton est garde par `generate_assoc.py`, avec sa balise entiere.)
+    ),
+    'association/index.html': (
+        ('id="objet"', "section objet de l'association"),
+        ('id="valeurs"', 'section valeurs / engagements'),
+        ('id="statuts"', 'section statuts'),
+        ('id="mentions"', 'section mentions legales'),
+        ('id="adherer"', 'section adhesion & contact'),
     ),
 }
 
 #: nombre d'entrees attendu dans le menu partage (hors boutons de sous-menu) :
-#: Accueil + 4 « Sur scene » + 9 « Le Nid » + 2 « L’association » (la section
-#: elle-meme + Guso Facile) + Contact + Adherer.
+#: Accueil + 4 « Sur scene » + 9 « Le Nid » + 2 « L’association » (la PAGE
+#: /association depuis le 15/08/2026, + Guso Facile) + Contact + Adherer.
 MENU_ENTREES_ATTENDUES = 18
 
 
@@ -669,6 +688,46 @@ def controle_plan(pages):
 
 
 # --------------------------------------------------------------------------- #
+# 10. VERIFICATION GOOGLE SEARCH CONSOLE  —  une seule pose, sur l'accueil
+# --------------------------------------------------------------------------- #
+
+#: la page qui porte la balise `google-site-verification`, et elle seule.
+PAGE_VERIFICATION_GOOGLE = 'index.html'
+
+
+def controle_verification(pages):
+    """La balise Google Search Console : exactement une, et sur l'accueil.
+
+    Posee le 15/08/2026 (code fourni par David). Elle verifie la propriete
+    « prefixe d'URL » : Google ne lit la balise que sur la page demandee, donc
+    une seule pose suffit. La recopier sur les 30 pages ne verifie rien de plus
+    et rend son retrait hasardeux — on ne saurait plus, un an apres, combien
+    d'exemplaires trainent ni pourquoi.
+
+    ⚠️ Une propriete « domaine » est verifiee EN PARALLELE par un enregistrement
+       TXT dans la zone DNS OVH. Les deux methodes coexistent sans conflit :
+       trouver la balise absente d'une page ne veut pas dire que la verification
+       est cassee, cela veut dire que c'est la ligne DNS qui travaille.
+    """
+    pbs = []
+    total = 0
+    for p in pages:
+        n = len(re.findall(r'<meta[^>]*name="google-site-verification"[^>]*>', p.html))
+        total += n
+        if p.rel == PAGE_VERIFICATION_GOOGLE:
+            if n != 1:
+                pbs.append('%s : %d balise(s) google-site-verification, attendu 1 — '
+                           'c\'est la seule page qui doit la porter' % (p.rel, n))
+        elif n:
+            pbs.append('%s : balise google-site-verification en trop. Elle n\'a le '
+                       'droit d\'exister que sur %s.' % (p.rel, PAGE_VERIFICATION_GOOGLE))
+    if total > 1:
+        pbs.append('la balise google-site-verification apparait %d fois sur le site, '
+                   'attendu 1' % total)
+    return pbs
+
+
+# --------------------------------------------------------------------------- #
 # Enchainement
 # --------------------------------------------------------------------------- #
 
@@ -682,6 +741,7 @@ CONTROLES = (
     ('donnees',      'Aucun code d\'acces ni contact non prevu',       controle_donnees),
     ('chiffres',     'Les nombres affiches correspondent au contenu',  controle_chiffres),
     ('plan',         'Plan du site, robots.txt et redirections a jour', controle_plan),
+    ('google',       'Verification Search Console posee une seule fois', controle_verification),
 )
 
 

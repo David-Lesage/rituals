@@ -72,7 +72,7 @@ MOTIFS_AUTORISES = (
 #: note de travail deguisee en marqueur.
 LONGUEUR_MAX = 60
 
-#: les 10 pages publiees (voir REPRENDRE-RESONANCES-SITE.md).
+#: les 30 pages publiees (voir REPRENDRE-RESONANCES-SITE.md).
 PAGES = (
     'index.html',
     'rituals/index.html',
@@ -83,6 +83,7 @@ PAGES = (
     'le-nid/index.html',
     'le-soin-soa/index.html',
     'rythme-calebasse/index.html',
+    'association/index.html',
     'guso-facile/index.html',
     'guso-facile/blog/index.html',
     'guso-facile/blog/atteindre-507-heures-sans-angoisse/index.html',
@@ -161,7 +162,7 @@ def verifier(html, page='(page)'):
 
 
 # --------------------------------------------------------------------------- #
-# CLI : verifie les 9 pages d'un coup, sort en code d'erreur
+# CLI : verifie les 30 pages d'un coup, sort en code d'erreur
 # --------------------------------------------------------------------------- #
 
 def _controle_fichier(chemin):

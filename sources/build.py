@@ -140,6 +140,18 @@ TABLEAU = (
         passe_menu=False,  # il appelle nav_menu.inject() lui-meme
         bloque=None,
     ),
+    # Creee le 15/08/2026 : « Accueil » et « L’association » menaient tous les
+    # deux a l'accueil. La page reprend l'objet, les valeurs, les statuts (qui
+    # ont QUITTE l'accueil), les mentions legales, les adresses, l'adhesion et
+    # le contact. Elle importe `textes_association` — un module de textes
+    # partage avec `generate_assoc.py`, pas un generateur : l'importer n'ecrit
+    # aucune page, et il n'a donc pas de ligne dans ce tableau.
+    dict(
+        nom='association', fichier='association/index.html',
+        generateur='generate_association.py', ecrit=None,
+        passe_menu=False,  # il appelle mobile_nav puis nav_menu.inject() lui-meme
+        bloque=None,
+    ),
     dict(
         nom='guso-facile', fichier='guso-facile/index.html',
         generateur='generate_guso.py', ecrit=None,
