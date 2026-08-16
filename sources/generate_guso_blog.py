@@ -209,6 +209,17 @@ DATE_MAJ_FR = '15 août 2026'
 # propre page. Regle du depot.
 #
 # ⚠️ Les deux <link> vers fonts.googleapis.com sont ceux des 10 autres pages.
+#
+# ⚠️⚠️ 16/08/2026 — UNE SEULE GRAISSE A ETE AJOUTEE : `Jost` en 700, ici ET sur
+#    `/guso-facile` (meme URL des deux cotes, a garder synchronisee). Les 29
+#    autres pages du site gardent `Jost:wght@300;400;500;600`. Motif : les
+#    titres de la section Guso Facile passent en Jost lourd — voir
+#    « L'EXCEPTION TYPOGRAPHIQUE » en tete de `CSS_TYPO`, plus bas, et le
+#    raisonnement complet dans `sources/generate_guso.py`.
+#    COUT MESURE (et non suppose) : Google sert Jost en fichier VARIABLE. Les
+#    `src:` des deux URL sont RIGOUREUSEMENT LES MEMES — trois woff2, identiques
+#    au caractere pres. La graisse 700 n'ajoute AUCUN fichier de police ;
+#    seulement trois regles `@font-face` dans une feuille de ~1 Ko.
 #    Ce ne sont PAS des polices supplementaires : c'est exactement la meme
 #    feuille, deja chargee partout sur le site.
 
@@ -234,7 +245,7 @@ HEAD = """<!DOCTYPE html>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0e0f24">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 """
 
@@ -483,7 +494,57 @@ section{padding:92px 0}
 #    SANS degrade, sans halos, avec le filet d'un pixel : parfaitement valides,
 #    et froides. Rien ne l'avait signale. D'ou la constante unique, et le
 #    controle `« couche chaleureuse absente »` de `_controle_page()`.
-FEUILLE = CSS_BASE + theme_chaleur.CSS + CSS_BLOG
+# --- L'EXCEPTION TYPOGRAPHIQUE DE LA SECTION GUSO FACILE (16/08/2026) -----
+# ⚠️⚠️ LIRE AVANT DE « RETABLIR LA COHERENCE » : LES 19 PAGES DU BLOG NE SONT
+#      PAS EN CORMORANT GARAMOND, ET C'EST VOULU. LES 29 AUTRES PAGES DU SITE
+#      LE RESTENT.
+#
+# Le raisonnement complet — le constat de David, le tableau de mesures des deux
+# pages, et pourquoi une page produit a le droit d'avoir sa voix propre a
+# l'interieur d'une charte — est ecrit UNE SEULE FOIS, dans
+# `sources/generate_guso.py`, juste au-dessus de sa constante `CSS_TYPO`.
+# Ne pas le recopier ici : deux sources de verite finissent toujours par
+# diverger. En trois lignes : le serif etait grand, fin et aere (registre d'une
+# association culturelle) ; le sans-serif lourd et serre est compact et assure
+# (registre d'un logiciel dans lequel on a envie d'avoir confiance).
+#
+# POURQUOI LE BLOG SUIT LA PAGE PRODUIT. Le blog EST la porte d'entree de
+# `/guso-facile` : c'est la promesse de David (« ca peut etre une enorme porte
+# d'entree »), et trois liens de la page produit y menent. Un lecteur qui passe
+# de l'un a l'autre doit rester dans le meme monde. Laisser le blog en serif
+# aurait fabrique la couture exacte qu'on cherche a supprimer.
+#
+# CE QUI RESTE EN CORMORANT ICI, et c'est le meme partage que sur la page
+# produit : ce qui SE DIT reste en serif italique — le chapo d'article
+# (`.bl-dek`), la petite scene d'ouverture (`.scene`), les numeros des listes
+# ordonnees — et le mobilier partage avec les 29 autres pages (le nom de
+# l'association dans la barre, les titres du pied de page, `.fbrand`). Ce qui
+# ANNONCE passe en Jost.
+#
+# ⚠️ Les valeurs d'interlettrage sont en `em` et jamais en `px` : en px, -1 px
+#    vaut -1,7 % sur un titre de 60 px mais -3,4 % sur le meme titre replie a
+#    29 px sur telephone — a ce niveau les lettres se touchent et un titre long
+#    casse. En `em` le reglage suit la taille tout seul.
+CSS_TYPO = """/* ===== l'exception typographique de la section Guso Facile (16/08/2026) =====
+   Les titres passent de Cormorant Garamond a Jost lourd et serre. Les 29
+   autres pages du site gardent le serif : le raisonnement complet est dans
+   sources/generate_guso.py, au-dessus de sa constante CSS_TYPO. */
+h1,h2,h3,h4{font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif}
+/* le mobilier partage avec les 29 autres pages ne bouge pas */
+footer h4{font-family:'Cormorant Garamond',Georgia,serif}
+.bl-top h1{font-size:clamp(29px,4.2vw,52px);font-weight:700;line-height:1.08;letter-spacing:-.018em;max-width:22ch}
+.sec-title{font-weight:700;letter-spacing:-.014em;line-height:1.08}
+.final h2{font-size:clamp(23px,2.9vw,30px)}
+/* les intertitres de prose : la meme regle, une graisse en dessous. Un
+   intertitre n'ouvre pas la page, il la scande — 800 partout assomme. */
+.art h2{font-size:clamp(23px,3vw,30px);font-weight:700;letter-spacing:-.014em;line-height:1.14}
+.art h3{font-size:clamp(19px,2.2vw,22px);font-weight:600;letter-spacing:-.008em;line-height:1.26}
+.theme-h h2{font-size:clamp(22px,2.8vw,28px);font-weight:700;letter-spacing:-.014em}
+.carte-t{font-family:'Jost',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.24}
+"""
+
+# --- LA feuille de style des 19 pages, en UN seul assemblage ---------------
+FEUILLE = CSS_BASE + theme_chaleur.CSS + CSS_BLOG + CSS_TYPO
 
 # --- les icones -----------------------------------------------------------
 # Grille de 24, trait de 1,5 px, bouts et raccords arrondis, encre = le degrade

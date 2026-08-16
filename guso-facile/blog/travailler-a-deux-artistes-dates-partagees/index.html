@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0e0f24">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -243,6 +243,22 @@ section{padding:92px 0}
   .theme{margin-top:52px}
 }
 @media print{.totop{display:none}.kick,.suite h2{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
+/* ===== l'exception typographique de la section Guso Facile (16/08/2026) =====
+   Les titres passent de Cormorant Garamond a Jost lourd et serre. Les 29
+   autres pages du site gardent le serif : le raisonnement complet est dans
+   sources/generate_guso.py, au-dessus de sa constante CSS_TYPO. */
+h1,h2,h3,h4{font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif}
+/* le mobilier partage avec les 29 autres pages ne bouge pas */
+footer h4{font-family:'Cormorant Garamond',Georgia,serif}
+.bl-top h1{font-size:clamp(29px,4.2vw,52px);font-weight:700;line-height:1.08;letter-spacing:-.018em;max-width:22ch}
+.sec-title{font-weight:700;letter-spacing:-.014em;line-height:1.08}
+.final h2{font-size:clamp(23px,2.9vw,30px)}
+/* les intertitres de prose : la meme regle, une graisse en dessous. Un
+   intertitre n'ouvre pas la page, il la scande — 800 partout assomme. */
+.art h2{font-size:clamp(23px,3vw,30px);font-weight:700;letter-spacing:-.014em;line-height:1.14}
+.art h3{font-size:clamp(19px,2.2vw,22px);font-weight:600;letter-spacing:-.008em;line-height:1.26}
+.theme-h h2{font-size:clamp(22px,2.8vw,28px);font-weight:700;letter-spacing:-.014em}
+.carte-t{font-family:'Jost',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.24}
 
 /* ===== MENU MOBILE (hamburger) ===== */
 .burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
