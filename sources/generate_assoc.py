@@ -261,6 +261,40 @@ p a:not(.btn):not(.adh){text-decoration:underline;
 HELLO = T.HELLOASSO
 
 # --------------------------------------------------------------------------- #
+# LE LIEN VERS /guso-facile — pourquoi il est dans le bloc « L’association »
+# --------------------------------------------------------------------------- #
+# Le dossier SEO (section 6) demande « au moins un lien vers /guso-facile depuis
+# l'accueil de Resonances » : c'est la page que Google connait le mieux, donc le
+# lien entrant le plus utile du site. Mesure faite avant d'ecrire : /guso-facile
+# et ses 19 pages de blog n'etaient atteintes QUE par l'entree de menu.
+#
+# DEUX EMPLACEMENTS ETAIENT POSSIBLES, et le choix n'est pas cosmetique :
+#
+#   (a) UNE CARTE DE PLUS dans `#prestations` — ECARTEE. Le chapeau de cette
+#       section dit « l'association PORTE des projets qui relient l'art, le corps
+#       et la conscience », et les six cartes sont ses prestations. Y poser Guso
+#       Facile reviendrait a ecrire, par la mise en page, que l'association le
+#       porte — exactement la phrase interdite sur ce projet (infrastructure
+#       personnelle, donnees sensibles ; voir textes_association.GUSO_LIEN et
+#       l'en-tete de generate_guso.py). Deux cartes ont par ailleurs ete
+#       RETIREES de cette grille faute de proposition concrete derriere : en
+#       ajouter une pour un outil en beta privee irait a rebours de cette
+#       decision.
+#
+#   (b) UNE LIGNE DANS LE BLOC COURT DE L'ASSOCIATION — RETENUE. Le paragraphe
+#       qui precede est l'objet statutaire, « l'accompagnement, la promotion, la
+#       production et le SOUTIEN D'ARTISTES ». Un outil qui allege l'administratif
+#       des intermittents est chez lui juste apres cette phrase, et le verbe
+#       « relaie » y est lisible comme ce qu'il est : un relais, pas une
+#       propriete. La phrase reprend mot pour mot le vocabulaire deja valide sur
+#       /guso-facile (« cree par David Lesage », « relaie », « beta privee »).
+#
+# ⚠️ AUCUNE PROMESSE DE FONCTIONNALITE ICI : un lien et une phrase de contexte.
+#    Toute description detaillee vit sur /guso-facile, et nulle part ailleurs.
+# ⚠️ La mention « en beta privee » n'est pas decorative : sans elle, la phrase
+#    laisserait croire que l'outil est ouvert a tous. Il est sur invitation.
+
+# --------------------------------------------------------------------------- #
 # GOOGLE SEARCH CONSOLE — la balise de verification, ICI ET NULLE PART AILLEURS
 # --------------------------------------------------------------------------- #
 # Code fourni par David le 15/08/2026. Il verifie la propriete « prefixe d'URL »
@@ -328,6 +362,7 @@ HTML=f"""<!DOCTYPE html>
   <div class="kick">L’association</div>
   <h2 class="sec-title">{T.OBJET_TITRE}</h2>
   <p class="body">{T.OBJET_P1}</p>
+  <p class="body">Dans le prolongement de ce soutien aux artistes, l’association relaie {T.GUSO_LIEN}, un outil créé par David Lesage, aujourd’hui en bêta privée.</p>
   <div class="cta" style="margin-top:28px"><a class="btn ghost" href="/association">En savoir plus sur l’association</a></div>
 </div></section>
 
@@ -433,6 +468,15 @@ _ATTENDU = (
     # atteignable que par le menu.
     ('<a class="btn ghost" href="/association">En savoir plus sur l’association</a>',
      1, 'bouton « En savoir plus » vers /association'),
+    # DEUX, et c'est mesure : une occurrence dans le menu partage (nav_menu.py
+    # l'ecrit dans son JS) et une dans le corps du bloc « L’association ». Si ce
+    # compte tombe a 1, c'est le lien entrant demande par le dossier SEO qui a
+    # disparu — et /guso-facile redevient atteignable par le seul menu.
+    ('href="/guso-facile"', 2,
+     'lien vers Guso Facile (menu partage + corps de la page)'),
+    # l'ancre doit dire ou elle mene : jamais « cliquez ici », jamais « en savoir
+    # plus ». Elle est ecrite UNE fois, dans textes_association.py.
+    (T.GUSO_LIEN, 1, 'ancre descriptive vers /guso-facile'),
     # la balise de verification Google Search Console : ICI, et sur aucune des
     # 29 autres pages (generate_association.py refuse d'ecrire si elle y est).
     ('name="google-site-verification"', 1, 'verification Google Search Console'),

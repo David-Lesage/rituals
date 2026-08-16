@@ -188,3 +188,39 @@ ADHESION_ACCROCHE = (
     'Soutenez la création et rejoignez l’aventure. Votre adhésion nous permet de '
     'financer nos actions et de couvrir nos projets.'
 )
+
+
+# --------------------------------------------------------------------------- #
+# LE LIEN VERS /guso-facile  —  l'ancre, en UN seul exemplaire
+# --------------------------------------------------------------------------- #
+# POURQUOI ELLE EST ICI. Le dossier SEO (section 6) demande nommement « au moins
+# un lien vers /guso-facile depuis l'accueil de Resonances » : sans lien entrant
+# depuis une page que Google connait deja, une nouvelle section met beaucoup plus
+# longtemps a etre decouverte. Jusqu'ici, /guso-facile et ses 19 pages de blog
+# n'etaient atteintes QUE par l'entree de menu.
+#
+# L'accueil et /association portent chacun leur phrase — elles sont differentes,
+# parce que les deux contextes le sont. Seule l'ANCRE est commune : c'est elle
+# qui doit rester identique d'une page a l'autre (meme libelle, meme URL), et
+# c'est elle qui casserait le maillage si l'URL bougeait a un seul endroit.
+#
+# ⚠️ L'ANCRE DIT OU ELLE MENE. Regle du dossier SEO : jamais « cliquez ici »,
+#    jamais « en savoir plus ». Le libelle porte le nom de l'outil ET ce qu'il
+#    fait.
+#
+# 🚩 LA FORMULATION EST DELIBEREE, DANS LES DEUX PHRASES QUI L'ENTOURENT.
+#    Guso Facile est « cree par David Lesage, relaye par l'association » — JAMAIS
+#    « notre outil », JAMAIS « porte par », JAMAIS « notre application ».
+#    L'infrastructure est personnelle (Supabase, Vercel, depot git, e-mails au
+#    nom de David) et les donnees traitees sont sensibles : numeros de securite
+#    sociale, IBAN, salaires, feuillets GUSO de personnes reelles. Ecrire
+#    « porte par l'association » sur le site public d'une association, a propos
+#    d'un outil pareil, serait une approximation au pire endroit possible. Le
+#    raisonnement complet est en tete de `sources/generate_guso.py` — fichier
+#    qu'on ne touche pas d'ici.
+
+GUSO_URL = '/guso-facile'
+
+GUSO_ANCRE = 'Guso Facile — l’administratif de l’intermittence'
+
+GUSO_LIEN = '<a href="%s">%s</a>' % (GUSO_URL, GUSO_ANCRE)
