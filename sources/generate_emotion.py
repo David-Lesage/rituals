@@ -69,12 +69,56 @@ OUT_HTML = os.path.join(OUT_DIR, 'index.html')
 
 # L'IMAGE DE PARTAGE (16/08/2026) : la page l'avait deja, mais SANS ses
 # dimensions — les seules des 30 pages a manquer. Elles sont ajoutees ici
-# (mesurees sur le fichier : 1400x1980), avec un `og:image:alt`.
+# (mesurees sur le fichier), avec un `og:image:alt`.
 # 🚩 A signaler a David : cette image est une AFFICHE VERTICALE (ratio 0,71).
 #    Les apercus de partage attendent du paysage (~1,91:1) et rognent le reste
 #    au petit bonheur — le titre de l'affiche peut disparaitre. Une version
 #    paysage de l'affiche, ou une photo du spectacle, serait meilleure. On ne la
 #    fabrique pas ici : le depot n'en contient aucune.
+#
+# ALIGNEMENT SUR SOLUNE (17/08/2026) — pourquoi le titre, le texte et l'image
+# d'apercu de CETTE page ne sont plus ceux du reste du site.
+# David tient un second site dedie au spectacle, `www.solune.show/le-spectacle`,
+# et il migre progressivement vers Resonances. Il a demande que l'apercu partage
+# (WhatsApp, Facebook, SMS) de `/e-motion` reprenne l'affiche et le texte de
+# Solune, pour qu'un lien envoye depuis l'un ou l'autre site montre la meme
+# chose. D'ou trois changements, tous CONFINES AU `<head>` — le contenu visible
+# de la page n'a pas bouge d'un caractere :
+#
+# 1. UNE IMAGE D'APERCU DEDIEE, `apercu-partage-e-motion-1400.jpg`. C'est la
+#    NOUVELLE affiche 2026, fabriquee a partir de l'export d'impression de David
+#    (4961x7016) reduit a 1400x1980 en JPEG qualite 55 : 291 736 octets, sous la
+#    barre des 300 Ko au-dela de laquelle WhatsApp renonce a charger l'apercu.
+#    ⚠️ Fichier SEPARE, expres. `affiche-e-motion-*.jpg` reste l'ancienne
+#    affiche et sert AILLEURS : c'est elle qui s'affiche DANS la page (bloc
+#    `<picture>` de la section affiche, en 480/900/1400 + WebP). Remplacer ce
+#    fichier-la aurait change la page visible, ce qui n'etait pas demande.
+#    ⚠️ Pas de WebP pour l'apercu, et pas de declinaisons 480/900 : plusieurs
+#    messageries ne rendent pas le WebP (le controle `partage` de verif_site.py
+#    le refuse expres), et cette image ne sert qu'a l'apercu, jamais a
+#    l'affichage responsive.
+#
+# 2. LE TITRE passe a celui de Solune, « E-Motion LE SPECTACLE PARTICIPATIF ».
+#    🚩 A signaler a David : la mention « · ID duo » disparait de l'apercu. Le
+#    nom du duo n'apparait donc plus dans la vignette de partage — il reste dans
+#    le `<title>` de la page, dans `og:image:alt` et dans le contenu. Si le duo
+#    doit rester visible au partage, c'est un arbitrage a rendre.
+#
+# 3. LE TEXTE reprend celui de Solune, avec deux reserves assumees :
+#    - Solune ecrit « Envole toi vers l'inattendu ! » sans trait d'union. C'est
+#      une faute ; Resonances ecrivait deja correctement « Envole-toi ». On garde
+#      la forme correcte, on ne recopie pas la faute.
+#    - le texte de Solune fait ~380 caracteres ; WhatsApp et Facebook coupent
+#      vers 160-200. Recopie tel quel il finirait en « … » au milieu d'une
+#      phrase. On garde donc les MOTS de David, dans son ordre, mais on ne
+#      retient que ce qui tient avant la coupure : l'accroche, la phrase qui dit
+#      l'essentiel du spectacle (le spectateur devient acteur) et la chute
+#      « Une expérience immersive des sens » — qui etait deja le texte de
+#      Resonances. La phrase du milieu (« La légèreté de la danse et la
+#      puissance de la musique s'unissent aux pratiques corporelles, guidances
+#      et chants… ») est celle qui aurait ete tronquee ; elle est deja dite en
+#      entier dans le `<meta name="description">` juste au-dessus et dans le
+#      corps de la page. Longueur retenue : 149 caracteres.
 GABARIT = (
 ("""<!DOCTYPE html>
 <html lang="fr">
@@ -83,12 +127,12 @@ GABARIT = (
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>E-MOTION — Spectacle participatif · ID duo, Iris Chasles &amp; David Lesage</title>
 <meta name="description" content="E-Motion, le spectacle immersif et participatif d’ID duo (Iris Chasles &amp; David Lesage) : danse aérienne à l’élastique, musique live, chant, pratiques corporelles et guidances. Une expérience immersive des sens où chaque spectateur devient acteur.">
-<meta property="og:title" content="E-MOTION — Spectacle participatif · ID duo">
-<meta property="og:description" content="Envole-toi vers l'inattendu ! Une expérience immersive des sens.">
-<meta property="og:image" content="https://www.resonancesproductions.org/img/e-motion/affiche-e-motion-1400.jpg">
+<meta property="og:title" content="E-Motion LE SPECTACLE PARTICIPATIF">
+<meta property="og:description" content="Envole-toi vers l'inattendu ! « Notre spectacle transforme chaque spectateur en acteur d'une expérience unique ! » Une expérience immersive des sens.">
+<meta property="og:image" content="https://www.resonancesproductions.org/img/e-motion/apercu-partage-e-motion-1400.jpg">
 <meta property="og:image:width" content="1400">
 <meta property="og:image:height" content="1980">
-<meta property="og:image:alt" content="Affiche du spectacle E-Motion, par ID duo — Iris Chasles et David Lesage.">
+<meta property="og:image:alt" content="Affiche 2026 du spectacle E-Motion — danse aérienne et musique live, par ID duo (Iris Chasles et David Lesage), avec l’accroche « Envole-toi vers l’inattendu ».">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" type="image/webp" href="/img/e-motion/banniere-e-motion-1200.webp" fetchpriority="high">
