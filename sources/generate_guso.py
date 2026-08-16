@@ -586,7 +586,9 @@ LE FORMULAIRE — CE QUI A ETE APPLIQUE TEL QUEL, ET LES TROIS PIEGES
       apikey + Authorization: Bearer <cle publiable> + Content-Type
   Champs : `email` (OBLIGATOIRE), `first_name`, `last_name`, `phone`,
   `kind` (artiste | structure | les_deux), `message`, `context` (jsonb — on y met
-  `{origin, ts}` pour tracer d'ou viennent les demandes).
+  `{origin, ts, ua}` pour tracer d'ou viennent les demandes) et, DEPUIS LE
+  17/08/2026, les trois vraies colonnes de structure : `structure_name` (text),
+  `structure_type` (text) et `structure_licence` (BOOLEAN).
   CORS verifie depuis notre origine : POST -> 201, prevol OPTIONS -> 200,
   `access-control-allow-origin: *`. Aucune configuration a changer.
 
@@ -697,35 +699,56 @@ LES TROIS CHAMPS DE STRUCTURE
   une zone `role="status" aria-live="polite"` annonce en une phrase ce qui vient
   d'apparaitre.
 
-⚠️⚠️ OU PARTENT CES DONNEES — LE POINT TECHNIQUE DECISIF
-  La table `account_requests` n'accepte QUE : `email` (obligatoire),
-  `first_name`, `last_name`, `phone`, `kind`, `message`, `context` (jsonb
-  libre). IL N'Y A AUCUNE COLONNE POUR LA STRUCTURE. Envoyer `structure_nom`
-  ferait ECHOUER la requete en 401 — la securite rejette tout champ inconnu,
-  et c'est cette meme regle qui protege de l'auto-approbation.
-  L'information part donc a DEUX ENDROITS, ET C'EST DELIBERE :
-    1. dans `context`, sous forme structuree (`structure_nom`,
-       `structure_type`, `structure_licence_spectacles`), exploitable plus
-       tard. ⚠️ ELLES S'AJOUTENT a `{origin, ts}` qui s'y trouve deja, elles ne
-       le remplacent pas ;
-    2. EN CLAIR, A LA FIN DE `message` :
-         « — Structure : « Les Amis du Rythme » · association loi 1901 ·
-           licence d'entrepreneur de spectacles : non »
-       parce que la console d'administration affiche PROBABLEMENT `message` et
-       PAS `context` : sans cette ligne, David recevrait la demande d'une
-       structure sans jamais voir son nom ni sa licence. La ligne est separee du
-       texte de la personne par une ligne vide et introduite par un tiret
-       cadratin, pour qu'on distingue au premier coup d'oeil ce qu'elle a ecrit
-       de ce que le formulaire a ajoute.
-  Les garde-fous : trois ancres a ZERO (`structure_nom:`, `structure_type:`,
-  `structure_licence_spectacles:`) interdisent la forme « colonne » ; et
-  `_controle_formulaire()` compare les cles du corps de la requete a
-  `COLONNES_DEMANDE`, une par une.
+⚠️⚠️ OU PARTENT CES DONNEES — LE POINT TECHNIQUE DECISIF (REECRIT LE 17/08/2026)
+  LES VRAIES COLONNES EXISTENT DESORMAIS. La session qui developpe
+  l'application les a creees et demande explicitement de NE PLUS DUPLIQUER
+  l'information, son motif etant : « le doublon aurait fini par diverger ».
+      `structure_name`    text
+      `structure_type`    text    (valeur libre : `association`, `autre`…)
+      `structure_licence` BOOLEAN
+  Ce qui change, point par point :
+    1. les trois valeurs partent EN COLONNES, plus dans `context` ;
+    2. ⚠️⚠️ `structure_licence` EST UN BOOLEEN. On envoie `true` / `false`,
+       JAMAIS `"oui"`, `"non"` ni `"true"`. C'est LE piege de ce chantier :
+       mesure avant d'ecrire une ligne de code, une chaine dans cette colonne
+       rend `400 22P02 invalid input syntax for type boolean: "oui"` — la
+       personne verrait une panne incomprehensible a la derniere etape. La
+       conversion se fait a UN SEUL endroit : `(sLic === 'oui')` ;
+    3. la ligne lisible ajoutee a la fin de `message` EST RETIREE. `message`
+       redevient uniquement le message de la personne ; l'ancre correspondante
+       est passee a ZERO pour qu'elle ne revienne pas par reflexe ;
+    4. `context` garde `{origin, ts}` et recoit `ua` (le `navigator.userAgent`,
+       dont l'auteur de l'app se sert pour tracer d'ou viennent les demandes).
+       LES TROIS CLES DE STRUCTURE EN SONT RETIREES : elles vivent maintenant
+       dans leurs colonnes ;
+    5. LES TROIS COLONNES NE PARTENT QUE POUR UNE STRUCTURE (« Structure » ou
+       « Les deux »). Pour un artiste seul, elles ne sont PAS ENVOYEES DU TOUT
+       — ni chaine vide, ni `null` : le corps de la requete ne les porte pas.
+  Les garde-fous : deux ancres a ZERO (`structure_nom`,
+  `structure_licence_spectacles`) interdisent le retour des anciennes cles de
+  `context` ; une ancre a ZERO interdit le retour de la ligne dans `message` ;
+  et `_controle_formulaire()` compare les cles du corps de la requete a
+  `COLONNES_DEMANDE`, une par une — TOUTE COLONNE INCONNUE FAIT REFUSER
+  L'ECRITURE, exactement comme avant.
+
+LA LICENCE EST UNE DECLARATION, PAS UN FAIT ETABLI
+  Elle a une consequence reelle cote application : elle decide si la structure
+  sera enregistree comme EMPLOYEUR (elle peut declarer des embauches, editer
+  DPAE et feuillets GUSO) ou comme INTERMEDIAIRE (elle contractualise et
+  encaisse, mais ne declare pas). David DEVRA LA VERIFIER avant d'ouvrir la
+  creation de DPAE a une structure. La question est donc formulee comme une
+  DECLARATION — « Vous declarez disposer de la licence d'entrepreneur de
+  spectacles » — et non comme un fait acquis (« Vous avez la licence »).
+  ⚠️ Cela ne doit RIEN changer au ton : c'est un formulaire de demande d'acces,
+  pas un dossier administratif. Aucun mot de controle ni de verification a
+  l'ecran, et la phrase qui desamorce reste mot pour mot (« Repondre "non" ne
+  change rien a la demande… ») — elle est protegee par une ancre.
 
 LA MENTION RGPD EST COMPLETEE
   Elle enumere les donnees transmises : les informations de structure y sont
-  desormais nommees. Le responsable de traitement ne change pas — DAVID LESAGE,
-  createur de l'outil, PAS L'ASSOCIATION.
+  desormais nommees, la licence au registre declaratif. Le responsable de
+  traitement ne change pas — DAVID LESAGE, createur de l'outil, PAS
+  L'ASSOCIATION.
 
 ------------------------------------------------------------------------------
 LA MISE EN VALEUR DU BLOG (16/08/2026) — le constat de David, et sa mesure
@@ -4131,6 +4154,17 @@ def build_html():
       #    (Une ancre a zero occurrence interdit `tabindex` sur toute la page.)
       #
       # ⚠️ LA LICENCE — LA FORMULATION EST LE POINT SENSIBLE DE CE BLOC.
+      #    ⚠️ 17/08/2026 — ELLE EST POSEE COMME UNE DECLARATION, PAS COMME UN
+      #    FAIT ETABLI : « Vous declarez disposer de la licence… » et non
+      #    « Vous avez la licence ». Ce n'est pas une precaution de style :
+      #    cote application, la reponse decide si la structure est enregistree
+      #    comme EMPLOYEUR (elle declare les embauches, edite DPAE et feuillets)
+      #    ou comme INTERMEDIAIRE (elle contractualise et encaisse, sans
+      #    declarer). David DEVRA la verifier avant d'ouvrir la creation de DPAE
+      #    a une structure — le formulaire recueille donc un DIRE, et le dit.
+      #    ⚠️ Et cela ne change RIEN au ton : court, non bureaucratique, aucun
+      #    mot de controle ni de verification a l'ecran. C'est une demande
+      #    d'acces, pas un dossier administratif.
       #    C'est la licence d'entrepreneur de spectacles, celle qui autorise a
       #    employer des artistes. REPONDRE « NON » EST UNE SITUATION COURANTE ET
       #    PARFAITEMENT LEGITIME : beaucoup d'associations passent par le GUSO
@@ -4196,7 +4230,7 @@ def build_html():
           <span class="f-err" id="dmd-struct-type-err"></span>
         </fieldset>
         <fieldset class="f" id="dmd-struct-licence" role="radiogroup" aria-required="true" aria-describedby="dmd-lic-h dmd-struct-licence-err">
-          <legend>Licence d’entrepreneur de spectacles <span class="opt">— obligatoire</span></legend>
+          <legend>Vous déclarez disposer de la licence d’entrepreneur de spectacles <span class="opt">— obligatoire</span></legend>
           <div class="dmd-kind">
             <label for="dmd-lic-oui"><input type="radio" id="dmd-lic-oui" name="struct_licence" value="oui">Oui</label>
             <label for="dmd-lic-non"><input type="radio" id="dmd-lic-non" name="struct_licence" value="non">Non</label>
@@ -4232,7 +4266,8 @@ def build_html():
       # FAUSSE le jour meme ou le formulaire s'est enrichi. Le responsable de
       # traitement ne change pas : David Lesage, pas l'association.
       """    <p class="mention">Vos données : le prénom, le nom, l’adresse e-mail, le téléphone, le
-      message et, pour une structure, son nom, son type et sa licence d’entrepreneur de spectacles sont
+      message et, pour une structure, son nom, son type et la licence d’entrepreneur de spectacles
+      qu’elle déclare sont
       transmis à <b>David Lesage</b>, créateur de Guso Facile, qui en est le responsable —
       ce n’est pas l’association qui les reçoit. Ils servent uniquement à étudier votre demande et à
       vous recontacter à ce sujet : aucun démarchage, aucune revente, aucun partage à des tiers. Vous
@@ -4372,22 +4407,32 @@ def build_html():
       #     chiffres (au moins neuf), et on envoie LA CHAINE TELLE QU'ELLE A ETE
       #     SAISIE.
       #
-      #  d) ⚠️⚠️ LA TABLE N'A AUCUNE COLONNE POUR LA STRUCTURE. Les seules
-      #     colonnes acceptees sont `email`, `first_name`, `last_name`, `phone`,
-      #     `kind`, `message`, `context`. Envoyer `structure_nom` ferait rendre
-      #     un 401 : la securite rejette tout champ inconnu — c'est exactement
-      #     ce qui protege de l'auto-approbation. ON N'INVENTE AUCUNE COLONNE.
-      #     L'information part donc a DEUX endroits, et c'est delibere :
-      #       1. dans `context` (jsonb libre), sous forme structuree,
-      #          exploitable plus tard — SANS ECRASER `{origin, ts}`, qui s'y
-      #          trouve deja ;
-      #       2. EN CLAIR, A LA FIN DE `message`, parce que la console
-      #          d'administration affiche probablement `message` ET PAS
-      #          `context` : sans cette ligne, David recevrait la demande d'une
-      #          structure sans jamais voir son nom ni sa licence.
-      #     La ligne est separee du texte de la personne par une ligne vide et
-      #     introduite par un tiret cadratin, pour qu'on distingue au premier
-      #     coup d'oeil ce qu'elle a ecrit de ce que le formulaire a ajoute.
+      #  d) ⚠️⚠️ 17/08/2026 — LES TROIS VRAIES COLONNES EXISTENT MAINTENANT.
+      #     La session qui developpe l'application les a creees
+      #     (`structure_name` text, `structure_type` text, `structure_licence`
+      #     BOOLEAN) et demande de NE PLUS DUPLIQUER l'information. Son motif,
+      #     mot pour mot : « le doublon aurait fini par diverger ». Donc :
+      #       1. les trois valeurs partent EN COLONNES, plus dans `context` ;
+      #       2. ⚠️⚠️ `structure_licence` EST UN BOOLEEN — `true` / `false`,
+      #          JAMAIS `"oui"`, `"non"` ni `"true"`. MESURE avant d'ecrire ce
+      #          code : une chaine y rend « 400 22P02 invalid input syntax for
+      #          type boolean », et la personne verrait une panne
+      #          incomprehensible a la derniere etape. La conversion se fait a
+      #          UN SEUL endroit, `(sLic === 'oui')` ;
+      #       3. la ligne « — Structure : … » ajoutee a la fin de `message`
+      #          EST RETIREE : `message` redevient uniquement le message de la
+      #          personne. Une ancre a ZERO interdit son retour ;
+      #       4. `context` garde `{origin, ts}` et recoit `ua` — l'auteur de
+      #          l'app s'en sert pour tracer d'ou viennent les demandes. Les
+      #          trois cles de structure en sortent : elles ont leurs colonnes ;
+      #       5. LES TROIS COLONNES NE PARTENT QUE POUR UNE STRUCTURE. Pour un
+      #          artiste seul, elles ne sont pas envoyees DU TOUT — ni chaine
+      #          vide, ni `null`. C'est pour cela que le corps est construit
+      #          dans une variable `corps` avant l'envoi : un litteral ne sait
+      #          pas omettre une cle.
+      #     ⚠️ CE QUI N'A PAS CHANGE : toute colonne INCONNUE fait toujours
+      #     echouer la requete, et `_controle_formulaire()` continue de comparer
+      #     les cles envoyees a `COLONNES_DEMANDE`, une par une.
       """
 <script>
 (function(){
@@ -4513,15 +4558,28 @@ def build_html():
     }
 
     var mot = valeur('dmd-message');
-    var texte = mot;
-    var ctx = { origin: location.href, ts: new Date().toISOString() };
+    var ctx = { origin: location.href, ts: new Date().toISOString(), ua: navigator.userAgent };
+
+    var corps = {
+      email: email,
+      first_name: prenom,
+      last_name: nom,
+      phone: tel,
+      kind: nature,
+      message: mot || null,
+      context: ctx
+    };
+    /* Les trois colonnes de structure NE PARTENT QUE pour une structure : pour
+       un artiste seul, le corps ne les porte pas du tout — ni chaine vide, ni
+       null.
+       ⚠️ `structure_licence` est une colonne BOOLEENNE : on envoie true ou
+       false, jamais « oui » / « non » (une chaine y fait echouer la requete, et
+       la personne verrait une panne incomprehensible). La conversion se fait
+       ici, a un seul endroit. */
     if (structure()) {
-      ctx.structure_nom = sNom;
-      ctx.structure_type = sType;
-      ctx.structure_licence_spectacles = sLic;
-      var dit = (sType === 'association') ? 'association loi 1901' : 'autre';
-      var ligne = '— Structure : « ' + sNom + ' » · ' + dit + ' · licence d’entrepreneur de spectacles : ' + sLic;
-      texte = mot ? (mot + '\\n\\n' + ligne) : ligne;
+      corps.structure_name = sNom;
+      corps.structure_type = sType;
+      corps.structure_licence = (sLic === 'oui');
     }
 
     enCours = true;
@@ -4535,15 +4593,7 @@ def build_html():
         'Authorization': 'Bearer ' + CLE,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        email: email,
-        first_name: prenom,
-        last_name: nom,
-        phone: tel,
-        kind: nature,
-        message: texte || null,
-        context: ctx
-      })
+      body: JSON.stringify(corps)
     }).then(function(rep){
       if (rep.status === 201 || rep.status === 200 || rep.status === 204) {
         f.reset();
@@ -4694,6 +4744,21 @@ ANCRES = (
     ('id="dmd-struct-licence"', 1, 'le groupe Licence d’entrepreneur de spectacles'),
     ('id="dmd-struct-licence-err"', 1, 'son message d’erreur'),
     ('id="dmd-lic-h"', 1, 'la phrase qui dit que « non » ne ferme aucune porte'),
+    # ⚠️ 17/08/2026 — LA QUESTION EST UNE DECLARATION, PAS UN CONSTAT. Côté
+    #    application, la réponse décide si la structure est enregistrée comme
+    #    EMPLOYEUR ou comme INTERMÉDIAIRE, et David devra la vérifier avant
+    #    d'ouvrir la création de DPAE : le formulaire recueille un DIRE, et le
+    #    dit. « Vous avez la licence » présenterait la même réponse comme un
+    #    fait établi.
+    ('Vous déclarez disposer de la licence d’entrepreneur de spectacles', 1,
+     'la licence est demandée comme une déclaration, jamais comme un fait établi'),
+    # ⚠️ LA PHRASE QUI DESAMORCE, MOT POUR MOT. C'est ELLE qui empêche la
+    #    question de se lire comme un contrôle de conformité — et c'est
+    #    exactement là qu'une structure sans licence hésite à continuer.
+    # (fragment tenant sur UNE ligne du gabarit : une ancre a cheval sur deux
+    #  lignes casserait au premier reformatage, pour rien.)
+    ('change rien à la demande : beaucoup de structures n’en ont pas', 1,
+     'la phrase qui désamorce la question de la licence — « répondre non ne change rien »'),
     # ⚠️ LES QUATRE VALEURS EXACTES, une par une — meme raison que pour `kind` :
     #    ce sont elles qui partent dans `context` et dans la ligne ajoutee au
     #    message. Une faute de frappe passerait inapercue jusqu'a la lecture de
@@ -4708,24 +4773,35 @@ ANCRES = (
     ('aria-required="true"', 3,
      'les trois champs de structure sont annoncés obligatoires'),
     ('role="radiogroup"', 2, 'les deux groupes de boutons de la structure'),
-    # ⚠️⚠️ L'ANCRE A ZERO LA PLUS IMPORTANTE DE CE GROUPE. La table
-    #    `account_requests` N'A AUCUNE COLONNE POUR LA STRUCTURE : envoyer
-    #    `structure_nom` comme colonne ferait rendre un 401 (la securite rejette
-    #    tout champ inconnu — c'est ce qui protege de l'auto-approbation).
-    #    L'information voyage dans `context` (donc `ctx.structure_nom`, en
-    #    notation pointee) et dans `message`, JAMAIS en colonne. Le deux-points
-    #    est precisement ce qui distingue une cle de corps JSON d'un acces a une
-    #    propriete : cette ligne interdit la premiere forme.
-    ('structure_nom:', 0,
-     'aucune colonne inventée dans le corps de la requête (la table n’en a pas)'),
-    ('structure_type:', 0, 'aucune colonne inventée dans le corps de la requête'),
-    ('structure_licence_spectacles:', 0,
-     'aucune colonne inventée dans le corps de la requête'),
-    # La ligne lisible ajoutee a la fin de `message` : c'est elle qui fait que
-    # David VOIT le nom et la licence de la structure dans sa console
-    # d'administration, qui affiche `message` et probablement pas `context`.
-    ('— Structure : «', 1,
-     'la ligne lisible ajoutée à la fin du message pour une structure'),
+    # --- 17/08/2026 : LES TROIS VRAIES COLONNES ---------------------------
+    # ⚠️⚠️ LA LIGNE LA PLUS IMPORTANTE DE CE GROUPE EST CELLE DU BOOLEEN.
+    #    `structure_licence` est une colonne BOOLEAN : envoyer la chaine « oui »
+    #    rend « 400 22P02 invalid input syntax for type boolean » — mesure, pas
+    #    suppose. La conversion doit rester ECRITE ICI, a un seul endroit ; si
+    #    quelqu'un remet `= sLic`, cette ancre le refuse a l'ecriture.
+    ('corps.structure_name = sNom;', 1,
+     'le nom de la structure part en COLONNE (plus dans `context`)'),
+    ('corps.structure_type = sType;', 1,
+     'le type de la structure part en COLONNE (plus dans `context`)'),
+    ("corps.structure_licence = (sLic === 'oui');", 1,
+     'la licence part en BOOLÉEN — jamais « oui » / « non », qui font échouer '
+     'la requête en 400'),
+    # ⚠️ LES DEUX ANCRES A ZERO interdisent le retour des anciennes cles de
+    #    `context` : l'information vit desormais dans ses colonnes, et la
+    #    dupliquer est exactement ce que l'auteur de l'application a demande
+    #    d'arreter — « le doublon aurait fini par diverger ».
+    ('structure_nom', 0,
+     'l’ancienne clé de `context` — la colonne s’appelle `structure_name`'),
+    ('structure_licence_spectacles', 0,
+     'l’ancienne clé de `context` — la colonne s’appelle `structure_licence`'),
+    # ⚠️ LA LIGNE LISIBLE AJOUTEE A LA FIN DE `message` EST RETIREE (17/08/2026).
+    # `message` redevient UNIQUEMENT le message de la personne. Motif donne par
+    # l'auteur de l'application : « le doublon aurait fini par diverger ». Cette
+    # ancre a zero empeche qu'elle revienne par reflexe le jour ou quelqu'un se
+    # demandera « mais comment David voit-il le nom de la structure ? » — la
+    # reponse est : dans sa colonne.
+    ('— Structure : «', 0,
+     'la ligne lisible ajoutée au message, retirée le 17/08/2026 (plus de doublon)'),
     # La mention sur les donnees personnelles NOMME le responsable de
     # traitement, et ce n'est pas l'association. Voir le commentaire au-dessus
     # du bloc : c'est le point qui gagne le plus a la fusion.
@@ -5281,14 +5357,36 @@ CHAMPS_FORMULAIRE = (
     ('dmd-lic-non', 'Licence d’entrepreneur de spectacles — Non'),
 )
 
-#: LES SEULES COLONNES DE LA TABLE `account_requests`. Il n'y en a AUCUNE pour
-#: la structure : envoyer `structure_nom` ferait rendre un 401 — la securite
-#: rejette tout champ inconnu, et c'est cette meme regle qui interdit
-#: l'auto-approbation. L'information de structure part donc dans `context`
-#: (jsonb libre) ET, en clair, a la fin de `message`. Voir le long commentaire
-#: au-dessus du script du formulaire.
+#: LES SEULES COLONNES DE LA TABLE `account_requests` QU'ON A LE DROIT
+#: D'ENVOYER. Toute autre fait echouer la requete : la securite rejette les
+#: champs inconnus, et c'est cette meme regle qui interdit l'auto-approbation.
+#: ⚠️ 17/08/2026 — LES TROIS COLONNES DE STRUCTURE Y ENTRENT. Elles viennent
+#: d'etre creees par la session qui developpe l'application, qui demande de ne
+#: plus dupliquer l'information (« le doublon aurait fini par diverger ») :
+#: elles ne passent donc plus par `context` ni par `message`. La garde, elle,
+#: n'a PAS ete assouplie — elle refuse toujours toute colonne hors de cette
+#: liste ; on a seulement inscrit les trois nouvelles.
 COLONNES_DEMANDE = ('email', 'first_name', 'last_name', 'phone', 'kind',
-                    'message', 'context')
+                    'message', 'context',
+                    'structure_name', 'structure_type', 'structure_licence')
+
+#: les colonnes envoyees A CHAQUE DEMANDE, quelle que soit la nature de la
+#: personne. Ce sont celles du litteral `var corps = {…}`.
+COLONNES_TOUJOURS = ('email', 'first_name', 'last_name', 'phone', 'kind',
+                     'message', 'context')
+
+#: les colonnes envoyees UNIQUEMENT pour une structure (« Structure » ou « Les
+#: deux »). Pour un artiste seul, le corps ne les porte PAS DU TOUT — ni chaine
+#: vide, ni `null`. C'est pour cela que le corps est construit dans une variable
+#: avant l'envoi : un litteral ne sait pas omettre une cle.
+COLONNES_STRUCTURE = ('structure_name', 'structure_type', 'structure_licence')
+
+#: ⚠️ LA CONVERSION EN BOOLEEN, ECRITE UNE FOIS ET VERIFIEE. `structure_licence`
+#: est une colonne BOOLEAN : y envoyer la chaine « oui » rend
+#: « 400 22P02 invalid input syntax for type boolean: "oui" » (mesure sur
+#: l'endpoint reel avant d'ecrire ce code), et la personne verrait une panne
+#: incomprehensible a la derniere etape de sa demande.
+CONVERSION_LICENCE = "corps.structure_licence = (sLic === 'oui');"
 
 #: les quatre champs OBLIGATOIRES depuis le 17/08/2026 (demande de David).
 #: Chacun doit porter `required` ET `aria-describedby` vers SA boite de message.
@@ -5339,6 +5437,10 @@ def _controle_formulaire(html):
       8. LA MENTION SUR LES DONNEES NOMME DAVID LESAGE. La saisie se fait
          desormais sur le domaine de l'association : sans cette phrase, un
          visiteur croirait confier ses coordonnees a l'association.
+      9. (17/08/2026) LE CORPS N'ENVOIE QUE DES COLONNES QUI EXISTENT, LES
+         TROIS DE STRUCTURE UNIQUEMENT POUR UNE STRUCTURE, ET LA LICENCE EN
+         BOOLEEN. Une chaine dans `structure_licence` rend un 400 : la personne
+         verrait une panne incomprehensible a la derniere etape.
     """
     import re
 
@@ -5464,12 +5566,23 @@ def _controle_formulaire(html):
             'la demande est bien arrivee.\n   Page NON ecrite.')
 
     # ⚠️⚠️ LE CORPS DE LA REQUETE NE CONTIENT QUE DES COLONNES QUI EXISTENT.
-    # La table `account_requests` n'en a AUCUNE pour la structure : y glisser
-    # `structure_nom` ferait rendre un 401 — la securite rejette tout champ
-    # inconnu, et c'est cette meme regle qui interdit l'auto-approbation. Le
-    # defaut serait INVISIBLE a la relecture (le code a l'air juste) et ne se
-    # verrait qu'a l'envoi, sur une demande perdue.
-    corps = re.search(r'body: JSON\.stringify\(\{(.*?)\}\)', js, re.S)
+    # Toute colonne inconnue fait echouer la requete — la securite rejette les
+    # champs qu'elle ne connait pas, et c'est cette meme regle qui interdit
+    # l'auto-approbation. Le defaut serait INVISIBLE a la relecture (le code a
+    # l'air juste) et ne se verrait qu'a l'envoi, sur une demande perdue.
+    #
+    # ⚠️ 17/08/2026 — LE CORPS EST DESORMAIS CONSTRUIT DANS UNE VARIABLE, et ce
+    # n'est pas un gout de style : les trois colonnes de structure ne partent
+    # QUE pour une structure, et un litteral ne sait pas omettre une cle. On
+    # controle donc DEUX ensembles — celui du litteral (toujours envoye) et
+    # celui des affectations conditionnelles.
+    if 'body: JSON.stringify(corps)' not in js:
+        raise SystemExit(
+            '!! ABANDON : le corps de la requete n\'est plus l\'objet `corps`.\n'
+            '   Il doit etre construit dans une variable AVANT l\'envoi : un '
+            'litteral ne sait pas omettre les colonnes de structure quand la '
+            'personne est un artiste seul.\n   Page NON ecrite.')
+    corps = re.search(r'var corps = \{(.*?)\};', js, re.S)
     if not corps:
         raise SystemExit('!! ABANDON : le corps de la requete est introuvable. '
                          'Page NON ecrite.')
@@ -5480,40 +5593,78 @@ def _controle_formulaire(html):
             'exactement la que se glisse une colonne inventee. Construire l\'objet '
             'dans une variable au-dessus.\n   Page NON ecrite.')
     cles = re.findall(r'(\w+)\s*:', corps.group(1))
-    if sorted(cles) != sorted(COLONNES_DEMANDE):
+    if sorted(cles) != sorted(COLONNES_TOUJOURS):
         raise SystemExit(
-            '!! ABANDON : le corps de la requete envoie %s.\n'
-            '   Les SEULES colonnes de la table `account_requests` sont %s. Toute '
-            'autre fait rendre un 401 : la securite rejette les champs inconnus, '
-            'c\'est ce qui protege de l\'auto-approbation. L\'information de '
-            'structure part dans `context` (jsonb libre) ET en clair a la fin de '
-            '`message` — JAMAIS en colonne.\n   Page NON ecrite.'
-            % (', '.join(sorted(cles)), ', '.join(sorted(COLONNES_DEMANDE))))
+            '!! ABANDON : le corps de la requete envoie toujours %s.\n'
+            '   Les colonnes envoyees a CHAQUE demande sont %s.\n   Page NON ecrite.'
+            % (', '.join(sorted(cles)), ', '.join(sorted(COLONNES_TOUJOURS))))
 
-    # L'INFORMATION DE STRUCTURE PART BIEN AUX DEUX ENDROITS. C'est delibere :
-    #   - `context` en garde la forme structuree, exploitable plus tard ;
-    #   - `message` la porte EN CLAIR, parce que la console d'administration
-    #     affiche probablement `message` et pas `context`. Sans cette ligne,
-    #     David recevrait la demande d'une structure sans jamais voir son nom
-    #     ni sa licence.
-    for cle in ('ctx.structure_nom', 'ctx.structure_type',
-                'ctx.structure_licence_spectacles'):
-        if cle not in js:
-            raise SystemExit(
-                '!! ABANDON : « %s » n\'est plus ecrit dans `context`.\n'
-                '   La forme structuree de l\'information de structure est perdue.\n'
-                '   Page NON ecrite.' % cle)
-    if '— Structure : «' not in js:
+    # LES COLONNES CONDITIONNELLES : celles qu'on AJOUTE a `corps`. Elles ne
+    # doivent exister que pour une structure — donc DANS le `if (structure())`.
+    ajouts = re.findall(r'corps\.(\w+)\s*=', js)
+    if sorted(ajouts) != sorted(COLONNES_STRUCTURE):
         raise SystemExit(
-            '!! ABANDON : la ligne lisible « — Structure : … » n\'est plus ajoutee '
-            'a la fin du message.\n   La console d\'administration affiche '
-            'probablement `message` et pas `context` : sans elle, la demande d\'une '
-            'structure arrive SANS son nom ni sa licence.\n   Page NON ecrite.')
-    if 'origin: location.href' not in js or 'ts: new Date()' not in js:
+            '!! ABANDON : les colonnes ajoutees au corps sont %s, attendu %s.\n'
+            '   Les trois informations de structure partent en COLONNES depuis le '
+            '17/08/2026 — plus dans `context`, plus dans `message`.\n'
+            '   Page NON ecrite.'
+            % (', '.join(sorted(ajouts)) or '(aucune)',
+               ', '.join(sorted(COLONNES_STRUCTURE))))
+    inconnues = [c for c in cles + ajouts if c not in COLONNES_DEMANDE]
+    if inconnues:
         raise SystemExit(
-            '!! ABANDON : `context` ne porte plus `{origin, ts}`.\n   Les cles de '
-            'structure s\'AJOUTENT a ce qui existait deja, elles ne le remplacent '
-            'pas.\n   Page NON ecrite.')
+            '!! ABANDON : colonne(s) inconnue(s) dans le corps de la requete : %s.\n'
+            '   Les SEULES colonnes de la table `account_requests` sont %s. Toute '
+            'autre fait echouer la requete : la securite rejette les champs '
+            'inconnus, c\'est ce qui protege de l\'auto-approbation.\n'
+            '   Page NON ecrite.'
+            % (', '.join(inconnues), ', '.join(sorted(COLONNES_DEMANDE))))
+    # ⚠️ `if (structure())` apparait DEUX fois dans le script (la validation des
+    # trois champs, puis l'ajout des trois colonnes) : on parcourt donc tous les
+    # blocs et on exige qu'UN d'entre eux porte les trois affectations. Chercher
+    # le premier seulement ferait echouer l'ecriture pour rien.
+    blocs = re.findall(r'if \(structure\(\)\) \{(.*?)\n    \}', js, re.S)
+    if not any(len(re.findall(r'corps\.\w+\s*=', b)) == 3 for b in blocs):
+        raise SystemExit(
+            '!! ABANDON : les trois colonnes de structure ne sont pas ajoutees a '
+            'l\'INTERIEUR de `if (structure())`.\n   Envoyees pour un artiste seul, '
+            'elles feraient partir trois valeurs vides que personne n\'a saisies.\n'
+            '   Page NON ecrite.')
+
+    # ⚠️⚠️ LE BOOLEEN. `structure_licence` est une colonne BOOLEAN : y envoyer
+    # « oui » rend « 400 22P02 invalid input syntax for type boolean » — mesure
+    # sur l'endpoint reel, pas supposition. La personne verrait une panne
+    # incomprehensible a la derniere etape. La conversion est ecrite UNE fois,
+    # et cette ligne verifie qu'elle y est toujours.
+    if CONVERSION_LICENCE not in js:
+        raise SystemExit(
+            '!! ABANDON : la licence n\'est plus convertie en BOOLEEN.\n'
+            '   La ligne attendue, mot pour mot : « %s ».\n   La colonne '
+            '`structure_licence` est un BOOLEAN : une chaine (« oui », « non », '
+            'ou meme « true ») fait ECHOUER la requete, et la personne verrait une '
+            'panne incomprehensible.\n   Page NON ecrite.' % CONVERSION_LICENCE)
+
+    # LES ANCIENNES DUPLICATIONS NE DOIVENT PAS REVENIR. L'auteur de
+    # l'application a demande de les retirer, son motif etant : « le doublon
+    # aurait fini par diverger ».
+    if 'ctx.structure' in js:
+        raise SystemExit(
+            '!! ABANDON : une information de structure est ecrite dans `context`.\n'
+            '   Elle vit maintenant dans ses colonnes (`structure_name`, '
+            '`structure_type`, `structure_licence`) : la dupliquer est exactement '
+            'ce qu\'il a ete demande d\'arreter.\n   Page NON ecrite.')
+    if '— Structure : «' in js:
+        raise SystemExit(
+            '!! ABANDON : la ligne lisible « — Structure : … » est de retour a la '
+            'fin du message.\n   `message` ne porte QUE le message de la personne '
+            'depuis le 17/08/2026 : le nom, le type et la licence ont leurs '
+            'colonnes.\n   Page NON ecrite.')
+    if ('origin: location.href' not in js or 'ts: new Date()' not in js
+            or 'ua: navigator.userAgent' not in js):
+        raise SystemExit(
+            '!! ABANDON : `context` ne porte plus `{origin, ts, ua}`.\n   Ces trois '
+            'cles servent a tracer d\'ou viennent les demandes.\n'
+            '   Page NON ecrite.')
 
     # UNE SEULE FONCTION decide de l'affichage ET de l'exigence des champs
     # conditionnels : c'est ce qui rend impossible le piege du champ cache reste

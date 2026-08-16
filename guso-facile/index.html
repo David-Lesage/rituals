@@ -1513,7 +1513,7 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
           <span class="f-err" id="dmd-struct-type-err"></span>
         </fieldset>
         <fieldset class="f" id="dmd-struct-licence" role="radiogroup" aria-required="true" aria-describedby="dmd-lic-h dmd-struct-licence-err">
-          <legend>Licence d’entrepreneur de spectacles <span class="opt">— obligatoire</span></legend>
+          <legend>Vous déclarez disposer de la licence d’entrepreneur de spectacles <span class="opt">— obligatoire</span></legend>
           <div class="dmd-kind">
             <label for="dmd-lic-oui"><input type="radio" id="dmd-lic-oui" name="struct_licence" value="oui">Oui</label>
             <label for="dmd-lic-non"><input type="radio" id="dmd-lic-non" name="struct_licence" value="non">Non</label>
@@ -1536,7 +1536,8 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
     <p class="mention">Aucune inscription automatique : chaque demande est étudiée personnellement, et
       la réponse arrive par e-mail.</p>
     <p class="mention">Vos données : le prénom, le nom, l’adresse e-mail, le téléphone, le
-      message et, pour une structure, son nom, son type et sa licence d’entrepreneur de spectacles sont
+      message et, pour une structure, son nom, son type et la licence d’entrepreneur de spectacles
+      qu’elle déclare sont
       transmis à <b>David Lesage</b>, créateur de Guso Facile, qui en est le responsable —
       ce n’est pas l’association qui les reçoit. Ils servent uniquement à étudier votre demande et à
       vous recontacter à ce sujet : aucun démarchage, aucune revente, aucun partage à des tiers. Vous
@@ -1747,15 +1748,28 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
     }
 
     var mot = valeur('dmd-message');
-    var texte = mot;
-    var ctx = { origin: location.href, ts: new Date().toISOString() };
+    var ctx = { origin: location.href, ts: new Date().toISOString(), ua: navigator.userAgent };
+
+    var corps = {
+      email: email,
+      first_name: prenom,
+      last_name: nom,
+      phone: tel,
+      kind: nature,
+      message: mot || null,
+      context: ctx
+    };
+    /* Les trois colonnes de structure NE PARTENT QUE pour une structure : pour
+       un artiste seul, le corps ne les porte pas du tout — ni chaine vide, ni
+       null.
+       ⚠️ `structure_licence` est une colonne BOOLEENNE : on envoie true ou
+       false, jamais « oui » / « non » (une chaine y fait echouer la requete, et
+       la personne verrait une panne incomprehensible). La conversion se fait
+       ici, a un seul endroit. */
     if (structure()) {
-      ctx.structure_nom = sNom;
-      ctx.structure_type = sType;
-      ctx.structure_licence_spectacles = sLic;
-      var dit = (sType === 'association') ? 'association loi 1901' : 'autre';
-      var ligne = '— Structure : « ' + sNom + ' » · ' + dit + ' · licence d’entrepreneur de spectacles : ' + sLic;
-      texte = mot ? (mot + '\n\n' + ligne) : ligne;
+      corps.structure_name = sNom;
+      corps.structure_type = sType;
+      corps.structure_licence = (sLic === 'oui');
     }
 
     enCours = true;
@@ -1769,15 +1783,7 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         'Authorization': 'Bearer ' + CLE,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        email: email,
-        first_name: prenom,
-        last_name: nom,
-        phone: tel,
-        kind: nature,
-        message: texte || null,
-        context: ctx
-      })
+      body: JSON.stringify(corps)
     }).then(function(rep){
       if (rep.status === 201 || rep.status === 200 || rep.status === 204) {
         f.reset();
