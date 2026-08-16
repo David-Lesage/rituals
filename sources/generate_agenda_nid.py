@@ -150,7 +150,17 @@ JAUGE_FR = ('Jauge limitée : chaque événement est sur invitation ou sur inscr
             'Merci de réserver avant de venir.')
 
 LESAGE   = 'https://lesagedavid.fr'
-SHOWROOM = 'https://www.handpan-studio.app/showroom#agenda'
+# 16/08/2026 : bascule de `www.handpan-studio.app` vers l'adresse CANONIQUE.
+# Le site vitrine de David est servi sous CINQ hotes (`lesagedavid.fr` + quatre
+# domaines `.app`), qui rendent tous le meme contenu. Sa balise canonique
+# designe `https://www.lesagedavid.fr/showroom/` : c'est elle qui fait foi.
+# Verifie avant de basculer (ce sont des liens de RESERVATION en production) :
+# les deux URL repondent 200, portent `id="agenda"` et declarent le meme
+# canonique. Le partage d'un lien propage desormais l'adresse de reference.
+# ⚠️ NE JAMAIS DEBRANCHER les domaines `.app` : l'ancienne adresse est deja
+# partie dans les descriptions Google Agenda et les fichiers `.ics` telecharges
+# par les inscrits. Ces liens vivent chez des gens, hors de ce depot.
+SHOWROOM = 'https://www.lesagedavid.fr/showroom#agenda'
 ADHESION = 'https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions'
 YOGA_INS = 'https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid'
 MAILTO   = 'mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation'
