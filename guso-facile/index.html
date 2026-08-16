@@ -172,10 +172,24 @@ section{padding:86px 0}
 .faq-q[open] summary{border-bottom:1px solid rgba(216,178,90,.22)}
 .faq-q[open] summary::after{transform:rotate(225deg) translateY(-3px)}
 .faq-q .faq-r{color:#d7d4ea;font-size:15.5px;padding:15px 20px 18px}
-.blog-lien{margin-top:32px;font-size:16px}
-.blog-lien a{display:inline-flex;align-items:center;gap:11px;color:var(--gold2);padding:11px 0;text-decoration:underline;text-decoration-color:rgba(248,210,116,.4);text-underline-offset:4px}
-.blog-lien a::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
-.blog-lien a:hover{text-decoration-color:var(--gold2)}
+.blog-cta{position:relative;overflow:hidden;display:flex;align-items:center;gap:18px;margin-top:30px;max-width:760px;padding:22px 24px;border:1px solid rgba(248,210,116,.3);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.13),rgba(238,128,98,.09) 58%,rgba(147,116,226,.12));box-shadow:0 24px 56px -38px rgba(0,0,0,.95);transition:transform .2s,border-color .2s,box-shadow .2s}
+.blog-cta::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.blog-cta:hover{transform:translateY(-3px);border-color:rgba(248,210,116,.6);box-shadow:0 30px 64px -34px rgba(0,0,0,.95),0 0 48px -14px rgba(238,128,98,.42)}
+.blog-cta-ic{flex:0 0 auto;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:16px;border:1px solid rgba(248,210,116,.26);background:linear-gradient(140deg,rgba(216,178,90,.18),rgba(238,128,98,.13) 55%,rgba(147,116,226,.16))}
+.blog-cta-ic .ic{width:27px;height:27px}
+.blog-cta-txt{flex:1 1 auto;min-width:0}
+.blog-cta-k{display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:6px}
+.blog-cta-t{display:block;font-family:'Jost',sans-serif;font-size:21px;font-weight:700;letter-spacing:-.012em;line-height:1.2;color:#fff}
+.blog-cta-d{display:block;color:#cfcbe4;font-size:15px;line-height:1.55;margin-top:8px}
+.blog-cta-go{flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:1px solid rgba(248,210,116,.34);background:rgba(216,178,90,.1);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.blog-cta-go::after{content:'';width:9px;height:9px;margin-left:-3px;border-right:1.8px solid var(--gold2);border-bottom:1.8px solid var(--gold2);transform:rotate(-45deg)}
+.blog-cta:hover .blog-cta-go{transform:translateX(3px);background:rgba(216,178,90,.2)}
+@media(max-width:560px){.blog-cta{flex-wrap:wrap;gap:14px;padding:20px 18px}
+.blog-cta-ic{width:44px;height:44px}
+.blog-cta-ic .ic{width:24px;height:24px}
+.blog-cta-go{margin-left:auto}
+.blog-cta-txt{flex:1 1 100%;order:2}
+.blog-cta-t{font-size:19px}}
 .gf-top .cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px}
 .hero-blog{display:inline-flex;align-items:center;gap:11px;min-height:44px;padding:11px 0;color:var(--gold2);font-size:15.5px;text-decoration:underline;text-decoration-color:rgba(248,210,116,.4);text-underline-offset:4px}
 .hero-blog::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
@@ -192,7 +206,7 @@ section{padding:86px 0}
 .mea-d{color:#cfcbe4;font-size:15px;line-height:1.58;margin-top:10px}
 .mea-l{margin-top:auto;padding-top:14px;display:flex;align-items:center;gap:9px;font-size:13.5px;letter-spacing:.06em;color:var(--plum2)}
 .mea-l::after{content:'';width:8px;height:8px;border-right:1.6px solid var(--gold2);border-bottom:1.6px solid var(--gold2);transform:rotate(-45deg)}
-.mea .blog-lien{margin-top:14px}
+.mea .blog-cta{margin-top:24px}
 .veille{margin-top:34px;max-width:900px;padding:26px 30px 24px;border:1px solid rgba(248,210,116,.24);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(238,128,98,.08) 60%,rgba(147,116,226,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
 .veille .u-num{display:block;margin-bottom:8px}
 .veille-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
@@ -870,7 +884,15 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         <span class="mea-l">6 min de lecture</span>
       </a>
     </div>
-    <p class="blog-lien"><a href="/guso-facile/blog">Les dix-huit articles du blog de Guso Facile</a></p>
+  <a class="blog-cta" href="/guso-facile/blog">
+    <span class="blog-cta-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.3" y="6.2" width="13.4" height="14.3" rx="2.3"/><path d="M16.7 9.3h1.5a2 2 0 0 1 2 2v7.2a2 2 0 0 1-2 2"/><path d="M6.5 10.1h7"/><path d="M6.5 13.4h7"/><path d="M6.5 16.7h4.3"/></svg></span>
+    <span class="blog-cta-txt">
+      <span class="blog-cta-k">Tout le blog</span>
+      <span class="blog-cta-t">Les dix-huit articles du blog de Guso Facile</span>
+      <span class="blog-cta-d">En lecture libre, sans compte — le GUSO, les 507 heures, la DPAE, l’impayé, la tournée.</span>
+    </span>
+    <span class="blog-cta-go" aria-hidden="true"></span>
+  </a>
   </div>
 </div></section>
 
@@ -1346,7 +1368,15 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
       <p class="faq-r">L’application est en phase de test : l’accès se fait sur demande, via le formulaire « Demander un accès ». Chaque demande est étudiée personnellement par David Lesage, son créateur.</p>
     </details>
   </div>
-  <p class="blog-lien"><a href="/guso-facile/blog">Toutes les situations concrètes sur le blog de Guso Facile</a></p>
+  <a class="blog-cta" href="/guso-facile/blog">
+    <span class="blog-cta-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.3" y="6.2" width="13.4" height="14.3" rx="2.3"/><path d="M16.7 9.3h1.5a2 2 0 0 1 2 2v7.2a2 2 0 0 1-2 2"/><path d="M6.5 10.1h7"/><path d="M6.5 13.4h7"/><path d="M6.5 16.7h4.3"/></svg></span>
+    <span class="blog-cta-txt">
+      <span class="blog-cta-k">Le blog de Guso Facile</span>
+      <span class="blog-cta-t">Toutes les situations concrètes sur le blog de Guso Facile</span>
+      <span class="blog-cta-d">Dix-huit articles qui déroulent en entier ce que ces réponses courtes ne font qu’effleurer.</span>
+    </span>
+    <span class="blog-cta-go" aria-hidden="true"></span>
+  </a>
 </div></section>
 </main>
 

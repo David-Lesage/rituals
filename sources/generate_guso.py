@@ -1335,11 +1335,43 @@ CSS_PAGE = ("""/* ===== Guso Facile ===== */
 .faq-q[open] summary::after{transform:rotate(225deg) translateY(-3px)}
 .faq-q .faq-r{color:#d7d4ea;font-size:15.5px;padding:15px 20px 18px}
 """
-           # --- les deux liens descendants vers le blog (maillage, dossier §6) ------
-           """.blog-lien{margin-top:32px;font-size:16px}
-.blog-lien a{display:inline-flex;align-items:center;gap:11px;color:var(--gold2);padding:11px 0;text-decoration:underline;text-decoration-color:rgba(248,210,116,.4);text-underline-offset:4px}
-.blog-lien a::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
-.blog-lien a:hover{text-decoration-color:var(--gold2)}
+           # --- les deux renvois vers le blog (maillage, dossier §6) ---------------
+           # ⚠️ ILS ETAIENT UNE LIGNE DE TEXTE, ILS SONT DEVENUS UN BLOC (16/08/2026,
+           # nuit). Verbatim de David : « le bouton "Les dix-huit articles du blog de
+           # Guso Facile" est minuscule, c'est meme pas un bouton, c'est une ligne. Il
+           # faudrait quelque chose qui donne plus envie de cliquer. » C'etait exact :
+           # un `<a>` sans classe, souligne, haut de 38 px, pour la porte d'entree la
+           # plus riche du site.
+           # ⚠️⚠️ IL NE DOIT PAS DEVENIR UN SECOND BOUTON D'ACTION. Le seul aplat au
+           # degrade chaud de la page reste « Envoyer ma demande » (`.acces .btn`) —
+           # voir l'ecart n° 8 en tete de fichier. Ce bloc joue donc dans une AUTRE
+           # famille : fond de carte translucide, filet dore, halo au survol. Fort,
+           # mais pas le meme geste. Ne pas lui poser `var(--grad-warm)` en fond.
+           # Le filet de tete au degrade et la pastille flechee (dessinee en CSS,
+           # aucun picto de plus a maintenir) sont ce qui le rend cliquable a l'oeil.
+           """.blog-cta{position:relative;overflow:hidden;display:flex;align-items:center;gap:18px;margin-top:30px;max-width:760px;padding:22px 24px;border:1px solid rgba(248,210,116,.3);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.13),rgba(238,128,98,.09) 58%,rgba(147,116,226,.12));box-shadow:0 24px 56px -38px rgba(0,0,0,.95);transition:transform .2s,border-color .2s,box-shadow .2s}
+.blog-cta::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.blog-cta:hover{transform:translateY(-3px);border-color:rgba(248,210,116,.6);box-shadow:0 30px 64px -34px rgba(0,0,0,.95),0 0 48px -14px rgba(238,128,98,.42)}
+.blog-cta-ic{flex:0 0 auto;width:52px;height:52px;display:flex;align-items:center;justify-content:center;border-radius:16px;border:1px solid rgba(248,210,116,.26);background:linear-gradient(140deg,rgba(216,178,90,.18),rgba(238,128,98,.13) 55%,rgba(147,116,226,.16))}
+.blog-cta-ic .ic{width:27px;height:27px}
+.blog-cta-txt{flex:1 1 auto;min-width:0}
+.blog-cta-k{display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:6px}
+.blog-cta-t{display:block;font-family:'Jost',sans-serif;font-size:21px;font-weight:700;letter-spacing:-.012em;line-height:1.2;color:#fff}
+.blog-cta-d{display:block;color:#cfcbe4;font-size:15px;line-height:1.55;margin-top:8px}
+.blog-cta-go{flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:1px solid rgba(248,210,116,.34);background:rgba(216,178,90,.1);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.blog-cta-go::after{content:'';width:9px;height:9px;margin-left:-3px;border-right:1.8px solid var(--gold2);border-bottom:1.8px solid var(--gold2);transform:rotate(-45deg)}
+.blog-cta:hover .blog-cta-go{transform:translateX(3px);background:rgba(216,178,90,.2)}
+"""
+           # sous 560 px le bloc se plie en deux rangees : le cartouche et la fleche
+           # d'abord (la ligne qui dit « ca se clique »), le texte en dessous sur toute
+           # la largeur. Mesure : a 390 px, en une seule rangee, il ne restait que
+           # 184 px au titre, qui tombait sur cinq lignes.
+           """@media(max-width:560px){.blog-cta{flex-wrap:wrap;gap:14px;padding:20px 18px}
+.blog-cta-ic{width:44px;height:44px}
+.blog-cta-ic .ic{width:24px;height:24px}
+.blog-cta-go{margin-left:auto}
+.blog-cta-txt{flex:1 1 100%;order:2}
+.blog-cta-t{font-size:19px}}
 """
            # --- la mise en valeur du blog (16/08/2026) -----------------------------
            # Le lien du hero est DANS la rangee `.cta`, a cote du bouton : au-dela de
@@ -1369,7 +1401,12 @@ CSS_PAGE = ("""/* ===== Guso Facile ===== */
 .mea-d{color:#cfcbe4;font-size:15px;line-height:1.58;margin-top:10px}
 .mea-l{margin-top:auto;padding-top:14px;display:flex;align-items:center;gap:9px;font-size:13.5px;letter-spacing:.06em;color:var(--plum2)}
 .mea-l::after{content:'';width:8px;height:8px;border-right:1.6px solid var(--gold2);border-bottom:1.6px solid var(--gold2);transform:rotate(-45deg)}
-.mea .blog-lien{margin-top:14px}
+"""
+           # ⚠️ le bloc GARDE ses 760 px dans `.mea`, alors que la rangee d'articles
+           # au-dessus fait toute la largeur (1 028 px a 1440). Mesure a l'ecran :
+           # etale sur 1 028 px, la pastille flechee se retrouvait a 500 px du texte,
+           # au bout d'une bande vide — le bloc perdait ce qu'il venait gagner.
+           """.mea .blog-cta{margin-top:24px}
 """
            # --- « On veille les uns sur les autres » (absorbe le 16/08/2026) --------
            # Meme habillage que l'encart de la Guilde, qu'il introduit — MOINS le
@@ -2113,6 +2150,36 @@ MAQ_STRUCTURE = _figure(
          'encore livré.')
 
 
+# --- LE BLOC DE RENVOI VERS LE BLOG (deux exemplaires) --------------------
+# Il REMPLACE les deux `<p class="blog-lien"><a>…</a></p>`, qui etaient des
+# lignes de texte soulignees. Verbatim de David : « c'est meme pas un bouton,
+# c'est une ligne ». Voir le commentaire au-dessus de `.blog-cta` dans
+# `CSS_PAGE` pour ce qui a ete fait, et surtout pour ce qui NE DOIT PAS l'etre
+# (en faire un second bouton d'action plein).
+# ⚠️ LE TITRE DE CHAQUE BLOC EST L'ANCRE DESCRIPTIVE D'ORIGINE, MOT POUR MOT
+#    (dossier SEO §6 : nommer la destination et ce qu'on y trouve, jamais « en
+#    savoir plus »). Ne pas la raccourcir en « Le blog » sous pretexte que le
+#    bloc est maintenant grand : c'est elle que lit un moteur de recherche.
+# ⚠️ La phrase de raccord ne promet aucun contenu qui n'existe pas : dix-huit
+#    articles, lisibles sans compte — les deux sont verifiables.
+
+def _blog_cta(surtitre, titre, phrase):
+    """Un bloc de renvoi vers le blog. Aucun element focusable en plus du lien.
+
+    La pastille flechee porte `aria-hidden` : elle repete visuellement ce que
+    le lien dit deja, l'annoncer une seconde fois serait du bruit.
+    """
+    return ('  <a class="blog-cta" href="%s">\n'
+            '    <span class="blog-cta-ic">%s</span>\n'
+            '    <span class="blog-cta-txt">\n'
+            '      <span class="blog-cta-k">%s</span>\n'
+            '      <span class="blog-cta-t">%s</span>\n'
+            '      <span class="blog-cta-d">%s</span>\n'
+            '    </span>\n'
+            '    <span class="blog-cta-go" aria-hidden="true"></span>\n'
+            '  </a>\n' % (URL_BLOG, _ic('articles'), surtitre, titre, phrase))
+
+
 # =========================================================================
 # LES PICTOGRAMMES — dix icones dessinees a la main, en SVG en ligne
 # =========================================================================
@@ -2223,6 +2290,20 @@ ICONES = {
     'bouee': '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/>'
              '<path d="M6 6l3.6 3.6"/><path d="M14.4 14.4L18 18"/>'
              '<path d="M18 6l-3.6 3.6"/><path d="M9.6 14.4L6 18"/>',
+    # ------------------------------------------------------------------
+    # AJOUTE LA NUIT DU 16/08/2026 — le bloc `.blog-cta`
+    # ------------------------------------------------------------------
+    # Le feuillet de tete d'une pile, et ses lignes de texte : dix-huit
+    # articles, pas un seul. ⚠️ C'est le PREMIER pictogramme de cette page a
+    # servir DEUX fois (les deux blocs de renvoi vers le blog), d'ou le compte
+    # de `NB_PICTOS` qui n'est plus egal au nombre d'entrees de ce
+    # dictionnaire — voir la note au-dessus de la constante.
+    # ⚠️ Volontairement DIFFERENT de 'document' de `theme_chaleur.py` (un
+    #    feuillet corne, les identifiants officiels d'une association) : ici
+    #    c'est une PILE, et c'est ce que le bloc promet.
+    'articles': '<rect x="3.3" y="6.2" width="13.4" height="14.3" rx="2.3"/>'
+                '<path d="M16.7 9.3h1.5a2 2 0 0 1 2 2v7.2a2 2 0 0 1-2 2"/>'
+                '<path d="M6.5 10.1h7"/><path d="M6.5 13.4h7"/><path d="M6.5 16.7h4.3"/>',
 }
 
 
@@ -2577,8 +2658,13 @@ def build_html():
           '        <span class="mea-l">%s de lecture</span>\n'
           '      </a>\n' % (URL_BLOG, slug, rubrique, titre, accroche, lecture))
     A("""    </div>
-    <p class="blog-lien"><a href="/guso-facile/blog">Les dix-huit articles du blog de Guso Facile</a></p>
-  </div>
+""")
+    A(_blog_cta(
+        'Tout le blog',
+        'Les dix-huit articles du blog de Guso Facile',
+        'En lecture libre, sans compte — le GUSO, les 507 heures, la DPAE, '
+        'l’impayé, la tournée.'))
+    A("""  </div>
 """)
     A("""</div></section>
 """)
@@ -3491,8 +3577,13 @@ def build_html():
     507 heures et les démarches.</p>
   <div class="faq">
 """ + _faq_html() + """  </div>
-  <p class="blog-lien"><a href="/guso-facile/blog">Toutes les situations concrètes sur le blog de Guso Facile</a></p>
-</div></section>
+""")
+    A(_blog_cta(
+        'Le blog de Guso Facile',
+        'Toutes les situations concrètes sur le blog de Guso Facile',
+        'Dix-huit articles qui déroulent en entier ce que ces réponses courtes '
+        'ne font qu’effleurer.'))
+    A("""</div></section>
 </main>
 """)
 
@@ -3905,6 +3996,19 @@ ANCRES = (
     # ecran.
     ('href="/guso-facile/blog"', 3, 'les trois liens descendants vers le blog'),
     ('class="hero-blog"', 1, 'le lien vers le blog dans le premier écran'),
+    # --- LE BLOG DEVIENT UN BLOC (nuit du 16/08/2026) --------------------
+    # ⚠️ DEUX blocs, et l'ancre a ZERO qui interdit le retour de la ligne de
+    #    texte qu'ils remplacent. David : « c'est même pas un bouton, c'est une
+    #    ligne. » Un « allègement » futur qui rendrait `.blog-lien` referait
+    #    exactement le défaut signalé — sans que rien ne le dise.
+    ('class="blog-cta"', 2, 'les deux blocs de renvoi vers le blog'),
+    ('class="blog-lien"', 0,
+     'l’ancienne ligne de texte soulignée, remplacée par le bloc `.blog-cta`'),
+    ('class="blog-cta-go"', 2, 'la pastille fléchée de chaque bloc'),
+    ('Les dix-huit articles du blog de Guso Facile', 1,
+     'l’ancre descriptive du bloc de fin de #situations (dossier SEO, §6)'),
+    ('Toutes les situations concrètes sur le blog de Guso Facile', 1,
+     'l’ancre descriptive du bloc de fin de FAQ (dossier SEO, §6)'),
     ('class="mea"', 1, 'le bloc de mise en avant des articles'),
     ('id="blog"', 1, 'l’ancre du bloc de mise en avant'),
     ('class="mea-c"', NB_MISE_EN_AVANT, 'les cartes d’article mises en avant'),
@@ -4442,17 +4546,21 @@ def _controle_jsonld(html):
                     'l\'autre. Page NON ecrite.' % (quoi, texte[:90]))
 
 
-#: nombre de pictogrammes POSES dans la page. Le dictionnaire `ICONES` en
-#: definit quatorze depuis le 16/08/2026, chacun servant exactement une fois —
-#: plus le <svg> de taille nulle qui porte la definition du degrade. Un ecart =
-#: un picto duplique ou disparu.
+#: nombre de pictogrammes POSES dans la page — des EMPLOIS, pas des entrees du
+#: dictionnaire. Un ecart = un picto duplique ou disparu.
 #: Historique : 10 le 14/08/2026 ; 11 le 15/08 (« guilde », pour l'encart du
 #: meme nom) ; 14 le 16/08 — « artiste » et « structures » pour les deux
-#: en-tetes de la double vue, « bouee » pour le bloc « J'ai besoin d'aide ».
-#: ⚠️ CES TROIS-LA REMPLACENT DES EMOJI de la page de reference (👤, 🛠, 🤗).
-#: C'est la regle du site ET une demande explicite de David : des icones de
-#: signature au trait, jamais un pictogramme systeme.
-NB_PICTOS = 14
+#: en-tetes de la double vue, « bouee » pour le bloc « J'ai besoin d'aide » ;
+#: 16 la nuit du 16/08 — « articles », POSE DEUX FOIS, dans les deux blocs de
+#: renvoi vers le blog.
+#: ⚠️ C'EST LE PREMIER PICTOGRAMME DE LA PAGE A SERVIR DEUX FOIS : le compte
+#: n'est donc plus egal au nombre de cles de `ICONES` (quinze). C'est assume —
+#: les deux blocs sont le MEME geste a deux etages de la page, leur donner deux
+#: dessins differents dirait qu'ils menent ailleurs.
+#: ⚠️ « artiste », « structures » et « bouee » REMPLACENT DES EMOJI de la page
+#: de reference (👤, 🛠, 🤗). C'est la regle du site ET une demande explicite de
+#: David : des icones de signature au trait, jamais un pictogramme systeme.
+NB_PICTOS = 16
 
 
 def _controle_icones(html):
