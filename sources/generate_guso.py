@@ -124,7 +124,10 @@ d) « Je cree mon contrat » — fonctionnalite NON LIVREE (le modele en 12
 
 e) « Points de vigilance cote structure » et « Confidentialite graduee »
    etaient DEJA presents et DEJA marques « (a venir) » : rien a faire.
-   (Toujours vrai au 16/08/2026 : ce sont deux des trois « a venir » restants.)
+   ⚠️ PERIME LE 17/08/2026 : les deux ecrans sont deployes, verifies en
+   production. Les deux puces sont passees au PRESENT et reecrites avec les
+   phrases de l'auteur de l'app. C'etaient les deux dernieres puces « a venir »
+   de la page. Voir « LA REMISE A NIVEAU DU 17/08/2026 » plus bas.
 
 Le reste de la page n'a pas ete touche — en particulier « cree par David
 Lesage · relaye par l'association », « Pourquoi Resonances Productions le
@@ -193,6 +196,9 @@ LES TROIS EXIGENCES QUI NE SE NEGOCIENT PAS
      vue qui N'EXISTE PAS ENCORE telle quelle : elle est conservee (David a
      demande qu'elle serve de modele a la construction) mais elle porte
      desormais sa propre mention « (a venir) ». Voir `MAQ_STRUCTURE`.
+     ⚠️ PERIME LE 17/08/2026 : la vue est construite et deployee — la maquette
+     est restee identique, sa mention « (a venir) » est retiree. C'etait le seul
+     « a venir » de la page qui ne fut pas une puce.
 
 CE QUI A ETE CORRIGE DANS LA MATIERE FOURNIE (l'auteur n'a pu tester que son
 propre fichier, jamais dans cette page) :
@@ -467,6 +473,8 @@ CE QUI RESTE AU FUTUR (3 mentions « (a venir) », voir NB_A_VENIR)
      teste, mais L'ECRAN DE REGLAGE COTE ARTISTE N'EXISTE PAS.
   c) NOUVEAU : la maquette 6, l'apercu « Mes artistes » (voir le commentaire
      au-dessus de `MAQ_STRUCTURE`).
+⚠️ CES TROIS-LA SONT TOMBES LE 17/08/2026 — voir « LA REMISE A NIVEAU DU
+   17/08/2026 » juste en dessous. `NB_A_VENIR` vaut 0.
 
 L'ESPACE « GRATITUDES » (avis des utilisateurs) n'a jamais ete construit — et
 il n'est mentionne NULLE PART sur cette page. On ne l'ajoute donc pas : une
@@ -483,6 +491,67 @@ LE GARDE-FOU `_controle_guilde()` A CHANGE, ET C'EST DELIBERE
   protection, ne pas l'etendre au reste de la page (« signaler un bug » reste
   legitime dans « Et aussi », « Evaluation d'une proposition » dans l'univers
   2).
+
+------------------------------------------------------------------------------
+LA REMISE A NIVEAU DU 17/08/2026 — la page ne promet plus rien
+------------------------------------------------------------------------------
+L'inventaire fourni la veille par la session qui developpe l'app etait EN RETARD
+SUR SON PROPRE TRAVAIL : les trois dernieres fonctionnalites annoncees « (a
+venir) » etaient deja deployees. VERIFICATION FAITE ICI, dans le bundle servi
+par `https://guso-facile.vercel.app/index.html` (956 Ko) — pas sur parole :
+    affSetVisibility  -> 2    (reglage de confidentialite par l'artiste)
+    "Tout partager"   -> 13   (les trois niveaux de partage)
+    Partenaire        -> 5
+    Minimal           -> 9
+    sdCardHtml        -> 3    (cartes d'artistes, points de vigilance)
+    affSetManage      -> 2
+    visibility:'full'         (le niveau est une DONNEE, pas un affichage)
+
+CE QUI PASSE AU PRESENT (les 3 dernieres mentions « (a venir) », RETIREES)
+  1. « Points de vigilance cote structure » (univers 4). `class="soon"` et
+     `<i>(a venir)</i>` retires, ET LE TEXTE REECRIT : il ne disait que
+     l'intention (« qui approche du seuil, qui aurait besoin d'un coup de
+     main »), il dit maintenant ce que la structure voit — heures sur la
+     periode, jours restants avant la date anniversaire, rythme necessaire,
+     niveau d'alerte, trie par urgence. Phrase de l'auteur de l'app.
+  2. « Confidentialite graduee » (univers 4). Idem, et la puce porte desormais
+     LA PRECISION QUI FAIT LA DIFFERENCE : le filtrage est fait COTE SERVEUR,
+     pas seulement a l'affichage — la structure ne recoit pas les donnees
+     qu'elle n'a pas le droit de voir, au lieu de les recevoir et de ne pas les
+     montrer. Ancre dediee dans `ANCRES` : cette phrase ne doit pas etre
+     raccourcie au prochain menage de longueur.
+     🚩 Elle decrit desormais LA MEME fonctionnalite que « Niveaux de partage »
+     (univers 3), vue de l'autre bout. La separation stricte des deux puces
+     n'avait de sens que tant que l'une etait livree et l'autre pas ; le raccord
+     est ecrit dans le commentaire de la puce, et la fusion eventuelle est
+     laissee a l'arbitrage de David.
+  3. La note de la maquette 6 « Mes artistes » — l'argument `note=` de son appel
+     a `_figure()` retire. Maquette et texte inchanges.
+  4. LE SOUS-TITRE DE L'UNIVERS 4 disait « Deux points y sont encore en
+     construction, marques "a venir" » : il devenait faux dans la meme minute.
+     La phrase est retiree, il ne reste que « Parce qu'on avance mieux a
+     plusieurs. »
+
+CE QUI RESTE VOLONTAIREMENT NON FAIT — ET DONT LA PAGE NE PARLE PAS
+  L'ECRAN PERMETTANT A UNE STRUCTURE DE SAISIR UNE DATE DANS L'ESPACE D'UN
+  ARTISTE. Le droit existe en base, l'artiste peut le donner, mais l'interface
+  n'existe pas : c'est le geste le plus delicat de l'application (ecrire chez
+  quelqu'un d'autre) et David doit l'arbitrer. La page N'EN PARLE PAS, ni au
+  present ni au futur — et on ne l'ajoute pas : une page ne gagne rien a
+  annoncer ce qui n'existe pas. Meme consigne pour LE JOURNAL DES MODIFICATIONS
+  et L'ANNUAIRE DES STRUCTURES, en construction. (A ne pas confondre avec
+  « Nouveautes », le journal des nouveautes de l'app, lui LIVRE et illustre par
+  la maquette 10.)
+
+`NB_A_VENIR` PASSE DE 3 A 0, ET LE MECANISME RESTE ENTIER
+  Le nombre, les deux ancres qui en decoulent (`<i>(à venir)</i>` et
+  `<li class="soon">`), le CSS de la pastille creuse et l'argument `note=` de
+  `_figure()` sont TOUS conserves — a zero, ils interdisent qu'un « a venir »
+  revienne par prudence reflexe sans motif ecrit. ⚠️ UNE GARDE A DU ETRE
+  REPAREE au passage : `NB_PUCES_A_VENIR` valait `NB_A_VENIR - 1`, le « 1 »
+  etant la note de la maquette 6 ; a zero elle exigeait donc **-1** occurrence,
+  ancre impossible a satisfaire. La soustraction porte desormais un nom,
+  `NB_NOTES_A_VENIR`.
 
 ------------------------------------------------------------------------------
 LA FUSION DU 16/08/2026 — UNE SEULE PAGE, UN SEUL ECRAN POUR DEMANDER UN ACCES
@@ -520,8 +589,9 @@ CE QUI A ETE ABSORBE DE `presentation.html` (LECTURE SEULE, jamais editee)
        - « La structure qui accompagne » (« Des Sons et Des Liens voit d'un coup
          d'oeil quels artistes approchent du seuil… ») redit MOT POUR MOT le cas
          de Sophie (« Accompagner quatre artistes sans tableur »), la maquette 6
-         « Mes artistes » ET la puce « Points de vigilance cote structure
-         (a venir) ». Trois fois la meme chose : NON REPRIS.
+         « Mes artistes » ET la puce « Points de vigilance cote structure »
+         (« (a venir) » jusqu'au 17/08/2026, au present depuis). Trois fois la
+         meme chose : NON REPRIS.
        - « L'artiste seul face a l'admin » (« L'app te dit toujours le prochain
          pas : DPAE a faire pour samedi… ») redit le paragraphe de #promesse
          (« une seule question, posee chaque jour : qu'est-ce que j'ai a faire
@@ -542,6 +612,10 @@ CE QUI A ETE ABSORBE DE `presentation.html` (LECTURE SEULE, jamais editee)
      La cloture Vercel de cette section (« c'est TOI qui decides ce que tu
      partages ») N'EST PAS REPRISE : c'est « Confidentialite graduee », qui est
      « (a venir) ». L'ecrire au present ferait mentir la page.
+     ⚠️ PERIME LE 17/08/2026 : « Confidentialite graduee » est livree, la phrase
+     ne mentirait plus. Elle N'EST TOUJOURS PAS REPRISE, pour l'autre raison —
+     la puce de l'univers 4 le dit deja, et mieux (le filtrage cote serveur).
+     Une reprise ferait un troisieme endroit ou la page dit la meme chose.
   b) « OU EN EST LE PROJET » — RIEN A AJOUTER, verifie point par point. Les cinq
      points Vercel (eprouve sur du reel : 2 artistes, 65 dates, 2 saisons /
      construit par un musicien pour son propre usage / acces sur invitation ou
@@ -821,7 +895,7 @@ B) SIX FONCTIONNALITES LIVREES MANQUAIENT A L'INVENTAIRE. Confirmees dans le
        aurait fausse la lecture, et l'encadre « Et aussi » existe exactement
        pour ce cas.
    ⚠️ TOUTES SONT LIVREES : au PRESENT, sans « (a venir) ». `NB_A_VENIR` reste
-      a 3.
+      a 3. (Il vaut 0 depuis le 17/08/2026 — voir plus haut.)
    ⚠️ UNE SEPTIEME EXISTE ET N'EST PAS ECRITE : la verification des dispo-
       nibilites avec kilometrage entre deux dates. Son auteur ne l'a pas
       verifiee assez finement pour en garantir la description. On ne l'invente
@@ -837,6 +911,16 @@ B) SIX FONCTIONNALITES LIVREES MANQUAIENT A L'INVENTAIRE. Confirmees dans le
       donnee, dont l'ECRAN COTE ARTISTE n'existe pas encore. Ne pas les
       rapprocher, et ne pas retirer les trois niveaux de la premiere : c'est
       eux qui font la difference visible.
+      ⚠️ REVISE LE 17/08/2026. L'ecran cote artiste est deploye, et la
+      description que son auteur en donne est CELLE DES TROIS NIVEAUX : le
+      « reglage fin, donnee par donnee » n'a jamais existe ailleurs que dans
+      cette page. Les deux puces decrivent donc la MEME fonctionnalite, vue de
+      deux bouts — ce que la structure recoit (univers 3), ce que l'artiste
+      regle (univers 4). Elles restent dans deux cartes, mais la seconde le DIT
+      (« le reglage des niveaux de partage ») au lieu de rejouer la meme
+      phrase, et elle apporte ce que la premiere n'a pas : le filtrage cote
+      serveur. 🚩 Leur fusion en une seule puce se defend : c'est une decision
+      de contenu, elle revient a David.
 
 ------------------------------------------------------------------------------
 LA NUIT DU 16/08/2026 — LE BLOG DEVIENT UNE PORTE, ET QUATRE ECRANS DE PLUS
@@ -2445,23 +2529,26 @@ MAQ_TOURNEE = _figure(
 #    libelles reellement affiches.
 # Barres : 412/507 = 81 % · 348 = 69 % · 261 = 51 % · 154 = 30 %.
 #
-# ⚠️⚠️ 16/08/2026 — CETTE MAQUETTE EST LA SEULE A PORTER UN « (a venir) ».
-#    C'est le point ou la page promettait PLUS que l'application. Verifie dans
-#    le code : cette vue « Mes artistes » (chaque artiste, ses heures, son
-#    niveau de vigilance) N'EXISTE PAS TELLE QUELLE. Ce qui existe cote
-#    structure est une to-do TRANSVERSALE (DPAE / GUSO / factures), utile mais
-#    qui ne dit rien de l'etat de sante de chaque artiste. La puce « Points de
-#    vigilance cote structure » de l'univers 4 dit deja « (a venir) » — l'image,
-#    elle, disait le contraire.
-#    LA MAQUETTE ET SON TEXTE SONT CONSERVES A DESSEIN : David a demande que
-#    cette vue soit CONSTRUITE POUR DE BON A PARTIR DE CETTE MAQUETTE. C'est en
-#    cours cote application.
-#    ➜ QUOI RETIRER LE JOUR DU DEPLOIEMENT (on sera prevenu) :
-#         1. l'argument `note=` de cet appel a `_figure()` (et lui seul) ;
-#         2. faire passer `NB_A_VENIR` de 3 a 2 dans `ANCRES` ;
-#         3. retirer l'ancre `class="gf-soon-note"` de `ANCRES`.
-#       Le CSS `.gf-soon-note` peut rester : `_figure()` ne l'emet que si une
-#       maquette demande une note, et une autre en aura peut-etre besoin.
+# ⚠️⚠️ 17/08/2026 — LA VUE EST DEPLOYEE, LA NOTE « (a venir) » EST RETIREE.
+#    HISTOIRE, parce qu'elle explique pourquoi cette maquette a un traitement a
+#    part. Le 16/08/2026 elle etait LA SEULE de la page a porter un « (a venir) » :
+#    la vue « Mes artistes » (chaque artiste, ses heures, son niveau de
+#    vigilance) n'existait pas telle quelle, seule une to-do TRANSVERSALE
+#    (DPAE / GUSO / factures) existait cote structure — l'image promettait donc
+#    plus que l'application. David avait demande que la vue soit CONSTRUITE POUR
+#    DE BON A PARTIR DE CETTE MAQUETTE : c'est fait.
+#    VERIFIE EN PRODUCTION LE 17/08/2026, dans le bundle servi par
+#    `https://guso-facile.vercel.app/index.html` : `sdCardHtml` (les cartes
+#    d'artistes et leurs points de vigilance) y est present. La maquette et son
+#    texte sont donc inchanges, mais l'argument `note=` a disparu.
+#    ➜ LES TROIS GESTES ONT ETE FAITS CE JOUR-LA, dans cet ordre :
+#         1. l'argument `note=` de cet appel a `_figure()` retire (et lui seul) ;
+#         2. `NB_A_VENIR` passe a 0 (et non a 2 comme prevu ici : les deux puces
+#            de l'univers 4 sont deployees le meme jour) ;
+#         3. l'ancre `class="gf-soon-note"` retiree de `ANCRES`.
+#       Le CSS `.gf-soon-note` RESTE en place : `_figure()` ne l'emet que si une
+#       maquette demande une note, et la prochaine maquette d'un ecran non livre
+#       en aura besoin. C'est le mecanisme, pas un residu.
 MAQ_STRUCTURE = _figure(
     'Tableau de bord d’une structure dans Guso Facile : quatre artistes, leur '
     'compteur d’heures sur 507 et leur niveau de vigilance — bon rythme, à '
@@ -2514,12 +2601,7 @@ MAQ_STRUCTURE = _figure(
         <span class="gf-mbar"><i style="width:30%"></i></span>
       </div>
     </div>
-  """,
-    note='<i>(à venir)</i> Cet aperçu montre une vue en cours de construction. '
-         'L’espace structure réunit aujourd’hui, tous artistes confondus, les '
-         'DPAE, les feuillets GUSO et les factures à faire ; le suivi artiste '
-         'par artiste, avec ses heures et son niveau de vigilance, n’est pas '
-         'encore livré.')
+  """)
 
 
 # =========================================================================
@@ -3544,7 +3626,7 @@ def build_html():
           <h3>Ton cercle, solidaire</h3>
         </div>
       </div>
-      <p class="u-sub">Parce qu’on avance mieux à plusieurs. Deux points y sont encore en construction, marqués « à venir ».</p>
+      <p class="u-sub">Parce qu’on avance mieux à plusieurs.</p>
       <ul>
         <li><b>Vue groupe</b> — où en est chaque membre du groupe, pour se soutenir avant que la situation ne coince.</li>
 """
@@ -3647,8 +3729,56 @@ def build_html():
           L’idée n’est pas de juger qui que ce soit, mais de s’informer entre pairs — comme on le fait déjà
           de bouche à oreille, en tournée ou en loge. Et quand le cadre a manqué, l’outil propose plutôt
           d’aider à le poser la prochaine fois, avec un modèle de contrat prêt à personnaliser.</li>
-        <li class="soon"><b>Points de vigilance côté structure</b> <i>(à venir)</i> — qui approche du seuil, qui aurait besoin d’un coup de main.</li>
-        <li class="soon"><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
+"""
+      # -------------------------------------------------------------------
+      # « POINTS DE VIGILANCE COTE STRUCTURE » — LIVREE (17/08/2026)
+      # -------------------------------------------------------------------
+      # HISTOIRE, parce qu'elle explique la forme de la ligne : du 14 au
+      # 16/08/2026 cette puce portait `class="soon"` + `<i>(a venir)</i>`, et
+      # elle ne disait que l'intention (« qui approche du seuil, qui aurait
+      # besoin d'un coup de main »). LE 17/08/2026, l'ecran est deploye et
+      # VERIFIE EN PRODUCTION dans le bundle servi (`sdCardHtml`, cartes
+      # d'artistes) : la puce passe au PRESENT et dit ce que la structure voit
+      # reellement.
+      # Phrase de l'auteur de l'application, reprise quasi verbatim ; seuls la
+      # ponctuation et les articles ont ete ajustes au gabarit des puces.
+      # ⚠️ C'est CETTE vue que la maquette 6 « Mes artistes » illustre : les
+      #    deux passent au present le meme jour, ne pas en remettre une seule
+      #    au futur sans l'autre.
+      """        <li><b>Points de vigilance côté structure</b> — la structure voit, par artiste : ses heures sur la période, les jours restants avant la date anniversaire, le rythme nécessaire, et un niveau d’alerte. Le tout trié par urgence.</li>
+"""
+      # -------------------------------------------------------------------
+      # « CONFIDENTIALITE GRADUEE » — LIVREE (17/08/2026)
+      # -------------------------------------------------------------------
+      # Au 16/08/2026 le backend existait et etait teste, mais L'ECRAN DE
+      # REGLAGE COTE ARTISTE n'existait pas : la puce etait `class="soon"` +
+      # « (a venir) ». Verifie en production le 17/08/2026 dans le bundle servi
+      # (`affSetVisibility`, `affSetManage`, les trois libelles « Tout
+      # partager » / « Partenaire » / « Minimal », et le niveau stocke comme
+      # DONNEE — `visibility:'full'`) : l'ecran existe.
+      #
+      # ⚠️ « COTE SERVEUR » N'EST PAS UN DETAIL TECHNIQUE GRATUIT, NE PAS LE
+      #    COUPER AU PROCHAIN MENAGE DE LONGUEUR. C'est la seule phrase qui
+      #    distingue une vraie confidentialite d'un masquage d'affichage : la
+      #    structure NE RECOIT PAS les donnees qu'elle n'a pas le droit de
+      #    voir, au lieu de les recevoir et de ne pas les montrer. C'est ce qui
+      #    rend la promesse serieuse sur une page publique portee par une
+      #    association. Elle est ecrite en langage clair, pas en jargon.
+      #
+      # ⚠️ RACCORD AVEC « NIVEAUX DE PARTAGE » (univers 3). Jusqu'au 16/08/2026
+      #    les deux puces etaient tenues SEPAREES parce que l'une etait livree
+      #    et l'autre « (a venir) » : « Niveaux de partage » offrait les trois
+      #    niveaux predefinis, « Confidentialite graduee » promettait l'ecran de
+      #    reglage. Ce motif de separation a disparu — c'est la MEME
+      #    fonctionnalite, vue des deux bouts : ce que la structure recoit
+      #    (univers 3) et ce que l'artiste regle (univers 4). La puce ci-dessous
+      #    le dit donc explicitement (« le réglage des niveaux de partage »)
+      #    plutot que de rejouer la meme phrase a quinze lignes d'intervalle, et
+      #    elle apporte ce que l'autre n'a pas : la garantie cote serveur.
+      #    🚩 A ARBITRER PAR DAVID / L'AUTEUR DE L'APP : les deux puces peuvent
+      #    desormais etre fusionnees en une seule. On ne le fait pas ici — ce
+      #    serait retirer une ligne d'inventaire validee, sans mandat.
+      """        <li><b>Confidentialité graduée</b> — le réglage des niveaux de partage, structure par structure : tout partager, l’essentiel administratif, ou ses totaux d’heures seuls. Le filtrage est fait côté serveur, pas seulement à l’affichage : la structure ne reçoit pas les données qu’elle n’a pas le droit de voir, au lieu de les recevoir et de ne pas les montrer. Et l’artiste peut changer d’avis, ou se retirer, quand il veut.</li>
       </ul>
     </article>
   </div>
@@ -3823,8 +3953,9 @@ def build_html():
     # ⚠️ ON N'EN GARDE QU'UN TIERS, ET C'EST LE POINT IMPORTANT. Elle aligne
     #    trois cas ; DEUX SONT DES DOUBLONS DE CETTE PAGE :
     #      - « La structure qui accompagne » redit le cas de Sophie, la maquette
-    #        6 « Mes artistes » ET la puce « Points de vigilance cote structure
-    #        (a venir) ». Trois fois la meme chose — non repris.
+    #        6 « Mes artistes » ET la puce « Points de vigilance cote structure »
+    #        (« (a venir) » jusqu'au 17/08/2026, au present depuis — les trois
+    #        disent maintenant la meme chose au meme temps). Non repris.
     #      - « L'artiste seul face a l'admin » redit le paragraphe de #promesse,
     #        la maquette 2 et l'etape 3 — non repris.
     #      - « LE GROUPE » est le seul cas absent d'ici : la vue groupe n'etait
@@ -3850,6 +3981,11 @@ def build_html():
     #    ce que tu partages ») N'EST PAS REPRISE : c'est « Confidentialite
     #    graduee », qui est « (a venir) ». L'ecrire au present ferait mentir la
     #    page — et ferait mentir `NB_A_VENIR` avec elle.
+    #    ⚠️ REVISE LE 17/08/2026 : « Confidentialite graduee » est livree, cette
+    #    phrase ne mentirait plus. ELLE N'EST TOUJOURS PAS REPRISE, pour l'autre
+    #    raison — la puce de l'univers 4 le dit deja, et mieux (le filtrage cote
+    #    serveur). La reprendre ferait un TROISIEME endroit ou la page redit la
+    #    meme chose, sur une page sous plafond de hauteur.
     #
     # PLACEMENT : juste avant l'encart de la Guilde, qu'il introduit. L'ordre de
     # lecture devient : la puce (ce qu'on peut y faire) -> le bloc (a quoi ca
@@ -4652,22 +4788,45 @@ NB_MAQUETTES = 10
 #: nombre de mentions « (a venir) » attendues dans la page. IL EST LE COMPTE
 #: RENDU DE L'ETAT REEL DE L'APPLICATION, pas un reglage cosmetique — chaque
 #: unite doit correspondre a une fonctionnalite qu'un beta-testeur constate
-#: absente. Historique : 5 au 15/08/2026 ; 3 depuis le 16/08/2026, l'ecran de
-#: la Guilde et celui de « Je cree mon contrat » ayant ete deployes entre-temps.
-#: LES TROIS RESTANTS, un par un :
-#:   1. « Points de vigilance cote structure » (univers 4) — la vue qui dirait
-#:      qui approche du seuil n'existe pas ;
-#:   2. « Confidentialite graduee » (univers 4) — le backend existe et il est
-#:      teste, mais l'ECRAN DE REGLAGE COTE ARTISTE n'existe pas ;
-#:   3. la note de la maquette 6 « Mes artistes » — l'apercu illustre une vue
-#:      en cours de construction (voir le commentaire de `MAQ_STRUCTURE`).
+#: absente. Historique : 5 au 15/08/2026 ; 3 le 16/08/2026 (ecrans de la Guilde
+#: et de « Je cree mon contrat » deployes) ; **0 depuis le 17/08/2026**.
+#: CE QUI A LEVE LES TROIS DERNIERS, verifie en production dans le bundle servi
+#: par `https://guso-facile.vercel.app/index.html`, pas sur parole :
+#:   1. « Points de vigilance cote structure » (univers 4) — `sdCardHtml`, les
+#:      cartes d'artistes et leur niveau d'alerte ;
+#:   2. « Confidentialite graduee » (univers 4) — `affSetVisibility`,
+#:      `affSetManage`, les trois libelles de partage, et le niveau stocke comme
+#:      DONNEE (`visibility:'full'`), donc filtre a la source et pas a
+#:      l'affichage ;
+#:   3. la note de la maquette 6 « Mes artistes » — c'est le meme ecran que le
+#:      point 1 (voir le commentaire de `MAQ_STRUCTURE`).
+#: ⚠️ ZERO N'EST PAS LA FIN DU MECANISME — IL RESSERVIRA. Une fonctionnalite
+#: annoncee mais non livree se reecrit au FUTUR avec « (a venir) », et ce nombre
+#: remonte avec elle : c'est la regle de la page, appliquee dans les DEUX sens
+#: depuis le 16/08/2026. A ce jour UNE SEULE chose est volontairement non faite
+#: cote application — l'ecran permettant a une STRUCTURE de saisir une date dans
+#: l'espace d'un artiste (le droit existe en base, l'artiste peut le donner,
+#: l'interface non ; c'est le geste le plus delicat de l'app, David doit
+#: l'arbitrer). La page N'EN PARLE PAS, et ne doit pas commencer : on n'annonce
+#: pas plus qu'on ne promet. Idem pour le journal des modifications et
+#: l'annuaire des structures, en construction.
 #: Baisser ce nombre sans qu'un ecran soit reellement livre, c'est promettre.
 #: Le monter sans motif, c'est deprecier un outil qui marche.
-NB_A_VENIR = 3
+NB_A_VENIR = 0
 
-#: nombre de puces « a venir » de l'inventaire. Il vaut NB_A_VENIR MOINS la note
-#: de la maquette 6, qui n'est pas une puce : 3 - 1 = 2.
-NB_PUCES_A_VENIR = NB_A_VENIR - 1
+#: nombre de mentions « (a venir) » posees SOUS une maquette (argument `note=`
+#: de `_figure()`). Elles comptent dans `NB_A_VENIR` mais ne sont PAS des puces
+#: d'inventaire, d'ou cette soustraction. 1 du 16 au 16/08/2026 (l'apercu « Mes
+#: artistes ») ; 0 depuis que cette vue est deployee.
+NB_NOTES_A_VENIR = 0
+
+#: nombre de puces « a venir » de l'inventaire : le total, moins les notes de
+#: maquette qui n'en sont pas. Vaut 0 depuis le 17/08/2026.
+#: ⚠️ ECRIT COMME UNE SOUSTRACTION, ET PAS FIGE : c'etait `NB_A_VENIR - 1`, ce
+#: qui donnait -1 le jour ou le total est tombe a zero — un nombre attendu
+#: negatif, donc une ancre impossible a satisfaire. Le « 1 » en dur etait la
+#: note de la maquette 6 ; il porte desormais son nom.
+NB_PUCES_A_VENIR = NB_A_VENIR - NB_NOTES_A_VENIR
 
 #: (marqueur, nombre attendu, ce que c'est)
 ANCRES = (
@@ -4832,18 +4991,35 @@ ANCRES = (
      'la Guilde — fonctionnalité LIVRÉE, au présent (écran déployé)'),
     ('<li><b>Je crée mon contrat</b> —', 1,
      'modèle de contrat — fonctionnalité LIVRÉE, au présent (écran déployé)'),
-    # Le compte des mentions « (a venir) » : voir NB_A_VENIR juste au-dessus,
-    # ou les trois fonctionnalites concernees sont nommees une par une. Si ce
-    # compte baisse, une fonctionnalite non livree vient d'etre presentee comme
+    # ⚠️ 17/08/2026 — les deux DERNIERES puces « a venir » de la page passent au
+    # present, sur verification en production. Memes ancres que les deux
+    # ci-dessus, et pour la meme raison : elles pinglent la puce ENTIERE (`<li>`
+    # nu, pas `<li class="soon">`, et aucun `<i>(à venir)</i>` derriere le
+    # `<b>`), ce qui empeche qu'on les remette « au futur » par prudence
+    # reflexe.
+    ('<li><b>Points de vigilance côté structure</b> —', 1,
+     'points de vigilance — fonctionnalité LIVRÉE, au présent (écran déployé)'),
+    ('<li><b>Confidentialité graduée</b> —', 1,
+     'confidentialité graduée — fonctionnalité LIVRÉE, au présent (écran déployé)'),
+    # ⚠️ LA PHRASE QUI PORTE TOUT LE POIDS DE LA PROMESSE, MOT POUR MOT. Sans
+    #    elle, « confidentialité graduée » ne dit rien de plus qu'un masquage
+    #    d'affichage — la structure recevrait les donnees et se contenterait de
+    #    ne pas les montrer. C'est exactement la phrase que raccourcirait un
+    #    menage de longueur, et c'est celle qu'il ne faut pas toucher.
+    # (fragment tenant sur UNE ligne du gabarit : une ancre a cheval sur deux
+    #  lignes casserait au premier reformatage, pour rien.)
+    ('Le filtrage est fait côté serveur, pas seulement à l’affichage', 1,
+     'le filtrage est fait à la source, pas seulement masqué à l’écran'),
+    # Le compte des mentions « (a venir) » : voir NB_A_VENIR juste au-dessus, ou
+    # l'etat de chaque fonctionnalite est justifie une par une. Si ce compte
+    # baisse, une fonctionnalite non livree vient d'etre presentee comme
     # disponible ; s'il monte, une fonctionnalite livree vient d'etre effacee.
     # Les deux cas sont refuses a l'ecriture.
+    # ⚠️ IL VAUT 0 DEPUIS LE 17/08/2026 : plus rien de ce que la page decrit
+    #    n'est en attente. L'ancre reste — a zero, elle interdit qu'un « (a
+    #    venir) » revienne par prudence reflexe sans que `NB_A_VENIR` soit
+    #    remonte en connaissance de cause, avec le motif ecrit a cote.
     ('<i>(à venir)</i>', NB_A_VENIR, 'les mentions « à venir » des fonctionnalités non livrées'),
-    # La note de la maquette 6 « Mes artistes » : le seul « a venir » de la page
-    # qui ne soit pas une puce. Elle marque le point ou la page promettait plus
-    # que l'application (voir `MAQ_STRUCTURE`). A retirer le jour ou cette vue
-    # sera deployee — on sera prevenu.
-    ('class="gf-soon-note"', 1,
-     'la mention « à venir » de l’aperçu « Mes artistes »'),
     # le hamburger est cree en JS par mobile_nav.py : c'est son CSS qui
     # atteste sa presence. `.burger span{` n'existe qu'une fois (`.burger{`
     # apparait 3 fois : regle de base + media 860 + media print).
@@ -4922,11 +5098,16 @@ ANCRES = (
     ('J’ai besoin d’aide', 4,
      'la fonction est nommée QUATRE fois : la puce de l’univers 4, le bloc, '
      'puis l’aria-label et la barre de son aperçu'),
-    # Autant de marqueurs creux que de puces « a venir » (2 depuis le
-    # 16/08/2026). Ce compte double celui de `<i>(à venir)</i>` moins la note de
-    # maquette : c'est voulu, une puce pleine devant une fonctionnalite non
+    # Autant de marqueurs creux que de puces « a venir » (0 depuis le
+    # 17/08/2026). Ce compte double celui de `<i>(à venir)</i>` moins les notes
+    # de maquette : c'est voulu, une puce pleine devant une fonctionnalite non
     # livree la ferait passer pour disponible — et une puce creuse devant une
     # fonctionnalite livree la ferait passer pour absente.
+    # ⚠️ LE CSS `.u-card li.soon::before` (la pastille creuse) RESTE en place,
+    #    comme `.gf-soon-note` : plus aucune puce ne porte la classe, donc plus
+    #    aucun marqueur creux a l'ecran, mais l'habillage attend la prochaine
+    #    fonctionnalite annoncee et non livree. C'est le mecanisme, pas un
+    #    residu — et cette ancre a zero garantit qu'il ne se rallume pas seul.
     ('<li class="soon">', NB_PUCES_A_VENIR, 'les puces des fonctionnalités non livrées'),
     # ⚠️ CETTE LIGNE VALAIT ZERO JUSQU'AU 16/08/2026 (« aucun champ de saisie
     # dans la page »). Elle a valu SIX quand le formulaire a ete rapatrie, puis
@@ -4991,8 +5172,10 @@ ANCRES = (
     ('<b>Synchronisation</b> — les données sont partagées entre l’artiste et la structure.', 1,
      'la phrase de synchronisation validée par l’auteur de l’application'),
     # Les six fonctionnalites livrees ajoutees a l'inventaire le 16/08/2026.
-    # Elles s'ecrivent AU PRESENT, sans « (a venir) » : `NB_A_VENIR` reste a 3.
-    ('<b>Niveaux de partage</b>', 1, 'niveaux de partage — LIVRÉE (à ne pas confondre avec « Confidentialité graduée »)'),
+    # Elles s'ecrivent AU PRESENT, sans « (a venir) » — comme, depuis le
+    # 17/08/2026, TOUT ce que la page decrit : `NB_A_VENIR` vaut 0.
+    ('<b>Niveaux de partage</b>', 1,
+     'niveaux de partage — LIVRÉE (le même réglage que « Confidentialité graduée », vu du côté structure)'),
     ('<b>Inscription par invitation</b>', 1, 'inscription par invitation — LIVRÉE'),
     ('<b>Hub d’informations du groupe</b>', 1, 'hub d’informations du groupe — LIVRÉE'),
     ('<b>Guide de démarrage</b>', 1, 'guide de démarrage — LIVRÉE'),

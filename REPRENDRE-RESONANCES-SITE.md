@@ -434,6 +434,65 @@ seul octet.
 
 ## Journal
 
+### 2026-08-17 — `/guso-facile` : les trois dernières « (à venir) » tombent
+
+L'inventaire fourni la veille par la session qui développe l'app était **en retard sur son
+propre travail** : les trois fonctionnalités encore annoncées « (à venir) » étaient déjà
+déployées. Vérification refaite ici dans le **bundle servi** par
+`https://guso-facile.vercel.app/index.html` (956 Ko), pas sur parole : `affSetVisibility` ×2,
+« Tout partager » ×13, `Partenaire` ×5, `Minimal` ×9, `sdCardHtml` ×3, `affSetManage` ×2, et
+`visibility:'full'` — le niveau de partage est une **donnée**, pas un simple affichage.
+
+**Ce qui passe au présent** (tout dans `sources/generate_guso.py`) :
+
+| Passage | Avant | Après |
+|---|---|---|
+| Sous-titre univers 4 | « …à plusieurs. Deux points y sont encore en construction, marqués « à venir ». » | « Parce qu'on avance mieux à plusieurs. » |
+| Points de vigilance | `<li class="soon">` + `(à venir)` — « qui approche du seuil… » | au présent : heures sur la période, jours restants, rythme nécessaire, niveau d'alerte, **trié par urgence** |
+| Confidentialité graduée | `<li class="soon">` + `(à venir)` — « chaque artiste choisit exactement… » | au présent, avec **le filtrage côté serveur** : la structure **ne reçoit pas** les données qu'elle n'a pas le droit de voir |
+| Aperçu « Mes artistes » | note `.gf-soon-note` sous la maquette | note retirée, maquette inchangée |
+
+⚠️ **« côté serveur » n'est pas un détail technique** : c'est ce qui distingue une vraie
+confidentialité d'un masquage d'affichage. Une ancre dédiée dans `ANCRES` interdit de la
+raccourcir au prochain ménage de longueur.
+
+**`NB_A_VENIR` : 3 → 0, mécanisme intact.** Le nombre, les deux ancres qui en découlent, le CSS
+de la pastille creuse (`.u-card li.soon::before`) et l'argument `note=` de `_figure()` sont tous
+**conservés** : à zéro ils interdisent qu'un « (à venir) » revienne par prudence réflexe sans
+motif écrit. ⚠️ **Une garde était cassée** : `NB_PUCES_A_VENIR = NB_A_VENIR - 1` donnait **-1**,
+donc une ancre impossible à satisfaire. La soustraction porte maintenant un nom
+(`NB_NOTES_A_VENIR`).
+
+🚩 **Ce qui reste volontairement non fait, et dont la page ne parle pas** : l'écran permettant à
+une **structure de saisir une date dans l'espace d'un artiste**. Le droit existe en base,
+l'artiste peut le donner, **l'interface non** — c'est le geste le plus délicat de l'app (écrire
+chez quelqu'un d'autre) et **David doit l'arbitrer**. La page n'en parle ni au présent ni au
+futur, et **on ne l'ajoute pas**. Idem pour le **journal des modifications** et l'**annuaire des
+structures**, en construction. (À ne pas confondre avec « Nouveautés », le journal des
+nouveautés de l'app, lui livré et illustré par la maquette 10.)
+
+🚩 **À arbitrer par David** : « Niveaux de partage » (univers 3) et « Confidentialité graduée »
+(univers 4) décrivent désormais **la même fonctionnalité**, vue des deux bouts. Elles étaient
+tenues séparées parce que l'une était livrée et l'autre pas ; ce motif a disparu. La seconde le
+dit explicitement (« le réglage des niveaux de partage ») au lieu de rejouer la même phrase, et
+apporte la garantie côté serveur — **leur fusion en une seule puce se défend.**
+
+**Mesuré** : générateur lancé 2× → **diff nul** · `verif_site.py` **30/30, code 0** ·
+`verif_commentaires.py` 30/30, code 0 · `build.py` → 30 pages, **les 12 entrées « inchangée »**,
+aucune « MISE À JOUR » · **0 mention « (à venir) » sur tout le site** (le seul « à venir »
+restant est « factures à venir » de l'univers 1 — une échéance, pas un marqueur) · 0
+`li.soon`, 0 `.gf-soon-note` dans la page · **0 débordement à 390 / 820 / 1440** (mesuré en
+iframe de largeur imposée, transitions neutralisées) · 10 aperçus, 10 mentions « données
+fictives », **0 focusable** dedans · formulaire intact (4 champs obligatoires + 3 de structure
+repliés, valeurs `artiste`/`structure`/`les_deux`), **0 requête vers supabase au chargement**
+(1 seule requête : la feuille de polices) · 0 lien mort · badge « Bêta privée », « créé par…
+relayé par », « le relaie », « n'est pas un service de l'association », « Trois situations
+typiques », « Les prénoms sont fictifs », « On veille les uns sur les autres » + sa note :
+**tous présents** · « porté par » et « en temps réel » : **absents** · **0 des 8 mots proscrits**
+dans le bloc Guilde · Jost 700 · hauteur +2 px à 1440, +80 px à 390.
+**Gardes testées en les cassant** : `NB_A_VENIR` remis à 1 → écriture refusée, page inchangée ;
+`class="soon"` remis sur une puce → écriture refusée, page inchangée.
+
 ### 2026-08-16 — nuit — le site passe de 10 à 30 pages
 
 **Ce qui est en ligne et vérifié** (chaque étape poussée et contrôlée en production) :
