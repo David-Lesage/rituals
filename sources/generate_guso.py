@@ -723,6 +723,97 @@ B) SIX FONCTIONNALITES LIVREES MANQUAIENT A L'INVENTAIRE. Confirmees dans le
       rapprocher, et ne pas retirer les trois niveaux de la premiere : c'est
       eux qui font la difference visible.
 
+------------------------------------------------------------------------------
+LA NUIT DU 16/08/2026 — LE BLOG DEVIENT UNE PORTE, ET QUATRE ECRANS DE PLUS
+------------------------------------------------------------------------------
+TROIS DEMANDES DE DAVID, dans l'ordre ou il les a faites.
+
+1) « LE BOUTON DU BLOG N'EST MEME PAS UN BOUTON »
+   Verbatim : « le bouton "Les dix-huit articles du blog de Guso Facile" est
+   minuscule, c'est meme pas un bouton, c'est une ligne. Il faudrait quelque
+   chose qui donne plus envie de cliquer. »
+   MESURE : les deux renvois vers le blog etaient des `<p class="blog-lien">`
+   contenant un `<a>` SANS CLASSE — une ligne soulignee de 16 px, haute de
+   38 px. Pour dix-huit articles qui sont probablement la premiere entree du
+   site, c'etait le maillon le plus faible de la page.
+   CE QUI REMPLACE : un bloc `.blog-cta` — carte cliquable pleine largeur,
+   filet degrade en tete, pictogramme au trait dans son cartouche, sur-titre,
+   titre en Jost 700, phrase de raccord, et une pastille flechee qui glisse au
+   survol. Les DEUX renvois y passent : celui de fin de `#situations` et celui
+   de fin de FAQ.
+   ⚠️ LA REGLE DU BOUTON D'ACTION UNIQUE TIENT (ecart n° 8 en tete de fichier).
+      Le SEUL bouton plein au degrade chaud de la page reste « Envoyer ma
+      demande » dans `.acces`. Le bloc du blog est volontairement d'une AUTRE
+      FAMILLE : fond de carte translucide, filet dore, pas d'aplat chaud. Il
+      est fort, il n'est pas le meme geste. Ne pas lui donner `var(--grad-warm)`
+      en fond « pour qu'il se voie mieux » : ce serait remettre deux boutons
+      d'action sur la page.
+   ⚠️ Les DEUX ancres de texte restent MOT POUR MOT celles du dossier SEO (§6,
+      ancre descriptive, jamais « en savoir plus ») : « Les dix-huit articles du
+      blog de Guso Facile » et « Toutes les situations concretes sur le blog de
+      Guso Facile ». Elles sont simplement devenues le TITRE du bloc.
+
+2) QUATRE APERCUS DE PLUS — la page passe de 6 a 10 maquettes
+   Verbatim : « ca manque encore beaucoup de visuel pour illustrer les
+   fonctions, visualiser une carte de tournee etc. »
+   MESURE : la page valait ~12 800 px pour SIX apercus, soit un visuel tous les
+   2 100 px. Matiere (LECTURE SEULE, jamais editee ni deplacee) :
+       /Users/davidlesage/CLAUDE/GUSO-FACILE-BACKUPS/maquettes-lot2-pour-resonances.html
+   Chacun est pose CONTRE la fonction qu'il illustre, jamais en galerie :
+     7. Selecteur « Je regarde » .. juste sous le vis-a-vis artistes |
+        structures. C'est le seul ecran qui PROUVE la double vue : un compte,
+        deux casquettes. Il ferme la demonstration que les deux colonnes
+        ouvrent.
+     8. Carte de tournee ......... dans la rangee `.apercus`, sous « Ma
+        tournee », pleine largeur — c'est l'ecran de l'univers 2 « Ta tournee,
+        organisee ».
+     9. « J'ai besoin d'aide » ... colle au bloc du meme nom. La maquette
+        montre la QUESTION 1 et SES QUATRE REPONSES, la ou le bloc liste les
+        TROIS QUESTIONS : les deux se completent au lieu de se repeter, et
+        l'image leve d'elle-meme la confusion 3/4 que la page de reference
+        portait (voir la note du bloc `.aide`).
+    10. Journal des nouveautes .. sous l'encadre « Et aussi », dont la ligne
+        « prise en main » porte la puce « Nouveautes ».
+   ⚠️ LES LIBELLES NE SONT PAS REFORMULES. Ceux du selecteur (« Filtre
+      d'affichage — ca ne change aucun droit, ni pour toi ni pour les autres »)
+      et les QUATRE reponses de « J'ai besoin d'aide » sont repris MOT POUR MOT
+      du code de l'application : c'est ce qui garantit qu'un beta-testeur
+      retrouvera ces phrases a l'ecran. Une reformulation, meme meilleure,
+      casserait la correspondance. Seule l'apostrophe droite est passee en
+      apostrophe typographique, comme partout ailleurs sur cette page.
+   ⚠️ AUCUN CHIFFRE REEL : ni les 65 dates, ni les 61 feuillets, ni les 37
+      lieux — ce sont les donnees de David et d'Iris. Tous les noms de lieux,
+      de structures et de personnes sont inventes, et les quatre blocs portent
+      la meme mention visible « Apercu de l'interface — donnees fictives » que
+      les six autres.
+
+3) LA CARTE — LA VERSION DU FICHIER SOURCE EST CASSEE, ELLE N'EST PAS REPRISE
+   ⚠️⚠️ A LIRE AVANT DE « SIMPLIFIER » LE SVG CI-DESSOUS EN REVENANT AUX DIV.
+   Le trace de la carte du fichier source est fait de `<div>` PIVOTES et
+   dimensionnes en POURCENTAGES (`width:19%;transform:rotate(-38deg)`). La
+   largeur d'un element pivote reste relative a la LARGEUR du conteneur, alors
+   que la projection du segment depend du RAPPORT largeur/hauteur : des que ce
+   rapport change — et il change a chaque largeur d'ecran, le conteneur ayant
+   une hauteur fixe de 250 px — LES TRAITS SE DESOLIDARISENT DES POINTS.
+   Constate a l'ecran : les traits flottent a cote des points. Aucun reglage
+   d'angle ne peut le rattraper, c'est une erreur de modele.
+   LA CARTE EST DONC REDESSINEE EN SVG : un `viewBox="0 0 100 52"`, une
+   `polyline` (plus son halo), des `circle` pour les points, des `text` pour
+   les libelles. Toute la geometrie vit dans le MEME systeme de coordonnees :
+   elle est independante de la taille du conteneur, par construction.
+   ⚠️ TROIS ELEMENTS PORTENT DU SENS, ce ne sont PAS des ornements :
+      - le point DOMICILE, distinct (prune) : le kilometrage se calcule depuis
+        l'adresse du profil, la carte doit dire d'ou l'on part ;
+      - le LIEU SUPPOSE, en anneau corail : ce sont les lieux que l'app a
+        devines (`geo.guessed`) et qu'elle demande de confirmer ;
+      - le KILOMETRAGE CUMULE « ≈ 612 km (aller) · 1 224 km aller-retour »,
+        qui est la phrase de l'app, au mot pres.
+   ⚠️ LA TAILLE DES LIBELLES EST UNE MESURE, PAS UN GOUT : voir le long
+      commentaire au-dessus de `CSS_CARTE`. Dans un SVG a `viewBox`, une taille
+      de police est une UNITE UTILISATEUR, multipliee par (largeur rendue/100).
+      Elle grandit donc avec l'ecran, et surtout elle RETRECIT sur telephone.
+      Trois paliers la maintiennent entre 13 et 18 px reels.
+
 Usage : python3 sources/generate_guso.py   (depuis la racine du depot)
 """
 
@@ -1646,6 +1737,150 @@ CSS_MAQUETTES = (# ===== maquettes d'interface (illustrations, pas d'interface r
 """)
 
 
+# --- CSS des 4 maquettes du LOT 2 (nuit du 16/08/2026) --------------------
+# Repris de `GUSO-FACILE-BACKUPS/maquettes-lot2-pour-resonances.html` (LECTURE
+# SEULE). Memes regles que le lot 1 :
+#   - AUCUNE couleur litterale : les `var(--…)` de la charte, pour qu'une
+#     retouche du theme entraine les maquettes avec elle. Le fichier source
+#     porte ses propres valeurs de repli (`--panel2,#0f1319`, `--accent,#4ecdc4`,
+#     un rose `#ff6b9d`) : elles sont REMPLACEES, pas adaptees — ce sont les
+#     couleurs de la page Vercel, pas celles du site ;
+#   - rien sous 13 px (plancher du site, verifie par `_controles`) ;
+#   - toutes les rangees en `flex-wrap:wrap` avec un `flex-basis` modeste,
+#     c'est ce qui les fait tenir dans 306 px de large a 390 px d'ecran ;
+#   - la carte a sa propre feuille (`CSS_CARTE`), pour la raison ecrite au-
+#     dessus d'elle.
+CSS_LOT2 = (# ===== maquettes d'interface, lot 2 =====
+            # 7 — le selecteur « Je regarde » : la preuve de la double vue.
+            # La pastille de couleur double le libelle, elle ne le remplace pas
+            # (or = l'artiste, prune = la structure) : un daltonien lit le texte.
+            """.gf-ctx{border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(180deg,#1b1d42,#15172f);overflow:hidden;max-width:440px}
+.gf-ctx-cur{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--line);font-size:15px;font-weight:600;color:var(--ink)}
+.gf-ctx-cur em{font-style:normal;margin-left:auto;color:var(--muted);font-weight:400;font-size:13px}
+.gf-ctx-hint{padding:10px 14px;font-size:13px;line-height:1.5;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.06)}
+.gf-ctx-i{display:flex;align-items:flex-start;gap:11px;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.gf-ctx-i:last-child{border-bottom:0}
+.gf-ctx-i.gf-on{background:rgba(216,178,90,.08)}
+.gf-ctx-d{flex:0 0 auto;width:10px;height:10px;border-radius:50%;margin-top:7px}
+.gf-ctx-d.gf-art{background:var(--gold)}
+.gf-ctx-d.gf-str{background:var(--plum)}
+.gf-ctx-t{flex:1 1 140px;min-width:0;font-size:15px;color:var(--ink)}
+.gf-ctx-t em{font-style:normal;display:block;color:var(--muted);font-size:13px}
+.gf-ctx-chk{flex:0 0 auto;font-size:15px;font-weight:600;color:var(--gold2)}
+"""
+            # 9 — « J'ai besoin d'aide », question 1 sur 3. La barre de progression
+            # est faite de trois segments egaux : c'est elle qui rend le « sur 3 »
+            # verifiable a l'oeil, comme les numeros du bloc `.aide` juste au-dessus.
+            """.gf-help{max-width:440px}
+.gf-prog{display:flex;gap:6px;margin-bottom:15px}
+.gf-prog i{flex:1 1 0;height:4px;border-radius:2px;background:rgba(255,255,255,.1)}
+.gf-prog i.gf-cur{background:var(--grad-warm)}
+.gf-help-q{font-family:'Jost',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.01em;line-height:1.25;color:var(--ink);margin-bottom:13px}
+.gf-opt{display:flex;align-items:flex-start;gap:11px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:11px 13px;margin-bottom:9px;font-size:15px;line-height:1.45;color:var(--ink)}
+.gf-opt-n{flex:0 0 auto;width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;line-height:1;color:var(--gold2);border:1px solid rgba(248,210,116,.34);background:rgba(216,178,90,.14)}
+.gf-help-f{font-size:13px;line-height:1.6;color:var(--muted);margin-top:14px}
+"""
+            # 10 — le journal des nouveautes. La version « majeure » se distingue par
+            # son filet degrade en tete ET par sa bordure doree : deux signaux, jamais
+            # la seule couleur.
+            """.gf-cl{max-width:480px}
+.gf-cl-card{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.08);border-radius:13px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:13px 15px;margin-bottom:10px}
+.gf-cl-card:last-child{margin-bottom:0}
+.gf-cl-card.gf-major{border-color:rgba(248,210,116,.42)}
+.gf-cl-card.gf-major::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad)}
+.gf-cl-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.gf-cl-n{font-size:15px;font-weight:600;color:var(--ink)}
+.gf-cl-d{margin-left:auto;font-size:13px;color:var(--muted)}
+.gf-cl-s{font-size:13px;line-height:1.55;color:var(--muted);margin-bottom:9px}
+.gf-cl-l{list-style:none;margin:0 0 10px}
+.gf-cl-l li{position:relative;padding-left:16px;font-size:13px;line-height:1.55;color:#cfcbe4;margin-bottom:4px}
+.gf-cl-l li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
+.gf-cl-tag{display:inline-block;font-size:13px;letter-spacing:.06em;padding:1px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+""")
+
+
+# =========================================================================
+# LA CARTE DE TOURNEE — POURQUOI ELLE EST EN SVG, ET POURQUOI SA POLICE A
+# TROIS PALIERS
+# =========================================================================
+# ⚠️⚠️ 1. NE PAS REVENIR AUX <div> PIVOTES DU FICHIER SOURCE.
+# La carte de `maquettes-lot2-pour-resonances.html` trace ses segments avec des
+# `<div class="gf-leg" style="left:18%;top:74%;width:19%;transform:rotate(-38deg)">`.
+# La LARGEUR d'un element pivote reste relative a la LARGEUR du conteneur,
+# alors que la longueur apparente du segment entre deux points depend du
+# RAPPORT largeur/hauteur — et ce rapport change a chaque largeur d'ecran,
+# puisque le conteneur du fichier source a une hauteur FIXE de 250 px. Les
+# traits se desolidarisent donc des points des qu'on n'est plus a la largeur ou
+# l'auteur a regle ses angles. Constate a l'ecran. Aucun reglage ne rattrape
+# ca : c'est le modele qui est faux, pas les valeurs.
+# LE SVG met points ET trace dans LE MEME systeme de coordonnees
+# (`viewBox="0 0 100 52"`). Le lien est alors une propriete de la figure, plus
+# un reglage a maintenir.
+#
+# ⚠️⚠️ 2. LA TAILLE DES LIBELLES EST UNE MESURE. Dans un `viewBox`, une taille
+# de police est une UNITE UTILISATEUR : a l'ecran elle vaut
+# `unites x largeur_rendue / 100`. Une valeur unique donnerait donc 24 px sur
+# un grand ecran et 10 px sur un telephone — sous le plancher de 13 px du site.
+# Trois paliers, cales sur la largeur REELLE du conteneur (figure plafonnee a
+# 556 px, moins le rembourrage de `.gf-shot` : 18 px de chaque cote au-dessus
+# de 760 px d'ecran, 13 px en dessous) :
+#
+#   ecran      largeur rendue   unites   taille reelle
+#   > 608 px      520-530 px      3.2      16,6-17,0 px
+#   453-558 px    375-480 px      3.6      13,5-17,3 px
+#   375-452 px    297-374 px      4.4      13,1-16,5 px
+#
+# `_controle_carte()` REFAIT ce calcul avant chaque ecriture et refuse la page
+# si un palier descend sous 13 px.
+# ⚠️ NE PAS MONTER AU-DELA DE ~4,4 UNITES : mesure a l'ecran, au-dela
+#    « Festival du Causse » (centre en x=52) et « Theatre Rivage » (x=88) se
+#    chevauchent. C'est la contrainte qui fixe le plus petit ecran servi : en
+#    dessous de ~375 px de large, les libelles passeraient sous 13 px. Assume.
+# ⚠️ `overflow:visible` sur le `<svg>` : « Theatre Rivage » deborde d'environ
+#    2,5 unites a droite du cadre au dernier palier. Ce debordement tombe dans
+#    le REMBOURRAGE de `.gf-shot` (13 px), pas hors de lui — `overflow:hidden`
+#    rogne a la boite de rembourrage, pas a la boite de contenu. Verifie a
+#    l'ecran : aucun debordement horizontal de la page.
+# ⚠️ LES COORDONNEES NE BOUGENT PAS. Elles ont ete verifiees a l'ecran telles
+#    quelles ; seuls les noms de classe ont ete prefixes `gf-` pour la page.
+CSS_CARTE = ("""/* carte de tournee */
+.gf-carte{position:relative;margin:2px 0 13px}
+.gf-map{display:block;width:100%;height:auto;overflow:visible}
+.gf-map .gf-halo{fill:none;stroke:var(--gold);stroke-width:3.4;opacity:.12;stroke-linecap:round;stroke-linejoin:round}
+.gf-map .gf-voie{fill:none;stroke:var(--gold);stroke-width:.9;opacity:.8;stroke-linecap:round;stroke-linejoin:round}
+.gf-map .gf-pt{fill:var(--gold2);stroke:var(--night);stroke-width:.8}
+.gf-map .gf-pt-dom{fill:var(--plum2)}
+.gf-map .gf-pt-sup{fill:var(--night);stroke:var(--coral);stroke-width:1.1}
+"""
+             # ⚠️ LE LISERE SOUS LES LIBELLES N'EST PAS UN EFFET. Vu a l'ecran : le
+             # segment « Le Grand Pré » -> « Théâtre Rivage » passe DERRIERE le mot
+             # « à confirmer », et le trait dore coupait les lettres. `paint-order`
+             # fait dessiner le contour AVANT le remplissage : le mot se detache du
+             # trace sans qu'on ait a deplacer quoi que ce soit — et les coordonnees
+             # ne bougent pas, ce qui est la regle sur cette figure.
+             """.gf-map text{paint-order:stroke;stroke:var(--card);stroke-width:.8;stroke-linejoin:round;stroke-linecap:round}
+.gf-map .gf-lab{font-family:'Jost',sans-serif;font-weight:600;font-size:3.2px;fill:var(--ink)}
+.gf-map .gf-lab-s{font-family:'Jost',sans-serif;font-weight:500;font-size:3.2px;fill:var(--muted)}
+@media(max-width:558px){.gf-map .gf-lab,.gf-map .gf-lab-s{font-size:3.6px}}
+@media(max-width:452px){.gf-map .gf-lab,.gf-map .gf-lab-s{font-size:4.4px}}
+.gf-carte-km{font-size:15px;line-height:1.5;color:#d7d4ea}
+.gf-carte-km b{color:var(--gold2);font-weight:600}
+.gf-carte-leg{display:flex;gap:8px 18px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
+.gf-carte-leg span{display:inline-flex;align-items:center;gap:7px}
+.gf-carte-leg i{flex:0 0 auto;width:10px;height:10px;border-radius:50%}
+.gf-lg-dom{background:var(--plum2)}
+.gf-lg-ok{background:var(--gold2)}
+.gf-lg-sup{background:var(--night);box-shadow:inset 0 0 0 1.6px var(--coral)}
+"""
+             # la carte est le seul apercu qui vive DANS la rangee `.apercus` en
+             # enjambant ses deux colonnes : elle illustre l'univers 2 « Ta tournee,
+             # organisee », dont « Ma tournee » est le voisin immediat. Le plafond de
+             # 556 px n'est pas cosmetique — c'est lui qui rend la largeur rendue
+             # PREVISIBLE, donc les trois paliers de police ci-dessus calculables.
+             """.apercus .gf-carte-b{grid-column:1/-1;width:100%;max-width:556px;margin:0 auto}
+""")
+
+
 # --- L'EXCEPTION TYPOGRAPHIQUE (16/08/2026) -------------------------------
 # ⚠️⚠️ LIRE AVANT DE « RETABLIR LA COHERENCE » : CETTE PAGE N'EST PAS EN
 #      CORMORANT GARAMOND, ET C'EST VOULU. LES 29 AUTRES LE RESTENT.
@@ -2150,6 +2385,222 @@ MAQ_STRUCTURE = _figure(
          'encore livré.')
 
 
+# =========================================================================
+# LES 4 MAQUETTES DU LOT 2 (nuit du 16/08/2026)
+# =========================================================================
+# Matiere : `GUSO-FACILE-BACKUPS/maquettes-lot2-pour-resonances.html` (LECTURE
+# SEULE, jamais editee). Memes trois exigences que le lot 1, sans exception :
+# mention visible « donnees fictives », `role="img"` + `aria-label`, ZERO
+# element focusable. Elles passent toutes par `_figure()`, donc par les memes
+# garde-fous.
+#
+# ⚠️ CE QUI A ETE CORRIGE / ADAPTE DANS LA MATIERE FOURNIE :
+#   - la CARTE a ete entierement redessinee (voir `CSS_CARTE`) : son trace en
+#     `<div>` pivotes se desolidarisait des points a chaque changement de
+#     largeur ;
+#   - les couleurs de repli du fichier source (cyan `#4ecdc4`, rose `#ff6b9d`,
+#     fond `#0f1319`) sont celles de la page Vercel : elles sont REMPLACEES par
+#     les `var(--…)` de la charte, jamais adaptees ;
+#   - l'apostrophe droite passe en apostrophe typographique, comme partout
+#     ailleurs sur cette page. C'est la SEULE retouche faite aux libelles.
+#
+# ⚠️⚠️ CE QUI N'A PAS ETE TOUCHE, ET NE DOIT PAS L'ETRE : les libelles repris du
+#    CODE DE L'APPLICATION. « Filtre d'affichage — ca ne change aucun droit, ni
+#    pour toi ni pour les autres » et les QUATRE reponses de « J'ai besoin
+#    d'aide » sont les chaines de l'app, au mot pres. C'est ce qui garantit
+#    qu'un beta-testeur retrouvera ces phrases a l'ecran ; une reformulation,
+#    meme meilleure, casserait la correspondance.
+
+
+# --- 7. LE SELECTEUR « JE REGARDE » (sous le vis-a-vis) -------------------
+# Ecran reproduit : le selecteur de vue. C'est LE SEUL ecran qui PROUVE la
+# double vue — les deux colonnes la racontent, celui-ci la montre : un compte,
+# deux casquettes, aucune deconnexion.
+# ⚠️ L'entree « Vision d'ensemble — super-admin » du vrai selecteur n'est PAS
+#    reproduite : elle n'est visible que par l'administrateur, la montrer
+#    laisserait croire a un troisieme mode ouvert a tous.
+# ⚠️ La phrase d'avertissement est celle de l'app, MOT POUR MOT. Elle dit ce que
+#    le selecteur n'est PAS (un reglage de droits), et c'est precisement ce
+#    qu'un lecteur pourrait croire en voyant deux casquettes.
+MAQ_SELECTEUR = _figure(
+    'Sélecteur de vue de Guso Facile : un même compte bascule entre le tableau '
+    'de bord d’artiste de Camille et la gestion des GUSO de sa structure, sans '
+    'se déconnecter.',
+    """
+    <div class="gf-bar">
+      <span class="gf-bar-t">Je regarde</span>
+      <span class="gf-bar-s">Un seul compte, deux casquettes</span>
+    </div>
+    <div class="gf-ctx">
+      <div class="gf-ctx-cur">Camille — mon espace<em>changer de vue</em></div>
+      <p class="gf-ctx-hint">Filtre d’affichage — ça ne change aucun droit, ni pour toi ni pour les autres.</p>
+      <div class="gf-ctx-i gf-on">
+        <span class="gf-ctx-d gf-art"></span>
+        <span class="gf-ctx-t">Camille — mon tableau de bord d’artiste
+          <em>Mes heures, mes dates, mes démarches</em></span>
+        <span class="gf-ctx-chk">✓</span>
+      </div>
+      <div class="gf-ctx-i">
+        <span class="gf-ctx-d gf-str"></span>
+        <span class="gf-ctx-t">Compagnie des Trois Ponts — je gère les GUSO
+          <em>Les artistes que la structure accompagne</em></span>
+      </div>
+    </div>
+  """)
+
+
+# --- 8. LA CARTE DE TOURNEE (rangee `.apercus`, univers 2) ----------------
+# Ecran reproduit : la carte des dates. C'est un SCHEMA, pas une capture :
+# l'app affiche une vraie carte (Leaflet), qu'aucun CSS ne peut reproduire —
+# et une fausse carte geographique serait mensongere. Le trace est donc
+# volontairement abstrait, sans pretendre a une geographie reelle.
+# ⚠️ TROIS ELEMENTS PORTENT DU SENS, ce ne sont pas des ornements :
+#     1. le point DOMICILE, en prune et plus gros : le kilometrage se calcule
+#        depuis l'adresse du profil, la carte doit dire d'ou l'on part ;
+#     2. le LIEU SUPPOSE, en anneau corail : l'app devine certains lieux et
+#        demande de les confirmer — c'est ce que dit la puce « Tournee reliee »
+#        de l'univers 2 (« les lieux a confirmer sont signales ») ;
+#     3. le KILOMETRAGE CUMULE, dans la formulation de l'app.
+#    La legende sous la carte nomme les trois : la FORME de la pastille et son
+#    libelle suffisent, la couleur ne porte jamais seule l'information.
+# ⚠️ Les chiffres sont FICTIFS et n'ont aucun rapport avec la tournee de la
+#    maquette 5 (« Ma tournee », 8 cachets / 1 240 km, domicile en Gironde) :
+#    ce sont deux illustrations distinctes, avec des lieux distincts. Aucun
+#    chiffre reel — ni les 65 dates, ni les 61 feuillets, ni les 37 lieux.
+# ⚠️ Le SVG porte `aria-hidden="true"` + `focusable="false"` : c'est le
+#    `role="img"` + `aria-label` du bloc qui decrit la carte, l'enoncer deux
+#    fois serait du bruit. `_controle_icones()` verifie les deux attributs sur
+#    TOUTES les balises <svg> de la page, celle-ci comprise.
+MAQ_CARTE = _figure(
+    'Carte de tournée de Guso Facile : depuis le domicile, quatre dates '
+    'reliées par un tracé — Salle des Tilleuls, Festival du Causse, Le Grand '
+    'Pré, puis Théâtre Rivage, lieu supposé encore à confirmer. Trajets '
+    'cumulés : environ 612 kilomètres aller, 1 224 aller-retour.',
+    """
+    <div class="gf-bar">
+      <span class="gf-bar-t">Carte de mes dates</span>
+      <span class="gf-bar-s">Saison 2026 — 5 dates</span>
+    </div>
+    <div class="gf-carte">
+      <svg class="gf-map" viewBox="0 0 100 52" aria-hidden="true" focusable="false">
+        <polyline class="gf-halo" points="14,40 30,24 52,18 68,31 88,15"/>
+        <polyline class="gf-voie" points="14,40 30,24 52,18 68,31 88,15"/>
+        <circle class="gf-pt gf-pt-dom" cx="14" cy="40" r="1.9"/>
+        <circle class="gf-pt" cx="30" cy="24" r="1.5"/>
+        <circle class="gf-pt" cx="52" cy="18" r="1.5"/>
+        <circle class="gf-pt" cx="68" cy="31" r="1.5"/>
+        <circle class="gf-pt gf-pt-sup" cx="88" cy="15" r="1.6"/>
+        <text class="gf-lab-s" x="14" y="45.5" text-anchor="middle">Chez moi</text>
+        <text class="gf-lab" x="30" y="20" text-anchor="middle">Salle des Tilleuls</text>
+        <text class="gf-lab" x="52" y="14" text-anchor="middle">Festival du Causse</text>
+        <text class="gf-lab" x="68" y="36.5" text-anchor="middle">Le Grand Pré</text>
+        <text class="gf-lab" x="88" y="11" text-anchor="middle">Théâtre Rivage</text>
+        <text class="gf-lab-s" x="88" y="22.5" text-anchor="middle">à confirmer</text>
+      </svg>
+    </div>
+    <p class="gf-carte-km">Trajets cumulés — <b>≈ 612 km</b> (aller) · 1 224 km aller-retour</p>
+    <p class="gf-carte-leg">
+      <span><i class="gf-lg-dom"></i>Mon domicile</span>
+      <span><i class="gf-lg-ok"></i>Date confirmée</span>
+      <span><i class="gf-lg-sup"></i>Lieu supposé, à confirmer</span>
+    </p>
+  """, classe=' gf-carte-b')
+
+
+# --- 9. « J'AI BESOIN D'AIDE », QUESTION 1 SUR 3 --------------------------
+# Ecran reproduit : la premiere des trois questions du parcours, avec ses
+# QUATRE reponses possibles — les libelles exacts de `HELP_KINDS`.
+# ⚠️⚠️ CETTE MAQUETTE REGLE, EN IMAGE, LA CONFUSION 3/4 QUE LA PAGE DE
+#    REFERENCE PORTAIT. Leur page annoncait « 3 questions, c'est tout » puis
+#    listait QUATRE lignes : ce n'etaient pas quatre questions, c'etaient les
+#    quatre REPONSES a la premiere. Le bloc `.aide` juste au-dessus liste les
+#    TROIS QUESTIONS, numerotees ; cette maquette montre la QUESTION 1 et SES
+#    QUATRE REPONSES, avec « Question 1 sur 3 » ecrit dans la barre et une
+#    barre de progression a trois segments. Les deux se completent au lieu de
+#    se repeter — et le lecteur ne peut plus se tromper.
+#    ⚠️ Ne PAS « harmoniser » en mettant trois options ici : ce serait
+#       reintroduire l'erreur exacte que ce placement corrige.
+# ⚠️ La derniere phrase redit ce que le bloc `.aide` dit deja de la reponse
+#    « personne du tout ». C'est voulu : c'est le coeur de la fonction — on peut
+#    demander de l'aide sans que ca devienne social — et une image qui montre
+#    un questionnaire sans le dire laisserait croire a une alerte automatique.
+MAQ_AIDE = _figure(
+    'Le parcours « J’ai besoin d’aide » de Guso Facile : la première des trois '
+    'questions, « Qu’est-ce qui se passe ? », avec ses quatre réponses '
+    'possibles et une barre de progression à trois segments.',
+    """
+    <div class="gf-bar">
+      <span class="gf-bar-t">J’ai besoin d’aide</span>
+      <span class="gf-bar-s">Question 1 sur 3</span>
+    </div>
+    <div class="gf-help">
+      <p class="gf-prog"><i class="gf-cur"></i><i></i><i></i></p>
+      <p class="gf-help-q">Qu’est-ce qui se passe ?</p>
+      <p class="gf-opt"><span class="gf-opt-n">1</span><span>Je ne sais pas quoi faire ensuite</span></p>
+      <p class="gf-opt"><span class="gf-opt-n">2</span><span>Je suis en retard sur mes heures</span></p>
+      <p class="gf-opt"><span class="gf-opt-n">3</span><span>Un blocage administratif précis</span></p>
+      <p class="gf-opt"><span class="gf-opt-n">4</span><span>Un doute plus perso, sur ma valeur ou ma légitimité</span></p>
+      <p class="gf-help-f">Ensuite : tu veux que quelqu’un le sache ? Puis : c’est urgent ?<br>
+        Répondre « personne » est une réponse comme une autre — rien n’est envoyé.</p>
+    </div>
+  """)
+
+
+# --- 10. LE JOURNAL DES NOUVEAUTES (sous « Et aussi ») --------------------
+# Ecran reproduit : le journal des versions. Sa structure — titre, date, resume,
+# details, etiquette, mise en avant des versions majeures — est celle de
+# `renderChangelogHtml()`.
+# ⚠️ LES TROIS ENTREES SONT FICTIVES, et datees de mars/fevrier EXPRES pour
+#    qu'on ne les confonde pas avec le vrai historique de l'application. Ne pas
+#    les remplacer par de vraies lignes de changelog : elles vieilliraient dans
+#    une page qui, elle, ne se regenere pas a chaque version de l'app.
+# ⚠️ Il est pose sous l'encadre « Et aussi », dont la ligne « prise en main »
+#    porte la puce « Nouveautes » — c'est la fonction qu'il illustre. Le mot
+#    « Nouveautes » n'est PAS repris ici en toutes lettres : la barre dit « Quoi
+#    de neuf », comme l'ecran. `ANCRES` compte `<b>Nouveautés</b>` une seule
+#    fois, et ce compte doit rester celui de la puce.
+MAQ_NOUVEAUTES = _figure(
+    'Le journal des nouveautés de Guso Facile : trois évolutions de '
+    'l’application, chacune avec sa date, son résumé et son étiquette, la plus '
+    'récente mise en avant.',
+    """
+    <div class="gf-bar">
+      <span class="gf-bar-t">Quoi de neuf</span>
+      <span class="gf-bar-s">L’app évolue, tu es prévenu</span>
+    </div>
+    <div class="gf-cl">
+      <div class="gf-cl-card gf-major">
+        <div class="gf-cl-h">
+          <span class="gf-cl-n">Le carnet de tournée</span>
+          <span class="gf-cl-d">4 mars</span>
+        </div>
+        <p class="gf-cl-s">Toutes tes dates sur une carte, avec les kilomètres depuis chez toi.</p>
+        <ul class="gf-cl-l">
+          <li>Lieux géolocalisés, et lieux supposés à confirmer</li>
+          <li>Trajets cumulés, aller et aller-retour</li>
+        </ul>
+        <span class="gf-cl-tag">Carte</span>
+      </div>
+      <div class="gf-cl-card">
+        <div class="gf-cl-h">
+          <span class="gf-cl-n">Vérifier ses disponibilités</span>
+          <span class="gf-cl-d">21 février</span>
+        </div>
+        <p class="gf-cl-s">Avant d’accepter une date, savoir si elle tient la route.</p>
+        <span class="gf-cl-tag">Organisation</span>
+      </div>
+      <div class="gf-cl-card">
+        <div class="gf-cl-h">
+          <span class="gf-cl-n">Carnet de contacts</span>
+          <span class="gf-cl-d">9 février</span>
+        </div>
+        <p class="gf-cl-s">Les organisateurs rencontrés, avec la dernière date jouée ensemble.</p>
+        <span class="gf-cl-tag">Contacts</span>
+      </div>
+    </div>
+  """)
+
+
 # --- LE BLOC DE RENVOI VERS LE BLOG (deux exemplaires) --------------------
 # Il REMPLACE les deux `<p class="blog-lien"><a>…</a></p>`, qui etaient des
 # lignes de texte soulignees. Verbatim de David : « c'est meme pas un bouton,
@@ -2383,6 +2834,14 @@ def build_html():
     A(CSS_BASE)
     A(CSS_PAGE)
     A(CSS_MAQUETTES)
+    # Le lot 2 (16/08/2026, nuit) et la carte. Ils arrivent APRES `CSS_MAQUETTES`
+    # — dont ils reprennent `.gf-shot`, `.gf-bar` et `.gf-cap` sans les toucher —
+    # et AVANT `CSS_TYPO`, qui doit rester la derniere feuille a parler des
+    # titres. Aucune de leurs regles ne vise `h1`…`h4` : les deux seules polices
+    # qu'ils imposent (`.gf-help-q`, `.gf-map .gf-lab`) sont sur leurs propres
+    # classes, jamais sur une balise de titre.
+    A(CSS_LOT2)
+    A(CSS_CARTE)
     # L'exception typographique arrive EN DERNIER, apres les maquettes : elle
     # surcharge `h1,h2,h3,h4` de CSS_BASE, les tailles de CSS_PAGE ET les deux
     # titres serif de CSS_MAQUETTES. La poser plus haut la ferait ecraser par
@@ -2908,11 +3367,28 @@ def build_html():
     A("""    </div>
 
   </div>
+""")
 
+    # MAQUETTE 7 (`MAQ_SELECTEUR`) — le selecteur « Je regarde ». Il ferme le
+    #   vis-a-vis : les deux colonnes RACONTENT la double vue, cet ecran la
+    #   PROUVE — un compte, deux casquettes, aucune deconnexion. C'est pour
+    #   cette raison qu'il est ici et pas dans une colonne : il n'appartient a
+    #   aucune des deux, il est ce qui passe de l'une a l'autre.
+    A(MAQ_SELECTEUR)
+
+    A("""
   <div class="apercus">
 """)
     A(MAQ_FICHE)
     A(MAQ_TOURNEE)
+    # MAQUETTE 8 (`MAQ_CARTE`) — la carte de tournee, l'ecran de l'univers 2
+    #   « Ta tournee, organisee ». Elle enjambe les deux colonnes de la rangee
+    #   (`grid-column:1/-1`), juste sous « Ma tournee » qui liste les memes
+    #   etapes autrement : la liste dit l'ORDRE, la carte dit la DISTANCE.
+    #   ⚠️ Elle est plafonnee a 556 px, et ce plafond n'est pas un gout : c'est
+    #   lui qui rend la largeur rendue previsible, donc les trois paliers de
+    #   taille de ses libelles calculables. Voir `CSS_CARTE`.
+    A(MAQ_CARTE)
 
     # LA BANDE « ET POUR LES DEUX ». L'univers 4 n'appartient a aucune des deux
     # colonnes : c'est le seul qui decrive ce qui se passe ENTRE elles. Il ferme
@@ -3132,6 +3608,14 @@ def build_html():
   </div>
 """)
 
+    # MAQUETTE 9 (`MAQ_AIDE`) — le parcours, colle au bloc qui le decrit.
+    #   ⚠️ Le bloc ci-dessus liste les TROIS QUESTIONS ; la maquette montre la
+    #   QUESTION 1 ET SES QUATRE REPONSES. C'est ce qui leve, en image, la
+    #   confusion 3/4 de la page de reference (voir la note de `MAQ_AIDE`). Ne
+    #   pas ramener la maquette a trois options « pour la coherence » : les
+    #   quatre lignes ne sont pas des questions.
+    A(MAQ_AIDE)
+
     # ===================================================================
     # ⚠️⚠️ L'ENCART « LA GUILDE » — MEME CONTRAINTE REDACTIONNELLE STRICTE
     #        QUE LA PUCE « L'entraide entre artistes ». LIRE AVANT DE TOUCHER.
@@ -3301,7 +3785,16 @@ def build_html():
         première ouverture qui suit.</p>
     </div>
   </div>
-</div></section>
+""")
+
+    # MAQUETTE 10 (`MAQ_NOUVEAUTES`) — le journal des versions, pose juste sous
+    #   l'encadre « Et aussi » dont la ligne « prise en main » porte la puce
+    #   « Nouveautés ». C'est la derniere fonctionnalite nommee de la section,
+    #   et la seule de cette ligne qui ait un ecran a montrer (un guide de
+    #   demarrage et un guide integre se raconteraient mal en vignette).
+    A(MAQ_NOUVEAUTES)
+
+    A("""</div></section>
 """)
 
     # =====================================================================
@@ -3774,7 +4267,13 @@ def build_html():
 #: nombre de maquettes d'interface posees dans la page. Il sert TROIS fois :
 #: autant de blocs, autant de mentions « données fictives », autant de
 #: role="img". Si l'un des trois comptes s'ecarte, la page n'est pas ecrite.
-NB_MAQUETTES = 6
+#: Historique : 6 le 14/08/2026 ; 10 la nuit du 16/08/2026 — David : « ça manque
+#: encore beaucoup de visuel pour illustrer les fonctions, visualiser une carte
+#: de tournée etc. » Mesure d'alors : ~12 800 px de page pour six apercus, soit
+#: un visuel tous les 2 100 px. Les quatre nouveaux sont le selecteur « Je
+#: regarde », la carte de tournee, « J'ai besoin d'aide » et le journal des
+#: nouveautes — chacun COLLE a la fonction qu'il illustre, jamais en galerie.
+NB_MAQUETTES = 10
 
 #: nombre de mentions « (a venir) » attendues dans la page. IL EST LE COMPTE
 #: RENDU DE L'ETAT REEL DE L'APPLICATION, pas un reglage cosmetique — chaque
@@ -3954,8 +4453,13 @@ ANCRES = (
     #    entre trois destinataires, et la fonction devient un bouton d'alerte.
     ('c’était pour toi, prends soin de toi', 1,
      'la réponse de l’app quand on ne prévient personne'),
-    ('J’ai besoin d’aide', 2,
-     'la fonction est nommée DEUX fois : la puce de l’univers 4 et le bloc'),
+    # ⚠️ 2 -> 4 la nuit du 16/08/2026 : l'aperçu du parcours a été posé contre le
+    #    bloc, et il nomme la fonction deux fois de plus (son aria-label et le
+    #    titre de sa barre). Les quatre emplacements, un par un : la puce de
+    #    l'univers 4, le bloc `.aide`, l'aria-label de la maquette, sa barre.
+    ('J’ai besoin d’aide', 4,
+     'la fonction est nommée QUATRE fois : la puce de l’univers 4, le bloc, '
+     'puis l’aria-label et la barre de son aperçu'),
     # Autant de marqueurs creux que de puces « a venir » (2 depuis le
     # 16/08/2026). Ce compte double celui de `<i>(à venir)</i>` moins la note de
     # maquette : c'est voulu, une puce pleine devant une fonctionnalite non
@@ -4044,6 +4548,37 @@ ANCRES = (
     ('class="veille"', 1, 'le bloc « On veille les uns sur les autres »'),
     ('class="veille-note"', 1,
      'la note qui dit que le prénom et le groupe sont fictifs'),
+    # --- LES 4 APERÇUS DU LOT 2 (nuit du 16/08/2026) ---------------------
+    # Un marqueur par bloc : le compte global (`<figure class="gf-block`) dirait
+    # seulement qu'il y en a dix, pas LESQUELS. Ces cinq lignes disent que c'est
+    # bien CES écrans-là qui sont posés, et à un seul exemplaire.
+    ('class="gf-ctx"', 1, 'l’aperçu du sélecteur « Je regarde »'),
+    ('class="gf-help"', 1, 'l’aperçu du parcours « J’ai besoin d’aide »'),
+    ('class="gf-opt"', 4,
+     'les QUATRE réponses de la question 1 — ce ne sont pas les trois questions'),
+    ('class="gf-cl"', 1, 'l’aperçu du journal des nouveautés'),
+    # --- LA CARTE DE TOURNÉE ---------------------------------------------
+    # ⚠️ LES DEUX ANCRES À ZÉRO SONT LES PLUS IMPORTANTES DE CE GROUPE. Le tracé
+    #    du fichier source était fait de `<div>` PIVOTÉS dimensionnés en
+    #    POURCENTAGES : les traits se désolidarisaient des points dès que le
+    #    rapport largeur/hauteur du conteneur changeait, c'est-à-dire à chaque
+    #    largeur d'écran. Constaté à l'écran. Ces deux lignes interdisent qu'il
+    #    revienne par copier-coller — le défaut ne se voit pas en relisant le
+    #    code, seulement en redimensionnant la fenêtre.
+    ('class="gf-map"', 1, 'la carte de tournée, dessinée en SVG'),
+    ('class="gf-leg"', 0,
+     'le tracé en <div> pivotés du fichier source : il se désolidarise des '
+     'points dès que le rapport largeur/hauteur change'),
+    ('class="gf-pin"', 0, 'les points en <div> positionnés du fichier source'),
+    ('viewBox="0 0 100 52"', 1, 'le repère unique où vivent le tracé ET les points'),
+    # ⚠️ « gf-pt-dom" » et non « class="gf-pt-dom" » : ces deux cercles portent
+    #    DEUX classes (`class="gf-pt gf-pt-dom"`), la forme du point commune et
+    #    sa nature. Chercher l'attribut entier ne trouverait rien.
+    ('gf-pt-dom"', 1,
+     'le point du DOMICILE — le kilométrage se calcule depuis l’adresse du profil'),
+    ('gf-pt-sup"', 1,
+     'le LIEU SUPPOSÉ, que l’app a deviné et demande de confirmer'),
+    ('≈ 612 km', 1, 'le kilométrage cumulé, dans la formulation de l’app'),
 )
 
 #: ce qu'aucune maquette ne doit contenir : elles ILLUSTRENT l'outil, elles ne
@@ -4562,6 +5097,13 @@ def _controle_jsonld(html):
 #: David : des icones de signature au trait, jamais un pictogramme systeme.
 NB_PICTOS = 16
 
+#: les <svg> de la page qui ne sont NI un pictogramme NI le bloc de definitions
+#: du degrade. Un seul aujourd'hui : la carte de tournee (`MAQ_CARTE`). Elle
+#: passe les memes controles que les pictogrammes — `aria-hidden`,
+#: `focusable="false"`, aucun `xmlns` — puisque c'est le `role="img"` de son
+#: bloc qui la decrit.
+NB_SVG_HORS_PICTOS = 1
+
 
 def _controle_icones(html):
     """Refuse d'ecrire si un pictogramme cesse d'etre purement decoratif.
@@ -4578,11 +5120,13 @@ def _controle_icones(html):
     import re
 
     balises = re.findall(r'<svg\b[^>]*>', html)
-    if len(balises) != NB_PICTOS + 1:
+    attendu = NB_PICTOS + 1 + NB_SVG_HORS_PICTOS
+    if len(balises) != attendu:
         raise SystemExit('!! ABANDON : %d balise(s) <svg>, attendu %d (les %d '
-                         'pictogrammes + le bloc de definitions du degrade). '
+                         'pictogrammes + le bloc de definitions du degrade + %d '
+                         'figure(s) dessinee(s), aujourd\'hui la carte de tournee). '
                          'Page NON ecrite.'
-                         % (len(balises), NB_PICTOS + 1, NB_PICTOS))
+                         % (len(balises), attendu, NB_PICTOS, NB_SVG_HORS_PICTOS))
     for b in balises:
         if 'aria-hidden="true"' not in b or 'focusable="false"' not in b:
             raise SystemExit('!! ABANDON : pictogramme sans aria-hidden="true" ou '
@@ -4599,6 +5143,75 @@ def _controle_icones(html):
         if interdit in html:
             raise SystemExit('!! ABANDON : « %s » dans un SVG — la page n\'embarque '
                              'ni image ni contenu importe. Page NON ecrite.' % interdit)
+
+
+#: les trois paliers de taille des libelles de la carte, et la largeur RENDUE la
+#: plus petite a laquelle chacun s'applique.
+#: (declaration CSS attendue, largeur rendue minimale en px, d'ou vient ce chiffre)
+#:
+#: LA LARGEUR RENDUE, D'OU ELLE SORT. La figure de la carte est plafonnee a
+#: 556 px (`.apercus .gf-carte-b`), et le SVG occupe cette largeur MOINS le
+#: rembourrage lateral de `.gf-shot` : 18 px de chaque cote au-dessus de 760 px
+#: d'ecran, 13 px en dessous. D'ou :
+#:   * au-dela de 608 px d'ecran, la largeur rendue est CONSTANTE (520-530 px) —
+#:     c'est tout l'interet du plafond : elle cesse de dependre de l'ecran ;
+#:   * en dessous, elle vaut `largeur_ecran - 78` (26 px de `.wrap` + 26 px de
+#:     `.gf-shot`), soit 375 px a 453 px d'ecran et 297 px a 375 px d'ecran.
+#: Le plus petit ecran servi est donc ~375 px. En dessous, les libelles
+#: passeraient sous 13 px — et on ne peut pas grossir la police davantage :
+#: au-dela de ~4,4 unites, « Festival du Causse » et « Théâtre Rivage » se
+#: chevauchent (mesure a l'ecran). C'est une limite assumee, pas un oubli.
+PALIERS_CARTE = (
+    ('font-size:3.2px', 520, 'au-dela de 608 px d’ecran : largeur plafonnee'),
+    ('font-size:3.6px', 375, 'ecran de 453 px (palier @media max-width:558px)'),
+    ('font-size:4.4px', 297, 'ecran de 375 px (palier @media max-width:452px)'),
+)
+
+#: le plancher typographique du site, en pixels d'ecran.
+PLANCHER_PX = 13
+
+
+def _controle_carte(html):
+    """Refuse d'ecrire si un libelle de la carte tombe sous le plancher de 13 px.
+
+    C'est le pendant de l'exemption accordee dans `_controles()` : la feuille de
+    la carte echappe au comptage brut des `font-size:…px` parce que ses valeurs
+    sont des UNITES UTILISATEUR d'un `viewBox`, pas des pixels. On refait donc
+    ici le seul calcul qui vaille — `unites x largeur_rendue / 100` — pour
+    chacun des trois paliers, avec la largeur rendue la plus petite a laquelle
+    il s'applique.
+
+    ⚠️ Si le plafond de largeur de la figure, le rembourrage de `.gf-shot` ou
+    les bornes des deux `@media` bougent, CE TABLEAU DOIT BOUGER AVEC. C'est la
+    raison pour laquelle chaque ligne porte l'ecran d'ou vient son chiffre.
+    """
+    for declaration, largeur, origine in PALIERS_CARTE:
+        if declaration not in CSS_CARTE:
+            raise SystemExit(
+                '!! ABANDON : le palier « %s » de la carte a disparu de sa feuille '
+                'de style (%s).\n   Les trois paliers sont ce qui maintient ses '
+                'libelles au-dessus de %d px reels a toutes les largeurs.\n'
+                '   Page NON ecrite.' % (declaration, origine, PLANCHER_PX))
+        unites = float(declaration.split(':')[1].rstrip('px'))
+        rendu = unites * largeur / 100.0
+        if rendu < PLANCHER_PX:
+            raise SystemExit(
+                '!! ABANDON : les libelles de la carte tomberaient a %.1f px '
+                '(%s unites de viewBox sur une largeur rendue de %d px — %s).\n'
+                '   Le plancher du site est de %d px. Dans un SVG a viewBox, une '
+                'taille de police est multipliee par (largeur rendue / 100) : elle '
+                'RETRECIT sur telephone.\n   Page NON ecrite.'
+                % (rendu, declaration.split(':')[1], largeur, origine, PLANCHER_PX))
+    # le SVG doit deborder librement : « Théâtre Rivage » sort d'environ 2,5
+    # unites a droite du cadre au dernier palier, et ce debordement tombe dans le
+    # rembourrage de `.gf-shot`, pas hors de lui. Sans cette ligne, le nom est
+    # rogne — et ca ne se voit qu'a l'ecran, sur telephone.
+    if 'overflow:visible' not in CSS_CARTE:
+        raise SystemExit(
+            '!! ABANDON : le <svg> de la carte n\'a plus `overflow:visible`.\n'
+            '   Au dernier palier, « Théâtre Rivage » deborde d\'environ 2,5 unites '
+            'a droite du cadre : sans cette regle il est rogne, et cela ne se voit '
+            'que sur telephone.\n   Page NON ecrite.')
 
 
 def _controle_mise_en_avant(html):
@@ -4692,7 +5305,21 @@ def _controles(html):
                              'Page NON ecrite.' % interdit)
 
     # plancher typographique du site : jamais sous 13 px
-    petits = [t for t in re.findall(r'font-size:\s*(\d+(?:\.\d+)?)px', html)
+    # ⚠️ LA FEUILLE DE LA CARTE EST RETIREE AVANT LE COMPTE, ET CE N'EST PAS UNE
+    #    EXEMPTION DE COMPLAISANCE. Dans un SVG a `viewBox`, `font-size:3.2px`
+    #    ne designe PAS 3,2 pixels d'ecran : c'est une UNITE UTILISATEUR, qui
+    #    vaut a l'ecran `3,2 x largeur_rendue / 100`. Le controle ci-dessous
+    #    compare des pixels ; sur ces trois declarations il comparerait des
+    #    unites, et refuserait une page dont les libelles font 17 px. Le
+    #    plancher n'est pas leve pour autant : `_controle_carte()` REFAIT le
+    #    calcul, palier par palier, avec la largeur rendue reelle.
+    if html.count(CSS_CARTE) != 1:
+        raise SystemExit('!! ABANDON : la feuille de style de la carte n\'apparait '
+                         'pas une fois et une seule dans la page — le controle du '
+                         'plancher de 13 px ne saurait plus quoi en retirer. '
+                         'Page NON ecrite.')
+    petits = [t for t in re.findall(r'font-size:\s*(\d+(?:\.\d+)?)px',
+                                    html.replace(CSS_CARTE, ''))
               if float(t) < 13]
     if petits:
         raise SystemExit('!! ABANDON : taille(s) de texte sous le plancher de 13 px : %s. '
@@ -4716,8 +5343,11 @@ def _controles(html):
     # le formulaire de demande d'acces : le seul endroit ou l'on saisit, et le
     # seul d'ou part une requete vers un tiers (16/08/2026)
     _controle_formulaire(html)
-    # les 11 pictogrammes : decoratifs, jamais annonces ni focusables
+    # les pictogrammes : decoratifs, jamais annonces ni focusables
     _controle_icones(html)
+    # la carte de tournee : ses libelles restent au-dessus du plancher de 13 px
+    # a toutes les largeurs (le calcul, pas la supposition)
+    _controle_carte(html)
     # les trois articles mis en avant : titres recopies, jamais reecrits
     _controle_mise_en_avant(html)
 

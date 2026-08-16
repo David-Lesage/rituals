@@ -368,6 +368,62 @@ section{padding:86px 0}
 .gf-vig.gf-bad .gf-vig-s{background:transparent;border:2px solid var(--plum);box-shadow:inset 0 0 0 2px var(--plum)}
 .gf-vig.gf-bad{color:var(--ink);border-color:var(--plum2)}
 @media(max-width:760px){.gf-shot{padding:15px 13px 13px}}
+.gf-ctx{border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(180deg,#1b1d42,#15172f);overflow:hidden;max-width:440px}
+.gf-ctx-cur{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--line);font-size:15px;font-weight:600;color:var(--ink)}
+.gf-ctx-cur em{font-style:normal;margin-left:auto;color:var(--muted);font-weight:400;font-size:13px}
+.gf-ctx-hint{padding:10px 14px;font-size:13px;line-height:1.5;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.06)}
+.gf-ctx-i{display:flex;align-items:flex-start;gap:11px;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.gf-ctx-i:last-child{border-bottom:0}
+.gf-ctx-i.gf-on{background:rgba(216,178,90,.08)}
+.gf-ctx-d{flex:0 0 auto;width:10px;height:10px;border-radius:50%;margin-top:7px}
+.gf-ctx-d.gf-art{background:var(--gold)}
+.gf-ctx-d.gf-str{background:var(--plum)}
+.gf-ctx-t{flex:1 1 140px;min-width:0;font-size:15px;color:var(--ink)}
+.gf-ctx-t em{font-style:normal;display:block;color:var(--muted);font-size:13px}
+.gf-ctx-chk{flex:0 0 auto;font-size:15px;font-weight:600;color:var(--gold2)}
+.gf-help{max-width:440px}
+.gf-prog{display:flex;gap:6px;margin-bottom:15px}
+.gf-prog i{flex:1 1 0;height:4px;border-radius:2px;background:rgba(255,255,255,.1)}
+.gf-prog i.gf-cur{background:var(--grad-warm)}
+.gf-help-q{font-family:'Jost',sans-serif;font-size:17px;font-weight:700;letter-spacing:-.01em;line-height:1.25;color:var(--ink);margin-bottom:13px}
+.gf-opt{display:flex;align-items:flex-start;gap:11px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:11px 13px;margin-bottom:9px;font-size:15px;line-height:1.45;color:var(--ink)}
+.gf-opt-n{flex:0 0 auto;width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;line-height:1;color:var(--gold2);border:1px solid rgba(248,210,116,.34);background:rgba(216,178,90,.14)}
+.gf-help-f{font-size:13px;line-height:1.6;color:var(--muted);margin-top:14px}
+.gf-cl{max-width:480px}
+.gf-cl-card{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.08);border-radius:13px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:13px 15px;margin-bottom:10px}
+.gf-cl-card:last-child{margin-bottom:0}
+.gf-cl-card.gf-major{border-color:rgba(248,210,116,.42)}
+.gf-cl-card.gf-major::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad)}
+.gf-cl-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.gf-cl-n{font-size:15px;font-weight:600;color:var(--ink)}
+.gf-cl-d{margin-left:auto;font-size:13px;color:var(--muted)}
+.gf-cl-s{font-size:13px;line-height:1.55;color:var(--muted);margin-bottom:9px}
+.gf-cl-l{list-style:none;margin:0 0 10px}
+.gf-cl-l li{position:relative;padding-left:16px;font-size:13px;line-height:1.55;color:#cfcbe4;margin-bottom:4px}
+.gf-cl-l li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
+.gf-cl-tag{display:inline-block;font-size:13px;letter-spacing:.06em;padding:1px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+/* carte de tournee */
+.gf-carte{position:relative;margin:2px 0 13px}
+.gf-map{display:block;width:100%;height:auto;overflow:visible}
+.gf-map .gf-halo{fill:none;stroke:var(--gold);stroke-width:3.4;opacity:.12;stroke-linecap:round;stroke-linejoin:round}
+.gf-map .gf-voie{fill:none;stroke:var(--gold);stroke-width:.9;opacity:.8;stroke-linecap:round;stroke-linejoin:round}
+.gf-map .gf-pt{fill:var(--gold2);stroke:var(--night);stroke-width:.8}
+.gf-map .gf-pt-dom{fill:var(--plum2)}
+.gf-map .gf-pt-sup{fill:var(--night);stroke:var(--coral);stroke-width:1.1}
+.gf-map text{paint-order:stroke;stroke:var(--card);stroke-width:.8;stroke-linejoin:round;stroke-linecap:round}
+.gf-map .gf-lab{font-family:'Jost',sans-serif;font-weight:600;font-size:3.2px;fill:var(--ink)}
+.gf-map .gf-lab-s{font-family:'Jost',sans-serif;font-weight:500;font-size:3.2px;fill:var(--muted)}
+@media(max-width:558px){.gf-map .gf-lab,.gf-map .gf-lab-s{font-size:3.6px}}
+@media(max-width:452px){.gf-map .gf-lab,.gf-map .gf-lab-s{font-size:4.4px}}
+.gf-carte-km{font-size:15px;line-height:1.5;color:#d7d4ea}
+.gf-carte-km b{color:var(--gold2);font-weight:600}
+.gf-carte-leg{display:flex;gap:8px 18px;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--muted)}
+.gf-carte-leg span{display:inline-flex;align-items:center;gap:7px}
+.gf-carte-leg i{flex:0 0 auto;width:10px;height:10px;border-radius:50%}
+.gf-lg-dom{background:var(--plum2)}
+.gf-lg-ok{background:var(--gold2)}
+.gf-lg-sup{background:var(--night);box-shadow:inset 0 0 0 1.6px var(--coral)}
+.apercus .gf-carte-b{grid-column:1/-1;width:100%;max-width:556px;margin:0 auto}
 h1,h2,h3,h4{font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif}
 footer h4{font-family:'Cormorant Garamond',Georgia,serif}
 .gf-top h1{font-size:clamp(34px,4.4vw,60px);font-weight:700;line-height:1.05;letter-spacing:-.018em}
@@ -1038,6 +1094,30 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
     </div>
 
   </div>
+<figure class="gf-block">
+  <div class="gf-shot" role="img" aria-label="Sélecteur de vue de Guso Facile : un même compte bascule entre le tableau de bord d’artiste de Camille et la gestion des GUSO de sa structure, sans se déconnecter.">
+    <div class="gf-bar">
+      <span class="gf-bar-t">Je regarde</span>
+      <span class="gf-bar-s">Un seul compte, deux casquettes</span>
+    </div>
+    <div class="gf-ctx">
+      <div class="gf-ctx-cur">Camille — mon espace<em>changer de vue</em></div>
+      <p class="gf-ctx-hint">Filtre d’affichage — ça ne change aucun droit, ni pour toi ni pour les autres.</p>
+      <div class="gf-ctx-i gf-on">
+        <span class="gf-ctx-d gf-art"></span>
+        <span class="gf-ctx-t">Camille — mon tableau de bord d’artiste
+          <em>Mes heures, mes dates, mes démarches</em></span>
+        <span class="gf-ctx-chk">✓</span>
+      </div>
+      <div class="gf-ctx-i">
+        <span class="gf-ctx-d gf-str"></span>
+        <span class="gf-ctx-t">Compagnie des Trois Ponts — je gère les GUSO
+          <em>Les artistes que la structure accompagne</em></span>
+      </div>
+    </div>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+</figure>
 
   <div class="apercus">
 <figure class="gf-block">
@@ -1129,6 +1209,38 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
   </div>
   <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
 </figure>
+<figure class="gf-block gf-carte-b">
+  <div class="gf-shot" role="img" aria-label="Carte de tournée de Guso Facile : depuis le domicile, quatre dates reliées par un tracé — Salle des Tilleuls, Festival du Causse, Le Grand Pré, puis Théâtre Rivage, lieu supposé encore à confirmer. Trajets cumulés : environ 612 kilomètres aller, 1 224 aller-retour.">
+    <div class="gf-bar">
+      <span class="gf-bar-t">Carte de mes dates</span>
+      <span class="gf-bar-s">Saison 2026 — 5 dates</span>
+    </div>
+    <div class="gf-carte">
+      <svg class="gf-map" viewBox="0 0 100 52" aria-hidden="true" focusable="false">
+        <polyline class="gf-halo" points="14,40 30,24 52,18 68,31 88,15"/>
+        <polyline class="gf-voie" points="14,40 30,24 52,18 68,31 88,15"/>
+        <circle class="gf-pt gf-pt-dom" cx="14" cy="40" r="1.9"/>
+        <circle class="gf-pt" cx="30" cy="24" r="1.5"/>
+        <circle class="gf-pt" cx="52" cy="18" r="1.5"/>
+        <circle class="gf-pt" cx="68" cy="31" r="1.5"/>
+        <circle class="gf-pt gf-pt-sup" cx="88" cy="15" r="1.6"/>
+        <text class="gf-lab-s" x="14" y="45.5" text-anchor="middle">Chez moi</text>
+        <text class="gf-lab" x="30" y="20" text-anchor="middle">Salle des Tilleuls</text>
+        <text class="gf-lab" x="52" y="14" text-anchor="middle">Festival du Causse</text>
+        <text class="gf-lab" x="68" y="36.5" text-anchor="middle">Le Grand Pré</text>
+        <text class="gf-lab" x="88" y="11" text-anchor="middle">Théâtre Rivage</text>
+        <text class="gf-lab-s" x="88" y="22.5" text-anchor="middle">à confirmer</text>
+      </svg>
+    </div>
+    <p class="gf-carte-km">Trajets cumulés — <b>≈ 612 km</b> (aller) · 1 224 km aller-retour</p>
+    <p class="gf-carte-leg">
+      <span><i class="gf-lg-dom"></i>Mon domicile</span>
+      <span><i class="gf-lg-ok"></i>Date confirmée</span>
+      <span><i class="gf-lg-sup"></i>Lieu supposé, à confirmer</span>
+    </p>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+</figure>
   </div>
 
   <div class="deux">
@@ -1181,6 +1293,25 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         sans que ça devienne social.</p>
     </div>
   </div>
+<figure class="gf-block">
+  <div class="gf-shot" role="img" aria-label="Le parcours « J’ai besoin d’aide » de Guso Facile : la première des trois questions, « Qu’est-ce qui se passe ? », avec ses quatre réponses possibles et une barre de progression à trois segments.">
+    <div class="gf-bar">
+      <span class="gf-bar-t">J’ai besoin d’aide</span>
+      <span class="gf-bar-s">Question 1 sur 3</span>
+    </div>
+    <div class="gf-help">
+      <p class="gf-prog"><i class="gf-cur"></i><i></i><i></i></p>
+      <p class="gf-help-q">Qu’est-ce qui se passe ?</p>
+      <p class="gf-opt"><span class="gf-opt-n">1</span><span>Je ne sais pas quoi faire ensuite</span></p>
+      <p class="gf-opt"><span class="gf-opt-n">2</span><span>Je suis en retard sur mes heures</span></p>
+      <p class="gf-opt"><span class="gf-opt-n">3</span><span>Un blocage administratif précis</span></p>
+      <p class="gf-opt"><span class="gf-opt-n">4</span><span>Un doute plus perso, sur ma valeur ou ma légitimité</span></p>
+      <p class="gf-help-f">Ensuite : tu veux que quelqu’un le sache ? Puis : c’est urgent ?<br>
+        Répondre « personne » est une réponse comme une autre — rien n’est envoyé.</p>
+    </div>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+</figure>
 
   <div class="veille">
     <p class="u-num">On veille les uns sur les autres</p>
@@ -1230,6 +1361,45 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         première ouverture qui suit.</p>
     </div>
   </div>
+<figure class="gf-block">
+  <div class="gf-shot" role="img" aria-label="Le journal des nouveautés de Guso Facile : trois évolutions de l’application, chacune avec sa date, son résumé et son étiquette, la plus récente mise en avant.">
+    <div class="gf-bar">
+      <span class="gf-bar-t">Quoi de neuf</span>
+      <span class="gf-bar-s">L’app évolue, tu es prévenu</span>
+    </div>
+    <div class="gf-cl">
+      <div class="gf-cl-card gf-major">
+        <div class="gf-cl-h">
+          <span class="gf-cl-n">Le carnet de tournée</span>
+          <span class="gf-cl-d">4 mars</span>
+        </div>
+        <p class="gf-cl-s">Toutes tes dates sur une carte, avec les kilomètres depuis chez toi.</p>
+        <ul class="gf-cl-l">
+          <li>Lieux géolocalisés, et lieux supposés à confirmer</li>
+          <li>Trajets cumulés, aller et aller-retour</li>
+        </ul>
+        <span class="gf-cl-tag">Carte</span>
+      </div>
+      <div class="gf-cl-card">
+        <div class="gf-cl-h">
+          <span class="gf-cl-n">Vérifier ses disponibilités</span>
+          <span class="gf-cl-d">21 février</span>
+        </div>
+        <p class="gf-cl-s">Avant d’accepter une date, savoir si elle tient la route.</p>
+        <span class="gf-cl-tag">Organisation</span>
+      </div>
+      <div class="gf-cl-card">
+        <div class="gf-cl-h">
+          <span class="gf-cl-n">Carnet de contacts</span>
+          <span class="gf-cl-d">9 février</span>
+        </div>
+        <p class="gf-cl-s">Les organisateurs rencontrés, avec la dernière date jouée ensemble.</p>
+        <span class="gf-cl-tag">Contacts</span>
+      </div>
+    </div>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+</figure>
 </div></section>
 
 <div class="divider"></div>
