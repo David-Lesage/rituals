@@ -433,6 +433,65 @@ seul octet.
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
 ## Journal
+- **2026-08-16** — **Refonte graphique : les surfaces s'étagent, les accents s'affirment.**
+  Point de départ : David compare `/guso-facile` à `~/CLAUDE/GUSO FACILE/presentation.html`
+  et trouve notre page « encore un peu trop sombre ». **Mesuré avant de toucher :
+  le diagnostic spontané était faux.** Les deux fonds sont quasi identiques
+  (`#0f1419` chez eux, `#0e0f24` chez nous). Ce qui diffère, c'est *(a)* l'écart
+  de luminance fond → carte (×3,30 chez eux, **×2,36** chez nous : nos plans
+  s'aplatissaient) et *(b)* la saturation HSV des accents (58 % contre **44 %**).
+  - **Palette, dans `sources/theme_chaleur.py` (une écriture, 30 pages)** —
+    `--night` inchangé ; `--night2` `#141633`→`#161839` (×1,71→**×1,99**) ;
+    `--card` `#191b3d`→`#1e214a` (×2,36→**×3,30**). Accents : `--gold2`
+    `#f0d18a`→`#f8d274`, `--plum` `#8f7ad1`→`#9374e2`, `--plum2`
+    `#b3a2e4`→`#b38ff5`, `--coral` `#e08a72`→`#ee8062` (moyenne 44,1 %→**52,1 %**).
+    **`--gold` NON touché** : accent primaire déjà à 58,3 %, et sa forme
+    translucide `rgba(216,178,90,…)` compte **133 littéraux** + `--line`.
+    ⚠️ La couche est concaténée EN FIN de feuille : elle **redéfinit** `--night2`,
+    `--card`, `--gold2` et `--plum` par-dessus le `:root` de chaque générateur.
+    `/guso-facile` n'importe PAS ce module (elle est l'origine du langage visuel)
+    → **la même palette y est recopiée à l'identique**, à garder synchronisée.
+    Les **116 littéraux `rgba()`** des 4 accents modifiés ont été resynchronisés.
+  - ⚠️ **On ne monte pas au-delà de ~42 % sur `--plum2`** : au-delà elle devient un
+    violet fluo (`#aa8cff`, testé). « Premium » a primé sur l'arrondi à 55 %.
+  - 🚩 **L'agenda de `/le-nid` ne suit PAS le nouvel étagement, et c'est voulu.**
+    `--c` est la couleur de **texte** des 20 boutons de billetterie ; les six
+    teintes sont calibrées sur l'ancien fond. `.ag-item` est **réépinglé à
+    `#191b3d`**. Si `--card` rebouge un jour, **cette ligne ne suit pas toute seule**.
+  - **Trois contrastes en panne trouvés en MESURANT LE RENDU** (contrastes réels
+    calculés par le navigateur sur les 30 pages, alphas composés), **tous
+    antérieurs** à la refonte : `/guso-facile` `.legal` **3,80:1** (seule page où
+    le correctif du 15/08 n'était jamais arrivé — elle n'importe pas
+    `theme_chaleur`) → `#8b8ba6` ; `/rythme-calebasse` légende de `.fig.on-white`
+    **2,10:1** (gris clair sur blanc cassé) → `#4a4760` ; `/le-nid` les 20 boutons
+    `.ag-btn` **4,07:1** (leur `rgba(255,255,255,.05)` éclaircissait le fond sous
+    le texte coloré) → fond `rgba(0,0,0,.14)`, les six types repassent le seuil.
+  - **Formulaire `/guso-facile` : 3ᵉ option « Les deux »**, valeur **exactement
+    `les_deux`** (les seules valeurs acceptées sont `artiste`·`structure`·`les_deux`).
+    ⚠️ **Rien n'affirme que l'app gère la double casquette** : codée, pas déployée.
+  - **Sur-titres** : le rythme en trois temps a été cherché **sans présumer du nom
+    de la classe** — `/rythme-calebasse` porte les siens en `.h-min`, pas `.kick`.
+    Résultat : il était **déjà en place partout** sauf sur les 3 blocs photo de
+    `/le-nid`, qui ont reçu « Une fois par mois », « Corps & souffle »,
+    « Transmission ». Les 111 `<h2>` des 18 articles sont des **intertitres de
+    prose**, pas des titres de section : volontairement laissés nus.
+  - ⚠️ **Piège rencontré** : `generate_guso_blog.py` figeait `--coral:#e08a72` et
+    `--plum2:#b3a2e4` **en dur** dans un garde-fou → les 19 pages du blog refusées
+    à l'écriture. Même piège que `NAV_VERSION`. Il **lit** maintenant la valeur
+    dans `theme_chaleur.CSS`. **Ne jamais figer une valeur dans un garde-fou.**
+  - ⚠️ **Piège rencontré** : des notes écrites en **commentaires CSS** partent dans
+    la page (3 `⚠️` livrés). Les notes vont en **commentaires Python**. Compte de
+    symboles des 30 pages revenu à **39**, identique à avant le chantier.
+  - **Mesuré** : `build.py` 30 pages, 2 passes sans un octet d'écart ·
+    `verif_site.py` **30/30** code 0 · `verif_commentaires.py` 30/30 · **0
+    débordement à 390/820/1440** sur les 30 · 1 `<h1>`, 1 menu, 0 image cassée ·
+    hamburger ouvre ET referme · carrousels **20 et 31 diapos, mini 307 px**,
+    3 `eager` · **0 paire de contraste sous son seuil**, la plus basse 4,64:1 ·
+    **texte des 30 pages identique** hors les 3 sur-titres et la 3ᵉ option.
+  - 🔴 **EN ATTENTE DE DAVID** : les blocs photo **yoga** et **calebasse** de
+    `/le-nid` n'ont toujours pas de légende (donc pas de 3ᵉ temps). Les deux textes
+    proposés sont au point 8 de « EN ATTENTE » ci-dessus depuis le 04/08 — **un mot
+    de David suffit à les poser.**
 - **2026-08-15 (soir)** — **`/association` créée : le doublon de menu réglé à la racine.**
   *(1)* `sources/generate_association.py` → `association/index.html` (objet, valeurs,
   statuts, mentions légales RNA/SIRET/APE, siège + correspondance, adhésion, contact).
