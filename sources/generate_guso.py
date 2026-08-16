@@ -484,6 +484,64 @@ LE GARDE-FOU `_controle_guilde()` A CHANGE, ET C'EST DELIBERE
   legitime dans « Et aussi », « Evaluation d'une proposition » dans l'univers
   2).
 
+------------------------------------------------------------------------------
+L'ABSORPTION DU 16/08/2026 — « ON VEILLE LES UNS SUR LES AUTRES »
+------------------------------------------------------------------------------
+Matiere (LECTURE SEULE, jamais editee) : la section du meme nom de
+`/Users/davidlesage/CLAUDE/GUSO FACILE/presentation.html`. Son auteur l'a
+lui-meme designee comme l'un des passages superieurs de sa page : elle INCARNE
+au lieu d'enumerer, et c'est ce qui fait comprendre l'outil en trente secondes.
+
+⚠️ ON N'EN GARDE QU'UN TIERS, ET C'EST LE POINT IMPORTANT. Elle aligne trois
+cas ; DEUX SONT DES DOUBLONS DE CETTE PAGE :
+  - « La structure qui accompagne » (« Des Sons et Des Liens voit d'un coup
+    d'oeil quels artistes approchent du seuil… ») redit le cas de Sophie
+    (« Accompagner quatre artistes sans tableur »), la maquette 6 « Mes
+    artistes » ET la puce « Points de vigilance cote structure (a venir) ».
+    Trois fois la meme chose : NON REPRIS.
+  - « L'artiste seul face a l'admin » (« L'app te dit toujours le prochain pas :
+    DPAE a faire pour samedi… ») redit le paragraphe de #promesse (« une seule
+    question, posee chaque jour : qu'est-ce que j'ai a faire maintenant ? »), la
+    maquette 2 et l'etape 3 : NON REPRIS.
+  - « LE GROUPE » est le SEUL cas reellement absent d'ici : la vue groupe
+    n'etait qu'une puce d'inventaire, jamais incarnee. C'est celui-la qui est
+    repris, en bloc court, JUSTE AVANT l'encart de la Guilde qu'il introduit.
+La page ne doit pas GROSSIR de tout ce qu'elle absorbe : elle mesurait deja
+18 383 px de haut a 390 px avant cette passe.
+
+⚠️⚠️ LE PIEGE QUE CE BLOC PORTAIT, ET COMMENT IL EST DESAMORCE. La section
+Vercel met en scene une STRUCTURE (« Des Sons et Des Liens ») et une PERSONNE
+(« Marius ») INVENTEES SANS LE DIRE. C'est exactement ce que la correction
+« Trois situations REELLES » -> « typiques » a deja coute a cette page, et c'est
+plus grave encore ici : une structure nommee peut etre confondue avec une vraie.
+  1. LA STRUCTURE INVENTEE DISPARAIT avec le cas non repris. On ne nomme aucune
+     structure, ni vraie ni fausse.
+  2. LE PRENOM EST GARDE — c'est lui qui incarne — MAIS MARQUE, dans le meme
+     esprit ET le meme habillage que « Les prenoms sont fictifs » : une note en
+     gris, juste sous le bloc, qui le dit en toutes lettres et renvoie
+     explicitement aux trois situations plus haut, pour que le lecteur
+     comprenne que c'est la meme convention.
+
+⚠️ La cloture de la section Vercel (« A chaque etape, c'est TOI qui decides ce
+que tu partages ») N'EST PAS REPRISE : c'est « Confidentialite graduee », qui
+est « (a venir) ». L'ecrire au present ferait mentir la page — et ferait mentir
+`NB_A_VENIR` avec elle.
+
+VERIFIE AU PASSAGE, ET RIEN A FAIRE : les deux autres passages superieurs de la
+page Vercel sont deja portes ici.
+  - « OU EN EST LE PROJET » : les cinq points (eprouve sur du reel : 2 artistes,
+    65 dates, 2 saisons / construit par un musicien pour son propre usage /
+    acces sur invitation ou cooptation, chaque demande etudiee personnellement /
+    en echange, le jeu des retours / demain, probablement payant + affiliation,
+    rien n'est chiffre) et la cloture (« un outil deja solide, une porte encore
+    etroite… ») sont TOUS dans #etat. Seul ecart, volontaire : Vercel ecrit
+    « Beta OUVERTE », ici c'est « Beta privee » — formulation validee, NE PAS
+    harmoniser dans l'autre sens.
+  - LES 4 UNIVERS : Vercel en aligne 22 puces, cette page 25 (elle porte en plus
+    « Profil complet », « Tournee reliee », « Fiche structure », « Je cree mon
+    contrat », « Faire decouvrir l'outil » et « L'entraide entre artistes »).
+    Les 22 sont couvertes une a une. Aucune puce ne manque.
+
 Usage : python3 sources/generate_guso.py   (depuis la racine du depot)
 """
 
@@ -896,6 +954,17 @@ section{padding:92px 0}
 .blog-lien a{display:inline-flex;align-items:center;gap:11px;color:var(--gold2);padding:11px 0;text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:4px}
 .blog-lien a::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
 .blog-lien a:hover{text-decoration-color:var(--gold2)}
+/* --- « On veille les uns sur les autres » (absorbe le 16/08/2026) -------- */
+/* Meme habillage que l'encart de la Guilde, qu'il introduit — MOINS le
+   pictogramme : les onze icones servent chacune exactement une fois, et ce
+   bloc n'a pas besoin d'une douzieme pour exister. La note en gris sous le
+   texte reprend le registre de `.cas-note` (« Les prenoms sont fictifs ») :
+   c'est le meme signal, il doit se lire pareil. */
+.veille{margin-top:40px;max-width:900px;padding:26px 30px 24px;border:1px solid rgba(240,209,138,.24);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(224,138,114,.08) 60%,rgba(143,122,209,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+.veille .u-num{display:block;margin-bottom:8px}
+.veille-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
+.veille-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
+.veille-note{color:var(--muted);font-size:14px;line-height:1.6;margin-top:13px}
 @media(max-width:760px){
   section{padding:66px 0}
   .gf-top{padding:110px 0 60px}
@@ -905,6 +974,7 @@ section{padding:92px 0}
   .acces{padding:32px 24px 28px}
   .aussi{padding:22px 20px;gap:14px}
   .guilde{padding:22px 20px 20px;gap:14px}
+  .veille{padding:22px 20px 20px}
   .etape{padding:20px 18px 18px}
   .faq-q summary{padding:14px 17px;gap:13px}
   .faq-q .faq-r{padding:14px 17px 16px}
@@ -2111,7 +2181,63 @@ def build_html():
     #    pourquoi. La puce dit CE QUE ce sera ; l'encart dit POURQUOI. Aucune
     #    des deux ne se suffit : la puce sans le motif est un gadget, le motif
     #    sans la puce est un discours.
+    # ===================================================================
+    # « ON VEILLE LES UNS SUR LES AUTRES » — ABSORBE LE 16/08/2026
+    # ===================================================================
+    # SOURCE (LECTURE SEULE, jamais editee) : la section du meme nom de
+    # `/Users/davidlesage/CLAUDE/GUSO FACILE/presentation.html`. Son auteur l'a
+    # lui-meme designee comme l'un des trois passages superieurs de sa page :
+    # elle INCARNE au lieu d'enumerer, et c'est ce qui fait comprendre l'outil
+    # en trente secondes.
+    #
+    # ⚠️ ON N'EN GARDE QU'UN TIERS, ET C'EST LE POINT IMPORTANT. Elle aligne
+    #    trois cas ; DEUX SONT DES DOUBLONS DE CETTE PAGE :
+    #      - « La structure qui accompagne » redit le cas de Sophie, la maquette
+    #        6 « Mes artistes » ET la puce « Points de vigilance cote structure
+    #        (a venir) ». Trois fois la meme chose — non repris.
+    #      - « L'artiste seul face a l'admin » redit le paragraphe de #promesse,
+    #        la maquette 2 et l'etape 3 — non repris.
+    #      - « LE GROUPE » est le seul cas absent d'ici : la vue groupe n'etait
+    #        qu'une puce d'inventaire, jamais incarnee. C'est celui-la.
+    #    La page ne doit pas GROSSIR de tout ce qu'elle absorbe : elle mesurait
+    #    deja 18 383 px a 390 px avant cette passe.
+    #
+    # ⚠️⚠️ LE PIEGE QUE CE BLOC PORTAIT, ET COMMENT IL EST DESAMORCE.
+    #    La section Vercel met en scene une STRUCTURE (« Des Sons et Des
+    #    Liens ») et une PERSONNE (« Marius ») INVENTEES SANS LE DIRE. C'est
+    #    exactement ce que la correction « Trois situations REELLES » ->
+    #    « typiques » a deja coute a cette page, et c'est plus grave encore ici :
+    #    une structure nommee peut etre confondue avec une vraie.
+    #      1. LA STRUCTURE INVENTEE DISPARAIT avec le cas non repris. On ne
+    #         nomme aucune structure, ni vraie ni fausse.
+    #      2. LE PRENOM EST GARDE — c'est lui qui incarne — MAIS MARQUE, dans le
+    #         meme esprit ET le meme habillage que « Les prenoms sont fictifs » :
+    #         une note en gris, juste sous le bloc, qui le dit en toutes lettres
+    #         et renvoie explicitement aux trois situations plus haut, pour que
+    #         le lecteur comprenne que c'est la meme convention.
+    #
+    # ⚠️ La cloture de la section Vercel (« A chaque etape, c'est TOI qui decides
+    #    ce que tu partages ») N'EST PAS REPRISE : c'est « Confidentialite
+    #    graduee », qui est « (a venir) ». L'ecrire au present ferait mentir la
+    #    page — et ferait mentir `NB_A_VENIR` avec elle.
+    #
+    # PLACEMENT : juste avant l'encart de la Guilde, qu'il introduit. L'ordre de
+    # lecture devient : la puce (ce qu'on peut y faire) -> le bloc (a quoi ca
+    # ressemble pour de vrai) -> l'encart (pourquoi ca existe).
     A("""
+  </div>
+
+  <div class="veille">
+    <p class="u-num">On veille les uns sur les autres</p>
+    <p class="veille-claim">Dans un groupe, chacun a sa date anniversaire et son propre compteur — et
+      personne ne voit celui des autres.</p>
+    <p class="veille-p">Marius joue dans un groupe de cinq. Il a pris du retard sur ses heures sans que
+      personne s’en aperçoive, lui compris. La vue groupe montre où en est chaque membre — heures
+      validées, dates possibles, jours restants : ses camarades le voient venir avant que ce soit grave,
+      et non le jour où ses droits tombent. On lui laisse les prochaines répétitions, on cale deux dates
+      de plus. C’est ça, un groupe.</p>
+    <p class="veille-note">Le prénom et le groupe sont fictifs, comme dans les trois situations plus
+      haut ; la mécanique, elle, est celle de l’outil.</p>
   </div>
 
   <div class="guilde">
@@ -2497,6 +2623,13 @@ ANCRES = (
     ('class="etape"', 3, 'les trois étapes'),
     ('class="etat-fin"', 1, 'la phrase de clôture de « Jouons cartes sur table »'),
     ('class="h1-sous"', 1, 'la seconde ligne du <h1> (dossier SEO, section 2.1)'),
+    # « On veille les uns sur les autres », absorbe le 16/08/2026. La NOTE
+    # compte autant que le bloc : sans elle, un prenom invente passe pour une
+    # personne reelle — le piege exact que « situations réelles » -> « typiques »
+    # a deja coute a cette page.
+    ('class="veille"', 1, 'le bloc « On veille les uns sur les autres »'),
+    ('class="veille-note"', 1,
+     'la note qui dit que le prénom et le groupe sont fictifs'),
 )
 
 #: ce qu'aucune maquette ne doit contenir : elles ILLUSTRENT l'outil, elles ne

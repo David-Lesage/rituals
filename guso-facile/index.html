@@ -190,6 +190,17 @@ section{padding:92px 0}
 .blog-lien a{display:inline-flex;align-items:center;gap:11px;color:var(--gold2);padding:11px 0;text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:4px}
 .blog-lien a::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
 .blog-lien a:hover{text-decoration-color:var(--gold2)}
+/* --- « On veille les uns sur les autres » (absorbe le 16/08/2026) -------- */
+/* Meme habillage que l'encart de la Guilde, qu'il introduit — MOINS le
+   pictogramme : les onze icones servent chacune exactement une fois, et ce
+   bloc n'a pas besoin d'une douzieme pour exister. La note en gris sous le
+   texte reprend le registre de `.cas-note` (« Les prenoms sont fictifs ») :
+   c'est le meme signal, il doit se lire pareil. */
+.veille{margin-top:40px;max-width:900px;padding:26px 30px 24px;border:1px solid rgba(240,209,138,.24);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(224,138,114,.08) 60%,rgba(143,122,209,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+.veille .u-num{display:block;margin-bottom:8px}
+.veille-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
+.veille-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
+.veille-note{color:var(--muted);font-size:14px;line-height:1.6;margin-top:13px}
 @media(max-width:760px){
   section{padding:66px 0}
   .gf-top{padding:110px 0 60px}
@@ -199,6 +210,7 @@ section{padding:92px 0}
   .acces{padding:32px 24px 28px}
   .aussi{padding:22px 20px;gap:14px}
   .guilde{padding:22px 20px 20px;gap:14px}
+  .veille{padding:22px 20px 20px}
   .etape{padding:20px 18px 18px}
   .faq-q summary{padding:14px 17px;gap:13px}
   .faq-q .faq-r{padding:14px 17px 16px}
@@ -1043,6 +1055,19 @@ section{padding:92px 0}
   <p class="gf-soon-note"><i>(à venir)</i> Cet aperçu montre une vue en cours de construction. L’espace structure réunit aujourd’hui, tous artistes confondus, les DPAE, les feuillets GUSO et les factures à faire ; le suivi artiste par artiste, avec ses heures et son niveau de vigilance, n’est pas encore livré.</p>
 </figure>
 
+  </div>
+
+  <div class="veille">
+    <p class="u-num">On veille les uns sur les autres</p>
+    <p class="veille-claim">Dans un groupe, chacun a sa date anniversaire et son propre compteur — et
+      personne ne voit celui des autres.</p>
+    <p class="veille-p">Marius joue dans un groupe de cinq. Il a pris du retard sur ses heures sans que
+      personne s’en aperçoive, lui compris. La vue groupe montre où en est chaque membre — heures
+      validées, dates possibles, jours restants : ses camarades le voient venir avant que ce soit grave,
+      et non le jour où ses droits tombent. On lui laisse les prochaines répétitions, on cale deux dates
+      de plus. C’est ça, un groupe.</p>
+    <p class="veille-note">Le prénom et le groupe sont fictifs, comme dans les trois situations plus
+      haut ; la mécanique, elle, est celle de l’outil.</p>
   </div>
 
   <div class="guilde">
