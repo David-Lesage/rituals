@@ -3026,6 +3026,38 @@ f"""  {pic('affiche',
   <div class="dlc-cross">
     <p>Vous cherchez plutôt une soirée à Paris ? Le même répertoire se joue aussi en version intimiste, au Nid, dans le 20<sup>e</sup> arrondissement : <a href="/concerts-david-lesage">les concerts de David Lesage au Nid</a>.</p>
   </div>
+"""
+#   LES DEUX RENVOIS VERS LE BLOG DE GUSO FACILE (ajout du 16/08/2026).
+#       POURQUOI SUR CETTE PAGE, ET SUR AUCUNE AUTRE PAGE « SCENE ». Elle
+#       s'adresse aux programmateurs, donc a des STRUCTURES QUI EMPLOIENT DES
+#       ARTISTES : c'est mot pour mot le lectorat de ces deux articles-la. C'est
+#       le seul endroit du site ou un lien vers un ARTICLE — et non vers la page
+#       /guso-facile — a du sens. Ailleurs, le renvoi utile est la page produit.
+#
+#       POURQUOI EN FIN DE #programmer, JUSTE APRES `.dlc-cross`. La page a
+#       d'abord son propre travail a faire : la fiche technique, puis l'appel a
+#       ecrire (`.dlc-prog`). Un lien sortant pose AVANT ce bouton detournerait
+#       la seule action que la page demande. Place ici, il rejoint le renvoi
+#       existant vers /concerts-david-lesage : les deux « et sinon » de la page
+#       sont voisins, et la personne qui les lit a deja vu l'essentiel.
+#
+#       🚩 UNE LIGNE, PAS UN ENCART. Un <p> ordinaire — aucune boite, aucune
+#       classe nouvelle, aucun CSS ajoute (`.dlc-block p` lui donne sa marge et
+#       sa couleur, `.dlc-block p a:not(.btn)` sa cible tactile de 44 px). Cette
+#       page s'adresse a des professionnels : un encart promotionnel y jurerait.
+#
+#       🚩 LA FORMULATION. « l'outil de gestion de l'intermittence cree par
+#       David Lesage » — jamais « notre outil », jamais « porte par », jamais
+#       « notre application ». Voir textes_association.GUSO_LIEN. La beta n'est
+#       pas mentionnee ici, et c'est volontaire : la phrase ne renvoie pas vers
+#       l'outil mais vers deux ARTICLES, en acces libre. Rien n'y laisse croire
+#       qu'on peut s'inscrire.
+#
+#       ⚠️ LES DEUX LIBELLES SONT LES TITRES REELS DES ARTICLES, verifies sur le
+#       disque (« Faut-il vraiment un contrat pour un concert ? » et « Je suis
+#       une structure : comment gerer les GUSO de mes artistes ? »). Une ancre
+#       doit dire ou elle mene.
+f"""  <p>Vous employez vous-même des artistes ? Deux articles du blog de Guso Facile, l’outil de gestion de l’intermittence créé par David Lesage : <a href="/guso-facile/blog/faut-il-un-contrat-pour-un-concert">faut-il vraiment un contrat pour un concert</a> et <a href="/guso-facile/blog/structure-comment-gerer-les-guso-de-mes-artistes">comment gérer les GUSO de ses artistes</a>.</p>
 </div></section>
 
 <a class="totop" href="#top" aria-label="Revenir en haut de la page">↑</a>
@@ -3072,6 +3104,31 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, 'david-lesage-en-concert')
 os.makedirs(OUT_DIR, exist_ok=True)
 OUT = os.path.join(OUT_DIR, 'index.html')
+
+# --------------------------------------------------------------------------- #
+# GARDE-FOU DES RENVOIS VERS LE BLOG DE GUSO FACILE (16/08/2026)
+# --------------------------------------------------------------------------- #
+# Le menu partage ne mene qu'a /guso-facile : ces deux liens-ci sont les SEULS
+# du site a pointer vers un article. S'ils disparaissaient, plus aucune page
+# « scene » ne renverrait vers le blog, et personne ne s'en apercevrait a
+# l'ecran. On compte, et on refuse d'ecrire plutot que d'avertir. Modele :
+# `_ATTENDU` de generate_assoc.py.
+# ⚠️ Les URL sont verifiees SUR LE DISQUE, pas seulement comptees : un article
+#    renomme rendrait le lien mort sans que le compte bouge d'un pouce.
+_RENVOIS_BLOG = (
+    '/guso-facile/blog/faut-il-un-contrat-pour-un-concert',
+    '/guso-facile/blog/structure-comment-gerer-les-guso-de-mes-artistes',
+)
+for _url in _RENVOIS_BLOG:
+    _n = HTML.count('href="%s"' % _url)
+    if _n != 1:
+        raise SystemExit('!! ABANDON : %d lien(s) vers %s, attendu 1. '
+                         'Page NON ecrite.' % (_n, _url))
+    _cible = os.path.join(ROOT, _url.lstrip('/'), 'index.html')
+    if not os.path.exists(_cible):
+        raise SystemExit('!! ABANDON : %s n\'existe pas sur le disque — le lien '
+                         'serait mort. Page NON ecrite.' % _cible)
+
 # Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire HTML
 # dans la page livree (elle serait publique et indexable). Si l'une revient, on
 # abandonne et le fichier sur disque reste inchange.
