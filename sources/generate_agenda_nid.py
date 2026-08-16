@@ -164,6 +164,15 @@ SHOWROOM = 'https://www.lesagedavid.fr/showroom#agenda'
 ADHESION = 'https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions'
 YOGA_INS = 'https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid'
 MAILTO   = 'mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation'
+# Cours individuels : DEUX intervenants, donc DEUX destinations. Le bloc dit
+# lui-meme « Avec David : le rythme et la calebasse. Avec Iris : yoga postural,
+# breathwork adapte… » : un lien unique aurait envoye la moitie des lecteurs au
+# mauvais endroit. Les deux adresses repondent 200 (verifie le 16/08/2026).
+# ⚠️ La page d'Iris s'intitule « Retraites & Ateliers Yoga » : c'est son agenda,
+# pas une page de cours individuels. C'est l'adresse validee, mais si David veut
+# une destination strictement individuelle, c'est lui qui la fournira.
+COURS_DAVID = 'https://lesagedavid.fr/cours'
+COURS_IRIS  = 'https://www.irischasles.com/agenda-yoga'
 
 # type : (libelle, couleur, lien de reservation, libelle du bouton)
 TYPES = {
@@ -611,6 +620,21 @@ CSS_DATES = (""".offer-dates{margin-top:14px;padding-top:12px;border-top:1px sol
 .offer-dates a{color:var(--gold2);font-size:16px;font-weight:500;text-decoration:underline;text-underline-offset:4px;
   display:inline-flex;align-items:center;min-height:44px}
 """
+            # UN SEUL STYLE DE BOUTON D'ACTION POUR LES SIX CARTES DU PROGRAMME.
+            # Aucune classe nouvelle : le bouton d'action vit dans la ligne
+            # `.who` de la carte, exactement comme celui de la carte
+            # « instruments d'exception » (« Réservation en ligne : réserver ma
+            # place ↗ »), qui etait le seul a en porter un. Cette regle lui
+            # donne la MEME apparence qu'un lien de `.offer-dates` — souligne,
+            # dore, et surtout une cible tactile de 44 px que le lien de la
+            # carte « instruments » n'avait PAS (il heritait simplement de
+            # `a{color:…}`). Les six liens d'action de la page se ressemblent
+            # donc, qu'ils soient dans `.who` (cinq cartes) ou dans
+            # `.offer-dates` (la prise de rendez-vous de la psychotherapie, qui
+            # y vivait deja et qu'on ne deplace pas).
+            """.offer .who a{color:var(--gold2);font-weight:500;text-decoration:underline;text-underline-offset:4px;
+  display:inline-flex;align-items:center;min-height:44px}
+"""
             # carte « instruments d'exception » : pleine largeur, registre premium
             """.offer--rare{grid-column:1/-1;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));
   border-color:rgba(216,178,90,.34)}
@@ -769,6 +793,107 @@ CARTES_DATES = (
 )
 
 
+# --------------------------------------------------------------------------- #
+# LE BOUTON D'ACTION DES CARTES DU PROGRAMME
+#
+# LE CONSTAT (mesure sur la page publiee le 16/08/2026) : sur les six cartes du
+# programme, une seule — « instruments d'exception » — menait quelque part ou
+# l'on peut FAIRE la chose (« réserver ma place ↗ »). La psychotherapie avait
+# deja sa prise de rendez-vous, mais dans `.offer-dates`. Les trois cartes a
+# dates (concert, yoga, workshop) n'avaient que « tout voir », qui descend dans
+# l'agenda ; « cours individuels » n'avait AUCUN lien. Quelqu'un qui lit
+# « Atelier de yoga » et veut s'inscrire devait deviner qu'il fallait descendre
+# chercher la bonne date, puis le bon bouton.
+#
+# LA REGLE APPLIQUEE : une carte = UN lien d'action, dans sa ligne `.who`, qui
+# mene la ou l'on reserve / prend rendez-vous / s'inscrit. On ne touche pas aux
+# liens deja presents, parce qu'ils n'ont pas le meme role :
+#   « tout voir » -> navigation interne (l'agenda, plus bas) ;
+#   « En savoir plus → » -> documentation (la page dediee) ;
+#   le lien d'action -> l'acte.
+# Aucun lien n'est donc double en intention, et aucun texte redactionnel ne
+# bouge : on ajoute « · <a>…</a> » a l'interieur d'une ligne existante.
+#
+# POURQUOI CES DESTINATIONS-LA, ET PAS UNE ANCRE D'AGENDA FILTREE
+# ---------------------------------------------------------------
+# L'agenda sait pre-activer un filtre depuis une ancre, mais UNE SEULE est
+# cablee (`#concerts`, voir FILTER_JS) et — mesure faite — les noms qu'il
+# faudrait pour les autres (`#yoga`, `#instruments`, `#psychotherapie`,
+# `#calebasse-workshop`, `#cours-individuels`) sont DEJA PRIS par les cartes
+# elles-memes, et servent d'ancres au menu partage du site. Il faudrait donc
+# inventer des identifiants paralleles (`#agenda-yoga`…), ajouter des elements
+# dans l'agenda et generaliser le script de filtre : on toucherait exactement la
+# zone qui porte les 20 boutons de billetterie. Le gain serait faible — les
+# trois cartes a dates ont deja « tout voir » vers `#agenda`, et l'agenda tient
+# sur un ecran. On s'en tient donc a des destinations franches.
+#
+#   concert           -> la billetterie HelloAsso des concerts au Nid. C'est
+#                        DEJA le lien des trois boutons « Réserver ↗ » de
+#                        l'agenda (CONCERT_SOLO, verifie le 04/08 : elle vend
+#                        bien les trois dates du Nid, trio du 26/09 compris).
+#                        La carte gardait « En savoir plus → » vers
+#                        /concerts-david-lesage : c'est la page qui RACONTE,
+#                        pas celle qui vend. Les deux coexistent.
+#   yoga              -> YOGA_INS, la constante deja utilisee par les quatre
+#                        boutons « S’inscrire ↗ » de l'agenda. Recopier l'URL
+#                        aurait cree un second endroit a corriger le jour ou
+#                        elle change. (HelloAsso repond 403 aux robots : c'est
+#                        connu sur ce projet, le lien marche dans un navigateur.)
+#   calebasse         -> /rythme-calebasse, la page des workshops (format,
+#                        instrument fourni, appel a candidature, formulaire).
+#                        ⚠️ PAS un lien de reservation : il n'existe pas encore
+#                        de billetterie pour ces workshops (les 3 dates de
+#                        l'agenda sont encore sur le mailto, voir URL_PAR_EVENT).
+#                        Annoncer « réserver » serait promettre ce qui n'existe
+#                        pas. Lien interne, donc pas de nouvel onglet.
+#   cours individuels -> DEUX liens, un par intervenant (voir COURS_DAVID /
+#                        COURS_IRIS). C'est la seule carte du programme qui
+#                        n'avait aucun lien du tout.
+#
+# Les deux autres cartes ne recoivent rien, et c'est volontaire :
+#   psychotherapie    -> « Prendre rendez-vous sur irischasles.com ↗ » est deja
+#                        dans sa ligne `.offer-dates` (voir REMPLACEMENTS).
+#                        Ajouter le meme site avec la meme intention aurait
+#                        donne deux appels a l'action pour un seul geste.
+#   instruments       -> « réserver ma place ↗ » y est depuis toujours.
+# --------------------------------------------------------------------------- #
+def lien_action(url, libelle):
+    """Lien d'action d'une carte. Nouvel onglet + noopener si l'URL est externe."""
+    dehors = url.startswith('http')
+    return ('<a href="%s"%s>%s</a>'
+            % (url, ' target="_blank" rel="noopener"' if dehors else '', libelle))
+
+
+# (ancre = fin du texte de la carte + sa ligne `.who`, [(url, libelle), ...])
+# Meme parti-pris d'ancrage que CARTES_DATES : la fin de paragraphe rend l'ancre
+# unique (« Avec David Lesage » seul apparait DEUX fois dans la source), et une
+# carte peut evoluer sans casser l'injection d'une autre.
+CARTES_ACTION = (
+    ('au plus près du public.</p>\n      <div class="who">Avec David Lesage</div>',
+     [(CONCERT_SOLO, 'réserver un concert ↗')], 'concert'),
+    ('retrouver de l’espace intérieur.</p>\n      <div class="who">Avec Iris Chasles</div>',
+     [(YOGA_INS, 's’inscrire à l’atelier ↗')], 'yoga'),
+    ('on entre dans le rythme par le corps et l’écoute.</p>\n      <div class="who">Avec David Lesage</div>',
+     [('/rythme-calebasse', 'voir les workshops →')], 'workshop calebasse'),
+    ('libération des tensions dans le corps.</p>\n      <div class="who">Avec David Lesage ou Iris Chasles</div>',
+     [(COURS_DAVID, 'les cours de David ↗'),
+      (COURS_IRIS, 'l’agenda d’Iris ↗')], 'cours individuels'),
+)
+
+# Ce que la page DOIT porter apres coup, carte par carte : (url, libelle).
+# Les deux dernieres lignes existaient avant ce chantier — elles sont dans la
+# garde pour qu'une carte ne puisse pas perdre son bouton en silence.
+BOUTONS_ATTENDUS = (
+    (CONCERT_SOLO, 'réserver un concert ↗'),
+    (YOGA_INS, 's’inscrire à l’atelier ↗'),
+    ('/rythme-calebasse', 'voir les workshops →'),
+    (COURS_DAVID, 'les cours de David ↗'),
+    (COURS_IRIS, 'l’agenda d’Iris ↗'),
+    ('https://www.irischasles.com/', 'Prendre rendez-vous sur irischasles.com ↗'),
+    (SHOWROOM, 'réserver ma place ↗'),
+)
+
+
 def carte_instruments():
     """Carte « Présentation, découverte & essai d'instruments d'exception ».
 
@@ -890,6 +1015,20 @@ def generer():
         html = html.replace(
             ancre, ancre + separateur + dates_courtes(typ, extra=en_plus), 1)
 
+    # --- bouton d'action dans la ligne « Avec … » des cartes -----------------
+    # APRES les encarts de dates, jamais avant : ceux-ci s'accrochent a la fin
+    # de la ligne `.who`, qu'on modifie ici. Dans cet ordre les deux tables
+    # gardent les MEMES ancres et restent independantes l'une de l'autre.
+    for ancre, liens, quoi in CARTES_ACTION:
+        _exiger(html, ancre, 1, 'ancre du bouton d’action (%s)' % quoi)
+        if not ancre.endswith('</div>'):
+            raise SystemExit('!! ABANDON : l’ancre du bouton d’action (%s) ne '
+                             'finit pas par </div>. Page NON ecrite.' % quoi)
+        neuf = (ancre[:-len('</div>')]
+                + ''.join(' · ' + lien_action(u, lab) for u, lab in liens)
+                + '</div>')
+        html = html.replace(ancre, neuf, 1)
+
     # --- carte « instruments d'exception » -----------------------------------
     ancre_carte = '  </div>\n\n  <div class="note">'
     _exiger(html, ancre_carte, 1, 'ancre de la carte « instruments d’exception »')
@@ -944,6 +1083,16 @@ if __name__ == '__main__':
         if _ancre not in page:
             raise SystemExit('!! ABANDON : ancre %s absente — une entree du menu '
                              'partage menerait dans le vide. Page NON ecrite.' % _ancre)
+
+    # ⚠️ BOUTONS D'ACTION DES SIX CARTES DU PROGRAMME. Une carte qui decrit une
+    # offre sans dire ou s'inscrire est un cul-de-sac : c'etait le cas de cinq
+    # d'entre elles. La garde verifie que chaque destination ET chaque libelle
+    # est bien la, une seule fois — donc aussi qu'aucun n'a ete duplique.
+    for _url, _lib in BOUTONS_ATTENDUS:
+        if _url not in page:
+            raise SystemExit('!! ABANDON : destination de bouton d’action absente '
+                             'de la page : %s. Page NON ecrite.' % _url)
+        _exiger(page, _lib, 1, 'libelle de bouton d’action')
 
     # ⚠️ LIENS DE BILLETTERIE. Chaque evenement porte un bouton de reservation,
     # et deux evenements du MEME type peuvent pointer sur des billetteries
