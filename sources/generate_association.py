@@ -330,16 +330,42 @@ def build_html():
     # L'OBJET  —  le premier paragraphe est aussi celui de l'accueil, le
     #             second a quitte l'accueil pour venir ici.
     # =====================================================================
+    # LE LIEN VERS /guso-facile, TROISIEME PARAGRAPHE (16/08/2026).
+    #   POURQUOI ICI, ET PAS AILLEURS SUR LA PAGE. C'est la page de l'OBJET :
+    #   « l'accompagnement, la promotion, la production et le SOUTIEN
+    #   D'ARTISTES ». Un outil qui allege l'administratif des intermittents est
+    #   chez lui immediatement apres cette phrase — pas dans les valeurs (qui
+    #   sont des principes, pas des realisations), pas dans les statuts (qui
+    #   citent un document depose et ne se completent pas), pas dans les
+    #   mentions legales. Le dossier SEO (section 6) reclame des liens entrants
+    #   depuis les pages que Google connait deja ; celle-ci est l'une d'elles.
+    #
+    #   🚩 LA FORMULATION EST LA REGLE LA PLUS SENSIBLE DU PROJET. « relaie »,
+    #   « cree par David Lesage », « n'est pas un service de l'association » :
+    #   ce sont les mots deja publies et valides sur /guso-facile, repris a
+    #   l'identique. JAMAIS « notre outil », « porte par », « notre
+    #   application » — l'infrastructure est personnelle et les donnees traitees
+    #   sont sensibles (numeros de securite sociale, IBAN, salaires, feuillets
+    #   GUSO de personnes reelles).
+    #
+    #   ⚠️ La precision « n'est pas un service de l'association » est ICI et pas
+    #   sur l'accueil : c'est la page de reference de l'association, celle qui
+    #   porte les statuts et les mentions legales. C'est l'endroit ou une nuance
+    #   juridique se lit ; sur l'accueil elle alourdirait une presentation
+    #   courte de trois lignes.
+    #   ⚠️ Aucune promesse de fonctionnalite : un lien, un contexte. Le detail
+    #   vit sur /guso-facile.
     A("""
 <section id="objet"><div class="wrap">
   <p class="kick">L’objet</p>
   <h2 class="sec-title">%s</h2>
   <p class="body">%s</p>
   <p class="body">%s</p>
+  <p class="body">C’est au titre de ce soutien aux artistes que l’association relaie %s, un outil créé par David Lesage, aujourd’hui en bêta privée sur invitation. Il n’est pas un service de l’association.</p>
 </div></section>
 
 <div class="divider"></div>
-""" % (T.OBJET_TITRE, T.OBJET_P1, T.OBJET_P2))
+""" % (T.OBJET_TITRE, T.OBJET_P1, T.OBJET_P2, T.GUSO_LIEN))
 
     # =====================================================================
     # LES VALEURS  —  les quatre « engagements » de l'accueil, mot pour mot.
@@ -491,6 +517,14 @@ ANCRES = (
     # ou NAV_VERSION est incrementee.
     ('data-nav="%s"' % nav_menu.NAV_VERSION, 1, 'menu partage nav_menu.py'),
     ('href="/association"', 1, 'entree « L’association » du menu partage'),
+    # DEUX, et c'est mesure : une occurrence dans le menu partage (nav_menu.py
+    # l'ecrit dans son JS) et une dans le 3e paragraphe de l'objet. Si ce compte
+    # tombe a 1, c'est le lien entrant demande par le dossier SEO qui a disparu.
+    ('href="/guso-facile"', 2,
+     'lien vers Guso Facile (menu partage + paragraphe de l’objet)'),
+    # l'ancre doit dire ou elle mene : jamais « cliquez ici », jamais « en savoir
+    # plus ». Elle est ecrite UNE fois, dans textes_association.py.
+    (T.GUSO_LIEN, 1, 'ancre descriptive vers /guso-facile'),
     ('id="objet"', 1, 'section « L’objet »'),
     ('id="valeurs"', 1, 'section « Nos engagements »'),
     ('id="statuts"', 1, 'section « Les statuts »'),
