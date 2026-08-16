@@ -215,6 +215,12 @@ section{padding:92px 0}
 .gf-shot *{box-sizing:border-box}
 .gf-cap{display:block;font-size:13px;line-height:1.4;color:var(--muted);letter-spacing:.02em;margin:0 0 0 4px}
 .gf-cap::before{content:'';display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);margin-right:9px;vertical-align:1px}
+/* la note « (a venir) » d'une maquette qui illustre un ecran encore en
+   construction (16/08/2026, une seule aujourd'hui : « Mes artistes »). La
+   pastille reprend a l'identique celle des puces `.u-card li i` : c'est le
+   meme signal, il doit se lire pareil. */
+.gf-soon-note{margin:9px 0 0 4px;max-width:66ch;color:var(--muted);font-size:14px;line-height:1.6}
+.gf-soon-note i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,162,228,.4);background:rgba(143,122,209,.12);border-radius:999px;padding:1px 9px;line-height:1.5;margin-right:7px}
 .gf-bar{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
 .gf-bar-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:var(--ink)}
 .gf-bar-s{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
@@ -847,7 +853,7 @@ section{padding:92px 0}
         <li><b>Modèles de mails</b> — relance, présentation, remerciement, pré-remplis avec la dernière date jouée avec l’interlocuteur.</li>
         <li><b>Évaluation d’une proposition</b> — l’offre reçue comparée aux conditions idéales de l’artiste, avec un verdict vert, jaune ou rouge avant de s’engager.</li>
         <li><b>Suivi de négociation</b> — statut du contrat, échéance de signature, informations manquantes, et une demande d’informations prête à envoyer.</li>
-        <li class="soon"><b>Je crée mon contrat</b> <i>(à venir)</i> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
+        <li><b>Je crée mon contrat</b> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
       </ul>
     </article>
 <figure class="gf-block">
@@ -968,16 +974,16 @@ section{padding:92px 0}
           <h3>Ton cercle, solidaire</h3>
         </div>
       </div>
-      <p class="u-sub">Parce qu’on avance mieux à plusieurs. Cet univers est en cours de déploiement.</p>
+      <p class="u-sub">Parce qu’on avance mieux à plusieurs. Deux points y sont encore en construction, marqués « à venir ».</p>
       <ul>
         <li><b>Vue groupe</b> — où en est chaque membre du groupe, pour se soutenir avant que la situation ne coince.</li>
         <li><b>« J’ai besoin d’aide »</b> — trois questions simples, un premier conseil concret, et la possibilité de prévenir qui l’on veut.</li>
         <li><b>Faire découvrir l’outil</b> — un membre peut recommander Guso Facile à un autre artiste : il renseigne ses coordonnées, l’application prépare un message qu’il peut modifier, et la demande arrive chez David, qui l’étudie personnellement. Chaque accès reste une décision, jamais une inscription automatique.</li>
-        <li class="soon"><b>L’entraide entre artistes</b> <i>(à venir)</i> — entre membres, on partagera ce qui s’est
+        <li><b>L’entraide entre artistes</b> — entre membres, on partage ce qui s’est
           concrètement passé sur une date : le contrat a-t-il été fourni, le paiement est-il arrivé dans les
           délais, les conditions annoncées ont-elles été tenues. Rien que des faits, jamais d’appréciation.
           L’idée n’est pas de juger qui que ce soit, mais de s’informer entre pairs — comme on le fait déjà
-          de bouche à oreille, en tournée ou en loge. Et quand le cadre a manqué, l’outil proposera plutôt
+          de bouche à oreille, en tournée ou en loge. Et quand le cadre a manqué, l’outil propose plutôt
           d’aider à le poser la prochaine fois, avec un modèle de contrat prêt à personnaliser.</li>
         <li class="soon"><b>Points de vigilance côté structure</b> <i>(à venir)</i> — qui approche du seuil, qui aurait besoin d’un coup de main.</li>
         <li class="soon"><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
@@ -1034,6 +1040,7 @@ section{padding:92px 0}
     </div>
   </div>
   <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+  <p class="gf-soon-note"><i>(à venir)</i> Cet aperçu montre une vue en cours de construction. L’espace structure réunit aujourd’hui, tous artistes confondus, les DPAE, les feuillets GUSO et les factures à faire ; le suivi artiste par artiste, avec ses heures et son niveau de vigilance, n’est pas encore livré.</p>
 </figure>
 
   </div>
@@ -1041,7 +1048,7 @@ section{padding:92px 0}
   <div class="guilde">
     <span class="ic-w"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9.2" cy="12" r="5.3"/><circle cx="14.8" cy="12" r="5.3"/></svg></span>
     <div>
-      <p class="u-num">Ce cercle a un nom — la Guilde <i>(à venir)</i></p>
+      <p class="u-num">Ce cercle a un nom — la Guilde</p>
       <p class="guilde-claim">Une guilde d’artistes qui se soutiennent. On pose le cadre avant, on se dit
         les faits après, personne ne reste seul.</p>
       <p class="guilde-p">Une guilde, c’est un groupe de gens du même métier qui se protègent
@@ -1050,10 +1057,10 @@ section{padding:92px 0}
         parfois d’une phrase — « tu vas jouer devant du monde, ça va te faire connaître » — pour que la
         valeur s’inverse : celui qui apporte son travail se retrouve à recevoir une faveur. Cela
         fonctionne, parce qu’un artiste a besoin de jouer pour exister.</p>
-      <p class="guilde-p">La Guilde fera donc deux choses : donner de quoi <b>poser le cadre avant</b> —
+      <p class="guilde-p">La Guilde fait donc deux choses : donner de quoi <b>poser le cadre avant</b> —
         contrat, conditions, délais de paiement — et permettre de <b>se dire les faits après</b>, entre
         membres : payé ou non, dans les délais ou non, conditions annoncées tenues ou non. Rien que des
-        faits, aucun commentaire libre, aucun tribunal. Cet espace sera réservé aux membres connectés de
+        faits, aucun commentaire libre, aucun tribunal. Cet espace est réservé aux membres connectés de
         Guso Facile.</p>
     </div>
   </div>

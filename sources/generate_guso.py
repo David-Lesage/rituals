@@ -113,13 +113,18 @@ c) « L'entraide entre artistes » (la Guilde) — fonctionnalite NON LIVREE (la
    « (a venir) ». ⚠️ Bloc le plus sensible de la page apres celui du lien avec
    l'association : voir la CONTRAINTE REDACTIONNELLE STRICTE ecrite juste
    au-dessus de lui dans le gabarit, et le garde-fou `_controle_guilde()`.
+   ⚠️ PERIME LE 16/08/2026 : l'ecran existe et est deploye — le bloc est passe
+   au PRESENT. La contrainte de vocabulaire, elle, n'a pas bouge d'un mot.
+   Voir « LA REMISE A NIVEAU DU 16/08/2026 » plus bas.
 
 d) « Je cree mon contrat » — fonctionnalite NON LIVREE (le modele en 12
    rubriques existe en base, l'ecran non), ajoutee dans l'univers 2, AU FUTUR
    et marquee « (a venir) ».
+   ⚠️ PERIME LE 16/08/2026 : l'ecran existe, la puce est passee au PRESENT.
 
 e) « Points de vigilance cote structure » et « Confidentialite graduee »
    etaient DEJA presents et DEJA marques « (a venir) » : rien a faire.
+   (Toujours vrai au 16/08/2026 : ce sont deux des trois « a venir » restants.)
 
 Le reste de la page n'a pas ete touche — en particulier « cree par David
 Lesage · relaye par l'association », « Pourquoi Resonances Productions le
@@ -178,6 +183,16 @@ LES TROIS EXIGENCES QUI NE SE NEGOCIENT PAS
   c) RIEN QUI N'EXISTE PAS. La Guilde et « Je cree mon contrat » ne sont PAS
      illustrees : la page les ecrit au futur, les illustrer les ferait passer
      pour livrees.
+     ⚠️ 16/08/2026 — les deux ecrans existent desormais, la page les ecrit au
+     PRESENT, et la regle (c) TIENT TOUJOURS, pour une autre raison : AUCUNE
+     DONNEE n'y a encore ete saisie. Une maquette de la Guilde montrerait des
+     retours inventes dans un espace vide — exactement la promesse de contenu
+     que `MOTS_INTERDITS_ABONDANCE` interdit d'ecrire en toutes lettres. Ne
+     pas les illustrer tant qu'elles ne sont pas reellement peuplees.
+     ⚠️ 16/08/2026 (suite) — la maquette 6 « Mes artistes », elle, montre une
+     vue qui N'EXISTE PAS ENCORE telle quelle : elle est conservee (David a
+     demande qu'elle serve de modele a la construction) mais elle porte
+     desormais sa propre mention « (a venir) ». Voir `MAQ_STRUCTURE`.
 
 CE QUI A ETE CORRIGE DANS LA MATIERE FOURNIE (l'auteur n'a pu tester que son
 propre fichier, jamais dans cette page) :
@@ -389,7 +404,9 @@ produit, pas un manifeste — et la page mesure deja 15 000 px sur telephone.
 La version longue fera un tres bon article de blog.
 
 ⚠️ CE BLOC EST SOUMIS AU MEME INTERDIT QUE LA PUCE « L'entraide entre
-artistes » : meme vocabulaire proscrit, meme obligation de « (a venir) ».
+artistes » : meme vocabulaire proscrit — les HUIT MOTS, inchanges depuis le
+14/08/2026 — et, depuis le 16/08/2026, meme interdit d'ABONDANCE (l'ecran
+existe, il est vide : on decrit une capacite, jamais un contenu).
 Garde-fou : `_controle_guilde_encart()`, jumeau de `_controle_guilde()`.
 
 CE QUI A ETE ADOUCI PAR RAPPORT AU MANIFESTE (esprit garde, charge retiree) :
@@ -409,7 +426,63 @@ CE QUI A ETE ADOUCI PAR RAPPORT AU MANIFESTE (esprit garde, charge retiree) :
     de la frustration chez un lecteur qui cliquerait pour voir.
   - Aucun lieu, aucune personne nommes : les phrases citees restent generiques,
     comme l'exige le manifeste lui-meme.
-  - Tout est au FUTUR et porte « (a venir) » : la base existe, l'ecran non.
+
+------------------------------------------------------------------------------
+LA REMISE A NIVEAU DU 16/08/2026 — la page rattrape l'application
+------------------------------------------------------------------------------
+David a teste l'app et constate que LA PAGE ANNONCE « A VENIR » DES
+FONCTIONNALITES QUI EXISTENT. Etat des lieux fourni par la session qui
+developpe Guso Facile, releve DANS LE CODE. Regle inchangee, appliquee dans les
+DEUX SENS : ce qui est livre s'ecrit au PRESENT, ce qui ne l'est pas s'ecrit au
+FUTUR avec « (a venir) » — un beta-testeur verifie en trois clics.
+
+CE QUI PASSE AU PRESENT (mentions « (a venir) » RETIREES)
+  1. « Je cree mon contrat » (univers 2) — l'ecran existe et est deploye.
+     `class="soon"` et `<i>(a venir)</i>` retires, texte inchange pour le reste.
+  2. « L'entraide entre artistes » (univers 4, la puce Guilde) — idem.
+     Deux verbes remis au present : « on partagera » -> « on partage »,
+     « l'outil proposera » -> « l'outil propose ». RIEN D'AUTRE.
+  3. L'ENCART « la Guilde » — « (a venir) » retire de son titre, et les deux
+     futurs de son dernier paragraphe passes au present : « La Guilde fera
+     donc » -> « fait donc », « Cet espace sera reserve » -> « est reserve ».
+     La phrase « membres connectes » reste (exigence du manifeste, verifiee).
+  4. Le sous-titre de l'univers 4 disait « Cet univers est en cours de
+     deploiement » — c'etait vrai quand quatre de ses six puces attendaient.
+     Il n'en reste que deux : la phrase le dit maintenant, sans annuler tout
+     l'univers.
+
+⚠️⚠️ LA NUANCE QUI COMMANDE TOUTE LA REDACTION DE CES DEUX BLOCS
+     Les ecrans existent, MAIS AUCUNE DONNEE N'Y A ENCORE ETE SAISIE : zero
+     lieu, zero retour. On decrit donc une CAPACITE (« on partage… »,
+     « l'espace est reserve aux membres connectes… »), JAMAIS UN CONTENU
+     (« consulte les retours d'artistes sur des centaines de lieux » serait
+     promettre un espace vide, ce qui est pire qu'un « a venir » de trop).
+     Ce n'est plus un principe seulement redactionnel : c'est un garde-fou,
+     `MOTS_INTERDITS_ABONDANCE`, applique aux deux memes blocs.
+
+CE QUI RESTE AU FUTUR (3 mentions « (a venir) », voir NB_A_VENIR)
+  a) « Points de vigilance cote structure » (univers 4) — la vue qui dirait qui
+     approche du seuil n'existe pas.
+  b) « Confidentialite graduee » (univers 4) — le backend existe et il est
+     teste, mais L'ECRAN DE REGLAGE COTE ARTISTE N'EXISTE PAS.
+  c) NOUVEAU : la maquette 6, l'apercu « Mes artistes » (voir le commentaire
+     au-dessus de `MAQ_STRUCTURE`).
+
+L'ESPACE « GRATITUDES » (avis des utilisateurs) n'a jamais ete construit — et
+il n'est mentionne NULLE PART sur cette page. On ne l'ajoute donc pas : une
+page ne gagne rien a annoncer ce qui n'existe pas encore.
+
+LE GARDE-FOU `_controle_guilde()` A CHANGE, ET C'EST DELIBERE
+  Il EXIGEAIT la presence de « (a venir) » dans le bloc Guilde : cette exigence
+  serait devenue fausse. Elle est remplacee par le controle d'abondance
+  ci-dessus. ⚠️ SA PARTIE ESSENTIELLE EST INTACTE : les HUIT MOTS PROSCRITS
+  (noter, notation, signaler, denoncer, avis, evaluation, blacklist,
+  reputation) restent interdits dans ce bloc et dans l'encart, pour la raison
+  ecrite plus haut — la page est publique et decrit des artistes qui affirment
+  des faits sur des employeurs identifiables. Ne pas affaiblir cette
+  protection, ne pas l'etendre au reste de la page (« signaler un bug » reste
+  legitime dans « Et aussi », « Evaluation d'une proposition » dans l'univers
+  2).
 
 Usage : python3 sources/generate_guso.py   (depuis la racine du depot)
 """
@@ -863,6 +936,12 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-shot *{box-sizing:border-box}
 .gf-cap{display:block;font-size:13px;line-height:1.4;color:var(--muted);letter-spacing:.02em;margin:0 0 0 4px}
 .gf-cap::before{content:'';display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);margin-right:9px;vertical-align:1px}
+/* la note « (a venir) » d'une maquette qui illustre un ecran encore en
+   construction (16/08/2026, une seule aujourd'hui : « Mes artistes »). La
+   pastille reprend a l'identique celle des puces `.u-card li i` : c'est le
+   meme signal, il doit se lire pareil. */
+.gf-soon-note{margin:9px 0 0 4px;max-width:66ch;color:var(--muted);font-size:14px;line-height:1.6}
+.gf-soon-note i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,162,228,.4);background:rgba(143,122,209,.12);border-radius:999px;padding:1px 9px;line-height:1.5;margin-right:7px}
 .gf-bar{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
 .gf-bar-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:var(--ink)}
 .gf-bar-s{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
@@ -988,12 +1067,23 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 MENTION_FICTIVE = 'Aperçu de l’interface — données fictives'
 
 
-def _figure(aria, corps, classe=''):
-    """Enveloppe un bloc de maquette : role=img + aria-label + mention visible."""
-    return ('<figure class="gf-block%s">\n'
+def _figure(aria, corps, classe='', note=''):
+    """Enveloppe un bloc de maquette : role=img + aria-label + mention visible.
+
+    `note` (16/08/2026) : un paragraphe FACULTATIF pose SOUS la legende, pour
+    une maquette qui illustre un ecran encore en construction. Il est volontai-
+    rement SEPARE du `<figcaption>` : les six legendes doivent rester identiques
+    au caractere pres, c'est ce que compte `ANCRES` — une legende qui varie, et
+    le controle « chaque maquette porte sa mention de donnees fictives » ne
+    detecte plus rien.
+    """
+    bloc = ('<figure class="gf-block%s">\n'
             '  <div class="gf-shot" role="img" aria-label="%s">%s</div>\n'
             '  <figcaption class="gf-cap">%s</figcaption>\n'
-            '</figure>\n' % (classe, aria, corps, MENTION_FICTIVE))
+            % (classe, aria, corps, MENTION_FICTIVE))
+    if note:
+        bloc += '  <p class="gf-soon-note">%s</p>\n' % note
+    return bloc + '</figure>\n'
 
 
 # --- 1. LA JAUGE DES 507 H (hero) ----------------------------------------
@@ -1282,6 +1372,24 @@ MAQ_TOURNEE = _figure(
 #    entendait donc des couleurs absentes de l'ecran. Reecrit avec les trois
 #    libelles reellement affiches.
 # Barres : 412/507 = 81 % · 348 = 69 % · 261 = 51 % · 154 = 30 %.
+#
+# ⚠️⚠️ 16/08/2026 — CETTE MAQUETTE EST LA SEULE A PORTER UN « (a venir) ».
+#    C'est le point ou la page promettait PLUS que l'application. Verifie dans
+#    le code : cette vue « Mes artistes » (chaque artiste, ses heures, son
+#    niveau de vigilance) N'EXISTE PAS TELLE QUELLE. Ce qui existe cote
+#    structure est une to-do TRANSVERSALE (DPAE / GUSO / factures), utile mais
+#    qui ne dit rien de l'etat de sante de chaque artiste. La puce « Points de
+#    vigilance cote structure » de l'univers 4 dit deja « (a venir) » — l'image,
+#    elle, disait le contraire.
+#    LA MAQUETTE ET SON TEXTE SONT CONSERVES A DESSEIN : David a demande que
+#    cette vue soit CONSTRUITE POUR DE BON A PARTIR DE CETTE MAQUETTE. C'est en
+#    cours cote application.
+#    ➜ QUOI RETIRER LE JOUR DU DEPLOIEMENT (on sera prevenu) :
+#         1. l'argument `note=` de cet appel a `_figure()` (et lui seul) ;
+#         2. faire passer `NB_A_VENIR` de 3 a 2 dans `ANCRES` ;
+#         3. retirer l'ancre `class="gf-soon-note"` de `ANCRES`.
+#       Le CSS `.gf-soon-note` peut rester : `_figure()` ne l'emet que si une
+#       maquette demande une note, et une autre en aura peut-etre besoin.
 MAQ_STRUCTURE = _figure(
     'Tableau de bord d’une structure dans Guso Facile : quatre artistes, leur '
     'compteur d’heures sur 507 et leur niveau de vigilance — bon rythme, à '
@@ -1334,7 +1442,12 @@ MAQ_STRUCTURE = _figure(
         <span class="gf-mbar"><i style="width:30%"></i></span>
       </div>
     </div>
-  """, classe=' gf-wide')
+  """, classe=' gf-wide',
+    note='<i>(à venir)</i> Cet aperçu montre une vue en cours de construction. '
+         'L’espace structure réunit aujourd’hui, tous artistes confondus, les '
+         'DPAE, les feuillets GUSO et les factures à faire ; le suivi artiste '
+         'par artiste, avec ses heures et son niveau de vigilance, n’est pas '
+         'encore livré.')
 
 
 # =========================================================================
@@ -1802,21 +1915,20 @@ def build_html():
         <li><b>Suivi de négociation</b> — statut du contrat, échéance de signature, informations manquantes, et une demande d’informations prête à envoyer.</li>
 """
       # -------------------------------------------------------------------
-      # « Je cree mon contrat » — FONCTIONNALITE NON LIVREE : ECRITE AU FUTUR
+      # « Je cree mon contrat » — FONCTIONNALITE LIVREE (corrige le 16/08/2026)
       # -------------------------------------------------------------------
-      # Etat au 14/08/2026, donne par la session qui developpe Guso Facile :
-      # le modele d'engagement en 12 rubriques existe EN BASE DE DONNEES,
-      # mais l'ECRAN qui le remplit N'EXISTE PAS ENCORE. L'ecrire au present
-      # reviendrait a vendre une fonctionnalite qu'un beta-testeur constate
-      # absente en trois clics — sur le site public d'une association.
-      # D'ou : meme traitement visuel « a venir » que les deux mentions deja
-      # presentes dans l'univers 4 (`<i>(a venir)</i>`, rendu en gris par
-      # `.u-card li i`), et formulation SOBRE — aucune description du contenu
-      # des rubriques, aucune date de livraison annoncee.
+      # HISTOIRE, parce qu'elle explique la forme de la ligne : au 14/08/2026 le
+      # modele d'engagement en 12 rubriques existait EN BASE mais l'ECRAN non ;
+      # la puce etait donc `class="soon"` + `<i>(a venir)</i>`. LE 16/08/2026,
+      # l'etat des lieux releve dans le code dit que L'ECRAN EXISTE ET EST
+      # DEPLOYE. La mention est donc retiree, et la puce reprend le marqueur
+      # plein des fonctionnalites livrees. Le TEXTE n'a pas bouge d'un mot : il
+      # etait deja formule cote CAPACITE (« pour poser un cadre clair »), pas
+      # cote contenu — il passe au present sans retouche.
       # Cette ligne est placee dans l'univers 2 (« Ta tournee, organisee »)
       # parce que c'est la que se traite la relation a l'organisateur :
       # evaluation de la proposition, puis suivi de negociation, puis contrat.
-      """        <li class="soon"><b>Je crée mon contrat</b> <i>(à venir)</i> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
+      """        <li><b>Je crée mon contrat</b> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
       </ul>
     </article>
 """)
@@ -1860,7 +1972,7 @@ def build_html():
           <h3>Ton cercle, solidaire</h3>
         </div>
       </div>
-      <p class="u-sub">Parce qu’on avance mieux à plusieurs. Cet univers est en cours de déploiement.</p>
+      <p class="u-sub">Parce qu’on avance mieux à plusieurs. Deux points y sont encore en construction, marqués « à venir ».</p>
       <ul>
         <li><b>Vue groupe</b> — où en est chaque membre du groupe, pour se soutenir avant que la situation ne coince.</li>
         <li><b>« J’ai besoin d’aide »</b> — trois questions simples, un premier conseil concret, et la possibilité de prévenir qui l’on veut.</li>
@@ -1883,11 +1995,18 @@ def build_html():
       # ⚠️⚠️ « L'ENTRAIDE ENTRE ARTISTES » (la Guilde) — CONTRAINTE
       #        REDACTIONNELLE STRICTE. LIRE AVANT DE TOUCHER A CE BLOC.
       # ===================================================================
-      # 1. C'est une fonctionnalite NON LIVREE : la base de donnees existe,
-      #    L'ECRAN N'EXISTE PAS ENCORE (etat au 14/08/2026). Elle s'ecrit donc
-      #    AU FUTUR et porte OBLIGATOIREMENT la mention `<i>(a venir)</i>`,
-      #    comme les autres a-venir de la page. Ne jamais la passer au present
-      #    « parce que la phrase coule mieux ».
+      # 1. FONCTIONNALITE LIVREE DEPUIS LE 16/08/2026 — mais LIVREE NE VEUT PAS
+      #    DIRE PEUPLEE. L'ecran existe et il est deploye (au 14/08 seule la
+      #    base existait : le bloc etait alors `class="soon"` + « (a venir) »),
+      #    SEULEMENT AUCUNE DONNEE N'Y A ENCORE ETE SAISIE : zero lieu, zero
+      #    retour. La puce decrit donc une CAPACITE — ce qu'un membre peut y
+      #    faire — et JAMAIS UN CONTENU. Ecrire « consulte les retours
+      #    d'artistes sur des centaines de lieux » promettrait un espace vide :
+      #    c'est pire qu'un « a venir » de trop, et c'est refuse a l'ecriture
+      #    par `MOTS_INTERDITS_ABONDANCE`.
+      #    Seuls DEUX VERBES ont bouge le 16/08 : « on partagera » -> « on
+      #    partage », « l'outil proposera » -> « l'outil propose ». Rien
+      #    d'autre : le texte etait deja ecrit cote capacite.
       #
       # 2. LE POINT DELICAT : cette fonctionnalite fait porter a des artistes
       #    des AFFIRMATIONS FACTUELLES SUR DES EMPLOYEURS IDENTIFIABLES. Elle
@@ -1916,11 +2035,11 @@ def build_html():
       # 5. Le texte ci-dessous est celui VALIDE par la session qui developpe
       #    Guso Facile, repris quasi verbatim. Seule la ponctuation a ete
       #    adaptee au gabarit des puces. Ne pas le « fluidifier ».
-      """        <li class="soon"><b>L’entraide entre artistes</b> <i>(à venir)</i> — entre membres, on partagera ce qui s’est
+      """        <li><b>L’entraide entre artistes</b> — entre membres, on partage ce qui s’est
           concrètement passé sur une date : le contrat a-t-il été fourni, le paiement est-il arrivé dans les
           délais, les conditions annoncées ont-elles été tenues. Rien que des faits, jamais d’appréciation.
           L’idée n’est pas de juger qui que ce soit, mais de s’informer entre pairs — comme on le fait déjà
-          de bouche à oreille, en tournée ou en loge. Et quand le cadre a manqué, l’outil proposera plutôt
+          de bouche à oreille, en tournée ou en loge. Et quand le cadre a manqué, l’outil propose plutôt
           d’aider à le poser la prochaine fois, avec un modèle de contrat prêt à personnaliser.</li>
         <li class="soon"><b>Points de vigilance côté structure</b> <i>(à venir)</i> — qui approche du seuil, qui aurait besoin d’un coup de main.</li>
         <li class="soon"><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
@@ -1945,11 +2064,17 @@ def build_html():
     # la page mesure deja 15 000 px sur telephone. La version longue fera un
     # excellent article de blog.
     #
-    # 1. FONCTIONNALITE NON LIVREE : la base existe, l'ecran non. Tout est au
-    #    FUTUR et le titre porte OBLIGATOIREMENT `<i>(à venir)</i>`.
+    # 1. FONCTIONNALITE LIVREE DEPUIS LE 16/08/2026 (au 14/08 seule la base
+    #    existait, et le titre portait `<i>(à venir)</i>` : la mention est
+    #    retiree). ⚠️ LIVREE NE VEUT PAS DIRE PEUPLEE : aucune donnee n'y a
+    #    encore ete saisie, zero lieu, zero retour. L'encart decrit donc ce que
+    #    la Guilde PERMET, jamais ce qu'elle CONTIENT. Trois futurs sont passes
+    #    au present ce jour-la, et eux seuls : « La Guilde fera donc deux
+    #    choses » -> « fait donc deux choses », « Cet espace sera reserve » ->
+    #    « est reserve ». Le reste du texte est celui du manifeste, intact.
     #
     # 2. LE POINT DELICAT, identique a celui de la puce : des artistes y
-    #    porteront des AFFIRMATIONS FACTUELLES SUR DES EMPLOYEURS
+    #    portent des AFFIRMATIONS FACTUELLES SUR DES EMPLOYEURS
     #    IDENTIFIABLES, et LA PAGE QUI LE DECRIT EST PUBLIQUE ET INDEXEE. Ce
     #    bloc ne doit jamais se lire comme « une plateforme qui note les
     #    employeurs du spectacle ».
@@ -1957,6 +2082,9 @@ def build_html():
     # 3. VOCABULAIRE INTERDIT ICI, sans exception ni synonyme deguise :
     #        noter · notation · signaler · denoncer · avis · evaluation ·
     #        blacklist · reputation
+    #    + depuis le 16/08/2026 le vocabulaire d'ABONDANCE (centaines, milliers,
+    #    « deja repertories », « consulter les retours »…), qui promettrait un
+    #    contenu que l'espace n'a pas encore.
     #    Garde-fou : `_controle_guilde_encart()`, jumeau de `_controle_guilde()`.
     #
     # 4. CE QUI A ETE ADOUCI PAR RAPPORT AU MANIFESTE (esprit garde) :
@@ -1989,7 +2117,7 @@ def build_html():
   <div class="guilde">
     <span class="ic-w">""" + _ic('guilde') + """</span>
     <div>
-      <p class="u-num">Ce cercle a un nom — la Guilde <i>(à venir)</i></p>
+      <p class="u-num">Ce cercle a un nom — la Guilde</p>
       <p class="guilde-claim">Une guilde d’artistes qui se soutiennent. On pose le cadre avant, on se dit
         les faits après, personne ne reste seul.</p>
       <p class="guilde-p">Une guilde, c’est un groupe de gens du même métier qui se protègent
@@ -1998,10 +2126,10 @@ def build_html():
         parfois d’une phrase — « tu vas jouer devant du monde, ça va te faire connaître » — pour que la
         valeur s’inverse : celui qui apporte son travail se retrouve à recevoir une faveur. Cela
         fonctionne, parce qu’un artiste a besoin de jouer pour exister.</p>
-      <p class="guilde-p">La Guilde fera donc deux choses : donner de quoi <b>poser le cadre avant</b> —
+      <p class="guilde-p">La Guilde fait donc deux choses : donner de quoi <b>poser le cadre avant</b> —
         contrat, conditions, délais de paiement — et permettre de <b>se dire les faits après</b>, entre
         membres : payé ou non, dans les délais ou non, conditions annoncées tenues ou non. Rien que des
-        faits, aucun commentaire libre, aucun tribunal. Cet espace sera réservé aux membres connectés de
+        faits, aucun commentaire libre, aucun tribunal. Cet espace est réservé aux membres connectés de
         Guso Facile.</p>
     </div>
   </div>
@@ -2244,6 +2372,26 @@ def build_html():
 #: role="img". Si l'un des trois comptes s'ecarte, la page n'est pas ecrite.
 NB_MAQUETTES = 6
 
+#: nombre de mentions « (a venir) » attendues dans la page. IL EST LE COMPTE
+#: RENDU DE L'ETAT REEL DE L'APPLICATION, pas un reglage cosmetique — chaque
+#: unite doit correspondre a une fonctionnalite qu'un beta-testeur constate
+#: absente. Historique : 5 au 15/08/2026 ; 3 depuis le 16/08/2026, l'ecran de
+#: la Guilde et celui de « Je cree mon contrat » ayant ete deployes entre-temps.
+#: LES TROIS RESTANTS, un par un :
+#:   1. « Points de vigilance cote structure » (univers 4) — la vue qui dirait
+#:      qui approche du seuil n'existe pas ;
+#:   2. « Confidentialite graduee » (univers 4) — le backend existe et il est
+#:      teste, mais l'ECRAN DE REGLAGE COTE ARTISTE n'existe pas ;
+#:   3. la note de la maquette 6 « Mes artistes » — l'apercu illustre une vue
+#:      en cours de construction (voir le commentaire de `MAQ_STRUCTURE`).
+#: Baisser ce nombre sans qu'un ecran soit reellement livre, c'est promettre.
+#: Le monter sans motif, c'est deprecier un outil qui marche.
+NB_A_VENIR = 3
+
+#: nombre de puces « a venir » de l'inventaire. Il vaut NB_A_VENIR MOINS la note
+#: de la maquette 6, qui n'est pas une puce : 3 - 1 = 2.
+NB_PUCES_A_VENIR = NB_A_VENIR - 1
+
 #: (marqueur, nombre attendu, ce que c'est)
 ANCRES = (
     ('<h1', 1, 'titre principal de la page'),
@@ -2268,14 +2416,26 @@ ANCRES = (
     # Les trois blocs ajoutes le 14/08/2026 (voir les commentaires au-dessus de
     # chacun d'eux dans le gabarit).
     ('<b>Faire découvrir l’outil</b>', 1, 'cooptation — fonctionnalité LIVRÉE, au présent'),
-    ('<b>L’entraide entre artistes</b>', 1, 'la Guilde — fonctionnalité À VENIR'),
-    ('<b>Je crée mon contrat</b>', 1, 'modèle de contrat — fonctionnalité À VENIR'),
-    # 5 mentions « a venir » depuis le 15/08/2026 : la puce Guilde, « Je cree
-    # mon contrat », les deux deja presentes (points de vigilance,
-    # confidentialite graduee) — et le TITRE DE L'ENCART « la Guilde ». Si ce
-    # compte tombe a 4, c'est qu'une fonctionnalite non livree vient d'etre
-    # presentee comme disponible : l'ecriture est refusee.
-    ('<i>(à venir)</i>', 5, 'les mentions « à venir » des fonctionnalités non livrées'),
+    # ⚠️ 16/08/2026 — ces deux-la sont passees de « À VENIR » a LIVRÉE. Les
+    # ancres ci-dessous pinglent la puce ENTIERE (`<li>` nu, pas
+    # `<li class="soon">`, et pas de `<i>(à venir)</i>` derriere le `<b>`) :
+    # c'est ce qui empeche qu'on les remette en « a venir » par reflexe.
+    ('<li><b>L’entraide entre artistes</b> —', 1,
+     'la Guilde — fonctionnalité LIVRÉE, au présent (écran déployé)'),
+    ('<li><b>Je crée mon contrat</b> —', 1,
+     'modèle de contrat — fonctionnalité LIVRÉE, au présent (écran déployé)'),
+    # Le compte des mentions « (a venir) » : voir NB_A_VENIR juste au-dessus,
+    # ou les trois fonctionnalites concernees sont nommees une par une. Si ce
+    # compte baisse, une fonctionnalite non livree vient d'etre presentee comme
+    # disponible ; s'il monte, une fonctionnalite livree vient d'etre effacee.
+    # Les deux cas sont refuses a l'ecriture.
+    ('<i>(à venir)</i>', NB_A_VENIR, 'les mentions « à venir » des fonctionnalités non livrées'),
+    # La note de la maquette 6 « Mes artistes » : le seul « a venir » de la page
+    # qui ne soit pas une puce. Elle marque le point ou la page promettait plus
+    # que l'application (voir `MAQ_STRUCTURE`). A retirer le jour ou cette vue
+    # sera deployee — on sera prevenu.
+    ('class="gf-soon-note"', 1,
+     'la mention « à venir » de l’aperçu « Mes artistes »'),
     # le hamburger est cree en JS par mobile_nav.py : c'est son CSS qui
     # atteste sa presence. `.burger span{` n'existe qu'une fois (`.burger{`
     # apparait 3 fois : regle de base + media 860 + media print).
@@ -2308,10 +2468,12 @@ ANCRES = (
     ('id="gf-ink"', 1, 'le degrade signature (version SVG, partagee)'),
     ('class="u-ico"', 4, 'le pictogramme de chacun des 4 univers'),
     ('class="cas-ico"', 3, 'le pictogramme de chacun des 3 cas d’usage'),
-    # 4 puces « a venir » = 4 marqueurs creux. Ce compte double celui de
-    # `<i>(à venir)</i>` : c'est voulu, une puce pleine devant une
-    # fonctionnalite non livree la ferait passer pour disponible.
-    ('<li class="soon">', 4, 'les puces des fonctionnalités non livrées'),
+    # Autant de marqueurs creux que de puces « a venir » (2 depuis le
+    # 16/08/2026). Ce compte double celui de `<i>(à venir)</i>` moins la note de
+    # maquette : c'est voulu, une puce pleine devant une fonctionnalite non
+    # livree la ferait passer pour disponible — et une puce creuse devant une
+    # fonctionnalite livree la ferait passer pour absente.
+    ('<li class="soon">', NB_PUCES_A_VENIR, 'les puces des fonctionnalités non livrées'),
     ('<input', 0, 'aucun champ de saisie dans la page'),
     ('tabindex', 0, 'aucun ordre de tabulation force'),
     # --- l'absorption du 15/08/2026 --------------------------------------
@@ -2426,6 +2588,10 @@ HOTES_AUTORISES = (
 #: employeurs du spectacle ».
 #: ⚠️ L'interdit porte sur CE BLOC SEULEMENT : « signaler un bug » et
 #: « Evaluation d'une proposition » sont legitimes ailleurs sur la page.
+#: ⚠️⚠️ CES HUIT MOTS SONT LE CŒUR DU GARDE-FOU. Ils n'ont pas bouge d'une
+#: lettre depuis le 14/08/2026, et la remise a niveau du 16/08 — qui a fait
+#: passer les deux blocs Guilde au present — n'y a pas touche non plus. Ne
+#: jamais les affaiblir ni les elargir au reste de la page.
 MOTS_INTERDITS_GUILDE = (
     (r'\bnot(?:e|es|er|ée?s?|ation|ations)\b', 'noter / notation'),
     (r'\bsignal\w*', 'signaler'),
@@ -2434,6 +2600,39 @@ MOTS_INTERDITS_GUILDE = (
     (r'\bévalu\w*|\bevalu\w*', 'évaluation'),
     (r'\bblacklist\w*', 'blacklist'),
     (r'\bréputation\w*|\breputation\w*', 'réputation'),
+)
+
+#: LE SECOND INTERDIT, POSE LE 16/08/2026 — le vocabulaire d'ABONDANCE.
+#:
+#: Il remplace, dans les deux blocs Guilde, l'exigence « la mention (a venir)
+#: doit y figurer » : cette exigence protegeait contre une SUR-PROMESSE DE
+#: DISPONIBILITE (« l'ecran existe » alors qu'il n'existait pas). L'ecran
+#: existe desormais et il est deploye — l'exigence serait devenue fausse, et
+#: aurait purement et simplement empeche la page de dire la verite.
+#:
+#: Mais le risque n'a pas disparu, IL S'EST DEPLACE : l'espace est LIVRE ET
+#: VIDE — zero lieu, zero retour saisis. La sur-promesse possible n'est plus
+#: « ca existe », c'est « c'est deja rempli ». Ecrire « consulte les retours
+#: d'artistes sur des centaines de lieux » ferait cliquer un beta-testeur vers
+#: un ecran vide : plus decevant qu'un « a venir » de trop, et sur une page
+#: publique portee par une association.
+#: D'ou la regle : DECRIRE UNE CAPACITE (« on partage… », « l'espace est
+#: reserve aux membres connectes… »), JAMAIS UN CONTENU.
+#:
+#: ⚠️ Comme les huit autres, cet interdit ne porte QUE sur les deux blocs
+#: Guilde. Le reste de la page a parfaitement le droit de compter (« 65 dates
+#: de concerts », « quatre artistes »…) : ces chiffres-la decrivent des faits
+#: verifies, pas le remplissage d'un espace vide.
+MOTS_INTERDITS_ABONDANCE = (
+    (r'\bcentaines?\b', 'centaines (de lieux, de retours…)'),
+    (r'\bmilliers?\b', 'milliers'),
+    (r'\bdizaines?\b', 'dizaines'),
+    (r'\bnombreux\b|\bnombreuses\b', 'nombreux / nombreuses'),
+    (r'\bconsult\w*', 'consulter (le contenu existant)'),
+    (r'\bdéjà\s+(?:renseign|répertori|référenc|recens|document|rempli)\w*',
+     'déjà renseignés / répertoriés'),
+    (r'\bbase\s+de\s+lieux\b', 'base de lieux'),
+    (r'\bhistorique\s+des\s+lieux\b', 'historique des lieux'),
 )
 
 #: ce qui identifie le bloc Guilde dans la page livree.
@@ -2453,9 +2652,20 @@ def _controle_guilde(html):
     """Refuse d'ecrire si le bloc « Guilde » derape.
 
     Deux exigences, toutes deux liees au fait que la page est PUBLIQUE alors
-    que la fonctionnalite, elle, sera reservee aux membres connectes :
-      - la mention « (a venir) » y figure (la fonctionnalite n'est pas livree) ;
-      - aucun mot du vocabulaire proscrit n'y apparait.
+    que la fonctionnalite, elle, est reservee aux membres connectes :
+      - aucun mot du vocabulaire PROSCRIT n'y apparait (les huit mots, coeur
+        du garde-fou depuis le 14/08/2026 — voir MOTS_INTERDITS_GUILDE) ;
+      - aucun mot du vocabulaire d'ABONDANCE non plus : l'ecran est livre mais
+        VIDE, on decrit une capacite, jamais un contenu.
+
+    ⚠️ CE QUI A CHANGE LE 16/08/2026, ET POURQUOI. Cette fonction EXIGEAIT la
+    presence de « (a venir) » dans le bloc. C'etait juste tant que l'ecran
+    n'existait pas ; l'ecran est deploye depuis, et l'exigence serait devenue
+    un garde-fou qui FORCE LE MENSONGE — il aurait refuse d'ecrire une page
+    disant la verite. Elle est remplacee par `MOTS_INTERDITS_ABONDANCE`, qui
+    couvre le risque tel qu'il se pose maintenant (promettre un contenu que
+    l'espace n'a pas). LES HUIT MOTS PROSCRITS, EUX, N'ONT PAS BOUGE : c'est la
+    partie du garde-fou qui protege l'association, et elle n'est pas negociable.
     """
     import re
 
@@ -2473,13 +2683,6 @@ def _controle_guilde(html):
                          'autour). Page NON ecrite.')
     bloc = html[ouvre:ferme + len('</li>')]
 
-    if '(à venir)' not in bloc:
-        raise SystemExit(
-            '!! ABANDON : le bloc « Guilde » ne porte plus la mention « (à venir) ». '
-            'La base existe mais l\'ecran n\'est PAS livre : l\'annoncer comme '
-            'disponible serait verifiable en trois clics par un beta-testeur. '
-            'Page NON ecrite.')
-
     for motif, mot in MOTS_INTERDITS_GUILDE:
         m = re.search(motif, bloc, re.I)
         if m:
@@ -2493,15 +2696,32 @@ def _controle_guilde(html):
                 'aucun commentaire libre.\n'
                 '   Page NON ecrite.' % (mot, m.group(0)))
 
+    for motif, mot in MOTS_INTERDITS_ABONDANCE:
+        m = re.search(motif, bloc, re.I)
+        if m:
+            raise SystemExit(
+                '!! ABANDON : vocabulaire d\'abondance « %s » (ici : « %s ») dans le '
+                'bloc « L\'entraide entre artistes ».\n'
+                '   L\'ecran est livre, mais AUCUNE DONNEE n\'y a encore ete saisie : '
+                'zero lieu, zero retour. Promettre un contenu enverrait un '
+                'beta-testeur vers un espace vide.\n'
+                '   Ecrire ce que la fonctionnalite PERMET (« on partage… »), jamais '
+                'ce qu\'elle CONTIENDRAIT.\n'
+                '   Page NON ecrite.' % (mot, m.group(0)))
+
 
 def _controle_guilde_encart(html):
     """Meme controle que `_controle_guilde()`, mais sur l'ENCART « la Guilde ».
 
-    Deux blocs de la page decrivent la meme fonctionnalite a venir : la puce
+    Deux blocs de la page decrivent la meme fonctionnalite : la puce
     « L'entraide entre artistes » (univers 4) et cet encart (15/08/2026). Ils
     tombent sous UN SEUL jeu de regles — il aurait ete absurde de proteger le
     premier et de laisser le second libre, alors que c'est l'encart qui porte
     le texte le plus long et le plus argumente.
+
+    ⚠️ 16/08/2026 : comme son jumeau, il n'exige plus « (a venir) » (l'ecran est
+    deploye) mais refuse desormais le vocabulaire d'ABONDANCE. Les huit mots
+    proscrits et l'exigence « membres connectes » sont inchanges.
     """
     import re
 
@@ -2515,13 +2735,6 @@ def _controle_guilde_encart(html):
                          '« Et aussi » qui doit le suivre est introuvable). '
                          'Page NON ecrite.')
     bloc = html[debut:fin]
-
-    if '(à venir)' not in bloc:
-        raise SystemExit(
-            '!! ABANDON : l\'encart « la Guilde » ne porte plus la mention '
-            '« (à venir) ». La base existe mais l\'ecran n\'est PAS livre : '
-            'l\'annoncer comme disponible serait verifiable en trois clics par un '
-            'beta-testeur. Page NON ecrite.')
 
     # Demande explicite des « Notes d'emploi » du manifeste : dire que l'espace
     # est reserve aux membres connectes, sinon on cree de la frustration chez
@@ -2546,6 +2759,17 @@ def _controle_guilde_encart(html):
                 '   Points d\'appui : membres connectes uniquement, faits binaires, '
                 'aucun commentaire libre, sortie constructive (poser le cadre la '
                 'prochaine fois).\n'
+                '   Page NON ecrite.' % (mot, m.group(0)))
+
+    for motif, mot in MOTS_INTERDITS_ABONDANCE:
+        m = re.search(motif, bloc, re.I)
+        if m:
+            raise SystemExit(
+                '!! ABANDON : vocabulaire d\'abondance « %s » (ici : « %s ») dans '
+                'l\'encart « la Guilde ».\n'
+                '   L\'ecran est livre, mais AUCUNE DONNEE n\'y a encore ete saisie : '
+                'zero lieu, zero retour. Decrire ce que la Guilde PERMET, jamais ce '
+                'qu\'elle CONTIENDRAIT.\n'
                 '   Page NON ecrite.' % (mot, m.group(0)))
 
 
