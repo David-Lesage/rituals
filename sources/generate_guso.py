@@ -635,6 +635,94 @@ LE FORMULAIRE — CE QUI A ETE APPLIQUE TEL QUEL, ET LES TROIS PIEGES
       NE PAS LES RECOMPACTER. (Verifie en rejouant les motifs du crochet sur le
       generateur ET sur la page livree : aucune correspondance.)
 
+------------------------------------------------------------------------------
+LA MISE EN VALEUR DU BLOG (16/08/2026) — le constat de David, et sa mesure
+------------------------------------------------------------------------------
+Verbatim : « le blog n'est pas du tout mis en valeur alors meme qu'il est super
+riche et que ca peut etre une enorme porte d'entree. Il faut reconsiderer sa
+mise en valeur. »
+
+MESURE AVANT : la page portait DEUX liens vers le blog, et RIEN d'autre — un a
+mi-page (y = 3 376 px a 1440) et un tout en bas (y = 11 234 px). Aucun dans le
+premier ecran, aucun titre d'article visible nulle part. Pour decouvrir dix-huit
+articles il fallait avoir lu la page entiere.
+
+CE QUI A ETE POSE, ET OU :
+  1. UN LIEN DANS LE PREMIER ECRAN — dans la rangee `.cta` du hero, A COTE du
+     bouton « Demander un acces » et non a la place. C'est un LIEN, pas un
+     second bouton : l'ecart n° 8 en tete de ce fichier (« le bouton d'action
+     n'existe qu'UNE fois ») tient toujours. Sur ecran large il se pose sur la
+     MEME ligne que le bouton — cout en hauteur : zero.
+  2. LE BLOC `.mea` (« mise en avant »), en fin de section #situations, LA OU
+     se trouvait le premier des deux liens. Il le remplace : sur-titre, titre,
+     phrase de raccord, TROIS articles avec leur VRAI titre et leur accroche,
+     puis le lien vers l'index. Un titre d'article concret vaut cent fois
+     « voir le blog » — le lecteur y reconnait sa propre question.
+     ⚠️ POURQUOI DANS #situations ET PAS DANS UNE SECTION A PART : la page est
+     sous plafond de hauteur (voir plus bas). Une `<section>` supplementaire
+     coutait 184 px de respiration (92 px en haut et en bas) pour rien, alors
+     que le bloc est exactement a sa place ici : la section s'appelle « Trois
+     situations typiques », le blog en raconte quinze autres. Le bloc porte
+     `id="blog"` : il reste une cible d'ancre.
+  3. Le lien de fin de FAQ n'a pas bouge (dossier SEO, §6).
+
+POURQUOI CES TROIS ARTICLES-LA (`MISE_EN_AVANT`) — le raisonnement est ecrit
+au-dessus de la table elle-meme.
+
+⚠️ LA HAUTEUR EST UNE CONTRAINTE MESUREE, PAS UNE PREFERENCE. La page valait
+   11 883 px a 1440 avant cette passe, et elle vient d'absorber une page
+   entiere. Plafond retenu : ~12 500 px. Tout ajout se paie : c'est pour cela
+   que le bloc `.mea` n'est pas une section, que ses fleches sont dessinees en
+   CSS (aucun onzieme pictogramme a maintenir, `NB_PICTOS` inchange) et que le
+   lien du hero se range sur la ligne du bouton.
+
+------------------------------------------------------------------------------
+LES DEUX CORRECTIONS FACTUELLES DU 16/08/2026 (inventaire des univers)
+------------------------------------------------------------------------------
+A) « SYNCHRONISATION » DISAIT FAUX. L'univers 3 annoncait : « ce que l'artiste
+   renseigne apparait cote structure EN TEMPS REEL, et inversement ». Verifie
+   dans le code de l'application par la session qui la developpe : AUCUN
+   abonnement temps reel (zero `.channel(`, zero `postgres_changes`, zero
+   `realtime`). L'ecriture part bien immediatement, mais LA LECTURE NE SE FAIT
+   QU'AU CHARGEMENT de l'espace — deux onglets cote a cote ne se mettent pas a
+   jour tout seuls. C'etait la seule promesse de la page qu'une structure
+   pouvait dementir en dix secondes.
+   Phrase de remplacement, validee par l'auteur de l'app et reprise TELLE
+   QUELLE : « Synchronisation — les donnees sont partagees entre l'artiste et
+   la structure. » Une ancre a ZERO interdit le retour de « en temps reel ».
+
+B) SIX FONCTIONNALITES LIVREES MANQUAIENT A L'INVENTAIRE. Confirmees dans le
+   code par l'auteur, une phrase chacune, reprises telles quelles (seules la
+   ponctuation et le placement ont ete ajustes) :
+     - « Niveaux de partage » ......... univers 3, juste apres « Synchro-
+       nisation » : c'est la meme relation artiste <-> structure ;
+     - « Inscription par invitation » . univers 4, juste apres « Faire
+       decouvrir l'outil » — la cooptation propose, l'invitation ouvre ;
+     - « Hub d'informations du groupe » univers 4, juste apres « Vue groupe » ;
+     - « Guide de demarrage », « Guide integre » et « Nouveautes » .. encadre
+       « Et aussi », en une ligne « prise en main ». Ces trois-la n'appar-
+       tiennent a aucun des quatre univers (ce n'est ni un droit, ni une
+       tournee, ni une structure, ni un cercle) : les forcer dans l'un d'eux
+       aurait fausse la lecture, et l'encadre « Et aussi » existe exactement
+       pour ce cas.
+   ⚠️ TOUTES SONT LIVREES : au PRESENT, sans « (a venir) ». `NB_A_VENIR` reste
+      a 3.
+   ⚠️ UNE SEPTIEME EXISTE ET N'EST PAS ECRITE : la verification des dispo-
+      nibilites avec kilometrage entre deux dates. Son auteur ne l'a pas
+      verifiee assez finement pour en garantir la description. On ne l'invente
+      pas — une de moins vaut mieux qu'une fausse. Ne pas l'ajouter « de
+      memoire » : il faudra la faire confirmer.
+   ⚠️ « NIVEAUX DE PARTAGE » N'EST PAS « CONFIDENTIALITE GRADUEE ». Les deux
+      parlent de ce qu'une structure voit, et l'un est LIVRE quand l'autre est
+      « (a venir) » : un lecteur pressé y verrait une contradiction. Ils sont
+      donc dans DEUX cartes differentes (univers 3 / univers 4), et leur
+      redaction les separe d'elle-meme : « Niveaux de partage » offre TROIS
+      niveaux predefinis (tout / l'essentiel administratif / les totaux
+      d'heures), « Confidentialite graduee » promet le reglage fin, donnee par
+      donnee, dont l'ECRAN COTE ARTISTE n'existe pas encore. Ne pas les
+      rapprocher, et ne pas retirer les trois niveaux de la premiere : c'est
+      eux qui font la difference visible.
+
 Usage : python3 sources/generate_guso.py   (depuis la racine du depot)
 """
 
@@ -673,6 +761,74 @@ URL_DEMANDE = 'https://wqhwfqasoyyeprggjxet.supabase.co/rest/v1/account_requests
 #: Le crochet `pre-commit` le laisse passer — il traque les cles JWT
 #: (« eyJhbGciOi… »), une forme a laquelle celle-ci ne repond pas.
 CLE_PUBLIABLE = 'sb_publishable_vLxMMGhr5Jq_RrAQ2g_Fjg_dzdpKDbQ'
+
+
+# =========================================================================
+# LES TROIS ARTICLES MIS EN AVANT (16/08/2026)
+# =========================================================================
+# POURQUOI CEUX-LA, ET PAS LES TROIS PLUS RICHES.
+# Le critere retenu est l'UNIVERSALITE, pas la profondeur : ces trois-la sont
+# les questions qu'on tape dans un moteur de recherche AVANT de connaitre
+# l'outil, et meme avant de se savoir concerne. Chacun se lit sans prerequis,
+# et ensemble ils couvrent les trois moments d'une date :
+#   1. AVANT de comprendre — « C'est quoi le GUSO » : le dispositif lui-meme.
+#      Zero prerequis, c'est la porte la plus basse du blog, et c'est aussi le
+#      mot qui donne son nom a l'outil.
+#   2. PENDANT qu'on compte — « Combien de cachets pour 507 heures » : le
+#      calcul que TOUT intermittent refait chaque annee.
+#   3. APRES, quand ca coince — « Mon employeur ne m'a pas paye mon cachet » :
+#      l'accident que tout le monde redoute, et la recherche la plus urgente
+#      qui soit (on la tape le soir meme).
+#
+# CE QU'ON A ECARTE, ET POURQUOI :
+#   - « Atteindre ses 507 heures sans angoisse », « Pointer France Travail en
+#     5 minutes » et « Accompagner ses artistes sans tableur » sont les trois
+#     articles les plus relies du blog… et ce sont MOT POUR MOT les titres des
+#     trois « situations typiques » qui se trouvent JUSTE AU-DESSUS de ce bloc
+#     dans la page. Les remettre en cartes aurait donne au lecteur trois fois
+#     la meme chose. Le bloc les nomme autrement : la phrase de raccord dit que
+#     ces trois cas-la sont racontes en entier sur le blog.
+#   - les articles « structure » : excellents, mais ils ne parlent qu'a une
+#     partie du public — l'inverse d'universel.
+#
+# ⚠️ CES TITRES ET CES ACCROCHES SONT RECOPIES, PAS REECRITS. Leur source de
+#    verite est la table `ARTICLES` de `sources/generate_guso_blog.py` (cles
+#    `h1` et `dek`). Ils sont DUPLIQUES ici, et non importes, parce que la
+#    regle du depot interdit d'importer un `generate_*.py` (l'import ecrirait
+#    ses pages). Le garde-fou `_controle_mise_en_avant()` relit donc les pages
+#    d'article DEJA SUR LE DISQUE et refuse d'ecrire si un titre a diverge.
+#    Les accroches TUTOIENT (« ce que tu recois ») : c'est le registre du blog,
+#    et ce sont ses mots — on ne les neutralise pas, on les cite.
+#
+# ⚠️ AUCUN SLUG NE CHANGE, JAMAIS : ils sont alignes 1:1 avec le plan de
+#    redirections du dossier SEO. Changer un slug ici casserait la migration.
+#
+#: (slug, rubrique, titre, accroche, duree de lecture)
+MISE_EN_AVANT = (
+    ('c-est-quoi-le-guso-concretement', 'GUSO',
+     'C’est quoi le GUSO, concrètement ?',
+     'Le guichet unique qui permet à un employeur occasionnel de déclarer un '
+     'artiste en une fois. Qui déclare, ce que tu reçois, dans quels délais.',
+     '6 min'),
+    ('combien-de-cachets-pour-507-heures', 'Suivi des heures',
+     'Combien de cachets faut-il pour atteindre 507 heures ?',
+     'Un cachet vaut 12 heures, donc environ 43 cachets par an. Voici le calcul '
+     'complet, avec les répétitions et les plafonds à connaître.',
+     '6 min'),
+    ('employeur-ne-m-a-pas-paye-mon-cachet', 'Paiement',
+     'Mon employeur ne m’a pas payé mon cachet : que faire ?',
+     'Relance écrite, mise en demeure, puis prud’hommes : les étapes d’un impayé, '
+     'les délais à connaître et les interlocuteurs à qui s’adresser.',
+     '6 min'),
+)
+
+#: nombre d'articles mis en avant. Il sert DEUX fois : autant de cartes,
+#: autant de liens vers un article. Trois, et pas quatre : au-dela, la rangee
+#: passe a des colonnes de 240 px ou les titres tiennent sur cinq lignes, et le
+#: bloc coute plus de hauteur que la page n'en a (voir l'entete).
+NB_MISE_EN_AVANT = 3
+
+URL_BLOG = '/guso-facile/blog'
 
 
 # =========================================================================
@@ -952,7 +1108,15 @@ CSS_PAGE = """/* ===== Guso Facile ===== */
 .mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
 /* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice » */
 body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(224,138,114,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(143,122,209,.12),transparent 62%)}
-section{padding:92px 0}
+/* ⚠️ 92 -> 86 px LE 16/08/2026, ET C'EST UNE COMPENSATION, PAS UN REGLAGE.
+   La refonte du 14/08 avait porte la respiration des sections de 78 a 92 px
+   (« DE L'AIR », levier n° 3 ci-dessus). La mise en valeur du blog et les six
+   fonctionnalites ajoutees le 16/08 font grossir la page, qui est sous plafond
+   mesure (~12 500 px a 1440). 86 px reste tres au-dessus des 78 px d'avant la
+   refonte, l'ecart de 6 px ne se voit pas a l'oeil, et il rend 96 px sur les
+   huit sections. Meme raisonnement pour les 66 -> 62 px du telephone, plus
+   bas. Ne pas descendre en dessous : sous ~80 px la page redevient une notice. */
+section{padding:86px 0}
 .divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent)}
 .kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .sec-title{letter-spacing:.01em}
@@ -977,8 +1141,18 @@ section{padding:92px 0}
 /* hero : texte a gauche, jauge des 507 h a droite (empile sous 1000 px) */
 .gf-topgrid{display:grid;gap:38px;align-items:center}
 @media(min-width:1000px){.gf-topgrid{grid-template-columns:minmax(0,1fr) 400px}}
+/* ⚠️ LE RESSERREMENT DU 16/08/2026 — huit valeurs, une seule intention.
+   `.cas`, `.univers`, `.etapes-t`, `.veille`, `.guilde`, `.aussi` et `.etat`
+   sont passes de 42/40/38 px de marge haute a 34/32, et le panneau `.acces` de
+   46/40 px de rembourrage vertical a 40/34. C'est la SECONDE moitie de la
+   compensation de hauteur decrite plus haut (la premiere etant les sections a
+   86 px) : la mise en valeur du blog et les six fonctionnalites ajoutees le
+   meme jour ont fait grossir la page, qui est sous plafond mesure. Six a huit
+   pixels sur une marge de quarante ne se voient pas ; ils rendent une
+   cinquantaine de pixels au total. Ne pas descendre plus bas : c'est cette
+   respiration qui separe les blocs les uns des autres. */
 /* --- les quatre univers — DEUX colonnes, jamais trois (voir l'entete) ---- */
-.univers{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:42px}
+.univers{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:34px}
 @media(min-width:761px){.univers{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .u-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#1c1e46,#171935);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:30px 28px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
 .u-card::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
@@ -993,21 +1167,23 @@ section{padding:92px 0}
 .u-card li.soon::before{background:none;border:1.5px solid var(--plum2)}
 .u-card li b{color:#fff;font-weight:500}
 .u-card li i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,162,228,.4);background:rgba(143,122,209,.12);border-radius:999px;padding:1px 9px;line-height:1.5}
-.aussi{margin-top:40px;padding:26px 28px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));display:flex;gap:18px;align-items:flex-start}
+.aussi{margin-top:34px;padding:26px 28px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));display:flex;gap:18px;align-items:flex-start}
 .aussi .ic-w,.precision .ic-w{flex:0 0 auto;line-height:0;margin-top:3px}
 .aussi .ic{width:26px;height:26px}
 .aussi .u-num{display:block;margin-bottom:8px}
 .aussi p{color:#d7d4ea;font-size:15.5px}
+.aussi .aussi-p2{margin-top:12px;padding-top:12px;border-top:1px solid rgba(240,209,138,.18)}
+.aussi b{color:#fff;font-weight:500}
 /* --- trois situations : de vraies cartes, plus un simple filet a gauche -- */
 .cas-note{color:var(--muted);font-size:15px;margin-top:14px;max-width:62ch}
-.cas{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:26px;margin-top:42px}
+.cas{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:26px;margin-top:34px}
 .cas article{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.07);border-radius:22px;background:linear-gradient(180deg,#1c1e46,#171935);padding:28px 26px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
 .cas article::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .cas-ico{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(240,209,138,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(224,138,114,.12) 55%,rgba(143,122,209,.14));margin-bottom:16px}
 .cas h3{font-size:25px;font-weight:600;color:#fff;line-height:1.18}
 .cas p{color:#d7d4ea;font-size:15.5px;margin-top:11px}
 /* --- l'etat du projet ---------------------------------------------------- */
-.etat{position:relative;overflow:hidden;margin-top:38px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:linear-gradient(180deg,rgba(28,30,70,.9),rgba(20,22,51,.6));padding:38px 36px;max-width:900px;box-shadow:0 26px 60px -40px rgba(0,0,0,.95)}
+.etat{position:relative;overflow:hidden;margin-top:32px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:linear-gradient(180deg,rgba(28,30,70,.9),rgba(20,22,51,.6));padding:38px 36px;max-width:900px;box-shadow:0 26px 60px -40px rgba(0,0,0,.95)}
 .etat::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .etat p{color:#d7d4ea;font-size:16px}
 .etat p + p{margin-top:16px}
@@ -1017,7 +1193,7 @@ section{padding:92px 0}
 .precision .ic{width:24px;height:24px}
 .precision p{color:#d7d4ea;font-size:15px;line-height:1.65;margin:0}
 /* --- appel a l'action : un panneau, pas une fin de page ------------------ */
-.acces{position:relative;overflow:hidden;max-width:880px;border:1px solid rgba(255,255,255,.09);border-radius:26px;padding:46px 42px 40px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(224,138,114,.10) 48%,rgba(143,122,209,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
+.acces{position:relative;overflow:hidden;max-width:880px;border:1px solid rgba(255,255,255,.09);border-radius:26px;padding:40px 42px 34px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(224,138,114,.10) 48%,rgba(143,122,209,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
 .acces::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .mention{margin-top:20px;max-width:660px;color:var(--muted);font-size:14px;line-height:1.65}
 .mention + .mention{margin-top:12px}
@@ -1028,7 +1204,7 @@ section{padding:92px 0}
    garde-fou compte ses occurrences dans la page livree, CSS compris.) */
 .gf-top h1 .h1-sous{display:block;font-size:clamp(17px,2.4vw,26px);font-weight:500;line-height:1.24;letter-spacing:.02em;margin-top:10px}
 /* --- « Trois etapes, c'est tout » : une bande legere, pas des cartes ----- */
-.etapes-t{margin-top:40px}
+.etapes-t{margin-top:34px}
 .etapes{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:16px}
 @media(min-width:761px){.etapes{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}
 .etape{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.07);border-radius:18px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));padding:22px 22px 20px}
@@ -1036,7 +1212,7 @@ section{padding:92px 0}
 .etape h3{font-size:21px;font-weight:600;color:#fff;line-height:1.2;margin-top:4px}
 .etape .etape-d{color:#d7d4ea;font-size:15.5px;margin-top:9px}
 /* --- l'encart « la Guilde » (longueur retenue et adoucissements : entete) - */
-.guilde{display:flex;gap:18px;align-items:flex-start;margin-top:40px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(179,162,228,.28);border-radius:22px;background:linear-gradient(135deg,rgba(143,122,209,.13),rgba(224,138,114,.08) 62%,rgba(216,178,90,.08));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+.guilde{display:flex;gap:18px;align-items:flex-start;margin-top:34px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(179,162,228,.28);border-radius:22px;background:linear-gradient(135deg,rgba(143,122,209,.13),rgba(224,138,114,.08) 62%,rgba(216,178,90,.08));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
 .guilde .ic-w{flex:0 0 auto;line-height:0;margin-top:4px}
 .guilde .ic{width:26px;height:26px}
 .guilde .u-num{display:block;margin-bottom:8px}
@@ -1065,13 +1241,41 @@ section{padding:92px 0}
 .blog-lien a{display:inline-flex;align-items:center;gap:11px;color:var(--gold2);padding:11px 0;text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:4px}
 .blog-lien a::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
 .blog-lien a:hover{text-decoration-color:var(--gold2)}
+/* --- la mise en valeur du blog (16/08/2026) ----------------------------- */
+/* Le lien du hero est DANS la rangee `.cta`, a cote du bouton : au-dela de
+   ~1000 px il se pose sur la MEME ligne, donc il ne coute pas un pixel de
+   hauteur. C'est un lien souligne, jamais un second bouton — la page n'a
+   qu'UN geste possible (voir l'ecart n° 8 en tete de fichier). */
+.gf-top .cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px}
+.hero-blog{display:inline-flex;align-items:center;gap:11px;min-height:44px;padding:11px 0;color:var(--gold2);font-size:15.5px;text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:4px}
+.hero-blog::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
+.hero-blog:hover{text-decoration-color:var(--gold2)}
+/* Le bloc des trois articles. Il ferme #situations : un filet dore le detache
+   des trois cas d'usage sans ouvrir une section (qui aurait coute 184 px de
+   respiration — la page est sous plafond, voir l'entete).
+   ⚠️ La fleche des cartes est dessinee en CSS (deux bords tournes a -45deg),
+      comme celle de la FAQ : aucun douzieme pictogramme a maintenir, et
+      `NB_PICTOS` reste a 11. */
+.mea{margin-top:44px;padding-top:28px;border-top:1px solid rgba(216,178,90,.24)}
+.mea-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(25px,3.4vw,34px);font-weight:600;color:#fff;line-height:1.14}
+.mea-s{color:#d7d4ea;font-size:15.5px;margin-top:10px;max-width:78ch}
+.mea-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(262px,1fr));gap:20px;margin-top:22px}
+.mea-c{position:relative;overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,#1c1e46,#171935);padding:22px 20px 19px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95);transition:border-color .2s,transform .2s}
+.mea-c::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
+.mea-c:hover{transform:translateY(-3px);border-color:rgba(240,209,138,.34)}
+.mea-r{font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:8px}
+.mea-h{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;font-weight:600;color:#fff;line-height:1.2}
+.mea-d{color:#cfcbe4;font-size:15px;line-height:1.58;margin-top:10px}
+.mea-l{margin-top:auto;padding-top:14px;display:flex;align-items:center;gap:9px;font-size:13.5px;letter-spacing:.06em;color:var(--plum2)}
+.mea-l::after{content:'';width:8px;height:8px;border-right:1.6px solid var(--gold2);border-bottom:1.6px solid var(--gold2);transform:rotate(-45deg)}
+.mea .blog-lien{margin-top:14px}
 /* --- « On veille les uns sur les autres » (absorbe le 16/08/2026) -------- */
 /* Meme habillage que l'encart de la Guilde, qu'il introduit — MOINS le
    pictogramme : les onze icones servent chacune exactement une fois, et ce
    bloc n'a pas besoin d'une douzieme pour exister. La note en gris sous le
    texte reprend le registre de `.cas-note` (« Les prenoms sont fictifs ») :
    c'est le meme signal, il doit se lire pareil. */
-.veille{margin-top:40px;max-width:900px;padding:26px 30px 24px;border:1px solid rgba(240,209,138,.24);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(224,138,114,.08) 60%,rgba(143,122,209,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+.veille{margin-top:34px;max-width:900px;padding:26px 30px 24px;border:1px solid rgba(240,209,138,.24);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(224,138,114,.08) 60%,rgba(143,122,209,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
 .veille .u-num{display:block;margin-bottom:8px}
 .veille-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
 .veille-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
@@ -1108,7 +1312,7 @@ section{padding:92px 0}
 .dmd-etat:not(:empty){margin-top:18px;padding:14px 16px;border-radius:14px;border:1px solid rgba(240,209,138,.28);background:rgba(216,178,90,.08);color:#d7d4ea}
 .dmd-etat.ko:not(:empty){border-color:rgba(224,138,114,.45);background:rgba(224,138,114,.09)}
 @media(max-width:760px){
-  section{padding:66px 0}
+  section{padding:62px 0}
   .gf-top{padding:110px 0 60px}
   .u-card{padding:26px 22px 22px}
   .cas article{padding:26px 22px 22px}
@@ -1117,6 +1321,8 @@ section{padding:92px 0}
   .aussi{padding:22px 20px;gap:14px}
   .guilde{padding:22px 20px 20px;gap:14px}
   .veille{padding:22px 20px 20px}
+  .mea{margin-top:42px;padding-top:28px}
+  .mea-c{padding:20px 18px 17px}
   .dmd{padding:22px 18px 20px}
   .etape{padding:20px 18px 18px}
   .faq-q summary{padding:14px 17px;gap:13px}
@@ -1903,8 +2109,18 @@ def build_html():
       # lui-meme : ce lien mene donc directement a l'endroit ou l'on saisit, et
       # « Comment » serait devenu un detour annonce pour rien. Il reste une
       # ancre INTERNE — aucun clic ne quitte plus la page.
+      # ⚠️ LE LIEN VERS LE BLOG EST DANS CETTE RANGEE, PAS SOUS ELLE. C'est le
+      # SEUL lien du premier ecran vers les dix-huit articles — avant cette
+      # passe, le premier n'arrivait qu'au pixel 3 376. Trois precautions :
+      #   - c'est un LIEN souligne, pas un second bouton : la page n'a qu'un
+      #     geste possible, et l'ecart n° 8 en tete de fichier tient ;
+      #   - `.cta` est en flex : au-dela de ~1000 px il se pose SUR LA MEME
+      #     LIGNE que le bouton, donc il ne coute pas un pixel de hauteur ;
+      #   - l'ancre est DESCRIPTIVE (regle du dossier SEO, §6) : elle nomme la
+      #     destination et ce qu'on y trouve, jamais « en savoir plus ».
       """  <div class="cta">
     <a class="btn ghost" href="#acces">Demander un accès</a>
+    <a class="hero-blog" href="/guso-facile/blog">Le blog : dix-huit situations concrètes</a>
   </div>
   </div>
 """)
@@ -2044,18 +2260,51 @@ def build_html():
     A(MAQ_RECAP)
 
     # -------------------------------------------------------------------
-    # PREMIER des deux liens descendants vers le blog (dossier SEO, §6)
+    # LE BLOC `.mea` — LA MISE EN VALEUR DU BLOG (16/08/2026)
     # -------------------------------------------------------------------
-    # Regle du dossier : ancre DESCRIPTIVE, jamais « en savoir plus » ni
-    # « lire la suite ». Placement repris de la page Vercel, qui pose le meme
-    # lien juste apres ses cas d'usage : trois situations donnent envie d'en
-    # lire d'autres, et il y en a dix-huit de l'autre cote.
-    # ⚠️ `/guso-facile/blog` est construit par `generate_guso_blog.py`, un
-    #    AUTRE generateur. Tant que le dossier n'existe pas, `verif_site.py`
-    #    signale un « lien interne mort » — a juste titre, et ce n'est pas un
-    #    defaut de cette page-ci.
+    # IL REMPLACE le premier des deux liens descendants (dossier SEO, §6), qui
+    # tenait sur une ligne et ne montrait aucun titre. Verbatim de David : « le
+    # blog n'est pas du tout mis en valeur alors meme qu'il est super riche et
+    # que ca peut etre une enorme porte d'entree ». Le detail de la mesure
+    # avant/apres est en tete de fichier.
+    #
+    # POURQUOI ICI, ET PAS DANS UNE SECTION A PART : la page est sous plafond
+    # de hauteur (~12 500 px a 1440) et une `<section>` de plus coutait 184 px
+    # de respiration. Or c'est exactement sa place : la section s'appelle
+    # « Trois situations typiques », le blog en raconte quinze autres — et la
+    # phrase de raccord le dit litteralement. Le bloc porte `id="blog"`, il
+    # reste donc une cible d'ancre.
+    #
+    # ⚠️ LA PHRASE DE RACCORD EST VERIFIABLE, PAS DECORATIVE : les titres des
+    #    trois cas d'usage ci-dessus (« Atteindre ses 507 heures sans
+    #    angoisse », « Pointer France Travail en 5 minutes », « Accompagner ses
+    #    artistes sans tableur ») sont MOT POUR MOT trois des dix-huit `h1` du
+    #    blog. 3 + 15 = 18. Si un titre d'article changeait la, cette phrase
+    #    deviendrait fausse ici : c'est l'une des raisons d'etre de
+    #    `_controle_mise_en_avant()`.
+    #
+    # ⚠️ « sans avoir de compte » : le blog est PUBLIC, contrairement a l'app.
+    #    C'est la reponse a l'hesitation de quelqu'un qui ne veut pas encore
+    #    demander un acces — et c'est la raison pour laquelle ce bloc est haut
+    #    dans la page et pas en pied.
     A("""
-  <p class="blog-lien"><a href="/guso-facile/blog">D’autres cas d’usage concrets sur le blog de Guso Facile</a></p>
+  <div class="mea" id="blog">
+    <p class="kick">Le blog de Guso Facile</p>
+    <h2 class="mea-t">Dix-huit autres situations, en détail</h2>
+    <p class="mea-s">Les trois cas ci-dessus sont racontés en entier sur le blog, avec quinze autres :
+      les heures, la répétition, le contrat, l’impayé, la tournée. En lecture libre, sans compte.</p>
+    <div class="mea-g">
+""")
+    for slug, rubrique, titre, accroche, lecture in MISE_EN_AVANT:
+        A('      <a class="mea-c" href="%s/%s">\n'
+          '        <p class="mea-r">%s</p>\n'
+          '        <p class="mea-h">%s</p>\n'
+          '        <p class="mea-d">%s</p>\n'
+          '        <span class="mea-l">%s de lecture</span>\n'
+          '      </a>\n' % (URL_BLOG, slug, rubrique, titre, accroche, lecture))
+    A("""    </div>
+    <p class="blog-lien"><a href="/guso-facile/blog">Les dix-huit articles du blog de Guso Facile</a></p>
+  </div>
 """)
     A("""</div></section>
 """)
@@ -2180,7 +2429,42 @@ def build_html():
         <li><b>Factures et salaires</b> — dépôt des factures, marquage « facture réglée » et « salaire reçu » : qui est payé, ce qui reste dû.</li>
         <li><b>Multi-artistes</b> — conditions idéales, coordonnées bancaires, contrats, plusieurs artistes gérés côte à côte.</li>
         <li><b>Fiche structure</b> — SIRET, coordonnées bancaires et coordonnées postales centralisés, réutilisés partout.</li>
-        <li><b>Synchronisation</b> — ce que l’artiste renseigne apparaît côté structure en temps réel, et inversement.</li>
+"""
+      # -------------------------------------------------------------------
+      # « SYNCHRONISATION » — PROMESSE FAUSSE, CORRIGEE LE 16/08/2026
+      # -------------------------------------------------------------------
+      # La puce disait : « ce que l'artiste renseigne apparait cote structure
+      # EN TEMPS REEL, et inversement ». C'est FAUX, et c'est verifie dans le
+      # code de l'application : zero abonnement temps reel (aucun `.channel(`,
+      # aucun `postgres_changes`, aucun `realtime`). L'ECRITURE part bien
+      # immediatement ; LA LECTURE, elle, ne se fait qu'au chargement de
+      # l'espace — deux onglets cote a cote ne se mettent pas a jour tout
+      # seuls. C'etait la seule promesse de la page qu'une structure pouvait
+      # dementir en dix secondes, et c'est le pire endroit pour ca : la page
+      # publique d'une association.
+      # La phrase ci-dessous est celle validee par l'auteur de l'application,
+      # reprise TELLE QUELLE. Elle dit ce qui est vrai — le partage — sans
+      # rien promettre sur le DELAI. Une ancre a ZERO occurrence dans `ANCRES`
+      # interdit le retour de « en temps réel ».
+      """        <li><b>Synchronisation</b> — les données sont partagées entre l’artiste et la structure.</li>
+"""
+      # -------------------------------------------------------------------
+      # « NIVEAUX DE PARTAGE » — fonctionnalite LIVREE, ajoutee le 16/08/2026
+      # -------------------------------------------------------------------
+      # Phrase confirmee dans le code par l'auteur de l'app, reprise telle
+      # quelle. Elle est POSEE ICI, juste apres « Synchronisation », parce que
+      # c'est la meme relation qu'elle regle : ce que la structure voit de
+      # l'artiste. Le point de vue est celui de l'ARTISTE, dans la carte des
+      # structures — c'est voulu : c'est lui qui decide, et une structure qui
+      # lit cette carte doit le savoir.
+      # ⚠️ NE PAS LA CONFONDRE AVEC « Confidentialite graduee » (univers 4,
+      #    toujours « (a venir) »). Celle-ci offre TROIS NIVEAUX PREDEFINIS et
+      #    elle est livree ; l'autre promet le reglage fin, donnee par donnee,
+      #    dont l'ecran cote artiste n'existe pas encore. Les deux sont dans
+      #    DEUX CARTES DIFFERENTES pour cette raison exacte. Ne pas les
+      #    rapprocher, et ne pas raccourcir l'enumeration des trois niveaux :
+      #    c'est elle qui rend la difference visible a l'ecran.
+      """        <li><b>Niveaux de partage</b> — pour chaque structure, l’artiste choisit ce qu’elle voit : tout, l’essentiel administratif, ou seulement ses totaux d’heures. Il peut en changer ou se retirer à tout moment.</li>
       </ul>
     </article>
 
@@ -2195,6 +2479,14 @@ def build_html():
       <p class="u-sub">Parce qu’on avance mieux à plusieurs. Deux points y sont encore en construction, marqués « à venir ».</p>
       <ul>
         <li><b>Vue groupe</b> — où en est chaque membre du groupe, pour se soutenir avant que la situation ne coince.</li>
+"""
+      # -------------------------------------------------------------------
+      # « HUB D'INFORMATIONS DU GROUPE » — LIVREE, ajoutee le 16/08/2026
+      # -------------------------------------------------------------------
+      # Phrase confirmee dans le code par l'auteur de l'app, reprise telle
+      # quelle. Elle suit « Vue groupe » : l'une dit ou en est chacun, l'autre
+      # dit ou se rangent les informations communes. Meme carte, meme sujet.
+      """        <li><b>Hub d’informations du groupe</b> — un espace commun où le groupe partage les informations d’une date.</li>
         <li><b>« J’ai besoin d’aide »</b> — trois questions simples, un premier conseil concret, et la possibilité de prévenir qui l’on veut.</li>
 """
       # -------------------------------------------------------------------
@@ -2211,6 +2503,32 @@ def build_html():
       # etre coherente d'un bout a l'autre sur ce point.
       """        <li><b>Faire découvrir l’outil</b> — un membre peut recommander Guso Facile à un autre artiste : il renseigne ses coordonnées, l’application prépare un message qu’il peut modifier, et la demande arrive chez David, qui l’étudie personnellement. Chaque accès reste une décision, jamais une inscription automatique.</li>
 """
+      # -------------------------------------------------------------------
+      # « INSCRIPTION PAR INVITATION » — LIVREE, ajoutee le 16/08/2026
+      # -------------------------------------------------------------------
+      # Phrase confirmee dans le code par l'auteur de l'app, reprise telle
+      # quelle. Elle suit « Faire decouvrir l'outil » parce qu'elle en est la
+      # suite mecanique : la cooptation PROPOSE quelqu'un, l'invitation lui
+      # OUVRE la porte. Les deux disent la meme chose que la section « Jouons
+      # cartes sur table » (« l'acces se fait sur invitation ou sur
+      # cooptation ») — c'est voulu, la page doit etre coherente d'un bout a
+      # l'autre sur ce point.
+      # ⚠️ « Inscription par invitation » a d'abord ete posee ICI, a la suite de
+      # « Faire decouvrir l'outil » (la cooptation propose, l'invitation ouvre).
+      # Elle est finalement DANS LA LIGNE « prise en main » de l'encadre « Et
+      # aussi », pour deux raisons — l'une de sens, l'autre mesuree :
+      #   - de sens : « Faire decouvrir » est ce que JE fais pour quelqu'un
+      #     d'autre ; l'invitation est ce que MOI je vis en arrivant. C'est la
+      #     premiere etape de la prise en main, et la ligne suit exactement cet
+      #     ordre (j'arrive, on m'accueille, je cherche comment faire, je suis
+      #     ce qui change) ;
+      #   - mesuree : la grille des univers est a deux colonnes, et sa
+      #     troisieme rangee prend la hauteur de la carte la PLUS HAUTE. Une
+      #     puce de plus dans l'univers 4 coutait 114 px a la page entiere,
+      #     alors que la carte voisine (univers 3) a deja 329 px de vide. La
+      #     meme phrase dans « Et aussi » en coute 37. Voir l'entete : la page
+      #     est sous plafond de hauteur.
+      ""
       # ===================================================================
       # ⚠️⚠️ « L'ENTRAIDE ENTRE ARTISTES » (la Guilde) — CONTRAINTE
       #        REDACTIONNELLE STRICTE. LIRE AVANT DE TOUCHER A CE BLOC.
@@ -2416,6 +2734,32 @@ def build_html():
       <p class="u-num">Et aussi</p>
       <p>Export et import des données · fonctionne sur mobile sans installation · liens directs vers une
         date · comptes sécurisés · un bouton pour signaler un bug depuis n’importe quel écran.</p>
+"""
+      # -------------------------------------------------------------------
+      # LA LIGNE « PRISE EN MAIN » — trois fonctionnalites LIVREES (16/08/2026)
+      # -------------------------------------------------------------------
+      # Les trois phrases sont celles confirmees dans le code par l'auteur de
+      # l'app, reprises telles quelles ; seule la ponctuation a ete alignee sur
+      # le gabarit des puces (titre en gras, tiret cadratin, puis la phrase).
+      #
+      # POURQUOI ICI ET PAS DANS UN UNIVERS : elles n'appartiennent a aucun des
+      # quatre. Ce n'est ni un droit, ni une tournee, ni une structure, ni un
+      # cercle : c'est la vie de l'outil lui-meme. Les forcer dans l'univers 1
+      # aurait fausse sa lecture (« Tes droits, maitrises »), et un cinquieme
+      # univers aurait casse la grille a deux colonnes ET le compte
+      # `class="u-card"` a 4. L'encadre « Et aussi » existe exactement pour ce
+      # cas — et il coute quatre lignes de hauteur au lieu d'une carte entiere.
+      # Elles sont dans l'ordre de ce que vit un nouveau venu : on est invite,
+      # on est accueilli, on cherche comment faire, puis on suit ce qui change.
+      # (« Inscription par invitation » les a rejointes pour cette raison-la et
+      #  pour une raison de hauteur : voir la note de l'univers 4.)
+      """      <p class="aussi-p2"><b>Inscription par invitation</b> — on rejoint la bêta par un lien
+        d’invitation : création du compte, choix du mot de passe, et le code reste valable une semaine
+        si on passe par sa boîte mail entre-temps. <b>Guide de démarrage</b> — à la première connexion,
+        un parcours d’accueil qui explique par où commencer. <b>Guide intégré</b> — un mode d’emploi
+        complet dans l’app, section par section, sans jamais avoir à en sortir. <b>Nouveautés</b> —
+        chaque évolution de l’app est publiée dans un journal des versions, avec une notification à la
+        première ouverture qui suit.</p>
     </div>
   </div>
 </div></section>
@@ -3018,10 +3362,40 @@ ANCRES = (
     ('id="faq"', 1, 'la section « Questions fréquentes »'),
     ('<details class="faq-q">', len(FAQ), 'les 6 questions/réponses visibles'),
     ('<p class="faq-r">', len(FAQ), 'les 6 réponses visibles'),
-    # Le maillage vers le blog (dossier SEO, §6) : deux liens, ancres
-    # descriptives. ⚠️ `href="/guso-facile"` compte 1 juste au-dessus : la
-    # guillemet fermante l'empeche de compter ces deux-la.
-    ('href="/guso-facile/blog"', 2, 'les deux liens descendants vers le blog'),
+    # --- LA MISE EN VALEUR DU BLOG (16/08/2026) --------------------------
+    # Le maillage vers le blog (dossier SEO, §6). ⚠️ `href="/guso-facile"`
+    # compte 1 plus haut : la guillemet fermante l'empeche de compter
+    # ceux-ci — et elle empeche aussi les trois liens d'ARTICLE de compter
+    # ici, puisqu'ils portent un slug avant leur guillemet.
+    # TROIS liens vers l'index, un par etage de la page : le hero (premier
+    # ecran), le bloc `.mea` (fin de #situations) et la fin de FAQ. C'est le
+    # compte qui dit si le probleme mesure le 16/08/2026 est regle — voir
+    # l'entete : avant cette passe il valait 2, dont AUCUN dans le premier
+    # ecran.
+    ('href="/guso-facile/blog"', 3, 'les trois liens descendants vers le blog'),
+    ('class="hero-blog"', 1, 'le lien vers le blog dans le premier écran'),
+    ('class="mea"', 1, 'le bloc de mise en avant des articles'),
+    ('id="blog"', 1, 'l’ancre du bloc de mise en avant'),
+    ('class="mea-c"', NB_MISE_EN_AVANT, 'les cartes d’article mises en avant'),
+    ('class="mea-h"', NB_MISE_EN_AVANT, 'le vrai titre de chaque article mis en avant'),
+    ('class="mea-d"', NB_MISE_EN_AVANT, 'l’accroche de chaque article mise en avant'),
+    # --- LES DEUX CORRECTIONS FACTUELLES DU 16/08/2026 -------------------
+    # ⚠️ L'ancre a ZERO est la plus importante des deux : « en temps réel »
+    # etait une promesse qu'une structure pouvait dementir en dix secondes
+    # (aucun abonnement temps reel dans l'application — voir l'entete). Cette
+    # ligne interdit qu'elle revienne par reflexe.
+    ('en temps réel', 0, 'la promesse de synchronisation instantanée, retirée le 16/08/2026'),
+    ('<b>Synchronisation</b> — les données sont partagées entre l’artiste et la structure.', 1,
+     'la phrase de synchronisation validée par l’auteur de l’application'),
+    # Les six fonctionnalites livrees ajoutees a l'inventaire le 16/08/2026.
+    # Elles s'ecrivent AU PRESENT, sans « (a venir) » : `NB_A_VENIR` reste a 3.
+    ('<b>Niveaux de partage</b>', 1, 'niveaux de partage — LIVRÉE (à ne pas confondre avec « Confidentialité graduée »)'),
+    ('<b>Inscription par invitation</b>', 1, 'inscription par invitation — LIVRÉE'),
+    ('<b>Hub d’informations du groupe</b>', 1, 'hub d’informations du groupe — LIVRÉE'),
+    ('<b>Guide de démarrage</b>', 1, 'guide de démarrage — LIVRÉE'),
+    ('<b>Guide intégré</b>', 1, 'guide intégré — LIVRÉE'),
+    ('<b>Nouveautés</b>', 1, 'journal des nouveautés — LIVRÉE'),
+    ('class="aussi-p2"', 1, 'la ligne « prise en main » de l’encadré « Et aussi »'),
     ('class="guilde"', 1, 'l’encart « la Guilde »'),
     ('class="guilde-claim"', 1, 'l’accroche du manifeste de la Guilde'),
     ('class="etapes"', 1, 'la bande « trois étapes, c’est tout »'),
@@ -3583,6 +3957,66 @@ def _controle_icones(html):
                              'ni image ni contenu importe. Page NON ecrite.' % interdit)
 
 
+def _controle_mise_en_avant(html):
+    """Refuse d'ecrire si le bloc `.mea` ment sur le blog.
+
+    C'est le garde-fou de la DUPLICATION assumee : les titres et les accroches
+    des trois articles sont recopies dans `MISE_EN_AVANT` alors que leur source
+    de verite est la table `ARTICLES` de `generate_guso_blog.py`. On ne peut pas
+    l'importer (la regle du depot l'interdit : importer un `generate_*.py`
+    ecrirait ses pages). On relit donc LA PAGE D'ARTICLE DEJA SUR LE DISQUE et
+    on compare son <h1> au titre affiche ici.
+
+    Trois exigences :
+      1. autant de cartes que d'entrees dans `MISE_EN_AVANT`, et trois slugs
+         DISTINCTS (une carte dupliquee, c'est le piege des quatre cartes
+         identiques deja vecu sur ce projet) ;
+      2. chaque titre et chaque accroche figurent bien dans la page ;
+      3. si `guso-facile/blog/<slug>/index.html` existe, son <h1> est le meme
+         titre, a l'apostrophe pres. ⚠️ Un fichier ABSENT ne fait pas echouer :
+         sur un clone neuf, `build.py` construit /guso-facile AVANT le blog, et
+         refuser d'ecrire la page produit parce que le blog n'existe pas encore
+         bloquerait la chaine entiere. Le jour ou le blog est la — c'est-a-dire
+         toujours, dans le depot —, la comparaison se fait.
+    """
+    import re
+
+    slugs = re.findall(r'<a class="mea-c" href="/guso-facile/blog/([a-z0-9-]+)">', html)
+    if len(slugs) != NB_MISE_EN_AVANT:
+        raise SystemExit('!! ABANDON : %d carte(s) d\'article mise(s) en avant, '
+                         'attendu %d. Page NON ecrite.'
+                         % (len(slugs), NB_MISE_EN_AVANT))
+    if len(set(slugs)) != len(slugs):
+        raise SystemExit('!! ABANDON : deux cartes mises en avant pointent le meme '
+                         'article. Page NON ecrite.')
+    if slugs != [m[0] for m in MISE_EN_AVANT]:
+        raise SystemExit('!! ABANDON : les cartes ne sont pas celles de '
+                         'MISE_EN_AVANT (%s). Page NON ecrite.' % ', '.join(slugs))
+
+    for slug, _rub, titre, accroche, _lect in MISE_EN_AVANT:
+        for morceau, quoi in ((titre, 'le titre'), (accroche, 'l\'accroche')):
+            if html.count(morceau) != 1:
+                raise SystemExit('!! ABANDON : %s de « %s » ne figure pas une fois '
+                                 'et une seule dans la page. Page NON ecrite.'
+                                 % (quoi, slug))
+        page = os.path.join(OUT_DIR, 'blog', slug, 'index.html')
+        if not os.path.exists(page):
+            continue
+        with open(page, encoding='utf-8') as f:
+            m = re.search(r'<h1>(.*?)</h1>', f.read(), re.S)
+        if not m:
+            raise SystemExit('!! ABANDON : aucun <h1> dans %s — impossible de '
+                             'verifier le titre mis en avant. Page NON ecrite.' % page)
+        reel = _norm_apostrophes(m.group(1))
+        if _norm_apostrophes(titre) != reel:
+            raise SystemExit(
+                '!! ABANDON : le titre mis en avant a diverge de l\'article.\n'
+                '   ici    : %s\n   article: %s\n'
+                '   Corriger MISE_EN_AVANT (ces titres sont RECOPIES de la table '
+                'ARTICLES de generate_guso_blog.py, jamais reecrits).\n'
+                '   Page NON ecrite.' % (titre, m.group(1)))
+
+
 def _controles(html):
     """Leve SystemExit au moindre ecart. Appele AVANT l'ecriture."""
     import re
@@ -3640,6 +4074,8 @@ def _controles(html):
     _controle_formulaire(html)
     # les 11 pictogrammes : decoratifs, jamais annonces ni focusables
     _controle_icones(html)
+    # les trois articles mis en avant : titres recopies, jamais reecrits
+    _controle_mise_en_avant(html)
 
 
 def main():
