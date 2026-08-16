@@ -275,6 +275,8 @@ section{padding:86px 0}
 .dmd-kind{display:flex;gap:11px;flex-wrap:wrap}
 .dmd-kind label{display:inline-flex;align-items:center;gap:10px;margin:0;min-height:44px;padding:9px 19px;border:1px solid rgba(248,210,116,.3);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));font-size:15.5px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
 .dmd-kind input{width:17px;height:17px;margin:0;accent-color:var(--gold)}
+/* la phrase d'exemple de « Les deux » — 14 px, au-dessus du plancher de 13 */
+.dmd-kind-h{margin:11px 0 0;font-size:14px;line-height:1.6;color:var(--muted);max-width:60ch}
 .dmd-kind label:has(input:checked){border-color:var(--gold2);background:linear-gradient(90deg,rgba(216,178,90,.16),rgba(238,128,98,.12))}
 .dmd-go{margin-top:26px}
 .dmd button.btn{border:0;font-family:inherit;cursor:pointer}
@@ -1294,12 +1296,15 @@ section{padding:86px 0}
         <label for="dmd-tel">Téléphone <span class="opt">— facultatif</span></label>
         <input type="tel" id="dmd-tel" name="phone" autocomplete="tel" inputmode="tel">
       </div>
-      <fieldset class="f">
+      <fieldset class="f" aria-describedby="dmd-kind-h">
         <legend>Je suis</legend>
         <div class="dmd-kind">
           <label for="dmd-artiste"><input type="radio" id="dmd-artiste" name="kind" value="artiste" checked>Artiste</label>
           <label for="dmd-structure"><input type="radio" id="dmd-structure" name="kind" value="structure">Structure</label>
+          <label for="dmd-les-deux"><input type="radio" id="dmd-les-deux" name="kind" value="les_deux">Les deux</label>
         </div>
+        <p class="dmd-kind-h" id="dmd-kind-h"><b>Les deux</b> — je suis artiste <b>et</b> responsable d’une structure.
+          Par exemple : tu joues, et tu es aussi responsable de l’association qui édite les feuillets GUSO.</p>
       </fieldset>
       <div class="f">
         <label for="dmd-message">Message <span class="opt">— facultatif</span></label>
@@ -1437,7 +1442,9 @@ section{padding:86px 0}
       return;
     }
 
-    /* deux boutons radio de meme nom : `.value` rend celui qui est coche. */
+    /* trois boutons radio de meme nom : `.value` rend celui qui est coche.
+       Les seules valeurs possibles sont `artiste`, `structure` et `les_deux` —
+       ce sont celles que la base accepte, il n'y en a pas d'autre. */
     var nature = f.elements.kind.value || 'artiste';
     var mot = valeur('dmd-message');
 

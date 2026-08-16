@@ -585,7 +585,7 @@ LE FORMULAIRE — CE QUI A ETE APPLIQUE TEL QUEL, ET LES TROIS PIEGES
       POST https://wqhwfqasoyyeprggjxet.supabase.co/rest/v1/account_requests
       apikey + Authorization: Bearer <cle publiable> + Content-Type
   Champs : `email` (OBLIGATOIRE), `first_name`, `last_name`, `phone`,
-  `kind` (artiste | structure), `message`, `context` (jsonb libre — on y met
+  `kind` (artiste | structure | les_deux), `message`, `context` (jsonb — on y met
   `{origin, ts}` pour tracer d'ou viennent les demandes).
   CORS verifie depuis notre origine : POST -> 201, prevol OPTIONS -> 200,
   `access-control-allow-origin: *`. Aucune configuration a changer.
@@ -1315,6 +1315,8 @@ section{padding:86px 0}
 .dmd-kind{display:flex;gap:11px;flex-wrap:wrap}
 .dmd-kind label{display:inline-flex;align-items:center;gap:10px;margin:0;min-height:44px;padding:9px 19px;border:1px solid rgba(248,210,116,.3);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));font-size:15.5px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
 .dmd-kind input{width:17px;height:17px;margin:0;accent-color:var(--gold)}
+/* la phrase d'exemple de « Les deux » — 14 px, au-dessus du plancher de 13 */
+.dmd-kind-h{margin:11px 0 0;font-size:14px;line-height:1.6;color:var(--muted);max-width:60ch}
 .dmd-kind label:has(input:checked){border-color:var(--gold2);background:linear-gradient(90deg,rgba(216,178,90,.16),rgba(238,128,98,.12))}
 .dmd-go{margin-top:26px}
 .dmd button.btn{border:0;font-family:inherit;cursor:pointer}
@@ -2942,6 +2944,26 @@ def build_html():
       #    dans un `<fieldset>` avec `<legend>` : flechable au clavier, annonce
       #    comme un groupe. La page Vercel employait deux `<button>` avec
       #    `aria-pressed` — cela marche a la souris, beaucoup moins au clavier.
+      #
+      # ⚠️ 16/08/2026 — TROISIEME OPTION « LES DEUX ». Le choix etait exclusif,
+      #    et il ne decrivait donc pas une situation courante : jouer ET etre
+      #    responsable de la structure qui edite ses propres feuillets GUSO.
+      #    LA VALEUR ENVOYEE EST EXACTEMENT `les_deux`, ET AUCUNE AUTRE. La
+      #    contrainte de la base vient d'etre elargie pour accepter les trois
+      #    valeurs `artiste` · `structure` · `les_deux` ; toute autre orthographe
+      #    (« les-deux », « both », « deux ») serait REJETEE et la personne
+      #    verrait un message d'erreur incomprehensible. `_controle_formulaire()`
+      #    verifie la chaine exacte et refuse d'ecrire la page sinon.
+      #
+      # ⚠️ CE QUE CETTE OPTION DIT, ET CE QU'ELLE NE DIT PAS. Elle decrit QUI
+      #    EST LA PERSONNE, pas ce que l'outil sait faire. La double casquette
+      #    est CODEE MAIS PAS ENCORE DEPLOYEE : rien sur cette page n'affirme
+      #    que l'application la gere, et il ne faut rien ecrire de tel tant que
+      #    ce n'est pas en ligne. Le libelle et sa phrase d'exemple parlent donc
+      #    de la situation de la personne, jamais d'une fonctionnalite.
+      #  - le `<fieldset>` porte `aria-describedby` vers la phrase d'exemple :
+      #    elle est ainsi annoncee a la prise de focus du groupe, et pas
+      #    seulement lue a l'ecran.
       """    <form class="dmd" id="demande" novalidate>
       <p class="dmd-t">Demander un accès</p>
       <p class="dmd-s">Une adresse e-mail suffit ; le reste aide simplement à situer la demande.</p>
@@ -2964,12 +2986,15 @@ def build_html():
         <label for="dmd-tel">Téléphone <span class="opt">— facultatif</span></label>
         <input type="tel" id="dmd-tel" name="phone" autocomplete="tel" inputmode="tel">
       </div>
-      <fieldset class="f">
+      <fieldset class="f" aria-describedby="dmd-kind-h">
         <legend>Je suis</legend>
         <div class="dmd-kind">
           <label for="dmd-artiste"><input type="radio" id="dmd-artiste" name="kind" value="artiste" checked>Artiste</label>
           <label for="dmd-structure"><input type="radio" id="dmd-structure" name="kind" value="structure">Structure</label>
+          <label for="dmd-les-deux"><input type="radio" id="dmd-les-deux" name="kind" value="les_deux">Les deux</label>
         </div>
+        <p class="dmd-kind-h" id="dmd-kind-h"><b>Les deux</b> — je suis artiste <b>et</b> responsable d’une structure.
+          Par exemple : tu joues, et tu es aussi responsable de l’association qui édite les feuillets GUSO.</p>
       </fieldset>
       <div class="f">
         <label for="dmd-message">Message <span class="opt">— facultatif</span></label>
@@ -3148,7 +3173,9 @@ def build_html():
       return;
     }
 
-    /* deux boutons radio de meme nom : `.value` rend celui qui est coche. */
+    /* trois boutons radio de meme nom : `.value` rend celui qui est coche.
+       Les seules valeurs possibles sont `artiste`, `structure` et `les_deux` —
+       ce sont celles que la base accepte, il n'y en a pas d'autre. */
     var nature = f.elements.kind.value || 'artiste';
     var mot = valeur('dmd-message');
 
@@ -3267,7 +3294,18 @@ ANCRES = (
     ('id="dmd-email"', 1, 'champ Adresse e-mail (le seul obligatoire)'),
     ('id="dmd-tel"', 1, 'champ Téléphone'),
     ('id="dmd-message"', 1, 'champ Message'),
-    ('name="kind"', 2, 'le choix artiste / structure (deux boutons radio)'),
+    ('name="kind"', 3, 'le choix artiste / structure / les deux (trois radio)'),
+    # ⚠️ LES TROIS VALEURS EXACTES ATTENDUES PAR LA BASE, une par une. La
+    #    contrainte n'accepte que `artiste`, `structure` et `les_deux` : une
+    #    faute de frappe ferait rejeter la demande et la personne verrait une
+    #    erreur incomprehensible, sans que rien ne l'annonce ici. On verifie
+    #    donc la chaine, pas seulement le nombre de boutons.
+    ('value="artiste"', 1, 'la valeur envoyee pour « Artiste »'),
+    ('value="structure"', 1, 'la valeur envoyee pour « Structure »'),
+    ('value="les_deux"', 1, 'la valeur envoyee pour « Les deux » (jamais autre chose)'),
+    ('id="dmd-kind-h"', 1, 'la phrase d’exemple de « Les deux »'),
+    ('aria-describedby="dmd-kind-h"', 1,
+     'le lien qui rattache cette phrase au groupe de boutons'),
     ('aria-live="polite"', 1, 'la confirmation, lisible par un lecteur d’écran'),
     ('id="dmd-email-err"', 1, 'le message d’erreur de l’e-mail'),
     ('aria-describedby="dmd-email-err"', 1,
@@ -3353,12 +3391,13 @@ ANCRES = (
     # fonctionnalite livree la ferait passer pour absente.
     ('<li class="soon">', NB_PUCES_A_VENIR, 'les puces des fonctionnalités non livrées'),
     # ⚠️ CETTE LIGNE VALAIT ZERO JUSQU'AU 16/08/2026 (« aucun champ de saisie
-    # dans la page »). Elle vaut SIX depuis que le formulaire est rapatrie :
-    # 2 champs texte + e-mail + telephone + 2 boutons radio, TOUS dans le
+    # dans la page »). Elle a valu SIX quand le formulaire a ete rapatrie, et
+    # vaut SEPT depuis la troisieme option « Les deux » du meme jour :
+    # 2 champs texte + e-mail + telephone + 3 boutons radio, TOUS dans le
     # formulaire. `_controle_formulaire()` verifie qu'il n'y en a AUCUN
     # ailleurs — en particulier aucun dans une maquette d'interface, ou un
     # visiteur croirait piloter l'outil depuis le site de l'association.
-    ('<input', 6, 'les six champs de saisie du formulaire, et eux seuls'),
+    ('<input', 7, 'les sept champs de saisie du formulaire, et eux seuls'),
     ('<textarea', 1, 'le champ Message'),
     ('<form', 1, 'un seul formulaire sur la page'),
     ('tabindex', 0, 'aucun ordre de tabulation force'),
