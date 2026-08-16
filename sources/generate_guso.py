@@ -84,6 +84,27 @@ LES ECARTS AU CONTENU FOURNI (liste exhaustive, pour arbitrage par David)
    interet ». Le hero renvoie vers cette section par une ancre interne (#acces).
    Aucun mot du contenu n'est change ; c'est une decision de mise en page,
    coherente avec « on commence par se dire bonjour ».
+   ⚠️ COMPLETE LE 17/08/2026 — DAVID A TRANCHE, ET L'ECART N° 8 TIENT.
+   Le constat : les beta-testeurs ONT DEJA UN COMPTE et n'avaient, depuis la
+   fusion du 16/08, plus AUCUN chemin vers l'application depuis cette page (le
+   bouton mene au formulaire de demande, pas a l'ecran de connexion). Ils
+   devaient retaper une adresse en `vercel.app` de memoire.
+   Ce qui a ete pose : un LIEN TEXTE (`.hero-cnx`), « J'ai deja un compte ->
+   me connecter », JUSTE SOUS la rangee `.cta`, vers `/guso-facile/connexion`.
+   POURQUOI UN LIEN ET PAS UN BOUTON — la decision d'origine n'est pas annulee,
+   elle est bornee. Le raisonnement qui l'a produite vaut toujours : ~95 % des
+   visiteurs de cette page N'ONT PAS de compte, et deux boutons de meme poids
+   dans le premier ecran, c'est deux gestes possibles la ou la page n'en veut
+   qu'un — « demander un acces ». Le lien sert la minorite qui sait deja ce
+   qu'elle vient chercher : elle le trouve parce qu'elle le cherche, elle ne
+   le voit pas si elle ne le cherche pas. Hierarchie visuelle, mesuree :
+   bouton dore plein > lien blog dore souligne > lien de connexion gris
+   (`--muted`), 14,5 px. Il n'emprunte AUCUNE classe `btn`.
+   ⚠️ ET SURTOUT : SON `href` NE PORTE PAS L'ADRESSE DE L'APPLICATION. Il pointe
+   sur `/guso-facile/connexion`, une redirection posee dans `vercel.json` — voir
+   « L'ADRESSE STABLE DE CONNEXION » plus bas. L'ancre `guso-facile.vercel.app`
+   a ZERO dans `ANCRES` garantit que personne ne « simplifiera » ce lien en y
+   collant l'adresse en dur.
 
 Rien d'autre n'a bouge : ni un chiffre, ni un fait, ni le niveau d'engagement
 des formulations sur la beta, le futur payant et l'affiliation — c'est
@@ -373,6 +394,18 @@ CE QUI A ETE LAISSE SUR VERCEL, ET POURQUOI
     France Travail) : deja dite en prose dans #promesse, mieux.
   - Le second bouton « Se connecter » du hero : la page n'a QU'UN bouton, par
     decision — voir l'ecart n°8 plus haut.
+    ⚠️ COMPLETE LE 17/08/2026 — DAVID A TRANCHE : IL VEUT UN ACCES POUR LES
+    GENS QUI ONT DEJA UN COMPTE. Le second BOUTON n'est toujours pas repris —
+    ce qui est repris, c'est la FONCTION, sous la forme d'un LIEN texte discret
+    sous la rangee `.cta` (« J'ai deja un compte -> me connecter »,
+    `.hero-cnx`). La page garde donc UN SEUL bouton, et l'ecart n° 8 reste vrai
+    au mot pres : l'argumentaire d'origine y est complete, pas remplace.
+    Deux differences avec la version Vercel, toutes deux volontaires :
+      - c'est un lien gris (`--muted`, 14,5 px) et non un bouton dore de meme
+        poids que « Demander un acces » — le geste principal de la page ne se
+        partage pas en deux ;
+      - il ne pointe PAS sur `guso-facile.vercel.app` mais sur
+        `/guso-facile/connexion` (voir « L'ADRESSE STABLE DE CONNEXION »).
   - « Beta OUVERTE » de Vercel : ici c'est « Beta PRIVEE », formulation
     validee. Ne pas harmoniser dans ce sens-la.
 
@@ -552,6 +585,62 @@ CE QUI RESTE VOLONTAIREMENT NON FAIT — ET DONT LA PAGE NE PARLE PAS
   etant la note de la maquette 6 ; a zero elle exigeait donc **-1** occurrence,
   ancre impossible a satisfaire. La soustraction porte desormais un nom,
   `NB_NOTES_A_VENIR`.
+
+------------------------------------------------------------------------------
+L'ADRESSE STABLE DE CONNEXION (17/08/2026) — `/guso-facile/connexion`
+------------------------------------------------------------------------------
+LE BUT N'EST PAS LE REFERENCEMENT. C'est de NE PLUS DEPENDRE DE `vercel.app`.
+L'application vit aujourd'hui sur `https://guso-facile.vercel.app/index.html`.
+David n'a pas achete de nom de domaine et ne le fera pas maintenant (beta
+privee, gratuite). Le jour ou il en prendra un — ou ou l'application demenagera
+— l'adresse que les beta-testeurs auront memorisee ou mise en favori doit
+continuer de marcher. D'ou une adresse a NOUS, sur le domaine de l'association,
+qui ne fait que rediriger :
+
+    vercel.json :
+      /guso-facile/connexion   -> https://guso-facile.vercel.app/index.html
+      /guso-facile/connexion/  -> idem   (la variante a barre oblique finale,
+                                          par coherence avec /Guso-Facile/)
+
+Il y a alors UN SEUL endroit a changer le jour du demenagement : cette ligne.
+Le lien du hero, lui, ne bouge jamais.
+
+⚠️⚠️ 302 ET NON 301 — `"permanent": false`, ET C'EST LE POINT DELICAT
+Les 11 redirections deja presentes dans `vercel.json` sont en 301 (`permanent:
+true`) A JUSTE TITRE : elles pointent vers des pages INTERNES et DEFINITIVES
+(/accueil -> /, /statuts -> /association#statuts…). Celle-ci est l'inverse : sa
+destination est PROVISOIRE PAR CONSTRUCTION. Or un 301 est mis en cache par les
+navigateurs quasi definitivement — le jour du changement de domaine, chaque
+beta-testeur qui aurait clique une fois resterait envoye sur l'ANCIENNE adresse
+par son propre navigateur, sans que rien cote serveur puisse le rattraper.
+Ce serait exactement l'inverse du but recherche. Un 302 n'est pas mis en cache :
+le navigateur redemande a chaque fois, donc il suit le changement.
+NE PAS « harmoniser » cette ligne avec les 11 autres en la passant a `true`.
+
+CE QUI A ETE VERIFIE, ET CE QUI NE PEUT PAS L'ETRE ICI
+  - `guso-facile/` est un VRAI dossier avec un `index.html`. Aucun fichier ni
+    dossier `guso-facile/connexion` n'existe : il n'y a donc rien a masquer.
+    (Et de toute facon, chez Vercel la phase `redirects` passe AVANT le service
+    des fichiers statiques : une redirection l'emporterait sur un fichier.)
+  - Aucun conflit avec `/Guso-Facile` ni `/Guso-Facile/` : les `source` de
+    Vercel sont sensibles a la casse, et ces deux-la n'ont pas de segment
+    `connexion`.
+  - ⚠️ LA REDIRECTION ELLE-MEME NE SE TESTE PAS EN LOCAL. `vercel.json` n'est lu
+    que par la plateforme : un `python3 -m http.server` rendra toujours 404 sur
+    `/guso-facile/connexion`. Ce qui est verifiable ici — et qui l'est —, c'est
+    que le JSON est valide, que la destination est bien formee et que la page ne
+    contient nulle part l'adresse en dur. Le premier clic reel se fait en
+    production, apres publication.
+  - `robots.txt` porte `Disallow: /guso-facile/connexion` : une adresse de
+    connexion n'a aucune valeur en referencement. (L'application, de son cote,
+    envoie deja `<meta name="robots" content="noindex,follow">` — releve dans le
+    HTML servi le 17/08/2026. Les deux protections se cumulent.)
+  - `verif_site.py` a du apprendre CE MECANISME : un lien interne vers une URL
+    qui n'est pas un fichier n'est pas forcement mort, il peut etre redirige.
+    Le controle ne compte donc plus comme morte une URL qui figure en `source`
+    d'une redirection de `vercel.json`, et il accepte qu'une destination soit
+    une adresse absolue externe. Le detail du raisonnement est ecrit LA-BAS,
+    au-dessus des deux controles concernes.
 
 ------------------------------------------------------------------------------
 LA FUSION DU 16/08/2026 — UNE SEULE PAGE, UN SEUL ECRAN POUR DEMANDER UN ACCES
@@ -1689,6 +1778,46 @@ CSS_PAGE = ("""/* ===== Guso Facile ===== */
 .hero-blog{display:inline-flex;align-items:center;gap:11px;min-height:44px;padding:11px 0;color:var(--gold2);font-size:15.5px;text-decoration:underline;text-decoration-color:rgba(248,210,116,.4);text-underline-offset:4px}
 .hero-blog::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
 .hero-blog:hover{text-decoration-color:var(--gold2)}
+"""
+           # --- le lien de connexion des beta-testeurs (17/08/2026) ----------------
+           # Il est SOUS la rangee `.cta`, pas dedans : ce n'est pas un troisieme
+           # geste offert a tout le monde sur la meme ligne, c'est une porte de
+           # service pour ceux qui ont deja un compte.
+           # COUT EN HAUTEUR, MESURE ET NON SUPPOSE (page rendue, `scrollHeight`
+           # avec puis sans le bloc) : 50 px a 390 px et a 820 px — les 44 px de
+           # cible tactile plus 6 px de marge —, et ZERO A 1440 px. Le zero n'est
+           # pas une erreur de mesure : au-dela de 1000 px, `.gf-topgrid` passe a
+           # deux colonnes et la colonne de droite (la jauge des 507 h, 400 px)
+           # est la plus haute des deux ; les 50 px s'ajoutent donc a la colonne
+           # de gauche sans faire grandir le hero. Le lien est gratuit sur grand
+           # ecran, et il coute une demi-ligne sur telephone.
+           # POURQUOI `--muted` ET PAS `--gold2` : la hierarchie du premier ecran
+           # doit rester lisible d'un coup d'oeil — bouton dore plein (le geste de
+           # la page) > lien blog dore (la porte d'entree editoriale) > ce lien-ci,
+           # gris. Un troisieme element dore aurait mis les trois au meme rang.
+           # LES DEUX MESURES, FAITES ET NON SUPPOSEES :
+           #   - cible tactile : `min-height:44px` + `display:inline-flex`, la
+           #     methode deja retenue pour `.offer .who a` sur /le-nid — sans le
+           #     flex, un <a> en ligne ne prend que la hauteur de sa ligne de
+           #     texte et le `min-height` reste sans effet ;
+           #   - contraste : #a9a6c4 sur le fond REELLEMENT peint derriere le lien.
+           #     Le hero a un fond OPAQUE (`linear-gradient(180deg,#0b0c1e,
+           #     var(--night))` sous trois lueurs radiales), donc les lueurs fixes
+           #     de `body::before` ne comptent pas ici — c'est la pile de `.gf-top`
+           #     et elle seule. Le fond a ete recalcule aux QUATRE COINS ET AU
+           #     CENTRE de la cible de 44 px, en refaisant le calcul des trois
+           #     `radial-gradient` a partir de la geometrie rendue : #0d0e23
+           #     partout, soit 8,10:1. Aucune des trois lueurs n'atteint ce point
+           #     (la plus forte, la prune, est centree au-dessus du bord haut du
+           #     hero et s'eteint bien avant). Plancher WCAG AA : 4,5:1 — on est
+           #     a 1,8 fois le plancher, il reste de la marge si le fond du hero
+           #     etait un jour eclairci.
+           # Le soulignement est a 38 % d'opacite : present, jamais criard — et il
+           # passe a l'or au survol, comme `.hero-blog`, pour que la page n'ait
+           # qu'une seule maniere de dire « ceci est un lien ».
+           """.hero-cnx{margin-top:6px}
+.hero-cnx a{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);font-size:14.5px;text-decoration:underline;text-decoration-color:rgba(169,166,196,.38);text-underline-offset:4px}
+.hero-cnx a:hover{color:var(--gold2);text-decoration-color:var(--gold2)}
 """
            # Le bloc des trois articles. Il ferme #situations : un filet dore le detache
            # des trois cas d'usage sans ouvrir une section (qui aurait coute 184 px de
@@ -3172,6 +3301,25 @@ def build_html():
     <a class="btn ghost" href="#acces">Demander un accès</a>
     <a class="hero-blog" href="/guso-facile/blog">Le blog : dix-huit situations concrètes</a>
   </div>
+"""
+      # LE LIEN DE CONNEXION DES BETA-TESTEURS (17/08/2026, decision de David).
+      # Depuis la fusion du 16/08, le bouton mene au FORMULAIRE DE DEMANDE : une
+      # personne qui a deja un compte n'avait plus aucun chemin vers l'appli
+      # depuis cette page, et devait retaper une adresse en `vercel.app`.
+      # ⚠️ TROIS CHOSES A NE PAS DEFAIRE :
+      #   1. C'est un <p> SOUS `.cta`, pas un troisieme enfant de `.cta` : dans
+      #      la rangee flex il se serait pose sur la ligne du bouton, au meme
+      #      rang que lui. La page n'a qu'UN geste principal (ecart n° 8).
+      #   2. AUCUNE classe `btn`. Ce n'est pas un bouton, et ce ne doit pas en
+      #      devenir un « pour qu'on le voie mieux » : les ~95 % de visiteurs
+      #      sans compte n'ont rien a faire de cette porte.
+      #   3. L'`href` est `/guso-facile/connexion`, JAMAIS l'adresse de l'appli.
+      #      C'est tout l'interet : un seul endroit a changer le jour ou David
+      #      prendra un domaine (voir « L'ADRESSE STABLE DE CONNEXION » en tete
+      #      de fichier). L'ancre `guso-facile.vercel.app` a ZERO l'impose.
+      # La fleche est le caractere « → », pas un pictogramme : la page en compte
+      # 11 et `NB_PICTOS` ne bouge pas. Aucun emoji (charte du site).
+      """  <p class="hero-cnx"><a href="/guso-facile/connexion">J’ai déjà un compte → me connecter</a></p>
   </div>
 """)
     A(MAQ_JAUGE)
@@ -5162,6 +5310,21 @@ ANCRES = (
     # ecran.
     ('href="/guso-facile/blog"', 3, 'les trois liens descendants vers le blog'),
     ('class="hero-blog"', 1, 'le lien vers le blog dans le premier écran'),
+    # --- LE LIEN DE CONNEXION DES BETA-TESTEURS (17/08/2026) --------------
+    # David a tranche : les gens qui ont deja un compte doivent pouvoir entrer
+    # depuis cette page. Un LIEN, jamais un second bouton — l'ecart n° 8 en tete
+    # de fichier tient, il est complete et non annule.
+    # ⚠️ CE QUI PROTEGE VRAIMENT CE LIEN N'EST PAS ICI MAIS PLUS HAUT : l'ancre
+    #    `guso-facile.vercel.app` a ZERO. Elle interdit qu'un futur passage
+    #    « simplifie » ce lien en y collant l'adresse de l'application en dur —
+    #    ce qui reviendrait a distribuer aux beta-testeurs une adresse qui
+    #    cassera le jour du changement de domaine, precisement ce que
+    #    `/guso-facile/connexion` existe pour eviter.
+    ('class="hero-cnx"', 1, 'le lien de connexion, sous le bouton du hero'),
+    ('href="/guso-facile/connexion"', 1,
+     'l’adresse stable de connexion (redirigée par vercel.json, une seule fois)'),
+    ('J’ai déjà un compte → me connecter', 1,
+     'le libellé exact du lien de connexion, validé par David le 17/08/2026'),
     # --- LE BLOG DEVIENT UN BLOC (nuit du 16/08/2026) --------------------
     # ⚠️ DEUX blocs, et l'ancre a ZERO qui interdit le retour de la ligne de
     #    texte qu'ils remplacent. David : « c'est même pas un bouton, c'est une

@@ -145,6 +145,57 @@ procès-verbal**. Les mots retenus sont donc : « créé par », « relaie », �
 service de l'association ». Le raisonnement complet est en tête de
 `sources/generate_guso.py`. **Ne toucher à aucune de ces formulations.**
 
+### 🔑 `/guso-facile/connexion` — l'adresse de connexion des bêta-testeurs (17/08/2026)
+
+*Une seule ligne à changer le jour où l'application déménage. C'est tout l'intérêt.*
+
+**Le problème.** L'application Guso Facile vit sur `https://guso-facile.vercel.app/index.html`.
+David n'a pas acheté de nom de domaine et ne le fera pas maintenant (bêta privée, gratuite).
+Les bêta-testeurs, eux, **ont déjà un compte** : depuis la fusion du 16/08 le bouton de la page
+mène au **formulaire de demande**, pas à l'écran de connexion — ils n'avaient plus aucun chemin,
+et devaient retaper une adresse en `vercel.app` de mémoire.
+
+**Ce qui a été posé.** Une adresse à nous, sur le domaine de l'association, qui ne fait que
+rediriger (dans `vercel.json`) :
+
+| Adresse | Envoie vers | Type |
+|---|---|---|
+| `/guso-facile/connexion` | `https://guso-facile.vercel.app/index.html` | **302** (temporaire) |
+| `/guso-facile/connexion/` | idem | **302** (temporaire) |
+
+Et, sur la page, un **lien texte discret** sous le bouton — « J'ai déjà un compte → me connecter » —
+dont le `href` vaut `/guso-facile/connexion`, **jamais l'adresse de l'application**.
+
+**⚠️ Pourquoi 302 et pas 301, et pourquoi il ne faut pas « harmoniser ».**
+Les 11 autres redirections du fichier sont en **301** (permanentes) et c'est juste : elles pointent
+vers des pages **internes et définitives** (`/accueil` → `/`, `/statuts` → `/association#statuts`…).
+Celle-ci est l'inverse : **sa destination est provisoire par construction**. Or un 301 est mis en
+cache par les navigateurs quasi définitivement — le jour où David prendra un domaine, chaque
+bêta-testeur qui aurait cliqué une seule fois resterait envoyé sur l'**ancienne** adresse par son
+propre navigateur, sans que rien côté serveur puisse le rattraper. Ce serait exactement l'inverse
+du but recherché. **Ne pas passer cette ligne à `"permanent": true`.**
+
+**Le jour du déménagement** (nouveau domaine, ou app déplacée) : changer la `destination` des deux
+lignes dans `vercel.json`, `python3 sources/build.py`, `python3 sources/verif_site.py`, pousser.
+Rien d'autre. Les favoris et les adresses mémorisées continuent de marcher.
+
+**Ce qui ne se teste pas en local.** `vercel.json` n'est lu que par la plateforme : un
+`python3 -m http.server` rendra toujours **404** sur `/guso-facile/connexion`. Le premier clic réel
+se fait **en production**, après publication. Ce qui est vérifiable hors ligne — et qui l'est — :
+le JSON est valide, la destination est bien formée, et la page ne contient nulle part l'adresse en dur.
+
+**Référencement.** `robots.txt` porte `Disallow: /guso-facile/connexion` : une adresse de connexion
+n'a aucune valeur en référencement. (L'application envoie déjà, de son côté,
+`<meta name="robots" content="noindex,follow">`.) Elle n'est pas non plus dans `sitemap.xml`.
+
+**Ce que `verif_site.py` a appris au passage.** Deux contrôles ne connaissaient pas ce mécanisme et
+auraient refusé le site à tort : « liens » comptait comme **mort** tout lien interne sans fichier
+correspondant (une URL redirigée n'est pas morte), et « plan » exigeait qu'une redirection pointe
+vers une page **interne** (une destination peut être une adresse absolue externe). Les deux savent
+maintenant lire les redirections de `vercel.json` — **sans rien desserrer** : seule une URL
+réellement déclarée en `source` est acceptée, et le jour où la redirection disparaîtrait du fichier,
+le lien de la page redeviendrait signalé comme mort.
+
 Orphelines encore en ligne : `/solune`, `/au-nid` (suppression jamais confirmée ; exclues du sitemap et interdites dans `robots.txt`).
 
 ## ARCHITECTURE — ✅ CONSTRUITE ET EN LIGNE (04/08)
@@ -433,6 +484,41 @@ seul octet.
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
 ## Journal
+
+### 2026-08-17 — les bêta-testeurs peuvent enfin se connecter depuis la page
+
+**Décision de David** : ceux qui ont déjà un compte doivent avoir un accès. Sans affaiblir
+l'unique appel à l'action de `/guso-facile` (« Demander un accès »), qui s'adresse aux ~95 %
+de visiteurs qui n'en ont pas.
+
+Trois choses posées, une enquête rendue :
+
+1. **`/guso-facile/connexion`** — l'adresse stable, en **302**. Détail et mode d'emploi dans la
+   section dédiée plus haut. Ce n'est pas du référencement, c'est **ne plus dépendre de
+   `vercel.app`** : une seule ligne à changer le jour du déménagement.
+2. **Un lien texte, pas un second bouton**, sous le bouton du hero : « J'ai déjà un compte →
+   me connecter ». Gris (`--muted`), 14,5 px, aucune classe `btn`. **Mesuré, pas supposé** :
+   cible tactile **44,00 px** exactement (la méthode `inline-flex` + `min-height` déjà retenue
+   pour `.offer .who a` sur `/le-nid`), contraste **8,10:1** sur le fond réellement peint
+   derrière lui (plancher AA : 4,5:1), **0 px** de débordement horizontal à 390 / 820 / 1440.
+   Coût en hauteur : **50 px** à 390 et 820 px, **0 px à 1440** (au-delà de 1000 px le hero est
+   en deux colonnes et c'est la jauge des 507 h, à droite, qui fixe la hauteur).
+   L'« écart n° 8 » de `generate_guso.py` (un seul bouton, par décision) est **complété, pas
+   supprimé** : l'argumentaire d'origine reste, la décision de David est datée à la suite.
+3. **`Disallow: /guso-facile/connexion`** dans `robots.txt`.
+4. **Enquête PWA (aucun code touché)** : `https://guso-facile.vercel.app/` **ne déclare aucun
+   manifeste**. Ni `<link rel="manifest">`, ni `apple-touch-icon`, ni `theme-color`, ni
+   `apple-mobile-web-app-capable`, ni service worker — le mot « manifest » n'apparaît pas une
+   seule fois dans la page (1 000 794 octets relevés). Les six fichiers habituels répondent
+   **404** (`manifest.json`, `manifest.webmanifest`, `site.webmanifest`, `sw.js`,
+   `service-worker.js`, `apple-touch-icon.png`). Tout le `<head>` tient en : `charset`,
+   `viewport`, `<title>`, `favicon.svg`, `description`, `robots noindex,follow`, les balises
+   Open Graph / Twitter, et deux `<script src>` externes (pdf.js sur cdnjs, supabase-js sur
+   jsdelivr). **L'app n'est donc pas installable en tant qu'application** : « Ajouter à l'écran
+   d'accueil » ne créerait qu'un raccourci qui rouvre le navigateur, sans icône propre ni
+   affichage plein écran. Il n'y a **pas** de mode d'emploi à envoyer aux bêta-testeurs pour
+   l'instant. ⚠️ Guso Facile est un **autre dépôt** : rien n'a été modifié, et le chantier
+   (manifeste + icônes + `theme-color`) est à mener **là-bas**, pas ici.
 
 ### 2026-08-17 — `/guso-facile` : les trois dernières « (à venir) » tombent
 

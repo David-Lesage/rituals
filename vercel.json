@@ -11,6 +11,8 @@
     { "source": "/l-association", "destination": "/association", "permanent": true },
     { "source": "/mentions-legales", "destination": "/association#mentions", "permanent": true },
     { "source": "/Guso-Facile", "destination": "/guso-facile", "permanent": true },
-    { "source": "/Guso-Facile/", "destination": "/guso-facile", "permanent": true }
+    { "source": "/Guso-Facile/", "destination": "/guso-facile", "permanent": true },
+    { "source": "/guso-facile/connexion", "destination": "https://guso-facile.vercel.app/index.html", "permanent": false },
+    { "source": "/guso-facile/connexion/", "destination": "https://guso-facile.vercel.app/index.html", "permanent": false }
   ]
 }
