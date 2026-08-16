@@ -787,6 +787,23 @@ def carte_instruments():
             '      <h3>Instruments d’exception</h3>\n'
             '      <div class="offer-meta">Gratuit · sur inscription · environ 2 h</div>\n'
             '      <p>Une occasion rare de rencontrer des instruments que l’on ne croise presque jamais : le <b>Neotone</b>, handpan électronique de facture professionnelle, des <b>handpans acoustiques Yishama</b>, la <b>calebasse</b>, le <b>Gonilélé</b> (petite harpe africaine), et des <b>micros conçus pour le handpan</b> — micro de contact anti-larsen et micro multifonction pour le studio et la scène.</p>\n'
+            # 16/08/2026 — REVENDICATION VALIDEE PAR DAVID, mot pour mot :
+            #   « le seul lieu en France ou ces instruments s'essaient et
+            #     s'achetent en direct »
+            # Il avait d'abord ete propose « premier lieu au MONDE » (formule
+            # deja en ligne sur lesagedavid.fr, ou elle est ecrite A LA PREMIERE
+            # PERSONNE — « je l'assume » — ce qui la rend tenable). Ici c'est
+            # une ASSOCIATION qui parle : elle ne peut pas dire « je l'assume »,
+            # la phrase l'engagerait, elle et ses dirigeants, sur une
+            # affirmation invérifiable. David a donc choisi lui-meme d'adoucir
+            # en « le seul lieu en France ». NE PAS la re-elargir au monde.
+            # ⚠️ La phrase suivante BORNE la revendication et n'est pas
+            # decorative : seul le Neotone repart le jour meme, les Yishama sont
+            # les instruments PERSONNELS de David et ne sont pas en vente. Sans
+            # cette borne, « s'achetent en direct » sur-promet — et contredirait
+            # la mention de transparence plus bas (« elle ne vend pas les
+            # instruments presentes »).
+            '      <p><b>Le seul lieu en France où ces instruments s’essaient et s’achètent en direct.</b> Ailleurs, on commande sans avoir joué. Ici, on prend l’instrument en main, on le compare, on l’écoute dans une vraie pièce — et le <b>Neotone</b> peut repartir le jour même. Les <b>handpans Yishama</b> présentés sont les instruments personnels de David Lesage : ils se découvrent et s’essaient, ils ne sont pas en vente sur place.</p>\n'
             '      <p>Ce sont des instruments <b>faits main, produits en très petites séries</b>, dont la valeur atteint plusieurs milliers d’euros. David Lesage les présente et les fait sonner devant vous — le son brut, puis les effets et la voix, l’application <b>Handpan Studio</b> projetée à l’écran — répond à toutes les questions, puis met les instruments entre vos mains.</p>\n'
             '      <p>Aucune expérience requise : la plupart des personnes présentes n’ont jamais tenu un handpan. Jauge limitée, inscription préalable nécessaire.</p>\n'
             '      ' + dates_courtes('showcase') + '\n'
