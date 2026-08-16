@@ -145,7 +145,7 @@ procès-verbal**. Les mots retenus sont donc : « créé par », « relaie », �
 service de l'association ». Le raisonnement complet est en tête de
 `sources/generate_guso.py`. **Ne toucher à aucune de ces formulations.**
 
-### 🔑 `/guso-facile/connexion` — l'adresse de connexion des bêta-testeurs (17/08/2026)
+### 🔑 `/guso-facile/app` — l'adresse de connexion des bêta-testeurs (17/08/2026)
 
 *Une seule ligne à changer le jour où l'application déménage. C'est tout l'intérêt.*
 
@@ -160,11 +160,11 @@ rediriger (dans `vercel.json`) :
 
 | Adresse | Envoie vers | Type |
 |---|---|---|
-| `/guso-facile/connexion` | `https://guso-facile.vercel.app/index.html` | **302** (temporaire) |
-| `/guso-facile/connexion/` | idem | **302** (temporaire) |
+| `/guso-facile/app` | `https://guso-facile.vercel.app/index.html` | **302** (temporaire) |
+| `/guso-facile/app/` | idem | **302** (temporaire) |
 
 Et, sur la page, un **lien texte discret** sous le bouton — « J'ai déjà un compte → me connecter » —
-dont le `href` vaut `/guso-facile/connexion`, **jamais l'adresse de l'application**.
+dont le `href` vaut `/guso-facile/app`, **jamais l'adresse de l'application**.
 
 **⚠️ Pourquoi 302 et pas 301, et pourquoi il ne faut pas « harmoniser ».**
 Les 11 autres redirections du fichier sont en **301** (permanentes) et c'est juste : elles pointent
@@ -180,11 +180,11 @@ lignes dans `vercel.json`, `python3 sources/build.py`, `python3 sources/verif_si
 Rien d'autre. Les favoris et les adresses mémorisées continuent de marcher.
 
 **Ce qui ne se teste pas en local.** `vercel.json` n'est lu que par la plateforme : un
-`python3 -m http.server` rendra toujours **404** sur `/guso-facile/connexion`. Le premier clic réel
+`python3 -m http.server` rendra toujours **404** sur `/guso-facile/app`. Le premier clic réel
 se fait **en production**, après publication. Ce qui est vérifiable hors ligne — et qui l'est — :
 le JSON est valide, la destination est bien formée, et la page ne contient nulle part l'adresse en dur.
 
-**Référencement.** `robots.txt` porte `Disallow: /guso-facile/connexion` : une adresse de connexion
+**Référencement.** `robots.txt` porte `Disallow: /guso-facile/app` : une adresse de connexion
 n'a aucune valeur en référencement. (L'application envoie déjà, de son côté,
 `<meta name="robots" content="noindex,follow">`.) Elle n'est pas non plus dans `sitemap.xml`.
 
@@ -493,7 +493,7 @@ de visiteurs qui n'en ont pas.
 
 Trois choses posées, une enquête rendue :
 
-1. **`/guso-facile/connexion`** — l'adresse stable, en **302**. Détail et mode d'emploi dans la
+1. **`/guso-facile/app`** — l'adresse stable, en **302**. Détail et mode d'emploi dans la
    section dédiée plus haut. Ce n'est pas du référencement, c'est **ne plus dépendre de
    `vercel.app`** : une seule ligne à changer le jour du déménagement.
 2. **Un lien texte, pas un second bouton**, sous le bouton du hero : « J'ai déjà un compte →
@@ -505,7 +505,7 @@ Trois choses posées, une enquête rendue :
    en deux colonnes et c'est la jauge des 507 h, à droite, qui fixe la hauteur).
    L'« écart n° 8 » de `generate_guso.py` (un seul bouton, par décision) est **complété, pas
    supprimé** : l'argumentaire d'origine reste, la décision de David est datée à la suite.
-3. **`Disallow: /guso-facile/connexion`** dans `robots.txt`.
+3. **`Disallow: /guso-facile/app`** dans `robots.txt`.
 4. **Enquête PWA (aucun code touché)** : `https://guso-facile.vercel.app/` **ne déclare aucun
    manifeste**. Ni `<link rel="manifest">`, ni `apple-touch-icon`, ni `theme-color`, ni
    `apple-mobile-web-app-capable`, ni service worker — le mot « manifest » n'apparaît pas une

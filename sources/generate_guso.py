@@ -90,7 +90,7 @@ LES ECARTS AU CONTENU FOURNI (liste exhaustive, pour arbitrage par David)
    bouton mene au formulaire de demande, pas a l'ecran de connexion). Ils
    devaient retaper une adresse en `vercel.app` de memoire.
    Ce qui a ete pose : un LIEN TEXTE (`.hero-cnx`), « J'ai deja un compte ->
-   me connecter », JUSTE SOUS la rangee `.cta`, vers `/guso-facile/connexion`.
+   me connecter », JUSTE SOUS la rangee `.cta`, vers `/guso-facile/app`.
    POURQUOI UN LIEN ET PAS UN BOUTON — la decision d'origine n'est pas annulee,
    elle est bornee. Le raisonnement qui l'a produite vaut toujours : ~95 % des
    visiteurs de cette page N'ONT PAS de compte, et deux boutons de meme poids
@@ -101,7 +101,7 @@ LES ECARTS AU CONTENU FOURNI (liste exhaustive, pour arbitrage par David)
    bouton dore plein > lien blog dore souligne > lien de connexion gris
    (`--muted`), 14,5 px. Il n'emprunte AUCUNE classe `btn`.
    ⚠️ ET SURTOUT : SON `href` NE PORTE PAS L'ADRESSE DE L'APPLICATION. Il pointe
-   sur `/guso-facile/connexion`, une redirection posee dans `vercel.json` — voir
+   sur `/guso-facile/app`, une redirection posee dans `vercel.json` — voir
    « L'ADRESSE STABLE DE CONNEXION » plus bas. L'ancre `guso-facile.vercel.app`
    a ZERO dans `ANCRES` garantit que personne ne « simplifiera » ce lien en y
    collant l'adresse en dur.
@@ -405,7 +405,7 @@ CE QUI A ETE LAISSE SUR VERCEL, ET POURQUOI
         poids que « Demander un acces » — le geste principal de la page ne se
         partage pas en deux ;
       - il ne pointe PAS sur `guso-facile.vercel.app` mais sur
-        `/guso-facile/connexion` (voir « L'ADRESSE STABLE DE CONNEXION »).
+        `/guso-facile/app` (voir « L'ADRESSE STABLE DE CONNEXION »).
   - « Beta OUVERTE » de Vercel : ici c'est « Beta PRIVEE », formulation
     validee. Ne pas harmoniser dans ce sens-la.
 
@@ -587,7 +587,7 @@ CE QUI RESTE VOLONTAIREMENT NON FAIT — ET DONT LA PAGE NE PARLE PAS
   `NB_NOTES_A_VENIR`.
 
 ------------------------------------------------------------------------------
-L'ADRESSE STABLE DE CONNEXION (17/08/2026) — `/guso-facile/connexion`
+L'ADRESSE STABLE DE CONNEXION (17/08/2026) — `/guso-facile/app`
 ------------------------------------------------------------------------------
 LE BUT N'EST PAS LE REFERENCEMENT. C'est de NE PLUS DEPENDRE DE `vercel.app`.
 L'application vit aujourd'hui sur `https://guso-facile.vercel.app/index.html`.
@@ -598,8 +598,8 @@ continuer de marcher. D'ou une adresse a NOUS, sur le domaine de l'association,
 qui ne fait que rediriger :
 
     vercel.json :
-      /guso-facile/connexion   -> https://guso-facile.vercel.app/index.html
-      /guso-facile/connexion/  -> idem   (la variante a barre oblique finale,
+      /guso-facile/app   -> https://guso-facile.vercel.app/index.html
+      /guso-facile/app/  -> idem   (la variante a barre oblique finale,
                                           par coherence avec /Guso-Facile/)
 
 Il y a alors UN SEUL endroit a changer le jour du demenagement : cette ligne.
@@ -619,7 +619,7 @@ NE PAS « harmoniser » cette ligne avec les 11 autres en la passant a `true`.
 
 CE QUI A ETE VERIFIE, ET CE QUI NE PEUT PAS L'ETRE ICI
   - `guso-facile/` est un VRAI dossier avec un `index.html`. Aucun fichier ni
-    dossier `guso-facile/connexion` n'existe : il n'y a donc rien a masquer.
+    dossier `guso-facile/app` n'existe : il n'y a donc rien a masquer.
     (Et de toute facon, chez Vercel la phase `redirects` passe AVANT le service
     des fichiers statiques : une redirection l'emporterait sur un fichier.)
   - Aucun conflit avec `/Guso-Facile` ni `/Guso-Facile/` : les `source` de
@@ -627,11 +627,11 @@ CE QUI A ETE VERIFIE, ET CE QUI NE PEUT PAS L'ETRE ICI
     `connexion`.
   - ⚠️ LA REDIRECTION ELLE-MEME NE SE TESTE PAS EN LOCAL. `vercel.json` n'est lu
     que par la plateforme : un `python3 -m http.server` rendra toujours 404 sur
-    `/guso-facile/connexion`. Ce qui est verifiable ici — et qui l'est —, c'est
+    `/guso-facile/app`. Ce qui est verifiable ici — et qui l'est —, c'est
     que le JSON est valide, que la destination est bien formee et que la page ne
     contient nulle part l'adresse en dur. Le premier clic reel se fait en
     production, apres publication.
-  - `robots.txt` porte `Disallow: /guso-facile/connexion` : une adresse de
+  - `robots.txt` porte `Disallow: /guso-facile/app` : une adresse de
     connexion n'a aucune valeur en referencement. (L'application, de son cote,
     envoie deja `<meta name="robots" content="noindex,follow">` — releve dans le
     HTML servi le 17/08/2026. Les deux protections se cumulent.)
@@ -3313,13 +3313,13 @@ def build_html():
       #   2. AUCUNE classe `btn`. Ce n'est pas un bouton, et ce ne doit pas en
       #      devenir un « pour qu'on le voie mieux » : les ~95 % de visiteurs
       #      sans compte n'ont rien a faire de cette porte.
-      #   3. L'`href` est `/guso-facile/connexion`, JAMAIS l'adresse de l'appli.
+      #   3. L'`href` est `/guso-facile/app`, JAMAIS l'adresse de l'appli.
       #      C'est tout l'interet : un seul endroit a changer le jour ou David
       #      prendra un domaine (voir « L'ADRESSE STABLE DE CONNEXION » en tete
       #      de fichier). L'ancre `guso-facile.vercel.app` a ZERO l'impose.
       # La fleche est le caractere « → », pas un pictogramme : la page en compte
       # 11 et `NB_PICTOS` ne bouge pas. Aucun emoji (charte du site).
-      """  <p class="hero-cnx"><a href="/guso-facile/connexion">J’ai déjà un compte → me connecter</a></p>
+      """  <p class="hero-cnx"><a href="/guso-facile/app">J’ai déjà un compte → me connecter</a></p>
   </div>
 """)
     A(MAQ_JAUGE)
@@ -5319,9 +5319,9 @@ ANCRES = (
     #    « simplifie » ce lien en y collant l'adresse de l'application en dur —
     #    ce qui reviendrait a distribuer aux beta-testeurs une adresse qui
     #    cassera le jour du changement de domaine, precisement ce que
-    #    `/guso-facile/connexion` existe pour eviter.
+    #    `/guso-facile/app` existe pour eviter.
     ('class="hero-cnx"', 1, 'le lien de connexion, sous le bouton du hero'),
-    ('href="/guso-facile/connexion"', 1,
+    ('href="/guso-facile/app"', 1,
      'l’adresse stable de connexion (redirigée par vercel.json, une seule fois)'),
     ('J’ai déjà un compte → me connecter', 1,
      'le libellé exact du lien de connexion, validé par David le 17/08/2026'),

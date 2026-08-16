@@ -528,7 +528,7 @@ def controle_liens(pages):
     # disque. Il en existe une troisieme, et le site s'en sert depuis toujours
     # (11 redirections dans `vercel.json` avant celle-ci) : l'URL peut etre
     # REDIRIGEE par la plateforme, sans qu'aucun fichier ne lui corresponde.
-    # Le cas qui l'a revele : `/guso-facile/connexion`, l'adresse stable de
+    # Le cas qui l'a revele : `/guso-facile/app`, l'adresse stable de
     # connexion des beta-testeurs de Guso Facile — une redirection 302 vers
     # l'application, posee pour que la page ne cite jamais `vercel.app` en dur.
     # ⚠️ CE N'EST PAS UNE EXEMPTION DE COMPLAISANCE, ET ELLE NE DESSERRE RIEN :
@@ -752,7 +752,7 @@ def controle_plan(pages):
             # UNE DESTINATION PEUT ETRE EXTERNE (appris le 17/08/2026).
             # Les 11 premieres redirections du fichier pointaient toutes vers
             # une page interne, et ce controle en avait fait une regle. Depuis
-            # `/guso-facile/connexion`, une destination peut etre une adresse
+            # `/guso-facile/app`, une destination peut etre une adresse
             # ABSOLUE hors du site : l'application Guso Facile, hebergee
             # ailleurs. Le controle ci-dessous ne sait rien faire d'utile d'une
             # telle adresse — il ne connait que les pages de CE site — et
