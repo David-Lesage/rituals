@@ -338,9 +338,28 @@ Code portail retiré des 20 événements · 3 rappels (10080/1440/120 min, popup
 10. **Tarifs des rendez-vous individuels** (50 € / 70 € d'après le site) à afficher dans l'email showcase ?
 11. **Rendez-vous mensuel** : l'adhésion est-elle vraiment requise ? (son seul bouton est « Adhérer »).
 12. Décisions anciennes : suppression `/solune` et `/au-nid` · booking `/e-motion` = `booking@solune.show` (autre marque, comme « SOLUNE présente » sur la bannière) · rôle de Julien sur `/rituals-trio` · séance photo trio · afficher les prix des instruments (3 700 € / 5 300 €) ?
-13. ⚠️ **À voir avec le comptable** : l'association a désormais **trois activités commerciales** (album, calebasses pyrogravées, billetteries) → lucrativité, franchise des impôts commerciaux (~80 k€), tenue de comptabilité.
+13. **E-Motion, aperçu de partage (17/08)** : le titre de partage est celui de Solune et ne porte
+    plus **« · ID duo »** (le nom du duo reste dans le `<title>`, dans `og:image:alt` et dans la
+    page). Le récupérer ? Et l'affiche garde le logo **« SOLUNE présente »** en tête : à trancher
+    avec l'avancée de la migration vers Résonances.
+14. **`/guso-facile` est devenue très longue** : **25 455 px à 390 px de large**, 15 038 px à
+    1440, alors que l'en-tête du générateur annonce un plafond visé de ~12 500 px. Dépassé bien
+    avant l'ajout du lien de connexion (+50 px). Soit on relève le plafond et on le réécrit, soit
+    on décide une passe de raccourcissement. Rien n'est cassé.
+15. **L'app Guso Facile n'est pas installable sur l'écran d'accueil** (chantier dans l'AUTRE
+    dépôt, signalé à la session `GUSO FACILE V4`) : aucun `manifest.json` (404), pas de service
+    worker, pas d'`apple-touch-icon`, pas de `theme-color`. « Ajouter à l'écran d'accueil » ne
+    donne qu'un marque-page, pas une icône d'application. C'était la piste la plus utile pour
+    simplifier la vie des bêta-testeurs — elle ne se règle pas depuis ce dépôt.
+16. ⚠️ **À voir avec le comptable** : l'association a désormais **trois activités commerciales** (album, calebasses pyrogravées, billetteries) → lucrativité, franchise des impôts commerciaux (~80 k€), tenue de comptabilité.
 
 ## FILE D'ATTENTE
+0. 🔗 **Page de passage pour les liens d'invitation VIP de Guso Facile** — bloquée en attente de
+   la réponse de la session `GUSO FACILE V4`. Adresse pressentie
+   `/guso-facile/invitation#invite=<token>`. **Lire d'abord l'entrée « PIÈGE MESURÉ : une
+   redirection Vercel AVALE le fragment » du journal** : une redirection ne suffit pas, il faut
+   une page HTML qui relaie `location.hash` en JS. Ne pas figer l'adresse avant l'accord de
+   l'autre session — une fois diffusée aux bêta-testeurs, elle ne bouge plus.
 1. ~~Refonte du menu~~ ✅ **FAIT** (04/08). Liens utiles perdus au passage, à replacer dans le corps des pages : `/e-motion#programmer` (bouton « Programmer ce spectacle »), et sur l'accueil `#prestations` et `#statuts`.
 2. **Versions EN + ES** : accueil + RITUALS duo + RITUALS trio + E-Motion (+ probablement les 2 pages concerts). **Le Nid non prioritaire** (page très locale). Structure : `/en/…`, `/es/…` + sélecteur de langue + `hreflang`.
 3. Reste de l'audit : bouton « Nous contacter » en fin de rituals/trio · libellés de réservation hétérogènes sur `/le-nid` · pages de 12 000+ px sans retour en haut · refonte de l'accueil (photo en hero, bandeau prochaines dates, CTA principal autre qu'« Adhérer ») · liens d'évitement (aucune page n'en a réellement).
@@ -484,6 +503,107 @@ seul octet.
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
 ## Journal
+
+### 2026-08-17 — nuit — session récupérée après une coupure réseau, 3 chantiers publiés
+
+**Contexte de reprise.** La session « Site Résonances productions + Le Nid » (et son fork) s'est
+figée après une coupure réseau : le chat de David tournait dans le vide ~40 min. Les deux
+sessions étaient en réalité **à l'arrêt**, aucun agent ne tournait. Le travail n'était pas perdu :
+`origin/main` == `HEAD`, arbre propre. Le rapport d'agent qui annonçait « commité, non poussé »
+pour `e9b0196` et `2361779` était **périmé** — les deux étaient bien en ligne. Reprise faite en
+lisant ce fichier + le code, sans avoir eu à interroger David : c'est exactement ce à quoi il sert.
+Message de passage de relais envoyé à l'ancienne session pour qu'elle ne réédite rien.
+
+**Publié** (`3c59244` → `25ff51f` → `11d9ba1`, poussés d'un coup, 30/30 vertes) :
+
+1. **Lien de connexion des bêta-testeurs** sur `/guso-facile` (voir l'entrée suivante).
+2. **Adresse renommée `/guso-facile/connexion` → `/guso-facile/app`.** Arbitré avec David.
+   `/connexion` **ment dès la deuxième visite** : un bêta-testeur déjà connecté arrive sur son
+   tableau de bord, pas sur un formulaire. `/mon-compte` promet une page de profil alors que
+   l'app est un outil de gestion complet. `/app` reste vrai dans tous les cas, se dicte au
+   téléphone, et prépare `app.<domaine>` le jour d'un vrai nom de domaine. **Le libellé lu par
+   les gens n'a pas changé** (« J'ai déjà un compte → me connecter ») : seule l'adresse derrière
+   est devenue neutre.
+3. **Aperçu de partage d'E-Motion** — nouvelle affiche + texte de Solune. Voir plus bas.
+
+**Décision de David sur le nom de domaine** : il n'en achète pas maintenant (l'app est en bêta
+privée et ne rapporte rien). Raisonnement validé : **une page de connexion n'a aucune valeur en
+référencement** — elle est même en `Disallow`. Le domaine ne servirait donc pas le SEO. C'est
+l'adresse stable en 302 qui apporte la valeur, et elle est gratuite.
+
+---
+
+### 2026-08-17 — 🚨 PIÈGE MESURÉ : une redirection Vercel AVALE le fragment (`#…`)
+
+**À lire avant de promettre à qui que ce soit qu'un lien à fragment marchera sous
+`resonancesproductions.org`.** Ce résultat est contre-intuitif : la RFC 7231 laisse entendre
+qu'un client conserve le fragment quand la destination n'en a pas. **Mesuré en production, ce
+n'est pas ce qui se passe.**
+
+| URL ouverte (Chrome, production) | URL finale |
+|---|---|
+| `resonancesproductions.org/guso-facile/app#invite=TESTCLAUDE0000` | `guso-facile.vercel.app/index.html` — **fragment perdu** |
+| `guso-facile.vercel.app/index.html#invite=TESTCLAUDE0000` | fragment **conservé** |
+
+La seule différence entre les deux lignes est la redirection : c'est donc bien elle qui mange le
+fragment, et non l'application qui nettoierait son URL après lecture (hypothèse écartée par le
+second test).
+
+**Conséquence concrète** : les liens d'invitation VIP de Guso Facile
+(`…/index.html#invite=<token>`) **ne peuvent PAS** être servis par une simple redirection. Les
+invités arriveraient sans code, l'invitation échouerait silencieusement.
+
+**Solution retenue** (pas encore construite, voir FILE D'ATTENTE) : une page de passage HTML qui
+lit `location.hash` en JS et rebondit vers l'app **en conservant le fragment**. Le token reste
+dans le fragment, donc jamais envoyé à un serveur ni écrit dans un log.
+⚠️ **Ne pas « simplifier » en passant le token en paramètre de requête (`?invite=`)** : ça
+marcherait avec une redirection nue, mais ça exposerait le token dans les logs serveur et les
+en-têtes `Referer`. Le choix du fragment est un choix de confidentialité, pas un hasard.
+
+**Seconde moitié du chantier, hors de ce dépôt** : c'est l'app qui fabrique le lien. Session
+`GUSO FACILE V4 - 16 Aout 2026` contactée le 17/08 (questions posées : où est fabriquée la base
+de l'URL, `#invite=` est-il stable, y a-t-il d'autres liens à fragment, le token est-il validé
+côté serveur). **Attendre sa réponse avant de figer l'adresse** — une fois diffusée aux
+bêta-testeurs, elle ne bouge plus.
+
+---
+
+### 2026-08-17 — E-Motion : l'aperçu de partage montre la nouvelle affiche (`25ff51f`)
+
+David migre progressivement le spectacle de `solune.show` vers Résonances et voulait que la
+vignette WhatsApp de `/e-motion` reprenne celle de Solune.
+
+- **Image** : `img/e-motion/apercu-partage-e-motion-1400.jpg`, **1400×1980, 291 736 octets**
+  (< 300 Ko, seuil pratique des messageries). Fichier **NOUVEAU et séparé** :
+  `affiche-e-motion-1400.jpg` sert toujours dans le `<picture>` de la page et n'a pas bougé.
+  **Pas de WebP** — WhatsApp et Facebook le gèrent mal, et le contrôle `partage` le refuse.
+- **Source** : `~/Desktop/Affiche Solune/Affiche Emotion Aperçus Site 2026.jpg` (4961×7016).
+  L'ancienne affiche portait `www.solune.show` imprimé en bas — signalé à David comme
+  contradictoire en pleine migration ; il l'a remplacé par l'accroche.
+  ⚠️ **Deux fautes avaient été relevées dans le premier export** (« Envole toi » sans trait
+  d'union, « innattendu » avec deux `n`) **et corrigées par David avant publication.** Si
+  l'affiche est ré-exportée un jour, revérifier cette ligne : elle est en gros, en bas.
+- **Texte** : `og:title` = « E-Motion LE SPECTACLE PARTICIPATIF » (celui de Solune) ;
+  `og:description` ramenée à **149 caractères** pour tenir avant la troncature des messageries,
+  en gardant les mots de David dans son ordre.
+- **Le logo « SOLUNE présente » reste imprimé en haut de l'affiche** — cohérent (le spectacle
+  est de marque Solune, cf. `booking@solune.show`), mais à trancher avec l'avancée de la migration.
+- L'aperçu reste une **affiche verticale** (ratio 0,71) là où les messageries attendent du
+  paysage (~1,91:1) : elles rognent. Une déclinaison paysage réglerait le sujet.
+
+⚠️ **Le cache des aperçus** : WhatsApp et Facebook gardent l'ancienne vignette plusieurs jours.
+Tester dans une conversation **neuve**, ou forcer via le Sharing Debugger de Facebook. Un aperçu
+« qui n'a pas changé » n'est pas une preuve que le site est en retard.
+
+**`/le-nid` n'avait rien à changer** : son `og:image` est **déjà** `hero-nid-1200.jpg`, la photo
+du salon qui ouvre la page (il n'y a pas d'image de fond CSS sur cette page). Demande de David du
+17/08 close sans modification — si l'aperçu paraît autre, c'est le cache.
+
+**Hors périmètre, signalé non corrigé** : `/solune/index.html` (page orpheline, hors des 30)
+porte un `og:image` **hébergé sur un CDN externe** (`d1yei2z3i6k35z.cloudfront.net`). Elle
+échouerait au contrôle `partage`. À traiter avec le sort de cette page.
+
+---
 
 ### 2026-08-17 — les bêta-testeurs peuvent enfin se connecter depuis la page
 
