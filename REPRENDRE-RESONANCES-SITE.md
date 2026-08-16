@@ -110,7 +110,7 @@ git config core.hooksPath .githooks
 
 ---
 
-## LES 10 PAGES EN LIGNE (2026-08-14)
+## LES 30 PAGES EN LIGNE (2026-08-16)
 
 | URL | Rôle | Public |
 |---|---|---|
@@ -433,6 +433,67 @@ seul octet.
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
 ## Journal
+
+### 2026-08-16 — nuit — le site passe de 10 à 30 pages
+
+**Ce qui est en ligne et vérifié** (chaque étape poussée et contrôlée en production) :
+
+- **`/association`** créée : l'objet, les valeurs, les statuts, les mentions légales (RNA, SIRET,
+  code APE), les deux adresses, la fiche data.gouv, l'adhésion, le contact. Elle **supprime le
+  doublon de menu** signalé par David (« Accueil » et « L'association » menaient tous deux à `/`).
+  Redirections posées : `/statuts`, `/mentions-legales`, `/l-association`.
+- **`/guso-facile`** : fusion de la page Vercel (le parcours d'inscription ne traverse plus deux
+  domaines), **formulaire de demande d'accès rapatrié** (envoi direct, 3 options `artiste` /
+  `structure` / `les_deux`, aucune requête avant le clic), **10 aperçus d'interface** en HTML/CSS,
+  dont une **carte de tournée en SVG**, la double vue artistes/structures, « J'ai besoin d'aide ».
+- **`/guso-facile/blog`** : 18 articles + index, **encadré « Où vérifier » sur les 18** et
+  **7 réserves** « Point à vérifier auprès de… » — décision de David : *l'association ne prend pas
+  la responsabilité d'affirmer une vérité non vérifiable, mais on peut en parler*.
+- **Refonte graphique des 30 pages** : écart fond → carte **×2,36 → ×3,30**, saturation des accents
+  **44 % → 52 %**. `/guso-facile` et son blog passent en **Jost 700 resserré** (les 28 autres gardent
+  Cormorant) : une page produit a sa voix propre.
+- **4 liens entrants** vers Guso Facile et le blog depuis `/`, `/association` et la page
+  programmateurs. Il n'y en avait **aucun** hors menu.
+- **Vérification Google Search Console** posée sur l'accueil (balise unique, un contrôle l'exige).
+
+**Deux défauts de fond corrigés, à ne pas laisser revenir** :
+
+1. **Notes de travail livrées au public.** Le garde-fou ne regardait que les commentaires **HTML** ;
+   **1 408 commentaires CSS / 153 000 caractères** passaient par l'autre porte, emoji compris.
+   `verif_commentaires.py` **couvre désormais les deux**. 5 marqueurs CSS sont **fonctionnels**
+   (bornes relues par `nav_menu._strip()`, `find()` de `generate_site.py`/`generate_trio.py`,
+   compteurs de `generate_agenda_nid.py` et `generate_trio.py`) : les supprimer casserait
+   4 générateurs **en silence**.
+2. **272 fichiers `Icon\r` de Google Drive dans `.git/`** (jusque dans `refs/` et `objects/`),
+   `git log --all` en échec. Nettoyés. ⚠️ **Drive synchronise `~/CLAUDE` : ça reviendra.**
+   Exclure `.git` de la synchronisation réglerait la cause.
+
+**Règles de rédaction acquises cette nuit — chacune a coûté une correction** :
+
+- **« créé par David Lesage · relayé par l'association »**, jamais « porté par » : l'infrastructure de
+  Guso Facile est personnelle, les données traitées sensibles. Un portage associatif demanderait une
+  décision actée. David : *« tout est ouvert, ce n'est pas le moment de décider »*.
+- **Ce qui est livré s'écrit au présent, ce qui ne l'est pas porte « (à venir) »** — vérifié auprès de
+  la session qui développe l'app, dans les deux sens (2 mentions étaient fausses par excès de
+  prudence, 1 manquait).
+- **« Trois situations typiques »**, jamais « réelles » : les personnages sont fictifs.
+- **Bloc Guilde** : 8 mots proscrits (noter, notation, signaler, dénoncer, avis, évaluation,
+  blacklist, réputation) **et** vocabulaire d'abondance interdit (centaines, milliers, « consulter
+  les retours ») — l'espace est **livré mais vide**.
+- **Jamais « en temps réel »** : vérifié dans le code, la synchronisation ne l'est pas.
+
+**Leçon de méthode.** Trois défauts n'ont été trouvés qu'**en regardant l'écran**, aucun compteur ne
+les voyait : une carte dont les traits ne reliaient pas les points, un dégradé posé en aplat plein
+sur du texte, une étiquette collée à la date suivante. *Un DOM correct et une page juste ne sont pas
+la même chose.*
+
+**En attente de David** : les légendes des blocs photo **yoga** et **calebasse** de `/le-nid`
+(proposées depuis le 04/08) · le **directeur de la publication** et l'**hébergeur** pour
+`/association` · la **redirection** de `guso-facile.vercel.app/presentation.html` vers `/guso-facile`
+(tout est prêt des deux côtés) · l'appel au **GUSO** sur l'articulation DPAE (remplacerait 3 réserves
+par une phrase ferme) · 3 dates de son parcours (Roquefort-les-Cascades 29/07/2019, La maison de
+Tonino 15/09/2019, Live inédit 01/07/2020).
+
 - **2026-08-16** — **Refonte graphique : les surfaces s'étagent, les accents s'affirment.**
   Point de départ : David compare `/guso-facile` à `~/CLAUDE/GUSO FACILE/presentation.html`
   et trouve notre page « encore un peu trop sombre ». **Mesuré avant de toucher :
