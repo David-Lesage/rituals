@@ -17,7 +17,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0e0f24">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -123,13 +123,50 @@ section{padding:86px 0}
    pixels sur une marge de quarante ne se voient pas ; ils rendent une
    cinquantaine de pixels au total. Ne pas descendre plus bas : c'est cette
    respiration qui separe les blocs les uns des autres. */
-/* --- les quatre univers — DEUX colonnes, jamais trois (voir l'entete) ---- */
-.univers{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:34px}
-@media(min-width:761px){.univers{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* --- LA DOUBLE VUE « artistes | structures » (16/08/2026) ---------------
+   Elle REMPLACE la grille `.univers` a plat (2 x 2) : les univers 1 et 2 sont
+   desormais SOUS un en-tete « Pour les artistes », l'univers 3 sous « Pour les
+   structures », et l'univers 4 en dessous, pleine largeur, comme terrain
+   commun. Le raisonnement complet est dans l'entete du fichier.
+   ⚠️ LE POINT DE BASCULE RESTE 761 px, celui de l'ancienne grille, ET C'EST
+   UNE MESURE. Un premier essai a 901 px paraissait plus confortable — deux
+   colonnes de moins de 430 px, ca serre. Mesure faite : a 820 px la page
+   passait de 14 035 a 15 409 px, soit +1 374 px POUR LES TABLETTES SEULES,
+   parce que tout s'y empilait. Et l'ancienne grille tenait deja parfaitement
+   a 761 px en deux colonnes. On ne paie pas 1 374 px de defilement pour du
+   confort a une largeur ou rien ne debordait. Sous 761 px les deux colonnes
+   s'empilent, en-tete compris : on lit « Pour les artistes » puis ses cartes,
+   puis « Pour les structures » puis les siennes — la dualite reste lisible,
+   elle se lit simplement l'une apres l'autre. */
+.duo{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:30px}
+@media(min-width:761px){.duo{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.duo-col{display:flex;flex-direction:column;gap:24px;min-width:0}
+/* l'en-tete de colonne : le filet degrade sous le titre est ce qui fait lire
+   les deux colonnes comme un vis-a-vis et non comme deux listes voisines */
+.duo-h{display:flex;gap:14px;align-items:center;padding-bottom:15px;background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%}
+.duo-t{font-size:22px;font-weight:700;color:#fff;line-height:1.16;letter-spacing:-.012em}
+.duo-q{display:block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--plum2);margin-top:4px;font-weight:500}
+/* la rangee des deux apercus cote artiste, juste sous la colonne qu'ils
+   illustrent (fiche d'une date, puis enchainement des dates) */
+.apercus{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:26px}
+@media(min-width:761px){.apercus{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* « et pour les deux » : l'univers 4 ferme la section, pleine largeur */
+.deux{margin-top:40px;padding-top:28px;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.34) 16%,rgba(238,128,98,.4) 50%,rgba(179,143,245,.34) 84%,transparent);background-repeat:no-repeat;background-size:100% 1px;background-position:0 0}
+.deux .u-card{margin-top:18px}
 .u-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#1c1e46,#171935);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:30px 28px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
 .u-card::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .u-head{display:flex;align-items:center;gap:14px}
-.u-ico{flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(248,210,116,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(238,128,98,.12) 55%,rgba(147,116,226,.14))}
+.u-ico,.duo-ico{flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(248,210,116,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(238,128,98,.12) 55%,rgba(147,116,226,.14))}
+/* le mot-cle du titre de section, peint au degrade CHAUD et non au degrade
+   complet : sur deux lettres (« et »), les quatre arrets de `--grad` se
+   compriment en une bouillie — mesure a l'ecran. `--grad-warm` n'en a que
+   trois et il reste lisible a cette echelle.
+   ⚠️⚠️ `background-image` ET SURTOUT PAS `background`. La forme raccourcie
+   REMET `background-clip` a `border-box` : le degrade cesse d'etre decoupe par
+   les lettres, et comme `-webkit-text-fill-color:transparent` de `.grad-t`
+   tient toujours, le mot disparait DANS UN RECTANGLE OR PLEIN. Vu a l'ecran au
+   premier essai, invisible en relisant le CSS. */
+.sec-title .grad-t{display:inline;background-image:var(--grad-warm)}
 .u-num{letter-spacing:.28em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--gold)}
 .u-card h3{font-size:27px;font-weight:600;color:#fff;line-height:1.15;margin-top:3px}
 .u-sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--plum2);font-size:18.5px;line-height:1.4;margin-top:12px}
@@ -252,6 +289,24 @@ section{padding:86px 0}
 .veille-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
 .veille-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
 .veille-note{color:var(--muted);font-size:14px;line-height:1.6;margin-top:13px}
+/* --- « J'ai besoin d'aide » (16/08/2026) --------------------------------- */
+/* Meme habillage que l'encart de la Guilde et que « On veille les uns sur les
+   autres » : ces trois blocs disent la meme chose sous trois angles (le
+   groupe, le pacte, l'appel), ils doivent se lire comme une famille.
+   ⚠️ Le marqueur des quatre lignes est un POINT D'INTERROGATION dessine en
+   CSS (`content:'?'`), pas un pictogramme et surtout pas un emoji : la page de
+   reference met un 🤗 sur cette section, la charte du site l'interdit. Aucun
+   quinzieme trace a maintenir. */
+.aide{display:flex;gap:18px;align-items:flex-start;margin-top:34px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(248,210,116,.26);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(238,128,98,.09) 58%,rgba(147,116,226,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+.aide .ic-w{flex:0 0 auto;line-height:0;margin-top:4px}
+.aide .ic{width:26px;height:26px}
+.aide .u-num{display:block;margin-bottom:8px}
+.aide-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
+.aide-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
+.aide-l{list-style:none;margin-top:15px;display:grid;gap:9px}
+.aide-l li{position:relative;padding-left:29px;color:#d7d4ea;font-size:15.5px;line-height:1.6}
+.aide-l li::before{content:'?';position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;line-height:1;color:var(--gold2);border:1px solid rgba(248,210,116,.34);background:rgba(216,178,90,.14)}
+.aide-l li b{color:#fff;font-weight:500}
 /* --- le formulaire de demande d'acces (rapatrie le 16/08/2026) ----------- */
 /* Il est DANS le panneau `.acces`, donc il herite du bouton chaud (`.acces
    .btn`). Rien ne descend sous 14 px (plancher du site : 13). Les champs sont
@@ -295,6 +350,7 @@ section{padding:86px 0}
   .aussi{padding:22px 20px;gap:14px}
   .guilde{padding:22px 20px 20px;gap:14px}
   .veille{padding:22px 20px 20px}
+  .aide{padding:22px 20px 20px;gap:14px}
   .mea{margin-top:42px;padding-top:28px}
   .mea-c{padding:20px 18px 17px}
   .dmd{padding:22px 18px 20px}
@@ -305,8 +361,13 @@ section{padding:86px 0}
 @media print{.totop{display:none}.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
 /* ===== maquettes d'interface (illustrations, pas d'interface reelle) ===== */
 .gf-block{margin:34px 0 0;max-width:820px}
-.gf-topgrid .gf-block,.univers .gf-block{margin:0;max-width:none}
-.univers .gf-wide{grid-column:1/-1}
+/* ⚠️ 16/08/2026 — `.univers` a laisse la place a `.duo` / `.apercus` (la double
+   vue artistes | structures). Les apercus qui vivent DANS une colonne ou dans
+   la rangee des deux aperçus artistes n'ont ni marge haute ni largeur maximale
+   propre : c'est la grille qui les cadre. L'ancienne regle `.univers .gf-wide
+   {grid-column:1/-1}` a disparu avec la grille — une colonne de flex n'a pas
+   de piste a enjamber. */
+.gf-topgrid .gf-block,.duo-col .gf-block,.apercus .gf-block{margin:0;max-width:none}
 .gf-shot{position:relative;background:linear-gradient(180deg,#1d1f47,#171935);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px 18px 18px;margin:0 0 11px;color:var(--ink);font-size:15px;line-height:1.5;max-width:100%;overflow:hidden;box-shadow:0 24px 50px -34px rgba(0,0,0,.95)}
 .gf-shot::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad);opacity:.85}
 /* la jauge du hero est l'image signature de la page : elle porte un halo */
@@ -419,6 +480,31 @@ section{padding:86px 0}
 .gf-vig.gf-bad .gf-vig-s{background:transparent;border:2px solid var(--plum);box-shadow:inset 0 0 0 2px var(--plum)}
 .gf-vig.gf-bad{color:var(--ink);border-color:var(--plum2)}
 @media(max-width:760px){.gf-shot{padding:15px 13px 13px}}
+/* ===== l'exception typographique de la page produit (16/08/2026) =====
+   Les titres passent de Cormorant Garamond a Jost lourd et serre. Les 29
+   autres pages du site gardent le serif : le raisonnement complet est dans
+   sources/generate_guso.py, juste au-dessus de cette feuille. */
+h1,h2,h3,h4{font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif}
+/* le mobilier partage avec les 29 autres pages ne bouge pas */
+footer h4{font-family:'Cormorant Garamond',Georgia,serif}
+/* le titre principal : plus PETIT qu'avant (74 -> 60 px), et bien plus lourd */
+.gf-top h1{font-size:clamp(34px,4.4vw,60px);font-weight:700;line-height:1.05;letter-spacing:-.018em}
+.gf-top h1 .h1-sous{font-size:clamp(17px,2.05vw,23px);font-weight:600;line-height:1.22;letter-spacing:-.006em}
+/* les titres de section : 50 -> 40 px, graisse 700, interlettrage negatif */
+.sec-title{font-size:clamp(27px,4vw,40px);font-weight:700;line-height:1.06;letter-spacing:-.014em}
+/* les titres de cartes, de blocs et d'accordeons suivent la meme regle */
+.u-card h3{font-size:23px;font-weight:700;letter-spacing:-.012em;line-height:1.18}
+.cas h3{font-size:22px;font-weight:700;letter-spacing:-.012em;line-height:1.2}
+.mea-t{font-family:'Jost',sans-serif;font-size:clamp(24px,3vw,32px);font-weight:700;letter-spacing:-.014em;line-height:1.1}
+.mea-h{font-family:'Jost',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.24}
+.dmd-t{font-family:'Jost',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.012em}
+.etape h3{font-size:19px;font-weight:700;letter-spacing:-.01em}
+.faq-q summary h3{font-size:19px;font-weight:600;letter-spacing:-.008em}
+/* les maquettes reproduisent une interface : elle est en sans-serif, comme
+   l'application. Un titre d'ecran en serif trahissait la reproduction. */
+.gf-bar-t{font-family:'Jost',sans-serif;font-size:19px;font-weight:600;letter-spacing:-.01em}
+.gf-ring-n{font-family:'Jost',sans-serif;font-size:36px;font-weight:700;letter-spacing:-.02em}
+.gf-route-tot-v{font-family:'Jost',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.015em}
 
 /* ===== MENU MOBILE (hamburger) ===== */
 .burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
@@ -938,10 +1024,20 @@ section{padding:86px 0}
 
 <div class="divider"></div>
 <section id="fonctionnalites"><div class="wrap">
-  <p class="kick">Les fonctionnalités</p>
-  <h2 class="sec-title">Bien plus qu’un compteur d’heures</h2>
+  <p class="kick">Une app, deux métiers</p>
+  <h2 class="sec-title">Pensée pour les artistes <span class="grad-t">et</span> les structures</h2>
+  <p class="lead">Bien plus qu’un compteur d’heures : les données saisies d’un côté servent l’autre.
+    Chacun sa vue, un seul outil.</p>
 
-  <div class="univers">
+  <div class="duo">
+
+    <div class="duo-col" role="group" aria-labelledby="duo-artistes">
+      <div class="duo-h">
+        <span class="duo-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="7.9" r="3.5"/><path d="M5.1 20.4c0-3.8 3.1-6.3 6.9-6.3s6.9 2.5 6.9 6.3"/></svg></span>
+        <div>
+          <p class="duo-t" id="duo-artistes">Pour les artistes<span class="duo-q">Intermittent·e du spectacle</span></p>
+        </div>
+      </div>
 
     <article class="u-card">
       <div class="u-head">
@@ -982,6 +1078,94 @@ section{padding:86px 0}
         <li><b>Je crée mon contrat</b> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
       </ul>
     </article>
+    </div>
+
+    <div class="duo-col" role="group" aria-labelledby="duo-structures">
+      <div class="duo-h">
+        <span class="duo-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.2" y="6.7" width="17.6" height="13.7" rx="3"/><path d="M9 6.7V5.3a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.4"/><path d="M3.2 12.4h17.6"/></svg></span>
+        <div>
+          <p class="duo-t" id="duo-structures">Pour les structures<span class="duo-q">Celles et ceux qui emploient et accompagnent</span></p>
+        </div>
+      </div>
+
+    <article class="u-card">
+      <div class="u-head">
+        <span class="u-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.4 20.4h17.2"/><path d="M5.6 20.4V9.8L12 5.6l6.4 4.2v10.6"/><path d="M9.6 20.4v-4.8h4.8v4.8"/><path d="M9.6 12.2h4.8"/></svg></span>
+        <div>
+          <p class="u-num">Univers 3</p>
+          <h3>Ta structure, connectée</h3>
+        </div>
+      </div>
+      <p class="u-sub">Pour celles et ceux qui emploient et accompagnent les artistes.</p>
+      <ul>
+        <li><b>Back-office transversal</b> — toutes les DPAE, feuillets GUSO et factures à faire, tous artistes confondus, au même endroit.</li>
+        <li><b>Fiches artistes</b> — état civil, numéro de sécurité sociale, numéro GUSO, accessibles en un clic pour remplir une DPAE sans rien redemander.</li>
+        <li><b>DPAE regroupées</b> — les dates proches (à sept jours près) rassemblées pour tout déclarer d’un coup.</li>
+        <li><b>Factures et salaires</b> — dépôt des factures, marquage « facture réglée » et « salaire reçu » : qui est payé, ce qui reste dû.</li>
+        <li><b>Multi-artistes</b> — conditions idéales, coordonnées bancaires, contrats, plusieurs artistes gérés côte à côte.</li>
+        <li><b>Fiche structure</b> — SIRET, coordonnées bancaires et coordonnées postales centralisés, réutilisés partout.</li>
+        <li><b>Synchronisation</b> — les données sont partagées entre l’artiste et la structure.</li>
+        <li><b>Niveaux de partage</b> — pour chaque structure, l’artiste choisit ce qu’elle voit : tout, l’essentiel administratif, ou seulement ses totaux d’heures. Il peut en changer ou se retirer à tout moment.</li>
+      </ul>
+    </article>
+<figure class="gf-block">
+  <div class="gf-shot" role="img" aria-label="Tableau de bord d’une structure dans Guso Facile : quatre artistes, leur compteur d’heures sur 507 et leur niveau de vigilance — bon rythme, à surveiller ou seuil menacé.">
+    <div class="gf-bar">
+      <span class="gf-bar-t">Mes artistes</span>
+      <span class="gf-bar-s">Espace structure</span>
+    </div>
+    <p class="gf-hint">Chaque artiste, ses heures sur la période, et le niveau de vigilance avant sa date anniversaire.</p>
+    <div class="gf-art">
+      <div class="gf-art-row">
+        <span class="gf-av">CF</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Camille Ferrand</span>
+          <span class="gf-art-m">Chanteuse · anniversaire le 16 août</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">412 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-ok"><span class="gf-vig-s"></span>bon rythme</span>
+        <span class="gf-mbar"><i style="width:81%"></i></span>
+      </div>
+      <div class="gf-art-row">
+        <span class="gf-av">NB</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Nadia Belkacem</span>
+          <span class="gf-art-m">Violoncelliste · anniversaire le 3 octobre</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">348 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-ok"><span class="gf-vig-s"></span>bon rythme</span>
+        <span class="gf-mbar"><i style="width:69%"></i></span>
+      </div>
+      <div class="gf-art-row">
+        <span class="gf-av">TR</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Tomas Riveiro</span>
+          <span class="gf-art-m">Percussionniste · anniversaire le 21 juillet</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">261 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-warn"><span class="gf-vig-s"></span>à surveiller</span>
+        <span class="gf-mbar"><i style="width:51%"></i></span>
+      </div>
+      <div class="gf-art-row">
+        <span class="gf-av">EV</span>
+        <span class="gf-art-txt">
+          <span class="gf-art-n">Émile Vasseur</span>
+          <span class="gf-art-m">Ingénieur du son · anniversaire le 9 juin</span>
+        </span>
+        <span class="gf-art-h"><span class="gf-art-hv">154 h</span><span class="gf-art-hk">/ 507 h</span></span>
+        <span class="gf-vig gf-bad"><span class="gf-vig-s"></span>seuil menacé</span>
+        <span class="gf-mbar"><i style="width:30%"></i></span>
+      </div>
+    </div>
+  </div>
+  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
+  <p class="gf-soon-note"><i>(à venir)</i> Cet aperçu montre une vue en cours de construction. L’espace structure réunit aujourd’hui, tous artistes confondus, les DPAE, les feuillets GUSO et les factures à faire ; le suivi artiste par artiste, avec ses heures et son niveau de vigilance, n’est pas encore livré.</p>
+</figure>
+    </div>
+
+  </div>
+
+  <div class="apercus">
 <figure class="gf-block">
   <div class="gf-shot" role="img" aria-label="Fiche d’une date dans Guso Facile : concert au Rocher de Palmer à Cenon le 14 mars 2026, 2 cachets soit 24 heures, avec les cinq étapes administratives dont trois sont cochées.">
     <div class="gf-bar">
@@ -1071,28 +1255,10 @@ section{padding:86px 0}
   </div>
   <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
 </figure>
+  </div>
 
-    <article class="u-card">
-      <div class="u-head">
-        <span class="u-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.4 20.4h17.2"/><path d="M5.6 20.4V9.8L12 5.6l6.4 4.2v10.6"/><path d="M9.6 20.4v-4.8h4.8v4.8"/><path d="M9.6 12.2h4.8"/></svg></span>
-        <div>
-          <p class="u-num">Univers 3</p>
-          <h3>Ta structure, connectée</h3>
-        </div>
-      </div>
-      <p class="u-sub">Pour celles et ceux qui emploient et accompagnent les artistes.</p>
-      <ul>
-        <li><b>Back-office transversal</b> — toutes les DPAE, feuillets GUSO et factures à faire, tous artistes confondus, au même endroit.</li>
-        <li><b>Fiches artistes</b> — état civil, numéro de sécurité sociale, numéro GUSO, accessibles en un clic pour remplir une DPAE sans rien redemander.</li>
-        <li><b>DPAE regroupées</b> — les dates proches (à sept jours près) rassemblées pour tout déclarer d’un coup.</li>
-        <li><b>Factures et salaires</b> — dépôt des factures, marquage « facture réglée » et « salaire reçu » : qui est payé, ce qui reste dû.</li>
-        <li><b>Multi-artistes</b> — conditions idéales, coordonnées bancaires, contrats, plusieurs artistes gérés côte à côte.</li>
-        <li><b>Fiche structure</b> — SIRET, coordonnées bancaires et coordonnées postales centralisés, réutilisés partout.</li>
-        <li><b>Synchronisation</b> — les données sont partagées entre l’artiste et la structure.</li>
-        <li><b>Niveaux de partage</b> — pour chaque structure, l’artiste choisit ce qu’elle voit : tout, l’essentiel administratif, ou seulement ses totaux d’heures. Il peut en changer ou se retirer à tout moment.</li>
-      </ul>
-    </article>
-
+  <div class="deux">
+    <p class="kick">Et pour les deux</p>
     <article class="u-card">
       <div class="u-head">
         <span class="u-ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="5.6" r="2.1"/><circle cx="5.7" cy="16.4" r="2.1"/><circle cx="18.3" cy="16.4" r="2.1"/><path d="M10.4 7.4 7.2 14.2"/><path d="M13.6 7.4l3.2 6.8"/><path d="M7.8 16.4h8.4"/></svg></span>
@@ -1117,60 +1283,25 @@ section{padding:86px 0}
         <li class="soon"><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
       </ul>
     </article>
-<figure class="gf-block gf-wide">
-  <div class="gf-shot" role="img" aria-label="Tableau de bord d’une structure dans Guso Facile : quatre artistes, leur compteur d’heures sur 507 et leur niveau de vigilance — bon rythme, à surveiller ou seuil menacé.">
-    <div class="gf-bar">
-      <span class="gf-bar-t">Mes artistes</span>
-      <span class="gf-bar-s">Espace structure</span>
-    </div>
-    <p class="gf-hint">Chaque artiste, ses heures sur la période, et le niveau de vigilance avant sa date anniversaire.</p>
-    <div class="gf-art">
-      <div class="gf-art-row">
-        <span class="gf-av">CF</span>
-        <span class="gf-art-txt">
-          <span class="gf-art-n">Camille Ferrand</span>
-          <span class="gf-art-m">Chanteuse · anniversaire le 16 août</span>
-        </span>
-        <span class="gf-art-h"><span class="gf-art-hv">412 h</span><span class="gf-art-hk">/ 507 h</span></span>
-        <span class="gf-vig gf-ok"><span class="gf-vig-s"></span>bon rythme</span>
-        <span class="gf-mbar"><i style="width:81%"></i></span>
-      </div>
-      <div class="gf-art-row">
-        <span class="gf-av">NB</span>
-        <span class="gf-art-txt">
-          <span class="gf-art-n">Nadia Belkacem</span>
-          <span class="gf-art-m">Violoncelliste · anniversaire le 3 octobre</span>
-        </span>
-        <span class="gf-art-h"><span class="gf-art-hv">348 h</span><span class="gf-art-hk">/ 507 h</span></span>
-        <span class="gf-vig gf-ok"><span class="gf-vig-s"></span>bon rythme</span>
-        <span class="gf-mbar"><i style="width:69%"></i></span>
-      </div>
-      <div class="gf-art-row">
-        <span class="gf-av">TR</span>
-        <span class="gf-art-txt">
-          <span class="gf-art-n">Tomas Riveiro</span>
-          <span class="gf-art-m">Percussionniste · anniversaire le 21 juillet</span>
-        </span>
-        <span class="gf-art-h"><span class="gf-art-hv">261 h</span><span class="gf-art-hk">/ 507 h</span></span>
-        <span class="gf-vig gf-warn"><span class="gf-vig-s"></span>à surveiller</span>
-        <span class="gf-mbar"><i style="width:51%"></i></span>
-      </div>
-      <div class="gf-art-row">
-        <span class="gf-av">EV</span>
-        <span class="gf-art-txt">
-          <span class="gf-art-n">Émile Vasseur</span>
-          <span class="gf-art-m">Ingénieur du son · anniversaire le 9 juin</span>
-        </span>
-        <span class="gf-art-h"><span class="gf-art-hv">154 h</span><span class="gf-art-hk">/ 507 h</span></span>
-        <span class="gf-vig gf-bad"><span class="gf-vig-s"></span>seuil menacé</span>
-        <span class="gf-mbar"><i style="width:30%"></i></span>
-      </div>
-    </div>
   </div>
-  <figcaption class="gf-cap">Aperçu de l’interface — données fictives</figcaption>
-  <p class="gf-soon-note"><i>(à venir)</i> Cet aperçu montre une vue en cours de construction. L’espace structure réunit aujourd’hui, tous artistes confondus, les DPAE, les feuillets GUSO et les factures à faire ; le suivi artiste par artiste, avec ses heures et son niveau de vigilance, n’est pas encore livré.</p>
-</figure>
 
+  <div class="aide">
+    <span class="ic-w"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M6 6l3.6 3.6"/><path d="M14.4 14.4L18 18"/><path d="M18 6l-3.6 3.6"/><path d="M9.6 14.4L6 18"/></svg></span>
+    <div>
+      <p class="u-num">« J’ai besoin d’aide » — demander, simplement</p>
+      <p class="aide-claim">Demander de l’aide devient un geste simple, pas un aveu.</p>
+      <p class="aide-p">Un bouton, dans l’application, ouvre un questionnaire très court — des réponses
+        simples — pour cerner le besoin sans jamais juger. Ce qu’on peut y cocher :</p>
+      <ul class="aide-l">
+        <li>Je ne sais pas quel est mon <b>prochain pas</b>.</li>
+        <li>Je suis <b>en retard sur mes heures</b>.</li>
+        <li>J’ai un <b>blocage administratif précis</b>.</li>
+        <li>J’ai un <b>doute plus personnel</b> sur ma valeur ou ma légitimité.</li>
+      </ul>
+      <p class="aide-p">Selon la réponse, l’application donne immédiatement un premier geste concret —
+        pas une brochure, une action. Et si on le souhaite, elle prévient le groupe, la structure, ou une
+        personne précise : c’est l’artiste seul qui choisit qui, et quoi.</p>
+    </div>
   </div>
 
   <div class="veille">

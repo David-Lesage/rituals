@@ -845,6 +845,24 @@ URL_BLOG = '/guso-facile/blog'
 #    et Jost tombent sur Georgia / system-ui et la page ne ressemble plus aux
 #    autres. Ne rien ajouter d'autre : aucun script tiers, aucune iframe,
 #    aucun traceur.
+#
+# ⚠️⚠️ 16/08/2026 — UNE SEULE GRAISSE A ETE AJOUTEE A CETTE URL : `Jost` en 700.
+#    Les 29 autres pages gardent `Jost:wght@300;400;500;600`. Cette page (et son
+#    blog) demandent `300;400;500;600;700` parce que leurs titres passent en Jost
+#    lourd — voir « L'EXCEPTION TYPOGRAPHIQUE » dans CSS_PAGE.
+#    CE QUE CA COUTE, MESURE ET NON SUPPOSE : Google sert Jost en fichier
+#    VARIABLE. Les `src:` des deux URL sont RIGOUREUSEMENT LES MEMES (verifie en
+#    rejouant les deux requetes avec un agent utilisateur Chrome et en comparant
+#    les `src:` : trois woff2, identiques au caractere pres). La graisse 700
+#    n'ajoute donc AUCUN fichier de police a telecharger — seulement trois
+#    regles `@font-face` de plus dans une feuille CSS de ~1 Ko, qui pointent
+#    vers des fichiers deja en cache.
+#    LE SEUL COUT REEL : l'URL de la feuille differe de celle des 29 autres
+#    pages, donc un visiteur qui arrive de `/` fait UNE requete CSS de plus
+#    (les woff2, eux, sont deja la). C'est le prix de l'exception, il est connu
+#    et il s'arrete la. Ne PAS « harmoniser » en retirant le 700 : les titres
+#    retomberaient en 600 et la page reperdrait exactement ce que David
+#    reprochait a la version precedente.
 
 HEAD = """<!DOCTYPE html>
 <html lang="fr"><head>
@@ -865,7 +883,7 @@ HEAD = """<!DOCTYPE html>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#0e0f24">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 """
 
@@ -1172,13 +1190,50 @@ section{padding:86px 0}
    pixels sur une marge de quarante ne se voient pas ; ils rendent une
    cinquantaine de pixels au total. Ne pas descendre plus bas : c'est cette
    respiration qui separe les blocs les uns des autres. */
-/* --- les quatre univers — DEUX colonnes, jamais trois (voir l'entete) ---- */
-.univers{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:34px}
-@media(min-width:761px){.univers{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* --- LA DOUBLE VUE « artistes | structures » (16/08/2026) ---------------
+   Elle REMPLACE la grille `.univers` a plat (2 x 2) : les univers 1 et 2 sont
+   desormais SOUS un en-tete « Pour les artistes », l'univers 3 sous « Pour les
+   structures », et l'univers 4 en dessous, pleine largeur, comme terrain
+   commun. Le raisonnement complet est dans l'entete du fichier.
+   ⚠️ LE POINT DE BASCULE RESTE 761 px, celui de l'ancienne grille, ET C'EST
+   UNE MESURE. Un premier essai a 901 px paraissait plus confortable — deux
+   colonnes de moins de 430 px, ca serre. Mesure faite : a 820 px la page
+   passait de 14 035 a 15 409 px, soit +1 374 px POUR LES TABLETTES SEULES,
+   parce que tout s'y empilait. Et l'ancienne grille tenait deja parfaitement
+   a 761 px en deux colonnes. On ne paie pas 1 374 px de defilement pour du
+   confort a une largeur ou rien ne debordait. Sous 761 px les deux colonnes
+   s'empilent, en-tete compris : on lit « Pour les artistes » puis ses cartes,
+   puis « Pour les structures » puis les siennes — la dualite reste lisible,
+   elle se lit simplement l'une apres l'autre. */
+.duo{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:30px}
+@media(min-width:761px){.duo{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.duo-col{display:flex;flex-direction:column;gap:24px;min-width:0}
+/* l'en-tete de colonne : le filet degrade sous le titre est ce qui fait lire
+   les deux colonnes comme un vis-a-vis et non comme deux listes voisines */
+.duo-h{display:flex;gap:14px;align-items:center;padding-bottom:15px;background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%}
+.duo-t{font-size:22px;font-weight:700;color:#fff;line-height:1.16;letter-spacing:-.012em}
+.duo-q{display:block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--plum2);margin-top:4px;font-weight:500}
+/* la rangee des deux apercus cote artiste, juste sous la colonne qu'ils
+   illustrent (fiche d'une date, puis enchainement des dates) */
+.apercus{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:26px}
+@media(min-width:761px){.apercus{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* « et pour les deux » : l'univers 4 ferme la section, pleine largeur */
+.deux{margin-top:40px;padding-top:28px;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.34) 16%,rgba(238,128,98,.4) 50%,rgba(179,143,245,.34) 84%,transparent);background-repeat:no-repeat;background-size:100% 1px;background-position:0 0}
+.deux .u-card{margin-top:18px}
 .u-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#1c1e46,#171935);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:30px 28px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
 .u-card::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .u-head{display:flex;align-items:center;gap:14px}
-.u-ico{flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(248,210,116,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(238,128,98,.12) 55%,rgba(147,116,226,.14))}
+.u-ico,.duo-ico{flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(248,210,116,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(238,128,98,.12) 55%,rgba(147,116,226,.14))}
+/* le mot-cle du titre de section, peint au degrade CHAUD et non au degrade
+   complet : sur deux lettres (« et »), les quatre arrets de `--grad` se
+   compriment en une bouillie — mesure a l'ecran. `--grad-warm` n'en a que
+   trois et il reste lisible a cette echelle.
+   ⚠️⚠️ `background-image` ET SURTOUT PAS `background`. La forme raccourcie
+   REMET `background-clip` a `border-box` : le degrade cesse d'etre decoupe par
+   les lettres, et comme `-webkit-text-fill-color:transparent` de `.grad-t`
+   tient toujours, le mot disparait DANS UN RECTANGLE OR PLEIN. Vu a l'ecran au
+   premier essai, invisible en relisant le CSS. */
+.sec-title .grad-t{display:inline;background-image:var(--grad-warm)}
 .u-num{letter-spacing:.28em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--gold)}
 .u-card h3{font-size:27px;font-weight:600;color:#fff;line-height:1.15;margin-top:3px}
 .u-sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--plum2);font-size:18.5px;line-height:1.4;margin-top:12px}
@@ -1301,6 +1356,24 @@ section{padding:86px 0}
 .veille-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
 .veille-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
 .veille-note{color:var(--muted);font-size:14px;line-height:1.6;margin-top:13px}
+/* --- « J'ai besoin d'aide » (16/08/2026) --------------------------------- */
+/* Meme habillage que l'encart de la Guilde et que « On veille les uns sur les
+   autres » : ces trois blocs disent la meme chose sous trois angles (le
+   groupe, le pacte, l'appel), ils doivent se lire comme une famille.
+   ⚠️ Le marqueur des quatre lignes est un POINT D'INTERROGATION dessine en
+   CSS (`content:'?'`), pas un pictogramme et surtout pas un emoji : la page de
+   reference met un 🤗 sur cette section, la charte du site l'interdit. Aucun
+   quinzieme trace a maintenir. */
+.aide{display:flex;gap:18px;align-items:flex-start;margin-top:34px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(248,210,116,.26);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(238,128,98,.09) 58%,rgba(147,116,226,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+.aide .ic-w{flex:0 0 auto;line-height:0;margin-top:4px}
+.aide .ic{width:26px;height:26px}
+.aide .u-num{display:block;margin-bottom:8px}
+.aide-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
+.aide-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
+.aide-l{list-style:none;margin-top:15px;display:grid;gap:9px}
+.aide-l li{position:relative;padding-left:29px;color:#d7d4ea;font-size:15.5px;line-height:1.6}
+.aide-l li::before{content:'?';position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;line-height:1;color:var(--gold2);border:1px solid rgba(248,210,116,.34);background:rgba(216,178,90,.14)}
+.aide-l li b{color:#fff;font-weight:500}
 /* --- le formulaire de demande d'acces (rapatrie le 16/08/2026) ----------- */
 /* Il est DANS le panneau `.acces`, donc il herite du bouton chaud (`.acces
    .btn`). Rien ne descend sous 14 px (plancher du site : 13). Les champs sont
@@ -1344,6 +1417,7 @@ section{padding:86px 0}
   .aussi{padding:22px 20px;gap:14px}
   .guilde{padding:22px 20px 20px;gap:14px}
   .veille{padding:22px 20px 20px}
+  .aide{padding:22px 20px 20px;gap:14px}
   .mea{margin-top:42px;padding-top:28px}
   .mea-c{padding:20px 18px 17px}
   .dmd{padding:22px 18px 20px}
@@ -1369,8 +1443,13 @@ section{padding:86px 0}
 # test), ni le CSS de l'ancienne version en tableau de la maquette 4.
 CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interface reelle) ===== */
 .gf-block{margin:34px 0 0;max-width:820px}
-.gf-topgrid .gf-block,.univers .gf-block{margin:0;max-width:none}
-.univers .gf-wide{grid-column:1/-1}
+/* ⚠️ 16/08/2026 — `.univers` a laisse la place a `.duo` / `.apercus` (la double
+   vue artistes | structures). Les apercus qui vivent DANS une colonne ou dans
+   la rangee des deux aperçus artistes n'ont ni marge haute ni largeur maximale
+   propre : c'est la grille qui les cadre. L'ancienne regle `.univers .gf-wide
+   {grid-column:1/-1}` a disparu avec la grille — une colonne de flex n'a pas
+   de piste a enjamber. */
+.gf-topgrid .gf-block,.duo-col .gf-block,.apercus .gf-block{margin:0;max-width:none}
 .gf-shot{position:relative;background:linear-gradient(180deg,#1d1f47,#171935);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px 18px 18px;margin:0 0 11px;color:var(--ink);font-size:15px;line-height:1.5;max-width:100%;overflow:hidden;box-shadow:0 24px 50px -34px rgba(0,0,0,.95)}
 .gf-shot::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad);opacity:.85}
 /* la jauge du hero est l'image signature de la page : elle porte un halo */
@@ -1483,6 +1562,99 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-vig.gf-bad .gf-vig-s{background:transparent;border:2px solid var(--plum);box-shadow:inset 0 0 0 2px var(--plum)}
 .gf-vig.gf-bad{color:var(--ink);border-color:var(--plum2)}
 @media(max-width:760px){.gf-shot{padding:15px 13px 13px}}
+"""
+
+
+# --- L'EXCEPTION TYPOGRAPHIQUE (16/08/2026) -------------------------------
+# ⚠️⚠️ LIRE AVANT DE « RETABLIR LA COHERENCE » : CETTE PAGE N'EST PAS EN
+#      CORMORANT GARAMOND, ET C'EST VOULU. LES 29 AUTRES LE RESTENT.
+#
+# LE CONSTAT DE DAVID, verbatim : « cette page etait presque parfaite. Je ne
+# sais pas si c'est une histoire de police d'ecriture ou de couleur, mais la
+# version actuelle n'a pas le meme impact psychologique. C'est flagrant. »
+# Sa reference : `~/CLAUDE/GUSO FACILE/presentation.html` (LECTURE SEULE).
+#
+# LA COULEUR N'ETAIT PAS LE PROBLEME. Le 16/08 au matin, les surfaces avaient
+# deja ete etagees et les accents satures (voir `theme_chaleur.py`) : ca n'a pas
+# suffi. LE DIAGNOSTIC, MESURE SUR LES DEUX PAGES :
+#
+#     |                    | leur page          | la notre (avant)   |
+#     |--------------------|--------------------|--------------------|
+#     | police des titres  | sans-serif systeme | Cormorant Garamond |
+#     | graisse            | 800                | 600                |
+#     | h1 a 1440          | 58 px              | 74 px              |
+#     | h2 a 1440          | 38 px              | 50 px              |
+#     | interlettrage      | -1 px / -0,5 px    | normal (positif !) |
+#     | interligne du h1   | 1,0                | 1,02 mais aere     |
+#
+# LEUR TITRE EST PLUS PETIT ET IL FRAPPE PLUS FORT, parce qu'il est LOURD,
+# SERRE ET DENSE. Le notre etait grand, fin et aere : elegant, litteraire,
+# institutionnel — le registre d'une association culturelle. Le leur est
+# compact, assure, PRODUIT — le registre d'un logiciel dans lequel on a envie
+# d'avoir confiance.
+#
+# POURQUOI L'EXCEPTION EST LEGITIME, ET POURQUOI ELLE DOIT LE RESTER
+#   Un spectacle et un logiciel ne se vendent pas avec la meme typographie. Le
+#   serif dit le patrimoine, la duree, la scene ; le sans-serif lourd dit
+#   l'outil, la fiabilite, le present. `/guso-facile` est LA SEULE PAGE PRODUIT
+#   du site : elle a le droit d'avoir sa voix propre A L'INTERIEUR de la charte
+#   — meme palette, meme degrade signature, memes pictogrammes, meme menu, meme
+#   pied de page. SEULE LA POLICE DES TITRES CHANGE.
+#   ⚠️ NE PAS PROPAGER `Jost` AUX 29 AUTRES PAGES : elles presentent des
+#      concerts-rituels, un lieu, une association. Les passer en sans-serif
+#      lourd leur ferait perdre exactement ce que cette page-ci cherche a
+#      perdre. L'exception se justifie parce qu'elle est UNE exception.
+#   ⚠️ NE PAS NON PLUS « RENDRE SA COHERENCE » A CETTE PAGE EN LA REMETTANT EN
+#      CORMORANT : ce serait revenir precisement a ce que David a signale.
+#
+# CE QUI RESTE EN CORMORANT SUR CETTE PAGE, ET POURQUOI
+#   Le contraste serif/sans donne le rythme, il ne l'enleve pas. Restent donc en
+#   serif italique TOUTES LES PHRASES QUI SE DISENT plutot qu'elles n'annoncent :
+#   l'accroche du hero (`.gf-claim`), les sous-titres d'univers (`.u-sub`), la
+#   premiere et la derniere phrase de « Jouons cartes sur table » (`.etat .first`
+#   et `.etat-fin`), les accroches de la Guilde, de la veille et de « J'ai besoin
+#   d'aide ». Plus le mobilier du site, partage avec les 29 autres pages : le nom
+#   de l'association dans la barre, les titres du pied de page, `.fbrand`.
+#   Les TITRES annoncent — ils sont en Jost. Les CITATIONS se disent — elles
+#   restent en Cormorant.
+#
+# LES VALEURS, ET POURQUOI ELLES SONT EN `em` ET PAS EN `px`
+#   L'interlettrage negatif est demande « -0,5 a -1 px selon la taille ». Ecrit
+#   en px il serait FIXE : -1 px sur un h1 de 60 px vaut -1,7 %, mais -1 px sur
+#   le meme h1 replie a 32 px sur telephone vaut -3,1 % — a ce niveau les
+#   lettres se touchent et un titre long casse. En `em` le reglage suit la
+#   taille tout seul : -0,018 em rend -1,08 px a 60 px et -0,58 px a 32 px.
+#   C'est exactement la fourchette demandee, obtenue sans regler deux fois.
+#
+# ⚠️ AUCUNE POLICE SUPPLEMENTAIRE : `Jost` est la SECONDE police du site, deja
+#    chargee sur les 30 pages (c'est la police du CORPS de texte). Seule la
+#    graisse 700 a ete ajoutee a l'URL, sans un octet de police en plus — voir
+#    la note detaillee au-dessus de `HEAD`.
+CSS_TYPO = """/* ===== l'exception typographique de la page produit (16/08/2026) =====
+   Les titres passent de Cormorant Garamond a Jost lourd et serre. Les 29
+   autres pages du site gardent le serif : le raisonnement complet est dans
+   sources/generate_guso.py, juste au-dessus de cette feuille. */
+h1,h2,h3,h4{font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif}
+/* le mobilier partage avec les 29 autres pages ne bouge pas */
+footer h4{font-family:'Cormorant Garamond',Georgia,serif}
+/* le titre principal : plus PETIT qu'avant (74 -> 60 px), et bien plus lourd */
+.gf-top h1{font-size:clamp(34px,4.4vw,60px);font-weight:700;line-height:1.05;letter-spacing:-.018em}
+.gf-top h1 .h1-sous{font-size:clamp(17px,2.05vw,23px);font-weight:600;line-height:1.22;letter-spacing:-.006em}
+/* les titres de section : 50 -> 40 px, graisse 700, interlettrage negatif */
+.sec-title{font-size:clamp(27px,4vw,40px);font-weight:700;line-height:1.06;letter-spacing:-.014em}
+/* les titres de cartes, de blocs et d'accordeons suivent la meme regle */
+.u-card h3{font-size:23px;font-weight:700;letter-spacing:-.012em;line-height:1.18}
+.cas h3{font-size:22px;font-weight:700;letter-spacing:-.012em;line-height:1.2}
+.mea-t{font-family:'Jost',sans-serif;font-size:clamp(24px,3vw,32px);font-weight:700;letter-spacing:-.014em;line-height:1.1}
+.mea-h{font-family:'Jost',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.24}
+.dmd-t{font-family:'Jost',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.012em}
+.etape h3{font-size:19px;font-weight:700;letter-spacing:-.01em}
+.faq-q summary h3{font-size:19px;font-weight:600;letter-spacing:-.008em}
+/* les maquettes reproduisent une interface : elle est en sans-serif, comme
+   l'application. Un titre d'ecran en serif trahissait la reproduction. */
+.gf-bar-t{font-family:'Jost',sans-serif;font-size:19px;font-weight:600;letter-spacing:-.01em}
+.gf-ring-n{font-family:'Jost',sans-serif;font-size:36px;font-weight:700;letter-spacing:-.02em}
+.gf-route-tot-v{font-family:'Jost',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.015em}
 """
 
 
@@ -1884,7 +2056,7 @@ MAQ_STRUCTURE = _figure(
         <span class="gf-mbar"><i style="width:30%"></i></span>
       </div>
     </div>
-  """, classe=' gf-wide',
+  """,
     note='<i>(à venir)</i> Cet aperçu montre une vue en cours de construction. '
          'L’espace structure réunit aujourd’hui, tous artistes confondus, les '
          'DPAE, les feuillets GUSO et les factures à faire ; le suivi artiste '
@@ -1978,6 +2150,30 @@ ICONES = {
                 '<path d="M9.3 12.1l2 2 3.5-3.9"/>',
     # le bouton unique de la page : la fleche qui invite, sans insister.
     'fleche': '<path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/>',
+    # ------------------------------------------------------------------
+    # AJOUTES LE 16/08/2026 — les trois traces de la double vue et de l'appel
+    # ------------------------------------------------------------------
+    # En-tete « Pour les artistes » : une presence, pas un avatar de logiciel.
+    # ⚠️ Volontairement DIFFERENT de 'groupe' (cas 3, plusieurs artistes
+    #    accompagnes) : ici il n'y en a qu'un, c'est le point de vue.
+    #    La page de reference met un emoji 👤 a cet endroit — la charte du site
+    #    l'interdit, et c'est aussi une demande explicite de David.
+    'artiste': '<circle cx="12" cy="7.9" r="3.5"/>'
+               '<path d="M5.1 20.4c0-3.8 3.1-6.3 6.9-6.3s6.9 2.5 6.9 6.3"/>',
+    # En-tete « Pour les structures » : la mallette de celui qui emploie.
+    # ⚠️ Volontairement DIFFERENT de 'maison' (univers 3, le fronton d'un lieu) :
+    #    l'en-tete nomme un METIER, la carte nomme un espace. La page de
+    #    reference met un emoji 🛠 a cet endroit.
+    'structures': '<rect x="3.2" y="6.7" width="17.6" height="13.7" rx="3"/>'
+                  '<path d="M9 6.7V5.3a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.4"/>'
+                  '<path d="M3.2 12.4h17.6"/>',
+    # « J'ai besoin d'aide » : la bouee. Ni une main tendue (trop pathetique au
+    # trait), ni un point d'interrogation (deja le marqueur des quatre lignes) :
+    # un objet qu'on tend sans que personne ait a demander deux fois. La page de
+    # reference met un emoji 🤗 sur cette section.
+    'bouee': '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/>'
+             '<path d="M6 6l3.6 3.6"/><path d="M14.4 14.4L18 18"/>'
+             '<path d="M18 6l-3.6 3.6"/><path d="M9.6 14.4L6 18"/>',
 }
 
 
@@ -2057,6 +2253,12 @@ def build_html():
     A(CSS_BASE)
     A(CSS_PAGE)
     A(CSS_MAQUETTES)
+    # L'exception typographique arrive EN DERNIER, apres les maquettes : elle
+    # surcharge `h1,h2,h3,h4` de CSS_BASE, les tailles de CSS_PAGE ET les deux
+    # titres serif de CSS_MAQUETTES. La poser plus haut la ferait ecraser par
+    # ce qui suit — c'est exactement le piege que `theme_chaleur.py` documente
+    # pour la couche chaleureuse commune.
+    A(CSS_TYPO)
     # Les donnees structurees ferment le <head>. Elles sont posees APRES
     # `</style>` a dessein : `mobile_nav.inject()` et `nav_menu.inject()`
     # ajoutent leur CSS en remplacant la PREMIERE occurrence de `</style>` —
@@ -2335,28 +2537,88 @@ def build_html():
     # =====================================================================
     # 4. LES FONCTIONNALITES  (section 4 du contenu fourni — verbatim)
     # =====================================================================
-    # Quatre blocs, intitules en Cormorant Garamond, puces en point d'or.
-    # Aucun emoji, conformement a la charte.
+    # Quatre blocs, puces en point d'or. Aucun emoji, conformement a la charte.
     #
-    # LES TROIS MAQUETTES DE CETTE SECTION sont des elements de la grille
-    # `.univers`, pas des blocs poses a cote d'elle : la grille est a DEUX
-    # colonnes au-dela de 761 px, la lecture donne donc
-    #     univers 1 | univers 2
-    #     fiche de date | ma tournee
-    #     univers 3 | univers 4
-    #     tableau de bord structure (pleine largeur)
-    # et, en une colonne sur telephone, le meme ordre a la verticale.
-    # ⚠️ NI la Guilde NI « Je cree mon contrat » ne sont illustrees : ces deux
-    #    fonctionnalites sont « (a venir) » (la base existe, l'ecran non). Les
-    #    mettre en image les ferait passer pour livrees, ce que trois clics
-    #    d'un beta-testeur suffiraient a dementir.
+    # =====================================================================
+    # ⚠️⚠️ LA DOUBLE VUE « ARTISTES | STRUCTURES » (16/08/2026)
+    # =====================================================================
+    # VERBATIM DE DAVID : « ce qui manque, c'est cette double vue qui montre que
+    # l'app sert a la fois les artistes ou les structures ».
+    #
+    # LE DEFAUT, ET IL ETAIT REEL. Les quatre univers disaient deja que l'outil
+    # sert les deux — mais EN FILE, jamais EN VIS-A-VIS. Une grille 2 x 2 de
+    # quatre cartes toutes pareilles se lit comme un inventaire : il fallait
+    # lire les quatre titres pour comprendre que la troisieme carte s'adressait
+    # a quelqu'un d'autre. La page de reference porte, elle, une section « Une
+    # app, deux metiers · Pensee pour les artistes ET les structures » en deux
+    # colonnes cote a cote : la dualite s'y comprend EN UNE SECONDE, avant meme
+    # la lecture. C'est un dispositif VISUEL, et c'est lui qu'on reprend.
+    #
+    # ⚠️⚠️ CE QUI A ETE FUSIONNE POUR NE RIEN DUPLIQUER — le point capital.
+    # La page de reference porte CETTE section-la (13 fonctions) *ET*, plus bas,
+    # ses quatre univers (22 puces) : elle ecrit donc deux fois le meme
+    # inventaire, sous deux angles. ICI ON NE LE FAIT PAS. Le vis-a-vis
+    # n'AJOUTE aucune puce : il REORGANISE celles qui existaient deja.
+    #     avant : grille `.univers` a plat, 4 cartes en 2 x 2, sans en-tete
+    #     apres : colonne « Pour les artistes » = univers 1 + univers 2
+    #             colonne « Pour les structures » = univers 3 + l'apercu
+    #                                               « Mes artistes »
+    #             puis, pleine largeur, « et pour les deux » = univers 4
+    # PAS UNE PUCE AJOUTEE, PAS UNE PUCE RETIREE, PAS UN MOT REECRIT : les 25+
+    # lignes d'inventaire sont exactement les memes, dans le meme ordre. Ce qui
+    # est neuf tient en trois elements : les deux en-tetes de colonne, la
+    # bande « et pour les deux », et le titre de section.
+    #
+    # POURQUOI L'UNIVERS 4 PASSE PLEINE LARGEUR, alors qu'un commentaire du
+    # 14/08/2026 s'y opposait. Le motif d'alors : « la carte 4 est justement
+    # celle dont la plupart des puces sont (a venir), l'etaler sur toute la
+    # largeur l'aurait mise en avant plus que les trois autres ». CE MOTIF A
+    # DISPARU : depuis la remise a niveau du 16/08, il ne lui reste que DEUX
+    # puces « a venir » sur sept. Et surtout la pleine largeur DIT quelque
+    # chose ici : « Ton cercle, solidaire » est le seul univers qui ne
+    # s'adresse ni aux artistes seuls ni aux structures seules — il est le
+    # terrain commun, donc il porte les deux colonnes.
+    #
+    # ⚠️ LE TITRE DE SECTION A CHANGE, ET C'EST LE SEUL TEXTE REECRIT ICI.
+    #    « Bien plus qu'un compteur d'heures » -> « Pensée pour les artistes et
+    #    les structures », avec le « et » PEINT AU DEGRADE (`.grad-t`), comme
+    #    sur la page de reference : c'est le mot-cle de la section, et c'est un
+    #    bon usage de notre degrade signature.
+    #    L'ancien titre n'est PAS perdu : il devient le sur-titre… non, il
+    #    devient la phrase de conduite (`.lead`), parce qu'il dit encore quelque
+    #    chose de vrai — il ne disait simplement pas ce qui manquait.
+    #
+    # LES MAQUETTES, RAPPROCHEES DE CE QU'ELLES ILLUSTRENT (demande de David :
+    # « il manque des apercus visuels de l'app quand ca parle d'une fonction ») :
+    #   - « Mes artistes » est desormais DANS la colonne « Pour les structures »,
+    #     juste sous l'univers 3 dont elle est l'ecran ;
+    #   - la fiche d'une date et l'enchainement de la tournee forment la rangee
+    #     `.apercus`, immediatement sous les colonnes, cote a cote ;
+    #   - la jauge des 507 h est deja dans le hero, contre la promesse des
+    #     507 heures ; « A faire maintenant » est deja colle a la phrase qui le
+    #     nomme, en fin de #promesse ; le recap mensuel est deja sous le cas de
+    #     Marco, « Pointer France Travail en cinq minutes ». Ces trois-la
+    #     n'avaient rien a gagner a bouger — verifie avant de les deplacer.
+    # ⚠️ NI la Guilde NI l'espace « Gratitudes » ne sont illustres : leurs
+    #    ecrans existent mais AUCUNE DONNEE n'y a ete saisie. Les illustrer
+    #    montrerait un contenu invente dans un espace vide (voir l'entete).
     A("""
 <div class="divider"></div>
 <section id="fonctionnalites"><div class="wrap">
-  <p class="kick">Les fonctionnalités</p>
-  <h2 class="sec-title">Bien plus qu’un compteur d’heures</h2>
+  <p class="kick">Une app, deux métiers</p>
+  <h2 class="sec-title">Pensée pour les artistes <span class="grad-t">et</span> les structures</h2>
+  <p class="lead">Bien plus qu’un compteur d’heures : les données saisies d’un côté servent l’autre.
+    Chacun sa vue, un seul outil.</p>
 
-  <div class="univers">
+  <div class="duo">
+
+    <div class="duo-col" role="group" aria-labelledby="duo-artistes">
+      <div class="duo-h">
+        <span class="duo-ico">""" + _ic('artiste') + """</span>
+        <div>
+          <p class="duo-t" id="duo-artistes">Pour les artistes<span class="duo-q">Intermittent·e du spectacle</span></p>
+        </div>
+      </div>
 
     <article class="u-card">
       <div class="u-head">
@@ -2423,19 +2685,16 @@ def build_html():
       """        <li><b>Je crée mon contrat</b> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
       </ul>
     </article>
-""")
+    </div>
 
-    # MAQUETTE 3 (`MAQ_FICHE`) — la fiche d'une date et ses cinq etapes
-    #   administratives, et MAQUETTE 5 (`MAQ_TOURNEE`) — l'enchainement
-    #   chronologique des dates. Elles closent la rangee des univers 1 et 2 :
-    #   la premiere montre ce que devient UNE date une fois saisie, la seconde
-    #   ce que devient la SUITE des dates. (Le kilometrage annonce dans le
-    #   fichier d'origine a ete retire : voir l'entete, il ne correspond a
-    #   aucune fonction livree.)
-    A(MAQ_FICHE)
-    A(MAQ_TOURNEE)
+    <div class="duo-col" role="group" aria-labelledby="duo-structures">
+      <div class="duo-h">
+        <span class="duo-ico">""" + _ic('structures') + """</span>
+        <div>
+          <p class="duo-t" id="duo-structures">Pour les structures<span class="duo-q">Celles et ceux qui emploient et accompagnent</span></p>
+        </div>
+      </div>
 
-    A("""
     <article class="u-card">
       <div class="u-head">
         <span class="u-ico">""" + _ic('maison') + """</span>
@@ -2490,7 +2749,45 @@ def build_html():
       """        <li><b>Niveaux de partage</b> — pour chaque structure, l’artiste choisit ce qu’elle voit : tout, l’essentiel administratif, ou seulement ses totaux d’heures. Il peut en changer ou se retirer à tout moment.</li>
       </ul>
     </article>
+""")
 
+    # MAQUETTE 6 (`MAQ_STRUCTURE`) — la vue « Mes artistes » du back-office.
+    #   Elle FERME LA COLONNE « Pour les structures », directement sous
+    #   l'univers 3 dont elle est l'ecran. C'est le rapprochement demande par
+    #   David (« il manque des apercus visuels de l'app quand ca parle d'une
+    #   fonction ») : avant cette passe elle etait posee APRES l'univers 4, donc
+    #   apres un univers qui ne la concerne pas.
+    #   ⚠️ Elle ne porte plus `gf-wide` : la grille `.univers` qui lui donnait
+    #   sa pleine largeur n'existe plus, et une colonne de flex n'a pas de piste
+    #   a enjamber. Sa largeur est desormais celle de sa colonne.
+    #   ⚠️ Elle garde sa note « (a venir) » : cette vue est en cours de
+    #   construction (voir le commentaire au-dessus de `MAQ_STRUCTURE`).
+    A(MAQ_STRUCTURE)
+
+    # Fin de la colonne « Pour les structures », puis fin du vis-a-vis.
+    # LA RANGEE `.apercus` : les deux apercus cote ARTISTE, cote a cote, juste
+    # sous les colonnes. La fiche montre ce que devient UNE date une fois
+    # saisie ; « Ma tournee » ce que devient la SUITE des dates. Ils tombent
+    # sous la colonne des artistes, a un ecran des univers 1 et 2 qu'ils
+    # illustrent.
+    A("""    </div>
+
+  </div>
+
+  <div class="apercus">
+""")
+    A(MAQ_FICHE)
+    A(MAQ_TOURNEE)
+
+    # LA BANDE « ET POUR LES DEUX ». L'univers 4 n'appartient a aucune des deux
+    # colonnes : c'est le seul qui decrive ce qui se passe ENTRE elles. Il ferme
+    # donc la section, pleine largeur, sous un filet degrade — voir le long
+    # commentaire en tete de cette section pour le pourquoi du changement de
+    # largeur.
+    A("""  </div>
+
+  <div class="deux">
+    <p class="kick">Et pour les deux</p>
     <article class="u-card">
       <div class="u-head">
         <span class="u-ico">""" + _ic('cercle') + """</span>
@@ -2606,13 +2903,77 @@ def build_html():
         <li class="soon"><b>Confidentialité graduée</b> <i>(à venir)</i> — chaque artiste choisit exactement ce que chaque structure voit de ses données.</li>
       </ul>
     </article>
+  </div>
 """)
 
-    # MAQUETTE 6 (`MAQ_STRUCTURE`) — la vue « Mes artistes » du back-office.
-    #   Pleine largeur de la grille (`.gf-wide`) : ses rangees sont larges par
-    #   nature, et c'est l'ecran qui parle aux STRUCTURES — donc aussi a
-    #   l'association elle-meme, qui accompagne des artistes.
-    A(MAQ_STRUCTURE)
+    # ===================================================================
+    # « J'AI BESOIN D'AIDE » — ABSORBE LE 16/08/2026
+    # ===================================================================
+    # VERBATIM DE DAVID : « tu ne parles pas de la fonction j'ai besoin
+    # d'aide ». Elle est LIVREE, et elle n'existait ici que sous la forme d'une
+    # puce d'inventaire de dix mots, au milieu de six autres. La page de
+    # reference (`~/CLAUDE/GUSO FACILE/presentation.html`, LECTURE SEULE) lui
+    # consacre une section entiere : c'est la fonctionnalite la plus humaine de
+    # l'outil, et c'est la seule qui parle de ce qui se passe quand ca va mal.
+    #
+    # ⚠️ ELLE S'ECRIT AU PRESENT — l'ecran existe, il est deploye. Aucune
+    #    mention « (a venir) », `NB_A_VENIR` ne bouge pas.
+    #
+    # ⚠️⚠️ TOUT CE QUI EST ECRIT ICI SE LIT DANS LEUR PAGE. RIEN N'EST INVENTE.
+    #    Correspondance ligne a ligne, pour que ce soit verifiable :
+    #      - « un bouton dans l'app, un questionnaire ultra-rapide — 3
+    #        questions, reponses simples — pour cerner ton besoin sans jamais
+    #        te juger » -> le paragraphe d'ouverture ;
+    #      - les QUATRE situations proposees -> leurs quatre `.help-q`,
+    #        recopiees mot pour mot, seul le tutoiement passe au registre
+    #        neutre du corps de cette page (« ma valeur » plutot que « ta
+    #        valeur ») ;
+    #      - « selon ta reponse, l'app te donne immediatement un premier geste
+    #        concret — pas une brochure, une action » -> leur premiere carte ;
+    #      - « si tu le veux, l'app previent ton groupe, ta structure, ou une
+    #        personne precise. Toi seul choisis qui, et quoi » -> la seconde ;
+    #      - « Demander de l'aide devient un geste simple, pas un aveu » ->
+    #        leur `.help-quote`, reprise TELLE QUELLE en accroche serif.
+    #
+    # ⚠️ LEUR PAGE PORTE UNE INCOHERENCE QU'ON NE RECOPIE PAS : son titre de
+    #    panneau annonce « 3 questions, c'est tout » et il liste QUATRE lignes.
+    #    Les quatre lignes ressemblent aux REPONSES POSSIBLES d'une question
+    #    (« ou est-ce que ca coince ? »), pas a quatre questions. On ne tranche
+    #    donc pas a leur place : le bloc presente les quatre lignes comme « ce
+    #    qu'on peut cocher », sans annoncer de nombre. La puce d'inventaire de
+    #    l'univers 4, elle, garde « trois questions simples » — c'est un texte
+    #    deja valide, on n'y touche pas.
+    #    ➜ A FAIRE CONFIRMER PAR L'AUTEUR DE L'APP : trois questions, ou une
+    #      question a quatre reponses ? Le jour ou c'est su, une ligne suffit.
+    #
+    # ⚠️ PLACEMENT — ET CE N'EST PAS UN DETAIL DE MISE EN PAGE. Ce bloc est pose
+    #    AVANT `<div class="guilde">`, jamais entre lui et `<div class="aussi">` :
+    #    `_controle_guilde_encart()` delimite l'encart de la Guilde par CES DEUX
+    #    BORNES-LA. Un bloc glisse entre elles tomberait sous le vocabulaire
+    #    proscrit de la Guilde et ferait echouer l'ecriture pour une raison
+    #    incomprehensible. Ordre retenu : univers 4 · « J'ai besoin d'aide » ·
+    #    « On veille les uns sur les autres » · l'encart de la Guilde · « Et
+    #    aussi » — de l'appel personnel au groupe, du groupe au pacte.
+    A("""
+  <div class="aide">
+    <span class="ic-w">""" + _ic('bouee') + """</span>
+    <div>
+      <p class="u-num">« J’ai besoin d’aide » — demander, simplement</p>
+      <p class="aide-claim">Demander de l’aide devient un geste simple, pas un aveu.</p>
+      <p class="aide-p">Un bouton, dans l’application, ouvre un questionnaire très court — des réponses
+        simples — pour cerner le besoin sans jamais juger. Ce qu’on peut y cocher :</p>
+      <ul class="aide-l">
+        <li>Je ne sais pas quel est mon <b>prochain pas</b>.</li>
+        <li>Je suis <b>en retard sur mes heures</b>.</li>
+        <li>J’ai un <b>blocage administratif précis</b>.</li>
+        <li>J’ai un <b>doute plus personnel</b> sur ma valeur ou ma légitimité.</li>
+      </ul>
+      <p class="aide-p">Selon la réponse, l’application donne immédiatement un premier geste concret —
+        pas une brochure, une action. Et si on le souhaite, elle prévient le groupe, la structure, ou une
+        personne précise : c’est l’artiste seul qui choisit qui, et quoi.</p>
+    </div>
+  </div>
+""")
 
     # ===================================================================
     # ⚠️⚠️ L'ENCART « LA GUILDE » — MEME CONTRAINTE REDACTIONNELLE STRICTE
@@ -2716,8 +3077,6 @@ def build_html():
     # lecture devient : la puce (ce qu'on peut y faire) -> le bloc (a quoi ca
     # ressemble pour de vrai) -> l'encart (pourquoi ca existe).
     A("""
-  </div>
-
   <div class="veille">
     <p class="u-num">On veille les uns sur les autres</p>
     <p class="veille-claim">Dans un groupe, chacun a sa date anniversaire et son propre compteur — et
@@ -3394,6 +3753,34 @@ ANCRES = (
     ('id="gf-ink"', 1, 'le degrade signature (version SVG, partagee)'),
     ('class="u-ico"', 4, 'le pictogramme de chacun des 4 univers'),
     ('class="cas-ico"', 3, 'le pictogramme de chacun des 3 cas d’usage'),
+    # --- LA DOUBLE VUE « artistes | structures » (16/08/2026) ------------
+    # ⚠️ CES SEPT LIGNES SONT LE CONTRAT DU VIS-A-VIS. Le dispositif ne vaut
+    # que s'il est DOUBLE : une colonne sans l'autre, ou un en-tete sans son
+    # groupe, et la page redit ce qu'elle disait avant — un inventaire en file.
+    # C'est exactement ce que David a signale : « ce qui manque, c'est cette
+    # double vue qui montre que l'app sert a la fois les artistes ou les
+    # structures ».
+    ('class="duo"', 1, 'la double vue artistes | structures'),
+    ('class="duo-col"', 2, 'les DEUX colonnes du vis-à-vis, jamais une seule'),
+    ('class="duo-ico"', 2, 'le pictogramme de chaque en-tête de colonne'),
+    ('id="duo-artistes"', 1, 'le titre de la colonne « Pour les artistes »'),
+    ('id="duo-structures"', 1, 'le titre de la colonne « Pour les structures »'),
+    # Chaque colonne est un groupe NOMME pour les technologies d'assistance :
+    # sans ce lien, un lecteur d'ecran enchaine les deux inventaires sans
+    # jamais dire a qui chacun s'adresse — c'est-a-dire sans rien restituer du
+    # dispositif visuel.
+    ('aria-labelledby="duo-artistes"', 1, 'le groupe « artistes » est nommé'),
+    ('aria-labelledby="duo-structures"', 1, 'le groupe « structures » est nommé'),
+    ('class="apercus"', 1, 'la rangée des deux aperçus côté artiste'),
+    ('class="deux"', 1, 'la bande « et pour les deux » (l’univers 4)'),
+    # --- « J'AI BESOIN D'AIDE » (16/08/2026) -----------------------------
+    # David : « tu ne parles pas de la fonction j'ai besoin d'aide ». Elle est
+    # LIVREE et elle n'existait qu'en puce d'inventaire. Ces trois lignes
+    # empechent que le bloc reparte au premier menage de hauteur.
+    ('class="aide"', 1, 'le bloc « J’ai besoin d’aide »'),
+    ('class="aide-l"', 1, 'les quatre situations qu’on peut y cocher'),
+    ('J’ai besoin d’aide', 2,
+     'la fonction est nommée DEUX fois : la puce de l’univers 4 et le bloc'),
     # Autant de marqueurs creux que de puces « a venir » (2 depuis le
     # 16/08/2026). Ce compte double celui de `<i>(à venir)</i>` moins la note de
     # maquette : c'est voulu, une puce pleine devant une fonctionnalite non
@@ -3972,11 +4359,16 @@ def _controle_jsonld(html):
 
 
 #: nombre de pictogrammes POSES dans la page. Le dictionnaire `ICONES` en
-#: definit onze depuis le 15/08/2026 (le onzieme, « guilde », habille l'encart
-#: du meme nom), chacun servant exactement une fois — plus le <svg> de taille
-#: nulle qui porte la definition du degrade. Un ecart = un picto duplique ou
-#: disparu.
-NB_PICTOS = 11
+#: definit quatorze depuis le 16/08/2026, chacun servant exactement une fois —
+#: plus le <svg> de taille nulle qui porte la definition du degrade. Un ecart =
+#: un picto duplique ou disparu.
+#: Historique : 10 le 14/08/2026 ; 11 le 15/08 (« guilde », pour l'encart du
+#: meme nom) ; 14 le 16/08 — « artiste » et « structures » pour les deux
+#: en-tetes de la double vue, « bouee » pour le bloc « J'ai besoin d'aide ».
+#: ⚠️ CES TROIS-LA REMPLACENT DES EMOJI de la page de reference (👤, 🛠, 🤗).
+#: C'est la regle du site ET une demande explicite de David : des icones de
+#: signature au trait, jamais un pictogramme systeme.
+NB_PICTOS = 14
 
 
 def _controle_icones(html):
