@@ -6,7 +6,7 @@ contenant un <div class="links"> ; on ajoute un bouton hamburger, on bascule
 les liens dans un panneau plein ecran sur mobile, et on gere l'ouverture/fermeture.
 """
 
-CSS = """
+CSS = ("""
 /* ===== MENU MOBILE (hamburger) ===== */
 .burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
 .burger span{display:block;width:20px;height:2px;background:var(--gold2);margin:4px auto;border-radius:2px;transition:transform .28s,opacity .2s}
@@ -24,22 +24,24 @@ CSS = """
     transition:opacity .3s,transform .3s,visibility .3s;
     overflow-y:auto}
   .nav .links.open{opacity:1;visibility:visible;transform:none}
-  /* on annule les regles qui masquaient les liens en mobile */
-  .nav .links a,.nav .links a.hide-s,.nav .links a:not(.adh){display:block !important;
+"""
+      # on annule les regles qui masquaient les liens en mobile
+      """  .nav .links a,.nav .links a.hide-s,.nav .links a:not(.adh){display:block !important;
     font-size:21px !important;letter-spacing:.06em;padding:14px 18px;text-align:center;
     font-family:'Cormorant Garamond',Georgia,serif;color:#eae7f3 !important;width:100%;max-width:340px}
   .nav .links a:active{color:var(--gold2) !important}
   .nav .links a.adh{margin-top:18px;background:var(--gold);color:#1a1608 !important;
     border-radius:30px;font-family:'Jost',sans-serif;font-size:16px !important;padding:14px 30px;width:auto}
-  /* .nav porte un backdrop-filter : il devient le bloc conteneur des descendants
-     position:fixed ET un contexte d'empilement -> le panneau restait enferme dans la
-     barre et passait sous le contenu. On neutralise le filtre et on remonte le nav
-     uniquement quand le menu est ouvert. */
-  body.nav-open .nav{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;z-index:1001 !important}
+"""
+      # .nav porte un backdrop-filter : il devient le bloc conteneur des descendants
+      # position:fixed ET un contexte d'empilement -> le panneau restait enferme dans la
+      # barre et passait sous le contenu. On neutralise le filtre et on remonte le nav
+      # uniquement quand le menu est ouvert.
+      """  body.nav-open .nav{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;z-index:1001 !important}
   body.nav-open{overflow:hidden}
 }
 @media print{.burger{display:none}}
-"""
+""")
 
 JS = """
 <script>

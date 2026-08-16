@@ -318,20 +318,20 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 #    decolle visiblement de la virgule qui le suit dans « detaille, [coche] ou
 #    [croix], pour que tu voies ». Mesure a l'ecran, a 390 px.
 # ⚠️ Et les notes de ce genre restent ICI, en commentaire Python. Une note
-#    ecrite dans la chaine CSS partirait dans le <style> de la page publique :
-#    `verif_commentaires.py` ne regarde que les commentaires HTML et ne l'y
-#    verrait pas. C'est le controle « aucun emoji » qui l'a attrapee au premier
-#    essai — la ceinture a tenu, mais la place de la note n'est pas la.
+#    ecrite dans la chaine CSS partirait dans le <style> de la page publique.
+#    Depuis le 16/08/2026 `verif_commentaires.py` REFUSE D'ECRIRE la page dans
+#    ce cas : un commentaire CSS doit tenir sur une ligne, en 60 caracteres,
+#    sans emoji. Ce n'est plus le controle « aucun emoji » qui rattrape le
+#    coup au dernier moment.
 # ⚠️ La colonne de lecture d'un article est plafonnee a 760 px : au-dela, la
 #    ligne devient trop longue pour un texte suivi (le site tient ses autres
 #    pages a 820 px, mais elles alternent titres et blocs courts).
-# ⚠️ LES COMMENTAIRES DE CETTE FEUILLE PARTENT DANS LES 19 PAGES. Ce sont des
-#    commentaires CSS, pas HTML — `verif_commentaires` les laisse donc passer,
-#    et c'est normal : ils expliquent une regle a l'endroit ou on la lira. Mais
-#    ils sont RECOPIES DIX-NEUF FOIS. On les garde courts (deux ou trois
-#    lignes), et tout raisonnement plus long va en commentaire Python, ici,
-#    au-dessus de la constante. C'est le cas du bloc « Par ou commencer »
-#    (16/08/2026) :
+# ⚠️ LES COMMENTAIRES DE CETTE FEUILLE PARTENT DANS LES 19 PAGES, et ils y sont
+#    RECOPIES DIX-NEUF FOIS. Depuis le 16/08/2026 `verif_commentaires.py` n'en
+#    accepte plus qu'un seul genre : l'etiquette de reperage, UNE ligne, 60
+#    caracteres au plus, sans emoji (« /* le panneau de conclusion */ »). Tout
+#    raisonnement va en commentaire Python, ici, au-dessus de la constante.
+#    C'est le cas du bloc « Par ou commencer » (16/08/2026) :
 #
 #    Il est POSE ENTRE le chapo et le sommaire par themes, et pas plus bas.
 #    Avant lui, le premier ecran de l'index ne montrait QUE du texte
@@ -340,43 +340,49 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 #    de quoi parle le blog, alors que c'est le titre qui donne envie de
 #    cliquer : le lecteur y reconnait sa propre question. C'est le meme
 #    constat que celui de David sur /guso-facile, une page plus haut.
-CSS_BLOG = """/* ===== Blog Guso Facile ===== */
-/* Les variables (--coral, --plum2, --grad, --grad-warm), les halos de fond, le
-   .divider, le .kick peint au degrade, le bouton principal et la correction de
-   contraste du .legal viennent de la couche commune `theme_chaleur.CSS`,
-   inseree JUSTE AVANT cette feuille. On ne redeclare ici que ce qui est propre
-   au blog, ou les quelques valeurs ou il s'en ecarte volontairement. */
-.ic{width:22px;height:22px;display:block;flex:0 0 auto}
-/* les pictogrammes POSES DANS UNE PHRASE (ceux qui remplacent un emoji du
-   texte d'origine) : ils doivent s'aligner sur la ligne de base, pas former un
-   bloc comme ceux des etiquettes. */
-.ic-in{display:inline-block;width:17px;height:17px;vertical-align:-3px;margin:0}
+CSS_BLOG = ("""/* ===== Blog Guso Facile ===== */
+"""
+           # Les variables (--coral, --plum2, --grad, --grad-warm), les halos de fond, le
+           # .divider, le .kick peint au degrade, le bouton principal et la correction de
+           # contraste du .legal viennent de la couche commune `theme_chaleur.CSS`,
+           # inseree JUSTE AVANT cette feuille. On ne redeclare ici que ce qui est propre
+           # au blog, ou les quelques valeurs ou il s'en ecarte volontairement.
+           """.ic{width:22px;height:22px;display:block;flex:0 0 auto}
+"""
+           # les pictogrammes POSES DANS UNE PHRASE (ceux qui remplacent un emoji du
+           # texte d'origine) : ils doivent s'aligner sur la ligne de base, pas former un
+           # bloc comme ceux des etiquettes.
+           """.ic-in{display:inline-block;width:17px;height:17px;vertical-align:-3px;margin:0}
 section{padding:92px 0}
 .kick{margin-bottom:12px}
 .btn{padding:15px 28px}
 .btn svg{width:18px;height:18px;flex:0 0 auto;stroke:currentColor}
-/* --- tete de page (index et article) ------------------------------------ */
-.bl-top{padding:126px 0 62px;background:radial-gradient(900px 560px at 6% -12%,rgba(147,116,226,.22),transparent 62%),radial-gradient(760px 480px at 96% 8%,rgba(238,128,98,.14),transparent 62%),radial-gradient(720px 470px at 60% 108%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+"""
+           # --- tete de page (index et article) ------------------------------------
+           """.bl-top{padding:126px 0 62px;background:radial-gradient(900px 560px at 6% -12%,rgba(147,116,226,.22),transparent 62%),radial-gradient(760px 480px at 96% 8%,rgba(238,128,98,.14),transparent 62%),radial-gradient(720px 470px at 60% 108%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
 .bl-top h1{font-size:clamp(33px,5.6vw,60px);font-weight:600;line-height:1.06;letter-spacing:.01em;color:#fff;max-width:20ch}
 .bl-top .col{max-width:760px}
 .bl-dek{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.6vw,26px);line-height:1.36;margin-top:16px;max-width:60ch}
 .bl-intro{color:#d7d4ea;font-size:17px;margin-top:20px;max-width:66ch}
-/* fil d'Ariane : il double le BreadcrumbList du JSON-LD (section 6 du dossier) */
-.fil{margin-bottom:20px}
+"""
+           # fil d'Ariane : il double le BreadcrumbList du JSON-LD (section 6 du dossier)
+           """.fil{margin-bottom:20px}
 .fil ol{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:5px 9px;font-size:13px;letter-spacing:.05em;color:var(--muted)}
 .fil li{display:inline-flex;align-items:center;gap:9px}
 .fil li+li::before{content:'';width:5px;height:5px;border-radius:1px;background:var(--grad-warm);transform:rotate(45deg);flex:0 0 auto}
 .fil a{color:var(--plum2)}
 .fil a:hover{color:var(--gold2)}
 .fil [aria-current="page"]{color:var(--muted)}
-/* la ligne de service : rubrique, duree, public, date de mise a jour */
-.bl-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:26px;font-size:13.5px;color:var(--muted)}
+"""
+           # la ligne de service : rubrique, duree, public, date de mise a jour
+           """.bl-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:26px;font-size:13.5px;color:var(--muted)}
 .bl-meta span{display:inline-flex;align-items:center;gap:7px}
 .bl-meta .ic{width:17px;height:17px}
 .rub{display:inline-flex;align-items:center;gap:8px;padding:6px 15px;border:1px solid rgba(248,210,116,.34);border-radius:999px;color:var(--gold2);font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;background:linear-gradient(90deg,rgba(216,178,90,.14),rgba(238,128,98,.10))}
 .rub::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--grad-warm);flex:0 0 auto}
-/* --- corps d'article ---------------------------------------------------- */
-.art{padding:58px 0 0}
+"""
+           # --- corps d'article ----------------------------------------------------
+           """.art{padding:58px 0 0}
 .art .wrap{max-width:812px}
 .art .col{max-width:760px}
 .art h2{font-size:clamp(25px,3.6vw,33px);font-weight:600;color:#fff;line-height:1.16;margin:46px 0 4px}
@@ -404,16 +410,18 @@ section{padding:92px 0}
 .enc-t{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:6px}
 .enc p{font-size:16.5px}
 .enc p:first-of-type{margin-top:8px}
-/* la reserve posee A L'ENDROIT d'une affirmation non tranchee : un filet chaud
-   de 2 px et un texte prune, rien de plus. Selecteur `.art .reserve` (0,2,0) et
-   non `.reserve` (0,1,0) : `.art p` vaut (0,1,1) et l'emporterait sinon. */
-.art .reserve{position:relative;margin-top:22px;padding:3px 0 3px 19px;font-size:15px;line-height:1.62;color:var(--plum2)}
+"""
+           # la reserve posee A L'ENDROIT d'une affirmation non tranchee : un filet chaud
+           # de 2 px et un texte prune, rien de plus. Selecteur `.art .reserve` (0,2,0) et
+           # non `.reserve` (0,1,0) : `.art p` vaut (0,1,1) et l'emporterait sinon.
+           """.art .reserve{position:relative;margin-top:22px;padding:3px 0 3px 19px;font-size:15px;line-height:1.62;color:var(--plum2)}
 .art .reserve::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;border-radius:2px;background:var(--grad-warm)}
 .art .reserve b{color:var(--gold2);font-weight:500}
 .art .reserve a{color:var(--gold2)}
-/* l'encadre « ou verifier » de fin d'article : plus sobre que .enc (filet de
-   2 px, fond a peine tire, texte plus petit) — il informe, il n'alerte pas. */
-.avert{position:relative;overflow:hidden;margin-top:52px;padding:24px 26px 22px;border:1px solid rgba(179,143,245,.2);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.6),rgba(23,25,53,.38))}
+"""
+           # l'encadre « ou verifier » de fin d'article : plus sobre que .enc (filet de
+           # 2 px, fond a peine tire, texte plus petit) — il informe, il n'alerte pas.
+           """.avert{position:relative;overflow:hidden;margin-top:52px;padding:24px 26px 22px;border:1px solid rgba(179,143,245,.2);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.6),rgba(23,25,53,.38))}
 .avert::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad)}
 .avert-t{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--gold)}
 .avert-t .ic{width:19px;height:19px}
@@ -427,8 +435,9 @@ section{padding:92px 0}
 .final h2{margin:0;font-size:clamp(24px,3.4vw,31px)}
 .final .cta{margin-top:24px}
 .mention{margin-top:18px;color:var(--muted);font-size:14px;line-height:1.65;max-width:64ch}
-/* --- « A lire ensuite » -------------------------------------------------- */
-.suite{margin-top:58px}
+"""
+           # --- « A lire ensuite » --------------------------------------------------
+           """.suite{margin-top:58px}
 .suite h2{font-size:13px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;margin:0 0 20px;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;font-family:'Jost',sans-serif}
 .cartes{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:20px}
 .carte{position:relative;overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,#1c1e46,#171935);padding:24px 22px 22px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95);transition:transform .2s,border-color .2s}
@@ -445,8 +454,9 @@ section{padding:92px 0}
 .remonte a:hover{color:var(--gold2)}
 .remonte .ic{width:18px;height:18px}
 .art .fin{padding-bottom:86px}
-/* --- index du blog ------------------------------------------------------- */
-.theme{padding:0;margin-top:64px}
+"""
+           # --- index du blog -------------------------------------------------------
+           """.theme{padding:0;margin-top:64px}
 .theme:first-of-type{margin-top:8px}
 .theme-h{display:flex;align-items:center;gap:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
 .theme-h h2{font-size:clamp(24px,3.2vw,31px);font-weight:600;color:#fff;line-height:1.15}
@@ -458,13 +468,15 @@ section{padding:92px 0}
 .somm ul{list-style:none;display:flex;flex-wrap:wrap;gap:9px 10px}
 .somm a{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border:1px solid rgba(248,210,116,.24);border-radius:999px;font-size:13.5px;color:var(--gold2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
 .somm a:hover{border-color:rgba(248,210,116,.55)}
-/* « Par ou commencer », en tete d'index. Cartes plus etroites que celles des
-   themes (232 px au lieu de 258) : trois tiennent sur une ligne des 800 px. */
-.debut{margin-top:34px}
+"""
+           # « Par ou commencer », en tete d'index. Cartes plus etroites que celles des
+           # themes (232 px au lieu de 258) : trois tiennent sur une ligne des 800 px.
+           """.debut{margin-top:34px}
 .debut-t{font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:14px}
 .debut .cartes{grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:18px}
-/* la ligne de renvoi aux organismes, sous le chapo de l'index */
-.bl-note{color:var(--plum2);font-size:15px;line-height:1.62;margin-top:14px;max-width:66ch}
+"""
+           # la ligne de renvoi aux organismes, sous le chapo de l'index
+           """.bl-note{color:var(--plum2);font-size:15px;line-height:1.62;margin-top:14px;max-width:66ch}
 .bl-note a{color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(248,210,116,.4);text-underline-offset:3px}
 @media(max-width:760px){
   section{padding:66px 0}
@@ -478,7 +490,7 @@ section{padding:92px 0}
   .theme{margin-top:52px}
 }
 @media print{.totop{display:none}.kick,.suite h2{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
-"""
+""")
 
 # --- LA feuille de style des 19 pages, en UN seul assemblage ---------------
 # L'ordre est celui que prescrit `theme_chaleur` : le socle des 10 pages du
@@ -525,23 +537,25 @@ section{padding:92px 0}
 #    vaut -1,7 % sur un titre de 60 px mais -3,4 % sur le meme titre replie a
 #    29 px sur telephone — a ce niveau les lettres se touchent et un titre long
 #    casse. En `em` le reglage suit la taille tout seul.
-CSS_TYPO = """/* ===== l'exception typographique de la section Guso Facile (16/08/2026) =====
-   Les titres passent de Cormorant Garamond a Jost lourd et serre. Les 29
-   autres pages du site gardent le serif : le raisonnement complet est dans
-   sources/generate_guso.py, au-dessus de sa constante CSS_TYPO. */
-h1,h2,h3,h4{font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif}
-/* le mobilier partage avec les 29 autres pages ne bouge pas */
-footer h4{font-family:'Cormorant Garamond',Georgia,serif}
+CSS_TYPO = (# ===== l'exception typographique de la section Guso Facile (16/08/2026) =====
+           # Les titres passent de Cormorant Garamond a Jost lourd et serre. Les 29
+           # autres pages du site gardent le serif : le raisonnement complet est dans
+           # sources/generate_guso.py, au-dessus de sa constante CSS_TYPO.
+           """h1,h2,h3,h4{font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif}
+"""
+           # le mobilier partage avec les 29 autres pages ne bouge pas
+           """footer h4{font-family:'Cormorant Garamond',Georgia,serif}
 .bl-top h1{font-size:clamp(29px,4.2vw,52px);font-weight:700;line-height:1.08;letter-spacing:-.018em;max-width:22ch}
 .sec-title{font-weight:700;letter-spacing:-.014em;line-height:1.08}
 .final h2{font-size:clamp(23px,2.9vw,30px)}
-/* les intertitres de prose : la meme regle, une graisse en dessous. Un
-   intertitre n'ouvre pas la page, il la scande — 800 partout assomme. */
-.art h2{font-size:clamp(23px,3vw,30px);font-weight:700;letter-spacing:-.014em;line-height:1.14}
+"""
+           # les intertitres de prose : la meme regle, une graisse en dessous. Un
+           # intertitre n'ouvre pas la page, il la scande — 800 partout assomme.
+           """.art h2{font-size:clamp(23px,3vw,30px);font-weight:700;letter-spacing:-.014em;line-height:1.14}
 .art h3{font-size:clamp(19px,2.2vw,22px);font-weight:600;letter-spacing:-.008em;line-height:1.26}
 .theme-h h2{font-size:clamp(22px,2.8vw,28px);font-weight:700;letter-spacing:-.014em}
 .carte-t{font-family:'Jost',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.24}
-"""
+""")
 
 # --- LA feuille de style des 19 pages, en UN seul assemblage ---------------
 FEUILLE = CSS_BASE + theme_chaleur.CSS + CSS_BLOG + CSS_TYPO

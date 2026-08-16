@@ -31,23 +31,16 @@ a{color:var(--gold2)}
 .nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:11px 26px;background:rgba(14,15,36,.82);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
 .nav .brand{font-family:'Cormorant Garamond',serif;letter-spacing:.16em;text-transform:uppercase;font-size:15px;color:#fff;text-decoration:none;display:inline-block;padding:10px 0}
 .nav .links{display:flex;gap:20px;align-items:center}
-/* liens plus grands + zone tactile ~44 px + soulignement discret qui montre
-   qu'ils sont cliquables */
 .nav .links a{color:#cfcbe6;text-decoration:none;font-size:15.5px;display:inline-block;padding:9px 2px;
   border-bottom:1px solid rgba(216,178,90,.28)}
 .nav .links a:hover{color:var(--gold2);border-bottom-color:var(--gold2)}
 @media(max-width:700px){.nav .links a.hide-s{display:none}}
 
-/* HERO — banniere graphique officielle affichee EN ENTIER (contain, pas cover).
-   La bannière porte deja le titre, le sous-titre et les noms : on ne la met donc
-   pas en fond derriere le texte (titre en double + illisible), et son format
-   1640x624 (2,63:1) serait massacre par un recadrage en cover sur mobile. */
 .hero{display:block;text-align:center;padding:92px 0 58px;position:relative;overflow:hidden;
   background:radial-gradient(900px 460px at 50% 4%,rgba(147,116,226,.16),transparent 64%),var(--night)}
 .hero .banner{width:100%;max-width:1640px;margin:0 auto}
 .hero .banner img{width:100%;height:auto;display:block}
 .hero .inner{position:relative;z-index:2;padding:34px 24px 0}
-/* texte accessible mais masque visuellement (le visuel le porte deja) */
 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 .hero .kick{color:var(--gold2)}
@@ -93,9 +86,6 @@ a{color:var(--gold2)}
 .gal-grid{margin-top:40px;columns:2;column-gap:18px}
 .gal-item{break-inside:avoid;margin-bottom:18px;position:relative;border-radius:13px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
 .gal-item img{width:100%;height:auto;display:block}
-/* .gal-ph = le cadre de la PHOTO seule. C'est lui qui porte position:relative,
-   pour que la legende .c se cale en bas de l'image et non en bas de tout
-   l'element : la bande de credit qui suit reste ainsi visible et cliquable. */
 .gal-ph{position:relative;display:block}
 .gal-item .cred{display:block;font-size:14.5px;color:var(--muted);padding:3px 12px 4px;text-align:center;
   background:rgba(0,0,0,.34);font-style:normal;position:relative;z-index:1}
@@ -121,14 +111,12 @@ a{color:var(--gold2)}
 /* focus clavier visible (accessibilite) */
 :focus-visible{outline:2px solid var(--gold2);outline-offset:2px;border-radius:4px}
 footer{background:#08091a;padding:72px 0 60px;text-align:center;border-top:1px solid var(--line)}
-/* zone tactile confortable (~44px) sur les liens du pied de page */
 footer a{display:inline-block;padding:13px 0;line-height:1.3}
 footer a.btn,footer a.adh{padding:14px 30px}
 footer h2{font-size:38px;color:#fff;font-weight:600}
 .contacts{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 44px;margin-top:26px}
 .contacts .c b{color:var(--gold2);display:block;font-size:18px;font-family:'Cormorant Garamond',serif;font-weight:600}
 .contacts .c span{color:var(--muted);font-size:16px;display:block}
-/* coordonnees cliquables : plus grandes et clairement soulignees */
 .contacts .c span a{font-size:16.5px;font-weight:500;color:var(--gold2);text-decoration:underline;
   text-decoration-thickness:1px;text-underline-offset:4px}
 .contacts .c span a:hover{color:#fff}
@@ -169,57 +157,30 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
     transition:opacity .3s,transform .3s,visibility .3s;
     overflow-y:auto}
   .nav .links.open{opacity:1;visibility:visible;transform:none}
-  /* on annule les regles qui masquaient les liens en mobile */
   .nav .links a,.nav .links a.hide-s,.nav .links a:not(.adh){display:block !important;
     font-size:21px !important;letter-spacing:.06em;padding:14px 18px;text-align:center;
     font-family:'Cormorant Garamond',Georgia,serif;color:#eae7f3 !important;width:100%;max-width:340px}
   .nav .links a:active{color:var(--gold2) !important}
   .nav .links a.adh{margin-top:18px;background:var(--gold);color:#1a1608 !important;
     border-radius:30px;font-family:'Jost',sans-serif;font-size:16px !important;padding:14px 30px;width:auto}
-  /* .nav porte un backdrop-filter : il devient le bloc conteneur des descendants
-     position:fixed ET un contexte d'empilement -> le panneau restait enferme dans la
-     barre et passait sous le contenu. On neutralise le filtre et on remonte le nav
-     uniquement quand le menu est ouvert. */
   body.nav-open .nav{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;z-index:1001 !important}
   body.nav-open{overflow:hidden}
 }
 @media print{.burger{display:none}}
 
-/* ===== IMAGES LOCALES RESPONSIVES (WebP + repli JPEG) =====
-   <picture> ne doit rien changer a la mise en page : il se comporte comme un bloc
-   transparent et l'<img> garde exactement les regles CSS d'origine. */
 picture{display:block}
-/* Les attributs width/height valent aussi comme indication de style : sans
-   height:auto explicite, la hauteur en attribut s'appliquerait comme une
-   longueur CSS et deformerait l'image (cas des .figure, du teaser, etc.). */
 picture>img{height:auto}
 picture.aphoto{overflow:hidden}
 picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
-/* L'affiche est pilotee par sa hauteur (max-height:80vh). On reserve donc sa
-   place sur le <picture> a partir de son rapport largeur/hauteur (--ar) :
-   largeur = min(place disponible, 80vh x --ar), exactement la geometrie d'avant.
-   Surtout pas de display:flex ici : l'image serait etiree en hauteur. */
 .affiche picture{width:min(100%,calc(80vh * var(--ar,0.71)));margin:0 auto}
 .affiche picture>img{width:100%;height:auto;max-width:100%;max-height:none}
-/* L'ancienne photo de hero (hero-iris-et-david) n'est plus en fond ici :
-   elle est desormais affichee dans la presentation des artistes, en <picture>. */
 
-/* ===== couche chaleureuse commune (sources/theme_chaleur.py) =============
-   Le degrade signature de /guso-facile, propage a tout le site. Par touches :
-   filets, sur-titres, puces, bouton. Jamais en aplat de fond. */
-/* surfaces etagees : fond -> carte = x3,30 de luminance (x2,36 avant) */
 :root{--night2:#161839;--card:#1e214a;
 /* accents plus vifs — l'or primaire ne bouge pas */
 --gold2:#f8d274;--plum:#9374e2;--coral:#ee8062;--plum2:#b38ff5;
 --grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
 --grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral));
-/* meme degrade, axe VERTICAL : pour les filets de 3 px places sur le cote
-   d'une carte. Avec `--grad` (95deg) un filet haut de 200 px et large de 3
-   affiche le degrade de biais — mesure a l'ecran, c'est du hasard, pas un
-   choix. `--grad-v` le fait courir franchement de haut en bas. */
 --grad-v:linear-gradient(180deg,var(--gold2),var(--gold) 30%,var(--coral) 66%,var(--plum2))}
-/* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice ».
-   position:fixed + inset:0 -> aucun risque de debordement horizontal. */
 body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(238,128,98,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(147,116,226,.12),transparent 62%)}
 /* texte peint au degrade (titres, sur-titres) */
 .grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
@@ -227,44 +188,30 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
 .divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent)}
 .kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* boutons : le principal porte le degrade chaud, le fantome un filet dore */
 .btn{border-radius:999px}
 .btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
 .btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
 .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(248,210,116,.3);color:var(--gold2)}
 .btn.ghost:hover{border-color:rgba(248,210,116,.55)}
-/* contraste du pied de page : 3,8:1 -> 5,96:1 sur #08091a (seuil 4,5:1) */
 .legal{color:#8b8ba6}
-/* a l'impression, un texte peint au degrade sort blanc : on le rend a l'or */
 @media print{.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
 /* les pictogrammes en ligne (voir ICONES plus bas) */
 .ic{width:23px;height:23px;display:block;flex:0 0 auto}
 .tc-defs{position:absolute;width:0;height:0;overflow:hidden}
 /* ===== E-Motion : declinaisons chaleureuses ===== */
-/* les cartes des cinq elements : filet de tete au degrade, coins plus doux.
-   Le filet est PEINT sur la bordure (background-image cadre sur `border-box`)
-   plutot qu'ajoute en pseudo-element : `.card` s'anime deja au survol
-   (`transform:translateY(-4px)`), un `::before` positionne s'y ajouterait mal,
-   et la boite ne bouge ainsi pas d'un pixel. */
 .card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
 .card:hover{border-color:transparent}
 /* le grand chiffre de chaque carte, peint au degrade */
 .card .n{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* citations : le trait or plein de 3 px devient le degrade vertical */
 .q{border-left-color:transparent;border-radius:14px;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
-/* les deux cartes « se programme en / s'inscrit dans » : filet de tete */
 .scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
-/* la prune revient en accent de TEXTE (--plum2 : 7,3:1 sur --card) */
 .artist .role{color:var(--plum2)}
-/* le filet qui separe les deux artistes : degrade, comme le .divider */
 .artist{border-top-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
 /* arrondis genereux, memes valeurs que sur /guso-facile */
 .figure,.tz,.affiche img,.aphoto,picture.aphoto,.gal-item,.lb-frame{border-radius:18px}
-/* la pastille de lecture du teaser : degrade chaud au lieu de l'or plein */
 .tz .play{background:var(--grad-warm)}
 
 /* == nav_menu.py (resonances-4) == */
-/* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .nav .links>a[aria-current="page"]{border-bottom:1px solid rgba(216,178,90,.62);padding-bottom:2px}
@@ -301,16 +248,13 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   .nav .links .nm-sub a:hover,.nav .links .nm-sub a:focus-visible{
     background:rgba(216,178,90,.15);color:var(--gold2)}
   .nav .links .nm-sub a[aria-current="page"]{color:var(--gold2);background:rgba(216,178,90,.10)}
-  /* zone tampon : le survol ne doit pas casser entre le parent et le panneau */
   .nm-item.nm-open::after{content:'';position:absolute;top:100%;left:-30px;right:-30px;height:8px}
-  /* bouton Adherer : 4 des 7 pages n'avaient pas de regle .nav .adh */
   .nav .links a.adh{color:#1a1608 !important;background:var(--gold);
     padding:8px 16px;border-radius:30px;font-weight:600;font-size:15px;
     font-family:'Jost',system-ui,-apple-system,sans-serif;white-space:nowrap;
     border-bottom:0;min-height:0}
   .nav .links a.adh:hover,.nav .links a.adh:focus-visible{background:var(--gold2)}
 }
-/* barre serree quand la place manque (le nom de l'association ne doit jamais etre touche) */
 @media(min-width:861px) and (max-width:1120px){
   .nav{padding-left:18px;padding-right:18px}
   .nav .brand{white-space:nowrap;font-size:16px}
@@ -322,10 +266,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
   .nav .links a:not(.adh),.nm-top{font-size:14px}
   .nav .brand{font-size:14px;letter-spacing:.1em}
 }
-/* ---- mobile : les sous-menus deviennent des accordeons ---- */
 @media(max-width:860px){
-  /* flex-wrap:nowrap est INDISPENSABLE : le panneau est en flex-direction:column,
-     autoriser le retour a la ligne le decoupe en 2-3 COLONNES au lieu de defiler. */
   .nav .links{flex-wrap:nowrap !important;justify-content:flex-start !important}
   .nav .links>:first-child{margin-top:auto}
   .nav .links>:last-child{margin-bottom:auto}

@@ -477,9 +477,10 @@ def carte_html():
 # 9. Styles. Palette de la page (or / nuit) : aucune couleur nouvelle, tout
 #    passe par les variables CSS deja definies en tete de la feuille.
 # ---------------------------------------------------------------------------
-CSS_CARTE = """
-/* ===== Carte du parcours (SVG ecrit a la main, aucune dependance) ========= */
-.cp-fig{margin:30px 0 0;max-width:920px}
+CSS_CARTE = ("""
+"""
+            # ===== Carte du parcours (SVG ecrit a la main, aucune dependance) =========
+            """.cp-fig{margin:30px 0 0;max-width:920px}
 .cp-cadre{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;
   background:radial-gradient(120% 100% at 20% 0,rgba(143,122,209,.14),transparent 60%),var(--card);
   border:1px solid var(--line);border-radius:16px;padding:20px 20px 22px}
@@ -510,20 +511,22 @@ CSS_CARTE = """
 .cp-hors li:last-child{border-bottom:0}
 .cp-hors li b{flex:1 1 220px;min-width:0;color:#fff;font-weight:500;font-size:15px;line-height:1.45}
 .cp-hors li span{flex:0 1 190px;min-width:0;color:var(--muted);font-size:13.5px;line-height:1.5}
-/* MISE EN PAGE : la vue France occupe TOUTE la largeur du cadre, l'encart Europe
-   se place dessous, borne a 460 px. Raison mesuree : le texte d'un SVG se reduit
-   avec le SVG. Cote a cote, la carte de France ne faisait que 500 px de large
-   pour un viewBox de 574 -> les etiquettes tombaient a 8 px rendus, sous le
-   plancher typographique de 13 px du site. En pleine largeur elle atteint
-   840 px, soit ~19 px rendus. */
-.cp-encart{max-width:460px}
-/* Sous 700 px les etiquettes du SVG seraient illisibles (la carte ne fait plus
-   que ~300 px de large) : on les masque. Aucune information n'est perdue — la
-   legende sous la carte nomme les memes villes avec leur nombre, et la
-   chronologie juste au-dessus nomme toutes les autres. */
-@media(max-width:700px){.cp-lab{display:none}}
+"""
+            # MISE EN PAGE : la vue France occupe TOUTE la largeur du cadre, l'encart Europe
+            # se place dessous, borne a 460 px. Raison mesuree : le texte d'un SVG se reduit
+            # avec le SVG. Cote a cote, la carte de France ne faisait que 500 px de large
+            # pour un viewBox de 574 -> les etiquettes tombaient a 8 px rendus, sous le
+            # plancher typographique de 13 px du site. En pleine largeur elle atteint
+            # 840 px, soit ~19 px rendus.
+            """.cp-encart{max-width:460px}
+"""
+            # Sous 700 px les etiquettes du SVG seraient illisibles (la carte ne fait plus
+            # que ~300 px de large) : on les masque. Aucune information n'est perdue — la
+            # legende sous la carte nomme les memes villes avec leur nombre, et la
+            # chronologie juste au-dessus nomme toutes les autres.
+            """@media(max-width:700px){.cp-lab{display:none}}
 @media(max-width:560px){
   .cp-cadre{padding:14px 13px 16px}
   .cp-note{padding:16px 15px}
 }
-"""
+""")

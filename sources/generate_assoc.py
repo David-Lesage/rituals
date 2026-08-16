@@ -70,7 +70,7 @@ FL=flower()
 # `.statuts .box .jo` dans CSS_CHALEUR, et les deux regles `.jo a` de CSS_LISI.
 # Une feuille de style qui decrit une section absente de la page est exactement ce
 # qui fait perdre une demi-heure a la session suivante.
-CSS="""
+CSS=("""
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -132,14 +132,15 @@ footer{background:#08091a;padding:70px 0 56px;border-top:1px solid var(--line)}
 .fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:34px}
 footer h4{font-family:'Cormorant Garamond',serif;color:#fff;font-size:22px;font-weight:600;margin-bottom:10px}
 footer p,footer a{color:var(--muted);font-size:14.5px}
-/* zone tactile confortable (~44px) sur les liens du pied de page */
-footer a{display:inline-block;padding:13px 0;line-height:1.3}
+"""
+    # zone tactile confortable (~44px) sur les liens du pied de page
+    """footer a{display:inline-block;padding:13px 0;line-height:1.3}
 footer a.btn,footer a.adh{padding:14px 30px}
 footer a:hover{color:var(--gold2)}
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
 .legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:13px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:66px 0}}
-"""
+""")
 
 # --------------------------------------------------------------------------
 # LA COUCHE CHALEUREUSE (refonte du 15/08/2026)
@@ -164,26 +165,30 @@ footer a:hover{color:var(--gold2)}
 #    `.card.feature` porte un fond en degrade. Un `::before` positionne
 #    demanderait un `overflow:hidden` qui rognerait les coins arrondis. La
 #    bordure peinte ne deplace rien.
-CSS_CHALEUR = """/* ===== Accueil : declinaisons chaleureuses ===== */
+CSS_CHALEUR = ("""/* ===== Accueil : declinaisons chaleureuses ===== */
 .hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
 /* sur-titre des cartes de prestations, peint au degrade */
 .card .t{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* cartes de prestations : filet de tete au degrade, coins plus genereux */
-.card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
-/* ⚠️ LA REGLE QUI SUIT DOIT REPETER TOUTES LES LONGHANDS. Mesure faite a
-   l'ecran : sans elles, les deux cartes « feature » recevaient le degrade EN
-   APLAT SUR TOUTE LEUR SURFACE et leur texte devenait illisible. Raison :
-   `.card.feature{background:…}` plus haut est une PROPRIETE RACCOURCIE, qui
-   remet `background-size/repeat/position/origin` a leur valeur initiale — et
-   elle est plus specifique (0,2,0) que le `.card{background-size:…}` d'ici
-   (0,1,0). Le `100% 3px` du filet etait donc ecrase par un `auto`. */
-.card.feature{border-color:transparent;background-image:var(--grad),linear-gradient(160deg,rgba(147,116,226,.16),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat,no-repeat;background-position:0 0,0 0;background-origin:border-box,padding-box;background-attachment:scroll,scroll}
-.card:hover{border-color:transparent}
-/* les quatre engagements : le trait dore de tete devient le filet degrade */
-.val{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.5),rgba(238,128,98,.5) 55%,rgba(179,143,245,.45));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
-/* la prune revient en accent de TEXTE (--plum2 : 8,6:1 sur --night) */
-.val h3{color:var(--plum2)}
 """
+              # cartes de prestations : filet de tete au degrade, coins plus genereux
+              """.card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
+"""
+              # ⚠️ LA REGLE QUI SUIT DOIT REPETER TOUTES LES LONGHANDS. Mesure faite a
+              # l'ecran : sans elles, les deux cartes « feature » recevaient le degrade EN
+              # APLAT SUR TOUTE LEUR SURFACE et leur texte devenait illisible. Raison :
+              # `.card.feature{background:…}` plus haut est une PROPRIETE RACCOURCIE, qui
+              # remet `background-size/repeat/position/origin` a leur valeur initiale — et
+              # elle est plus specifique (0,2,0) que le `.card{background-size:…}` d'ici
+              # (0,1,0). Le `100% 3px` du filet etait donc ecrase par un `auto`.
+              """.card.feature{border-color:transparent;background-image:var(--grad),linear-gradient(160deg,rgba(147,116,226,.16),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat,no-repeat;background-position:0 0,0 0;background-origin:border-box,padding-box;background-attachment:scroll,scroll}
+.card:hover{border-color:transparent}
+"""
+              # les quatre engagements : le trait dore de tete devient le filet degrade
+              """.val{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.5),rgba(238,128,98,.5) 55%,rgba(179,143,245,.45));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+"""
+              # la prune revient en accent de TEXTE (--plum2 : 8,6:1 sur --night)
+              """.val h3{color:var(--plum2)}
+""")
 
 CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
 
@@ -245,7 +250,11 @@ def vals():
 # ⚠️ Les deux regles `.jo a` de ce bloc sont parties le 15/08/2026 avec la
 #    section des statuts : plus aucun element de cette page ne porte `.jo`.
 #    Elles sont reprises telles quelles dans `generate_association.py`.
-CSS_LISI = """/* --- lisibilite des liens (demande de David : liens et dates trop petits) --- */
+# Le titre du bloc est RACCOURCI (16/08/2026) : il part dans la page livree,
+# ou il sert de repere de section ET d'ancre au garde-fou `_ATTENDU`. La
+# raison d'etre du bloc — demande de David : liens et dates trop petits —
+# reste ici, en Python.
+CSS_LISI = """/* --- lisibilite des liens --- */
 footer p,footer a{font-size:16px}
 footer a{padding:13px 0}
 footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.35);

@@ -659,9 +659,10 @@ def video_button(key, vid, alt, label, sub, sizes):
 # avec role="dialog" et aria-modal="true" ; (3) title de l'iframe = le vrai titre
 # de la video. La classe d'ouverture est « open » — la meme dans le CSS et dans
 # le JS (verifie : aucune incoherence .on/.open a reproduire).
-LIGHTBOX_CSS = """
-/* ===== Lecteur video en surimpression (la video reste SUR le site) ===== */
-.lb{position:fixed;inset:0;background:rgba(6,7,18,.92);display:none;align-items:center;justify-content:center;z-index:1200;padding:24px}
+LIGHTBOX_CSS = ("""
+"""
+               # ===== Lecteur video en surimpression (la video reste SUR le site) =====
+               """.lb{position:fixed;inset:0;background:rgba(6,7,18,.92);display:none;align-items:center;justify-content:center;z-index:1200;padding:24px}
 .lb.open{display:flex}
 .lb-box{position:relative;width:min(980px,100%)}
 .lb-frame{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000}
@@ -670,11 +671,12 @@ LIGHTBOX_CSS = """
 .yt-fallback{display:block;text-align:center;color:var(--gold2);font-size:13px;margin-top:12px;text-decoration:underline}
 body.lb-open{overflow:hidden}
 @media print{.lb{display:none!important}}
-/* ===== Vignette video : BOUTON qui ouvre le lecteur DANS LA PAGE =====
-   C'est un <button> et non un lien : on remet a plat les styles par defaut du
-   navigateur, sinon il herite d'un fond gris et d'un cadre. La source fait
-   1280 px de large : on la borne a 560 px, largement en dessous. */
-.dlc-video{display:block;max-width:560px;width:100%;margin-top:26px;background:none;border:0;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+"""
+               # ===== Vignette video : BOUTON qui ouvre le lecteur DANS LA PAGE =====
+               # C'est un <button> et non un lien : on remet a plat les styles par defaut du
+               # navigateur, sinon il herite d'un fond gris et d'un cadre. La source fait
+               # 1280 px de large : on la borne a 560 px, largement en dessous.
+               """.dlc-video{display:block;max-width:560px;width:100%;margin-top:26px;background:none;border:0;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
 .dlc-video figure{margin:0}
 .dlc-video .shot{display:block;position:relative;line-height:0}
 .dlc-video .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(11,12,30,.72);border:1px solid rgba(248,210,116,.62);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
@@ -684,22 +686,24 @@ body.lb-open{overflow:hidden}
 .dlc-video .vlabel{color:var(--gold2);font-size:16px;text-decoration:underline;text-decoration-color:rgba(216,178,90,.42);text-underline-offset:3px}
 .dlc-video:hover .vlabel{color:#fff}
 .dlc-video .vsub{color:var(--muted);font-size:13.5px}
-/* ===== bloc « Ecouter · Soutenir » (plateformes + boutique de l'association) ==
-   Sobre a dessein : trois boutons fantomes, pour ne pas concurrencer les deux
-   seuls appels a l'action de cette page (« Programmer ce concert » / « Demander
-   le dossier »). Sous 560 px les boutons passent en pleine largeur. */
-.dlc-listen{margin-top:36px;max-width:860px;border-top:1px solid var(--line);padding-top:26px}
+"""
+               # ===== bloc « Ecouter · Soutenir » (plateformes + boutique de l'association) ==
+               # Sobre a dessein : trois boutons fantomes, pour ne pas concurrencer les deux
+               # seuls appels a l'action de cette page (« Programmer ce concert » / « Demander
+               # le dossier »). Sous 560 px les boutons passent en pleine largeur.
+               """.dlc-listen{margin-top:36px;max-width:860px;border-top:1px solid var(--line);padding-top:26px}
 .dlc-listen p{max-width:none;font-size:16px}
 .dlc-listen .cta{margin-top:20px}
 .dlc-listen .btn{font-size:15px;padding:12px 22px}
 @media(max-width:560px){.dlc-listen .btn{width:100%}}
-/* ===== Grille de vignettes live (chaque vignette ouvre le lecteur DANS la page)
-   Les vignettes sont natives en 1280x720 : la grille plafonne les colonnes bien
-   en dessous, on ne les agrandit donc jamais au-dela de leur resolution.
-   .lvc est un <button> : on remet a plat les styles par defaut du navigateur.
-   Hauteur cliquable = vignette (>= 135 px) + libelle : cible tactile largement
-   au-dela de 44 px. */
-.lvg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;margin-top:24px;max-width:1028px}
+"""
+               # ===== Grille de vignettes live (chaque vignette ouvre le lecteur DANS la page)
+               # Les vignettes sont natives en 1280x720 : la grille plafonne les colonnes bien
+               # en dessous, on ne les agrandit donc jamais au-dela de leur resolution.
+               # .lvc est un <button> : on remet a plat les styles par defaut du navigateur.
+               # Hauteur cliquable = vignette (>= 135 px) + libelle : cible tactile largement
+               # au-dela de 44 px.
+               """.lvg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;margin-top:24px;max-width:1028px}
 .lvc{display:flex;flex-direction:column;gap:0;background:var(--card);border:1px solid var(--line);
   border-radius:14px;overflow:hidden;padding:0;color:inherit;font:inherit;text-align:left;
   cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s}
@@ -720,11 +724,12 @@ body.lb-open{overflow:hidden}
 .lv-set:first-of-type{margin-top:0}
 .lv-set h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;color:#fff;font-weight:600;line-height:1.15}
 .lv-set .lv-src{color:var(--muted);font-size:14px;font-style:italic;margin-top:4px}
-/* ===== Lecteur Spotify differé (cree au clic, jamais au chargement) ===== */
-.spf{margin-top:24px;max-width:820px}
+"""
+               # ===== Lecteur Spotify differé (cree au clic, jamais au chargement) =====
+               """.spf{margin-top:24px;max-width:820px}
 .spf iframe{display:block;width:100%;border:0;border-radius:12px;background:var(--card)}
 .dlc-block .spf-note{color:var(--muted);font-size:14px;font-style:italic;margin-top:12px;max-width:640px}
-"""
+""")
 
 # Le lecteur sert TOUS les declencheurs de la page (vignettes
 #          ET titres du repertoire) : son titre doit rester generique.
@@ -1853,7 +1858,7 @@ TOC = [
 # ⚠️ Les regles voisines `[href="/#association"]` et `[href="/#prestations"]` sont
 #    des vestiges du meme menu, mais leurs ancres existent toujours sur l'accueil :
 #    elles ne declenchent rien et ne sont PAS touchees ici.
-CSS = """
+CSS = ("""
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -1869,21 +1874,23 @@ section{padding:78px 0;position:relative}
 p.body{max-width:820px;color:#d7d4ea;margin-top:16px}
 b{color:#fff;font-weight:500}
 .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);max-width:1080px;margin:0 auto}
-/* nav — barre identique aux autres pages (8px + 44px + 8px = 60px de haut) */
-.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:8px 26px;background:rgba(14,15,36,.6);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.05)}
+"""
+      # nav — barre identique aux autres pages (8px + 44px + 8px = 60px de haut)
+      """.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:8px 26px;background:rgba(14,15,36,.6);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.05)}
 .nav .brand{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;letter-spacing:.12em;color:#fff;text-transform:uppercase;display:inline-flex;align-items:center;min-height:44px}
 .nav .links{display:flex;align-items:center;gap:19px;font-size:13.5px;letter-spacing:.04em}
 .nav .links a{color:var(--muted);transition:color .2s;display:inline-flex;align-items:center;min-height:44px;white-space:nowrap;flex:0 0 auto}
 .nav .links a:hover{color:var(--gold2)}
 .nav .adh{color:#1a1608!important;background:var(--gold);padding:0 17px;border-radius:30px;font-weight:600}
 @media(max-width:760px){.nav .links a:not(.adh){display:none}}
-/* Cette page porte 11 entrees (une de plus que les autres : « Programmation »).
-   On resserre entre 861 et 1340 px et on masque par ordre de moindre importance :
-   Statuts, puis Contact, puis Prestations, puis L'association — toutes restent
-   joignables depuis le pied de page et l'accueil. Jamais sous 13 px (plancher typo).
-   `white-space:nowrap` sur les liens : sans lui, sous 1340 px les libelles se
-   coupaient en deux lignes et la barre passait de 61 a 96 px de haut. */
-@media(min-width:861px) and (max-width:1340px){.nav{padding:8px 16px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:0 14px}}
+"""
+      # Cette page porte 11 entrees (une de plus que les autres : « Programmation »).
+      # On resserre entre 861 et 1340 px et on masque par ordre de moindre importance :
+      # Statuts, puis Contact, puis Prestations, puis L'association — toutes restent
+      # joignables depuis le pied de page et l'accueil. Jamais sous 13 px (plancher typo).
+      # `white-space:nowrap` sur les liens : sans lui, sous 1340 px les libelles se
+      # coupaient en deux lignes et la barre passait de 61 a 96 px de haut.
+      """@media(min-width:861px) and (max-width:1340px){.nav{padding:8px 16px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:0 14px}}
 @media(min-width:861px) and (max-width:1060px){.nav .links a[href="/#association"]{display:none}}
 @media(min-width:861px) and (max-width:960px){.nav .links a[href="/#prestations"]{display:none}}
 @media(min-width:861px) and (max-width:920px){.nav .links a[href="#contact"]{display:none}}
@@ -1892,8 +1899,9 @@ b{color:#fff;font-weight:500}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 .cta{display:flex;gap:14px;flex-wrap:wrap}
-/* ===== David Lesage en concert (page professionnelle) ===== */
-.dlc-top{padding:128px 0 70px;background:radial-gradient(900px 560px at 12% -8%,rgba(147,116,226,.20),transparent 62%),radial-gradient(700px 460px at 90% 102%,rgba(216,178,90,.12),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+"""
+      # ===== David Lesage en concert (page professionnelle) =====
+      """.dlc-top{padding:128px 0 70px;background:radial-gradient(900px 560px at 12% -8%,rgba(147,116,226,.20),transparent 62%),radial-gradient(700px 460px at 90% 102%,rgba(216,178,90,.12),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
 .dlc-top h1{font-size:clamp(36px,6.6vw,68px);font-weight:600;line-height:1.03;color:#fff;letter-spacing:.02em}
 .band{background:linear-gradient(180deg,#0b0c1e,var(--night))}
 .tagline{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.8vw,28px);margin-top:12px}
@@ -1905,23 +1913,26 @@ b{color:#fff;font-weight:500}
 .dlc-cred{display:block;margin-top:2px;font-style:italic;font-size:15px;color:#8e8ba9}
 .dlc-hero-fig{margin-top:34px}
 .dlc-wide{max-width:860px;margin-top:26px}
-/* ⚠️ BORNE MESUREE LE 14/08/2026 — « jamais une image au-dela de son natif ».
-   Deux figures depassaient leur resolution sur un ecran a densite 2 :
-     * `setup` (#dispositif) : natif 1400 px, affiche a 858 px en .dlc-wide,
-       soit 1 716 px reels. Bornee a 700 px -> 1 400 px reels, pile son natif.
-     * les deux figures de #option : `aerien-fest` n'existe qu'en 900 px et
-       s'affichait a 502 px, soit 1 004 px reels. La grille est bornee a 450 px
-       -> 900 px reels. Les deux colonnes sont bornees ensemble pour rester
-       symetriques (`aerien` a 1 400 px de natif, elle en a la place).
-   Toucher a ces bornes oblige a remesurer en densite 2. */
-.dlc-cap700{max-width:700px}
+"""
+      # ⚠️ BORNE MESUREE LE 14/08/2026 — « jamais une image au-dela de son natif ».
+      # Deux figures depassaient leur resolution sur un ecran a densite 2 :
+      #   * `setup` (#dispositif) : natif 1400 px, affiche a 858 px en .dlc-wide,
+      #     soit 1 716 px reels. Bornee a 700 px -> 1 400 px reels, pile son natif.
+      #   * les deux figures de #option : `aerien-fest` n'existe qu'en 900 px et
+      #     s'affichait a 502 px, soit 1 004 px reels. La grille est bornee a 450 px
+      #     -> 900 px reels. Les deux colonnes sont bornees ensemble pour rester
+      #     symetriques (`aerien` a 1 400 px de natif, elle en a la place).
+      # Toucher a ces bornes oblige a remesurer en densite 2.
+      """.dlc-cap700{max-width:700px}
 .dlc-duo.cap450{grid-template-columns:repeat(auto-fit,minmax(280px,450px));justify-content:start}
-/* figure au format portrait (affiche) : bornee a 420 px, jamais en grille */
-.dlc-portrait{max-width:420px;margin-top:30px}
-/* figure TRES verticale (ratio 0,474) : bornee plus court encore, sinon elle
-   ferait presque 900 px de haut. 360 px est aussi la largeur qui la garde nette
-   (360x2 = 720 device px, sous les 900 px de sa plus grande variante). */
-.dlc-tall{max-width:360px;margin-top:30px}
+"""
+      # figure au format portrait (affiche) : bornee a 420 px, jamais en grille
+      """.dlc-portrait{max-width:420px;margin-top:30px}
+"""
+      # figure TRES verticale (ratio 0,474) : bornee plus court encore, sinon elle
+      # ferait presque 900 px de haut. 360 px est aussi la largeur qui la garde nette
+      # (360x2 = 720 device px, sous les 900 px de sa plus grande variante).
+      """.dlc-tall{max-width:360px;margin-top:30px}
 .dlc-quote{margin:30px 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(20px,2.7vw,26px);line-height:1.38;border-left:2px solid var(--gold);padding-left:22px;max-width:780px}
 .dlc-quote cite{display:block;margin-top:12px;font-style:normal;font-family:'Jost',sans-serif;font-size:13.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .dlc-note{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:19px 22px;margin-top:26px;max-width:860px}
@@ -1931,17 +1942,19 @@ b{color:#fff;font-weight:500}
 /* deux colonnes : texte + figure */
 .dlc-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:36px;align-items:start;margin-top:30px}
 .dlc-split>div>p:first-child{margin-top:0}
-/* ⚠️ BORNE MESUREE LE 14/08/2026 : sous 860 px la colonne de droite passe en
-   pleine largeur et le portrait de #parcours s'affichait a 766 px alors que son
-   `sizes` (et donc le fichier telecharge) vaut 420 px — image agrandie. La borne
-   remet la figure d'accord avec son `sizes`. */
-@media(max-width:860px){.dlc-split{grid-template-columns:1fr;gap:26px}
+"""
+      # ⚠️ BORNE MESUREE LE 14/08/2026 : sous 860 px la colonne de droite passe en
+      # pleine largeur et le portrait de #parcours s'affichait a 766 px alors que son
+      # `sizes` (et donc le fichier telecharge) vaut 420 px — image agrandie. La borne
+      # remet la figure d'accord avec son `sizes`.
+      """@media(max-width:860px){.dlc-split{grid-template-columns:1fr;gap:26px}
   .dlc-split>.dlc-fig{max-width:420px}}
 /* fiche « en un regard » : liste de definitions */
 .dlc-id{margin-top:28px;max-width:900px;display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:0}
-/* gap 0 + padding-right sur le dt : sinon la gouttiere coupait le filet horizontal
-   de chaque ligne en deux morceaux desalignes. */
-.dlc-id dt{color:var(--gold);font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;padding:15px 30px 15px 0;border-top:1px solid rgba(255,255,255,.07);line-height:1.5}
+"""
+      # gap 0 + padding-right sur le dt : sinon la gouttiere coupait le filet horizontal
+      # de chaque ligne en deux morceaux desalignes.
+      """.dlc-id dt{color:var(--gold);font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;padding:15px 30px 15px 0;border-top:1px solid rgba(255,255,255,.07);line-height:1.5}
 .dlc-id dd{color:#d7d4ea;font-size:16.5px;padding:14px 0 16px;border-top:1px solid rgba(255,255,255,.07);line-height:1.6}
 .dlc-id dt:first-of-type,.dlc-id dd:first-of-type{border-top:0}
 @media(max-width:640px){.dlc-id{grid-template-columns:1fr;gap:0}
@@ -1969,15 +1982,16 @@ b{color:#fff;font-weight:500}
 .dlc-card li{color:#d7d4ea;font-size:15.5px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);line-height:1.5}
 .dlc-card li:last-child{border-bottom:0}
 .dlc-card li span{color:var(--gold2);display:block;font-size:13.5px;letter-spacing:.04em}
-/* ===== Titres du repertoire ecoutables SUR la page =====
-   Un titre relie devient un <button class="ytlink"> : le gestionnaire delegue
-   deja en place (.ytlink + data-yt) ouvre le lecteur en surimpression. Jamais
-   de lien sortant ici. Les titres sans video gardent EXACTEMENT le meme style
-   via .rep-t : seule l'icone ▸ distingue ce qui s'ecoute.
-   .rep-t doit surcharger `.dlc-card li span` (qui met le sous-titre en dore) :
-   la specificite d'une classe l'emporte sur celle d'un element, donc OK.
-   Hauteur de rangee = 7 + 30 + 7 = 44 px : cible tactile respectee. */
-.dlc-card li .rep-t{display:flex;align-items:center;gap:9px;width:100%;min-height:30px;
+"""
+      # ===== Titres du repertoire ecoutables SUR la page =====
+      # Un titre relie devient un <button class="ytlink"> : le gestionnaire delegue
+      # deja en place (.ytlink + data-yt) ouvre le lecteur en surimpression. Jamais
+      # de lien sortant ici. Les titres sans video gardent EXACTEMENT le meme style
+      # via .rep-t : seule l'icone ▸ distingue ce qui s'ecoute.
+      # .rep-t doit surcharger `.dlc-card li span` (qui met le sous-titre en dore) :
+      # la specificite d'une classe l'emporte sur celle d'un element, donc OK.
+      # Hauteur de rangee = 7 + 30 + 7 = 44 px : cible tactile respectee.
+      """.dlc-card li .rep-t{display:flex;align-items:center;gap:9px;width:100%;min-height:30px;
   color:#d7d4ea;font-family:inherit;font-size:15.5px;letter-spacing:normal;line-height:1.5;
   background:none;border:0;padding:0;margin:0;text-align:left}
 .dlc-card li button.rep-t{cursor:pointer;transition:color .18s}
@@ -1988,28 +2002,31 @@ b{color:#fff;font-weight:500}
   transition:background .18s,color .18s,border-color .18s}
 .dlc-card li button.rep-t:hover .pico,.dlc-card li button.rep-t:focus-visible .pico{
   background:var(--gold);border-color:var(--gold);color:#1a1608}
-/* `.dlc-block p{color:#d7d4ea}` (0,1,1) battait `.rep-hint` (0,1,0) : la mention
-   restait couleur de corps de texte. Selecteur prefixe -> (0,2,0), il gagne. */
-.dlc-block .rep-hint{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+"""
+      # `.dlc-block p{color:#d7d4ea}` (0,1,1) battait `.rep-hint` (0,1,0) : la mention
+      # restait couleur de corps de texte. Selecteur prefixe -> (0,2,0), il gagne.
+      """.dlc-block .rep-hint{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
   color:var(--gold2);font-size:14.5px;font-style:italic;margin-top:14px}
 /* citations du dossier */
 .dlc-cites{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;max-width:880px;list-style:none}
 .dlc-cites li{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:17.5px;line-height:1.4;background:rgba(216,178,90,.08);border:1px solid var(--line);border-radius:30px;padding:8px 20px}
-/* ===== « La ou ce repertoire a resonne » (refonte du 13/08/2026) ===========
-   Quatre etages, du plus lisible au plus dense : une ligne chiffree, les
-   references majeures en grille, deux listes (scenes / lieux de pierre), puis
-   tout le volume replie dans un <details>. L'ancienne liste a plat
-   (.dlc-scenes) n'existe plus sur cette page. */
-.dlc-stats{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+"""
+      # ===== « La ou ce repertoire a resonne » (refonte du 13/08/2026) ===========
+      # Quatre etages, du plus lisible au plus dense : une ligne chiffree, les
+      # references majeures en grille, deux listes (scenes / lieux de pierre), puis
+      # tout le volume replie dans un <details>. L'ancienne liste a plat
+      # (.dlc-scenes) n'existe plus sur cette page.
+      """.dlc-stats{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
   gap:24px 26px;margin-top:30px;max-width:1028px;padding:24px 0;
   border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .dlc-stats li{display:flex;flex-direction:column;gap:6px}
 .dlc-stats b{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;line-height:1;
   font-size:clamp(32px,4.4vw,44px);color:var(--gold2)}
 .dlc-stats span{color:#d7d4ea;font-size:14.5px;line-height:1.5}
-/* `.dlc-block p{color:#d7d4ea}` (0,1,1) battrait `.dlc-srcnote` (0,1,0) :
-   selecteur prefixe -> (0,2,0), il gagne (meme piege que .rep-hint). */
-.dlc-block .dlc-srcnote{color:var(--muted);font-size:14px;font-style:italic;
+"""
+      # `.dlc-block p{color:#d7d4ea}` (0,1,1) battrait `.dlc-srcnote` (0,1,0) :
+      # selecteur prefixe -> (0,2,0), il gagne (meme piege que .rep-hint).
+      """.dlc-block .dlc-srcnote{color:var(--muted);font-size:14px;font-style:italic;
   margin-top:16px;max-width:820px;line-height:1.6}
 /* references majeures */
 .dlc-refs{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));
@@ -2019,10 +2036,11 @@ b{color:#fff;font-weight:500}
 .dlc-refs b{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;
   color:#fff;font-weight:600;line-height:1.18}
 .dlc-refs span{display:block;color:var(--muted);font-size:14.5px;line-height:1.5;margin-top:6px}
-/* listes secondaires : nom a gauche, precision a droite. Pas de capitales ici
-   (contrairement a l'ancienne .dlc-scenes) : les precisions portent des dates
-   et des villes, illisibles en petites capitales espacees. */
-.dlc-lieux{list-style:none;margin-top:22px;max-width:880px;display:grid;gap:2px}
+"""
+      # listes secondaires : nom a gauche, precision a droite. Pas de capitales ici
+      # (contrairement a l'ancienne .dlc-scenes) : les precisions portent des dates
+      # et des villes, illisibles en petites capitales espacees.
+      """.dlc-lieux{list-style:none;margin-top:22px;max-width:880px;display:grid;gap:2px}
 .dlc-lieux li{display:flex;gap:4px 22px;align-items:baseline;flex-wrap:wrap;
   padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
 .dlc-lieux li:last-child{border-bottom:0}
@@ -2034,8 +2052,9 @@ b{color:#fff;font-weight:500}
 .dlc-more>summary{display:flex;align-items:center;gap:12px;min-height:52px;
   padding:12px 22px;cursor:pointer;color:var(--gold2);font-size:16px;line-height:1.4;
   list-style:none}
-/* les deux formes de marqueur natif, sinon Safari garde son triangle */
-.dlc-more>summary::marker{content:''}
+"""
+      # les deux formes de marqueur natif, sinon Safari garde son triangle
+      """.dlc-more>summary::marker{content:''}
 .dlc-more>summary::-webkit-details-marker{display:none}
 .dlc-more>summary::after{content:'';width:7px;height:7px;flex:0 0 auto;
   border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;
@@ -2058,17 +2077,19 @@ b{color:#fff;font-weight:500}
   .dlc-chrono .dlc-when{display:block;min-width:0;margin:0 0 1px}
   .dlc-more>summary{padding:12px 17px}
 }
-/* annee sans date : le texte qui explique pourquoi, jamais un blanc */
-.dlc-chrono .dlc-vide{color:var(--muted);font-size:14.5px;font-style:italic;
+"""
+      # annee sans date : le texte qui explique pourquoi, jamais un blanc
+      """.dlc-chrono .dlc-vide{color:var(--muted);font-size:14.5px;font-style:italic;
   line-height:1.6;margin:0;max-width:none;padding:5px 0}
-/* ===== Presse : « Ils en ont parle » =======================================
-   Une bande sobre, sans logo ni capture : media + date + titre lie + une
-   citation courte attribuee. Rien d'heberge, tout en lien sortant. */
-/* 265 px de minimum : avec les 3 entrees publiees, la bande tient sur UNE
-   rangee de 289 px a 900 px de large, sans case orpheline. Si une 4e entree
-   revenait (Apar.tv), repasser a minmax(300px,1fr) pour obtenir 2 x 2 plutot
-   qu'une rangee de 3 + 1. */
-.dlc-presse{list-style:none;margin-top:28px;max-width:900px;display:grid;
+"""
+      # ===== Presse : « Ils en ont parle » =======================================
+      # Une bande sobre, sans logo ni capture : media + date + titre lie + une
+      # citation courte attribuee. Rien d'heberge, tout en lien sortant.
+      # 265 px de minimum : avec les 3 entrees publiees, la bande tient sur UNE
+      # rangee de 289 px a 900 px de large, sans case orpheline. Si une 4e entree
+      # revenait (Apar.tv), repasser a minmax(300px,1fr) pour obtenir 2 x 2 plutot
+      # qu'une rangee de 3 + 1.
+      """.dlc-presse{list-style:none;margin-top:28px;max-width:900px;display:grid;
   grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:16px}
 .dlc-presse li{background:var(--card);border:1px solid rgba(255,255,255,.06);
   border-left:2px solid var(--gold);border-radius:14px;padding:20px 22px;
@@ -2088,12 +2109,13 @@ b{color:#fff;font-weight:500}
 .dlc-presse .pr-cit cite{display:block;margin-top:8px;font-style:normal;
   font-family:'Jost',sans-serif;font-size:13px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--muted);line-height:1.5}
-/* ===== Logo d'artiste de David Lesage ======================================
-   ⚠️ Logo de L'ARTISTE, pas de l'association : il identifie David Lesage en
-   tete de la section qui parle de lui, et ne remplace RIEN dans la barre de
-   navigation. Natif 2578x1943 reduit a 900 px : plafonne a 300 px, il n'est
-   jamais affiche au-dela de sa resolution. */
-.dlc-logo{margin:24px 0 0;max-width:300px}
+"""
+      # ===== Logo d'artiste de David Lesage ======================================
+      # ⚠️ Logo de L'ARTISTE, pas de l'association : il identifie David Lesage en
+      # tete de la section qui parle de lui, et ne remplace RIEN dans la barre de
+      # navigation. Natif 2578x1943 reduit a 900 px : plafonne a 300 px, il n'est
+      # jamais affiche au-dela de sa resolution.
+      """.dlc-logo{margin:24px 0 0;max-width:300px}
 .dlc-logo img{display:block;width:100%;height:auto}
 /* deux figures cote a cote */
 .dlc-duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:30px;align-items:start}
@@ -2110,13 +2132,14 @@ b{color:#fff;font-weight:500}
 .dlc-list li{color:#d7d4ea;font-size:15.5px;line-height:1.55;padding:9px 0 9px 20px;border-bottom:1px solid rgba(255,255,255,.05);position:relative}
 .dlc-list li:last-child{border-bottom:0}
 .dlc-list li::before{content:'';position:absolute;left:2px;top:16px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
-/* tableau du patch d'entrees.
-   POINT DE RISQUE MOBILE : un tableau a colonnes deborde sous 480 px. Deux
-   garde-fous cumules : (1) le conteneur .dlc-tw est en overflow-x:auto (filet de
-   securite) ; (2) sous 700 px le tableau est REMIS EN PILE (une carte par ligne,
-   intitules de colonnes restitues par td::before/data-label) -> plus aucun
-   defilement horizontal a lire, donc plus aucun risque de debordement. */
-.dlc-tw{margin-top:22px;max-width:900px;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:var(--card)}
+"""
+      # tableau du patch d'entrees.
+      # POINT DE RISQUE MOBILE : un tableau a colonnes deborde sous 480 px. Deux
+      # garde-fous cumules : (1) le conteneur .dlc-tw est en overflow-x:auto (filet de
+      # securite) ; (2) sous 700 px le tableau est REMIS EN PILE (une carte par ligne,
+      # intitules de colonnes restitues par td::before/data-label) -> plus aucun
+      # defilement horizontal a lire, donc plus aucun risque de debordement.
+      """.dlc-tw{margin-top:22px;max-width:900px;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:var(--card)}
 .dlc-tab{width:100%;border-collapse:collapse;min-width:600px;font-size:15.5px}
 .dlc-tab caption{text-align:left;color:var(--gold);font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;padding:17px 18px 3px}
 .dlc-tab th,.dlc-tab td{text-align:left;padding:12px 18px;border-top:1px solid rgba(255,255,255,.07);vertical-align:top;line-height:1.5}
@@ -2126,9 +2149,10 @@ b{color:#fff;font-weight:500}
 @media(max-width:700px){
   .dlc-tw{overflow:visible;border:0;background:transparent;border-radius:0;max-width:none}
   .dlc-tab{display:block;min-width:0;font-size:16px}
-  /* la <caption> reste en display:table-caption dans un parent devenu block :
-     elle se reduisait a la largeur d'un mot (un mot par ligne). */
-  .dlc-tab caption{display:block;width:100%;padding:0 0 12px}
+"""
+      # la <caption> reste en display:table-caption dans un parent devenu block :
+      # elle se reduisait a la largeur d'un mot (un mot par ligne).
+      """  .dlc-tab caption{display:block;width:100%;padding:0 0 12px}
   .dlc-tab thead{display:none}
   .dlc-tab tbody,.dlc-tab tr,.dlc-tab td,.dlc-tab tbody th{display:block;width:auto}
   .dlc-tab tr{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:12px;padding:15px 17px;margin-bottom:11px}
@@ -2169,62 +2193,68 @@ footer a:hover{color:var(--gold2)}
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
 .legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:13px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:60px 0}}
-/* --- lisibilite des liens (regle du site : liens >= 15 px et soulignes) ---
-   Ce bloc doit rester EN DERNIER : il surcharge les tailles ci-dessus. */
+"""
+      # --- lisibilite des liens (regle du site : liens >= 15 px et soulignes) ---
+      # Ce bloc doit rester EN DERNIER : il surcharge les tailles ci-dessus.
+      """/* --- lisibilite des liens --- */
 footer p,footer a{font-size:16px}
 footer a{padding:13px 0}
 footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.35);
   text-underline-offset:3px}
 .nav .links a{font-size:15px}
 .nav .links a.adh{font-size:15px}
-/* ce bloc final est plus specifique que le resserrement 861-1180 px plus haut :
-   on y redonne donc explicitement le 13px de la bande etroite (plancher typo). */
-@media(min-width:861px) and (max-width:1340px){.nav .links a{font-size:13px}}
+"""
+      # ce bloc final est plus specifique que le resserrement 861-1180 px plus haut :
+      # on y redonne donc explicitement le 13px de la bande etroite (plancher typo).
+      """@media(min-width:861px) and (max-width:1340px){.nav .links a{font-size:13px}}
 p a:not(.btn):not(.adh),li a:not(.btn):not(.adh),dd a:not(.btn):not(.adh){font-size:inherit;
   text-decoration:underline;text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
-/* liens hors bouton : rendus inline-block pour garantir une cible tactile de 44 px
-   de haut (regle du site), y compris dans le corps de texte et les credits photo. */
-.dlc-note a,.dlc-id dd a,.dlc-prog p a:not(.btn),.dlc-cross a,.dlc-block p a:not(.btn)
+"""
+      # liens hors bouton : rendus inline-block pour garantir une cible tactile de 44 px
+      # de haut (regle du site), y compris dans le corps de texte et les credits photo.
+      """.dlc-note a,.dlc-id dd a,.dlc-prog p a:not(.btn),.dlc-cross a,.dlc-block p a:not(.btn)
   {display:inline-block;padding:11px 0}
 .dlc-fig figcaption a{font-size:15px;display:inline-block;padding:12px 0;
   text-decoration:underline;text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
-/* ===== CARROUSELS THEMATIQUES (14/08/2026) =================================
-   Demande de David : « pour que l'organisation de toutes ces images soient
-   digestes tu peux faire des carrousels par thematique aussi ». La page portait
-   35 figures sur 34 800 px : les images empilees sont regroupees en quatre
-   pistes a defilement horizontal, par theme.
-
-   ⚠️⚠️ PIEGE DEJA RENCONTRE SUR CE SITE — LE MECANISME EST REPRIS TEL QUEL DE
-   /rituals, NE RIEN « SIMPLIFIER » ICI :
-   `loading="lazy"` sur une diapositive la fait s'effondrer a ~2 px, parce que
-   sous 900 px le CSS met largeur ET hauteur a `auto` et qu'une image pas encore
-   chargee n'a alors aucune dimension intrinseque. Le remede, en trois pieces
-   solidaires :
-     (1) chaque `.slide` RESERVE sa largeur a partir de son rapport `--ar`
-         (largeur/hauteur), pose en style inline par `slide()` ;
-     (2) `.slide img` porte `aspect-ratio:var(--ar)` : la hauteur suit ;
-     (3) les TROIS PREMIERES diapositives de chaque carrousel sont en `eager`.
-   Toute modification doit etre suivie d'une MESURE de la largeur rendue reelle
-   des diapositives. Reference du site : 307 px au minimum (/rituals, trio).
-
-   ⚠️ `--maxw` : borne par diapositive, calculee par `slide()` a partir de la
-   PLUS GRANDE VARIANTE disponible divisee par 2 (densite 2), et plafonnee a
-   700 px. C'est ce qui garantit qu'aucune image n'est affichee au-dela de son
-   natif — deux photos de la page n'existent qu'en 900 px de large.
-   ⚠️ PAS DE DEFILEMENT AUTOMATIQUE, volontairement : quatre minuteurs sur une
-   page de programmateur, ce serait quatre choses qui bougent pendant qu'il lit.
-   Les fleches, le doigt, la molette et les touches ← → suffisent. */
-.dlc-car{margin-top:28px;max-width:1028px}
+"""
+      # ===== CARROUSELS THEMATIQUES (14/08/2026) =================================
+      # Demande de David : « pour que l'organisation de toutes ces images soient
+      # digestes tu peux faire des carrousels par thematique aussi ». La page portait
+      # 35 figures sur 34 800 px : les images empilees sont regroupees en quatre
+      # pistes a defilement horizontal, par theme.
+      #
+      # ⚠️⚠️ PIEGE DEJA RENCONTRE SUR CE SITE — LE MECANISME EST REPRIS TEL QUEL DE
+      # /rituals, NE RIEN « SIMPLIFIER » ICI :
+      # `loading="lazy"` sur une diapositive la fait s'effondrer a ~2 px, parce que
+      # sous 900 px le CSS met largeur ET hauteur a `auto` et qu'une image pas encore
+      # chargee n'a alors aucune dimension intrinseque. Le remede, en trois pieces
+      # solidaires :
+      #   (1) chaque `.slide` RESERVE sa largeur a partir de son rapport `--ar`
+      #       (largeur/hauteur), pose en style inline par `slide()` ;
+      #   (2) `.slide img` porte `aspect-ratio:var(--ar)` : la hauteur suit ;
+      #   (3) les TROIS PREMIERES diapositives de chaque carrousel sont en `eager`.
+      # Toute modification doit etre suivie d'une MESURE de la largeur rendue reelle
+      # des diapositives. Reference du site : 307 px au minimum (/rituals, trio).
+      #
+      # ⚠️ `--maxw` : borne par diapositive, calculee par `slide()` a partir de la
+      # PLUS GRANDE VARIANTE disponible divisee par 2 (densite 2), et plafonnee a
+      # 700 px. C'est ce qui garantit qu'aucune image n'est affichee au-dela de son
+      # natif — deux photos de la page n'existent qu'en 900 px de large.
+      # ⚠️ PAS DE DEFILEMENT AUTOMATIQUE, volontairement : quatre minuteurs sur une
+      # page de programmateur, ce serait quatre choses qui bougent pendant qu'il lit.
+      # Les fleches, le doigt, la molette et les touches ← → suffisent.
+      """.dlc-car{margin-top:28px;max-width:1028px}
 .car-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .car-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(21px,2.4vw,26px);
   color:#fff;font-weight:600;line-height:1.2;margin:0}
 .car-count{color:var(--muted);font-size:13.5px;font-style:italic;margin-top:4px}
 .car-nav{display:flex;gap:8px;flex:0 0 auto}
-/* Les fleches sont DANS l'en-tete du carrousel et non en surimpression sur les
-   images : elles ne recouvrent donc aucune legende, et elles restent visibles
-   sur mobile (sur /rituals elles disparaissent sous 600 px). 44 px = cible
-   tactile du site. */
-.car-btn{width:44px;height:44px;border-radius:50%;background:rgba(25,27,61,.92);
+"""
+      # Les fleches sont DANS l'en-tete du carrousel et non en surimpression sur les
+      # images : elles ne recouvrent donc aucune legende, et elles restent visibles
+      # sur mobile (sur /rituals elles disparaissent sous 600 px). 44 px = cible
+      # tactile du site.
+      """.car-btn{width:44px;height:44px;border-radius:50%;background:rgba(25,27,61,.92);
   border:1px solid var(--line);color:var(--gold2);font-size:20px;line-height:1;cursor:pointer;
   display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s,opacity .2s}
 .car-btn:hover:not(:disabled){border-color:rgba(216,178,90,.6);color:#fff}
@@ -2234,12 +2264,13 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh),dd a:not(.btn):not(.adh){font-s
   scrollbar-color:var(--line) transparent}
 .car-track::-webkit-scrollbar{height:8px}
 .car-track::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
-/* ⚠️ PLANCHER DE 300 px : sans lui, la photo de Pamiers (ratio 0,474 — la plus
-   verticale du site) tombait a 218 px de large et sa legende devenait une
-   colonne de trois mots. Reference du site : les diapositives de /rituals et
-   /rituals-trio ne descendent pas sous 307 px. Le plancher reste SUBORDONNE a
-   90vw / 86vw : il ne peut donc jamais faire deborder la page. */
-.slide{flex:0 0 auto;scroll-snap-align:center;margin:0;display:flex;flex-direction:column;
+"""
+      # ⚠️ PLANCHER DE 300 px : sans lui, la photo de Pamiers (ratio 0,474 — la plus
+      # verticale du site) tombait a 218 px de large et sa legende devenait une
+      # colonne de trois mots. Reference du site : les diapositives de /rituals et
+      # /rituals-trio ne descendent pas sous 307 px. Le plancher reste SUBORDONNE a
+      # 90vw / 86vw : il ne peut donc jamais faire deborder la page.
+      """.slide{flex:0 0 auto;scroll-snap-align:center;margin:0;display:flex;flex-direction:column;
   border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card);
   width:min(max(300px,calc(460px * var(--ar,1.5))),90vw,var(--maxw,700px))}
 .slide picture{display:block;width:100%}
@@ -2256,7 +2287,7 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh),dd a:not(.btn):not(.adh){font-s
   .slide{width:100%!important;margin:0 0 16px}
   .slide img{aspect-ratio:auto}
 }
-""" + LIGHTBOX_CSS + carte_parcours.CSS_CARTE
+""") + LIGHTBOX_CSS + carte_parcours.CSS_CARTE
 
 
 # --------------------------------------------------------------------------
@@ -2285,39 +2316,47 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh),dd a:not(.btn):not(.adh){font-s
 #    face a la pastille pleine — la distinction qu'elle sert a faire.
 # ⚠️ LE CARROUSEL N'EST PAS TOUCHE : ni la largeur des diapos, ni `--ar`, ni le
 #    `eager` des premieres. Seul le rayon de leurs coins change.
-CSS_CHALEUR = """/* ===== David Lesage en concert : declinaisons chaleureuses ===== */
-.dlc-top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
+CSS_CHALEUR = (# ===== David Lesage en concert : declinaisons chaleureuses =====
+              """.dlc-top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
 .dlc-h{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* les grands chiffres du bandeau de reperes, et les annees de la chronologie */
-.dlc-stats b,.dlc-chrono dt{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* filets de cote : le trait or plein de 2 px devient le degrade vertical */
-.dlc-quote{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
+"""
+              # les grands chiffres du bandeau de reperes, et les annees de la chronologie
+              """.dlc-stats b,.dlc-chrono dt{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+"""
+              # filets de cote : le trait or plein de 2 px devient le degrade vertical
+              """.dlc-quote{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
 .dlc-note,.dlc-card,.dlc-refs li,.dlc-presse li{border-left-width:3px;border-left-color:transparent;border-radius:18px;background-image:var(--grad-v),linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
 /* filets de tete */
 .dlc-grid li,.dlc-conf{border-top-width:3px;border-top-color:transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
 .dlc-conf.reco{border-top-color:transparent}
-/* la pastille pleine passe au degrade chaud ; « .alt » reste fantome */
-.dlc-tag{background:var(--grad-warm);color:#1b1206}
+"""
+              # la pastille pleine passe au degrade chaud ; « .alt » reste fantome
+              """.dlc-tag{background:var(--grad-warm);color:#1b1206}
 /* puces : rond dore plein -> losange au degrade chaud */
 .dlc-list li::before{width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);top:15px;left:1px}
-/* La prune revient en accent de TEXTE (--plum2, 7,3:1 sur --card).
-   ⚠️ `li>span` et pas `li span` : la pastille `.pico` (le petit ▸ qui signale
-   « ce titre s'ecoute ») est un <span> DESCENDANT, dans le <button> du titre.
-   Avec `li span` elle virait au prune elle aussi et perdait son role. */
-.dlc-card .sub,.dlc-card li>span:not(.rep-t):not(.pico){color:var(--plum2)}
+"""
+              # La prune revient en accent de TEXTE (--plum2, 7,3:1 sur --card).
+              # ⚠️ `li>span` et pas `li span` : la pastille `.pico` (le petit ▸ qui signale
+              # « ce titre s'ecoute ») est un <span> DESCENDANT, dans le <button> du titre.
+              # Avec `li span` elle virait au prune elle aussi et perdait son role.
+              """.dlc-card .sub,.dlc-card li>span:not(.rep-t):not(.pico){color:var(--plum2)}
 .dlc-lieux li span,.toc a::before{color:var(--plum2)}
-/* les pastilles de citation : un fond chaud tres dilue au lieu d'un aplat dore */
-.dlc-cites li{background:linear-gradient(100deg,rgba(216,178,90,.10),rgba(238,128,98,.08) 62%,rgba(179,143,245,.09));border-color:rgba(248,210,116,.3)}
-/* le petit rond du repertoire prend le degrade au survol au lieu de l'or plein */
-.dlc-card li button.rep-t:hover .pico,.dlc-card li button.rep-t:focus-visible .pico{background:var(--grad-warm);border-color:transparent}
+"""
+              # les pastilles de citation : un fond chaud tres dilue au lieu d'un aplat dore
+              """.dlc-cites li{background:linear-gradient(100deg,rgba(216,178,90,.10),rgba(238,128,98,.08) 62%,rgba(179,143,245,.09));border-color:rgba(248,210,116,.3)}
+"""
+              # le petit rond du repertoire prend le degrade au survol au lieu de l'or plein
+              """.dlc-card li button.rep-t:hover .pico,.dlc-card li button.rep-t:focus-visible .pico{background:var(--grad-warm);border-color:transparent}
 /* les deux filets qui encadrent le bandeau de reperes */
 .dlc-stats{border-top-color:transparent;border-bottom-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent),linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0,0 100%}
-/* arrondis genereux — la LARGEUR des diapos n'est pas touchee */
-.dlc-fig,.dlc-more,.dlc-tw,.dlc-cross{border-radius:18px}
-.slide{border-radius:16px}
-/* le bouton « retour en haut » : un halo chaud, pas un aplat */
-.totop{border-color:rgba(248,210,116,.34);box-shadow:0 10px 26px -14px rgba(238,128,98,.5)}
 """
+              # arrondis genereux — la LARGEUR des diapos n'est pas touchee
+              """.dlc-fig,.dlc-more,.dlc-tw,.dlc-cross{border-radius:18px}
+.slide{border-radius:16px}
+"""
+              # le bouton « retour en haut » : un halo chaud, pas un aplat
+              """.totop{border-color:rgba(248,210,116,.34);box-shadow:0 10px 26px -14px rgba(238,128,98,.5)}
+""")
 
 CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
 

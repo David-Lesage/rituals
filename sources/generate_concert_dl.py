@@ -240,9 +240,10 @@ def video_button(key, vid, alt, label, sub, sizes):
 # avec role="dialog" et aria-modal="true" ; (3) title de l'iframe = le vrai titre
 # de la video. La classe d'ouverture est « open » — la meme dans le CSS et dans
 # le JS (verifie : aucune incoherence .on/.open a reproduire).
-LIGHTBOX_CSS = """
-/* ===== Lecteur video en surimpression (la video reste SUR le site) ===== */
-.lb{position:fixed;inset:0;background:rgba(6,7,18,.92);display:none;align-items:center;justify-content:center;z-index:1200;padding:24px}
+LIGHTBOX_CSS = ("""
+"""
+               # ===== Lecteur video en surimpression (la video reste SUR le site) =====
+               """.lb{position:fixed;inset:0;background:rgba(6,7,18,.92);display:none;align-items:center;justify-content:center;z-index:1200;padding:24px}
 .lb.open{display:flex}
 .lb-box{position:relative;width:min(980px,100%)}
 .lb-frame{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000}
@@ -251,7 +252,7 @@ LIGHTBOX_CSS = """
 .yt-fallback{display:block;text-align:center;color:var(--gold2);font-size:13px;margin-top:12px;text-decoration:underline}
 body.lb-open{overflow:hidden}
 @media print{.lb{display:none!important}}
-"""
+""")
 
 # Le lecteur sert TOUS les declencheurs de la page (vignettes
 #          ET titres du repertoire) : son titre doit rester generique.
@@ -594,7 +595,7 @@ TOC = [
 # ⚠️ Les regles voisines `[href="/#association"]` et `[href="/#prestations"]` sont
 #    des vestiges du meme menu, mais leurs ancres existent toujours sur l'accueil :
 #    elles ne declenchent rien et ne sont PAS touchees ici.
-CSS = """
+CSS = ("""
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -611,21 +612,23 @@ p.body{max-width:820px;color:#d7d4ea;margin-top:16px}
 b{color:#fff;font-weight:500}
 .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);max-width:1080px;margin:0 auto}
 /* nav */
-/* Cibles tactiles : les liens de la barre sont en inline-flex + min-height 44px,
-   et le padding vertical du .nav est ramene a 8px pour que la barre garde la
-   meme hauteur qu'ailleurs sur le site (8 + 44 + 8 = 60px). */
-.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:8px 26px;background:rgba(14,15,36,.6);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.05)}
+"""
+      # Cibles tactiles : les liens de la barre sont en inline-flex + min-height 44px,
+      # et le padding vertical du .nav est ramene a 8px pour que la barre garde la
+      # meme hauteur qu'ailleurs sur le site (8 + 44 + 8 = 60px).
+      """.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:8px 26px;background:rgba(14,15,36,.6);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.05)}
 .nav .brand{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;letter-spacing:.12em;color:#fff;text-transform:uppercase;display:inline-flex;align-items:center;min-height:44px}
 .nav .links{display:flex;align-items:center;gap:19px;font-size:13.5px;letter-spacing:.04em}
 .nav .links a{color:var(--muted);transition:color .2s;display:inline-flex;align-items:center;min-height:44px}
 .nav .links a:hover{color:var(--gold2)}
 .nav .adh{color:#1a1608!important;background:var(--gold);padding:0 17px;border-radius:30px;font-weight:600}
 @media(max-width:760px){.nav .links a:not(.adh){display:none}}
-/* La barre porte 10 entrees : on resserre entre 861 et 1080 px (sous 861 px =
-   hamburger). On ne descend jamais sous 13 px (plancher typographique du site) :
-   dans la bande la plus etroite on masque « Statuts » puis « L'association »,
-   qui restent joignables depuis le pied de page et l'accueil. */
-@media(min-width:861px) and (max-width:1080px){.nav{padding:8px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:0 14px}}
+"""
+      # La barre porte 10 entrees : on resserre entre 861 et 1080 px (sous 861 px =
+      # hamburger). On ne descend jamais sous 13 px (plancher typographique du site) :
+      # dans la bande la plus etroite on masque « Statuts » puis « L'association »,
+      # qui restent joignables depuis le pied de page et l'accueil.
+      """@media(min-width:861px) and (max-width:1080px){.nav{padding:8px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:0 14px}}
 @media(min-width:861px) and (max-width:980px){.nav .links a[href="/#association"]{display:none}}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 28px;border-radius:40px;font-size:16px;min-height:48px;transition:transform .2s,box-shadow .2s}
@@ -644,13 +647,15 @@ b{color:#fff;font-weight:500}
 .cdl-fig figcaption{color:var(--muted);font-size:13.5px;line-height:1.55;padding:12px 16px 14px;border-top:1px solid rgba(255,255,255,.06)}
 .cdl-hero-fig{margin-top:34px}
 .cdl-wide{max-width:820px;margin-top:26px}
-/* photo verticale (768x1344) : bornee, sinon elle mangerait tout l'ecran en pile */
-.cdl-portrait{max-width:420px}
-/* largeur intermediaire : pour une photo dont la plus grande variante est 900 px.
-   Bornee a 500 px, ce qui garantit qu'un ecran a haute densite ne l'affiche
-   JAMAIS au-dela de son natif : 500x2 = 1000 device px, sous les 1024 px natifs.
-   A 820 px (.cdl-wide) elle serait molle. Ne pas remonter cette valeur. */
-.cdl-mid{max-width:500px;margin-top:26px}
+"""
+      # photo verticale (768x1344) : bornee, sinon elle mangerait tout l'ecran en pile
+      """.cdl-portrait{max-width:420px}
+"""
+      # largeur intermediaire : pour une photo dont la plus grande variante est 900 px.
+      # Bornee a 500 px, ce qui garantit qu'un ecran a haute densite ne l'affiche
+      # JAMAIS au-dela de son natif : 500x2 = 1000 device px, sous les 1024 px natifs.
+      # A 820 px (.cdl-wide) elle serait molle. Ne pas remonter cette valeur.
+      """.cdl-mid{max-width:500px;margin-top:26px}
 .cdl-quote{margin:34px 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(21px,3vw,28px);line-height:1.35;border-left:2px solid var(--gold);padding-left:22px;max-width:760px}
 .cdl-note{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:19px 22px;margin-top:24px;max-width:820px}
 .cdl-note p{color:#d7d4ea;font-size:15.5px;margin:0;line-height:1.7;max-width:none}
@@ -668,15 +673,16 @@ b{color:#fff;font-weight:500}
 .cdl-card li{color:#d7d4ea;font-size:15.5px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);line-height:1.5}
 .cdl-card li:last-child{border-bottom:0}
 .cdl-card li span{color:var(--gold2);display:block;font-size:13.5px;letter-spacing:.04em}
-/* ===== Titres du repertoire ecoutables SUR la page =====
-   Un titre relie devient un <button class="ytlink"> : le gestionnaire delegue
-   deja en place (.ytlink + data-yt) ouvre le lecteur en surimpression. Jamais
-   de lien sortant ici. Les titres sans video gardent EXACTEMENT le meme style
-   via .rep-t : seule l'icone ▸ distingue ce qui s'ecoute.
-   .rep-t doit surcharger `.cdl-card li span` (qui met le sous-titre en dore) :
-   la specificite d'une classe l'emporte sur celle d'un element, donc OK.
-   Hauteur de rangee = 7 + 30 + 7 = 44 px : cible tactile respectee. */
-.cdl-card li .rep-t{display:flex;align-items:center;gap:9px;width:100%;min-height:30px;
+"""
+      # ===== Titres du repertoire ecoutables SUR la page =====
+      # Un titre relie devient un <button class="ytlink"> : le gestionnaire delegue
+      # deja en place (.ytlink + data-yt) ouvre le lecteur en surimpression. Jamais
+      # de lien sortant ici. Les titres sans video gardent EXACTEMENT le meme style
+      # via .rep-t : seule l'icone ▸ distingue ce qui s'ecoute.
+      # .rep-t doit surcharger `.cdl-card li span` (qui met le sous-titre en dore) :
+      # la specificite d'une classe l'emporte sur celle d'un element, donc OK.
+      # Hauteur de rangee = 7 + 30 + 7 = 44 px : cible tactile respectee.
+      """.cdl-card li .rep-t{display:flex;align-items:center;gap:9px;width:100%;min-height:30px;
   color:#d7d4ea;font-family:inherit;font-size:15.5px;letter-spacing:normal;line-height:1.5;
   background:none;border:0;padding:0;margin:0;text-align:left}
 .cdl-card li button.rep-t{cursor:pointer;transition:color .18s}
@@ -687,24 +693,27 @@ b{color:#fff;font-weight:500}
   transition:background .18s,color .18s,border-color .18s}
 .cdl-card li button.rep-t:hover .pico,.cdl-card li button.rep-t:focus-visible .pico{
   background:var(--gold);border-color:var(--gold);color:#1a1608}
-/* `.cdl-block p{color:#d7d4ea}` (0,1,1) battait `.rep-hint` (0,1,0) : la mention
-   restait couleur de corps de texte. Selecteur prefixe -> (0,2,0), il gagne. */
-.cdl-block .rep-hint{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+"""
+      # `.cdl-block p{color:#d7d4ea}` (0,1,1) battait `.rep-hint` (0,1,0) : la mention
+      # restait couleur de corps de texte. Selecteur prefixe -> (0,2,0), il gagne.
+      """.cdl-block .rep-hint{display:flex;align-items:center;gap:8px;flex-wrap:wrap;
   color:var(--gold2);font-size:14.5px;font-style:italic;margin-top:14px}
 /* citations du dossier */
 .cdl-cites{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;max-width:880px;list-style:none}
 .cdl-cites li{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:17.5px;line-height:1.4;background:rgba(216,178,90,.08);border:1px solid var(--line);border-radius:30px;padding:8px 20px}
-/* ===== Boire l'eau du concert =====
-   Section volontairement PLAIN (pas .band) pour ne pas casser l'alternance
-   band / non-band des sections suivantes : elle prend a la place un halo bleu
-   qui lui est propre. Encadree de deux .divider comme les autres. */
-.cdl-water{background:radial-gradient(760px 500px at 86% 4%,rgba(70,132,214,.17),transparent 64%),radial-gradient(620px 420px at 4% 98%,rgba(147,116,226,.11),transparent 62%)}
+"""
+      # ===== Boire l'eau du concert =====
+      # Section volontairement PLAIN (pas .band) pour ne pas casser l'alternance
+      # band / non-band des sections suivantes : elle prend a la place un halo bleu
+      # qui lui est propre. Encadree de deux .divider comme les autres.
+      """.cdl-water{background:radial-gradient(760px 500px at 86% 4%,rgba(70,132,214,.17),transparent 64%),radial-gradient(620px 420px at 4% 98%,rgba(147,116,226,.11),transparent 62%)}
 .cdl-duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:30px;max-width:820px;align-items:start}
-/* ===== Vignette video : BOUTON qui ouvre le lecteur DANS LA PAGE =====
-   La source ne fait que 480 px de large : on ne l'agrandit JAMAIS au-dela.
-   C'est un <button> (et non plus un lien) : on remet donc a plat les styles
-   par defaut du navigateur, sinon il herite d'un fond gris et d'un cadre. */
-.cdl-video{display:block;max-width:480px;width:100%;margin-top:26px;background:none;border:0;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+"""
+      # ===== Vignette video : BOUTON qui ouvre le lecteur DANS LA PAGE =====
+      # La source ne fait que 480 px de large : on ne l'agrandit JAMAIS au-dela.
+      # C'est un <button> (et non plus un lien) : on remet donc a plat les styles
+      # par defaut du navigateur, sinon il herite d'un fond gris et d'un cadre.
+      """.cdl-video{display:block;max-width:480px;width:100%;margin-top:26px;background:none;border:0;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
 .cdl-video figure{margin:0}
 .cdl-video .shot{display:block;position:relative;line-height:0}
 .cdl-video .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(11,12,30,.72);border:1px solid rgba(248,210,116,.62);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
@@ -714,12 +723,13 @@ b{color:#fff;font-weight:500}
 .cdl-video .vlabel{color:var(--gold2);font-size:16px;text-decoration:underline;text-decoration-color:rgba(216,178,90,.42);text-underline-offset:3px}
 .cdl-video:hover .vlabel{color:#fff}
 .cdl-video .vsub{color:var(--muted);font-size:13.5px}
-/* ===== Logo d'artiste de David Lesage (ajout du 13/08/2026) ================
-   ⚠️ Logo de L'ARTISTE, pas de l'association : il identifie David Lesage en
-   tete de la section qui parle de lui. Il ne remplace RIEN dans la barre de
-   navigation et n'est pas le logo du site. Natif 2578x1943 reduit a 900 px,
-   plafonne a 280 px d'affichage : jamais agrandi au-dela du natif. */
-.cdl-logo{margin:22px 0 0;max-width:280px}
+"""
+      # ===== Logo d'artiste de David Lesage (ajout du 13/08/2026) ================
+      # ⚠️ Logo de L'ARTISTE, pas de l'association : il identifie David Lesage en
+      # tete de la section qui parle de lui. Il ne remplace RIEN dans la barre de
+      # navigation et n'est pas le logo du site. Natif 2578x1943 reduit a 900 px,
+      # plafonne a 280 px d'affichage : jamais agrandi au-dela du natif.
+      """.cdl-logo{margin:22px 0 0;max-width:280px}
 .cdl-logo img{display:block;width:100%;height:auto}
 /* scenes */
 .cdl-scenes{list-style:none;margin-top:24px;max-width:820px;display:grid;gap:2px}
@@ -757,44 +767,51 @@ footer a:hover{color:var(--gold2)}
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
 .legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:13px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:60px 0}}
-/* --- lisibilite des liens (regle du site : liens >= 15 px et soulignes) ---
-   Ce bloc doit rester EN DERNIER : il surcharge les tailles ci-dessus. */
+"""
+      # --- lisibilite des liens (regle du site : liens >= 15 px et soulignes) ---
+      # Ce bloc doit rester EN DERNIER : il surcharge les tailles ci-dessus.
+      """/* --- lisibilite des liens --- */
 footer p,footer a{font-size:16px}
 footer a{padding:13px 0}
 footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.35);
   text-underline-offset:3px}
 .nav .links a{font-size:15px}
 .nav .links a.adh{font-size:15px}
-/* ce bloc final est plus specifique que le resserrement 861-1080 px plus haut :
-   on y redonne donc explicitement le 13px de la bande etroite (plancher typo). */
-@media(min-width:861px) and (max-width:1080px){.nav .links a{font-size:13px}}
+"""
+      # ce bloc final est plus specifique que le resserrement 861-1080 px plus haut :
+      # on y redonne donc explicitement le 13px de la bande etroite (plancher typo).
+      """@media(min-width:861px) and (max-width:1080px){.nav .links a{font-size:13px}}
 p a:not(.btn):not(.adh),li a:not(.btn):not(.adh){font-size:inherit;text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 .cdl-note a{display:inline-block;padding:11px 0}
-/* meme traitement pour le lien en ligne de la section « acoustique » :
-   17px * 1.75 = 29.75 -> 24px de boite + 2 x 11 = 46 px, cible respectee. */
-#acoustique p a{display:inline-block;padding:11px 0}
-/* meme traitement pour le lien partenaire de la section « eau » : cible >= 44 px
-   (17px * 1.75 = 29.75 + 2 x 11 = 51.75). */
-.cdl-water p a{display:inline-block;padding:11px 0}
-/* ===== bloc « Ecouter · Soutenir » (plateformes + boutique de l'association) ==
-   Volontairement SOBRE : trois boutons fantomes, pas trois pavos dores — ce ne
-   sont pas les appels a l'action principaux de la page (« Reserver ma place » ;
-   trois boutons dores auraient concurrence le seul qui compte ici)
-   le reste). Sous 560 px les boutons passent en pleine largeur pour rester
-   confortablement cliquables. */
-.cdl-listen{margin-top:36px;max-width:820px;border-top:1px solid var(--line);padding-top:26px}
+"""
+      # meme traitement pour le lien en ligne de la section « acoustique » :
+      # 17px * 1.75 = 29.75 -> 24px de boite + 2 x 11 = 46 px, cible respectee.
+      """#acoustique p a{display:inline-block;padding:11px 0}
+"""
+      # meme traitement pour le lien partenaire de la section « eau » : cible >= 44 px
+      # (17px * 1.75 = 29.75 + 2 x 11 = 51.75).
+      """.cdl-water p a{display:inline-block;padding:11px 0}
+"""
+      # ===== bloc « Ecouter · Soutenir » (plateformes + boutique de l'association) ==
+      # Volontairement SOBRE : trois boutons fantomes, pas trois pavos dores — ce ne
+      # sont pas les appels a l'action principaux de la page (« Reserver ma place » ;
+      # trois boutons dores auraient concurrence le seul qui compte ici)
+      # le reste). Sous 560 px les boutons passent en pleine largeur pour rester
+      # confortablement cliquables.
+      """.cdl-listen{margin-top:36px;max-width:820px;border-top:1px solid var(--line);padding-top:26px}
 .cdl-listen p{max-width:none;font-size:16px}
 .cdl-listen .cta{margin-top:20px}
 .cdl-listen .btn{font-size:15px;padding:12px 22px}
 @media(max-width:560px){.cdl-listen .btn{width:100%}}
-/* ===== Grille de vignettes live (chaque vignette ouvre le lecteur DANS la page)
-   Les vignettes sont natives en 1280x720 : la grille plafonne les colonnes bien
-   en dessous, on ne les agrandit donc jamais au-dela de leur resolution.
-   .lvc est un <button> : on remet a plat les styles par defaut du navigateur.
-   Hauteur cliquable = vignette (>= 135 px) + libelle : cible tactile largement
-   au-dela de 44 px. */
-.lvg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;margin-top:24px;max-width:1028px}
+"""
+      # ===== Grille de vignettes live (chaque vignette ouvre le lecteur DANS la page)
+      # Les vignettes sont natives en 1280x720 : la grille plafonne les colonnes bien
+      # en dessous, on ne les agrandit donc jamais au-dela de leur resolution.
+      # .lvc est un <button> : on remet a plat les styles par defaut du navigateur.
+      # Hauteur cliquable = vignette (>= 135 px) + libelle : cible tactile largement
+      # au-dela de 44 px.
+      """.lvg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;margin-top:24px;max-width:1028px}
 .lvc{display:flex;flex-direction:column;gap:0;background:var(--card);border:1px solid var(--line);
   border-radius:14px;overflow:hidden;padding:0;color:inherit;font:inherit;text-align:left;
   cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s}
@@ -815,11 +832,12 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh){font-size:inherit;text-decorati
 .lv-set:first-of-type{margin-top:0}
 .lv-set h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;color:#fff;font-weight:600;line-height:1.15}
 .lv-set .lv-src{color:var(--muted);font-size:14px;font-style:italic;margin-top:4px}
-/* ===== Lecteur Spotify differé (cree au clic, jamais au chargement) ===== */
-.spf{margin-top:24px;max-width:820px}
+"""
+      # ===== Lecteur Spotify differé (cree au clic, jamais au chargement) =====
+      """.spf{margin-top:24px;max-width:820px}
 .spf iframe{display:block;width:100%;border:0;border-radius:12px;background:var(--card)}
 .cdl-block .spf-note{color:var(--muted);font-size:14px;font-style:italic;margin-top:12px;max-width:640px}
-""" + LIGHTBOX_CSS
+""") + LIGHTBOX_CSS
 
 
 # --------------------------------------------------------------------------
@@ -845,34 +863,41 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh){font-size:inherit;text-decorati
 #    `--plum` (#8f7ad1) est a 4,64:1 sur `--card`, tout juste au seuil. Ici
 #    elle prend les sous-titres du repertoire et les numeros du sommaire —
 #    deux endroits ou elle repond a l'or sans lui disputer la page.
-CSS_CHALEUR = """/* ===== Concerts de David Lesage : declinaisons chaleureuses ===== */
-.cdl-top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
+CSS_CHALEUR = (# ===== Concerts de David Lesage : declinaisons chaleureuses =====
+              """.cdl-top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
 .cdl-h{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* filets de cote : le trait or plein de 2 px devient le degrade signature */
-.cdl-quote,.cdl-note,.cdl-card{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
-/* `.cdl-note` et `.cdl-card` ont un fond plein (`--card`) : le degrade doit se
-   poser PAR-DESSUS, d'ou les deux couches (le filet d'abord, le fond ensuite). */
-.cdl-note,.cdl-card{background-image:var(--grad-v),linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%,100% 100%;background-repeat:no-repeat,no-repeat,no-repeat;background-position:0 0,0 0,0 0;border-radius:18px}
-/* la carte de date : filet de tete au degrade, coins plus genereux */
-.cdl-date{border-top-width:3px;border-top-color:transparent;background-image:var(--grad),linear-gradient(160deg,rgba(216,178,90,.12),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat,no-repeat;background-position:0 0,0 0;background-origin:border-box,padding-box;border-radius:18px}
+"""
+              # filets de cote : le trait or plein de 2 px devient le degrade signature
+              """.cdl-quote,.cdl-note,.cdl-card{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
+"""
+              # `.cdl-note` et `.cdl-card` ont un fond plein (`--card`) : le degrade doit se
+              # poser PAR-DESSUS, d'ou les deux couches (le filet d'abord, le fond ensuite).
+              """.cdl-note,.cdl-card{background-image:var(--grad-v),linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%,100% 100%;background-repeat:no-repeat,no-repeat,no-repeat;background-position:0 0,0 0,0 0;border-radius:18px}
+"""
+              # la carte de date : filet de tete au degrade, coins plus genereux
+              """.cdl-date{border-top-width:3px;border-top-color:transparent;background-image:var(--grad),linear-gradient(160deg,rgba(216,178,90,.12),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat,no-repeat;background-position:0 0,0 0;background-origin:border-box,padding-box;border-radius:18px}
 /* arrondis genereux, memes valeurs que sur /guso-facile */
 .cdl-fig,.lvc,.spf iframe{border-radius:18px}
 .cdl-video .shot img{border-radius:14px}
-/* La prune revient en accent de TEXTE (--plum2, 7,3:1 sur --card).
-   ⚠️ `li>span` et pas `li span` : la pastille `.pico` (le petit ▸) est un
-   <span> DESCENDANT, place dans le <button> du titre. Avec `li span` elle
-   virait au prune elle aussi, alors qu'elle doit rester doree — c'est le
-   reperage de « ce titre s'ecoute ». Le sous-titre d'artiste, lui, est bien un
-   enfant DIRECT du <li>. `:not(.rep-t)` ecarte le titre sans video. */
-.cdl-card .sub,.cdl-card li>span:not(.rep-t):not(.pico){color:var(--plum2)}
-.toc a::before{color:var(--plum2)}
-/* les pastilles de citation : un fond chaud degrade plutot qu'un aplat dore */
-.cdl-cites li{background:linear-gradient(100deg,rgba(216,178,90,.10),rgba(238,128,98,.08) 62%,rgba(179,143,245,.09));border-color:rgba(248,210,116,.3)}
-/* le petit rond du repertoire prend le degrade au survol au lieu de l'or plein */
-.cdl-card li button.rep-t:hover .pico,.cdl-card li button.rep-t:focus-visible .pico{background:var(--grad-warm);border-color:transparent}
-/* le bouton « retour en haut » : un halo chaud, pas un aplat */
-.totop{border-color:rgba(248,210,116,.34);box-shadow:0 10px 26px -14px rgba(238,128,98,.5)}
 """
+              # La prune revient en accent de TEXTE (--plum2, 7,3:1 sur --card).
+              # ⚠️ `li>span` et pas `li span` : la pastille `.pico` (le petit ▸) est un
+              # <span> DESCENDANT, place dans le <button> du titre. Avec `li span` elle
+              # virait au prune elle aussi, alors qu'elle doit rester doree — c'est le
+              # reperage de « ce titre s'ecoute ». Le sous-titre d'artiste, lui, est bien un
+              # enfant DIRECT du <li>. `:not(.rep-t)` ecarte le titre sans video.
+              """.cdl-card .sub,.cdl-card li>span:not(.rep-t):not(.pico){color:var(--plum2)}
+.toc a::before{color:var(--plum2)}
+"""
+              # les pastilles de citation : un fond chaud degrade plutot qu'un aplat dore
+              """.cdl-cites li{background:linear-gradient(100deg,rgba(216,178,90,.10),rgba(238,128,98,.08) 62%,rgba(179,143,245,.09));border-color:rgba(248,210,116,.3)}
+"""
+              # le petit rond du repertoire prend le degrade au survol au lieu de l'or plein
+              """.cdl-card li button.rep-t:hover .pico,.cdl-card li button.rep-t:focus-visible .pico{background:var(--grad-warm);border-color:transparent}
+"""
+              # le bouton « retour en haut » : un halo chaud, pas un aplat
+              """.totop{border-color:rgba(248,210,116,.34);box-shadow:0 10px 26px -14px rgba(238,128,98,.5)}
+""")
 
 CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
 

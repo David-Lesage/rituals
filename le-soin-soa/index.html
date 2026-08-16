@@ -40,9 +40,6 @@ b{color:#fff;font-weight:500}
 .nav .links a:hover{color:var(--gold2)}
 .nav .adh{color:#1a1608!important;background:var(--gold);padding:8px 16px;border-radius:30px;font-weight:600}
 @media(max-width:760px){.nav .links a:not(.adh){display:none}}
-/* 9 entrees de menu : on resserre entre 861 et 1080 px (sous 861 px = hamburger).
-   On ne descend jamais sous 13 px (plancher typographique du site) : dans la bande
-   la plus etroite on masque plutot « Statuts », qui reste dans le pied de page. */
 @media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 26px;border-radius:40px;font-size:15px;transition:transform .2s,box-shadow .2s}
@@ -68,9 +65,6 @@ b{color:#fff;font-weight:500}
 .soa-who h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;color:#fff;font-weight:600;margin:6px 0 2px}
 .soa-who .role{color:var(--gold2);font-size:13.5px;font-style:italic;margin-bottom:9px}
 .soa-who p{color:var(--muted);font-size:15px;margin:0}
-/* Les intervenants : une LIGNE par personne (mise en page d'origine, preferee par
-   David) — portrait carre a gauche, nom en dore + intitule de role + statut, puis
-   la bio. Empilement portrait au-dessus du texte sous 620 px. */
 .soa-team{display:grid;gap:18px;margin-top:30px}
 .soa-line{display:flex;gap:24px;align-items:flex-start;background:var(--card);border:1px solid rgba(255,255,255,.06);border-left:2px solid var(--gold);border-radius:14px;padding:22px 24px}
 .who-ph{display:block;flex:0 0 auto;width:150px;height:150px;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.38);background:var(--night2)}
@@ -82,24 +76,15 @@ b{color:#fff;font-weight:500}
 .who-txt p{color:#d7d4ea;font-size:15.5px;margin:12px 0 0}
 @media(max-width:620px){.soa-line{flex-direction:column;gap:16px;padding:20px}
   .who-ph{width:140px;height:140px}}
-/* figure large dans le fil du texte (meme colonne que les paragraphes) */
 .soa-wide{max-width:820px;margin-top:26px}
-/* ===== Hero : l'affiche sur fond NOIR PUR =====================================
-   Le visuel hero-soa-* a ses 4 coins en #000 : la section de hero est donc en
-   #000 elle aussi et l'affiche n'a NI cadre NI arrondi NI fond de carte, sinon
-   la couture redevient visible. Le raccord vers le bleu nuit du reste de la page
-   se fait par .hero-fade juste apres le </header>. */
 .hero-black{background:#000}
 .hero-black .soa-hero{grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:40px;align-items:center;margin-top:26px}
 .hero-poster{border:0;border-radius:0;background:transparent;overflow:visible}
 .hero-poster img{width:100%;height:auto}
 .hero-fade{height:130px;background:linear-gradient(180deg,#000,var(--night))}
 @media(max-width:860px){.hero-black .soa-hero{grid-template-columns:1fr;gap:28px}
-  /* en mobile l'affiche passe AU-DESSUS du texte : c'est elle le hero */
   .hero-black .soa-hero>div{order:2}.hero-poster{order:1}}
 @media(max-width:700px){
-  /* pleine largeur : on annule les 26 px de .wrap pour gagner en lisibilite
-     (le fond de l'affiche etant noir, le raccord reste invisible) */
   .hero-poster{width:calc(100% + 52px);max-width:none;margin-left:-26px;margin-right:-26px}}
 /* encadres de cadrage (statut de l'evenement, limites) */
 .soa-note{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:19px 22px;margin-top:22px;max-width:820px}
@@ -150,8 +135,7 @@ footer a:hover{color:var(--gold2)}
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
 .legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:13px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:60px 0}}
-/* --- lisibilite des liens (demande de David : liens et dates trop petits) ---
-   Ce bloc doit rester EN DERNIER : il surcharge les tailles ci-dessus. */
+/* --- lisibilite des liens --- */
 .jo a{font-size:15px;display:inline-block;padding:6px 0;text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px}
 .jo a:hover{text-decoration-color:var(--gold2)}
@@ -164,22 +148,12 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 p a:not(.btn):not(.adh){text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 
-/* ===== couche chaleureuse commune (sources/theme_chaleur.py) =============
-   Le degrade signature de /guso-facile, propage a tout le site. Par touches :
-   filets, sur-titres, puces, bouton. Jamais en aplat de fond. */
-/* surfaces etagees : fond -> carte = x3,30 de luminance (x2,36 avant) */
 :root{--night2:#161839;--card:#1e214a;
 /* accents plus vifs — l'or primaire ne bouge pas */
 --gold2:#f8d274;--plum:#9374e2;--coral:#ee8062;--plum2:#b38ff5;
 --grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
 --grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral));
-/* meme degrade, axe VERTICAL : pour les filets de 3 px places sur le cote
-   d'une carte. Avec `--grad` (95deg) un filet haut de 200 px et large de 3
-   affiche le degrade de biais — mesure a l'ecran, c'est du hasard, pas un
-   choix. `--grad-v` le fait courir franchement de haut en bas. */
 --grad-v:linear-gradient(180deg,var(--gold2),var(--gold) 30%,var(--coral) 66%,var(--plum2))}
-/* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice ».
-   position:fixed + inset:0 -> aucun risque de debordement horizontal. */
 body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(238,128,98,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(147,116,226,.12),transparent 62%)}
 /* texte peint au degrade (titres, sur-titres) */
 .grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
@@ -187,15 +161,12 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
 .divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent)}
 .kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* boutons : le principal porte le degrade chaud, le fantome un filet dore */
 .btn{border-radius:999px}
 .btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
 .btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
 .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(248,210,116,.3);color:var(--gold2)}
 .btn.ghost:hover{border-color:rgba(248,210,116,.55)}
-/* contraste du pied de page : 3,8:1 -> 5,96:1 sur #08091a (seuil 4,5:1) */
 .legal{color:#8b8ba6}
-/* a l'impression, un texte peint au degrade sort blanc : on le rend a l'or */
 @media print{.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
 /* les pictogrammes en ligne (voir ICONES plus bas) */
 .ic{width:23px;height:23px;display:block;flex:0 0 auto}
@@ -204,12 +175,10 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 section{padding:92px 0}
 .soa-top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
 .soa-h{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* cartes a filet gauche : le trait or plein devient le degrade signature */
 .soa-who,.soa-line,.soa-note{position:relative;overflow:hidden;border-left-color:transparent;border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
 .soa-who::before,.soa-line::before,.soa-note::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:var(--grad-v)}
 .soa-quote{position:relative;border-left-color:transparent}
 .soa-quote::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;border-radius:2px;background:var(--grad-v)}
-/* cartes sans filet : le degrade passe en tete, comme sur /guso-facile */
 .soa-day,.soa-price{position:relative;overflow:hidden;border-radius:18px}
 .soa-day::before,.soa-price::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .soa-day{box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
@@ -218,9 +187,7 @@ section{padding:92px 0}
 /* puces : rond dore plein -> losange au degrade chaud */
 .soa-list li::before{width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);top:18px;left:3px}
 .soa-list.no li::before{background:none;border:1.5px solid var(--plum2);width:8px;height:8px;border-radius:2px}
-/* la prune revient en accent de texte (--plum2 : 7,3:1 sur --card) */
 .soa-who .role,.who-txt .role{color:var(--plum2)}
-/* le sommaire : deux filets degrades a la place des deux traits dores */
 .toc{border-top-color:transparent;border-bottom-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent),linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0,0 100%}
 .toc a::before{color:var(--coral)}
 @media(max-width:760px){section{padding:66px 0}}
@@ -242,24 +209,18 @@ section{padding:92px 0}
     transition:opacity .3s,transform .3s,visibility .3s;
     overflow-y:auto}
   .nav .links.open{opacity:1;visibility:visible;transform:none}
-  /* on annule les regles qui masquaient les liens en mobile */
   .nav .links a,.nav .links a.hide-s,.nav .links a:not(.adh){display:block !important;
     font-size:21px !important;letter-spacing:.06em;padding:14px 18px;text-align:center;
     font-family:'Cormorant Garamond',Georgia,serif;color:#eae7f3 !important;width:100%;max-width:340px}
   .nav .links a:active{color:var(--gold2) !important}
   .nav .links a.adh{margin-top:18px;background:var(--gold);color:#1a1608 !important;
     border-radius:30px;font-family:'Jost',sans-serif;font-size:16px !important;padding:14px 30px;width:auto}
-  /* .nav porte un backdrop-filter : il devient le bloc conteneur des descendants
-     position:fixed ET un contexte d'empilement -> le panneau restait enferme dans la
-     barre et passait sous le contenu. On neutralise le filtre et on remonte le nav
-     uniquement quand le menu est ouvert. */
   body.nav-open .nav{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;z-index:1001 !important}
   body.nav-open{overflow:hidden}
 }
 @media print{.burger{display:none}}
 
 /* == nav_menu.py (resonances-4) == */
-/* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .nav .links>a[aria-current="page"]{border-bottom:1px solid rgba(216,178,90,.62);padding-bottom:2px}
@@ -296,16 +257,13 @@ section{padding:92px 0}
   .nav .links .nm-sub a:hover,.nav .links .nm-sub a:focus-visible{
     background:rgba(216,178,90,.15);color:var(--gold2)}
   .nav .links .nm-sub a[aria-current="page"]{color:var(--gold2);background:rgba(216,178,90,.10)}
-  /* zone tampon : le survol ne doit pas casser entre le parent et le panneau */
   .nm-item.nm-open::after{content:'';position:absolute;top:100%;left:-30px;right:-30px;height:8px}
-  /* bouton Adherer : 4 des 7 pages n'avaient pas de regle .nav .adh */
   .nav .links a.adh{color:#1a1608 !important;background:var(--gold);
     padding:8px 16px;border-radius:30px;font-weight:600;font-size:15px;
     font-family:'Jost',system-ui,-apple-system,sans-serif;white-space:nowrap;
     border-bottom:0;min-height:0}
   .nav .links a.adh:hover,.nav .links a.adh:focus-visible{background:var(--gold2)}
 }
-/* barre serree quand la place manque (le nom de l'association ne doit jamais etre touche) */
 @media(min-width:861px) and (max-width:1120px){
   .nav{padding-left:18px;padding-right:18px}
   .nav .brand{white-space:nowrap;font-size:16px}
@@ -317,10 +275,7 @@ section{padding:92px 0}
   .nav .links a:not(.adh),.nm-top{font-size:14px}
   .nav .brand{font-size:14px;letter-spacing:.1em}
 }
-/* ---- mobile : les sous-menus deviennent des accordeons ---- */
 @media(max-width:860px){
-  /* flex-wrap:nowrap est INDISPENSABLE : le panneau est en flex-direction:column,
-     autoriser le retour a la ligne le decoupe en 2-3 COLONNES au lieu de defiler. */
   .nav .links{flex-wrap:nowrap !important;justify-content:flex-start !important}
   .nav .links>:first-child{margin-top:auto}
   .nav .links>:last-child{margin-bottom:auto}

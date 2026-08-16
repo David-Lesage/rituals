@@ -308,7 +308,7 @@ with open(SOURCE, 'r', encoding='utf-8') as f:
     html = f.read()
 
 # ------------------------------------------------------------------------- CSS
-CSS_ADD = """
+CSS_ADD = ("""
 .nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:16px 26px;background:rgba(14,15,36,.82);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
 .nav .brand{font-family:'Cormorant Garamond',serif;letter-spacing:.14em;text-transform:uppercase;font-size:13.5px;color:#fff;text-decoration:none}
 .nav .brand:hover{color:var(--gold2)}
@@ -337,23 +337,26 @@ CSS_ADD = """
 @media(max-width:900px){.slide img{height:auto;width:auto;max-width:86vw;max-height:62vh}}
 @media(max-width:600px){.aphoto{float:none;width:62%;display:block;margin:0 auto 16px}.car-btn{display:none}}
 
-/* ===== IMAGES LOCALES RESPONSIVES (WebP + repli JPEG) =====
-   <picture> ne doit rien changer a la mise en page : il se comporte comme un bloc
-   transparent et l'<img> garde exactement les regles CSS d'origine. */
-picture{display:block}
-/* Les attributs width/height valent aussi comme indication de style : sans
-   height:auto explicite, la hauteur en attribut s'appliquerait comme une
-   longueur CSS et deformerait l'image (cas des .figure, du teaser, etc.). */
-picture>img{height:auto}
+"""
+          # ===== IMAGES LOCALES RESPONSIVES (WebP + repli JPEG) =====
+          # <picture> ne doit rien changer a la mise en page : il se comporte comme un bloc
+          # transparent et l'<img> garde exactement les regles CSS d'origine.
+          """picture{display:block}
+"""
+          # Les attributs width/height valent aussi comme indication de style : sans
+          # height:auto explicite, la hauteur en attribut s'appliquerait comme une
+          # longueur CSS et deformerait l'image (cas des .figure, du teaser, etc.).
+          """picture>img{height:auto}
 picture.aphoto{overflow:hidden}
 picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
 
-/* Le carrousel : chaque diapo RESERVE sa largeur a partir de son rapport
-   largeur/hauteur (--ar). Sans cela, loading="lazy" ferait s'effondrer les
-   diapos non encore chargees a ~1 px et le defilement serait casse.
-   La geometrie reste celle d'avant : hauteur 460 px en grand ecran, et sur
-   petit ecran l'image tient dans 86vw x 62vh. */
-.slide{width:min(calc(460px * var(--ar,1.5)),90vw)}
+"""
+          # Le carrousel : chaque diapo RESERVE sa largeur a partir de son rapport
+          # largeur/hauteur (--ar). Sans cela, loading="lazy" ferait s'effondrer les
+          # diapos non encore chargees a ~1 px et le defilement serait casse.
+          # La geometrie reste celle d'avant : hauteur 460 px en grand ecran, et sur
+          # petit ecran l'image tient dans 86vw x 62vh.
+          """.slide{width:min(calc(460px * var(--ar,1.5)),90vw)}
 .slide picture{width:100%}
 .slide img{height:auto;width:100%;max-width:100%;aspect-ratio:var(--ar,1.5)}
 @media(max-width:900px){
@@ -361,7 +364,7 @@ picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
   .slide img{height:auto;width:100%;max-width:100%;max-height:none}
 }
 @media print{.slide{width:100%!important}.slide picture{width:100%!important}}
-__BG__""" + theme_chaleur.CSS + theme_chaleur.CSS_RITUALS + """</style>"""
+__BG__""") + theme_chaleur.CSS + theme_chaleur.CSS_RITUALS + """</style>"""
 
 
 def bg_rules(sel, name, vs, grad, pos):
@@ -400,11 +403,11 @@ CSS_ADD = CSS_ADD.replace('__BG__',
 #    focus clavier, la ou il se trouve dans la page publiee.
 ANCRE_FOCUS = (':focus-visible{outline:2px solid var(--gold2);'
                'outline-offset:2px;border-radius:4px}\n')
-CSS_CRED = """/* credit photo sous une figure (signature du photographe visible sur l'image) */
-.cred-fig{margin-top:8px;text-align:center;font-size:15px;color:var(--muted)}
+CSS_CRED = (# credit photo sous une figure (signature du photographe visible sur l'image)
+           """.cred-fig{margin-top:8px;text-align:center;font-size:15px;color:var(--muted)}
 .cred-fig a{color:var(--gold);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px;display:inline-block;padding:11px 0}
 .cred-fig a:hover{color:var(--gold2)}
-"""
+""")
 assert ANCRE_FOCUS in html, 'ancre :focus-visible introuvable'
 if '.cred-fig{' not in html:                       # garde d'idempotence
     html = html.replace(ANCRE_FOCUS, ANCRE_FOCUS + CSS_CRED, 1)
@@ -414,7 +417,12 @@ if '.cred-fig{' not in html:                       # garde d'idempotence
 #    doit l'emporter sur la regle de la barre de navigation posee plus bas, et
 #    les soulignements sur les regles de figure. On le deplace donc en fin de
 #    CSS_ADD — c'est exactement sa position dans la page publiee.
-DEB_LISI = '/* --- lisibilite des liens (demande de David : liens et dates trop petits) --- */'
+# Le libelle a ete RACCOURCI le 16/08/2026 : il est le marqueur cherche par
+# `find()` ci-dessous ET une ancre comptee par les garde-fous, donc il part
+# dans la page livree. Son texte d'origine — « demande de David : liens et
+# dates trop petits » — est la vraie raison d'etre du bloc, et elle est
+# ecrite juste au-dessus. Il doit rester identique a celui de la source.
+DEB_LISI = '/* --- lisibilite des liens --- */'
 FIN_LISI = '  text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}\n'
 d = html.find(DEB_LISI)
 assert d != -1, 'bloc « lisibilite des liens » introuvable dans la source'

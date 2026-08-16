@@ -146,44 +146,50 @@ classes de CHAQUE page et vit dans son generateur, juste apres cet import.
 #: ⚠️ Elle REDEFINIT `--night2`, `--card`, `--gold2` et `--plum` : ces quatre
 #:    variables sont declarees dans le `:root` de chaque generateur, et cette
 #:    couche arrive apres. Une seule ecriture commande donc les 30 pages.
-CSS = """
-/* ===== couche chaleureuse commune (sources/theme_chaleur.py) =============
-   Le degrade signature de /guso-facile, propage a tout le site. Par touches :
-   filets, sur-titres, puces, bouton. Jamais en aplat de fond. */
-/* surfaces etagees : fond -> carte = x3,30 de luminance (x2,36 avant) */
-:root{--night2:#161839;--card:#1e214a;
+CSS = ("""
+"""
+      # ===== couche chaleureuse commune (sources/theme_chaleur.py) =============
+      # Le degrade signature de /guso-facile, propage a tout le site. Par touches :
+      # filets, sur-titres, puces, bouton. Jamais en aplat de fond.
+      # surfaces etagees : fond -> carte = x3,30 de luminance (x2,36 avant)
+      """:root{--night2:#161839;--card:#1e214a;
 /* accents plus vifs — l'or primaire ne bouge pas */
 --gold2:#f8d274;--plum:#9374e2;--coral:#ee8062;--plum2:#b38ff5;
 --grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
 --grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral));
-/* meme degrade, axe VERTICAL : pour les filets de 3 px places sur le cote
-   d'une carte. Avec `--grad` (95deg) un filet haut de 200 px et large de 3
-   affiche le degrade de biais — mesure a l'ecran, c'est du hasard, pas un
-   choix. `--grad-v` le fait courir franchement de haut en bas. */
---grad-v:linear-gradient(180deg,var(--gold2),var(--gold) 30%,var(--coral) 66%,var(--plum2))}
-/* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice ».
-   position:fixed + inset:0 -> aucun risque de debordement horizontal. */
-body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(238,128,98,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(147,116,226,.12),transparent 62%)}
+"""
+      # meme degrade, axe VERTICAL : pour les filets de 3 px places sur le cote
+      # d'une carte. Avec `--grad` (95deg) un filet haut de 200 px et large de 3
+      # affiche le degrade de biais — mesure a l'ecran, c'est du hasard, pas un
+      # choix. `--grad-v` le fait courir franchement de haut en bas.
+      """--grad-v:linear-gradient(180deg,var(--gold2),var(--gold) 30%,var(--coral) 66%,var(--plum2))}
+"""
+      # trois lueurs fixes : c'est ce qui enleve le fond « noir de notice ».
+      # position:fixed + inset:0 -> aucun risque de debordement horizontal.
+      """body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(238,128,98,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(147,116,226,.12),transparent 62%)}
 /* texte peint au degrade (titres, sur-titres) */
 .grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 /* soulignement degrade de 2 px sous un mot-cle */
 .mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
 .divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent)}
 .kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* boutons : le principal porte le degrade chaud, le fantome un filet dore */
-.btn{border-radius:999px}
+"""
+      # boutons : le principal porte le degrade chaud, le fantome un filet dore
+      """.btn{border-radius:999px}
 .btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
 .btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
 .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(248,210,116,.3);color:var(--gold2)}
 .btn.ghost:hover{border-color:rgba(248,210,116,.55)}
-/* contraste du pied de page : 3,8:1 -> 5,96:1 sur #08091a (seuil 4,5:1) */
-.legal{color:#8b8ba6}
-/* a l'impression, un texte peint au degrade sort blanc : on le rend a l'or */
-@media print{.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
+"""
+      # contraste du pied de page : 3,8:1 -> 5,96:1 sur #08091a (seuil 4,5:1)
+      """.legal{color:#8b8ba6}
+"""
+      # a l'impression, un texte peint au degrade sort blanc : on le rend a l'or
+      """@media print{.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
 /* les pictogrammes en ligne (voir ICONES plus bas) */
 .ic{width:23px;height:23px;display:block;flex:0 0 auto}
 .tc-defs{position:absolute;width:0;height:0;overflow:hidden}
-"""
+""")
 
 
 # =========================================================================
@@ -210,35 +216,43 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 # ⚠️ LE CARROUSEL N'EST PAS TOUCHE : ni la largeur des diapos, ni `--ar`, ni le
 #    `eager` des trois premieres. Seul le rayon de leurs coins change. Le
 #    remede contre l'effondrement a 2 px doit rester intact.
-CSS_RITUALS = """/* ===== RITUALS : declinaisons chaleureuses (15/08/2026) =====
-   Communes a /rituals et /rituals-trio — ecrites UNE fois, dans
-   sources/theme_chaleur.py, pour que les deux pages jumelles ne divergent pas. */
-.hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
+CSS_RITUALS = (# ===== RITUALS : declinaisons chaleureuses (15/08/2026) =====
+              # Communes a /rituals et /rituals-trio — ecrites UNE fois, dans
+              # sources/theme_chaleur.py, pour que les deux pages jumelles ne divergent pas.
+              """.hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
 .step .t,.spec .k{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* les cartes numerotees : filet de tete au degrade + chiffre peint */
-.card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
+"""
+              # les cartes numerotees : filet de tete au degrade + chiffre peint
+              """.card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
 .card:hover{border-color:transparent}
 .card .n{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* le fil du parcours : le trait vertical dore devient le degrade, et la pastille
-   de chaque etape passe au degrade chaud */
-.steps{border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:2px 100%;background-position:0 0;background-origin:border-box}
-.step:before{background:var(--grad-warm);box-shadow:0 0 0 5px rgba(238,128,98,.14)}
-/* citations : le trait or plein de 3 px devient le degrade vertical */
-.q{border-left-color:transparent;border-radius:14px;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
-/* les deux cartes « se programme en / s'inscrit dans » : filet de tete */
-.scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
-/* la prune revient en accent de TEXTE (--plum2 : 8,6:1 sur --night) */
-.artist .role{color:var(--plum2)}
-/* le filet qui separe les artistes, et ceux de la fiche technique */
-.artist,.spec div{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.42),rgba(238,128,98,.42) 55%,rgba(179,143,245,.38));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
-/* les deux boutons dores PLEINS qui ne portent pas la classe .btn : la couche
-   commune ne les atteint pas, il faut les nommer */
-.dlbtn,.car-play{background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
-.dlbtn:hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
-/* arrondis genereux — la LARGEUR des diapos n'est pas touchee */
-.figure,.aphoto,picture.aphoto,.ask .item,.third,.tbl-wrap,.lb-frame{border-radius:18px}
-.slide{border-radius:16px}
 """
+              # le fil du parcours : le trait vertical dore devient le degrade, et la pastille
+              # de chaque etape passe au degrade chaud
+              """.steps{border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:2px 100%;background-position:0 0;background-origin:border-box}
+.step:before{background:var(--grad-warm);box-shadow:0 0 0 5px rgba(238,128,98,.14)}
+"""
+              # citations : le trait or plein de 3 px devient le degrade vertical
+              """.q{border-left-color:transparent;border-radius:14px;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
+"""
+              # les deux cartes « se programme en / s'inscrit dans » : filet de tete
+              """.scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
+"""
+              # la prune revient en accent de TEXTE (--plum2 : 8,6:1 sur --night)
+              """.artist .role{color:var(--plum2)}
+"""
+              # le filet qui separe les artistes, et ceux de la fiche technique
+              """.artist,.spec div{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.42),rgba(238,128,98,.42) 55%,rgba(179,143,245,.38));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+"""
+              # les deux boutons dores PLEINS qui ne portent pas la classe .btn : la couche
+              # commune ne les atteint pas, il faut les nommer
+              """.dlbtn,.car-play{background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
+.dlbtn:hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
+"""
+              # arrondis genereux — la LARGEUR des diapos n'est pas touchee
+              """.figure,.aphoto,picture.aphoto,.ask .item,.third,.tbl-wrap,.lb-frame{border-radius:18px}
+.slide{border-radius:16px}
+""")
 
 
 # =========================================================================

@@ -68,7 +68,7 @@ OUT_HTML = os.path.join(OUT_DIR, 'index.html')
 # --------------------------------------------------------------------------- #
 
 GABARIT = (
-"""<!DOCTYPE html>
+("""<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
@@ -101,24 +101,27 @@ a{color:var(--gold2)}
 .nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:11px 26px;background:rgba(14,15,36,.82);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
 .nav .brand{font-family:'Cormorant Garamond',serif;letter-spacing:.16em;text-transform:uppercase;font-size:15px;color:#fff;text-decoration:none;display:inline-block;padding:10px 0}
 .nav .links{display:flex;gap:20px;align-items:center}
-/* liens plus grands + zone tactile ~44 px + soulignement discret qui montre
-   qu'ils sont cliquables */
-.nav .links a{color:#cfcbe6;text-decoration:none;font-size:15.5px;display:inline-block;padding:9px 2px;
+"""
+# liens plus grands + zone tactile ~44 px + soulignement discret qui montre
+# qu'ils sont cliquables
+""".nav .links a{color:#cfcbe6;text-decoration:none;font-size:15.5px;display:inline-block;padding:9px 2px;
   border-bottom:1px solid rgba(216,178,90,.28)}
 .nav .links a:hover{color:var(--gold2);border-bottom-color:var(--gold2)}
 @media(max-width:700px){.nav .links a.hide-s{display:none}}
 
-/* HERO — banniere graphique officielle affichee EN ENTIER (contain, pas cover).
-   La bannière porte deja le titre, le sous-titre et les noms : on ne la met donc
-   pas en fond derriere le texte (titre en double + illisible), et son format
-   1640x624 (2,63:1) serait massacre par un recadrage en cover sur mobile. */
-.hero{display:block;text-align:center;padding:92px 0 58px;position:relative;overflow:hidden;
+"""
+# HERO — banniere graphique officielle affichee EN ENTIER (contain, pas cover).
+# La bannière porte deja le titre, le sous-titre et les noms : on ne la met donc
+# pas en fond derriere le texte (titre en double + illisible), et son format
+# 1640x624 (2,63:1) serait massacre par un recadrage en cover sur mobile.
+""".hero{display:block;text-align:center;padding:92px 0 58px;position:relative;overflow:hidden;
   background:radial-gradient(900px 460px at 50% 4%,rgba(147,116,226,.16),transparent 64%),var(--night)}
 .hero .banner{width:100%;max-width:1640px;margin:0 auto}
 .hero .banner img{width:100%;height:auto;display:block}
 .hero .inner{position:relative;z-index:2;padding:34px 24px 0}
-/* texte accessible mais masque visuellement (le visuel le porte deja) */
-.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+"""
+# texte accessible mais masque visuellement (le visuel le porte deja)
+""".sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
   clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 .hero .kick{color:var(--gold2)}
 .hero h1{font-size:clamp(56px,15vw,150px);font-weight:600;letter-spacing:.07em;color:#fff;line-height:.92;text-shadow:0 8px 50px rgba(0,0,0,.55)}
@@ -163,10 +166,11 @@ a{color:var(--gold2)}
 .gal-grid{margin-top:40px;columns:2;column-gap:18px}
 .gal-item{break-inside:avoid;margin-bottom:18px;position:relative;border-radius:13px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
 .gal-item img{width:100%;height:auto;display:block}
-/* .gal-ph = le cadre de la PHOTO seule. C'est lui qui porte position:relative,
-   pour que la legende .c se cale en bas de l'image et non en bas de tout
-   l'element : la bande de credit qui suit reste ainsi visible et cliquable. */
-.gal-ph{position:relative;display:block}
+"""
+# .gal-ph = le cadre de la PHOTO seule. C'est lui qui porte position:relative,
+# pour que la legende .c se cale en bas de l'image et non en bas de tout
+# l'element : la bande de credit qui suit reste ainsi visible et cliquable.
+""".gal-ph{position:relative;display:block}
 .gal-item .cred{display:block;font-size:14.5px;color:var(--muted);padding:3px 12px 4px;text-align:center;
   background:rgba(0,0,0,.34);font-style:normal;position:relative;z-index:1}
 .gal-item .cred a{display:inline-block;padding:10px 4px;font-size:15px;font-weight:500;color:var(--gold2);
@@ -191,15 +195,17 @@ a{color:var(--gold2)}
 /* focus clavier visible (accessibilite) */
 :focus-visible{outline:2px solid var(--gold2);outline-offset:2px;border-radius:4px}
 footer{background:#08091a;padding:72px 0 60px;text-align:center;border-top:1px solid var(--line)}
-/* zone tactile confortable (~44px) sur les liens du pied de page */
-footer a{display:inline-block;padding:13px 0;line-height:1.3}
+"""
+# zone tactile confortable (~44px) sur les liens du pied de page
+"""footer a{display:inline-block;padding:13px 0;line-height:1.3}
 footer a.btn,footer a.adh{padding:14px 30px}
 footer h2{font-size:38px;color:#fff;font-weight:600}
 .contacts{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 44px;margin-top:26px}
 .contacts .c b{color:var(--gold2);display:block;font-size:18px;font-family:'Cormorant Garamond',serif;font-weight:600}
 .contacts .c span{color:var(--muted);font-size:16px;display:block}
-/* coordonnees cliquables : plus grandes et clairement soulignees */
-.contacts .c span a{font-size:16.5px;font-weight:500;color:var(--gold2);text-decoration:underline;
+"""
+# coordonnees cliquables : plus grandes et clairement soulignees
+""".contacts .c span a{font-size:16.5px;font-weight:500;color:var(--gold2);text-decoration:underline;
   text-decoration-thickness:1px;text-underline-offset:4px}
 .contacts .c span a:hover{color:#fff}
 .sign{margin-top:40px;color:var(--muted);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:17px}
@@ -222,25 +228,29 @@ footer h2{font-size:38px;color:#fff;font-weight:600}
 .lb-close{position:absolute;top:-48px;right:0;background:none;border:none;color:#fff;font-size:34px;line-height:1;cursor:pointer}
 .yt-fallback{display:block;text-align:center;color:var(--gold2);font-size:15.5px;margin-top:10px;padding:10px 0;text-decoration:underline;text-underline-offset:4px}
 
-/* ===== IMAGES LOCALES RESPONSIVES (WebP + repli JPEG) =====
-   <picture> ne doit rien changer a la mise en page : il se comporte comme un bloc
-   transparent et l'<img> garde exactement les regles CSS d'origine. */
-picture{display:block}
-/* Les attributs width/height valent aussi comme indication de style : sans
-   height:auto explicite, la hauteur en attribut s'appliquerait comme une
-   longueur CSS et deformerait l'image (cas des .figure, du teaser, etc.). */
-picture>img{height:auto}
+"""
+# ===== IMAGES LOCALES RESPONSIVES (WebP + repli JPEG) =====
+# <picture> ne doit rien changer a la mise en page : il se comporte comme un bloc
+# transparent et l'<img> garde exactement les regles CSS d'origine.
+"""picture{display:block}
+"""
+# Les attributs width/height valent aussi comme indication de style : sans
+# height:auto explicite, la hauteur en attribut s'appliquerait comme une
+# longueur CSS et deformerait l'image (cas des .figure, du teaser, etc.).
+"""picture>img{height:auto}
 picture.aphoto{overflow:hidden}
 picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
-/* L'affiche est pilotee par sa hauteur (max-height:80vh). On reserve donc sa
-   place sur le <picture> a partir de son rapport largeur/hauteur (--ar) :
-   largeur = min(place disponible, 80vh x --ar), exactement la geometrie d'avant.
-   Surtout pas de display:flex ici : l'image serait etiree en hauteur. */
-.affiche picture{width:min(100%,calc(80vh * var(--ar,0.71)));margin:0 auto}
-.affiche picture>img{width:100%;height:auto;max-width:100%;max-height:none}
-/* L'ancienne photo de hero (hero-iris-et-david) n'est plus en fond ici :
-   elle est desormais affichee dans la presentation des artistes, en <picture>. */
 """
+# L'affiche est pilotee par sa hauteur (max-height:80vh). On reserve donc sa
+# place sur le <picture> a partir de son rapport largeur/hauteur (--ar) :
+# largeur = min(place disponible, 80vh x --ar), exactement la geometrie d'avant.
+# Surtout pas de display:flex ici : l'image serait etiree en hauteur.
+""".affiche picture{width:min(100%,calc(80vh * var(--ar,0.71)));margin:0 auto}
+.affiche picture>img{width:100%;height:auto;max-width:100%;max-height:none}
+"""
+# L'ancienne photo de hero (hero-iris-et-david) n'est plus en fond ici :
+# elle est desormais affichee dans la presentation des artistes, en <picture>.
+)
 # --------------------------------------------------------------------------
 # LA COUCHE CHALEUREUSE (refonte du 15/08/2026)
 # --------------------------------------------------------------------------
@@ -259,29 +269,35 @@ picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
 #    `.sec-title` restent blancs, comme sur /le-soin-soa. Ce qui porte le
 #    degrade, ce sont les sur-titres `.kick`, les filets et les puces.
 + theme_chaleur.CSS +
-"""/* ===== E-Motion : declinaisons chaleureuses ===== */
-/* les cartes des cinq elements : filet de tete au degrade, coins plus doux.
-   Le filet est PEINT sur la bordure (background-image cadre sur `border-box`)
-   plutot qu'ajoute en pseudo-element : `.card` s'anime deja au survol
-   (`transform:translateY(-4px)`), un `::before` positionne s'y ajouterait mal,
-   et la boite ne bouge ainsi pas d'un pixel. */
-.card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
+("""/* ===== E-Motion : declinaisons chaleureuses ===== */
+"""
+# les cartes des cinq elements : filet de tete au degrade, coins plus doux.
+# Le filet est PEINT sur la bordure (background-image cadre sur `border-box`)
+# plutot qu'ajoute en pseudo-element : `.card` s'anime deja au survol
+# (`transform:translateY(-4px)`), un `::before` positionne s'y ajouterait mal,
+# et la boite ne bouge ainsi pas d'un pixel.
+""".card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
 .card:hover{border-color:transparent}
 /* le grand chiffre de chaque carte, peint au degrade */
 .card .n{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* citations : le trait or plein de 3 px devient le degrade vertical */
-.q{border-left-color:transparent;border-radius:14px;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
-/* les deux cartes « se programme en / s'inscrit dans » : filet de tete */
-.scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
-/* la prune revient en accent de TEXTE (--plum2 : 7,3:1 sur --card) */
-.artist .role{color:var(--plum2)}
-/* le filet qui separe les deux artistes : degrade, comme le .divider */
-.artist{border-top-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+"""
+# citations : le trait or plein de 3 px devient le degrade vertical
+""".q{border-left-color:transparent;border-radius:14px;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
+"""
+# les deux cartes « se programme en / s'inscrit dans » : filet de tete
+""".scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
+"""
+# la prune revient en accent de TEXTE (--plum2 : 7,3:1 sur --card)
+""".artist .role{color:var(--plum2)}
+"""
+# le filet qui separe les deux artistes : degrade, comme le .divider
+""".artist{border-top-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
 /* arrondis genereux, memes valeurs que sur /guso-facile */
 .figure,.tz,.affiche img,.aphoto,picture.aphoto,.gal-item,.lb-frame{border-radius:18px}
-/* la pastille de lecture du teaser : degrade chaud au lieu de l'or plein */
-.tz .play{background:var(--grad-warm)}
 """
+# la pastille de lecture du teaser : degrade chaud au lieu de l'or plein
+""".tz .play{background:var(--grad-warm)}
+""")
 + """
 </style>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">

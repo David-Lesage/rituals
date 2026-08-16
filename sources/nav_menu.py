@@ -186,9 +186,10 @@ PAGE_KEYS = (['home'] + [k for _, _, k in SCENE] + [k for _, _, k in NID]
              + [k for _, _, k in ASSO if k])
 
 
-CSS = CSS_MARK + """
-/* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
-.nav .links{flex-wrap:nowrap}
+CSS = CSS_MARK + ("""
+"""
+                 # ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » =====
+                 """.nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .nav .links>a[aria-current="page"]{border-bottom:1px solid rgba(216,178,90,.62);padding-bottom:2px}
 @media(min-width:861px){.nav .links a:not(.adh),.nm-top{font-size:15px}}
@@ -224,17 +225,20 @@ CSS = CSS_MARK + """
   .nav .links .nm-sub a:hover,.nav .links .nm-sub a:focus-visible{
     background:rgba(216,178,90,.15);color:var(--gold2)}
   .nav .links .nm-sub a[aria-current="page"]{color:var(--gold2);background:rgba(216,178,90,.10)}
-  /* zone tampon : le survol ne doit pas casser entre le parent et le panneau */
-  .nm-item.nm-open::after{content:'';position:absolute;top:100%;left:-30px;right:-30px;height:8px}
-  /* bouton Adherer : 4 des 7 pages n'avaient pas de regle .nav .adh */
-  .nav .links a.adh{color:#1a1608 !important;background:var(--gold);
+"""
+                 # zone tampon : le survol ne doit pas casser entre le parent et le panneau
+                 """  .nm-item.nm-open::after{content:'';position:absolute;top:100%;left:-30px;right:-30px;height:8px}
+"""
+                 # bouton Adherer : 4 des 7 pages n'avaient pas de regle .nav .adh
+                 """  .nav .links a.adh{color:#1a1608 !important;background:var(--gold);
     padding:8px 16px;border-radius:30px;font-weight:600;font-size:15px;
     font-family:'Jost',system-ui,-apple-system,sans-serif;white-space:nowrap;
     border-bottom:0;min-height:0}
   .nav .links a.adh:hover,.nav .links a.adh:focus-visible{background:var(--gold2)}
 }
-/* barre serree quand la place manque (le nom de l'association ne doit jamais etre touche) */
-@media(min-width:861px) and (max-width:1120px){
+"""
+                 # barre serree quand la place manque (le nom de l'association ne doit jamais etre touche)
+                 """@media(min-width:861px) and (max-width:1120px){
   .nav{padding-left:18px;padding-right:18px}
   .nav .brand{white-space:nowrap;font-size:16px}
   .nav .links{gap:13px}
@@ -245,11 +249,13 @@ CSS = CSS_MARK + """
   .nav .links a:not(.adh),.nm-top{font-size:14px}
   .nav .brand{font-size:14px;letter-spacing:.1em}
 }
-/* ---- mobile : les sous-menus deviennent des accordeons ---- */
-@media(max-width:860px){
-  /* flex-wrap:nowrap est INDISPENSABLE : le panneau est en flex-direction:column,
-     autoriser le retour a la ligne le decoupe en 2-3 COLONNES au lieu de defiler. */
-  .nav .links{flex-wrap:nowrap !important;justify-content:flex-start !important}
+"""
+                 # ---- mobile : les sous-menus deviennent des accordeons ----
+                 """@media(max-width:860px){
+"""
+                 # flex-wrap:nowrap est INDISPENSABLE : le panneau est en flex-direction:column,
+                 # autoriser le retour a la ligne le decoupe en 2-3 COLONNES au lieu de defiler.
+                 """  .nav .links{flex-wrap:nowrap !important;justify-content:flex-start !important}
   .nav .links>:first-child{margin-top:auto}
   .nav .links>:last-child{margin-bottom:auto}
   .nm-item{display:block;width:100%;max-width:340px;position:static;padding:0;margin:0}
@@ -271,7 +277,7 @@ CSS = CSS_MARK + """
   .nav .links .nm-sub a:active{background:rgba(216,178,90,.14)}
 }
 @media print{.nm-sub{display:none}}
-""" + CSS_END + "\n"
+""") + CSS_END + "\n"
 
 
 JS = JS_MARK + """

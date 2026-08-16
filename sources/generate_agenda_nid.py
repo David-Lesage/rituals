@@ -53,6 +53,26 @@ import urllib.parse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
+# --------------------------------------------------------------------------- #
+# NOTES RAPATRIEES DE `lenid_source.html` (16/08/2026)
+# ---------------------------------------------------
+# Elles y vivaient en commentaires CSS, donc dans la page livree, lisibles par
+# « afficher le code source ». La source HTML n'accepte pas de commentaire `#` :
+# leur place est ici, en face du fichier qu'elles expliquent. Ne pas les
+# remettre dans `lenid_source.html`.
+#
+# `.blocs` — BLOCS ILLUSTRES DES PROPOSITIONS (pleine largeur, entre programme
+#   et agenda). Un seul systeme pour les trois blocs : colonne large (photo
+#   principale + titre et legende) + colonne etroite (photo(s) secondaire(s)).
+#   Variante `--solo` pour une proposition qui n'a qu'une photo : texte a cote,
+#   image jamais agrandie au-dela de sa resolution native. Chaque photo garde
+#   son ratio natif (aucun recadrage).
+#
+# `.bloc picture{width:100%}` — /!\ le `width:100%` est OBLIGATOIRE : des marges
+#   auto sur un enfant de grille annulent le `stretch` -> la <picture> passerait
+#   en fit-content et s'effondrerait a quelques pixels tant que l'image n'est
+#   pas decodee (meme piege que les slides des carrousels).
+# --------------------------------------------------------------------------- #
 #: la source versionnee, jamais modifiee par ce script
 SOURCE = os.path.join(HERE, 'lenid_source.html')
 #: la page publiee
@@ -367,7 +387,7 @@ def build():
 # effet visuel, mais les ecrire une seule fois changerait la page de 152 octets.
 # On les reproduit pour que la regeneration soit neutre. A nettoyer un jour avec
 # David, en verifiant la page apres — pas au detour d'une reparation.
-CSS = """
+CSS = ("""
 /* ===== AGENDA DU NID ===== */
 .agenda{background:linear-gradient(180deg,var(--night),#0b0c1e)}
 .ag-legend{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:26px}
@@ -402,8 +422,9 @@ CSS = """
   font-size:31px;font-weight:600;text-transform:capitalize;border-bottom:1px solid var(--line);padding-bottom:10px}
 .ag-list{display:grid;gap:10px}
 .ag-anchor{display:block;height:0;scroll-margin-top:90px}
-/* --- filtres : masques sans JS (tout reste visible), affiches par .ag-js --- */
-.ag-filters{display:none;flex-direction:column;gap:10px;margin-top:22px}
+"""
+      # --- filtres : masques sans JS (tout reste visible), affiches par .ag-js ---
+      """.ag-filters{display:none;flex-direction:column;gap:10px;margin-top:22px}
 .agenda.ag-js .ag-filters{display:flex}
 .ag-frow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
 .ag-flab{color:var(--gold);font-size:14px;letter-spacing:.16em;text-transform:uppercase;
@@ -455,10 +476,11 @@ CSS = """
 .ag-access span{display:block;color:var(--gold);font-size:13px;letter-spacing:.16em;
   text-transform:uppercase;font-weight:600;margin-bottom:8px}
 .ag-access i{color:var(--muted);font-size:13px}
-/* --- largeurs intermediaires (<=1000 px) : les actions passent sur leur propre
-   ligne pour laisser respirer le titre (sinon la colonne du titre se tasse a
-   ~200 px et chaque intitule casse sur 3 lignes). On empile, on ne rapetissit pas. --- */
-@media(max-width:1000px){
+"""
+      # --- largeurs intermediaires (<=1000 px) : les actions passent sur leur propre
+      # ligne pour laisser respirer le titre (sinon la colonne du titre se tasse a
+      # ~200 px et chaque intitule casse sur 3 lignes). On empile, on ne rapetissit pas. ---
+      """@media(max-width:1000px){
   .ag-item{grid-template-columns:82px minmax(0,1fr) auto}
   .ag-actions{grid-column:1/-1;justify-self:stretch;justify-content:flex-start;margin-top:10px}
 }
@@ -474,7 +496,7 @@ CSS = """
   .ag-d{font-size:34px}
   .ag-month{font-size:27px}
 }
-"""
+""")
 
 ICS_JS = """
 <script>
@@ -574,12 +596,13 @@ FILTER_JS = """
 # CSS DES BLOCS AJOUTES DANS LES CARTES DU PROGRAMME
 # (« prochaines dates » et carte « instruments d'exception »)
 # =========================================================================== #
-CSS_DATES = """.offer-dates{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);color:#d3d0e8;font-size:16px}
+CSS_DATES = (""".offer-dates{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);color:#d3d0e8;font-size:16px}
 .offer-dates span{display:block;color:var(--gold);font-size:14px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:5px}
 .offer-dates a{color:var(--gold2);font-size:16px;font-weight:500;text-decoration:underline;text-underline-offset:4px;
   display:inline-flex;align-items:center;min-height:44px}
-/* carte « instruments d'exception » : pleine largeur, registre premium */
-.offer--rare{grid-column:1/-1;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));
+"""
+            # carte « instruments d'exception » : pleine largeur, registre premium
+            """.offer--rare{grid-column:1/-1;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));
   border-color:rgba(216,178,90,.34)}
 .offer--rare h3{margin-bottom:6px}
 .offer--rare .offer-meta{color:var(--gold2);font-size:14px;font-style:italic;margin:0 0 14px}
@@ -589,7 +612,7 @@ CSS_DATES = """.offer-dates{margin-top:14px;padding-top:12px;border-top:1px soli
 .offer-fine{margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.10);
   color:var(--muted);font-size:13px;line-height:1.65;max-width:78ch}
 .offer-fine b{color:var(--gold2);font-weight:600}
-"""
+""")
 
 
 # =========================================================================== #
@@ -655,36 +678,44 @@ CSS_DATES = """.offer-dates{margin-top:14px;padding-top:12px;border-top:1px soli
 #    Les six types repassent au-dessus du seuil : mensuel 8,65 · concert 6,61 ·
 #    yoga 7,29 · rythme 4,87 · showcase 6,04 · residence 6,66. Un fond neutre
 #    n'est pas un code : aucune information n'est portee par ce gris.
-CSS_CHALEUR = """/* ===== Le Nid : declinaisons chaleureuses ===== */
-/* la liste d'agenda garde la surface sur laquelle son code couleur a ete
-   calibre : `--c` est la couleur de texte des 20 boutons de billetterie */
-.ag-item{background:#191b3d}
-/* le fond du bouton s'assombrit au lieu de s'eclaircir : contraste des 20
-   boutons de billetterie (voir la note du generateur) */
-.ag-btn{background:rgba(0,0,0,.14)}
+CSS_CHALEUR = ("""/* ===== Le Nid : declinaisons chaleureuses ===== */
+"""
+              # la liste d'agenda garde la surface sur laquelle son code couleur a ete
+              # calibre : `--c` est la couleur de texte des 20 boutons de billetterie
+              """.ag-item{background:#191b3d}
+"""
+              # le fond du bouton s'assombrit au lieu de s'eclaircir : contraste des 20
+              # boutons de billetterie (voir la note du generateur)
+              """.ag-btn{background:rgba(0,0,0,.14)}
 .hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
-/* ⚠️ `width:fit-content` ET SURTOUT PAS `display:inline-block` ici. Mesure
-   faite a l'ecran : `.offer-dates span` est un BLOC suivi, dans le meme
-   parent, du texte des dates. Passe en inline-block, l'etiquette venait se
-   coller aux dates — « PROCHAINES DATES6 sept. · 4 octo. ». `fit-content`
-   retrecit la boite au texte (ce dont le degrade a besoin pour balayer les
-   MOTS et non toute la carte) sans toucher au flux. */
-.offer .t,.offer-dates span,.ag-sub-kick,.ag-month{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* cartes du programme : filet de tete au degrade, coins plus genereux */
-.offer{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
+"""
+              # ⚠️ `width:fit-content` ET SURTOUT PAS `display:inline-block` ici. Mesure
+              # faite a l'ecran : `.offer-dates span` est un BLOC suivi, dans le meme
+              # parent, du texte des dates. Passe en inline-block, l'etiquette venait se
+              # coller aux dates — « PROCHAINES DATES6 sept. · 4 octo. ». `fit-content`
+              # retrecit la boite au texte (ce dont le degrade a besoin pour balayer les
+              # MOTS et non toute la carte) sans toucher au flux.
+              """.offer .t,.offer-dates span,.ag-sub-kick,.ag-month{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+"""
+              # cartes du programme : filet de tete au degrade, coins plus genereux
+              """.offer{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
 .offer--rare{background-image:var(--grad),linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));background-size:100% 3px,100% 100%;background-repeat:no-repeat,no-repeat;background-position:0 0,0 0;background-origin:border-box,padding-box}
-/* la prune revient en accent de TEXTE (--plum2 : 7,3:1 sur --card) */
-.offer .who,.offer--rare .offer-meta{color:var(--plum2)}
-/* l'encart d'abonnement au calendrier : il n'est PAS pilote par --c */
-.ag-sub{border-radius:18px;border-color:rgba(248,210,116,.34)}
+"""
+              # la prune revient en accent de TEXTE (--plum2 : 7,3:1 sur --card)
+              """.offer .who,.offer--rare .offer-meta{color:var(--plum2)}
+"""
+              # l'encart d'abonnement au calendrier : il n'est PAS pilote par --c
+              """.ag-sub{border-radius:18px;border-color:rgba(248,210,116,.34)}
 .ag-sub li::before{width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
-/* les deux cartes « se programme en / s'inscrit dans » et l'encart en pointilles */
-.scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
+"""
+              # les deux cartes « se programme en / s'inscrit dans » et l'encart en pointilles
+              """.scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
 .note{border-radius:18px;border-color:rgba(248,210,116,.3)}
 .note b{color:var(--plum2)}
-/* arrondis genereux — `.gal img` etait a 16 px, les autres pages sont a 18 */
-.gal img{border-radius:18px}
 """
+              # arrondis genereux — `.gal img` etait a 16 px, les autres pages sont a 18
+              """.gal img{border-radius:18px}
+""")
 
 
 def dates_courtes(typ, n=3, extra=''):

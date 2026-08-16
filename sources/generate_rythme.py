@@ -163,7 +163,7 @@ MAILTO_CONTACT = 'mailto:contact@resonancesproductions.org'
 #    `#4a4760` donne 7,95:1 et reste dans la famille prune sombre. Le filet du
 #    haut, blanc a 6 %, etait lui aussi invisible sur clair : il passe au noir a
 #    10 %, meme discretion.
-CSS = """
+CSS = ("""
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -190,10 +190,11 @@ b{color:#fff;font-weight:500}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .nav .adh{color:#1a1608!important;background:var(--gold);padding:8px 16px;border-radius:30px;font-weight:600}
 @media(max-width:760px){.nav .links a:not(.adh){display:none}}
-/* 9 entrees de menu : on resserre entre 861 et 1080 px (sous 861 px = hamburger).
-   Jamais sous 13 px (plancher typographique du site) : dans la bande la plus
-   etroite on masque « Prestations », qui reste accessible depuis l'accueil. */
-@media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
+"""
+      # 9 entrees de menu : on resserre entre 861 et 1080 px (sous 861 px = hamburger).
+      # Jamais sous 13 px (plancher typographique du site) : dans la bande la plus
+      # etroite on masque « Prestations », qui reste accessible depuis l'accueil.
+      """@media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
 @media(min-width:861px) and (max-width:1000px){.nav .links a[href="/#prestations"]{display:none}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:15px 26px;border-radius:40px;font-size:16px;min-height:48px;transition:transform .2s,box-shadow .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
@@ -224,9 +225,10 @@ b{color:#fff;font-weight:500}
 .fig{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
 .fig img{display:block;width:100%}
 .fig figcaption{color:var(--muted);font-size:13.5px;line-height:1.55;padding:12px 16px 14px;border-top:1px solid rgba(255,255,255,.06)}
-/* carte claire : sa legende passe en prune sombre, sinon 2,10:1
-   (voir la note du generateur) */
-.fig.on-white{background:#f4f2ee}
+"""
+      # carte claire : sa legende passe en prune sombre, sinon 2,10:1
+      # (voir la note du generateur)
+      """.fig.on-white{background:#f4f2ee}
 .fig.on-white figcaption{color:#4a4760;border-top-color:rgba(0,0,0,.10)}
 @media(max-width:820px){.two{grid-template-columns:1fr;gap:26px}}
 /* fiche pratique */
@@ -252,10 +254,11 @@ b{color:#fff;font-weight:500}
 .appel .letter .sign{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:21px;margin-top:22px}
 .badge{display:inline-flex;align-items:center;gap:9px;background:rgba(216,178,90,.14);border:1px solid var(--line);color:var(--gold2);border-radius:30px;padding:9px 18px;font-size:15px;font-weight:500;margin-bottom:16px}
 @media(max-width:620px){.appel .letter{padding-left:18px}}
-/* bloc « ce qui est deja eprouve » : l'experience d'animation, au service de
-   l'appel a candidature. Aucune classe nouvelle hors du conteneur : le bloc
-   reutilise .h-min, .blk h3, p.body et .lst deja definis plus haut. */
-.appel .xp{max-width:820px;margin-top:46px;padding-top:38px;border-top:1px solid var(--line)}
+"""
+      # bloc « ce qui est deja eprouve » : l'experience d'animation, au service de
+      # l'appel a candidature. Aucune classe nouvelle hors du conteneur : le bloc
+      # reutilise .h-min, .blk h3, p.body et .lst deja definis plus haut.
+      """.appel .xp{max-width:820px;margin-top:46px;padding-top:38px;border-top:1px solid var(--line)}
 .appel .xp h3{margin-top:0}
 /* ===== FORMULAIRE ===== */
 .form{margin-top:36px;max-width:820px;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:28px}
@@ -267,9 +270,10 @@ b{color:#fff;font-weight:500}
 .row .f{margin-top:0}
 .f>label,fieldset>legend{display:block;color:#fff;font-size:15.5px;font-weight:500;margin-bottom:8px;line-height:1.45}
 .f .hint,fieldset .hint{display:block;color:var(--muted);font-size:14px;font-weight:400;margin-top:3px}
-/* variante en ligne : evite qu'un champ de la meme rangee soit decale d'une
-   ligne par rapport a son voisin (Email / Telephone) */
-.f .hint.inl{display:inline;margin-top:0}
+"""
+      # variante en ligne : evite qu'un champ de la meme rangee soit decale d'une
+      # ligne par rapport a son voisin (Email / Telephone)
+      """.f .hint.inl{display:inline;margin-top:0}
 .req{color:var(--gold2)}
 .f input,.f select,.f textarea{width:100%;min-height:48px;background:#101229;color:var(--ink);border:1px solid rgba(216,178,90,.30);border-radius:11px;padding:12px 14px;font-family:inherit;font-size:16px;line-height:1.5}
 .f textarea{min-height:120px;resize:vertical}
@@ -321,8 +325,9 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
 .legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:13px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:60px 0}}
-/* ===== MENU MOBILE (hamburger) — repris de sources/mobile_nav.py ===== */
-.burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
+"""
+      # ===== MENU MOBILE (hamburger) — repris de sources/mobile_nav.py =====
+      """.burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
 .burger span{display:block;width:20px;height:2px;background:var(--gold2);margin:4px auto;border-radius:2px;transition:transform .28s,opacity .2s}
 .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
@@ -344,15 +349,16 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
   .nav .links a:active{color:var(--gold2) !important}
   .nav .links a.adh{margin-top:18px;background:var(--gold);color:#1a1608 !important;
     border-radius:30px;font-family:'Jost',sans-serif;font-size:16px !important;padding:14px 30px;width:auto}
-  /* .nav porte un backdrop-filter : il devient le bloc conteneur des descendants
-     position:fixed ET un contexte d'empilement -> le panneau restait enferme dans
-     la barre et passait sous le contenu. On neutralise le filtre et on remonte le
-     nav uniquement quand le menu est ouvert. NE PAS RETIRER. */
-  body.nav-open .nav{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;z-index:1001 !important}
+"""
+      # .nav porte un backdrop-filter : il devient le bloc conteneur des descendants
+      # position:fixed ET un contexte d'empilement -> le panneau restait enferme dans
+      # la barre et passait sous le contenu. On neutralise le filtre et on remonte le
+      # nav uniquement quand le menu est ouvert. NE PAS RETIRER.
+      """  body.nav-open .nav{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;z-index:1001 !important}
   body.nav-open{overflow:hidden}
 }
 @media print{.burger,.totop{display:none}}
-"""
+""")
 
 
 # --------------------------------------------------------------------------
@@ -373,12 +379,13 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 # ⚠️ `--grad-v` (vertical) pour les filets de COTE, `--grad` (95deg) pour ceux
 #    du HAUT : dans un filet haut de 200 px et large de 3, le degrade a 95deg
 #    tombe de biais.
-CSS_CHALEUR = """/* ===== Rythme & calebasse : declinaisons chaleureuses ===== */
-section{padding:92px 0}
+CSS_CHALEUR = (# ===== Rythme & calebasse : declinaisons chaleureuses =====
+              """section{padding:92px 0}
 .top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
 .h-min{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* filets de cote : le trait or (ou prune) plein devient le degrade signature */
-.note,.quote,.appel .letter{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
+"""
+              # filets de cote : le trait or (ou prune) plein devient le degrade signature
+              """.note,.quote,.appel .letter{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
 .note{border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
 .date{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box;border-radius:18px}
 /* filets de tete */
@@ -386,18 +393,21 @@ section{padding:92px 0}
 .card{border-top-width:3px;border-top-color:transparent;background-image:var(--grad);background-repeat:no-repeat;background-size:100% 3px;background-position:0 0;background-origin:border-box;border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
 /* puces : rond dore plein -> losange au degrade chaud */
 .lst li::before{width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);top:19px;left:3px}
-/* la prune revient en accent de texte (--plum2 : 8,3:1 sur --night) */
-.quote .who{color:var(--plum2)}
-/* le badge de l'appel a candidature : fond chaud, plus un aplat dore */
-.badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(238,128,98,.11));border-color:rgba(248,210,116,.34);border-radius:999px}
-/* les deux icones qui remplacent les emoji (voir theme_chaleur.ICONES) */
-.badge .ic{width:20px;height:20px}
+"""
+              # la prune revient en accent de texte (--plum2 : 8,3:1 sur --night)
+              """.quote .who{color:var(--plum2)}
+"""
+              # le badge de l'appel a candidature : fond chaud, plus un aplat dore
+              """.badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(238,128,98,.11));border-color:rgba(248,210,116,.34);border-radius:999px}
+"""
+              # les deux icones qui remplacent les emoji (voir theme_chaleur.ICONES)
+              """.badge .ic{width:20px;height:20px}
 .appel .letter .emo{display:inline-block;vertical-align:-4px;line-height:0}
 .appel .letter .emo .ic{width:21px;height:21px}
 .appel .xp{border-top-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
 .hero-fig,.fig,.form{border-radius:18px}
 @media(max-width:760px){section{padding:66px 0}}
-"""
+""")
 
 CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
 

@@ -1055,7 +1055,7 @@ JSONLD = """<script type="application/ld+json">
 #    voir en lisant `theme_chaleur.py` qui affirmait « sur les 10 pages ».
 #    Trouve en mesurant les contrastes dans le navigateur, page par page.
 #    #8b8ba6 = 5,96:1, et reste tout aussi discret.
-CSS_BASE = """:root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
+CSS_BASE = (""":root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--night);color:var(--ink);font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.75;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -1098,11 +1098,12 @@ footer a.btn,footer a.adh{padding:14px 30px}
 footer a:hover{color:var(--gold2)}
 footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.35);text-underline-offset:3px}
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
-/* pied de page : #6b6b80 donnait 3,80:1 (voir la note du generateur) */
-.legal{margin-top:40px;text-align:center;color:#8b8ba6;font-size:13px}
+"""
+           # pied de page : #6b6b80 donnait 3,80:1 (voir la note du generateur)
+           """.legal{margin-top:40px;text-align:center;color:#8b8ba6;font-size:13px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:60px 0}}
 p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
-"""
+""")
 
 # --- CSS propre a la page -------------------------------------------------
 # ⚠️ CETTE FEUILLE EST CELLE DE LA REFONTE DU 14/08/2026 (soir). Le principe
@@ -1133,10 +1134,11 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 #    16/08 est donc recopiee ici A L'IDENTIQUE. Le raisonnement complet, les
 #    mesures et les contrastes recalcules sont dans `theme_chaleur.py` : un
 #    seul endroit ou l'ecrire, deux endroits ou l'appliquer.
-CSS_PAGE = """/* ===== Guso Facile ===== */
-/* --- le degrade signature, decline partout ------------------------------ */
-/* surfaces etagees : fond -> carte = x3,30 de luminance (x2,36 avant) */
-:root{--night2:#161839;--card:#1e214a;
+CSS_PAGE = ("""/* ===== Guso Facile ===== */
+"""
+           # --- le degrade signature, decline partout ------------------------------
+           # surfaces etagees : fond -> carte = x3,30 de luminance (x2,36 avant)
+           """:root{--night2:#161839;--card:#1e214a;
 /* accents plus vifs — l'or primaire ne bouge pas */
 --gold2:#f8d274;--plum:#9374e2;--coral:#ee8062;--plum2:#b38ff5;
 --grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
@@ -1145,95 +1147,106 @@ CSS_PAGE = """/* ===== Guso Facile ===== */
 .ic{width:23px;height:23px;display:block;flex:0 0 auto}
 .grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
-/* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice » */
-body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(238,128,98,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(147,116,226,.12),transparent 62%)}
-/* ⚠️ 92 -> 86 px LE 16/08/2026, ET C'EST UNE COMPENSATION, PAS UN REGLAGE.
-   La refonte du 14/08 avait porte la respiration des sections de 78 a 92 px
-   (« DE L'AIR », levier n° 3 ci-dessus). La mise en valeur du blog et les six
-   fonctionnalites ajoutees le 16/08 font grossir la page, qui est sous plafond
-   mesure (~12 500 px a 1440). 86 px reste tres au-dessus des 78 px d'avant la
-   refonte, l'ecart de 6 px ne se voit pas a l'oeil, et il rend 96 px sur les
-   huit sections. Meme raisonnement pour les 66 -> 62 px du telephone, plus
-   bas. Ne pas descendre en dessous : sous ~80 px la page redevient une notice. */
-section{padding:86px 0}
+"""
+           # trois lueurs fixes : c'est ce qui enleve le fond « noir de notice »
+           """body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(238,128,98,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(147,116,226,.12),transparent 62%)}
+"""
+           # ⚠️ 92 -> 86 px LE 16/08/2026, ET C'EST UNE COMPENSATION, PAS UN REGLAGE.
+           # La refonte du 14/08 avait porte la respiration des sections de 78 a 92 px
+           # (« DE L'AIR », levier n° 3 ci-dessus). La mise en valeur du blog et les six
+           # fonctionnalites ajoutees le 16/08 font grossir la page, qui est sous plafond
+           # mesure (~12 500 px a 1440). 86 px reste tres au-dessus des 78 px d'avant la
+           # refonte, l'ecart de 6 px ne se voit pas a l'oeil, et il rend 96 px sur les
+           # huit sections. Meme raisonnement pour les 66 -> 62 px du telephone, plus
+           # bas. Ne pas descendre en dessous : sous ~80 px la page redevient une notice.
+           """section{padding:86px 0}
 .divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent)}
 .kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .sec-title{letter-spacing:.01em}
 .lead b,.body b{color:#fff}
-/* boutons : le principal porte le degrade chaud, le fantome un filet dore */
-.btn{border-radius:999px;padding:15px 28px}
+"""
+           # boutons : le principal porte le degrade chaud, le fantome un filet dore
+           """.btn{border-radius:999px;padding:15px 28px}
 .btn svg{width:18px;height:18px;flex:0 0 auto}
 .acces .btn{background:var(--grad-warm);color:#1b1206;box-shadow:0 14px 34px -16px rgba(238,128,98,.6)}
-/* la fleche du bouton reprend la couleur du TEXTE : le degrade signature, clair, disparaissait sur le bouton clair (mesure a l'ecran) */
-.acces .btn svg{stroke:#1b1206}
+"""
+           # la fleche du bouton reprend la couleur du TEXTE : le degrade signature, clair, disparaissait sur le bouton clair (mesure a l'ecran)
+           """.acces .btn svg{stroke:#1b1206}
 .acces .btn:hover{box-shadow:0 20px 42px -14px rgba(238,128,98,.7)}
 .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(248,210,116,.3);color:var(--gold2)}
 .btn.ghost:hover{border-color:rgba(248,210,116,.55)}
-/* --- hero ---------------------------------------------------------------- */
-.gf-top{padding:132px 0 78px;background:radial-gradient(900px 560px at 6% -12%,rgba(147,116,226,.22),transparent 62%),radial-gradient(760px 480px at 96% 8%,rgba(238,128,98,.14),transparent 62%),radial-gradient(720px 470px at 60% 108%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+"""
+           # --- hero ----------------------------------------------------------------
+           """.gf-top{padding:132px 0 78px;background:radial-gradient(900px 560px at 6% -12%,rgba(147,116,226,.22),transparent 62%),radial-gradient(760px 480px at 96% 8%,rgba(238,128,98,.14),transparent 62%),radial-gradient(720px 470px at 60% 108%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
 .gf-top h1{font-size:clamp(38px,7vw,74px);font-weight:600;line-height:1.02;letter-spacing:.02em}
 .gf-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(20px,2.9vw,29px);line-height:1.32;margin-top:16px;max-width:720px}
 .badge{display:inline-flex;align-items:center;gap:9px;margin-top:28px;padding:9px 18px;border:1px solid rgba(248,210,116,.34);border-radius:999px;color:var(--gold2);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;background:linear-gradient(90deg,rgba(216,178,90,.14),rgba(238,128,98,.10))}
 .badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--grad-warm);flex:0 0 auto}
 .gf-top .cta{margin-top:32px}
 .band{background:linear-gradient(180deg,#0b0c1e,#101128 55%,var(--night))}
-/* hero : texte a gauche, jauge des 507 h a droite (empile sous 1000 px) */
-.gf-topgrid{display:grid;gap:38px;align-items:center}
+"""
+           # hero : texte a gauche, jauge des 507 h a droite (empile sous 1000 px)
+           """.gf-topgrid{display:grid;gap:38px;align-items:center}
 @media(min-width:1000px){.gf-topgrid{grid-template-columns:minmax(0,1fr) 400px}}
-/* ⚠️ LE RESSERREMENT DU 16/08/2026 — huit valeurs, une seule intention.
-   `.cas`, `.univers`, `.etapes-t`, `.veille`, `.guilde`, `.aussi` et `.etat`
-   sont passes de 42/40/38 px de marge haute a 34/32, et le panneau `.acces` de
-   46/40 px de rembourrage vertical a 40/34. C'est la SECONDE moitie de la
-   compensation de hauteur decrite plus haut (la premiere etant les sections a
-   86 px) : la mise en valeur du blog et les six fonctionnalites ajoutees le
-   meme jour ont fait grossir la page, qui est sous plafond mesure. Six a huit
-   pixels sur une marge de quarante ne se voient pas ; ils rendent une
-   cinquantaine de pixels au total. Ne pas descendre plus bas : c'est cette
-   respiration qui separe les blocs les uns des autres. */
-/* --- LA DOUBLE VUE « artistes | structures » (16/08/2026) ---------------
-   Elle REMPLACE la grille `.univers` a plat (2 x 2) : les univers 1 et 2 sont
-   desormais SOUS un en-tete « Pour les artistes », l'univers 3 sous « Pour les
-   structures », et l'univers 4 en dessous, pleine largeur, comme terrain
-   commun. Le raisonnement complet est dans l'entete du fichier.
-   ⚠️ LE POINT DE BASCULE RESTE 761 px, celui de l'ancienne grille, ET C'EST
-   UNE MESURE. Un premier essai a 901 px paraissait plus confortable — deux
-   colonnes de moins de 430 px, ca serre. Mesure faite : a 820 px la page
-   passait de 14 035 a 15 409 px, soit +1 374 px POUR LES TABLETTES SEULES,
-   parce que tout s'y empilait. Et l'ancienne grille tenait deja parfaitement
-   a 761 px en deux colonnes. On ne paie pas 1 374 px de defilement pour du
-   confort a une largeur ou rien ne debordait. Sous 761 px les deux colonnes
-   s'empilent, en-tete compris : on lit « Pour les artistes » puis ses cartes,
-   puis « Pour les structures » puis les siennes — la dualite reste lisible,
-   elle se lit simplement l'une apres l'autre. */
-.duo{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:30px}
+"""
+           # ⚠️ LE RESSERREMENT DU 16/08/2026 — huit valeurs, une seule intention.
+           # `.cas`, `.univers`, `.etapes-t`, `.veille`, `.guilde`, `.aussi` et `.etat`
+           # sont passes de 42/40/38 px de marge haute a 34/32, et le panneau `.acces` de
+           # 46/40 px de rembourrage vertical a 40/34. C'est la SECONDE moitie de la
+           # compensation de hauteur decrite plus haut (la premiere etant les sections a
+           # 86 px) : la mise en valeur du blog et les six fonctionnalites ajoutees le
+           # meme jour ont fait grossir la page, qui est sous plafond mesure. Six a huit
+           # pixels sur une marge de quarante ne se voient pas ; ils rendent une
+           # cinquantaine de pixels au total. Ne pas descendre plus bas : c'est cette
+           # respiration qui separe les blocs les uns des autres.
+           # --- LA DOUBLE VUE « artistes | structures » (16/08/2026) ---------------
+           # Elle REMPLACE la grille `.univers` a plat (2 x 2) : les univers 1 et 2 sont
+           # desormais SOUS un en-tete « Pour les artistes », l'univers 3 sous « Pour les
+           # structures », et l'univers 4 en dessous, pleine largeur, comme terrain
+           # commun. Le raisonnement complet est dans l'entete du fichier.
+           # ⚠️ LE POINT DE BASCULE RESTE 761 px, celui de l'ancienne grille, ET C'EST
+           # UNE MESURE. Un premier essai a 901 px paraissait plus confortable — deux
+           # colonnes de moins de 430 px, ca serre. Mesure faite : a 820 px la page
+           # passait de 14 035 a 15 409 px, soit +1 374 px POUR LES TABLETTES SEULES,
+           # parce que tout s'y empilait. Et l'ancienne grille tenait deja parfaitement
+           # a 761 px en deux colonnes. On ne paie pas 1 374 px de defilement pour du
+           # confort a une largeur ou rien ne debordait. Sous 761 px les deux colonnes
+           # s'empilent, en-tete compris : on lit « Pour les artistes » puis ses cartes,
+           # puis « Pour les structures » puis les siennes — la dualite reste lisible,
+           # elle se lit simplement l'une apres l'autre.
+           """.duo{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:30px}
 @media(min-width:761px){.duo{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .duo-col{display:flex;flex-direction:column;gap:24px;min-width:0}
-/* l'en-tete de colonne : le filet degrade sous le titre est ce qui fait lire
-   les deux colonnes comme un vis-a-vis et non comme deux listes voisines */
-.duo-h{display:flex;gap:14px;align-items:center;padding-bottom:15px;background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%}
+"""
+           # l'en-tete de colonne : le filet degrade sous le titre est ce qui fait lire
+           # les deux colonnes comme un vis-a-vis et non comme deux listes voisines
+           """.duo-h{display:flex;gap:14px;align-items:center;padding-bottom:15px;background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%}
 .duo-t{font-size:22px;font-weight:700;color:#fff;line-height:1.16;letter-spacing:-.012em}
 .duo-q{display:block;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--plum2);margin-top:4px;font-weight:500}
-/* la rangee des deux apercus cote artiste, juste sous la colonne qu'ils
-   illustrent (fiche d'une date, puis enchainement des dates) */
-.apercus{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:26px}
+"""
+           # la rangee des deux apercus cote artiste, juste sous la colonne qu'ils
+           # illustrent (fiche d'une date, puis enchainement des dates)
+           """.apercus{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-top:26px}
 @media(min-width:761px){.apercus{grid-template-columns:repeat(2,minmax(0,1fr))}}
-/* « et pour les deux » : l'univers 4 ferme la section, pleine largeur */
-.deux{margin-top:40px;padding-top:28px;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.34) 16%,rgba(238,128,98,.4) 50%,rgba(179,143,245,.34) 84%,transparent);background-repeat:no-repeat;background-size:100% 1px;background-position:0 0}
+"""
+           # « et pour les deux » : l'univers 4 ferme la section, pleine largeur
+           """.deux{margin-top:40px;padding-top:28px;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.34) 16%,rgba(238,128,98,.4) 50%,rgba(179,143,245,.34) 84%,transparent);background-repeat:no-repeat;background-size:100% 1px;background-position:0 0}
 .deux .u-card{margin-top:18px}
 .u-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#1c1e46,#171935);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:30px 28px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
 .u-card::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .u-head{display:flex;align-items:center;gap:14px}
 .u-ico,.duo-ico{flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(248,210,116,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(238,128,98,.12) 55%,rgba(147,116,226,.14))}
-/* le mot-cle du titre de section, peint au degrade CHAUD et non au degrade
-   complet : sur deux lettres (« et »), les quatre arrets de `--grad` se
-   compriment en une bouillie — mesure a l'ecran. `--grad-warm` n'en a que
-   trois et il reste lisible a cette echelle.
-   ⚠️⚠️ `background-image` ET SURTOUT PAS `background`. La forme raccourcie
-   REMET `background-clip` a `border-box` : le degrade cesse d'etre decoupe par
-   les lettres, et comme `-webkit-text-fill-color:transparent` de `.grad-t`
-   tient toujours, le mot disparait DANS UN RECTANGLE OR PLEIN. Vu a l'ecran au
-   premier essai, invisible en relisant le CSS. */
-.sec-title .grad-t{display:inline;background-image:var(--grad-warm)}
+"""
+           # le mot-cle du titre de section, peint au degrade CHAUD et non au degrade
+           # complet : sur deux lettres (« et »), les quatre arrets de `--grad` se
+           # compriment en une bouillie — mesure a l'ecran. `--grad-warm` n'en a que
+           # trois et il reste lisible a cette echelle.
+           # ⚠️⚠️ `background-image` ET SURTOUT PAS `background`. La forme raccourcie
+           # REMET `background-clip` a `border-box` : le degrade cesse d'etre decoupe par
+           # les lettres, et comme `-webkit-text-fill-color:transparent` de `.grad-t`
+           # tient toujours, le mot disparait DANS UN RECTANGLE OR PLEIN. Vu a l'ecran au
+           # premier essai, invisible en relisant le CSS.
+           """.sec-title .grad-t{display:inline;background-image:var(--grad-warm)}
 .u-num{letter-spacing:.28em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--gold)}
 .u-card h3{font-size:27px;font-weight:600;color:#fff;line-height:1.15;margin-top:3px}
 .u-sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--plum2);font-size:18.5px;line-height:1.4;margin-top:12px}
@@ -1250,60 +1263,69 @@ section{padding:86px 0}
 .aussi p{color:#d7d4ea;font-size:15.5px}
 .aussi .aussi-p2{margin-top:12px;padding-top:12px;border-top:1px solid rgba(248,210,116,.18)}
 .aussi b{color:#fff;font-weight:500}
-/* --- trois situations : de vraies cartes, plus un simple filet a gauche -- */
-.cas-note{color:var(--muted);font-size:15px;margin-top:14px;max-width:62ch}
+"""
+           # --- trois situations : de vraies cartes, plus un simple filet a gauche --
+           """.cas-note{color:var(--muted);font-size:15px;margin-top:14px;max-width:62ch}
 .cas{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:26px;margin-top:34px}
 .cas article{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.07);border-radius:22px;background:linear-gradient(180deg,#1c1e46,#171935);padding:28px 26px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
 .cas article::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .cas-ico{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(248,210,116,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(238,128,98,.12) 55%,rgba(147,116,226,.14));margin-bottom:16px}
 .cas h3{font-size:25px;font-weight:600;color:#fff;line-height:1.18}
 .cas p{color:#d7d4ea;font-size:15.5px;margin-top:11px}
-/* --- l'etat du projet ---------------------------------------------------- */
-.etat{position:relative;overflow:hidden;margin-top:32px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:linear-gradient(180deg,rgba(28,30,70,.9),rgba(20,22,51,.6));padding:38px 36px;max-width:900px;box-shadow:0 26px 60px -40px rgba(0,0,0,.95)}
+"""
+           # --- l'etat du projet ----------------------------------------------------
+           """.etat{position:relative;overflow:hidden;margin-top:32px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:linear-gradient(180deg,rgba(28,30,70,.9),rgba(20,22,51,.6));padding:38px 36px;max-width:900px;box-shadow:0 26px 60px -40px rgba(0,0,0,.95)}
 .etat::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .etat p{color:#d7d4ea;font-size:16px}
 .etat p + p{margin-top:16px}
 .etat .first{color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(21px,3vw,28px);line-height:1.3;font-style:italic}
-/* --- le lien avec l'association : la precision sort en encadre ----------- */
-.precision{display:flex;gap:14px;align-items:flex-start;margin-top:28px;max-width:760px;padding:20px 22px;border:1px solid rgba(179,143,245,.28);border-radius:18px;background:linear-gradient(135deg,rgba(147,116,226,.12),rgba(238,128,98,.07))}
+"""
+           # --- le lien avec l'association : la precision sort en encadre -----------
+           """.precision{display:flex;gap:14px;align-items:flex-start;margin-top:28px;max-width:760px;padding:20px 22px;border:1px solid rgba(179,143,245,.28);border-radius:18px;background:linear-gradient(135deg,rgba(147,116,226,.12),rgba(238,128,98,.07))}
 .precision .ic{width:24px;height:24px}
 .precision p{color:#d7d4ea;font-size:15px;line-height:1.65;margin:0}
-/* --- appel a l'action : un panneau, pas une fin de page ------------------ */
-.acces{position:relative;overflow:hidden;max-width:880px;border:1px solid rgba(255,255,255,.09);border-radius:26px;padding:40px 42px 34px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(238,128,98,.10) 48%,rgba(147,116,226,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
+"""
+           # --- appel a l'action : un panneau, pas une fin de page ------------------
+           """.acces{position:relative;overflow:hidden;max-width:880px;border:1px solid rgba(255,255,255,.09);border-radius:26px;padding:40px 42px 34px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(238,128,98,.10) 48%,rgba(147,116,226,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
 .acces::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .mention{margin-top:20px;max-width:660px;color:var(--muted);font-size:14px;line-height:1.65}
 .mention + .mention{margin-top:12px}
-/* --- le titre principal porte la phrase complete (dossier SEO, section 2) - */
-/* La marque reste en grand ; la suite passe en seconde ligne, a l'interieur du
-   MEME titre — celui que lisent Google et un lecteur d'ecran est donc entier.
-   (Ne pas ecrire la balise en toutes lettres dans ce commentaire : le
-   garde-fou compte ses occurrences dans la page livree, CSS compris.) */
-.gf-top h1 .h1-sous{display:block;font-size:clamp(17px,2.4vw,26px);font-weight:500;line-height:1.24;letter-spacing:.02em;margin-top:10px}
-/* --- « Trois etapes, c'est tout » : une bande legere, pas des cartes ----- */
-.etapes-t{margin-top:34px}
+"""
+           # --- le titre principal porte la phrase complete (dossier SEO, section 2) -
+           # La marque reste en grand ; la suite passe en seconde ligne, a l'interieur du
+           # MEME titre — celui que lisent Google et un lecteur d'ecran est donc entier.
+           # (Ne pas ecrire la balise en toutes lettres dans ce commentaire : le
+           # garde-fou compte ses occurrences dans la page livree, CSS compris.)
+           """.gf-top h1 .h1-sous{display:block;font-size:clamp(17px,2.4vw,26px);font-weight:500;line-height:1.24;letter-spacing:.02em;margin-top:10px}
+"""
+           # --- « Trois etapes, c'est tout » : une bande legere, pas des cartes -----
+           """.etapes-t{margin-top:34px}
 .etapes{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:16px}
 @media(min-width:761px){.etapes{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}
 .etape{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.07);border-radius:18px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));padding:22px 22px 20px}
 .etape::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .etape h3{font-size:21px;font-weight:600;color:#fff;line-height:1.2;margin-top:4px}
 .etape .etape-d{color:#d7d4ea;font-size:15.5px;margin-top:9px}
-/* --- l'encart « la Guilde » (longueur retenue et adoucissements : entete) - */
-.guilde{display:flex;gap:18px;align-items:flex-start;margin-top:34px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(179,143,245,.28);border-radius:22px;background:linear-gradient(135deg,rgba(147,116,226,.13),rgba(238,128,98,.08) 62%,rgba(216,178,90,.08));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+"""
+           # --- l'encart « la Guilde » (longueur retenue et adoucissements : entete) -
+           """.guilde{display:flex;gap:18px;align-items:flex-start;margin-top:34px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(179,143,245,.28);border-radius:22px;background:linear-gradient(135deg,rgba(147,116,226,.13),rgba(238,128,98,.08) 62%,rgba(216,178,90,.08));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
 .guilde .ic-w{flex:0 0 auto;line-height:0;margin-top:4px}
 .guilde .ic{width:26px;height:26px}
 .guilde .u-num{display:block;margin-bottom:8px}
 .guilde i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,143,245,.4);background:rgba(147,116,226,.12);border-radius:999px;padding:1px 9px;line-height:1.5;margin-left:5px}
 .guilde-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
 .guilde .guilde-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
-/* --- la cloture de « Jouons cartes sur table » (mots de David) ----------- */
-/* En serif italique : c'est le registre des TITRES de cette page, celui qui a
-   le droit de tutoyer. Le corps, lui, reste neutre (voir l'entete, point 3). */
-.etat .etat-fin{color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(19px,2.4vw,24px);line-height:1.32;margin-top:24px;padding-top:20px;border-top:1px solid rgba(216,178,90,.28)}
-/* --- la FAQ : REPLIEE, jamais empilee (voir l'entete) -------------------- */
-/* <details> natif : aucun JavaScript, et le contenu d'un accordeon reste lu
-   par Google. La fleche est dessinee en CSS (deux bords tournes a 45deg) —
-   ni image, ni emoji, ni onzieme pictogramme a maintenir. */
-.faq{max-width:860px;margin-top:34px}
+"""
+           # --- la cloture de « Jouons cartes sur table » (mots de David) -----------
+           # En serif italique : c'est le registre des TITRES de cette page, celui qui a
+           # le droit de tutoyer. Le corps, lui, reste neutre (voir l'entete, point 3).
+           """.etat .etat-fin{color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(19px,2.4vw,24px);line-height:1.32;margin-top:24px;padding-top:20px;border-top:1px solid rgba(216,178,90,.28)}
+"""
+           # --- la FAQ : REPLIEE, jamais empilee (voir l'entete) --------------------
+           # <details> natif : aucun JavaScript, et le contenu d'un accordeon reste lu
+           # par Google. La fleche est dessinee en CSS (deux bords tournes a 45deg) —
+           # ni image, ni emoji, ni onzieme pictogramme a maintenir.
+           """.faq{max-width:860px;margin-top:34px}
 .faq-q{border:1px solid rgba(255,255,255,.08);border-radius:18px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));margin-bottom:11px;overflow:hidden}
 .faq-q summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:16px;padding:15px 20px;min-height:44px}
 .faq-q summary::-webkit-details-marker{display:none}
@@ -1312,27 +1334,30 @@ section{padding:86px 0}
 .faq-q[open] summary{border-bottom:1px solid rgba(216,178,90,.22)}
 .faq-q[open] summary::after{transform:rotate(225deg) translateY(-3px)}
 .faq-q .faq-r{color:#d7d4ea;font-size:15.5px;padding:15px 20px 18px}
-/* --- les deux liens descendants vers le blog (maillage, dossier §6) ------ */
-.blog-lien{margin-top:32px;font-size:16px}
+"""
+           # --- les deux liens descendants vers le blog (maillage, dossier §6) ------
+           """.blog-lien{margin-top:32px;font-size:16px}
 .blog-lien a{display:inline-flex;align-items:center;gap:11px;color:var(--gold2);padding:11px 0;text-decoration:underline;text-decoration-color:rgba(248,210,116,.4);text-underline-offset:4px}
 .blog-lien a::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
 .blog-lien a:hover{text-decoration-color:var(--gold2)}
-/* --- la mise en valeur du blog (16/08/2026) ----------------------------- */
-/* Le lien du hero est DANS la rangee `.cta`, a cote du bouton : au-dela de
-   ~1000 px il se pose sur la MEME ligne, donc il ne coute pas un pixel de
-   hauteur. C'est un lien souligne, jamais un second bouton — la page n'a
-   qu'UN geste possible (voir l'ecart n° 8 en tete de fichier). */
-.gf-top .cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px}
+"""
+           # --- la mise en valeur du blog (16/08/2026) -----------------------------
+           # Le lien du hero est DANS la rangee `.cta`, a cote du bouton : au-dela de
+           # ~1000 px il se pose sur la MEME ligne, donc il ne coute pas un pixel de
+           # hauteur. C'est un lien souligne, jamais un second bouton — la page n'a
+           # qu'UN geste possible (voir l'ecart n° 8 en tete de fichier).
+           """.gf-top .cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px}
 .hero-blog{display:inline-flex;align-items:center;gap:11px;min-height:44px;padding:11px 0;color:var(--gold2);font-size:15.5px;text-decoration:underline;text-decoration-color:rgba(248,210,116,.4);text-underline-offset:4px}
 .hero-blog::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
 .hero-blog:hover{text-decoration-color:var(--gold2)}
-/* Le bloc des trois articles. Il ferme #situations : un filet dore le detache
-   des trois cas d'usage sans ouvrir une section (qui aurait coute 184 px de
-   respiration — la page est sous plafond, voir l'entete).
-   ⚠️ La fleche des cartes est dessinee en CSS (deux bords tournes a -45deg),
-      comme celle de la FAQ : aucun douzieme pictogramme a maintenir, et
-      `NB_PICTOS` reste a 11. */
-.mea{margin-top:44px;padding-top:28px;border-top:1px solid rgba(216,178,90,.24)}
+"""
+           # Le bloc des trois articles. Il ferme #situations : un filet dore le detache
+           # des trois cas d'usage sans ouvrir une section (qui aurait coute 184 px de
+           # respiration — la page est sous plafond, voir l'entete).
+           # ⚠️ La fleche des cartes est dessinee en CSS (deux bords tournes a -45deg),
+           #    comme celle de la FAQ : aucun douzieme pictogramme a maintenir, et
+           #    `NB_PICTOS` reste a 11.
+           """.mea{margin-top:44px;padding-top:28px;border-top:1px solid rgba(216,178,90,.24)}
 .mea-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(25px,3.4vw,34px);font-weight:600;color:#fff;line-height:1.14}
 .mea-s{color:#d7d4ea;font-size:15.5px;margin-top:10px;max-width:78ch}
 .mea-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(262px,1fr));gap:20px;margin-top:22px}
@@ -1345,26 +1370,28 @@ section{padding:86px 0}
 .mea-l{margin-top:auto;padding-top:14px;display:flex;align-items:center;gap:9px;font-size:13.5px;letter-spacing:.06em;color:var(--plum2)}
 .mea-l::after{content:'';width:8px;height:8px;border-right:1.6px solid var(--gold2);border-bottom:1.6px solid var(--gold2);transform:rotate(-45deg)}
 .mea .blog-lien{margin-top:14px}
-/* --- « On veille les uns sur les autres » (absorbe le 16/08/2026) -------- */
-/* Meme habillage que l'encart de la Guilde, qu'il introduit — MOINS le
-   pictogramme : les onze icones servent chacune exactement une fois, et ce
-   bloc n'a pas besoin d'une douzieme pour exister. La note en gris sous le
-   texte reprend le registre de `.cas-note` (« Les prenoms sont fictifs ») :
-   c'est le meme signal, il doit se lire pareil. */
-.veille{margin-top:34px;max-width:900px;padding:26px 30px 24px;border:1px solid rgba(248,210,116,.24);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(238,128,98,.08) 60%,rgba(147,116,226,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+"""
+           # --- « On veille les uns sur les autres » (absorbe le 16/08/2026) --------
+           # Meme habillage que l'encart de la Guilde, qu'il introduit — MOINS le
+           # pictogramme : les onze icones servent chacune exactement une fois, et ce
+           # bloc n'a pas besoin d'une douzieme pour exister. La note en gris sous le
+           # texte reprend le registre de `.cas-note` (« Les prenoms sont fictifs ») :
+           # c'est le meme signal, il doit se lire pareil.
+           """.veille{margin-top:34px;max-width:900px;padding:26px 30px 24px;border:1px solid rgba(248,210,116,.24);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(238,128,98,.08) 60%,rgba(147,116,226,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
 .veille .u-num{display:block;margin-bottom:8px}
 .veille-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
 .veille-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
 .veille-note{color:var(--muted);font-size:14px;line-height:1.6;margin-top:13px}
-/* --- « J'ai besoin d'aide » (16/08/2026) --------------------------------- */
-/* Meme habillage que l'encart de la Guilde et que « On veille les uns sur les
-   autres » : ces trois blocs disent la meme chose sous trois angles (le
-   groupe, le pacte, l'appel), ils doivent se lire comme une famille.
-   ⚠️ Le marqueur des quatre lignes est un POINT D'INTERROGATION dessine en
-   CSS (`content:'?'`), pas un pictogramme et surtout pas un emoji : la page de
-   reference met un 🤗 sur cette section, la charte du site l'interdit. Aucun
-   quinzieme trace a maintenir. */
-.aide{display:flex;gap:18px;align-items:flex-start;margin-top:34px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(248,210,116,.26);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(238,128,98,.09) 58%,rgba(147,116,226,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+"""
+           # --- « J'ai besoin d'aide » (16/08/2026) ---------------------------------
+           # Meme habillage que l'encart de la Guilde et que « On veille les uns sur les
+           # autres » : ces trois blocs disent la meme chose sous trois angles (le
+           # groupe, le pacte, l'appel), ils doivent se lire comme une famille.
+           # ⚠️ Le marqueur des quatre lignes est un POINT D'INTERROGATION dessine en
+           # CSS (`content:'?'`), pas un pictogramme et surtout pas un emoji : la page de
+           # reference met un 🤗 sur cette section, la charte du site l'interdit. Aucun
+           # quinzieme trace a maintenir.
+           """.aide{display:flex;gap:18px;align-items:flex-start;margin-top:34px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(248,210,116,.26);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(238,128,98,.09) 58%,rgba(147,116,226,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
 .aide .ic-w{flex:0 0 auto;line-height:0;margin-top:4px}
 .aide .ic{width:26px;height:26px}
 .aide .u-num{display:block;margin-bottom:8px}
@@ -1374,13 +1401,14 @@ section{padding:86px 0}
 .aide-l li{position:relative;padding-left:29px;color:#d7d4ea;font-size:15.5px;line-height:1.6}
 .aide-l li::before{content:'?';position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;line-height:1;color:var(--gold2);border:1px solid rgba(248,210,116,.34);background:rgba(216,178,90,.14)}
 .aide-l li b{color:#fff;font-weight:500}
-/* --- le formulaire de demande d'acces (rapatrie le 16/08/2026) ----------- */
-/* Il est DANS le panneau `.acces`, donc il herite du bouton chaud (`.acces
-   .btn`). Rien ne descend sous 14 px (plancher du site : 13). Les champs sont
-   a 16 px : sous 16 px, Safari sur iPhone ZOOME a la mise au point et le
-   visiteur se retrouve avec une page decalee — un formulaire qu'on remplit au
-   telephone ne peut pas se permettre ca. */
-.dmd{margin-top:30px;border:1px solid rgba(255,255,255,.10);border-radius:22px;background:linear-gradient(180deg,rgba(11,12,30,.55),rgba(11,12,30,.28));padding:28px 26px 26px}
+"""
+           # --- le formulaire de demande d'acces (rapatrie le 16/08/2026) -----------
+           # Il est DANS le panneau `.acces`, donc il herite du bouton chaud (`.acces
+           # .btn`). Rien ne descend sous 14 px (plancher du site : 13). Les champs sont
+           # a 16 px : sous 16 px, Safari sur iPhone ZOOME a la mise au point et le
+           # visiteur se retrouve avec une page decalee — un formulaire qu'on remplit au
+           # telephone ne peut pas se permettre ca.
+           """.dmd{margin-top:30px;border:1px solid rgba(255,255,255,.10);border-radius:22px;background:linear-gradient(180deg,rgba(11,12,30,.55),rgba(11,12,30,.28));padding:28px 26px 26px}
 .dmd-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:27px;font-weight:600;color:#fff;line-height:1.18}
 .dmd-s{color:var(--muted);font-size:15px;max-width:62ch;margin-top:6px}
 .dmd-grid{display:grid;grid-template-columns:minmax(0,1fr)}
@@ -1398,8 +1426,9 @@ section{padding:86px 0}
 .dmd-kind{display:flex;gap:11px;flex-wrap:wrap}
 .dmd-kind label{display:inline-flex;align-items:center;gap:10px;margin:0;min-height:44px;padding:9px 19px;border:1px solid rgba(248,210,116,.3);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));font-size:15.5px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
 .dmd-kind input{width:17px;height:17px;margin:0;accent-color:var(--gold)}
-/* la phrase d'exemple de « Les deux » — 14 px, au-dessus du plancher de 13 */
-.dmd-kind-h{margin:11px 0 0;font-size:14px;line-height:1.6;color:var(--muted);max-width:60ch}
+"""
+           # la phrase d'exemple de « Les deux » — 14 px, au-dessus du plancher de 13
+           """.dmd-kind-h{margin:11px 0 0;font-size:14px;line-height:1.6;color:var(--muted);max-width:60ch}
 .dmd-kind label:has(input:checked){border-color:var(--gold2);background:linear-gradient(90deg,rgba(216,178,90,.16),rgba(238,128,98,.12))}
 .dmd-go{margin-top:26px}
 .dmd button.btn{border:0;font-family:inherit;cursor:pointer}
@@ -1426,7 +1455,7 @@ section{padding:86px 0}
   .faq-q .faq-r{padding:14px 17px 16px}
 }
 @media print{.totop{display:none}.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
-"""
+""")
 
 # --- CSS des 6 maquettes d'interface --------------------------------------
 # Repris de `GUSO-FACILE-BACKUPS/maquettes-pour-resonances.html` (LECTURE
@@ -1441,34 +1470,38 @@ section{padding:86px 0}
 # Le `:root` du fichier d'origine n'est PAS repris (les variables existent deja
 # sur le site), ni son cadre de page `.gf-page-*` (decor de son fichier de
 # test), ni le CSS de l'ancienne version en tableau de la maquette 4.
-CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interface reelle) ===== */
-.gf-block{margin:34px 0 0;max-width:820px}
-/* ⚠️ 16/08/2026 — `.univers` a laisse la place a `.duo` / `.apercus` (la double
-   vue artistes | structures). Les apercus qui vivent DANS une colonne ou dans
-   la rangee des deux aperçus artistes n'ont ni marge haute ni largeur maximale
-   propre : c'est la grille qui les cadre. L'ancienne regle `.univers .gf-wide
-   {grid-column:1/-1}` a disparu avec la grille — une colonne de flex n'a pas
-   de piste a enjamber. */
-.gf-topgrid .gf-block,.duo-col .gf-block,.apercus .gf-block{margin:0;max-width:none}
+CSS_MAQUETTES = (# ===== maquettes d'interface (illustrations, pas d'interface reelle) =====
+                """.gf-block{margin:34px 0 0;max-width:820px}
+"""
+                # ⚠️ 16/08/2026 — `.univers` a laisse la place a `.duo` / `.apercus` (la double
+                # vue artistes | structures). Les apercus qui vivent DANS une colonne ou dans
+                # la rangee des deux aperçus artistes n'ont ni marge haute ni largeur maximale
+                # propre : c'est la grille qui les cadre. L'ancienne regle `.univers .gf-wide
+                # {grid-column:1/-1}` a disparu avec la grille — une colonne de flex n'a pas
+                # de piste a enjamber.
+                """.gf-topgrid .gf-block,.duo-col .gf-block,.apercus .gf-block{margin:0;max-width:none}
 .gf-shot{position:relative;background:linear-gradient(180deg,#1d1f47,#171935);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px 18px 18px;margin:0 0 11px;color:var(--ink);font-size:15px;line-height:1.5;max-width:100%;overflow:hidden;box-shadow:0 24px 50px -34px rgba(0,0,0,.95)}
 .gf-shot::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad);opacity:.85}
-/* la jauge du hero est l'image signature de la page : elle porte un halo */
-.gf-topgrid .gf-shot{box-shadow:0 30px 64px -34px rgba(0,0,0,.95),0 0 70px -26px rgba(238,128,98,.45)}
+"""
+                # la jauge du hero est l'image signature de la page : elle porte un halo
+                """.gf-topgrid .gf-shot{box-shadow:0 30px 64px -34px rgba(0,0,0,.95),0 0 70px -26px rgba(238,128,98,.45)}
 .gf-shot *{box-sizing:border-box}
 .gf-cap{display:block;font-size:13px;line-height:1.4;color:var(--muted);letter-spacing:.02em;margin:0 0 0 4px}
 .gf-cap::before{content:'';display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);margin-right:9px;vertical-align:1px}
-/* la note « (a venir) » d'une maquette qui illustre un ecran encore en
-   construction (16/08/2026, une seule aujourd'hui : « Mes artistes »). La
-   pastille reprend a l'identique celle des puces `.u-card li i` : c'est le
-   meme signal, il doit se lire pareil. */
-.gf-soon-note{margin:9px 0 0 4px;max-width:66ch;color:var(--muted);font-size:14px;line-height:1.6}
+"""
+                # la note « (a venir) » d'une maquette qui illustre un ecran encore en
+                # construction (16/08/2026, une seule aujourd'hui : « Mes artistes »). La
+                # pastille reprend a l'identique celle des puces `.u-card li i` : c'est le
+                # meme signal, il doit se lire pareil.
+                """.gf-soon-note{margin:9px 0 0 4px;max-width:66ch;color:var(--muted);font-size:14px;line-height:1.6}
 .gf-soon-note i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,143,245,.4);background:rgba(147,116,226,.12);border-radius:999px;padding:1px 9px;line-height:1.5;margin-right:7px}
 .gf-bar{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
 .gf-bar-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:var(--ink)}
 .gf-bar-s{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
 .gf-hint{font-size:13px;color:var(--muted);margin:0 0 14px}
-/* 1 — jauge des 507 h : anneau en conic-gradient, aucune image */
-.gf-hero{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+"""
+                # 1 — jauge des 507 h : anneau en conic-gradient, aucune image
+                """.gf-hero{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
 .gf-ring{position:relative;flex:0 0 auto;width:146px;height:146px;border-radius:50%;background:conic-gradient(var(--gold) 0 293deg,var(--plum) 293deg 323deg,var(--night2) 323deg 360deg);display:flex;align-items:center;justify-content:center;margin:0 auto}
 .gf-ring-in{width:112px;height:112px;border-radius:50%;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--line)}
 .gf-ring-n{font-family:'Cormorant Garamond',Georgia,serif;font-size:38px;line-height:1;font-weight:600;color:var(--gold2)}
@@ -1488,8 +1521,9 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-dot-gold{background:var(--gold)}
 .gf-dot-plum{background:var(--plum)}
 .gf-dot-empty{background:var(--night2);border:1px solid var(--line)}
-/* 2 — « A faire maintenant » : pastilles urgent / en retard / a venir */
-.gf-tn-head{display:flex;align-items:baseline;gap:9px;margin-bottom:12px}
+"""
+                # 2 — « A faire maintenant » : pastilles urgent / en retard / a venir
+                """.gf-tn-head{display:flex;align-items:baseline;gap:9px;margin-bottom:12px}
 .gf-tn-t{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
 .gf-tn-n{margin-left:auto;font-size:13px;font-weight:600;color:#1b1206;background:var(--grad-warm);border-radius:999px;padding:1px 9px}
 .gf-tn-row{display:flex;align-items:center;gap:11px;flex-wrap:wrap;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:12px 13px;margin-bottom:9px}
@@ -1503,8 +1537,9 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-tn-when{flex:0 0 auto;font-size:13px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:2px 9px;color:var(--muted)}
 .gf-tn-when.gf-urgent{color:#1b1206;background:var(--grad-warm);border-color:transparent;font-weight:600}
 .gf-tn-when.gf-late{color:var(--gold2)}
-/* 3 — fiche d'une date et ses cinq etapes administratives */
-.gf-kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 14px;margin:0 0 16px;font-size:15px}
+"""
+                # 3 — fiche d'une date et ses cinq etapes administratives
+                """.gf-kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 14px;margin:0 0 16px;font-size:15px}
 .gf-kv .gf-k{color:var(--muted);font-size:13px;letter-spacing:.04em}
 .gf-kv .gf-v{color:var(--ink);font-weight:500;min-width:0;overflow-wrap:anywhere}
 .gf-mini{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0 0 9px}
@@ -1513,8 +1548,9 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-step .gf-box{width:16px;height:16px;border-radius:5px;border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;color:var(--night);flex:0 0 auto}
 .gf-step.gf-done{color:var(--ink);border-color:var(--gold)}
 .gf-step.gf-done .gf-box{background:var(--gold);border-color:var(--gold)}
-/* 4 — recap mensuel France Travail, en cartes groupees par mois */
-.gf-recmonth{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+"""
+                # 4 — recap mensuel France Travail, en cartes groupees par mois
+                """.gf-recmonth{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
 .gf-reccard{border:1px solid rgba(255,255,255,.07);border-radius:13px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:11px 13px;margin-bottom:9px}
 .gf-recwhen{font-size:13px;color:var(--muted)}
 .gf-recnums{font-size:15px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
@@ -1523,8 +1559,9 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-rectot{display:flex;gap:8px 14px;align-items:baseline;flex-wrap:wrap;justify-content:space-between;border-top:1px solid rgba(216,178,90,.55);margin-top:13px;padding-top:12px}
 .gf-rl{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .gf-rv{font-size:15px;font-weight:600;color:var(--gold2);font-variant-numeric:tabular-nums}
-/* 5 — ma tournee : enchainement chronologique, filet + pastilles, zero image */
-.gf-route{position:relative;margin:0;padding:0 0 0 24px;list-style:none}
+"""
+                # 5 — ma tournee : enchainement chronologique, filet + pastilles, zero image
+                """.gf-route{position:relative;margin:0;padding:0 0 0 24px;list-style:none}
 .gf-route::before{content:'';position:absolute;left:5px;top:9px;bottom:9px;width:1px;background:var(--line)}
 .gf-stop{position:relative;padding:0 0 15px}
 .gf-stop:last-child{padding-bottom:0}
@@ -1541,10 +1578,11 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-route-tot-p{flex:1 1 130px;min-width:0}
 .gf-route-tot-v{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;line-height:1.15;color:var(--gold2)}
 .gf-route-tot-k{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-/* 6 — tableau de bord d'une structure. La vigilance se lit a la FORME de la
-   pastille et a son libelle, pas seulement a la couleur (la charte n'a ni
-   vert ni rouge, et un daltonien doit pouvoir la lire). */
-.gf-art{display:flex;flex-direction:column;gap:9px}
+"""
+                # 6 — tableau de bord d'une structure. La vigilance se lit a la FORME de la
+                # pastille et a son libelle, pas seulement a la couleur (la charte n'a ni
+                # vert ni rouge, et un daltonien doit pouvoir la lire).
+                """.gf-art{display:flex;flex-direction:column;gap:9px}
 .gf-art-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:linear-gradient(180deg,#1b1d42,#15172f);padding:12px 13px}
 .gf-av{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--gold2);background:var(--card)}
 .gf-art-txt{flex:1 1 130px;min-width:0}
@@ -1562,7 +1600,7 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 .gf-vig.gf-bad .gf-vig-s{background:transparent;border:2px solid var(--plum);box-shadow:inset 0 0 0 2px var(--plum)}
 .gf-vig.gf-bad{color:var(--ink);border-color:var(--plum2)}
 @media(max-width:760px){.gf-shot{padding:15px 13px 13px}}
-"""
+""")
 
 
 # --- L'EXCEPTION TYPOGRAPHIQUE (16/08/2026) -------------------------------
@@ -1630,32 +1668,37 @@ CSS_MAQUETTES = """/* ===== maquettes d'interface (illustrations, pas d'interfac
 #    chargee sur les 30 pages (c'est la police du CORPS de texte). Seule la
 #    graisse 700 a ete ajoutee a l'URL, sans un octet de police en plus — voir
 #    la note detaillee au-dessus de `HEAD`.
-CSS_TYPO = """/* ===== l'exception typographique de la page produit (16/08/2026) =====
-   Les titres passent de Cormorant Garamond a Jost lourd et serre. Les 29
-   autres pages du site gardent le serif : le raisonnement complet est dans
-   sources/generate_guso.py, juste au-dessus de cette feuille. */
-h1,h2,h3,h4{font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif}
-/* le mobilier partage avec les 29 autres pages ne bouge pas */
-footer h4{font-family:'Cormorant Garamond',Georgia,serif}
-/* le titre principal : plus PETIT qu'avant (74 -> 60 px), et bien plus lourd */
-.gf-top h1{font-size:clamp(34px,4.4vw,60px);font-weight:700;line-height:1.05;letter-spacing:-.018em}
+CSS_TYPO = (# ===== l'exception typographique de la page produit (16/08/2026) =====
+           # Les titres passent de Cormorant Garamond a Jost lourd et serre. Les 29
+           # autres pages du site gardent le serif : le raisonnement complet est dans
+           # sources/generate_guso.py, juste au-dessus de cette feuille.
+           """h1,h2,h3,h4{font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif}
+"""
+           # le mobilier partage avec les 29 autres pages ne bouge pas
+           """footer h4{font-family:'Cormorant Garamond',Georgia,serif}
+"""
+           # le titre principal : plus PETIT qu'avant (74 -> 60 px), et bien plus lourd
+           """.gf-top h1{font-size:clamp(34px,4.4vw,60px);font-weight:700;line-height:1.05;letter-spacing:-.018em}
 .gf-top h1 .h1-sous{font-size:clamp(17px,2.05vw,23px);font-weight:600;line-height:1.22;letter-spacing:-.006em}
-/* les titres de section : 50 -> 40 px, graisse 700, interlettrage negatif */
-.sec-title{font-size:clamp(27px,4vw,40px);font-weight:700;line-height:1.06;letter-spacing:-.014em}
-/* les titres de cartes, de blocs et d'accordeons suivent la meme regle */
-.u-card h3{font-size:23px;font-weight:700;letter-spacing:-.012em;line-height:1.18}
+"""
+           # les titres de section : 50 -> 40 px, graisse 700, interlettrage negatif
+           """.sec-title{font-size:clamp(27px,4vw,40px);font-weight:700;line-height:1.06;letter-spacing:-.014em}
+"""
+           # les titres de cartes, de blocs et d'accordeons suivent la meme regle
+           """.u-card h3{font-size:23px;font-weight:700;letter-spacing:-.012em;line-height:1.18}
 .cas h3{font-size:22px;font-weight:700;letter-spacing:-.012em;line-height:1.2}
 .mea-t{font-family:'Jost',sans-serif;font-size:clamp(24px,3vw,32px);font-weight:700;letter-spacing:-.014em;line-height:1.1}
 .mea-h{font-family:'Jost',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.24}
 .dmd-t{font-family:'Jost',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.012em}
 .etape h3{font-size:19px;font-weight:700;letter-spacing:-.01em}
 .faq-q summary h3{font-size:19px;font-weight:600;letter-spacing:-.008em}
-/* les maquettes reproduisent une interface : elle est en sans-serif, comme
-   l'application. Un titre d'ecran en serif trahissait la reproduction. */
-.gf-bar-t{font-family:'Jost',sans-serif;font-size:19px;font-weight:600;letter-spacing:-.01em}
+"""
+           # les maquettes reproduisent une interface : elle est en sans-serif, comme
+           # l'application. Un titre d'ecran en serif trahissait la reproduction.
+           """.gf-bar-t{font-family:'Jost',sans-serif;font-size:19px;font-weight:600;letter-spacing:-.01em}
 .gf-ring-n{font-family:'Jost',sans-serif;font-size:36px;font-weight:700;letter-spacing:-.02em}
 .gf-route-tot-v{font-family:'Jost',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.015em}
-"""
+""")
 
 
 # =========================================================================

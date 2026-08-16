@@ -44,9 +44,6 @@ b{color:#fff;font-weight:500}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .nav .adh{color:#1a1608!important;background:var(--gold);padding:8px 16px;border-radius:30px;font-weight:600}
 @media(max-width:760px){.nav .links a:not(.adh){display:none}}
-/* 9 entrees de menu : on resserre entre 861 et 1080 px (sous 861 px = hamburger).
-   Jamais sous 13 px (plancher typographique du site) : dans la bande la plus
-   etroite on masque « Prestations », qui reste accessible depuis l'accueil. */
 @media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
 @media(min-width:861px) and (max-width:1000px){.nav .links a[href="/#prestations"]{display:none}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:15px 26px;border-radius:40px;font-size:16px;min-height:48px;transition:transform .2s,box-shadow .2s}
@@ -78,8 +75,6 @@ b{color:#fff;font-weight:500}
 .fig{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
 .fig img{display:block;width:100%}
 .fig figcaption{color:var(--muted);font-size:13.5px;line-height:1.55;padding:12px 16px 14px;border-top:1px solid rgba(255,255,255,.06)}
-/* carte claire : sa legende passe en prune sombre, sinon 2,10:1
-   (voir la note du generateur) */
 .fig.on-white{background:#f4f2ee}
 .fig.on-white figcaption{color:#4a4760;border-top-color:rgba(0,0,0,.10)}
 @media(max-width:820px){.two{grid-template-columns:1fr;gap:26px}}
@@ -106,9 +101,6 @@ b{color:#fff;font-weight:500}
 .appel .letter .sign{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:21px;margin-top:22px}
 .badge{display:inline-flex;align-items:center;gap:9px;background:rgba(216,178,90,.14);border:1px solid var(--line);color:var(--gold2);border-radius:30px;padding:9px 18px;font-size:15px;font-weight:500;margin-bottom:16px}
 @media(max-width:620px){.appel .letter{padding-left:18px}}
-/* bloc « ce qui est deja eprouve » : l'experience d'animation, au service de
-   l'appel a candidature. Aucune classe nouvelle hors du conteneur : le bloc
-   reutilise .h-min, .blk h3, p.body et .lst deja definis plus haut. */
 .appel .xp{max-width:820px;margin-top:46px;padding-top:38px;border-top:1px solid var(--line)}
 .appel .xp h3{margin-top:0}
 /* ===== FORMULAIRE ===== */
@@ -121,8 +113,6 @@ b{color:#fff;font-weight:500}
 .row .f{margin-top:0}
 .f>label,fieldset>legend{display:block;color:#fff;font-size:15.5px;font-weight:500;margin-bottom:8px;line-height:1.45}
 .f .hint,fieldset .hint{display:block;color:var(--muted);font-size:14px;font-weight:400;margin-top:3px}
-/* variante en ligne : evite qu'un champ de la meme rangee soit decale d'une
-   ligne par rapport a son voisin (Email / Telephone) */
 .f .hint.inl{display:inline;margin-top:0}
 .req{color:var(--gold2)}
 .f input,.f select,.f textarea{width:100%;min-height:48px;background:#101229;color:var(--ink);border:1px solid rgba(216,178,90,.30);border-radius:11px;padding:12px 14px;font-family:inherit;font-size:16px;line-height:1.5}
@@ -175,7 +165,6 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
 .legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:13px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:60px 0}}
-/* ===== MENU MOBILE (hamburger) — repris de sources/mobile_nav.py ===== */
 .burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
 .burger span{display:block;width:20px;height:2px;background:var(--gold2);margin:4px auto;border-radius:2px;transition:transform .28s,opacity .2s}
 .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
@@ -198,31 +187,17 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
   .nav .links a:active{color:var(--gold2) !important}
   .nav .links a.adh{margin-top:18px;background:var(--gold);color:#1a1608 !important;
     border-radius:30px;font-family:'Jost',sans-serif;font-size:16px !important;padding:14px 30px;width:auto}
-  /* .nav porte un backdrop-filter : il devient le bloc conteneur des descendants
-     position:fixed ET un contexte d'empilement -> le panneau restait enferme dans
-     la barre et passait sous le contenu. On neutralise le filtre et on remonte le
-     nav uniquement quand le menu est ouvert. NE PAS RETIRER. */
   body.nav-open .nav{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;z-index:1001 !important}
   body.nav-open{overflow:hidden}
 }
 @media print{.burger,.totop{display:none}}
 
-/* ===== couche chaleureuse commune (sources/theme_chaleur.py) =============
-   Le degrade signature de /guso-facile, propage a tout le site. Par touches :
-   filets, sur-titres, puces, bouton. Jamais en aplat de fond. */
-/* surfaces etagees : fond -> carte = x3,30 de luminance (x2,36 avant) */
 :root{--night2:#161839;--card:#1e214a;
 /* accents plus vifs — l'or primaire ne bouge pas */
 --gold2:#f8d274;--plum:#9374e2;--coral:#ee8062;--plum2:#b38ff5;
 --grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
 --grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral));
-/* meme degrade, axe VERTICAL : pour les filets de 3 px places sur le cote
-   d'une carte. Avec `--grad` (95deg) un filet haut de 200 px et large de 3
-   affiche le degrade de biais — mesure a l'ecran, c'est du hasard, pas un
-   choix. `--grad-v` le fait courir franchement de haut en bas. */
 --grad-v:linear-gradient(180deg,var(--gold2),var(--gold) 30%,var(--coral) 66%,var(--plum2))}
-/* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice ».
-   position:fixed + inset:0 -> aucun risque de debordement horizontal. */
 body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(238,128,98,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(147,116,226,.12),transparent 62%)}
 /* texte peint au degrade (titres, sur-titres) */
 .grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
@@ -230,24 +205,19 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
 .divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent)}
 .kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* boutons : le principal porte le degrade chaud, le fantome un filet dore */
 .btn{border-radius:999px}
 .btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
 .btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
 .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(248,210,116,.3);color:var(--gold2)}
 .btn.ghost:hover{border-color:rgba(248,210,116,.55)}
-/* contraste du pied de page : 3,8:1 -> 5,96:1 sur #08091a (seuil 4,5:1) */
 .legal{color:#8b8ba6}
-/* a l'impression, un texte peint au degrade sort blanc : on le rend a l'or */
 @media print{.kick,.grad-t{-webkit-text-fill-color:var(--gold);color:var(--gold)}}
 /* les pictogrammes en ligne (voir ICONES plus bas) */
 .ic{width:23px;height:23px;display:block;flex:0 0 auto}
 .tc-defs{position:absolute;width:0;height:0;overflow:hidden}
-/* ===== Rythme & calebasse : declinaisons chaleureuses ===== */
 section{padding:92px 0}
 .top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
 .h-min{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* filets de cote : le trait or (ou prune) plein devient le degrade signature */
 .note,.quote,.appel .letter{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
 .note{border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
 .date{border-left-width:3px;border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box;border-radius:18px}
@@ -256,11 +226,8 @@ section{padding:92px 0}
 .card{border-top-width:3px;border-top-color:transparent;background-image:var(--grad);background-repeat:no-repeat;background-size:100% 3px;background-position:0 0;background-origin:border-box;border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
 /* puces : rond dore plein -> losange au degrade chaud */
 .lst li::before{width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);top:19px;left:3px}
-/* la prune revient en accent de texte (--plum2 : 8,3:1 sur --night) */
 .quote .who{color:var(--plum2)}
-/* le badge de l'appel a candidature : fond chaud, plus un aplat dore */
 .badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(238,128,98,.11));border-color:rgba(248,210,116,.34);border-radius:999px}
-/* les deux icones qui remplacent les emoji (voir theme_chaleur.ICONES) */
 .badge .ic{width:20px;height:20px}
 .appel .letter .emo{display:inline-block;vertical-align:-4px;line-height:0}
 .appel .letter .emo .ic{width:21px;height:21px}
@@ -268,7 +235,6 @@ section{padding:92px 0}
 .hero-fig,.fig,.form{border-radius:18px}
 @media(max-width:760px){section{padding:66px 0}}
 /* == nav_menu.py (resonances-4) == */
-/* ===== MENU PARTAGE : sous-menus « Sur scene » et « Le Nid » ===== */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .nav .links>a[aria-current="page"]{border-bottom:1px solid rgba(216,178,90,.62);padding-bottom:2px}
@@ -305,16 +271,13 @@ section{padding:92px 0}
   .nav .links .nm-sub a:hover,.nav .links .nm-sub a:focus-visible{
     background:rgba(216,178,90,.15);color:var(--gold2)}
   .nav .links .nm-sub a[aria-current="page"]{color:var(--gold2);background:rgba(216,178,90,.10)}
-  /* zone tampon : le survol ne doit pas casser entre le parent et le panneau */
   .nm-item.nm-open::after{content:'';position:absolute;top:100%;left:-30px;right:-30px;height:8px}
-  /* bouton Adherer : 4 des 7 pages n'avaient pas de regle .nav .adh */
   .nav .links a.adh{color:#1a1608 !important;background:var(--gold);
     padding:8px 16px;border-radius:30px;font-weight:600;font-size:15px;
     font-family:'Jost',system-ui,-apple-system,sans-serif;white-space:nowrap;
     border-bottom:0;min-height:0}
   .nav .links a.adh:hover,.nav .links a.adh:focus-visible{background:var(--gold2)}
 }
-/* barre serree quand la place manque (le nom de l'association ne doit jamais etre touche) */
 @media(min-width:861px) and (max-width:1120px){
   .nav{padding-left:18px;padding-right:18px}
   .nav .brand{white-space:nowrap;font-size:16px}
@@ -326,10 +289,7 @@ section{padding:92px 0}
   .nav .links a:not(.adh),.nm-top{font-size:14px}
   .nav .brand{font-size:14px;letter-spacing:.1em}
 }
-/* ---- mobile : les sous-menus deviennent des accordeons ---- */
 @media(max-width:860px){
-  /* flex-wrap:nowrap est INDISPENSABLE : le panneau est en flex-direction:column,
-     autoriser le retour a la ligne le decoupe en 2-3 COLONNES au lieu de defiler. */
   .nav .links{flex-wrap:nowrap !important;justify-content:flex-start !important}
   .nav .links>:first-child{margin-top:auto}
   .nav .links>:last-child{margin-bottom:auto}

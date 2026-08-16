@@ -195,33 +195,39 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 # ⚠️ Contrastes : `--muted` (#a9a6c4) = 8,0:1 sur `--night`, 7,1:1 sur `--card` ;
 #    `--gold2` (#f0d18a) = 11,5:1 sur `--night`. Le corps des encadres est a
 #    #d3d0e8. Aucun texte courant ne descend sous 4,5:1.
-CSS_PAGE = """/* ===== L’association ===== */
-/* --- l'entete : sobre, pas un hero plein ecran. C'est une page de reference,
-   on doit arriver au premier paragraphe sans faire defiler. --- */
-.ass-top{padding:142px 0 26px;position:relative}
+CSS_PAGE = ("""/* ===== L’association ===== */
+"""
+           # --- l'entete : sobre, pas un hero plein ecran. C'est une page de reference,
+           # on doit arriver au premier paragraphe sans faire defiler. ---
+           """.ass-top{padding:142px 0 26px;position:relative}
 .ass-top h1{font-size:clamp(38px,7.4vw,74px);font-weight:600;line-height:1.04;letter-spacing:.02em}
 .ass-top .tag{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,3.2vw,28px);margin-top:6px}
-/* --- le sommaire : cinq pastilles, cible tactile de 44 px --- */
-.somm{display:flex;flex-wrap:wrap;gap:10px;margin:30px 0 0;padding:0;list-style:none}
+"""
+           # --- le sommaire : cinq pastilles, cible tactile de 44 px ---
+           """.somm{display:flex;flex-wrap:wrap;gap:10px;margin:30px 0 0;padding:0;list-style:none}
 .somm li{display:flex}
 .somm a{display:inline-flex;align-items:center;min-height:44px;padding:9px 17px;border-radius:999px;border:1px solid rgba(248,210,116,.3);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));color:var(--gold2);font-size:14.5px;line-height:1.3;transition:border-color .2s}
 .somm a:hover{border-color:rgba(248,210,116,.6)}
-/* --- les quatre valeurs : filet de tete au degrade (meme geste que l'accueil) --- */
-.vals{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:20px;margin-top:40px}
+"""
+           # --- les quatre valeurs : filet de tete au degrade (meme geste que l'accueil) ---
+           """.vals{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:20px;margin-top:40px}
 .val{border-top:2px solid transparent;padding-top:16px;background-image:linear-gradient(90deg,rgba(216,178,90,.5),rgba(238,128,98,.5) 55%,rgba(179,143,245,.45));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
 .val h3{font-size:21px;font-weight:600;color:var(--plum2)}
 .val p{color:var(--muted);font-size:15px;margin-top:6px}
-/* --- l'encadre des statuts : repris de l'accueil, coins genereux --- */
-.box{margin-top:34px;background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:28px;max-width:900px}
+"""
+           # --- l'encadre des statuts : repris de l'accueil, coins genereux ---
+           """.box{margin-top:34px;background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:28px;max-width:900px}
 .box p{color:#d3d0e8;margin-bottom:14px}
 .art{display:inline-block;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-bottom:4px;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* le trait dore plein des renvois devient le degrade vertical */
-.jo{color:var(--muted);font-size:15px;border-left:3px solid transparent;padding-left:16px;margin-top:18px;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
+"""
+           # le trait dore plein des renvois devient le degrade vertical
+           """.jo{color:var(--muted);font-size:15px;border-left:3px solid transparent;padding-left:16px;margin-top:18px;background-image:var(--grad-v);background-repeat:no-repeat;background-size:3px 100%;background-position:0 0;background-origin:border-box}
 .jo:last-child{margin-bottom:0}
 .jo a{font-size:15px;display:inline-block;padding:6px 0;text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px}
 .jo a:hover{text-decoration-color:var(--gold2)}
-/* --- les mentions legales : deux cartes a filet de tete --- */
-.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:20px;margin-top:38px}
+"""
+           # --- les mentions legales : deux cartes a filet de tete ---
+           """.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:20px;margin-top:38px}
 .mcard{border-top:3px solid transparent;border-radius:18px;padding:26px 26px 22px;background-image:var(--grad),linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box,padding-box}
 .mcard h3{display:flex;align-items:center;gap:11px;font-size:23px;font-weight:600;color:#fff;margin-bottom:14px}
 .mcard dl{margin:0}
@@ -236,7 +242,7 @@ CSS_PAGE = """/* ===== L’association ===== */
 .adh-sec .cta{justify-content:center;margin-top:30px}
 .adh-sec .kick{margin-bottom:0}
 @media(max-width:760px){.ass-top{padding:118px 0 18px}.mcard{padding:22px 20px 18px}.box{padding:22px}}
-"""
+""")
 
 
 # =========================================================================

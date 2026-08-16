@@ -87,7 +87,7 @@ import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 # ⚠️ Les regles voisines `[href="/#association"]` et `[href="/#prestations"]` sont
 #    des vestiges du meme menu, mais leurs ancres existent toujours sur l'accueil :
 #    elles ne declenchent rien et ne sont PAS touchees ici.
-CSS = """
+CSS = ("""
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -110,10 +110,11 @@ b{color:#fff;font-weight:500}
 .nav .links a:hover{color:var(--gold2)}
 .nav .adh{color:#1a1608!important;background:var(--gold);padding:8px 16px;border-radius:30px;font-weight:600}
 @media(max-width:760px){.nav .links a:not(.adh){display:none}}
-/* 9 entrees de menu : on resserre entre 861 et 1080 px (sous 861 px = hamburger).
-   On ne descend jamais sous 13 px (plancher typographique du site) : dans la bande
-   la plus etroite on masque plutot « Statuts », qui reste dans le pied de page. */
-@media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
+"""
+      # 9 entrees de menu : on resserre entre 861 et 1080 px (sous 861 px = hamburger).
+      # On ne descend jamais sous 13 px (plancher typographique du site) : dans la bande
+      # la plus etroite on masque plutot « Statuts », qui reste dans le pied de page.
+      """@media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 26px;border-radius:40px;font-size:15px;transition:transform .2s,box-shadow .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
@@ -138,10 +139,11 @@ b{color:#fff;font-weight:500}
 .soa-who h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;color:#fff;font-weight:600;margin:6px 0 2px}
 .soa-who .role{color:var(--gold2);font-size:13.5px;font-style:italic;margin-bottom:9px}
 .soa-who p{color:var(--muted);font-size:15px;margin:0}
-/* Les intervenants : une LIGNE par personne (mise en page d'origine, preferee par
-   David) — portrait carre a gauche, nom en dore + intitule de role + statut, puis
-   la bio. Empilement portrait au-dessus du texte sous 620 px. */
-.soa-team{display:grid;gap:18px;margin-top:30px}
+"""
+      # Les intervenants : une LIGNE par personne (mise en page d'origine, preferee par
+      # David) — portrait carre a gauche, nom en dore + intitule de role + statut, puis
+      # la bio. Empilement portrait au-dessus du texte sous 620 px.
+      """.soa-team{display:grid;gap:18px;margin-top:30px}
 .who-site{margin-top:10px}
 .who-site a{color:var(--gold);font-size:15px;text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px;display:inline-block;padding:8px 0}
 .who-site a:hover{color:var(--gold2)}
@@ -155,25 +157,29 @@ b{color:#fff;font-weight:500}
 .who-txt p{color:#d7d4ea;font-size:15.5px;margin:12px 0 0}
 @media(max-width:620px){.soa-line{flex-direction:column;gap:16px;padding:20px}
   .who-ph{width:140px;height:140px}}
-/* figure large dans le fil du texte (meme colonne que les paragraphes) */
-.soa-wide{max-width:820px;margin-top:26px}
-/* ===== Hero : l'affiche sur fond NOIR PUR =====================================
-   Le visuel hero-soa-* a ses 4 coins en #000 : la section de hero est donc en
-   #000 elle aussi et l'affiche n'a NI cadre NI arrondi NI fond de carte, sinon
-   la couture redevient visible. Le raccord vers le bleu nuit du reste de la page
-   se fait par .hero-fade juste apres le </header>. */
-.hero-black{background:#000}
+"""
+      # figure large dans le fil du texte (meme colonne que les paragraphes)
+      """.soa-wide{max-width:820px;margin-top:26px}
+"""
+      # ===== Hero : l'affiche sur fond NOIR PUR =====================================
+      # Le visuel hero-soa-* a ses 4 coins en #000 : la section de hero est donc en
+      # #000 elle aussi et l'affiche n'a NI cadre NI arrondi NI fond de carte, sinon
+      # la couture redevient visible. Le raccord vers le bleu nuit du reste de la page
+      # se fait par .hero-fade juste apres le </header>.
+      """.hero-black{background:#000}
 .hero-black .soa-hero{grid-template-columns:minmax(0,1fr) minmax(0,520px);gap:40px;align-items:center;margin-top:26px}
 .hero-poster{border:0;border-radius:0;background:transparent;overflow:visible}
 .hero-poster img{width:100%;height:auto}
 .hero-fade{height:130px;background:linear-gradient(180deg,#000,var(--night))}
 @media(max-width:860px){.hero-black .soa-hero{grid-template-columns:1fr;gap:28px}
-  /* en mobile l'affiche passe AU-DESSUS du texte : c'est elle le hero */
-  .hero-black .soa-hero>div{order:2}.hero-poster{order:1}}
+"""
+      # en mobile l'affiche passe AU-DESSUS du texte : c'est elle le hero
+      """  .hero-black .soa-hero>div{order:2}.hero-poster{order:1}}
 @media(max-width:700px){
-  /* pleine largeur : on annule les 26 px de .wrap pour gagner en lisibilite
-     (le fond de l'affiche etant noir, le raccord reste invisible) */
-  .hero-poster{width:calc(100% + 52px);max-width:none;margin-left:-26px;margin-right:-26px}}
+"""
+      # pleine largeur : on annule les 26 px de .wrap pour gagner en lisibilite
+      # (le fond de l'affiche etant noir, le raccord reste invisible)
+      """  .hero-poster{width:calc(100% + 52px);max-width:none;margin-left:-26px;margin-right:-26px}}
 /* encadres de cadrage (statut de l'evenement, limites) */
 .soa-note{background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:19px 22px;margin-top:22px;max-width:820px}
 .soa-note p{color:#d7d4ea;font-size:15.5px;margin:0;line-height:1.7}
@@ -223,8 +229,10 @@ footer a:hover{color:var(--gold2)}
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
 .legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:13px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:60px 0}}
-/* --- lisibilite des liens (demande de David : liens et dates trop petits) ---
-   Ce bloc doit rester EN DERNIER : il surcharge les tailles ci-dessus. */
+"""
+      # --- lisibilite des liens (demande de David : liens et dates trop petits) ---
+      # Ce bloc doit rester EN DERNIER : il surcharge les tailles ci-dessus.
+      """/* --- lisibilite des liens --- */
 .jo a{font-size:15px;display:inline-block;padding:6px 0;text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px}
 .jo a:hover{text-decoration-color:var(--gold2)}
@@ -236,7 +244,7 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 .nav .links a.adh{font-size:15px}
 p a:not(.btn):not(.adh){text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
-"""
+""")
 
 # --------------------------------------------------------------------------
 # LA COUCHE CHALEUREUSE (refonte du 15/08/2026)
@@ -263,17 +271,19 @@ p a:not(.btn):not(.adh){text-decoration:underline;
 #   * la prune revient en accent de TEXTE (`--plum2`) sur les intitules de role
 #     et sur la liste « ce que ce n'est pas » ;
 #   * des rayons plus genereux (14/16 -> 18 px) et plus d'air (78 -> 92 px).
-CSS_CHALEUR = """/* ===== Le Soin Soa : declinaisons chaleureuses ===== */
+CSS_CHALEUR = ("""/* ===== Le Soin Soa : declinaisons chaleureuses ===== */
 section{padding:92px 0}
 .soa-top h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%}
 .soa-h{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-/* cartes a filet gauche : le trait or plein devient le degrade signature */
-.soa-who,.soa-line,.soa-note{position:relative;overflow:hidden;border-left-color:transparent;border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
+"""
+              # cartes a filet gauche : le trait or plein devient le degrade signature
+              """.soa-who,.soa-line,.soa-note{position:relative;overflow:hidden;border-left-color:transparent;border-radius:18px;box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
 .soa-who::before,.soa-line::before,.soa-note::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:var(--grad-v)}
 .soa-quote{position:relative;border-left-color:transparent}
 .soa-quote::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;border-radius:2px;background:var(--grad-v)}
-/* cartes sans filet : le degrade passe en tete, comme sur /guso-facile */
-.soa-day,.soa-price{position:relative;overflow:hidden;border-radius:18px}
+"""
+              # cartes sans filet : le degrade passe en tete, comme sur /guso-facile
+              """.soa-day,.soa-price{position:relative;overflow:hidden;border-radius:18px}
 .soa-day::before,.soa-price::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .soa-day{box-shadow:0 20px 44px -32px rgba(0,0,0,.95)}
 .soa-price{box-shadow:0 26px 60px -42px rgba(0,0,0,.95)}
@@ -281,13 +291,15 @@ section{padding:92px 0}
 /* puces : rond dore plein -> losange au degrade chaud */
 .soa-list li::before{width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);top:18px;left:3px}
 .soa-list.no li::before{background:none;border:1.5px solid var(--plum2);width:8px;height:8px;border-radius:2px}
-/* la prune revient en accent de texte (--plum2 : 7,3:1 sur --card) */
-.soa-who .role,.who-txt .role{color:var(--plum2)}
-/* le sommaire : deux filets degrades a la place des deux traits dores */
-.toc{border-top-color:transparent;border-bottom-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent),linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0,0 100%}
+"""
+              # la prune revient en accent de texte (--plum2 : 7,3:1 sur --card)
+              """.soa-who .role,.who-txt .role{color:var(--plum2)}
+"""
+              # le sommaire : deux filets degrades a la place des deux traits dores
+              """.toc{border-top-color:transparent;border-bottom-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent),linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0,0 100%}
 .toc a::before{color:var(--coral)}
 @media(max-width:760px){section{padding:66px 0}}
-"""
+""")
 
 CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
 
