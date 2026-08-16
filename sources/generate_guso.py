@@ -636,6 +636,98 @@ LE FORMULAIRE — CE QUI A ETE APPLIQUE TEL QUEL, ET LES TROIS PIEGES
       generateur ET sur la page livree : aucune correspondance.)
 
 ------------------------------------------------------------------------------
+LE FORMULAIRE S'ENRICHIT (17/08/2026) — QUATRE OBLIGATOIRES, TROIS CONDITIONNELS
+------------------------------------------------------------------------------
+DEMANDE DE DAVID, MOT POUR MOT
+  « Sur le formulaire pour Guso Facile : le prenom et nom sont obligatoires. Si
+  la personne veut rentrer en tant que structure, une case lui demande le nom de
+  sa structure et son type (asso ou autre) et lui demande si elle a la licence
+  du spectacle ou pas, et c'est obligatoire. » Puis, dans la foulee : « le tel
+  est aussi obligatoire ».
+
+CE QUI EST OBLIGATOIRE MAINTENANT
+  PRENOM · NOM · E-MAIL · TELEPHONE. La note precedente disait exactement
+  l'inverse pour le telephone (« un formulaire qui exige le telephone perd des
+  gens a l'endroit ou il ne faut pas ») : elle est REMPLACEE, pas oubliee.
+  L'arbitrage a change parce que chaque demande est etudiee personnellement et
+  qu'un e-mail seul ne permet pas de rappeler quelqu'un. LE MESSAGE RESTE LE
+  SEUL CHAMP FACULTATIF.
+  Meme mecanique que l'e-mail pour les quatre : erreur attrapee AVANT tout
+  envoi, message ECRIT et rattache au champ (`aria-describedby` + `aria-invalid`
+  + une boite `.f-err` par champ), focus rendu au PREMIER champ fautif, et
+  AUCUNE REQUETE RESEAU tant que le formulaire n'est pas valide.
+  ⚠️ La validation ne s'arrete PLUS au premier champ fautif : elle les parcourt
+  tous et pose un message a cote de chacun, puis rend le focus au premier.
+  S'arreter au premier obligerait a envoyer autant de fois qu'il manque de
+  champs, en decouvrant les manques un par un.
+
+LE TELEPHONE — TOLERANT, ET JAMAIS REFORMATE
+  Les gens ecrivent « 06 12 34 56 78 », « +33 6 12 34 56 78 », « 0612345678 »,
+  avec des points ou des tirets. TOUT CELA EST ACCEPTE : on ne valide que la
+  presence d'au moins NEUF CHIFFRES, la mise en forme n'est jamais jugee. Et le
+  champ n'est PAS reformate sous les doigts pendant la frappe : c'est deroutant,
+  et on envoie la chaine telle qu'elle a ete saisie.
+
+LES TROIS CHAMPS DE STRUCTURE
+  Ils apparaissent pour « Structure » ET POUR « LES DEUX » — « les deux » EST
+  une structure, l'oublier serait le defaut le plus facile a commettre ici.
+    - NOM DE LA STRUCTURE (texte libre) ;
+    - TYPE : `association` · `autre` (a l'ecran : « Association loi 1901 » et
+      « Autre »). DEUX CHOIX, sans champ de precision : David a demande trois
+      informations, la precision se dit dans le message, et chaque demande est
+      de toute facon lue une par une ;
+    - LICENCE D'ENTREPRENEUR DE SPECTACLES : `oui` · `non`.
+  ⚠️ LA FORMULATION DE LA LICENCE EST LE POINT SENSIBLE. C'est celle qui
+  autorise a employer des artistes. REPONDRE « NON » EST COURANT ET
+  PARFAITEMENT LEGITIME : beaucoup d'associations passent par le GUSO
+  PRECISEMENT parce qu'elles n'en ont pas. La question est posee au registre
+  neutre, la phrase qui l'accompagne dit explicitement que la reponse ne change
+  rien a la demande, et le message d'erreur du groupe le redit (« les deux
+  reponses conviennent, aucune ne ferme la porte ») parce que c'est LA qu'on
+  hesite. Ne jamais la reecrire en quelque chose qui se lirait comme un controle
+  de conformite : ce serait faire fuir exactement les structures que l'outil
+  vise.
+  ⚠️ LE PIEGE CLASSIQUE DU CHAMP CONDITIONNEL — rester obligatoire apres avoir
+  disparu — est rendu IMPOSSIBLE par construction : une seule fonction JS,
+  `structure()`, commande a la fois l'affichage du bloc et son caractere
+  obligatoire. Il ne peut pas y avoir de desaccord entre ce qu'on voit et ce
+  qu'on exige. Teste dans les deux sens.
+  L'apparition N'EST PAS QUE VISUELLE : le bloc porte `hidden` (il sort donc de
+  l'arbre d'accessibilite ET de l'ordre de tabulation quand il est replie), et
+  une zone `role="status" aria-live="polite"` annonce en une phrase ce qui vient
+  d'apparaitre.
+
+⚠️⚠️ OU PARTENT CES DONNEES — LE POINT TECHNIQUE DECISIF
+  La table `account_requests` n'accepte QUE : `email` (obligatoire),
+  `first_name`, `last_name`, `phone`, `kind`, `message`, `context` (jsonb
+  libre). IL N'Y A AUCUNE COLONNE POUR LA STRUCTURE. Envoyer `structure_nom`
+  ferait ECHOUER la requete en 401 — la securite rejette tout champ inconnu,
+  et c'est cette meme regle qui protege de l'auto-approbation.
+  L'information part donc a DEUX ENDROITS, ET C'EST DELIBERE :
+    1. dans `context`, sous forme structuree (`structure_nom`,
+       `structure_type`, `structure_licence_spectacles`), exploitable plus
+       tard. ⚠️ ELLES S'AJOUTENT a `{origin, ts}` qui s'y trouve deja, elles ne
+       le remplacent pas ;
+    2. EN CLAIR, A LA FIN DE `message` :
+         « — Structure : « Les Amis du Rythme » · association loi 1901 ·
+           licence d'entrepreneur de spectacles : non »
+       parce que la console d'administration affiche PROBABLEMENT `message` et
+       PAS `context` : sans cette ligne, David recevrait la demande d'une
+       structure sans jamais voir son nom ni sa licence. La ligne est separee du
+       texte de la personne par une ligne vide et introduite par un tiret
+       cadratin, pour qu'on distingue au premier coup d'oeil ce qu'elle a ecrit
+       de ce que le formulaire a ajoute.
+  Les garde-fous : trois ancres a ZERO (`structure_nom:`, `structure_type:`,
+  `structure_licence_spectacles:`) interdisent la forme « colonne » ; et
+  `_controle_formulaire()` compare les cles du corps de la requete a
+  `COLONNES_DEMANDE`, une par une.
+
+LA MENTION RGPD EST COMPLETEE
+  Elle enumere les donnees transmises : les informations de structure y sont
+  desormais nommees. Le responsable de traitement ne change pas — DAVID LESAGE,
+  createur de l'outil, PAS L'ASSOCIATION.
+
+------------------------------------------------------------------------------
 LA MISE EN VALEUR DU BLOG (16/08/2026) — le constat de David, et sa mesure
 ------------------------------------------------------------------------------
 Verbatim : « le blog n'est pas du tout mis en valeur alors meme qu'il est super
@@ -1564,6 +1656,27 @@ CSS_PAGE = ("""/* ===== Guso Facile ===== */
            # la phrase d'exemple de « Les deux » — 14 px, au-dessus du plancher de 13
            """.dmd-kind-h{margin:11px 0 0;font-size:14px;line-height:1.6;color:var(--muted);max-width:60ch}
 .dmd-kind label:has(input:checked){border-color:var(--gold2);background:linear-gradient(90deg,rgba(216,178,90,.16),rgba(238,128,98,.12))}
+"""
+           # --- LES CHAMPS DE STRUCTURE (17/08/2026) -------------------------------
+           # `[hidden]` est ecrit EXPLICITEMENT : la feuille de la page pose des
+           # `display:` sur beaucoup de conteneurs, et une seule regle plus specifique
+           # que le style par defaut du navigateur suffirait a faire reapparaitre un
+           # bloc « cache ». Un formulaire dont les champs conditionnels se voient
+           # quand meme demanderait des informations sans raison — et, pire, en
+           # rendrait certaines obligatoires sans que rien ne le dise.
+           # ⚠️ Le fond du panneau est PLUS SOMBRE que celui du formulaire
+           # (`rgba(9,10,26,.3)`), pas plus clair : le texte de la page est clair, et
+           # eclaircir le fond sous un message d'erreur corail est exactement ce qui a
+           # fait tomber les boutons d'agenda de `/le-nid` sous 4,5:1 le 16/08/2026.
+           # ⚠️ La legende d'un groupe fautif passe en corail : la couleur ne porte
+           # JAMAIS seule l'information — le message ecrit est en dessous, et
+           # `aria-invalid` le dit aux technologies d'assistance.
+           """.dmd [hidden]{display:none}
+.dmd-avis:not(:empty){display:block;margin:12px 0 0;font-size:14px;line-height:1.6;color:var(--gold2);max-width:60ch}
+.dmd-struct{margin-top:20px;padding:20px 20px 18px;border:1px solid rgba(248,210,116,.24);border-radius:18px;background:rgba(9,10,26,.3)}
+.dmd-struct-t{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold2);font-weight:500}
+.dmd-struct>.f:first-of-type{margin-top:14px}
+.dmd fieldset[aria-invalid="true"] legend{color:var(--coral)}
 .dmd-go{margin-top:26px}
 .dmd button.btn{border:0;font-family:inherit;cursor:pointer}
 .dmd button.btn[disabled]{opacity:.62;cursor:default;transform:none;box-shadow:none}
@@ -1584,6 +1697,7 @@ CSS_PAGE = ("""/* ===== Guso Facile ===== */
   .mea{margin-top:42px;padding-top:28px}
   .mea-c{padding:20px 18px 17px}
   .dmd{padding:22px 18px 20px}
+  .dmd-struct{padding:18px 16px 16px}
   .etape{padding:20px 18px 18px}
   .faq-q summary{padding:14px 17px;gap:13px}
   .faq-q .faq-r{padding:14px 17px 16px}
@@ -3953,9 +4067,15 @@ def build_html():
       #    champ : c'est ce qui rend la case cliquable et ce qui fait annoncer
       #    le libelle a la prise de focus. `_controle_formulaire()` verifie le
       #    couple, un par un.
-      #  - le seul champ OBLIGATOIRE est l'e-mail : c'est par la qu'arrive la
-      #    reponse. Tout le reste aide, rien d'autre n'empeche. Un formulaire
-      #    qui exige le telephone perd des gens a l'endroit ou il ne faut pas.
+      #  - ⚠️ 17/08/2026 — LES CHAMPS OBLIGATOIRES SONT DESORMAIS QUATRE :
+      #    prenom, nom, e-mail ET TELEPHONE. Demande de David, mot pour mot :
+      #    « le prenom et nom sont obligatoires » puis « le tel est aussi
+      #    obligatoire ». La note precedente disait l'inverse (« un formulaire
+      #    qui exige le telephone perd des gens a l'endroit ou il ne faut pas »)
+      #    — elle est REMPLACEE, pas oubliee : l'arbitrage a change parce que
+      #    chaque demande est etudiee personnellement et qu'un e-mail seul ne
+      #    permet pas de rappeler quelqu'un. Le message reste le seul champ
+      #    facultatif du formulaire.
       #  - `aria-describedby` pointe le message d'erreur MEME QUAND IL EST
       #    VIDE : le lier au moment de l'erreur seulement est une source connue
       #    d'annonces manquees.
@@ -3983,17 +4103,60 @@ def build_html():
       #  - le `<fieldset>` porte `aria-describedby` vers la phrase d'exemple :
       #    elle est ainsi annoncee a la prise de focus du groupe, et pas
       #    seulement lue a l'ecran.
+      #
+      # ⚠️ 17/08/2026 — LES TROIS CHAMPS DE STRUCTURE. Demande de David :
+      #    « si la personne veut rentrer en tant que structure, une case lui
+      #    demande le nom de sa structure et son type (asso ou autre) et lui
+      #    demande si elle a la licence du spectacle ou pas, et c'est
+      #    obligatoire. »
+      #    Ils apparaissent pour « Structure » ET POUR « LES DEUX » — « les
+      #    deux » EST une structure, l'oublier serait le defaut le plus facile
+      #    a commettre ici.
+      #  - LE PIEGE CLASSIQUE DU CHAMP CONDITIONNEL : rester obligatoire apres
+      #    avoir disparu. Le formulaire devient alors impossible a envoyer sans
+      #    que rien n'explique pourquoi. C'est `structure()` qui decide, cote
+      #    JS, ET DE L'AFFICHAGE ET DE L'EXIGENCE — une seule fonction pour les
+      #    deux, il ne peut pas y avoir de desaccord entre elles.
+      #  - L'APPARITION N'EST PAS QUE VISUELLE : le bloc porte `hidden` (donc il
+      #    sort de l'arbre d'accessibilite ET de l'ordre de tabulation quand il
+      #    est replie), et une zone `role="status"` annonce en une phrase ce qui
+      #    vient d'apparaitre. Sans elle, quelqu'un qui n'y voit pas coche
+      #    « Structure » et n'apprend qu'il reste trois champs qu'au moment ou
+      #    l'envoi est refuse.
+      #  - `aria-required="true"` est ecrit EN DUR sur les trois : ils ne sont
+      #    exposes que lorsqu'ils sont reellement obligatoires, puisque `hidden`
+      #    les retire entierement le reste du temps.
+      #  - PAS DE `tabindex` : l'ordre de tabulation est celui du document, et
+      #    le bloc est place JUSTE APRES le choix qui le fait apparaitre.
+      #    (Une ancre a zero occurrence interdit `tabindex` sur toute la page.)
+      #
+      # ⚠️ LA LICENCE — LA FORMULATION EST LE POINT SENSIBLE DE CE BLOC.
+      #    C'est la licence d'entrepreneur de spectacles, celle qui autorise a
+      #    employer des artistes. REPONDRE « NON » EST UNE SITUATION COURANTE ET
+      #    PARFAITEMENT LEGITIME : beaucoup d'associations passent par le GUSO
+      #    PRECISEMENT parce qu'elles n'en ont pas. La question est donc posee
+      #    au registre neutre, et la phrase qui l'accompagne dit explicitement
+      #    que la reponse ne ferme aucune porte. Ne jamais la reecrire en
+      #    quelque chose qui se lirait comme un controle de conformite : ce
+      #    serait faire fuir exactement les structures que l'outil vise.
+      #    Le message d'erreur du groupe le redit (« les deux reponses
+      #    conviennent »), parce que c'est LA qu'on hesite.
+      #  - Le type n'a que DEUX choix. « Autre » n'est pas suivi d'un champ de
+      #    precision : David a demande trois informations, la precision se dit
+      #    dans le message, et chaque demande est de toute facon lue une par une.
       """    <form class="dmd" id="demande" novalidate>
       <p class="dmd-t">Demander un accès</p>
-      <p class="dmd-s">Une adresse e-mail suffit ; le reste aide simplement à situer la demande.</p>
+      <p class="dmd-s">Le prénom, le nom, l’adresse e-mail et le téléphone sont demandés ; le message reste libre.</p>
       <div class="dmd-grid">
         <div class="f">
-          <label for="dmd-prenom">Prénom <span class="opt">— facultatif</span></label>
-          <input type="text" id="dmd-prenom" name="first_name" autocomplete="given-name">
+          <label for="dmd-prenom">Prénom <span class="opt">— obligatoire</span></label>
+          <input type="text" id="dmd-prenom" name="first_name" autocomplete="given-name" required aria-describedby="dmd-prenom-err">
+          <span class="f-err" id="dmd-prenom-err"></span>
         </div>
         <div class="f">
-          <label for="dmd-nom">Nom <span class="opt">— facultatif</span></label>
-          <input type="text" id="dmd-nom" name="last_name" autocomplete="family-name">
+          <label for="dmd-nom">Nom <span class="opt">— obligatoire</span></label>
+          <input type="text" id="dmd-nom" name="last_name" autocomplete="family-name" required aria-describedby="dmd-nom-err">
+          <span class="f-err" id="dmd-nom-err"></span>
         </div>
       </div>
       <div class="f">
@@ -4002,8 +4165,9 @@ def build_html():
         <span class="f-err" id="dmd-email-err"></span>
       </div>
       <div class="f">
-        <label for="dmd-tel">Téléphone <span class="opt">— facultatif</span></label>
-        <input type="tel" id="dmd-tel" name="phone" autocomplete="tel" inputmode="tel">
+        <label for="dmd-tel">Téléphone <span class="opt">— obligatoire</span></label>
+        <input type="tel" id="dmd-tel" name="phone" autocomplete="tel" inputmode="tel" required aria-describedby="dmd-tel-err">
+        <span class="f-err" id="dmd-tel-err"></span>
       </div>
       <fieldset class="f" aria-describedby="dmd-kind-h">
         <legend>Je suis</legend>
@@ -4014,7 +4178,35 @@ def build_html():
         </div>
         <p class="dmd-kind-h" id="dmd-kind-h"><b>Les deux</b> — je suis artiste <b>et</b> responsable d’une structure.
           Par exemple : tu joues, et tu es aussi responsable de l’association qui édite les feuillets GUSO.</p>
+        <p class="dmd-avis" id="dmd-struct-avis" role="status" aria-live="polite"></p>
       </fieldset>
+      <div class="dmd-struct" id="dmd-struct" hidden>
+        <p class="dmd-struct-t">Ma structure</p>
+        <div class="f">
+          <label for="dmd-struct-nom">Nom de la structure <span class="opt">— obligatoire</span></label>
+          <input type="text" id="dmd-struct-nom" name="struct_nom" autocomplete="organization" aria-required="true" aria-describedby="dmd-struct-nom-err">
+          <span class="f-err" id="dmd-struct-nom-err"></span>
+        </div>
+        <fieldset class="f" id="dmd-struct-type" role="radiogroup" aria-required="true" aria-describedby="dmd-struct-type-err">
+          <legend>Type de structure <span class="opt">— obligatoire</span></legend>
+          <div class="dmd-kind">
+            <label for="dmd-type-asso"><input type="radio" id="dmd-type-asso" name="struct_type" value="association">Association loi 1901</label>
+            <label for="dmd-type-autre"><input type="radio" id="dmd-type-autre" name="struct_type" value="autre">Autre</label>
+          </div>
+          <span class="f-err" id="dmd-struct-type-err"></span>
+        </fieldset>
+        <fieldset class="f" id="dmd-struct-licence" role="radiogroup" aria-required="true" aria-describedby="dmd-lic-h dmd-struct-licence-err">
+          <legend>Licence d’entrepreneur de spectacles <span class="opt">— obligatoire</span></legend>
+          <div class="dmd-kind">
+            <label for="dmd-lic-oui"><input type="radio" id="dmd-lic-oui" name="struct_licence" value="oui">Oui</label>
+            <label for="dmd-lic-non"><input type="radio" id="dmd-lic-non" name="struct_licence" value="non">Non</label>
+          </div>
+          <p class="dmd-kind-h" id="dmd-lic-h">C’est la licence qui autorise à employer des artistes. Répondre « non » ne
+            change rien à la demande : beaucoup de structures n’en ont pas, et c’est justement pour cela qu’elles
+            emploient au GUSO.</p>
+          <span class="f-err" id="dmd-struct-licence-err"></span>
+        </fieldset>
+      </div>
       <div class="f">
         <label for="dmd-message">Message <span class="opt">— facultatif</span></label>
         <textarea id="dmd-message" name="message" rows="3"></textarea>
@@ -4035,8 +4227,13 @@ def build_html():
       # saisie se fait desormais sur le domaine de l'association et que rien,
       # a l'ecran, ne le dirait autrement. Meme prudence que l'encadre
       # « Guso Facile n'est pas un service de l'association ».
-      """    <p class="mention">Vos données : le prénom, le nom, l’adresse e-mail, le téléphone et le
-      message sont transmis à <b>David Lesage</b>, créateur de Guso Facile, qui en est le responsable —
+      # ⚠️ 17/08/2026 — ELLE ENUMERE LES DONNEES TRANSMISES : les trois champs de
+      # structure devaient donc y entrer, sans quoi la mention serait devenue
+      # FAUSSE le jour meme ou le formulaire s'est enrichi. Le responsable de
+      # traitement ne change pas : David Lesage, pas l'association.
+      """    <p class="mention">Vos données : le prénom, le nom, l’adresse e-mail, le téléphone, le
+      message et, pour une structure, son nom, son type et sa licence d’entrepreneur de spectacles sont
+      transmis à <b>David Lesage</b>, créateur de Guso Facile, qui en est le responsable —
       ce n’est pas l’association qui les reçoit. Ils servent uniquement à étudier votre demande et à
       vous recontacter à ce sujet : aucun démarchage, aucune revente, aucun partage à des tiers. Vous
       pouvez en demander la suppression à tout moment à
@@ -4150,6 +4347,47 @@ def build_html():
       #
       # L'e-mail vide est attrape AVANT tout envoi : aucune requete ne part, le
       # focus revient sur le champ, et le message s'affiche a cote de lui.
+      #
+      # ⚠️ 17/08/2026 — CE QUI A CHANGE, ET POURQUOI CHAQUE DETAIL EST LA :
+      #
+      #  a) QUATRE CHAMPS OBLIGATOIRES puis, POUR UNE STRUCTURE, TROIS DE PLUS.
+      #     La validation ne s'arrete PLUS au premier champ fautif : elle les
+      #     parcourt tous, pose un message a cote de CHACUN, puis rend le focus
+      #     au PREMIER d'entre eux. S'arreter au premier obligerait la personne
+      #     a envoyer autant de fois qu'il manque de champs, en decouvrant les
+      #     erreurs une par une — c'est la facon la plus sure de la perdre.
+      #     La zone `role="status"` dit qu'il en reste : un lecteur d'ecran
+      #     l'annonce, puis le focus enonce le premier champ et son message.
+      #
+      #  b) `structure()` DECIDE A LA FOIS DE L'AFFICHAGE ET DE L'EXIGENCE. Une
+      #     seule fonction pour les deux : c'est ce qui rend IMPOSSIBLE le piege
+      #     du champ cache resté obligatoire. Elle est vraie pour `structure`
+      #     ET pour `les_deux`.
+      #
+      #  c) LE TELEPHONE EST VALIDE AVEC TOLERANCE, ET JAMAIS REFORMATE. Les
+      #     gens ecrivent leur numero avec des espaces, des points, des tirets,
+      #     un indicatif international. Refuser un numero correct parce qu'il
+      #     est espace, ou le reecrire sous les doigts pendant la frappe, c'est
+      #     perdre quelqu'un a la derniere etape. On ne compte donc QUE les
+      #     chiffres (au moins neuf), et on envoie LA CHAINE TELLE QU'ELLE A ETE
+      #     SAISIE.
+      #
+      #  d) ⚠️⚠️ LA TABLE N'A AUCUNE COLONNE POUR LA STRUCTURE. Les seules
+      #     colonnes acceptees sont `email`, `first_name`, `last_name`, `phone`,
+      #     `kind`, `message`, `context`. Envoyer `structure_nom` ferait rendre
+      #     un 401 : la securite rejette tout champ inconnu — c'est exactement
+      #     ce qui protege de l'auto-approbation. ON N'INVENTE AUCUNE COLONNE.
+      #     L'information part donc a DEUX endroits, et c'est delibere :
+      #       1. dans `context` (jsonb libre), sous forme structuree,
+      #          exploitable plus tard — SANS ECRASER `{origin, ts}`, qui s'y
+      #          trouve deja ;
+      #       2. EN CLAIR, A LA FIN DE `message`, parce que la console
+      #          d'administration affiche probablement `message` ET PAS
+      #          `context` : sans cette ligne, David recevrait la demande d'une
+      #          structure sans jamais voir son nom ni sa licence.
+      #     La ligne est separee du texte de la personne par une ligne vide et
+      #     introduite par un tiret cadratin, pour qu'on distingue au premier
+      #     coup d'oeil ce qu'elle a ecrit de ce que le formulaire a ajoute.
       """
 <script>
 (function(){
@@ -4157,51 +4395,134 @@ def build_html():
   if (!f) return;
   var CIBLE = 'URL_DEMANDE';
   var CLE   = 'CLE_PUBLIABLE';
-  var champ = document.getElementById('dmd-email');
-  var err   = document.getElementById('dmd-email-err');
   var etat  = document.getElementById('dmd-etat');
   var envoi = document.getElementById('dmd-envoi');
+  var bloc  = document.getElementById('dmd-struct');
+  var avis  = document.getElementById('dmd-struct-avis');
   var enCours = false;
+  var premier = null;
   var FORME = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/;
+  var CHAMPS  = ['dmd-prenom', 'dmd-nom', 'dmd-email', 'dmd-tel', 'dmd-struct-nom'];
+  var GROUPES = [['dmd-struct-type', 'struct_type'], ['dmd-struct-licence', 'struct_licence']];
 
-  function valeur(id){ var e = document.getElementById(id); return e ? e.value.trim() : ''; }
+  function el(id){ return document.getElementById(id); }
+  function valeur(id){ var e = el(id); return e ? e.value.trim() : ''; }
+  function coche(nom){ var g = f.elements[nom]; return (g && g.value) ? g.value : ''; }
   function dire(texte, souci){
     etat.textContent = texte;
     etat.className = souci ? 'dmd-etat ko' : 'dmd-etat';
   }
-  function signaler(message){
-    err.textContent = message;
-    champ.setAttribute('aria-invalid', 'true');
+  function signaler(id, message, focus){
+    var e = el(id);
+    if (e) e.setAttribute('aria-invalid', 'true');
+    var b = el(id + '-err');
+    if (b) b.textContent = message;
+    if (!premier) premier = el(focus || id);
   }
-  function effacer(){
-    err.textContent = '';
-    champ.removeAttribute('aria-invalid');
+  function effacer(id){
+    var e = el(id);
+    if (e) e.removeAttribute('aria-invalid');
+    var b = el(id + '-err');
+    if (b) b.textContent = '';
   }
-  champ.addEventListener('input', effacer);
+  function effacerTout(){
+    var i;
+    for (i = 0; i < CHAMPS.length; i++) effacer(CHAMPS[i]);
+    for (i = 0; i < GROUPES.length; i++) effacer(GROUPES[i][0]);
+  }
+
+  for (var a = 0; a < CHAMPS.length; a++) {
+    (function(id){
+      var e = el(id);
+      if (e) e.addEventListener('input', function(){ effacer(id); });
+    })(CHAMPS[a]);
+  }
+  for (var b2 = 0; b2 < GROUPES.length; b2++) {
+    (function(id, nom){
+      var g = f.elements[nom];
+      if (!g) return;
+      for (var k = 0; k < g.length; k++) g[k].addEventListener('change', function(){ effacer(id); });
+    })(GROUPES[b2][0], GROUPES[b2][1]);
+  }
+
+  /* « Les deux » EST une structure : les trois champs valent pour les deux
+     valeurs. Cette fonction commande a la fois l'affichage du bloc et son
+     caractere obligatoire — il ne peut donc pas y avoir de desaccord entre
+     ce qu'on voit et ce qu'on exige. */
+  function structure(){
+    var v = f.elements.kind.value;
+    return v === 'structure' || v === 'les_deux';
+  }
+  function basculer(){
+    var on = structure();
+    bloc.hidden = !on;
+    avis.textContent = on
+      ? 'Trois informations sur la structure viennent d’apparaître ci-dessous : son nom, son type et sa licence d’entrepreneur de spectacles.'
+      : '';
+    if (!on) {
+      effacer('dmd-struct-nom');
+      effacer('dmd-struct-type');
+      effacer('dmd-struct-licence');
+    }
+  }
+  var choix = f.elements.kind;
+  for (var c = 0; c < choix.length; c++) choix[c].addEventListener('change', basculer);
+  basculer();
 
   f.addEventListener('submit', function(ev){
     ev.preventDefault();
     if (enCours) return;
-    effacer();
+    effacerTout();
     dire('');
+    premier = null;
+
+    var prenom = valeur('dmd-prenom');
+    if (!prenom) signaler('dmd-prenom', 'Merci d’indiquer un prénom.');
+    var nom = valeur('dmd-nom');
+    if (!nom) signaler('dmd-nom', 'Merci d’indiquer un nom.');
 
     var email = valeur('dmd-email');
-    if (!email) {
-      signaler('Merci d’indiquer une adresse e-mail : c’est par là que la réponse arrivera.');
-      champ.focus();
-      return;
-    }
-    if (!FORME.test(email)) {
-      signaler('Cette adresse e-mail ne semble pas valide.');
-      champ.focus();
-      return;
-    }
+    if (!email) signaler('dmd-email', 'Merci d’indiquer une adresse e-mail : c’est par là que la réponse arrivera.');
+    else if (!FORME.test(email)) signaler('dmd-email', 'Cette adresse e-mail ne semble pas valide.');
+
+    /* tolerance assumee : on compte les chiffres, on ne juge pas la mise en
+       forme, et on n'y touche pas. */
+    var tel = valeur('dmd-tel');
+    var nb = (tel.match(/[0-9]/g) || []).length;
+    if (!tel) signaler('dmd-tel', 'Merci d’indiquer un numéro de téléphone.');
+    else if (nb < 9) signaler('dmd-tel', 'Ce numéro semble incomplet : il faut au moins neuf chiffres. Les espaces, les points et les tirets sont acceptés, l’indicatif international aussi.');
 
     /* trois boutons radio de meme nom : `.value` rend celui qui est coche.
        Les seules valeurs possibles sont `artiste`, `structure` et `les_deux` —
        ce sont celles que la base accepte, il n'y en a pas d'autre. */
     var nature = f.elements.kind.value || 'artiste';
+    var sNom = '', sType = '', sLic = '';
+    if (structure()) {
+      sNom = valeur('dmd-struct-nom');
+      if (!sNom) signaler('dmd-struct-nom', 'Merci d’indiquer le nom de la structure.');
+      sType = coche('struct_type');
+      if (!sType) signaler('dmd-struct-type', 'Merci d’indiquer le type de la structure.', 'dmd-type-asso');
+      sLic = coche('struct_licence');
+      if (!sLic) signaler('dmd-struct-licence', 'Merci de répondre à cette question : les deux réponses conviennent, aucune ne ferme la porte.', 'dmd-lic-oui');
+    }
+
+    if (premier) {
+      dire('Il reste des informations à compléter : elles sont indiquées champ par champ dans le formulaire.', true);
+      if (premier.focus) premier.focus();
+      return;
+    }
+
     var mot = valeur('dmd-message');
+    var texte = mot;
+    var ctx = { origin: location.href, ts: new Date().toISOString() };
+    if (structure()) {
+      ctx.structure_nom = sNom;
+      ctx.structure_type = sType;
+      ctx.structure_licence_spectacles = sLic;
+      var dit = (sType === 'association') ? 'association loi 1901' : 'autre';
+      var ligne = '— Structure : « ' + sNom + ' » · ' + dit + ' · licence d’entrepreneur de spectacles : ' + sLic;
+      texte = mot ? (mot + '\\n\\n' + ligne) : ligne;
+    }
 
     enCours = true;
     envoi.disabled = true;
@@ -4216,16 +4537,18 @@ def build_html():
       },
       body: JSON.stringify({
         email: email,
-        first_name: valeur('dmd-prenom'),
-        last_name: valeur('dmd-nom'),
-        phone: valeur('dmd-tel'),
+        first_name: prenom,
+        last_name: nom,
+        phone: tel,
         kind: nature,
-        message: mot || null,
-        context: { origin: location.href, ts: new Date().toISOString() }
+        message: texte || null,
+        context: ctx
       })
     }).then(function(rep){
       if (rep.status === 201 || rep.status === 200 || rep.status === 204) {
         f.reset();
+        basculer();
+        effacerTout();
         dire('C’est envoyé. Votre demande est bien arrivée : David la lit personnellement et vous répond par e-mail. Pensez à regarder vos courriers indésirables le moment venu.');
         return;
       }
@@ -4234,9 +4557,10 @@ def build_html():
         return;
       }
       if (rep.status === 401 || rep.status === 403) {
-        signaler('Cette adresse e-mail n’a pas été acceptée. Vérifiez-la, puis réessayez.');
+        premier = null;
+        signaler('dmd-email', 'Cette adresse e-mail n’a pas été acceptée. Vérifiez-la, puis réessayez.');
         dire('La demande n’a pas pu être enregistrée : vérifiez l’adresse e-mail, puis réessayez.', true);
-        champ.focus();
+        if (premier && premier.focus) premier.focus();
         return;
       }
       dire('L’envoi n’a pas abouti. Réessayez dans un instant, ou écrivez directement à contact@lesagedavid.fr.', true);
@@ -4336,10 +4660,72 @@ ANCRES = (
     ('id="dmd-kind-h"', 1, 'la phrase d’exemple de « Les deux »'),
     ('aria-describedby="dmd-kind-h"', 1,
      'le lien qui rattache cette phrase au groupe de boutons'),
-    ('aria-live="polite"', 1, 'la confirmation, lisible par un lecteur d’écran'),
+    # DEUX zones d'annonce depuis le 17/08/2026 : l'etat de l'envoi, et
+    # l'apparition des champs de structure. Sans la seconde, quelqu'un qui n'y
+    # voit pas coche « Structure » et n'apprend qu'il reste trois champs qu'au
+    # moment ou l'envoi est refuse.
+    ('aria-live="polite"', 2,
+     'les deux annonces : l’état de l’envoi, et l’apparition des champs de structure'),
     ('id="dmd-email-err"', 1, 'le message d’erreur de l’e-mail'),
     ('aria-describedby="dmd-email-err"', 1,
      'le lien qui rattache ce message au champ e-mail'),
+    # --- LES QUATRE CHAMPS OBLIGATOIRES (17/08/2026) ----------------------
+    # Chacun a son message d'erreur ECRIT et RATTACHE, exactement comme
+    # l'e-mail. Une erreur flottante en bas de page n'est jamais annoncee au
+    # bon moment ; c'est le couple `aria-describedby` + boite `.f-err` qui la
+    # rattache. Si l'un des quatre couples saute, la page n'est pas ecrite.
+    ('id="dmd-prenom-err"', 1, 'le message d’erreur du prénom'),
+    ('aria-describedby="dmd-prenom-err"', 1, 'ce message est rattaché au champ Prénom'),
+    ('id="dmd-nom-err"', 1, 'le message d’erreur du nom'),
+    ('aria-describedby="dmd-nom-err"', 1, 'ce message est rattaché au champ Nom'),
+    ('id="dmd-tel-err"', 1, 'le message d’erreur du téléphone'),
+    ('aria-describedby="dmd-tel-err"', 1, 'ce message est rattaché au champ Téléphone'),
+    # --- LES TROIS CHAMPS DE STRUCTURE (17/08/2026) -----------------------
+    # ⚠️ `hidden` fait partie de l'ancre : le bloc doit partir REPLIE. Livre
+    #    ouvert, il demanderait a un artiste seul trois informations qui ne le
+    #    concernent pas — et les exigerait.
+    ('id="dmd-struct" hidden', 1,
+     'le bloc des champs de structure, replié au chargement'),
+    ('id="dmd-struct-avis"', 1, 'la zone qui annonce l’apparition de ces champs'),
+    ('id="dmd-struct-nom"', 1, 'champ Nom de la structure'),
+    ('id="dmd-struct-nom-err"', 1, 'son message d’erreur'),
+    ('id="dmd-struct-type"', 1, 'le groupe Type de structure'),
+    ('id="dmd-struct-type-err"', 1, 'son message d’erreur'),
+    ('id="dmd-struct-licence"', 1, 'le groupe Licence d’entrepreneur de spectacles'),
+    ('id="dmd-struct-licence-err"', 1, 'son message d’erreur'),
+    ('id="dmd-lic-h"', 1, 'la phrase qui dit que « non » ne ferme aucune porte'),
+    # ⚠️ LES QUATRE VALEURS EXACTES, une par une — meme raison que pour `kind` :
+    #    ce sont elles qui partent dans `context` et dans la ligne ajoutee au
+    #    message. Une faute de frappe passerait inapercue jusqu'a la lecture de
+    #    la demande, ou plus personne ne saurait ce que valait la reponse.
+    ('value="association"', 1, 'la valeur envoyée pour « Association loi 1901 »'),
+    ('value="autre"', 1, 'la valeur envoyée pour « Autre »'),
+    ('value="oui"', 1, 'la valeur envoyée pour la licence — oui'),
+    ('value="non"', 1, 'la valeur envoyée pour la licence — non'),
+    ('name="struct_nom"', 1, 'le nom du champ Nom de la structure'),
+    ('name="struct_type"', 2, 'les deux boutons du groupe Type'),
+    ('name="struct_licence"', 2, 'les deux boutons du groupe Licence'),
+    ('aria-required="true"', 3,
+     'les trois champs de structure sont annoncés obligatoires'),
+    ('role="radiogroup"', 2, 'les deux groupes de boutons de la structure'),
+    # ⚠️⚠️ L'ANCRE A ZERO LA PLUS IMPORTANTE DE CE GROUPE. La table
+    #    `account_requests` N'A AUCUNE COLONNE POUR LA STRUCTURE : envoyer
+    #    `structure_nom` comme colonne ferait rendre un 401 (la securite rejette
+    #    tout champ inconnu — c'est ce qui protege de l'auto-approbation).
+    #    L'information voyage dans `context` (donc `ctx.structure_nom`, en
+    #    notation pointee) et dans `message`, JAMAIS en colonne. Le deux-points
+    #    est precisement ce qui distingue une cle de corps JSON d'un acces a une
+    #    propriete : cette ligne interdit la premiere forme.
+    ('structure_nom:', 0,
+     'aucune colonne inventée dans le corps de la requête (la table n’en a pas)'),
+    ('structure_type:', 0, 'aucune colonne inventée dans le corps de la requête'),
+    ('structure_licence_spectacles:', 0,
+     'aucune colonne inventée dans le corps de la requête'),
+    # La ligne lisible ajoutee a la fin de `message` : c'est elle qui fait que
+    # David VOIT le nom et la licence de la structure dans sa console
+    # d'administration, qui affiche `message` et probablement pas `context`.
+    ('— Structure : «', 1,
+     'la ligne lisible ajoutée à la fin du message pour une structure'),
     # La mention sur les donnees personnelles NOMME le responsable de
     # traitement, et ce n'est pas l'association. Voir le commentaire au-dessus
     # du bloc : c'est le point qui gagne le plus a la fusion.
@@ -4467,13 +4853,15 @@ ANCRES = (
     # fonctionnalite livree la ferait passer pour absente.
     ('<li class="soon">', NB_PUCES_A_VENIR, 'les puces des fonctionnalités non livrées'),
     # ⚠️ CETTE LIGNE VALAIT ZERO JUSQU'AU 16/08/2026 (« aucun champ de saisie
-    # dans la page »). Elle a valu SIX quand le formulaire a ete rapatrie, et
-    # vaut SEPT depuis la troisieme option « Les deux » du meme jour :
-    # 2 champs texte + e-mail + telephone + 3 boutons radio, TOUS dans le
-    # formulaire. `_controle_formulaire()` verifie qu'il n'y en a AUCUN
-    # ailleurs — en particulier aucun dans une maquette d'interface, ou un
-    # visiteur croirait piloter l'outil depuis le site de l'association.
-    ('<input', 7, 'les sept champs de saisie du formulaire, et eux seuls'),
+    # dans la page »). Elle a valu SIX quand le formulaire a ete rapatrie, puis
+    # SEPT avec la troisieme option « Les deux » du meme jour, et DOUZE depuis
+    # le 17/08/2026 : 2 champs texte + e-mail + telephone + 3 boutons radio
+    # `kind` + le nom de la structure + 2 boutons `struct_type` + 2 boutons
+    # `struct_licence`. TOUS dans le formulaire. `_controle_formulaire()`
+    # verifie qu'il n'y en a AUCUN ailleurs — en particulier aucun dans une
+    # maquette d'interface, ou un visiteur croirait piloter l'outil depuis le
+    # site de l'association.
+    ('<input', 12, 'les douze champs de saisie du formulaire, et eux seuls'),
     ('<textarea', 1, 'le champ Message'),
     ('<form', 1, 'un seul formulaire sur la page'),
     ('tabindex', 0, 'aucun ordre de tabulation force'),
@@ -4880,6 +5268,43 @@ CHAMPS_FORMULAIRE = (
     ('dmd-email', 'Adresse e-mail'),
     ('dmd-tel', 'Téléphone'),
     ('dmd-message', 'Message'),
+    # les trois boutons du choix « Je suis », et les quatre de la structure :
+    # un bouton radio sans <label for> n'est pas cliquable sur son libelle,
+    # cible tactile la plus fine du formulaire.
+    ('dmd-artiste', 'Je suis — Artiste'),
+    ('dmd-structure', 'Je suis — Structure'),
+    ('dmd-les-deux', 'Je suis — Les deux'),
+    ('dmd-struct-nom', 'Nom de la structure'),
+    ('dmd-type-asso', 'Type — Association loi 1901'),
+    ('dmd-type-autre', 'Type — Autre'),
+    ('dmd-lic-oui', 'Licence d’entrepreneur de spectacles — Oui'),
+    ('dmd-lic-non', 'Licence d’entrepreneur de spectacles — Non'),
+)
+
+#: LES SEULES COLONNES DE LA TABLE `account_requests`. Il n'y en a AUCUNE pour
+#: la structure : envoyer `structure_nom` ferait rendre un 401 — la securite
+#: rejette tout champ inconnu, et c'est cette meme regle qui interdit
+#: l'auto-approbation. L'information de structure part donc dans `context`
+#: (jsonb libre) ET, en clair, a la fin de `message`. Voir le long commentaire
+#: au-dessus du script du formulaire.
+COLONNES_DEMANDE = ('email', 'first_name', 'last_name', 'phone', 'kind',
+                    'message', 'context')
+
+#: les quatre champs OBLIGATOIRES depuis le 17/08/2026 (demande de David).
+#: Chacun doit porter `required` ET `aria-describedby` vers SA boite de message.
+CHAMPS_OBLIGATOIRES = (
+    ('dmd-prenom', 'Prénom'),
+    ('dmd-nom', 'Nom'),
+    ('dmd-email', 'Adresse e-mail'),
+    ('dmd-tel', 'Téléphone'),
+)
+
+#: les trois champs qui n'apparaissent QUE pour une structure — et qui ne sont
+#: obligatoires QUE dans ce cas. (identifiant du porteur d'erreur, ce que c'est)
+CHAMPS_STRUCTURE = (
+    ('dmd-struct-nom', 'Nom de la structure'),
+    ('dmd-struct-type', 'Type de structure'),
+    ('dmd-struct-licence', 'Licence d’entrepreneur de spectacles'),
 )
 
 
@@ -4944,15 +5369,63 @@ def _controle_formulaire(html):
     email = re.search(r'<input[^>]*id="dmd-email"[^>]*>', form)
     if not email:
         raise SystemExit('!! ABANDON : champ e-mail introuvable. Page NON ecrite.')
-    for attendu, pourquoi in (
-            ('required', "c'est le SEUL champ obligatoire : c'est par la "
-                         "qu'arrive la reponse"),
-            ('aria-describedby="dmd-email-err"',
-             "le message d'erreur doit etre ASSOCIE au champ, pas flottant"),
-            ('type="email"', "le clavier d'un telephone doit proposer le @")):
-        if attendu not in email.group(0):
-            raise SystemExit('!! ABANDON : le champ e-mail n\'a pas « %s » — %s. '
-                             'Page NON ecrite.' % (attendu, pourquoi))
+    if 'type="email"' not in email.group(0):
+        raise SystemExit('!! ABANDON : le champ e-mail n\'a pas « type="email" » — '
+                         'le clavier d\'un telephone doit proposer le @. '
+                         'Page NON ecrite.')
+
+    # 17/08/2026 — QUATRE champs obligatoires, plus un seul. Chacun porte
+    # `required` ET `aria-describedby` vers SA boite de message : une erreur
+    # flottante en bas de page n'est jamais annoncee au bon moment.
+    for ident, quoi in CHAMPS_OBLIGATOIRES:
+        m = re.search(r'<input[^>]*id="%s"[^>]*>' % ident, form)
+        if not m:
+            raise SystemExit('!! ABANDON : champ « %s » introuvable. '
+                             'Page NON ecrite.' % quoi)
+        if 'required' not in m.group(0):
+            raise SystemExit(
+                '!! ABANDON : le champ « %s » n\'est pas marque `required`.\n'
+                '   Les quatre champs prenom, nom, e-mail et telephone sont '
+                'obligatoires depuis le 17/08/2026 (demande de David).\n'
+                '   Page NON ecrite.' % quoi)
+        if 'aria-describedby="%s-err"' % ident not in m.group(0):
+            raise SystemExit(
+                '!! ABANDON : le champ « %s » n\'est pas relie a son message '
+                '(aria-describedby="%s-err").\n   Sans ce lien, le message '
+                's\'affiche sans jamais etre annonce.\n   Page NON ecrite.'
+                % (quoi, ident))
+        if 'id="%s-err"' % ident not in form:
+            raise SystemExit('!! ABANDON : la boite de message du champ « %s » '
+                             '(id="%s-err") est absente. Page NON ecrite.'
+                             % (quoi, ident))
+
+    # LES TROIS CHAMPS DE STRUCTURE. Ils n'existent que pour « Structure » et
+    # « Les deux » — et ils ne sont obligatoires que dans ce cas, sans quoi le
+    # formulaire deviendrait impossible a envoyer pour un artiste seul, sans que
+    # rien ne le dise. Ce que ce controle exige :
+    #   - le bloc part REPLIE (`hidden`) ;
+    #   - chacun a sa boite de message et son `aria-required` ;
+    #   - une zone d'annonce dit qu'ils viennent d'apparaitre.
+    if 'id="dmd-struct" hidden' not in form:
+        raise SystemExit(
+            '!! ABANDON : le bloc des champs de structure ne part pas replie '
+            '(`id="dmd-struct" hidden`).\n   Livre ouvert, il demanderait a un '
+            'artiste seul trois informations qui ne le concernent pas — et il les '
+            'exigerait.\n   Page NON ecrite.')
+    for ident, quoi in CHAMPS_STRUCTURE:
+        if 'id="%s"' % ident not in form:
+            raise SystemExit('!! ABANDON : « %s » (id="%s") absent du formulaire. '
+                             'Page NON ecrite.' % (quoi, ident))
+        if 'id="%s-err"' % ident not in form:
+            raise SystemExit('!! ABANDON : la boite de message de « %s » '
+                             '(id="%s-err") est absente. Page NON ecrite.'
+                             % (quoi, ident))
+    if 'id="dmd-struct-avis"' not in form:
+        raise SystemExit(
+            '!! ABANDON : rien n\'annonce l\'apparition des champs de structure.\n'
+            '   Sans cette zone, quelqu\'un qui n\'y voit pas coche « Structure » '
+            'et n\'apprend qu\'il reste trois champs qu\'au moment ou l\'envoi est '
+            'refuse : l\'apparition serait PUREMENT VISUELLE.\n   Page NON ecrite.')
 
     if 'aria-live="polite"' not in form or 'role="status"' not in form:
         raise SystemExit(
@@ -4989,6 +5462,74 @@ def _controle_formulaire(html):
             'formulaire.\n   Les reponses du serveur se rendent en PHRASES, jamais '
             'en codes ni en jargon — le 409 en particulier est une BONNE nouvelle : '
             'la demande est bien arrivee.\n   Page NON ecrite.')
+
+    # ⚠️⚠️ LE CORPS DE LA REQUETE NE CONTIENT QUE DES COLONNES QUI EXISTENT.
+    # La table `account_requests` n'en a AUCUNE pour la structure : y glisser
+    # `structure_nom` ferait rendre un 401 — la securite rejette tout champ
+    # inconnu, et c'est cette meme regle qui interdit l'auto-approbation. Le
+    # defaut serait INVISIBLE a la relecture (le code a l'air juste) et ne se
+    # verrait qu'a l'envoi, sur une demande perdue.
+    corps = re.search(r'body: JSON\.stringify\(\{(.*?)\}\)', js, re.S)
+    if not corps:
+        raise SystemExit('!! ABANDON : le corps de la requete est introuvable. '
+                         'Page NON ecrite.')
+    if '{' in corps.group(1):
+        raise SystemExit(
+            '!! ABANDON : un objet est ecrit EN LIGNE dans le corps de la requete.\n'
+            '   Les cles ne peuvent plus etre comptees de facon fiable — et c\'est '
+            'exactement la que se glisse une colonne inventee. Construire l\'objet '
+            'dans une variable au-dessus.\n   Page NON ecrite.')
+    cles = re.findall(r'(\w+)\s*:', corps.group(1))
+    if sorted(cles) != sorted(COLONNES_DEMANDE):
+        raise SystemExit(
+            '!! ABANDON : le corps de la requete envoie %s.\n'
+            '   Les SEULES colonnes de la table `account_requests` sont %s. Toute '
+            'autre fait rendre un 401 : la securite rejette les champs inconnus, '
+            'c\'est ce qui protege de l\'auto-approbation. L\'information de '
+            'structure part dans `context` (jsonb libre) ET en clair a la fin de '
+            '`message` — JAMAIS en colonne.\n   Page NON ecrite.'
+            % (', '.join(sorted(cles)), ', '.join(sorted(COLONNES_DEMANDE))))
+
+    # L'INFORMATION DE STRUCTURE PART BIEN AUX DEUX ENDROITS. C'est delibere :
+    #   - `context` en garde la forme structuree, exploitable plus tard ;
+    #   - `message` la porte EN CLAIR, parce que la console d'administration
+    #     affiche probablement `message` et pas `context`. Sans cette ligne,
+    #     David recevrait la demande d'une structure sans jamais voir son nom
+    #     ni sa licence.
+    for cle in ('ctx.structure_nom', 'ctx.structure_type',
+                'ctx.structure_licence_spectacles'):
+        if cle not in js:
+            raise SystemExit(
+                '!! ABANDON : « %s » n\'est plus ecrit dans `context`.\n'
+                '   La forme structuree de l\'information de structure est perdue.\n'
+                '   Page NON ecrite.' % cle)
+    if '— Structure : «' not in js:
+        raise SystemExit(
+            '!! ABANDON : la ligne lisible « — Structure : … » n\'est plus ajoutee '
+            'a la fin du message.\n   La console d\'administration affiche '
+            'probablement `message` et pas `context` : sans elle, la demande d\'une '
+            'structure arrive SANS son nom ni sa licence.\n   Page NON ecrite.')
+    if 'origin: location.href' not in js or 'ts: new Date()' not in js:
+        raise SystemExit(
+            '!! ABANDON : `context` ne porte plus `{origin, ts}`.\n   Les cles de '
+            'structure s\'AJOUTENT a ce qui existait deja, elles ne le remplacent '
+            'pas.\n   Page NON ecrite.')
+
+    # UNE SEULE FONCTION decide de l'affichage ET de l'exigence des champs
+    # conditionnels : c'est ce qui rend impossible le piege du champ cache reste
+    # obligatoire (formulaire impossible a envoyer, sans explication).
+    if "v === 'structure' || v === 'les_deux'" not in js:
+        raise SystemExit(
+            '!! ABANDON : la condition qui commande les champs de structure n\'est '
+            'plus celle attendue.\n   Elle doit etre vraie pour « structure » ET '
+            'pour « les_deux » — « les deux » EST une structure.\n'
+            '   Page NON ecrite.')
+    if 'bloc.hidden = !on' not in js:
+        raise SystemExit(
+            '!! ABANDON : le bloc de structure n\'est plus replie/deplie par la '
+            'meme fonction que celle qui decide de l\'exigence.\n   Deux sources de '
+            'verite = un champ cache qui bloque l\'envoi sans que rien ne le dise.\n'
+            '   Page NON ecrite.')
 
 
 def _sans_balises(html):

@@ -242,6 +242,12 @@ section{padding:86px 0}
 .dmd-kind input{width:17px;height:17px;margin:0;accent-color:var(--gold)}
 .dmd-kind-h{margin:11px 0 0;font-size:14px;line-height:1.6;color:var(--muted);max-width:60ch}
 .dmd-kind label:has(input:checked){border-color:var(--gold2);background:linear-gradient(90deg,rgba(216,178,90,.16),rgba(238,128,98,.12))}
+.dmd [hidden]{display:none}
+.dmd-avis:not(:empty){display:block;margin:12px 0 0;font-size:14px;line-height:1.6;color:var(--gold2);max-width:60ch}
+.dmd-struct{margin-top:20px;padding:20px 20px 18px;border:1px solid rgba(248,210,116,.24);border-radius:18px;background:rgba(9,10,26,.3)}
+.dmd-struct-t{font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold2);font-weight:500}
+.dmd-struct>.f:first-of-type{margin-top:14px}
+.dmd fieldset[aria-invalid="true"] legend{color:var(--coral)}
 .dmd-go{margin-top:26px}
 .dmd button.btn{border:0;font-family:inherit;cursor:pointer}
 .dmd button.btn[disabled]{opacity:.62;cursor:default;transform:none;box-shadow:none}
@@ -262,6 +268,7 @@ section{padding:86px 0}
   .mea{margin-top:42px;padding-top:28px}
   .mea-c{padding:20px 18px 17px}
   .dmd{padding:22px 18px 20px}
+  .dmd-struct{padding:18px 16px 16px}
   .etape{padding:20px 18px 18px}
   .faq-q summary{padding:14px 17px;gap:13px}
   .faq-q .faq-r{padding:14px 17px 16px}
@@ -1456,15 +1463,17 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
       par e-mail.</p>
     <form class="dmd" id="demande" novalidate>
       <p class="dmd-t">Demander un accès</p>
-      <p class="dmd-s">Une adresse e-mail suffit ; le reste aide simplement à situer la demande.</p>
+      <p class="dmd-s">Le prénom, le nom, l’adresse e-mail et le téléphone sont demandés ; le message reste libre.</p>
       <div class="dmd-grid">
         <div class="f">
-          <label for="dmd-prenom">Prénom <span class="opt">— facultatif</span></label>
-          <input type="text" id="dmd-prenom" name="first_name" autocomplete="given-name">
+          <label for="dmd-prenom">Prénom <span class="opt">— obligatoire</span></label>
+          <input type="text" id="dmd-prenom" name="first_name" autocomplete="given-name" required aria-describedby="dmd-prenom-err">
+          <span class="f-err" id="dmd-prenom-err"></span>
         </div>
         <div class="f">
-          <label for="dmd-nom">Nom <span class="opt">— facultatif</span></label>
-          <input type="text" id="dmd-nom" name="last_name" autocomplete="family-name">
+          <label for="dmd-nom">Nom <span class="opt">— obligatoire</span></label>
+          <input type="text" id="dmd-nom" name="last_name" autocomplete="family-name" required aria-describedby="dmd-nom-err">
+          <span class="f-err" id="dmd-nom-err"></span>
         </div>
       </div>
       <div class="f">
@@ -1473,8 +1482,9 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         <span class="f-err" id="dmd-email-err"></span>
       </div>
       <div class="f">
-        <label for="dmd-tel">Téléphone <span class="opt">— facultatif</span></label>
-        <input type="tel" id="dmd-tel" name="phone" autocomplete="tel" inputmode="tel">
+        <label for="dmd-tel">Téléphone <span class="opt">— obligatoire</span></label>
+        <input type="tel" id="dmd-tel" name="phone" autocomplete="tel" inputmode="tel" required aria-describedby="dmd-tel-err">
+        <span class="f-err" id="dmd-tel-err"></span>
       </div>
       <fieldset class="f" aria-describedby="dmd-kind-h">
         <legend>Je suis</legend>
@@ -1485,7 +1495,35 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         </div>
         <p class="dmd-kind-h" id="dmd-kind-h"><b>Les deux</b> — je suis artiste <b>et</b> responsable d’une structure.
           Par exemple : tu joues, et tu es aussi responsable de l’association qui édite les feuillets GUSO.</p>
+        <p class="dmd-avis" id="dmd-struct-avis" role="status" aria-live="polite"></p>
       </fieldset>
+      <div class="dmd-struct" id="dmd-struct" hidden>
+        <p class="dmd-struct-t">Ma structure</p>
+        <div class="f">
+          <label for="dmd-struct-nom">Nom de la structure <span class="opt">— obligatoire</span></label>
+          <input type="text" id="dmd-struct-nom" name="struct_nom" autocomplete="organization" aria-required="true" aria-describedby="dmd-struct-nom-err">
+          <span class="f-err" id="dmd-struct-nom-err"></span>
+        </div>
+        <fieldset class="f" id="dmd-struct-type" role="radiogroup" aria-required="true" aria-describedby="dmd-struct-type-err">
+          <legend>Type de structure <span class="opt">— obligatoire</span></legend>
+          <div class="dmd-kind">
+            <label for="dmd-type-asso"><input type="radio" id="dmd-type-asso" name="struct_type" value="association">Association loi 1901</label>
+            <label for="dmd-type-autre"><input type="radio" id="dmd-type-autre" name="struct_type" value="autre">Autre</label>
+          </div>
+          <span class="f-err" id="dmd-struct-type-err"></span>
+        </fieldset>
+        <fieldset class="f" id="dmd-struct-licence" role="radiogroup" aria-required="true" aria-describedby="dmd-lic-h dmd-struct-licence-err">
+          <legend>Licence d’entrepreneur de spectacles <span class="opt">— obligatoire</span></legend>
+          <div class="dmd-kind">
+            <label for="dmd-lic-oui"><input type="radio" id="dmd-lic-oui" name="struct_licence" value="oui">Oui</label>
+            <label for="dmd-lic-non"><input type="radio" id="dmd-lic-non" name="struct_licence" value="non">Non</label>
+          </div>
+          <p class="dmd-kind-h" id="dmd-lic-h">C’est la licence qui autorise à employer des artistes. Répondre « non » ne
+            change rien à la demande : beaucoup de structures n’en ont pas, et c’est justement pour cela qu’elles
+            emploient au GUSO.</p>
+          <span class="f-err" id="dmd-struct-licence-err"></span>
+        </fieldset>
+      </div>
       <div class="f">
         <label for="dmd-message">Message <span class="opt">— facultatif</span></label>
         <textarea id="dmd-message" name="message" rows="3"></textarea>
@@ -1497,8 +1535,9 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
     </form>
     <p class="mention">Aucune inscription automatique : chaque demande est étudiée personnellement, et
       la réponse arrive par e-mail.</p>
-    <p class="mention">Vos données : le prénom, le nom, l’adresse e-mail, le téléphone et le
-      message sont transmis à <b>David Lesage</b>, créateur de Guso Facile, qui en est le responsable —
+    <p class="mention">Vos données : le prénom, le nom, l’adresse e-mail, le téléphone, le
+      message et, pour une structure, son nom, son type et sa licence d’entrepreneur de spectacles sont
+      transmis à <b>David Lesage</b>, créateur de Guso Facile, qui en est le responsable —
       ce n’est pas l’association qui les reçoit. Ils servent uniquement à étudier votre demande et à
       vous recontacter à ce sujet : aucun démarchage, aucune revente, aucun partage à des tiers. Vous
       pouvez en demander la suppression à tout moment à
@@ -1590,51 +1629,134 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
   if (!f) return;
   var CIBLE = 'https://wqhwfqasoyyeprggjxet.supabase.co/rest/v1/account_requests';
   var CLE   = 'sb_publishable_vLxMMGhr5Jq_RrAQ2g_Fjg_dzdpKDbQ';
-  var champ = document.getElementById('dmd-email');
-  var err   = document.getElementById('dmd-email-err');
   var etat  = document.getElementById('dmd-etat');
   var envoi = document.getElementById('dmd-envoi');
+  var bloc  = document.getElementById('dmd-struct');
+  var avis  = document.getElementById('dmd-struct-avis');
   var enCours = false;
+  var premier = null;
   var FORME = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  var CHAMPS  = ['dmd-prenom', 'dmd-nom', 'dmd-email', 'dmd-tel', 'dmd-struct-nom'];
+  var GROUPES = [['dmd-struct-type', 'struct_type'], ['dmd-struct-licence', 'struct_licence']];
 
-  function valeur(id){ var e = document.getElementById(id); return e ? e.value.trim() : ''; }
+  function el(id){ return document.getElementById(id); }
+  function valeur(id){ var e = el(id); return e ? e.value.trim() : ''; }
+  function coche(nom){ var g = f.elements[nom]; return (g && g.value) ? g.value : ''; }
   function dire(texte, souci){
     etat.textContent = texte;
     etat.className = souci ? 'dmd-etat ko' : 'dmd-etat';
   }
-  function signaler(message){
-    err.textContent = message;
-    champ.setAttribute('aria-invalid', 'true');
+  function signaler(id, message, focus){
+    var e = el(id);
+    if (e) e.setAttribute('aria-invalid', 'true');
+    var b = el(id + '-err');
+    if (b) b.textContent = message;
+    if (!premier) premier = el(focus || id);
   }
-  function effacer(){
-    err.textContent = '';
-    champ.removeAttribute('aria-invalid');
+  function effacer(id){
+    var e = el(id);
+    if (e) e.removeAttribute('aria-invalid');
+    var b = el(id + '-err');
+    if (b) b.textContent = '';
   }
-  champ.addEventListener('input', effacer);
+  function effacerTout(){
+    var i;
+    for (i = 0; i < CHAMPS.length; i++) effacer(CHAMPS[i]);
+    for (i = 0; i < GROUPES.length; i++) effacer(GROUPES[i][0]);
+  }
+
+  for (var a = 0; a < CHAMPS.length; a++) {
+    (function(id){
+      var e = el(id);
+      if (e) e.addEventListener('input', function(){ effacer(id); });
+    })(CHAMPS[a]);
+  }
+  for (var b2 = 0; b2 < GROUPES.length; b2++) {
+    (function(id, nom){
+      var g = f.elements[nom];
+      if (!g) return;
+      for (var k = 0; k < g.length; k++) g[k].addEventListener('change', function(){ effacer(id); });
+    })(GROUPES[b2][0], GROUPES[b2][1]);
+  }
+
+  /* « Les deux » EST une structure : les trois champs valent pour les deux
+     valeurs. Cette fonction commande a la fois l'affichage du bloc et son
+     caractere obligatoire — il ne peut donc pas y avoir de desaccord entre
+     ce qu'on voit et ce qu'on exige. */
+  function structure(){
+    var v = f.elements.kind.value;
+    return v === 'structure' || v === 'les_deux';
+  }
+  function basculer(){
+    var on = structure();
+    bloc.hidden = !on;
+    avis.textContent = on
+      ? 'Trois informations sur la structure viennent d’apparaître ci-dessous : son nom, son type et sa licence d’entrepreneur de spectacles.'
+      : '';
+    if (!on) {
+      effacer('dmd-struct-nom');
+      effacer('dmd-struct-type');
+      effacer('dmd-struct-licence');
+    }
+  }
+  var choix = f.elements.kind;
+  for (var c = 0; c < choix.length; c++) choix[c].addEventListener('change', basculer);
+  basculer();
 
   f.addEventListener('submit', function(ev){
     ev.preventDefault();
     if (enCours) return;
-    effacer();
+    effacerTout();
     dire('');
+    premier = null;
+
+    var prenom = valeur('dmd-prenom');
+    if (!prenom) signaler('dmd-prenom', 'Merci d’indiquer un prénom.');
+    var nom = valeur('dmd-nom');
+    if (!nom) signaler('dmd-nom', 'Merci d’indiquer un nom.');
 
     var email = valeur('dmd-email');
-    if (!email) {
-      signaler('Merci d’indiquer une adresse e-mail : c’est par là que la réponse arrivera.');
-      champ.focus();
-      return;
-    }
-    if (!FORME.test(email)) {
-      signaler('Cette adresse e-mail ne semble pas valide.');
-      champ.focus();
-      return;
-    }
+    if (!email) signaler('dmd-email', 'Merci d’indiquer une adresse e-mail : c’est par là que la réponse arrivera.');
+    else if (!FORME.test(email)) signaler('dmd-email', 'Cette adresse e-mail ne semble pas valide.');
+
+    /* tolerance assumee : on compte les chiffres, on ne juge pas la mise en
+       forme, et on n'y touche pas. */
+    var tel = valeur('dmd-tel');
+    var nb = (tel.match(/[0-9]/g) || []).length;
+    if (!tel) signaler('dmd-tel', 'Merci d’indiquer un numéro de téléphone.');
+    else if (nb < 9) signaler('dmd-tel', 'Ce numéro semble incomplet : il faut au moins neuf chiffres. Les espaces, les points et les tirets sont acceptés, l’indicatif international aussi.');
 
     /* trois boutons radio de meme nom : `.value` rend celui qui est coche.
        Les seules valeurs possibles sont `artiste`, `structure` et `les_deux` —
        ce sont celles que la base accepte, il n'y en a pas d'autre. */
     var nature = f.elements.kind.value || 'artiste';
+    var sNom = '', sType = '', sLic = '';
+    if (structure()) {
+      sNom = valeur('dmd-struct-nom');
+      if (!sNom) signaler('dmd-struct-nom', 'Merci d’indiquer le nom de la structure.');
+      sType = coche('struct_type');
+      if (!sType) signaler('dmd-struct-type', 'Merci d’indiquer le type de la structure.', 'dmd-type-asso');
+      sLic = coche('struct_licence');
+      if (!sLic) signaler('dmd-struct-licence', 'Merci de répondre à cette question : les deux réponses conviennent, aucune ne ferme la porte.', 'dmd-lic-oui');
+    }
+
+    if (premier) {
+      dire('Il reste des informations à compléter : elles sont indiquées champ par champ dans le formulaire.', true);
+      if (premier.focus) premier.focus();
+      return;
+    }
+
     var mot = valeur('dmd-message');
+    var texte = mot;
+    var ctx = { origin: location.href, ts: new Date().toISOString() };
+    if (structure()) {
+      ctx.structure_nom = sNom;
+      ctx.structure_type = sType;
+      ctx.structure_licence_spectacles = sLic;
+      var dit = (sType === 'association') ? 'association loi 1901' : 'autre';
+      var ligne = '— Structure : « ' + sNom + ' » · ' + dit + ' · licence d’entrepreneur de spectacles : ' + sLic;
+      texte = mot ? (mot + '\n\n' + ligne) : ligne;
+    }
 
     enCours = true;
     envoi.disabled = true;
@@ -1649,16 +1771,18 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
       },
       body: JSON.stringify({
         email: email,
-        first_name: valeur('dmd-prenom'),
-        last_name: valeur('dmd-nom'),
-        phone: valeur('dmd-tel'),
+        first_name: prenom,
+        last_name: nom,
+        phone: tel,
         kind: nature,
-        message: mot || null,
-        context: { origin: location.href, ts: new Date().toISOString() }
+        message: texte || null,
+        context: ctx
       })
     }).then(function(rep){
       if (rep.status === 201 || rep.status === 200 || rep.status === 204) {
         f.reset();
+        basculer();
+        effacerTout();
         dire('C’est envoyé. Votre demande est bien arrivée : David la lit personnellement et vous répond par e-mail. Pensez à regarder vos courriers indésirables le moment venu.');
         return;
       }
@@ -1667,9 +1791,10 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         return;
       }
       if (rep.status === 401 || rep.status === 403) {
-        signaler('Cette adresse e-mail n’a pas été acceptée. Vérifiez-la, puis réessayez.');
+        premier = null;
+        signaler('dmd-email', 'Cette adresse e-mail n’a pas été acceptée. Vérifiez-la, puis réessayez.');
         dire('La demande n’a pas pu être enregistrée : vérifiez l’adresse e-mail, puis réessayez.', true);
-        champ.focus();
+        if (premier && premier.focus) premier.focus();
         return;
       }
       dire('L’envoi n’a pas abouti. Réessayez dans un instant, ou écrivez directement à contact@lesagedavid.fr.', true);
