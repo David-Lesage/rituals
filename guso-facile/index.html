@@ -143,7 +143,6 @@ section{padding:92px 0}
 /* --- appel a l'action : un panneau, pas une fin de page ------------------ */
 .acces{position:relative;overflow:hidden;max-width:880px;border:1px solid rgba(255,255,255,.09);border-radius:26px;padding:46px 42px 40px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(224,138,114,.10) 48%,rgba(143,122,209,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
 .acces::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
-.acces .cta{margin-top:30px}
 .mention{margin-top:20px;max-width:660px;color:var(--muted);font-size:14px;line-height:1.65}
 .mention + .mention{margin-top:12px}
 /* --- le titre principal porte la phrase complete (dossier SEO, section 2) - */
@@ -201,6 +200,37 @@ section{padding:92px 0}
 .veille-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
 .veille-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
 .veille-note{color:var(--muted);font-size:14px;line-height:1.6;margin-top:13px}
+/* --- le formulaire de demande d'acces (rapatrie le 16/08/2026) ----------- */
+/* Il est DANS le panneau `.acces`, donc il herite du bouton chaud (`.acces
+   .btn`). Rien ne descend sous 14 px (plancher du site : 13). Les champs sont
+   a 16 px : sous 16 px, Safari sur iPhone ZOOME a la mise au point et le
+   visiteur se retrouve avec une page decalee — un formulaire qu'on remplit au
+   telephone ne peut pas se permettre ca. */
+.dmd{margin-top:30px;border:1px solid rgba(255,255,255,.10);border-radius:22px;background:linear-gradient(180deg,rgba(11,12,30,.55),rgba(11,12,30,.28));padding:28px 26px 26px}
+.dmd-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:27px;font-weight:600;color:#fff;line-height:1.18}
+.dmd-s{color:var(--muted);font-size:15px;max-width:62ch;margin-top:6px}
+.dmd-grid{display:grid;grid-template-columns:minmax(0,1fr)}
+@media(min-width:601px){.dmd-grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px}}
+.f{margin-top:18px;min-width:0}
+.dmd fieldset{border:0;padding:0}
+.f label,.dmd legend{display:block;font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold2);font-weight:500;margin-bottom:7px;padding:0}
+.f .opt{text-transform:none;letter-spacing:0;color:var(--muted);font-weight:400}
+.dmd input[type="text"],.dmd input[type="email"],.dmd input[type="tel"],.dmd textarea{display:block;width:100%;font-family:inherit;font-size:16px;line-height:1.5;color:var(--ink);background:rgba(9,10,26,.62);border:1px solid rgba(255,255,255,.16);border-radius:13px;padding:12px 14px;min-height:48px}
+.dmd textarea{min-height:98px;resize:vertical}
+.dmd input:hover,.dmd textarea:hover{border-color:rgba(240,209,138,.4)}
+.dmd input[aria-invalid="true"]{border-color:var(--coral)}
+.f-err{display:block;color:var(--coral);font-size:14.5px;line-height:1.5}
+.f-err:not(:empty){margin-top:8px}
+.dmd-kind{display:flex;gap:11px;flex-wrap:wrap}
+.dmd-kind label{display:inline-flex;align-items:center;gap:10px;margin:0;min-height:44px;padding:9px 19px;border:1px solid rgba(240,209,138,.3);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));font-size:15.5px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
+.dmd-kind input{width:17px;height:17px;margin:0;accent-color:var(--gold)}
+.dmd-kind label:has(input:checked){border-color:var(--gold2);background:linear-gradient(90deg,rgba(216,178,90,.16),rgba(224,138,114,.12))}
+.dmd-go{margin-top:26px}
+.dmd button.btn{border:0;font-family:inherit;cursor:pointer}
+.dmd button.btn[disabled]{opacity:.62;cursor:default;transform:none;box-shadow:none}
+.dmd-etat{font-size:15.5px;line-height:1.65;max-width:62ch}
+.dmd-etat:not(:empty){margin-top:18px;padding:14px 16px;border-radius:14px;border:1px solid rgba(240,209,138,.28);background:rgba(216,178,90,.08);color:#d7d4ea}
+.dmd-etat.ko:not(:empty){border-color:rgba(224,138,114,.45);background:rgba(224,138,114,.09)}
 @media(max-width:760px){
   section{padding:66px 0}
   .gf-top{padding:110px 0 60px}
@@ -211,6 +241,7 @@ section{padding:92px 0}
   .aussi{padding:22px 20px;gap:14px}
   .guilde{padding:22px 20px 20px;gap:14px}
   .veille{padding:22px 20px 20px}
+  .dmd{padding:22px 18px 20px}
   .etape{padding:20px 18px 18px}
   .faq-q summary{padding:14px 17px;gap:13px}
   .faq-q .faq-r{padding:14px 17px 16px}
@@ -641,7 +672,7 @@ section{padding:92px 0}
     <span class="mark">là où elle compte</span>.</p>
   <p class="badge">Bêta privée · places limitées</p>
   <div class="cta">
-    <a class="btn ghost" href="#acces">Comment demander un accès</a>
+    <a class="btn ghost" href="#acces">Demander un accès</a>
   </div>
   </div>
 <figure class="gf-block">
@@ -1150,17 +1181,54 @@ section{padding:92px 0}
     <p class="kick">Faire connaissance</p>
     <h2 class="sec-title">Reprends la main sur ton administratif</h2>
     <p class="body">Puisque l’accès est limité, il n’y a pas d’inscription immédiate : on commence par
-      se dire bonjour. Le formulaire « Demander un accès » recueille le nom, le prénom, l’adresse
-      e-mail, le numéro de téléphone et la nature du demandeur — artiste ou structure. Chaque demande
-      est ensuite lue et traitée personnellement, et une réponse est apportée par e-mail.</p>
-    <div class="cta">
-      <a class="btn" href="https://guso-facile.vercel.app/presentation.html" target="_blank" rel="noopener">Demander un accès<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/></svg></a>
-    </div>
-    <p class="mention">Le bouton « Demander un accès » se trouve en haut et en bas de la page de
-      présentation. Aucune inscription automatique : chaque demande est étudiée personnellement.</p>
-    <p class="mention">Le formulaire d’accès est hébergé par Guso Facile ; les informations transmises
-      sont traitées par David Lesage, créateur de l’outil, uniquement pour l’étude de votre demande.
-      Le formulaire porte sa propre mention d’information.</p>
+      se dire bonjour. Chaque demande est lue et traitée personnellement, et une réponse est apportée
+      par e-mail.</p>
+    <form class="dmd" id="demande" novalidate>
+      <p class="dmd-t">Demander un accès</p>
+      <p class="dmd-s">Une adresse e-mail suffit ; le reste aide simplement à situer la demande.</p>
+      <div class="dmd-grid">
+        <div class="f">
+          <label for="dmd-prenom">Prénom <span class="opt">— facultatif</span></label>
+          <input type="text" id="dmd-prenom" name="first_name" autocomplete="given-name">
+        </div>
+        <div class="f">
+          <label for="dmd-nom">Nom <span class="opt">— facultatif</span></label>
+          <input type="text" id="dmd-nom" name="last_name" autocomplete="family-name">
+        </div>
+      </div>
+      <div class="f">
+        <label for="dmd-email">Adresse e-mail <span class="opt">— obligatoire</span></label>
+        <input type="email" id="dmd-email" name="email" autocomplete="email" inputmode="email" required aria-describedby="dmd-email-err">
+        <span class="f-err" id="dmd-email-err"></span>
+      </div>
+      <div class="f">
+        <label for="dmd-tel">Téléphone <span class="opt">— facultatif</span></label>
+        <input type="tel" id="dmd-tel" name="phone" autocomplete="tel" inputmode="tel">
+      </div>
+      <fieldset class="f">
+        <legend>Je suis</legend>
+        <div class="dmd-kind">
+          <label for="dmd-artiste"><input type="radio" id="dmd-artiste" name="kind" value="artiste" checked>Artiste</label>
+          <label for="dmd-structure"><input type="radio" id="dmd-structure" name="kind" value="structure">Structure</label>
+        </div>
+      </fieldset>
+      <div class="f">
+        <label for="dmd-message">Message <span class="opt">— facultatif</span></label>
+        <textarea id="dmd-message" name="message" rows="3"></textarea>
+      </div>
+      <div class="dmd-go">
+        <button class="btn" type="submit" id="dmd-envoi">Envoyer ma demande<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/></svg></button>
+      </div>
+      <p class="dmd-etat" id="dmd-etat" role="status" aria-live="polite"></p>
+    </form>
+    <p class="mention">Aucune inscription automatique : chaque demande est étudiée personnellement, et
+      la réponse arrive par e-mail.</p>
+    <p class="mention">Vos données : le prénom, le nom, l’adresse e-mail, le téléphone et le
+      message sont transmis à <b>David Lesage</b>, créateur de Guso Facile, qui en est le responsable —
+      ce n’est pas l’association qui les reçoit. Ils servent uniquement à étudier votre demande et à
+      vous recontacter à ce sujet : aucun démarchage, aucune revente, aucun partage à des tiers. Vous
+      pouvez en demander la suppression à tout moment à
+      <a href="mailto:contact@lesagedavid.fr">contact@lesagedavid.fr</a>.</p>
   </div>
 </div></section>
 
@@ -1231,6 +1299,103 @@ section{padding:92px 0}
   var b=document.querySelector('.totop'); if(!b) return;
   function upd(){ b.classList.toggle('on', window.scrollY>700); }
   upd(); window.addEventListener('scroll',upd,{passive:true});
+})();
+</script>
+
+<script>
+(function(){
+  var f = document.getElementById('demande');
+  if (!f) return;
+  var CIBLE = 'https://wqhwfqasoyyeprggjxet.supabase.co/rest/v1/account_requests';
+  var CLE   = 'sb_publishable_vLxMMGhr5Jq_RrAQ2g_Fjg_dzdpKDbQ';
+  var champ = document.getElementById('dmd-email');
+  var err   = document.getElementById('dmd-email-err');
+  var etat  = document.getElementById('dmd-etat');
+  var envoi = document.getElementById('dmd-envoi');
+  var enCours = false;
+  var FORME = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function valeur(id){ var e = document.getElementById(id); return e ? e.value.trim() : ''; }
+  function dire(texte, souci){
+    etat.textContent = texte;
+    etat.className = souci ? 'dmd-etat ko' : 'dmd-etat';
+  }
+  function signaler(message){
+    err.textContent = message;
+    champ.setAttribute('aria-invalid', 'true');
+  }
+  function effacer(){
+    err.textContent = '';
+    champ.removeAttribute('aria-invalid');
+  }
+  champ.addEventListener('input', effacer);
+
+  f.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    if (enCours) return;
+    effacer();
+    dire('');
+
+    var email = valeur('dmd-email');
+    if (!email) {
+      signaler('Merci d’indiquer une adresse e-mail : c’est par là que la réponse arrivera.');
+      champ.focus();
+      return;
+    }
+    if (!FORME.test(email)) {
+      signaler('Cette adresse e-mail ne semble pas valide.');
+      champ.focus();
+      return;
+    }
+
+    /* deux boutons radio de meme nom : `.value` rend celui qui est coche. */
+    var nature = f.elements.kind.value || 'artiste';
+    var mot = valeur('dmd-message');
+
+    enCours = true;
+    envoi.disabled = true;
+    dire('Envoi en cours…');
+
+    fetch(CIBLE, {
+      method: 'POST',
+      headers: {
+        'apikey': CLE,
+        'Authorization': 'Bearer ' + CLE,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        first_name: valeur('dmd-prenom'),
+        last_name: valeur('dmd-nom'),
+        phone: valeur('dmd-tel'),
+        kind: nature,
+        message: mot || null,
+        context: { origin: location.href, ts: new Date().toISOString() }
+      })
+    }).then(function(rep){
+      if (rep.status === 201 || rep.status === 200 || rep.status === 204) {
+        f.reset();
+        dire('C’est envoyé. Votre demande est bien arrivée : David la lit personnellement et vous répond par e-mail. Pensez à regarder vos courriers indésirables le moment venu.');
+        return;
+      }
+      if (rep.status === 409) {
+        dire('Une demande est déjà en attente pour cette adresse e-mail : elle est bien arrivée, il n’y a rien à refaire. David la traite et vous répond par e-mail.');
+        return;
+      }
+      if (rep.status === 401 || rep.status === 403) {
+        signaler('Cette adresse e-mail n’a pas été acceptée. Vérifiez-la, puis réessayez.');
+        dire('La demande n’a pas pu être enregistrée : vérifiez l’adresse e-mail, puis réessayez.', true);
+        champ.focus();
+        return;
+      }
+      dire('L’envoi n’a pas abouti. Réessayez dans un instant, ou écrivez directement à contact@lesagedavid.fr.', true);
+    }).catch(function(){
+      dire('Le serveur n’a pas pu être joint. Vérifiez votre connexion et réessayez — votre saisie est conservée.', true);
+    }).then(function(){
+      enCours = false;
+      envoi.disabled = false;
+    });
+  });
 })();
 </script>
 

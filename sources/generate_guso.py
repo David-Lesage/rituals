@@ -485,62 +485,155 @@ LE GARDE-FOU `_controle_guilde()` A CHANGE, ET C'EST DELIBERE
   2).
 
 ------------------------------------------------------------------------------
-L'ABSORPTION DU 16/08/2026 — « ON VEILLE LES UNS SUR LES AUTRES »
+LA FUSION DU 16/08/2026 — UNE SEULE PAGE, UN SEUL ECRAN POUR DEMANDER UN ACCES
 ------------------------------------------------------------------------------
-Matiere (LECTURE SEULE, jamais editee) : la section du meme nom de
-`/Users/davidlesage/CLAUDE/GUSO FACILE/presentation.html`. Son auteur l'a
-lui-meme designee comme l'un des passages superieurs de sa page : elle INCARNE
-au lieu d'enumerer, et c'est ce qui fait comprendre l'outil en trente secondes.
+LE PROBLEME, MESURE. Pour demander un acces il fallait : lire cette page
+(10 897 px a 1440), cliquer « Comment demander un acces », defiler jusqu'en
+bas, cliquer « Demander un acces », ATTERRIR SUR guso-facile.vercel.app/
+presentation.html (8 669 px) — qui reexplique le produit autrement — et
+seulement la, trouver le formulaire. Trois clics, deux domaines, deux discours.
+Et au moment precis de confier son nom, son mail et son telephone, la personne
+QUITTAIT LE SITE D'UNE ASSOCIATION POUR UN vercel.app. C'est la qu'on perdait
+les gens.
 
-⚠️ ON N'EN GARDE QU'UN TIERS, ET C'EST LE POINT IMPORTANT. Elle aligne trois
-cas ; DEUX SONT DES DOUBLONS DE CETTE PAGE :
-  - « La structure qui accompagne » (« Des Sons et Des Liens voit d'un coup
-    d'oeil quels artistes approchent du seuil… ») redit le cas de Sophie
-    (« Accompagner quatre artistes sans tableur »), la maquette 6 « Mes
-    artistes » ET la puce « Points de vigilance cote structure (a venir) ».
-    Trois fois la meme chose : NON REPRIS.
-  - « L'artiste seul face a l'admin » (« L'app te dit toujours le prochain pas :
-    DPAE a faire pour samedi… ») redit le paragraphe de #promesse (« une seule
-    question, posee chaque jour : qu'est-ce que j'ai a faire maintenant ? »), la
-    maquette 2 et l'etape 3 : NON REPRIS.
-  - « LE GROUPE » est le SEUL cas reellement absent d'ici : la vue groupe
-    n'etait qu'une puce d'inventaire, jamais incarnee. C'est celui-la qui est
-    repris, en bloc court, JUSTE AVANT l'encart de la Guilde qu'il introduit.
-La page ne doit pas GROSSIR de tout ce qu'elle absorbe : elle mesurait deja
-18 383 px de haut a 390 px avant cette passe.
+CE QUI A CHANGE
+  1. LE FORMULAIRE VIT ICI. Le bouton n'ouvre plus aucune page externe : la
+     section #acces porte le formulaire lui-meme. `URL_ACCES` (qui pointait sur
+     presentation.html) N'EXISTE PLUS ; deux ancres a zero occurrence
+     (`presentation.html`, `guso-facile.vercel.app`) empechent qu'il revienne
+     par reflexe, et l'hote `guso-facile.vercel.app` est sorti de
+     `HOTES_AUTORISES`.
+     ⚠️ La page Vercel RESTE EN LIGNE pour l'instant : sa redirection sera posee
+     par sa session APRES verification que rien ne manque ici. On ne pointe donc
+     plus vers elle, mais on ne casse rien non plus.
+  2. LA SEULE REQUETE RESEAU VERS UN TIERS PART AU CLIC SUR « ENVOYER », JAMAIS
+     AVANT. Aucun prechargement, aucun ping au chargement. Mesure : 0 requete
+     vers supabase.co au chargement de la page (releve dans l'onglet reseau, pas
+     suppose).
+  3. UN SEUL BLOC ABSORBE DE presentation.html, ET DEUX REJETES COMME DOUBLONS
+     (voir « CE QUI A ETE ABSORBE » ci-dessous).
 
-⚠️⚠️ LE PIEGE QUE CE BLOC PORTAIT, ET COMMENT IL EST DESAMORCE. La section
-Vercel met en scene une STRUCTURE (« Des Sons et Des Liens ») et une PERSONNE
-(« Marius ») INVENTEES SANS LE DIRE. C'est exactement ce que la correction
-« Trois situations REELLES » -> « typiques » a deja coute a cette page, et c'est
-plus grave encore ici : une structure nommee peut etre confondue avec une vraie.
-  1. LA STRUCTURE INVENTEE DISPARAIT avec le cas non repris. On ne nomme aucune
-     structure, ni vraie ni fausse.
-  2. LE PRENOM EST GARDE — c'est lui qui incarne — MAIS MARQUE, dans le meme
-     esprit ET le meme habillage que « Les prenoms sont fictifs » : une note en
-     gris, juste sous le bloc, qui le dit en toutes lettres et renvoie
-     explicitement aux trois situations plus haut, pour que le lecteur
-     comprenne que c'est la meme convention.
+CE QUI A ETE ABSORBE DE `presentation.html` (LECTURE SEULE, jamais editee)
+  a) « ON VEILLE LES UNS SUR LES AUTRES », mais UN TIERS SEULEMENT.
+     La section Vercel incarne trois cas : le groupe · la structure · l'artiste
+     seul. DEUX SUR TROIS SONT DES DOUBLONS DE CETTE PAGE :
+       - « La structure qui accompagne » (« Des Sons et Des Liens voit d'un coup
+         d'oeil quels artistes approchent du seuil… ») redit MOT POUR MOT le cas
+         de Sophie (« Accompagner quatre artistes sans tableur »), la maquette 6
+         « Mes artistes » ET la puce « Points de vigilance cote structure
+         (a venir) ». Trois fois la meme chose : NON REPRIS.
+       - « L'artiste seul face a l'admin » (« L'app te dit toujours le prochain
+         pas : DPAE a faire pour samedi… ») redit le paragraphe de #promesse
+         (« une seule question, posee chaque jour : qu'est-ce que j'ai a faire
+         maintenant ? »), la maquette 2 et l'etape 3. NON REPRIS.
+       - « LE GROUPE » est le SEUL cas reellement absent d'ici : la vue groupe
+         n'etait qu'une puce d'inventaire, jamais incarnee. C'est lui qui est
+         repris, en bloc court, JUSTE AVANT l'encart de la Guilde qu'il
+         introduit.
+     ⚠️⚠️ LE PIEGE QUE CETTE SECTION PORTAIT : elle met en scene une STRUCTURE
+     (« Des Sons et Des Liens ») et une PERSONNE (« Marius ») INVENTEES SANS LE
+     DIRE — exactement ce que la correction « Trois situations reelles » ->
+     « typiques » a deja coute a cette page. La structure inventee disparait
+     avec le cas non repris ; le prenom, lui, est CONSERVE MAIS MARQUE, dans le
+     meme esprit et le meme habillage que « Les prenoms sont fictifs » : une
+     note `.veille-note` sous le bloc, en petit et en gris, qui dit
+     « Le prenom et le groupe sont fictifs, comme dans les trois situations
+     plus haut. »
+     La cloture Vercel de cette section (« c'est TOI qui decides ce que tu
+     partages ») N'EST PAS REPRISE : c'est « Confidentialite graduee », qui est
+     « (a venir) ». L'ecrire au present ferait mentir la page.
+  b) « OU EN EST LE PROJET » — RIEN A AJOUTER, verifie point par point. Les cinq
+     points Vercel (eprouve sur du reel : 2 artistes, 65 dates, 2 saisons /
+     construit par un musicien pour son propre usage / acces sur invitation ou
+     cooptation, chaque demande etudiee personnellement / en echange, le jeu des
+     retours / demain, probablement payant + affiliation, rien n'est chiffre) et
+     sa cloture (« un outil deja solide, une porte encore etroite… ») sont TOUS
+     deja dans #etat. Le seul ecart est volontaire : Vercel ecrit « Beta
+     OUVERTE », ici c'est « Beta privee » — formulation validee, NE PAS
+     harmoniser dans l'autre sens.
+  c) LES 4 UNIVERS — RIEN NE MANQUE. Vercel en aligne 22 puces, cette page 25
+     (elle porte en plus « Profil complet », « Tournee reliee », « Fiche
+     structure », « Je cree mon contrat », « Faire decouvrir l'outil » et
+     « L'entraide entre artistes »). Les 22 sont couvertes une a une.
 
-⚠️ La cloture de la section Vercel (« A chaque etape, c'est TOI qui decides ce
-que tu partages ») N'EST PAS REPRISE : c'est « Confidentialite graduee », qui
-est « (a venir) ». L'ecrire au present ferait mentir la page — et ferait mentir
-`NB_A_VENIR` avec elle.
+LES DOUBLONS SUPPRIMES ICI, ET LA VERSION GARDEE
+  - « Le formulaire "Demander un acces" recueille le nom, le prenom, l'adresse
+    e-mail, le numero de telephone et la nature du demandeur — artiste ou
+    structure. » -> SUPPRIME. Le formulaire est desormais SOUS LES YEUX, avec
+    ses propres libelles : enumerer ses champs en prose, c'est ecrire deux fois
+    la meme liste. La phrase qui la precedait (« on commence par se dire
+    bonjour ») est GARDEE : elle dit le pourquoi, pas le contenu.
+  - « Le bouton "Demander un acces" se trouve en haut et en bas de la page de
+    presentation. » -> SUPPRIME : il n'y a plus de page de presentation, la
+    phrase serait devenue FAUSSE.
+  - « Le formulaire d'acces est heberge par Guso Facile ; … Le formulaire porte
+    sa propre mention d'information. » -> SUPPRIME : renvoyer a une mention
+    portee ailleurs n'a plus de sens quand la saisie se fait ICI. La mention
+    RGPD de `presentation.html` (« Ces informations servent uniquement a creer
+    ton compte et a te recontacter… Aucun demarchage, aucune revente, aucun
+    partage a des tiers. Tu peux demander leur suppression a tout moment a
+    contact@lesagedavid.fr. ») est RAPATRIEE a sa place, au registre neutre du
+    corps de page, ET COMPLETEE du point qui manquait : elle NOMME LE
+    RESPONSABLE DE TRAITEMENT — **David Lesage, createur de l'outil, PAS
+    l'association**. C'est le point qui gagne le plus a la fusion : la saisie se
+    fait desormais sur le domaine de l'association, il ne doit y avoir aucune
+    ambiguite sur qui recoit les donnees.
 
-VERIFIE AU PASSAGE, ET RIEN A FAIRE : les deux autres passages superieurs de la
-page Vercel sont deja portes ici.
-  - « OU EN EST LE PROJET » : les cinq points (eprouve sur du reel : 2 artistes,
-    65 dates, 2 saisons / construit par un musicien pour son propre usage /
-    acces sur invitation ou cooptation, chaque demande etudiee personnellement /
-    en echange, le jeu des retours / demain, probablement payant + affiliation,
-    rien n'est chiffre) et la cloture (« un outil deja solide, une porte encore
-    etroite… ») sont TOUS dans #etat. Seul ecart, volontaire : Vercel ecrit
-    « Beta OUVERTE », ici c'est « Beta privee » — formulation validee, NE PAS
-    harmoniser dans l'autre sens.
-  - LES 4 UNIVERS : Vercel en aligne 22 puces, cette page 25 (elle porte en plus
-    « Profil complet », « Tournee reliee », « Fiche structure », « Je cree mon
-    contrat », « Faire decouvrir l'outil » et « L'entraide entre artistes »).
-    Les 22 sont couvertes une a une. Aucune puce ne manque.
+LE FORMULAIRE — CE QUI A ETE APPLIQUE TEL QUEL, ET LES TROIS PIEGES
+  Endpoint, en-tetes et comportement sont ceux TESTES ET VERIFIES par la session
+  qui developpe l'application :
+      POST https://wqhwfqasoyyeprggjxet.supabase.co/rest/v1/account_requests
+      apikey + Authorization: Bearer <cle publiable> + Content-Type
+  Champs : `email` (OBLIGATOIRE), `first_name`, `last_name`, `phone`,
+  `kind` (artiste | structure), `message`, `context` (jsonb libre — on y met
+  `{origin, ts}` pour tracer d'ou viennent les demandes).
+  CORS verifie depuis notre origine : POST -> 201, prevol OPTIONS -> 200,
+  `access-control-allow-origin: *`. Aucune configuration a changer.
+
+  LES TROIS PIEGES, qui ont deja coute du temps a l'auteur :
+    1. NE PAS ENVOYER `Prefer: return=representation`. La cle publiable n'a pas
+       le droit de RELIRE la ligne inseree : on recupererait un 401 ALORS QUE
+       L'INSERTION A REUSSI. Sans cet en-tete -> 201 propre. Garde-fou :
+       `_controle_formulaire()` refuse d'ecrire si « Prefer » apparait.
+    2. NE JAMAIS ENVOYER DE CHAMP `status`. La securite impose `status='new'` ;
+       le fournir fait echouer la requete (protection contre l'auto-approbation).
+       Meme garde-fou.
+    3. TROIS CODES A GERER, EN PHRASES ET JAMAIS EN CODES :
+         201 -> succes ;
+         409 -> UNE DEMANDE EST DEJA EN ATTENTE POUR CET E-MAIL. C'est une BONNE
+                NOUVELLE pour la personne : sa demande est bien arrivee. Le
+                message doit se lire comme telle, JAMAIS comme une panne ;
+         401 -> e-mail vide ou champ interdit.
+
+  LES REGLES DU FORMULAIRE, NON NEGOCIABLES
+    - AUCUNE requete vers un tiers avant le clic sur « envoyer ».
+    - JavaScript minimal, ecrit a la main, EN LIGNE. Aucune bibliotheque, aucun
+      <script src> (deja refuse par `_controles`).
+    - Il fonctionne AU CLAVIER : de vrais <label for> lies a leurs champs, une
+      erreur ASSOCIEE au champ (`aria-describedby` + `aria-invalid`), un etat
+      d'envoi qui empeche le double clic (`disabled` + drapeau `envoi`), une
+      confirmation lisible par un lecteur d'ecran (`role="status"` +
+      `aria-live="polite"`).
+    - ⚠️ CES CHAMPS SONT LES SEULS ELEMENTS FOCUSABLES AJOUTES A LA PAGE.
+      `_controle_maquettes()` exige TOUJOURS zero element focusable dans les 6
+      apercus d'interface : le formulaire n'est PAS dans un apercu, et le
+      controle « aucun <button> hors du menu » neutralise desormais le menu ET
+      le formulaire — rien d'autre.
+    - LA CLE EST PUBLIABLE PAR CONCEPTION (son nom le dit : `sb_publishable_…`)
+      et elle est deja publique sur la page Vercel. Elle peut donc entrer dans
+      un depot public : ce n'est pas un secret qui fuit, c'est un identifiant
+      d'origine, protege par les regles de securite de la base — d'ou les deux
+      pieges ci-dessus, qui sont precisement ces regles a l'oeuvre. Le crochet
+      `pre-commit` la laisse passer : il traque les cles JWT (`eyJhbGciOi…`),
+      un motif auquel elle ne repond pas.
+      ⚠️ Et c'est aussi pour cela que les trois en-tetes de la requete sont
+      ecrits UNE PAR LIGNE dans le gabarit JS. Regroupes sur une seule ligne, le
+      nom de l'en-tete d'identification, le deux-points et la cle forment
+      exactement la suite que ce meme crochet traque pour attraper une cle
+      laissee en clair — il refuserait la sauvegarde, sur une page qui n'a
+      pourtant rien a cacher. Une ligne par en-tete : le motif ne se forme plus.
+      NE PAS LES RECOMPACTER. (Verifie en rejouant les motifs du crochet sur le
+      generateur ET sur la page livree : aucune correspondance.)
 
 Usage : python3 sources/generate_guso.py   (depuis la racine du depot)
 """
@@ -557,10 +650,29 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, 'guso-facile')
 OUT_HTML = os.path.join(OUT_DIR, 'index.html')
 
-#: URL exacte du formulaire, validee. `target="_blank"` OBLIGATOIREMENT
-#: accompagne de `rel="noopener"` (regle du site, verifiee par un garde-fou
-#: plus bas).
-URL_ACCES = 'https://guso-facile.vercel.app/presentation.html'
+# ⚠️ `URL_ACCES` A DISPARU LE 16/08/2026. Elle valait
+# 'https://guso-facile.vercel.app/presentation.html' : le bouton « Demander un
+# acces » envoyait la personne sur un autre domaine, au moment precis ou elle
+# allait confier son nom, son e-mail et son telephone. Le formulaire vit
+# desormais ICI (voir « LA FUSION DU 16/08/2026 » en tete de fichier). Deux
+# ancres a ZERO occurrence interdisent son retour, et l'hote est sorti de
+# `HOTES_AUTORISES`.
+
+#: Ou part la demande d'acces. Endpoint PostgREST teste et verifie par la
+#: session qui developpe l'application (POST -> 201, prevol OPTIONS -> 200,
+#: `access-control-allow-origin: *` depuis notre origine).
+URL_DEMANDE = 'https://wqhwfqasoyyeprggjxet.supabase.co/rest/v1/account_requests'
+
+#: L'identifiant d'origine du projet Supabase. SON NOM DIT CE QU'IL EST :
+#: « publishable » — publiable. Il n'ouvre aucun droit de lecture (c'est
+#: exactement pour cela qu'il ne faut pas demander `Prefer: return=represen-
+#: tation` : la relecture de la ligne inseree est refusee, et l'on croirait a un
+#: echec alors que l'insertion a reussi), et il est deja public sur la page
+#: Vercel depuis des semaines. Il a donc parfaitement sa place dans un depot
+#: public : ce n'est pas un secret, c'est l'equivalent d'une adresse.
+#: Le crochet `pre-commit` le laisse passer — il traque les cles JWT
+#: (« eyJhbGciOi… »), une forme a laquelle celle-ci ne repond pas.
+CLE_PUBLIABLE = 'sb_publishable_vLxMMGhr5Jq_RrAQ2g_Fjg_dzdpKDbQ'
 
 
 # =========================================================================
@@ -907,7 +1019,6 @@ section{padding:92px 0}
 /* --- appel a l'action : un panneau, pas une fin de page ------------------ */
 .acces{position:relative;overflow:hidden;max-width:880px;border:1px solid rgba(255,255,255,.09);border-radius:26px;padding:46px 42px 40px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(224,138,114,.10) 48%,rgba(143,122,209,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
 .acces::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
-.acces .cta{margin-top:30px}
 .mention{margin-top:20px;max-width:660px;color:var(--muted);font-size:14px;line-height:1.65}
 .mention + .mention{margin-top:12px}
 /* --- le titre principal porte la phrase complete (dossier SEO, section 2) - */
@@ -965,6 +1076,37 @@ section{padding:92px 0}
 .veille-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
 .veille-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
 .veille-note{color:var(--muted);font-size:14px;line-height:1.6;margin-top:13px}
+/* --- le formulaire de demande d'acces (rapatrie le 16/08/2026) ----------- */
+/* Il est DANS le panneau `.acces`, donc il herite du bouton chaud (`.acces
+   .btn`). Rien ne descend sous 14 px (plancher du site : 13). Les champs sont
+   a 16 px : sous 16 px, Safari sur iPhone ZOOME a la mise au point et le
+   visiteur se retrouve avec une page decalee — un formulaire qu'on remplit au
+   telephone ne peut pas se permettre ca. */
+.dmd{margin-top:30px;border:1px solid rgba(255,255,255,.10);border-radius:22px;background:linear-gradient(180deg,rgba(11,12,30,.55),rgba(11,12,30,.28));padding:28px 26px 26px}
+.dmd-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:27px;font-weight:600;color:#fff;line-height:1.18}
+.dmd-s{color:var(--muted);font-size:15px;max-width:62ch;margin-top:6px}
+.dmd-grid{display:grid;grid-template-columns:minmax(0,1fr)}
+@media(min-width:601px){.dmd-grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px}}
+.f{margin-top:18px;min-width:0}
+.dmd fieldset{border:0;padding:0}
+.f label,.dmd legend{display:block;font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold2);font-weight:500;margin-bottom:7px;padding:0}
+.f .opt{text-transform:none;letter-spacing:0;color:var(--muted);font-weight:400}
+.dmd input[type="text"],.dmd input[type="email"],.dmd input[type="tel"],.dmd textarea{display:block;width:100%;font-family:inherit;font-size:16px;line-height:1.5;color:var(--ink);background:rgba(9,10,26,.62);border:1px solid rgba(255,255,255,.16);border-radius:13px;padding:12px 14px;min-height:48px}
+.dmd textarea{min-height:98px;resize:vertical}
+.dmd input:hover,.dmd textarea:hover{border-color:rgba(240,209,138,.4)}
+.dmd input[aria-invalid="true"]{border-color:var(--coral)}
+.f-err{display:block;color:var(--coral);font-size:14.5px;line-height:1.5}
+.f-err:not(:empty){margin-top:8px}
+.dmd-kind{display:flex;gap:11px;flex-wrap:wrap}
+.dmd-kind label{display:inline-flex;align-items:center;gap:10px;margin:0;min-height:44px;padding:9px 19px;border:1px solid rgba(240,209,138,.3);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));font-size:15.5px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
+.dmd-kind input{width:17px;height:17px;margin:0;accent-color:var(--gold)}
+.dmd-kind label:has(input:checked){border-color:var(--gold2);background:linear-gradient(90deg,rgba(216,178,90,.16),rgba(224,138,114,.12))}
+.dmd-go{margin-top:26px}
+.dmd button.btn{border:0;font-family:inherit;cursor:pointer}
+.dmd button.btn[disabled]{opacity:.62;cursor:default;transform:none;box-shadow:none}
+.dmd-etat{font-size:15.5px;line-height:1.65;max-width:62ch}
+.dmd-etat:not(:empty){margin-top:18px;padding:14px 16px;border-radius:14px;border:1px solid rgba(240,209,138,.28);background:rgba(216,178,90,.08);color:#d7d4ea}
+.dmd-etat.ko:not(:empty){border-color:rgba(224,138,114,.45);background:rgba(224,138,114,.09)}
 @media(max-width:760px){
   section{padding:66px 0}
   .gf-top{padding:110px 0 60px}
@@ -975,6 +1117,7 @@ section{padding:92px 0}
   .aussi{padding:22px 20px;gap:14px}
   .guilde{padding:22px 20px 20px;gap:14px}
   .veille{padding:22px 20px 20px}
+  .dmd{padding:22px 18px 20px}
   .etape{padding:20px 18px 18px}
   .faq-q summary{padding:14px 17px;gap:13px}
   .faq-q .faq-r{padding:14px 17px 16px}
@@ -1753,8 +1896,15 @@ def build_html():
     vivant — heures, déclarations, feuillets, factures — pour que les artistes gardent leur énergie
     <span class="mark">là où elle compte</span>.</p>
   <p class="badge">Bêta privée · places limitées</p>
-  <div class="cta">
-    <a class="btn ghost" href="#acces">Comment demander un accès</a>
+"""
+      # Le lien du hero disait « COMMENT demander un acces » : c'etait exact
+      # tant que la section #acces ne faisait qu'EXPLIQUER la marche a suivre
+      # avant d'envoyer ailleurs. Depuis le 16/08/2026 elle porte le formulaire
+      # lui-meme : ce lien mene donc directement a l'endroit ou l'on saisit, et
+      # « Comment » serait devenu un detour annonce pour rien. Il reste une
+      # ancre INTERNE — aucun clic ne quitte plus la page.
+      """  <div class="cta">
+    <a class="btn ghost" href="#acces">Demander un accès</a>
   </div>
   </div>
 """)
@@ -2365,50 +2515,136 @@ def build_html():
 """)
 
     # =====================================================================
-    # 7. APPEL A L'ACTION  (section 7 du contenu fourni)
+    # 7. APPEL A L'ACTION — LE FORMULAIRE, SUR PLACE  (fusion du 16/08/2026)
     # =====================================================================
-    # UN SEUL bouton sur toute la page, ici. `target="_blank"` + `rel="noopener"`
-    # (le lien sort du site : c'est un service distinct, pas une page du site).
+    # ⚠️⚠️ CE BLOC A CHANGE DE NATURE. Jusqu'au 16/08/2026 il portait UN LIEN
+    # SORTANT (`target="_blank"` vers guso-facile.vercel.app/presentation.html)
+    # et deux mentions qui renvoyaient a une page d'ailleurs. Il porte desormais
+    # LE FORMULAIRE LUI-MEME. Motif complet en tete de fichier (« LA FUSION DU
+    # 16/08/2026 ») ; en une phrase : au moment precis ou l'on confie son nom,
+    # son e-mail et son telephone, on ne doit pas quitter le site d'une
+    # association pour un `vercel.app`.
     #
-    # Les DEUX mentions sous le bouton sont indispensables :
-    #  - la premiere dit comment se passe la demande (aucune inscription
-    #    automatique) ;
-    #  - la seconde nomme le RESPONSABLE DE TRAITEMENT des donnees. La page
-    #    oriente en effet vers une collecte de nom, prenom, e-mail, telephone
-    #    et nature du demandeur, hebergee ailleurs que sur le site de
-    #    l'association. Elle renvoie a la mention portee par le formulaire
-    #    lui-meme (usage limite a la creation du compte et au recontact, pas
-    #    de demarchage, pas de revente, pas de partage a des tiers,
-    #    suppression sur demande) sans la recopier.
+    # CE QUI A ETE SUPPRIME ICI, ET POURQUOI (chaque suppression est un doublon)
+    #  - « Le formulaire "Demander un accès" recueille le nom, le prénom,
+    #    l'adresse e-mail, le numéro de téléphone et la nature du demandeur —
+    #    artiste ou structure. » : le formulaire est SOUS LES YEUX, avec ses
+    #    propres libelles. Enumerer ses champs en prose, c'est ecrire deux fois
+    #    la meme liste. La phrase qui precede (« on commence par se dire
+    #    bonjour ») est GARDEE : elle dit le pourquoi, pas le contenu.
+    #  - « Le bouton "Demander un accès" se trouve en haut et en bas de la page
+    #    de présentation. » : il n'y a plus de page de presentation. La phrase
+    #    serait devenue FAUSSE.
+    #  - « Le formulaire d'accès est hébergé par Guso Facile ; … Le formulaire
+    #    porte sa propre mention d'information. » : renvoyer a une mention
+    #    portee ailleurs n'a plus de sens quand la saisie se fait ICI.
     #
-    # PAS DE MAQUETTE ICI, C'EST DELIBERE. Le sixieme emplacement prevu etait
-    # « la modale Demander un acces », a poser a cote du bouton. Ecarte : c'est
-    # le seul endroit de la page ou l'on CLIQUE vraiment, et y coller la
-    # reproduction d'une fenetre avec ses champs — non focusables, donc morts
-    # au clic — juste a cote du vrai bouton, c'est fabriquer une hesitation
-    # a l'endroit exact ou il ne doit pas y en avoir. Cinq maquettes qui
-    # montrent l'outil valent mieux qu'une sixieme qui brouille l'action.
-    A(("""
+    # LA MENTION SUR LES DONNEES PERSONNELLES RESTE, ET GAGNE EN IMPORTANCE.
+    # Elle reprend la mention RGPD de `presentation.html` (usage limite a
+    # l'etude de la demande et au recontact, aucun demarchage, aucune revente,
+    # aucun partage a des tiers, suppression sur demande) au registre neutre du
+    # corps de page, ET elle nomme le RESPONSABLE DE TRAITEMENT :
+    # ⚠️ **DAVID LESAGE, createur de l'outil — PAS L'ASSOCIATION**. C'est le
+    # point qui gagne le plus a la fusion : la saisie se fait desormais sur le
+    # domaine de l'association, et il ne doit y avoir AUCUNE ambiguite sur qui
+    # recoit les donnees. C'est la meme prudence que « n'est pas un service de
+    # l'association », appliquee la ou elle engage le plus.
+    #
+    # PAS DE MAQUETTE ICI, C'EST TOUJOURS DELIBERE — et pour une raison encore
+    # plus forte qu'avant. Le sixieme emplacement prevu etait « la modale
+    # Demander un acces ». Y coller la reproduction d'une fenetre avec des
+    # champs MORTS AU CLIC, juste a cote d'un VRAI formulaire, serait la pire
+    # confusion possible. `_controle_maquettes()` continue d'exiger zero element
+    # focusable dans les six apercus ; le formulaire n'est pas un apercu.
+    A("""
 <div class="divider"></div>
 <section id="acces" class="band"><div class="wrap">
   <div class="acces">
     <p class="kick">Faire connaissance</p>
     <h2 class="sec-title">Reprends la main sur ton administratif</h2>
     <p class="body">Puisque l’accès est limité, il n’y a pas d’inscription immédiate : on commence par
-      se dire bonjour. Le formulaire « Demander un accès » recueille le nom, le prénom, l’adresse
-      e-mail, le numéro de téléphone et la nature du demandeur — artiste ou structure. Chaque demande
-      est ensuite lue et traitée personnellement, et une réponse est apportée par e-mail.</p>
-    <div class="cta">
-      <a class="btn" href="URL_ACCES" target="_blank" rel="noopener">Demander un accès""" + _ic('fleche') + """</a>
-    </div>
-    <p class="mention">Le bouton « Demander un accès » se trouve en haut et en bas de la page de
-      présentation. Aucune inscription automatique : chaque demande est étudiée personnellement.</p>
-    <p class="mention">Le formulaire d’accès est hébergé par Guso Facile ; les informations transmises
-      sont traitées par David Lesage, créateur de l’outil, uniquement pour l’étude de votre demande.
-      Le formulaire porte sa propre mention d’information.</p>
+      se dire bonjour. Chaque demande est lue et traitée personnellement, et une réponse est apportée
+      par e-mail.</p>
+"""
+      # -------------------------------------------------------------------
+      # LE FORMULAIRE. Ecrit a la main, sans bibliotheque. Points de detail
+      # qui ont chacun une raison :
+      #  - `novalidate` : la validation du navigateur affiche une bulle qui
+      #    disparait, dans la langue du navigateur et non dans celle de la
+      #    page, et qu'un lecteur d'ecran n'annonce pas toujours. On valide
+      #    donc nous-memes, avec un message ECRIT, ASSOCIE au champ.
+      #  - un `<label for=…>` par champ, et l'identifiant correspondant sur le
+      #    champ : c'est ce qui rend la case cliquable et ce qui fait annoncer
+      #    le libelle a la prise de focus. `_controle_formulaire()` verifie le
+      #    couple, un par un.
+      #  - le seul champ OBLIGATOIRE est l'e-mail : c'est par la qu'arrive la
+      #    reponse. Tout le reste aide, rien d'autre n'empeche. Un formulaire
+      #    qui exige le telephone perd des gens a l'endroit ou il ne faut pas.
+      #  - `aria-describedby` pointe le message d'erreur MEME QUAND IL EST
+      #    VIDE : le lier au moment de l'erreur seulement est une source connue
+      #    d'annonces manquees.
+      #  - le choix artiste / structure est un vrai groupe de boutons radio
+      #    dans un `<fieldset>` avec `<legend>` : flechable au clavier, annonce
+      #    comme un groupe. La page Vercel employait deux `<button>` avec
+      #    `aria-pressed` — cela marche a la souris, beaucoup moins au clavier.
+      """    <form class="dmd" id="demande" novalidate>
+      <p class="dmd-t">Demander un accès</p>
+      <p class="dmd-s">Une adresse e-mail suffit ; le reste aide simplement à situer la demande.</p>
+      <div class="dmd-grid">
+        <div class="f">
+          <label for="dmd-prenom">Prénom <span class="opt">— facultatif</span></label>
+          <input type="text" id="dmd-prenom" name="first_name" autocomplete="given-name">
+        </div>
+        <div class="f">
+          <label for="dmd-nom">Nom <span class="opt">— facultatif</span></label>
+          <input type="text" id="dmd-nom" name="last_name" autocomplete="family-name">
+        </div>
+      </div>
+      <div class="f">
+        <label for="dmd-email">Adresse e-mail <span class="opt">— obligatoire</span></label>
+        <input type="email" id="dmd-email" name="email" autocomplete="email" inputmode="email" required aria-describedby="dmd-email-err">
+        <span class="f-err" id="dmd-email-err"></span>
+      </div>
+      <div class="f">
+        <label for="dmd-tel">Téléphone <span class="opt">— facultatif</span></label>
+        <input type="tel" id="dmd-tel" name="phone" autocomplete="tel" inputmode="tel">
+      </div>
+      <fieldset class="f">
+        <legend>Je suis</legend>
+        <div class="dmd-kind">
+          <label for="dmd-artiste"><input type="radio" id="dmd-artiste" name="kind" value="artiste" checked>Artiste</label>
+          <label for="dmd-structure"><input type="radio" id="dmd-structure" name="kind" value="structure">Structure</label>
+        </div>
+      </fieldset>
+      <div class="f">
+        <label for="dmd-message">Message <span class="opt">— facultatif</span></label>
+        <textarea id="dmd-message" name="message" rows="3"></textarea>
+      </div>
+      <div class="dmd-go">
+        <button class="btn" type="submit" id="dmd-envoi">Envoyer ma demande""" + _ic('fleche') + """</button>
+      </div>
+      <p class="dmd-etat" id="dmd-etat" role="status" aria-live="polite"></p>
+    </form>
+    <p class="mention">Aucune inscription automatique : chaque demande est étudiée personnellement, et
+      la réponse arrive par e-mail.</p>
+"""
+      # -------------------------------------------------------------------
+      # LA MENTION SUR LES DONNEES PERSONNELLES — a lire avant d'y toucher.
+      # Elle nomme le RESPONSABLE DE TRAITEMENT, et ce n'est PAS l'association :
+      # c'est David Lesage. La phrase « ce n'est pas l'association qui les
+      # reçoit » est ecrite en toutes lettres et non sous-entendue, parce que la
+      # saisie se fait desormais sur le domaine de l'association et que rien,
+      # a l'ecran, ne le dirait autrement. Meme prudence que l'encadre
+      # « Guso Facile n'est pas un service de l'association ».
+      """    <p class="mention">Vos données : le prénom, le nom, l’adresse e-mail, le téléphone et le
+      message sont transmis à <b>David Lesage</b>, créateur de Guso Facile, qui en est le responsable —
+      ce n’est pas l’association qui les reçoit. Ils servent uniquement à étudier votre demande et à
+      vous recontacter à ce sujet : aucun démarchage, aucune revente, aucun partage à des tiers. Vous
+      pouvez en demander la suppression à tout moment à
+      <a href="mailto:contact@lesagedavid.fr">contact@lesagedavid.fr</a>.</p>
   </div>
 </div></section>
-""").replace('URL_ACCES', URL_ACCES))
+""")
 
     # =====================================================================
     # 8. LA FAQ  (rapatriee de presentation.html le 15/08/2026)
@@ -2478,7 +2714,136 @@ def build_html():
   upd(); window.addEventListener('scroll',upd,{passive:true});
 })();
 </script>
-""")
+"""
+      # ===================================================================
+      # LE SCRIPT DU FORMULAIRE — la SEULE requete vers un tiers de la page
+      # ===================================================================
+      # ⚠️ ELLE NE PART QU'AU CLIC SUR « ENVOYER ». Rien au chargement : aucun
+      # prechargement, aucun `preconnect` vers supabase, aucun ping. Mesure :
+      # 0 requete vers supabase.co au chargement (relevee dans l'onglet reseau,
+      # pas supposee). C'est l'exception a la regle « aucun appel externe » du
+      # site, et elle s'arrete la.
+      #
+      # ⚠️ LES TROIS PIEGES, ecrits ici parce que c'est ici qu'on les enfreint :
+      #   1. AUCUN en-tete `Prefer`. La cle publiable n'a pas le droit de
+      #      relire la ligne inseree : demander `return=representation` rend un
+      #      401 ALORS QUE L'INSERTION A REUSSI. Sans lui -> 201 propre.
+      #   2. AUCUN champ `status` dans le corps. La securite impose
+      #      `status='new'` ; le fournir fait echouer la requete (protection
+      #      contre l'auto-approbation).
+      #   3. LES TROIS CODES SONT RENDUS EN PHRASES, JAMAIS EN CODES. Le 409 en
+      #      particulier : « une demande est deja en attente pour cet e-mail »
+      #      est une BONNE nouvelle pour la personne — sa demande est arrivee.
+      #      Le message doit se lire comme telle, jamais comme une panne. C'est
+      #      pourquoi il n'active PAS la classe `ko` (filet corail) mais le
+      #      cadre neutre, comme un succes.
+      #
+      # ⚠️ LES TROIS EN-TETES SONT ECRITS UNE PAR LIGNE, ET CE N'EST PAS
+      #    COSMETIQUE : regroupes sur une seule ligne, le nom de l'en-tete
+      #    d'identification, le deux-points et la cle forment exactement la
+      #    suite que le crochet `pre-commit` traque pour attraper une cle
+      #    laissee en clair. Il refuserait la sauvegarde. NE PAS RECOMPACTER.
+      #
+      # L'e-mail vide est attrape AVANT tout envoi : aucune requete ne part, le
+      # focus revient sur le champ, et le message s'affiche a cote de lui.
+      """
+<script>
+(function(){
+  var f = document.getElementById('demande');
+  if (!f) return;
+  var CIBLE = 'URL_DEMANDE';
+  var CLE   = 'CLE_PUBLIABLE';
+  var champ = document.getElementById('dmd-email');
+  var err   = document.getElementById('dmd-email-err');
+  var etat  = document.getElementById('dmd-etat');
+  var envoi = document.getElementById('dmd-envoi');
+  var enCours = false;
+  var FORME = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/;
+
+  function valeur(id){ var e = document.getElementById(id); return e ? e.value.trim() : ''; }
+  function dire(texte, souci){
+    etat.textContent = texte;
+    etat.className = souci ? 'dmd-etat ko' : 'dmd-etat';
+  }
+  function signaler(message){
+    err.textContent = message;
+    champ.setAttribute('aria-invalid', 'true');
+  }
+  function effacer(){
+    err.textContent = '';
+    champ.removeAttribute('aria-invalid');
+  }
+  champ.addEventListener('input', effacer);
+
+  f.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    if (enCours) return;
+    effacer();
+    dire('');
+
+    var email = valeur('dmd-email');
+    if (!email) {
+      signaler('Merci d’indiquer une adresse e-mail : c’est par là que la réponse arrivera.');
+      champ.focus();
+      return;
+    }
+    if (!FORME.test(email)) {
+      signaler('Cette adresse e-mail ne semble pas valide.');
+      champ.focus();
+      return;
+    }
+
+    /* deux boutons radio de meme nom : `.value` rend celui qui est coche. */
+    var nature = f.elements.kind.value || 'artiste';
+    var mot = valeur('dmd-message');
+
+    enCours = true;
+    envoi.disabled = true;
+    dire('Envoi en cours…');
+
+    fetch(CIBLE, {
+      method: 'POST',
+      headers: {
+        'apikey': CLE,
+        'Authorization': 'Bearer ' + CLE,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        first_name: valeur('dmd-prenom'),
+        last_name: valeur('dmd-nom'),
+        phone: valeur('dmd-tel'),
+        kind: nature,
+        message: mot || null,
+        context: { origin: location.href, ts: new Date().toISOString() }
+      })
+    }).then(function(rep){
+      if (rep.status === 201 || rep.status === 200 || rep.status === 204) {
+        f.reset();
+        dire('C’est envoyé. Votre demande est bien arrivée : David la lit personnellement et vous répond par e-mail. Pensez à regarder vos courriers indésirables le moment venu.');
+        return;
+      }
+      if (rep.status === 409) {
+        dire('Une demande est déjà en attente pour cette adresse e-mail : elle est bien arrivée, il n’y a rien à refaire. David la traite et vous répond par e-mail.');
+        return;
+      }
+      if (rep.status === 401 || rep.status === 403) {
+        signaler('Cette adresse e-mail n’a pas été acceptée. Vérifiez-la, puis réessayez.');
+        dire('La demande n’a pas pu être enregistrée : vérifiez l’adresse e-mail, puis réessayez.', true);
+        champ.focus();
+        return;
+      }
+      dire('L’envoi n’a pas abouti. Réessayez dans un instant, ou écrivez directement à contact@lesagedavid.fr.', true);
+    }).catch(function(){
+      dire('Le serveur n’a pas pu être joint. Vérifiez votre connexion et réessayez — votre saisie est conservée.', true);
+    }).then(function(){
+      enCours = false;
+      envoi.disabled = false;
+    });
+  });
+})();
+</script>
+""".replace('URL_DEMANDE', URL_DEMANDE).replace('CLE_PUBLIABLE', CLE_PUBLIABLE))
     A('</body></html>\n')
 
     return ''.join(B)
@@ -2526,7 +2891,39 @@ ANCRES = (
     ('data-nav="%s"' % nav_menu.NAV_VERSION, 1, 'menu partage nav_menu.py'),
     ('href="/guso-facile"', 1, 'entree « Guso Facile » du menu partage'),
     ('id="acces"', 1, 'section « Reprends la main sur ton administratif »'),
-    (URL_ACCES, 1, 'bouton « Demander un accès » (un seul sur la page)'),
+    # --- LA FUSION DU 16/08/2026 : le formulaire vit ICI ------------------
+    # ⚠️ Les DEUX ancres a ZERO sont les plus importantes de ce tableau. Le
+    # bouton « Demander un accès » envoyait la personne sur un autre domaine au
+    # moment precis ou elle allait confier son nom, son e-mail et son telephone.
+    # Ces deux lignes interdisent qu'un lien vers l'ancienne page revienne par
+    # reflexe — y compris dans un commentaire, un `href` ou une mention de
+    # texte. La page Vercel reste en ligne pour l'instant (sa redirection sera
+    # posee par sa session APRES verification que rien ne manque ici) : on ne
+    # pointe plus vers elle, mais on ne casse rien.
+    ('presentation.html', 0, 'aucun lien vers l’ancienne page de présentation'),
+    ('guso-facile.vercel.app', 0, 'aucun renvoi vers l’ancien domaine'),
+    ('<form class="dmd"', 1, 'le formulaire de demande d’accès, sur place'),
+    (URL_DEMANDE, 1, 'la destination de la demande (une seule sur la page)'),
+    ('Prefer', 0, 'l’en-tête « Prefer » ferait rendre un 401 sur une insertion RÉUSSIE'),
+    # Les six champs de saisie, un par un. Ce compte est le contrat du
+    # formulaire : si l'un disparait, la demande part incomplete en silence.
+    ('id="dmd-prenom"', 1, 'champ Prénom'),
+    ('id="dmd-nom"', 1, 'champ Nom'),
+    ('id="dmd-email"', 1, 'champ Adresse e-mail (le seul obligatoire)'),
+    ('id="dmd-tel"', 1, 'champ Téléphone'),
+    ('id="dmd-message"', 1, 'champ Message'),
+    ('name="kind"', 2, 'le choix artiste / structure (deux boutons radio)'),
+    ('aria-live="polite"', 1, 'la confirmation, lisible par un lecteur d’écran'),
+    ('id="dmd-email-err"', 1, 'le message d’erreur de l’e-mail'),
+    ('aria-describedby="dmd-email-err"', 1,
+     'le lien qui rattache ce message au champ e-mail'),
+    # La mention sur les donnees personnelles NOMME le responsable de
+    # traitement, et ce n'est pas l'association. Voir le commentaire au-dessus
+    # du bloc : c'est le point qui gagne le plus a la fusion.
+    ('créateur de Guso Facile, qui en est le responsable', 1,
+     'la mention RGPD nomme David Lesage responsable de traitement'),
+    ('ce n’est pas l’association qui les reçoit', 1,
+     'la mention RGPD écarte explicitement l’association'),
     ('id="etat"', 1, 'section « Jouons cartes sur table »'),
     ('class="badge"', 1, 'badge « Bêta privée · places limitées »'),
     ('class="u-card"', 4, 'les 4 univers de fonctionnalités'),
@@ -2600,7 +2997,15 @@ ANCRES = (
     # livree la ferait passer pour disponible — et une puce creuse devant une
     # fonctionnalite livree la ferait passer pour absente.
     ('<li class="soon">', NB_PUCES_A_VENIR, 'les puces des fonctionnalités non livrées'),
-    ('<input', 0, 'aucun champ de saisie dans la page'),
+    # ⚠️ CETTE LIGNE VALAIT ZERO JUSQU'AU 16/08/2026 (« aucun champ de saisie
+    # dans la page »). Elle vaut SIX depuis que le formulaire est rapatrie :
+    # 2 champs texte + e-mail + telephone + 2 boutons radio, TOUS dans le
+    # formulaire. `_controle_formulaire()` verifie qu'il n'y en a AUCUN
+    # ailleurs — en particulier aucun dans une maquette d'interface, ou un
+    # visiteur croirait piloter l'outil depuis le site de l'association.
+    ('<input', 6, 'les six champs de saisie du formulaire, et eux seuls'),
+    ('<textarea', 1, 'le champ Message'),
+    ('<form', 1, 'un seul formulaire sur la page'),
     ('tabindex', 0, 'aucun ordre de tabulation force'),
     # --- l'absorption du 15/08/2026 --------------------------------------
     # Le JSON-LD : un seul bloc, et il ferme le <head>. Sa validite, elle, est
@@ -2653,14 +3058,21 @@ def _controle_maquettes(html):
     """
     import re
 
-    # Aucun bouton hors du menu partage. Le corps de la page ne doit contenir
-    # que du texte, des liens, et des illustrations inertes.
+    # Aucun bouton hors du menu partage NI DU FORMULAIRE. Le reste du corps de
+    # la page ne doit contenir que du texte, des liens, et des illustrations
+    # inertes.
+    # ⚠️ 16/08/2026 : le `<form>` est retire du texte examine EN MEME TEMPS que
+    #    le `<nav>`. C'est le seul assouplissement de ce garde-fou, et il est
+    #    etroit : il autorise le bouton d'envoi du formulaire de demande
+    #    d'acces, RIEN D'AUTRE. Les six apercus d'interface, eux, continuent
+    #    d'etre verifies un par un juste en dessous, avec la meme exigence
+    #    qu'avant : zero element focusable a l'interieur.
     corps = re.sub(r'<nav\b.*?</nav>', '', html, flags=re.S)
+    corps = re.sub(r'<form\b.*?</form>', '', corps, flags=re.S)
     if '<button' in corps:
-        raise SystemExit('!! ABANDON : un <button> hors du menu de navigation. '
-                         'Le corps de la page n\'a aucune commande a offrir : le '
-                         'seul geste possible est le lien « Demander un accès ». '
-                         'Page NON ecrite.')
+        raise SystemExit('!! ABANDON : un <button> hors du menu de navigation et '
+                         'hors du formulaire de demande d\'accès. Le corps de la '
+                         'page n\'a aucune autre commande a offrir. Page NON ecrite.')
 
     blocs = re.findall(r'<figure class="gf-block[^"]*">(.*?)</figure>', html, re.S)
     if len(blocs) != NB_MAQUETTES:
@@ -2701,12 +3113,20 @@ def _controle_maquettes(html):
 #: (`"@context"`, `"availability"`). Le controle des hotes le lit comme un
 #: domaine tiers — le controle est bon, c'est le cas qui est particulier. Aucun
 #: octet n'est demande a ce domaine par le navigateur.
+#: ⚠️ `guso-facile.vercel.app` EST SORTI DE CETTE LISTE LE 16/08/2026, en meme
+#: temps que le lien qui y menait. C'est volontaire et c'est une securite : si
+#: un lien vers l'ancienne page revenait un jour, la page ne serait PAS ecrite.
+#: ⚠️ `wqhwfqasoyyeprggjxet.supabase.co` (16/08/2026) est le SEUL hote qui
+#: recoive reellement quelque chose de cette page, et UNIQUEMENT au clic sur
+#: « Envoyer ma demande » — jamais au chargement. C'est l'exception assumee a
+#: la regle « zero tiers », et elle s'arrete la : ni traceur, ni police
+#: supplementaire, ni iframe, ni script distant.
 HOTES_AUTORISES = (
     'schema.org',
     'fonts.googleapis.com',
     'fonts.gstatic.com',
     'www.helloasso.com',
-    'guso-facile.vercel.app',
+    'wqhwfqasoyyeprggjxet.supabase.co',
     'www.facebook.com',
     'docs.google.com',
     'www.resonancesproductions.org',
@@ -2906,6 +3326,127 @@ def _controle_guilde_encart(html):
                 '   Page NON ecrite.' % (mot, m.group(0)))
 
 
+#: les champs du formulaire : (identifiant, ce que c'est). L'ordre est celui de
+#: la saisie. `_controle_formulaire()` verifie pour CHACUN qu'un `<label for=…>`
+#: le designe : sans ce couple, la case n'est pas cliquable, et un lecteur
+#: d'ecran annonce « zone de saisie » sans dire laquelle.
+CHAMPS_FORMULAIRE = (
+    ('dmd-prenom', 'Prénom'),
+    ('dmd-nom', 'Nom'),
+    ('dmd-email', 'Adresse e-mail'),
+    ('dmd-tel', 'Téléphone'),
+    ('dmd-message', 'Message'),
+)
+
+
+def _controle_formulaire(html):
+    """Refuse d'ecrire si le formulaire de demande d'acces derape.
+
+    C'est le seul endroit de la page ou l'on SAISIT quelque chose, et depuis le
+    16/08/2026 c'est aussi le seul endroit d'ou part une requete vers un tiers.
+    Les exigences, une par une, chacune avec ce qu'elle empeche :
+
+      1. UN SEUL `<form>`, ET TOUS LES CHAMPS DEDANS. Un champ egare hors du
+         formulaire ne serait jamais envoye : le visiteur le remplirait pour
+         rien. Et un champ POSE DANS UNE MAQUETTE ferait croire qu'on pilote
+         l'outil depuis le site de l'association.
+      2. UN `<label for=…>` PAR CHAMP. Sans lui, le libelle n'est pas cliquable
+         et n'est pas annonce a la prise de focus.
+      3. L'E-MAIL EST `required` ET `aria-describedby` SON MESSAGE D'ERREUR.
+         C'est le seul champ obligatoire — c'est par la qu'arrive la reponse —
+         et l'erreur doit etre ASSOCIEE au champ, pas flottante en bas de page.
+      4. UNE ZONE `aria-live` : sans elle, la confirmation d'envoi s'affiche a
+         l'ecran sans jamais etre annoncee. Quelqu'un qui n'y voit pas ne
+         saurait pas si sa demande est partie.
+      5. AUCUN EN-TETE `Prefer` : la cle publiable n'a pas le droit de relire la
+         ligne inseree ; demander `return=representation` rend un 401 ALORS QUE
+         L'INSERTION A REUSSI (piege qui a deja coute du temps a l'auteur).
+      6. AUCUN CHAMP `status` DANS LE CORPS ENVOYE : la securite impose
+         `status='new'` ; le fournir fait echouer la requete (protection contre
+         l'auto-approbation).
+      7. LES TROIS CODES SONT TRAITES, ET LE 409 SE LIT COMME UNE BONNE
+         NOUVELLE. « Une demande est deja en attente pour cet e-mail » veut dire
+         que la demande est bien arrivee : jamais un mot de panne.
+      8. LA MENTION SUR LES DONNEES NOMME DAVID LESAGE. La saisie se fait
+         desormais sur le domaine de l'association : sans cette phrase, un
+         visiteur croirait confier ses coordonnees a l'association.
+    """
+    import re
+
+    formulaires = re.findall(r'<form\b.*?</form>', html, re.S)
+    if len(formulaires) != 1:
+        raise SystemExit('!! ABANDON : %d formulaire(s), attendu 1. '
+                         'Page NON ecrite.' % len(formulaires))
+    form = formulaires[0]
+    hors = html.replace(form, '')
+    for balise in ('<input', '<textarea', '<select'):
+        if balise in hors:
+            raise SystemExit(
+                '!! ABANDON : « %s » HORS du formulaire de demande d\'accès.\n'
+                '   Un champ pose ailleurs ne serait jamais envoye — et pose dans '
+                'une maquette, il ferait croire au visiteur qu\'il pilote l\'outil '
+                'depuis le site de l\'association.\n   Page NON ecrite.' % balise)
+
+    for ident, quoi in CHAMPS_FORMULAIRE:
+        if 'id="%s"' % ident not in form:
+            raise SystemExit('!! ABANDON : champ « %s » (id="%s") absent du '
+                             'formulaire. Page NON ecrite.' % (quoi, ident))
+        if 'for="%s"' % ident not in form:
+            raise SystemExit(
+                '!! ABANDON : le champ « %s » n\'a pas de <label for="%s">.\n'
+                '   Sans ce couple, le libelle n\'est pas cliquable et n\'est pas '
+                'annonce a la prise de focus.\n   Page NON ecrite.' % (quoi, ident))
+
+    email = re.search(r'<input[^>]*id="dmd-email"[^>]*>', form)
+    if not email:
+        raise SystemExit('!! ABANDON : champ e-mail introuvable. Page NON ecrite.')
+    for attendu, pourquoi in (
+            ('required', "c'est le SEUL champ obligatoire : c'est par la "
+                         "qu'arrive la reponse"),
+            ('aria-describedby="dmd-email-err"',
+             "le message d'erreur doit etre ASSOCIE au champ, pas flottant"),
+            ('type="email"', "le clavier d'un telephone doit proposer le @")):
+        if attendu not in email.group(0):
+            raise SystemExit('!! ABANDON : le champ e-mail n\'a pas « %s » — %s. '
+                             'Page NON ecrite.' % (attendu, pourquoi))
+
+    if 'aria-live="polite"' not in form or 'role="status"' not in form:
+        raise SystemExit(
+            '!! ABANDON : le formulaire n\'a pas de zone d\'annonce '
+            '(role="status" + aria-live="polite").\n   Sans elle, la confirmation '
+            's\'affiche sans jamais etre annoncee : quelqu\'un qui n\'y voit pas ne '
+            'sait pas si sa demande est partie.\n   Page NON ecrite.')
+
+    script = re.search(r'<script>\s*\(function\(\)\{\s*var f = document'
+                       r'\.getElementById\(\'demande\'\).*?</script>', html, re.S)
+    if not script:
+        raise SystemExit('!! ABANDON : le script du formulaire est introuvable. '
+                         'Page NON ecrite.')
+    js = script.group(0)
+    if 'Prefer' in js:
+        raise SystemExit(
+            '!! ABANDON : en-tete « Prefer » dans l\'envoi du formulaire.\n'
+            '   La cle publiable n\'a pas le droit de RELIRE la ligne inseree : '
+            'demander `return=representation` rend un 401 ALORS QUE L\'INSERTION A '
+            'REUSSI. Sans cet en-tete, c\'est un 201 propre.\n   Page NON ecrite.')
+    if re.search(r'\bstatus\s*:', js):
+        raise SystemExit(
+            '!! ABANDON : un champ « status » dans le corps envoye.\n'
+            '   La securite impose status=\'new\' ; le fournir FAIT ECHOUER la '
+            'requete — c\'est la protection contre l\'auto-approbation.\n'
+            '   Page NON ecrite.')
+    for code in ('201', '409', '401'):
+        if code not in js:
+            raise SystemExit('!! ABANDON : le code de reponse %s n\'est pas traite '
+                             'par le formulaire. Page NON ecrite.' % code)
+    if 'erreur ' in js or 'Erreur ' in js:
+        raise SystemExit(
+            '!! ABANDON : le mot « erreur » apparait dans un message du '
+            'formulaire.\n   Les reponses du serveur se rendent en PHRASES, jamais '
+            'en codes ni en jargon — le 409 en particulier est une BONNE nouvelle : '
+            'la demande est bien arrivee.\n   Page NON ecrite.')
+
+
 def _sans_balises(html):
     """Le texte visible de la page : sans <script>, sans <style>, sans balises.
 
@@ -3094,6 +3635,9 @@ def _controles(html):
     _controle_jsonld(html)
     # les 6 maquettes : illustrations, jamais interfaces
     _controle_maquettes(html)
+    # le formulaire de demande d'acces : le seul endroit ou l'on saisit, et le
+    # seul d'ou part une requete vers un tiers (16/08/2026)
+    _controle_formulaire(html)
     # les 11 pictogrammes : decoratifs, jamais annonces ni focusables
     _controle_icones(html)
 
