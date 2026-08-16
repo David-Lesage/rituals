@@ -619,7 +619,32 @@ CSS_DATES = """.offer-dates{margin-top:14px;padding-top:12px;border-top:1px soli
 #    ferait PERDRE son voile dore — la carte « instruments d'exception », la
 #    seule pleine largeur, redeviendrait une carte ordinaire. On lui rend donc
 #    son voile explicitement, filet de tete compris.
+#
+# 🚫 16/08/2026 — ET C'EST POURQUOI LA LISTE D'AGENDA GARDE SA SURFACE.
+#    La refonte du 16/08 monte `--card` de #191b3d a #1e214a (ecart fond ->
+#    carte x2,36 -> x3,30). Partout ailleurs c'est le gain principal. Ici, non :
+#    `--c` n'est pas qu'un filet decoratif, c'est la COULEUR DE TEXTE des 20
+#    boutons de billetterie (`.ag-btn{color:var(--c)}`) et du libelle
+#    `.ag-type`. Les six teintes sont des litteraux calibres sur l'ANCIEN fond.
+#    Mesure faite avant de trancher, contraste sur le fond des boutons :
+#
+#        mensuel   #d8b25a  8,25 -> 7,61      showcase  #6f9bd1  5,76 -> 5,31
+#        concert   #e08a5f  6,30 -> 5,81      residence #c98fb0  6,35 -> 5,86
+#        yoga      #7fb2a3  6,95 -> 6,42      rythme    #8f7ad1  4,64 -> 4,28
+#
+#    « Workshop rythme » passerait donc SOUS le seuil de 4,5:1, sur 20 boutons.
+#    Deux issues possibles : eclaircir cette teinte, ou ne pas monter le fond.
+#    Eclaircir #8f7ad1 la rapprocherait de `showcase` #6f9bd1, dont elle n'est
+#    deja separee que de x1,29 en niveaux de gris — on reparerait le contraste
+#    en abimant la lisibilite daltonienne. On ne monte donc PAS le fond de la
+#    liste : `.ag-item` est reepingle a #191b3d, la valeur sur laquelle le code
+#    couleur a ete calibre. Le reste de la page (cartes du programme, encarts)
+#    profite normalement du nouvel etagement.
+#    ⚠️ Si un jour `--card` rebouge, cette ligne ne suit PAS toute seule.
 CSS_CHALEUR = """/* ===== Le Nid : declinaisons chaleureuses ===== */
+/* la liste d'agenda garde la surface sur laquelle son code couleur a ete
+   calibre : `--c` est la couleur de texte des 20 boutons de billetterie */
+.ag-item{background:#191b3d}
 .hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
 /* ⚠️ `width:fit-content` ET SURTOUT PAS `display:inline-block` ici. Mesure
    faite a l'ecran : `.offer-dates span` est un BLOC suivi, dans le meme
@@ -634,11 +659,11 @@ CSS_CHALEUR = """/* ===== Le Nid : declinaisons chaleureuses ===== */
 /* la prune revient en accent de TEXTE (--plum2 : 7,3:1 sur --card) */
 .offer .who,.offer--rare .offer-meta{color:var(--plum2)}
 /* l'encart d'abonnement au calendrier : il n'est PAS pilote par --c */
-.ag-sub{border-radius:18px;border-color:rgba(240,209,138,.34)}
+.ag-sub{border-radius:18px;border-color:rgba(248,210,116,.34)}
 .ag-sub li::before{width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
 /* les deux cartes « se programme en / s'inscrit dans » et l'encart en pointilles */
 .scene-card{border-top:3px solid transparent;border-radius:18px;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
-.note{border-radius:18px;border-color:rgba(240,209,138,.3)}
+.note{border-radius:18px;border-color:rgba(248,210,116,.3)}
 .note b{color:var(--plum2)}
 /* arrondis genereux — `.gal img` etait a 16 px, les autres pages sont a 18 */
 .gal img{border-radius:18px}

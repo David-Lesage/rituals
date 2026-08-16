@@ -70,13 +70,90 @@ Le reste — filets de carte, puces en losange, encadres prune — depend des
 classes de CHAQUE page et vit dans son generateur, juste apres cet import.
 """
 
+# =========================================================================
+# LA PALETTE — refonte du 16/08/2026
+# =========================================================================
+# David : « graphiquement, sa page reste vraiment mieux presentee », « la page
+# du site est encore un peu trop sombre ». Les deux pages ont ete MESUREES
+# avant de toucher a quoi que ce soit, et le diagnostic spontane etait faux :
+# les deux FONDS sont quasi identiques (#0f1419 chez eux, #0e0f24 chez nous,
+# luminances relatives 0,0067 et 0,0056). Ce n'est donc pas le fond.
+#
+# Ce qui differe, mesure :
+#
+#   1. LES COUCHES NE SE DETACHENT PAS. On appelle « ecart » le rapport des
+#      luminances relatives WCAG entre le fond de page et la surface d'une
+#      carte. Chez eux #0f1419 -> #1e2a38 = x3,30 : l'oeil voit une surface
+#      posee sur un fond. Chez nous #0e0f24 -> #191b3d = x2,36 : tout
+#      s'aplatit, et une carte a besoin de son filet pour exister.
+#   2. LES ACCENTS SONT TIMIDES. Saturation HSV moyenne des accents : 44 %
+#      chez nous, ~58 % chez eux. Notre prune claire etait a 28,9 % quand leur
+#      rose est a 52,5 %.
+#
+# CE QU'ON LEUR PREND, ET CE QU'ON NE LEUR PREND PAS
+# --------------------------------------------------
+# On prend la METHODE — etager les surfaces, oser la vivacite. On ne prend
+# NI leur cyan (#4cc9f0) NI leur rose (#f072c0) : le site presente des
+# spectacles et un lieu, il reste bleu nuit / or / prune, et il reste premium.
+#
+# LES SURFACES, ETAGEES
+# ---------------------
+#   --night   #0e0f24  inchange — c'est le fond de page, il n'a jamais ete
+#                      le probleme.
+#   --night2  #141633 -> #161839   ecart x1,71 -> x1,99
+#   --card    #191b3d -> #1e214a   ecart x2,36 -> x3,30
+# Meme teinte (H=236-237), meme saturation : on ne fait que monter la clarte
+# jusqu'a la cible. La cible x3,30 est exactement celle de leur page.
+#
+# LES ACCENTS, PLUS VIFS  (saturation HSV)
+# ----------------------------------------
+#   --gold    #d8b25a  INCHANGE — c'est l'accent PRIMAIRE, deja a 58,3 %, et
+#                      c'est la signature du site. Le laisser tranquille garde
+#                      aussi en phase les 133 litteraux `rgba(216,178,90,…)`
+#                      (filets, halos, ombres) et `--line`, qui sont sa forme
+#                      translucide. David a demande les accents SECONDAIRES.
+#   --gold2   #f0d18a -> #f8d274   42,5 % -> 53,2 %
+#   --plum    #8f7ad1 -> #9374e2   41,6 % -> 48,7 %  (decoratif seulement)
+#   --plum2   #b3a2e4 -> #b38ff5   28,9 % -> 41,6 %
+#   --coral   #e08a72 -> #ee8062   49,1 % -> 58,8 %
+# Moyenne des cinq : 44,1 % -> 52,1 %.
+#
+# ⚠️ POURQUOI PAS 55 % PILE. Au-dela de ~42 % de saturation, la prune claire
+#    quitte la prune et devient un violet fluo (#aa8cff, teste) : criard, et
+#    en contradiction avec « premium ». La contrainte esthetique a prime sur
+#    l'arrondi du chiffre. Le chemin le plus court vers 55 % aurait ete de
+#    saturer `--gold`, mais c'est l'accent primaire et il desynchroniserait
+#    les 133 litteraux ci-dessus.
+#
+# ⚠️ ECLAIRCIR UN FOND BAISSE LE CONTRASTE D'UN TEXTE CLAIR. Chaque paire a
+#    ete RECALCULEE sur le NOUVEAU `--card`, jamais supposee :
+#      --ink   12,56:1   --gold2 10,35:1   --plum2 6,71:1 (avant refonte)
+#      --muted  6,52:1   --gold   7,61:1   --coral 5,87:1
+#      .legal (#8b8ba6) 4,62:1 sur --card, 5,96:1 sur le pied de page #08091a
+#    Aucun texte ne descend sous 4,5:1. `--plum` tombe a 4,28:1 : c'est la
+#    raison pour laquelle il reste INTERDIT EN TEXTE (regle 1 ci-dessus),
+#    verifie — `color:var(--plum)` n'existe nulle part dans le depot, ses six
+#    emplois sont des bordures, un `conic-gradient` et un `box-shadow`.
+#
+# ⚠️ L'AGENDA DE /le-nid NE SUIT PAS. Ses six teintes d'evenement sont des
+#    litteraux calibres sur l'ANCIEN `--card`, et `--c` sert de couleur de
+#    TEXTE aux 20 boutons de billetterie. Les monter ferait passer « Workshop
+#    rythme » sous 4,5:1. La liste d'agenda garde donc sa surface d'origine :
+#    voir `generate_agenda_nid.py`, qui la reepingle explicitement.
+
 #: Couche commune. Doit etre concatenee EN FIN de la feuille de style de la
 #: page (voir le mode d'emploi ci-dessus).
+#: ⚠️ Elle REDEFINIT `--night2`, `--card`, `--gold2` et `--plum` : ces quatre
+#:    variables sont declarees dans le `:root` de chaque generateur, et cette
+#:    couche arrive apres. Une seule ecriture commande donc les 30 pages.
 CSS = """
 /* ===== couche chaleureuse commune (sources/theme_chaleur.py) =============
    Le degrade signature de /guso-facile, propage a tout le site. Par touches :
    filets, sur-titres, puces, bouton. Jamais en aplat de fond. */
-:root{--coral:#e08a72;--plum2:#b3a2e4;
+/* surfaces etagees : fond -> carte = x3,30 de luminance (x2,36 avant) */
+:root{--night2:#161839;--card:#1e214a;
+/* accents plus vifs — l'or primaire ne bouge pas */
+--gold2:#f8d274;--plum:#9374e2;--coral:#ee8062;--plum2:#b38ff5;
 --grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
 --grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral));
 /* meme degrade, axe VERTICAL : pour les filets de 3 px places sur le cote
@@ -86,19 +163,19 @@ CSS = """
 --grad-v:linear-gradient(180deg,var(--gold2),var(--gold) 30%,var(--coral) 66%,var(--plum2))}
 /* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice ».
    position:fixed + inset:0 -> aucun risque de debordement horizontal. */
-body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(224,138,114,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(143,122,209,.12),transparent 62%)}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(238,128,98,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(147,116,226,.12),transparent 62%)}
 /* texte peint au degrade (titres, sur-titres) */
 .grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 /* soulignement degrade de 2 px sous un mot-cle */
 .mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
-.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent)}
+.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent)}
 .kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 /* boutons : le principal porte le degrade chaud, le fantome un filet dore */
 .btn{border-radius:999px}
-.btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(224,138,114,.55)}
-.btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(224,138,114,.65)}
-.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(240,209,138,.3);color:var(--gold2)}
-.btn.ghost:hover{border-color:rgba(240,209,138,.55)}
+.btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
+.btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
+.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(248,210,116,.3);color:var(--gold2)}
+.btn.ghost:hover{border-color:rgba(248,210,116,.55)}
 /* contraste du pied de page : 3,8:1 -> 5,96:1 sur #08091a (seuil 4,5:1) */
 .legal{color:#8b8ba6}
 /* a l'impression, un texte peint au degrade sort blanc : on le rend a l'or */
@@ -145,7 +222,7 @@ CSS_RITUALS = """/* ===== RITUALS : declinaisons chaleureuses (15/08/2026) =====
 /* le fil du parcours : le trait vertical dore devient le degrade, et la pastille
    de chaque etape passe au degrade chaud */
 .steps{border-left-color:transparent;background-image:var(--grad-v);background-repeat:no-repeat;background-size:2px 100%;background-position:0 0;background-origin:border-box}
-.step:before{background:var(--grad-warm);box-shadow:0 0 0 5px rgba(224,138,114,.14)}
+.step:before{background:var(--grad-warm);box-shadow:0 0 0 5px rgba(238,128,98,.14)}
 /* citations : le trait or plein de 3 px devient le degrade vertical */
 .q{border-left-color:transparent;border-radius:14px;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
 /* les deux cartes « se programme en / s'inscrit dans » : filet de tete */
@@ -153,11 +230,11 @@ CSS_RITUALS = """/* ===== RITUALS : declinaisons chaleureuses (15/08/2026) =====
 /* la prune revient en accent de TEXTE (--plum2 : 8,6:1 sur --night) */
 .artist .role{color:var(--plum2)}
 /* le filet qui separe les artistes, et ceux de la fiche technique */
-.artist,.spec div{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.42),rgba(224,138,114,.42) 55%,rgba(179,162,228,.38));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+.artist,.spec div{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.42),rgba(238,128,98,.42) 55%,rgba(179,143,245,.38));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
 /* les deux boutons dores PLEINS qui ne portent pas la classe .btn : la couche
    commune ne les atteint pas, il faut les nommer */
-.dlbtn,.car-play{background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(224,138,114,.55)}
-.dlbtn:hover{box-shadow:0 18px 40px -16px rgba(224,138,114,.65)}
+.dlbtn,.car-play{background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
+.dlbtn:hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
 /* arrondis genereux — la LARGEUR des diapos n'est pas touchee */
 .figure,.aphoto,picture.aphoto,.ask .item,.third,.tbl-wrap,.lb-frame{border-radius:18px}
 .slide{border-radius:16px}
@@ -189,10 +266,10 @@ CSS_RITUALS = """/* ===== RITUALS : declinaisons chaleureuses (15/08/2026) =====
 SVG_DEFS = ('<svg class="tc-defs" aria-hidden="true" focusable="false">'
             '<defs><linearGradient id="gf-ink" gradientUnits="userSpaceOnUse" '
             'x1="3" y1="4" x2="21" y2="20">'
-            '<stop offset="0" stop-color="#f0d18a"/>'
+            '<stop offset="0" stop-color="#f8d274"/>'
             '<stop offset=".42" stop-color="#d8b25a"/>'
-            '<stop offset=".74" stop-color="#e08a72"/>'
-            '<stop offset="1" stop-color="#b3a2e4"/>'
+            '<stop offset=".74" stop-color="#ee8062"/>'
+            '<stop offset="1" stop-color="#b38ff5"/>'
             '</linearGradient></defs></svg>\n')
 
 ICONES = {

@@ -72,7 +72,10 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 /* ===== couche chaleureuse commune (sources/theme_chaleur.py) =============
    Le degrade signature de /guso-facile, propage a tout le site. Par touches :
    filets, sur-titres, puces, bouton. Jamais en aplat de fond. */
-:root{--coral:#e08a72;--plum2:#b3a2e4;
+/* surfaces etagees : fond -> carte = x3,30 de luminance (x2,36 avant) */
+:root{--night2:#161839;--card:#1e214a;
+/* accents plus vifs — l'or primaire ne bouge pas */
+--gold2:#f8d274;--plum:#9374e2;--coral:#ee8062;--plum2:#b38ff5;
 --grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
 --grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral));
 /* meme degrade, axe VERTICAL : pour les filets de 3 px places sur le cote
@@ -82,19 +85,19 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 --grad-v:linear-gradient(180deg,var(--gold2),var(--gold) 30%,var(--coral) 66%,var(--plum2))}
 /* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice ».
    position:fixed + inset:0 -> aucun risque de debordement horizontal. */
-body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(224,138,114,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(143,122,209,.12),transparent 62%)}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(238,128,98,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(147,116,226,.12),transparent 62%)}
 /* texte peint au degrade (titres, sur-titres) */
 .grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 /* soulignement degrade de 2 px sous un mot-cle */
 .mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
-.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent)}
+.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent)}
 .kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 /* boutons : le principal porte le degrade chaud, le fantome un filet dore */
 .btn{border-radius:999px}
-.btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(224,138,114,.55)}
-.btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(224,138,114,.65)}
-.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(240,209,138,.3);color:var(--gold2)}
-.btn.ghost:hover{border-color:rgba(240,209,138,.55)}
+.btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
+.btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
+.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(248,210,116,.3);color:var(--gold2)}
+.btn.ghost:hover{border-color:rgba(248,210,116,.55)}
 /* contraste du pied de page : 3,8:1 -> 5,96:1 sur #08091a (seuil 4,5:1) */
 .legal{color:#8b8ba6}
 /* a l'impression, un texte peint au degrade sort blanc : on le rend a l'or */
@@ -118,7 +121,7 @@ section{padding:92px 0}
 .btn{padding:15px 28px}
 .btn svg{width:18px;height:18px;flex:0 0 auto;stroke:currentColor}
 /* --- tete de page (index et article) ------------------------------------ */
-.bl-top{padding:126px 0 62px;background:radial-gradient(900px 560px at 6% -12%,rgba(143,122,209,.22),transparent 62%),radial-gradient(760px 480px at 96% 8%,rgba(224,138,114,.14),transparent 62%),radial-gradient(720px 470px at 60% 108%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+.bl-top{padding:126px 0 62px;background:radial-gradient(900px 560px at 6% -12%,rgba(147,116,226,.22),transparent 62%),radial-gradient(760px 480px at 96% 8%,rgba(238,128,98,.14),transparent 62%),radial-gradient(720px 470px at 60% 108%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
 .bl-top h1{font-size:clamp(33px,5.6vw,60px);font-weight:600;line-height:1.06;letter-spacing:.01em;color:#fff;max-width:20ch}
 .bl-top .col{max-width:760px}
 .bl-dek{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.6vw,26px);line-height:1.36;margin-top:16px;max-width:60ch}
@@ -135,7 +138,7 @@ section{padding:92px 0}
 .bl-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:26px;font-size:13.5px;color:var(--muted)}
 .bl-meta span{display:inline-flex;align-items:center;gap:7px}
 .bl-meta .ic{width:17px;height:17px}
-.rub{display:inline-flex;align-items:center;gap:8px;padding:6px 15px;border:1px solid rgba(240,209,138,.34);border-radius:999px;color:var(--gold2);font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;background:linear-gradient(90deg,rgba(216,178,90,.14),rgba(224,138,114,.10))}
+.rub{display:inline-flex;align-items:center;gap:8px;padding:6px 15px;border:1px solid rgba(248,210,116,.34);border-radius:999px;color:var(--gold2);font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;background:linear-gradient(90deg,rgba(216,178,90,.14),rgba(238,128,98,.10))}
 .rub::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--grad-warm);flex:0 0 auto}
 /* --- corps d'article ---------------------------------------------------- */
 .art{padding:58px 0 0}
@@ -146,18 +149,18 @@ section{padding:92px 0}
 .art p{color:#d7d4ea;margin-top:16px;font-size:17px}
 .art p.attaque{font-size:19px;color:var(--ink)}
 .art b{color:#fff;font-weight:500}
-.art a:not(.btn){color:var(--plum2);text-decoration:underline;text-decoration-color:rgba(179,162,228,.5);text-underline-offset:3px}
+.art a:not(.btn){color:var(--plum2);text-decoration:underline;text-decoration-color:rgba(179,143,245,.5);text-underline-offset:3px}
 .art a:not(.btn):hover{color:var(--gold2)}
 .art ul,.art ol{margin-top:16px;padding-left:0;list-style:none;counter-reset:pas}
 .art li{position:relative;padding-left:27px;margin-top:12px;color:#d7d4ea;font-size:16.5px;line-height:1.68}
 .art ul li::before{content:'';position:absolute;left:2px;top:10px;width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
 .art ol li{padding-left:36px}
-.art ol li::before{counter-increment:pas;content:counter(pas);position:absolute;left:0;top:2px;width:25px;height:25px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;font-weight:600;color:var(--gold2);border:1px solid rgba(240,209,138,.28);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(224,138,114,.12) 55%,rgba(143,122,209,.14))}
+.art ol li::before{counter-increment:pas;content:counter(pas);position:absolute;left:0;top:2px;width:25px;height:25px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;font-weight:600;color:var(--gold2);border:1px solid rgba(248,210,116,.28);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(238,128,98,.12) 55%,rgba(147,116,226,.14))}
 /* la petite scene d'ouverture des 8 anciens articles */
 .scene{position:relative;margin-top:26px;padding:4px 0 4px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(19px,2.4vw,23px);line-height:1.44;color:var(--plum2)}
 .scene::before{content:'';position:absolute;left:0;top:2px;bottom:2px;width:2px;border-radius:2px;background:var(--grad)}
 /* citations et modeles de messages */
-.art blockquote{position:relative;overflow:hidden;margin-top:26px;padding:22px 24px;border:1px solid rgba(179,162,228,.26);border-radius:18px;background:linear-gradient(135deg,rgba(143,122,209,.12),rgba(224,138,114,.06))}
+.art blockquote{position:relative;overflow:hidden;margin-top:26px;padding:22px 24px;border:1px solid rgba(179,143,245,.26);border-radius:18px;background:linear-gradient(135deg,rgba(147,116,226,.12),rgba(238,128,98,.06))}
 .art blockquote p{margin-top:9px;font-size:16.5px;color:var(--ink)}
 .art blockquote p:first-child{margin-top:0}
 /* encadres « En bref » et « Dans l'app » */
@@ -175,7 +178,7 @@ section{padding:92px 0}
 .art .reserve a{color:var(--gold2)}
 /* l'encadre « ou verifier » de fin d'article : plus sobre que .enc (filet de
    2 px, fond a peine tire, texte plus petit) — il informe, il n'alerte pas. */
-.avert{position:relative;overflow:hidden;margin-top:52px;padding:24px 26px 22px;border:1px solid rgba(179,162,228,.2);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.6),rgba(23,25,53,.38))}
+.avert{position:relative;overflow:hidden;margin-top:52px;padding:24px 26px 22px;border:1px solid rgba(179,143,245,.2);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.6),rgba(23,25,53,.38))}
 .avert::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad)}
 .avert-t{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--gold)}
 .avert-t .ic{width:19px;height:19px}
@@ -184,7 +187,7 @@ section{padding:92px 0}
 .art .avert a{color:var(--plum2)}
 .art .avert a:hover{color:var(--gold2)}
 /* le panneau de conclusion */
-.final{position:relative;overflow:hidden;margin-top:52px;padding:38px 34px 34px;border:1px solid rgba(255,255,255,.09);border-radius:26px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(224,138,114,.10) 48%,rgba(143,122,209,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
+.final{position:relative;overflow:hidden;margin-top:52px;padding:38px 34px 34px;border:1px solid rgba(255,255,255,.09);border-radius:26px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(238,128,98,.10) 48%,rgba(147,116,226,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
 .final::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .final h2{margin:0;font-size:clamp(24px,3.4vw,31px)}
 .final .cta{margin-top:24px}
@@ -195,7 +198,7 @@ section{padding:92px 0}
 .cartes{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:20px}
 .carte{position:relative;overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,#1c1e46,#171935);padding:24px 22px 22px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95);transition:transform .2s,border-color .2s}
 .carte::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
-.carte:hover{transform:translateY(-3px);border-color:rgba(240,209,138,.34)}
+.carte:hover{transform:translateY(-3px);border-color:rgba(248,210,116,.34)}
 .carte-r{font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:9px}
 .carte-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;font-weight:600;color:#fff;line-height:1.2}
 .carte-d{color:#cfcbe4;font-size:15px;line-height:1.6;margin-top:11px}
@@ -212,14 +215,14 @@ section{padding:92px 0}
 .theme:first-of-type{margin-top:8px}
 .theme-h{display:flex;align-items:center;gap:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
 .theme-h h2{font-size:clamp(24px,3.2vw,31px);font-weight:600;color:#fff;line-height:1.15}
-.theme-ico{flex:0 0 auto;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(240,209,138,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(224,138,114,.12) 55%,rgba(143,122,209,.14))}
+.theme-ico{flex:0 0 auto;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(248,210,116,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(238,128,98,.12) 55%,rgba(147,116,226,.14))}
 .theme-n{margin-left:auto;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .theme .cartes{margin-top:24px}
 .somm{margin-top:34px;padding:24px 26px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5))}
 .somm-t{font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:12px}
 .somm ul{list-style:none;display:flex;flex-wrap:wrap;gap:9px 10px}
-.somm a{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border:1px solid rgba(240,209,138,.24);border-radius:999px;font-size:13.5px;color:var(--gold2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
-.somm a:hover{border-color:rgba(240,209,138,.55)}
+.somm a{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border:1px solid rgba(248,210,116,.24);border-radius:999px;font-size:13.5px;color:var(--gold2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
+.somm a:hover{border-color:rgba(248,210,116,.55)}
 /* « Par ou commencer », en tete d'index. Cartes plus etroites que celles des
    themes (232 px au lieu de 258) : trois tiennent sur une ligne des 800 px. */
 .debut{margin-top:34px}
@@ -227,7 +230,7 @@ section{padding:92px 0}
 .debut .cartes{grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:18px}
 /* la ligne de renvoi aux organismes, sous le chapo de l'index */
 .bl-note{color:var(--plum2);font-size:15px;line-height:1.62;margin-top:14px;max-width:66ch}
-.bl-note a{color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:3px}
+.bl-note a{color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(248,210,116,.4);text-underline-offset:3px}
 @media(max-width:760px){
   section{padding:66px 0}
   .bl-top{padding:106px 0 48px}
@@ -482,7 +485,7 @@ section{padding:92px 0}
     <a class="adh" href="https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions" target="_blank" rel="noopener">Adhérer</a>
   </div>
 </nav>
-<svg class="tc-defs" aria-hidden="true" focusable="false"><defs><linearGradient id="gf-ink" gradientUnits="userSpaceOnUse" x1="3" y1="4" x2="21" y2="20"><stop offset="0" stop-color="#f0d18a"/><stop offset=".42" stop-color="#d8b25a"/><stop offset=".74" stop-color="#e08a72"/><stop offset="1" stop-color="#b3a2e4"/></linearGradient></defs></svg>
+<svg class="tc-defs" aria-hidden="true" focusable="false"><defs><linearGradient id="gf-ink" gradientUnits="userSpaceOnUse" x1="3" y1="4" x2="21" y2="20"><stop offset="0" stop-color="#f8d274"/><stop offset=".42" stop-color="#d8b25a"/><stop offset=".74" stop-color="#ee8062"/><stop offset="1" stop-color="#b38ff5"/></linearGradient></defs></svg>
 <header class="bl-top"><div class="wrap">
     <nav class="fil" aria-label="Fil d’Ariane">
       <ol>

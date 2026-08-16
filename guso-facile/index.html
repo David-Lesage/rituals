@@ -67,7 +67,10 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 /* ===== Guso Facile ===== */
 /* --- le degrade signature, decline partout ------------------------------ */
-:root{--coral:#e08a72;--plum2:#b3a2e4;
+/* surfaces etagees : fond -> carte = x3,30 de luminance (x2,36 avant) */
+:root{--night2:#161839;--card:#1e214a;
+/* accents plus vifs — l'or primaire ne bouge pas */
+--gold2:#f8d274;--plum:#9374e2;--coral:#ee8062;--plum2:#b38ff5;
 --grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
 --grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral))}
 .gf-defs{position:absolute;width:0;height:0;overflow:hidden}
@@ -75,7 +78,7 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 .grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
 /* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice » */
-body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(224,138,114,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(143,122,209,.12),transparent 62%)}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(238,128,98,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(147,116,226,.12),transparent 62%)}
 /* ⚠️ 92 -> 86 px LE 16/08/2026, ET C'EST UNE COMPENSATION, PAS UN REGLAGE.
    La refonte du 14/08 avait porte la respiration des sections de 78 a 92 px
    (« DE L'AIR », levier n° 3 ci-dessus). La mise en valeur du blog et les six
@@ -85,24 +88,24 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
    huit sections. Meme raisonnement pour les 66 -> 62 px du telephone, plus
    bas. Ne pas descendre en dessous : sous ~80 px la page redevient une notice. */
 section{padding:86px 0}
-.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent)}
+.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent)}
 .kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .sec-title{letter-spacing:.01em}
 .lead b,.body b{color:#fff}
 /* boutons : le principal porte le degrade chaud, le fantome un filet dore */
 .btn{border-radius:999px;padding:15px 28px}
 .btn svg{width:18px;height:18px;flex:0 0 auto}
-.acces .btn{background:var(--grad-warm);color:#1b1206;box-shadow:0 14px 34px -16px rgba(224,138,114,.6)}
+.acces .btn{background:var(--grad-warm);color:#1b1206;box-shadow:0 14px 34px -16px rgba(238,128,98,.6)}
 /* la fleche du bouton reprend la couleur du TEXTE : le degrade signature, clair, disparaissait sur le bouton clair (mesure a l'ecran) */
 .acces .btn svg{stroke:#1b1206}
-.acces .btn:hover{box-shadow:0 20px 42px -14px rgba(224,138,114,.7)}
-.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(240,209,138,.3);color:var(--gold2)}
-.btn.ghost:hover{border-color:rgba(240,209,138,.55)}
+.acces .btn:hover{box-shadow:0 20px 42px -14px rgba(238,128,98,.7)}
+.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(248,210,116,.3);color:var(--gold2)}
+.btn.ghost:hover{border-color:rgba(248,210,116,.55)}
 /* --- hero ---------------------------------------------------------------- */
-.gf-top{padding:132px 0 78px;background:radial-gradient(900px 560px at 6% -12%,rgba(143,122,209,.22),transparent 62%),radial-gradient(760px 480px at 96% 8%,rgba(224,138,114,.14),transparent 62%),radial-gradient(720px 470px at 60% 108%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+.gf-top{padding:132px 0 78px;background:radial-gradient(900px 560px at 6% -12%,rgba(147,116,226,.22),transparent 62%),radial-gradient(760px 480px at 96% 8%,rgba(238,128,98,.14),transparent 62%),radial-gradient(720px 470px at 60% 108%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
 .gf-top h1{font-size:clamp(38px,7vw,74px);font-weight:600;line-height:1.02;letter-spacing:.02em}
 .gf-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(20px,2.9vw,29px);line-height:1.32;margin-top:16px;max-width:720px}
-.badge{display:inline-flex;align-items:center;gap:9px;margin-top:28px;padding:9px 18px;border:1px solid rgba(240,209,138,.34);border-radius:999px;color:var(--gold2);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;background:linear-gradient(90deg,rgba(216,178,90,.14),rgba(224,138,114,.10))}
+.badge{display:inline-flex;align-items:center;gap:9px;margin-top:28px;padding:9px 18px;border:1px solid rgba(248,210,116,.34);border-radius:999px;color:var(--gold2);font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;background:linear-gradient(90deg,rgba(216,178,90,.14),rgba(238,128,98,.10))}
 .badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--grad-warm);flex:0 0 auto}
 .gf-top .cta{margin-top:32px}
 .band{background:linear-gradient(180deg,#0b0c1e,#101128 55%,var(--night))}
@@ -125,7 +128,7 @@ section{padding:86px 0}
 .u-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#1c1e46,#171935);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:30px 28px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
 .u-card::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .u-head{display:flex;align-items:center;gap:14px}
-.u-ico{flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(240,209,138,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(224,138,114,.12) 55%,rgba(143,122,209,.14))}
+.u-ico{flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(248,210,116,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(238,128,98,.12) 55%,rgba(147,116,226,.14))}
 .u-num{letter-spacing:.28em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--gold)}
 .u-card h3{font-size:27px;font-weight:600;color:#fff;line-height:1.15;margin-top:3px}
 .u-sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--plum2);font-size:18.5px;line-height:1.4;margin-top:12px}
@@ -134,20 +137,20 @@ section{padding:86px 0}
 .u-card li::before{content:'';position:absolute;left:1px;top:9px;width:8px;height:8px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
 .u-card li.soon::before{background:none;border:1.5px solid var(--plum2)}
 .u-card li b{color:#fff;font-weight:500}
-.u-card li i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,162,228,.4);background:rgba(143,122,209,.12);border-radius:999px;padding:1px 9px;line-height:1.5}
+.u-card li i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,143,245,.4);background:rgba(147,116,226,.12);border-radius:999px;padding:1px 9px;line-height:1.5}
 .aussi{margin-top:34px;padding:26px 28px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));display:flex;gap:18px;align-items:flex-start}
 .aussi .ic-w,.precision .ic-w{flex:0 0 auto;line-height:0;margin-top:3px}
 .aussi .ic{width:26px;height:26px}
 .aussi .u-num{display:block;margin-bottom:8px}
 .aussi p{color:#d7d4ea;font-size:15.5px}
-.aussi .aussi-p2{margin-top:12px;padding-top:12px;border-top:1px solid rgba(240,209,138,.18)}
+.aussi .aussi-p2{margin-top:12px;padding-top:12px;border-top:1px solid rgba(248,210,116,.18)}
 .aussi b{color:#fff;font-weight:500}
 /* --- trois situations : de vraies cartes, plus un simple filet a gauche -- */
 .cas-note{color:var(--muted);font-size:15px;margin-top:14px;max-width:62ch}
 .cas{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:26px;margin-top:34px}
 .cas article{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.07);border-radius:22px;background:linear-gradient(180deg,#1c1e46,#171935);padding:28px 26px 26px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95)}
 .cas article::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
-.cas-ico{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(240,209,138,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(224,138,114,.12) 55%,rgba(143,122,209,.14));margin-bottom:16px}
+.cas-ico{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;border:1px solid rgba(248,210,116,.22);background:linear-gradient(140deg,rgba(216,178,90,.16),rgba(238,128,98,.12) 55%,rgba(147,116,226,.14));margin-bottom:16px}
 .cas h3{font-size:25px;font-weight:600;color:#fff;line-height:1.18}
 .cas p{color:#d7d4ea;font-size:15.5px;margin-top:11px}
 /* --- l'etat du projet ---------------------------------------------------- */
@@ -157,11 +160,11 @@ section{padding:86px 0}
 .etat p + p{margin-top:16px}
 .etat .first{color:#fff;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(21px,3vw,28px);line-height:1.3;font-style:italic}
 /* --- le lien avec l'association : la precision sort en encadre ----------- */
-.precision{display:flex;gap:14px;align-items:flex-start;margin-top:28px;max-width:760px;padding:20px 22px;border:1px solid rgba(179,162,228,.28);border-radius:18px;background:linear-gradient(135deg,rgba(143,122,209,.12),rgba(224,138,114,.07))}
+.precision{display:flex;gap:14px;align-items:flex-start;margin-top:28px;max-width:760px;padding:20px 22px;border:1px solid rgba(179,143,245,.28);border-radius:18px;background:linear-gradient(135deg,rgba(147,116,226,.12),rgba(238,128,98,.07))}
 .precision .ic{width:24px;height:24px}
 .precision p{color:#d7d4ea;font-size:15px;line-height:1.65;margin:0}
 /* --- appel a l'action : un panneau, pas une fin de page ------------------ */
-.acces{position:relative;overflow:hidden;max-width:880px;border:1px solid rgba(255,255,255,.09);border-radius:26px;padding:40px 42px 34px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(224,138,114,.10) 48%,rgba(143,122,209,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
+.acces{position:relative;overflow:hidden;max-width:880px;border:1px solid rgba(255,255,255,.09);border-radius:26px;padding:40px 42px 34px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(238,128,98,.10) 48%,rgba(147,116,226,.12));box-shadow:0 30px 70px -46px rgba(0,0,0,.95)}
 .acces::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
 .mention{margin-top:20px;max-width:660px;color:var(--muted);font-size:14px;line-height:1.65}
 .mention + .mention{margin-top:12px}
@@ -180,11 +183,11 @@ section{padding:86px 0}
 .etape h3{font-size:21px;font-weight:600;color:#fff;line-height:1.2;margin-top:4px}
 .etape .etape-d{color:#d7d4ea;font-size:15.5px;margin-top:9px}
 /* --- l'encart « la Guilde » (longueur retenue et adoucissements : entete) - */
-.guilde{display:flex;gap:18px;align-items:flex-start;margin-top:34px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(179,162,228,.28);border-radius:22px;background:linear-gradient(135deg,rgba(143,122,209,.13),rgba(224,138,114,.08) 62%,rgba(216,178,90,.08));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+.guilde{display:flex;gap:18px;align-items:flex-start;margin-top:34px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(179,143,245,.28);border-radius:22px;background:linear-gradient(135deg,rgba(147,116,226,.13),rgba(238,128,98,.08) 62%,rgba(216,178,90,.08));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
 .guilde .ic-w{flex:0 0 auto;line-height:0;margin-top:4px}
 .guilde .ic{width:26px;height:26px}
 .guilde .u-num{display:block;margin-bottom:8px}
-.guilde i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,162,228,.4);background:rgba(143,122,209,.12);border-radius:999px;padding:1px 9px;line-height:1.5;margin-left:5px}
+.guilde i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,143,245,.4);background:rgba(147,116,226,.12);border-radius:999px;padding:1px 9px;line-height:1.5;margin-left:5px}
 .guilde-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
 .guilde .guilde-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
 /* --- la cloture de « Jouons cartes sur table » (mots de David) ----------- */
@@ -206,7 +209,7 @@ section{padding:86px 0}
 .faq-q .faq-r{color:#d7d4ea;font-size:15.5px;padding:15px 20px 18px}
 /* --- les deux liens descendants vers le blog (maillage, dossier §6) ------ */
 .blog-lien{margin-top:32px;font-size:16px}
-.blog-lien a{display:inline-flex;align-items:center;gap:11px;color:var(--gold2);padding:11px 0;text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:4px}
+.blog-lien a{display:inline-flex;align-items:center;gap:11px;color:var(--gold2);padding:11px 0;text-decoration:underline;text-decoration-color:rgba(248,210,116,.4);text-underline-offset:4px}
 .blog-lien a::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
 .blog-lien a:hover{text-decoration-color:var(--gold2)}
 /* --- la mise en valeur du blog (16/08/2026) ----------------------------- */
@@ -215,7 +218,7 @@ section{padding:86px 0}
    hauteur. C'est un lien souligne, jamais un second bouton — la page n'a
    qu'UN geste possible (voir l'ecart n° 8 en tete de fichier). */
 .gf-top .cta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px}
-.hero-blog{display:inline-flex;align-items:center;gap:11px;min-height:44px;padding:11px 0;color:var(--gold2);font-size:15.5px;text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:4px}
+.hero-blog{display:inline-flex;align-items:center;gap:11px;min-height:44px;padding:11px 0;color:var(--gold2);font-size:15.5px;text-decoration:underline;text-decoration-color:rgba(248,210,116,.4);text-underline-offset:4px}
 .hero-blog::before{content:'';flex:0 0 auto;width:7px;height:7px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg)}
 .hero-blog:hover{text-decoration-color:var(--gold2)}
 /* Le bloc des trois articles. Il ferme #situations : un filet dore le detache
@@ -230,7 +233,7 @@ section{padding:86px 0}
 .mea-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(262px,1fr));gap:20px;margin-top:22px}
 .mea-c{position:relative;overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,#1c1e46,#171935);padding:22px 20px 19px;box-shadow:0 20px 44px -30px rgba(0,0,0,.95);transition:border-color .2s,transform .2s}
 .mea-c::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:var(--grad)}
-.mea-c:hover{transform:translateY(-3px);border-color:rgba(240,209,138,.34)}
+.mea-c:hover{transform:translateY(-3px);border-color:rgba(248,210,116,.34)}
 .mea-r{font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:8px}
 .mea-h{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;font-weight:600;color:#fff;line-height:1.2}
 .mea-d{color:#cfcbe4;font-size:15px;line-height:1.58;margin-top:10px}
@@ -243,7 +246,7 @@ section{padding:86px 0}
    bloc n'a pas besoin d'une douzieme pour exister. La note en gris sous le
    texte reprend le registre de `.cas-note` (« Les prenoms sont fictifs ») :
    c'est le meme signal, il doit se lire pareil. */
-.veille{margin-top:34px;max-width:900px;padding:26px 30px 24px;border:1px solid rgba(240,209,138,.24);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(224,138,114,.08) 60%,rgba(143,122,209,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
+.veille{margin-top:34px;max-width:900px;padding:26px 30px 24px;border:1px solid rgba(248,210,116,.24);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(238,128,98,.08) 60%,rgba(147,116,226,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
 .veille .u-num{display:block;margin-bottom:8px}
 .veille-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
 .veille-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
@@ -265,20 +268,20 @@ section{padding:86px 0}
 .f .opt{text-transform:none;letter-spacing:0;color:var(--muted);font-weight:400}
 .dmd input[type="text"],.dmd input[type="email"],.dmd input[type="tel"],.dmd textarea{display:block;width:100%;font-family:inherit;font-size:16px;line-height:1.5;color:var(--ink);background:rgba(9,10,26,.62);border:1px solid rgba(255,255,255,.16);border-radius:13px;padding:12px 14px;min-height:48px}
 .dmd textarea{min-height:98px;resize:vertical}
-.dmd input:hover,.dmd textarea:hover{border-color:rgba(240,209,138,.4)}
+.dmd input:hover,.dmd textarea:hover{border-color:rgba(248,210,116,.4)}
 .dmd input[aria-invalid="true"]{border-color:var(--coral)}
 .f-err{display:block;color:var(--coral);font-size:14.5px;line-height:1.5}
 .f-err:not(:empty){margin-top:8px}
 .dmd-kind{display:flex;gap:11px;flex-wrap:wrap}
-.dmd-kind label{display:inline-flex;align-items:center;gap:10px;margin:0;min-height:44px;padding:9px 19px;border:1px solid rgba(240,209,138,.3);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));font-size:15.5px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
+.dmd-kind label{display:inline-flex;align-items:center;gap:10px;margin:0;min-height:44px;padding:9px 19px;border:1px solid rgba(248,210,116,.3);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));font-size:15.5px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
 .dmd-kind input{width:17px;height:17px;margin:0;accent-color:var(--gold)}
-.dmd-kind label:has(input:checked){border-color:var(--gold2);background:linear-gradient(90deg,rgba(216,178,90,.16),rgba(224,138,114,.12))}
+.dmd-kind label:has(input:checked){border-color:var(--gold2);background:linear-gradient(90deg,rgba(216,178,90,.16),rgba(238,128,98,.12))}
 .dmd-go{margin-top:26px}
 .dmd button.btn{border:0;font-family:inherit;cursor:pointer}
 .dmd button.btn[disabled]{opacity:.62;cursor:default;transform:none;box-shadow:none}
 .dmd-etat{font-size:15.5px;line-height:1.65;max-width:62ch}
-.dmd-etat:not(:empty){margin-top:18px;padding:14px 16px;border-radius:14px;border:1px solid rgba(240,209,138,.28);background:rgba(216,178,90,.08);color:#d7d4ea}
-.dmd-etat.ko:not(:empty){border-color:rgba(224,138,114,.45);background:rgba(224,138,114,.09)}
+.dmd-etat:not(:empty){margin-top:18px;padding:14px 16px;border-radius:14px;border:1px solid rgba(248,210,116,.28);background:rgba(216,178,90,.08);color:#d7d4ea}
+.dmd-etat.ko:not(:empty){border-color:rgba(238,128,98,.45);background:rgba(238,128,98,.09)}
 @media(max-width:760px){
   section{padding:62px 0}
   .gf-top{padding:110px 0 60px}
@@ -304,7 +307,7 @@ section{padding:86px 0}
 .gf-shot{position:relative;background:linear-gradient(180deg,#1d1f47,#171935);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px 18px 18px;margin:0 0 11px;color:var(--ink);font-size:15px;line-height:1.5;max-width:100%;overflow:hidden;box-shadow:0 24px 50px -34px rgba(0,0,0,.95)}
 .gf-shot::before{content:'';position:absolute;inset:0 0 auto 0;height:2px;background:var(--grad);opacity:.85}
 /* la jauge du hero est l'image signature de la page : elle porte un halo */
-.gf-topgrid .gf-shot{box-shadow:0 30px 64px -34px rgba(0,0,0,.95),0 0 70px -26px rgba(224,138,114,.45)}
+.gf-topgrid .gf-shot{box-shadow:0 30px 64px -34px rgba(0,0,0,.95),0 0 70px -26px rgba(238,128,98,.45)}
 .gf-shot *{box-sizing:border-box}
 .gf-cap{display:block;font-size:13px;line-height:1.4;color:var(--muted);letter-spacing:.02em;margin:0 0 0 4px}
 .gf-cap::before{content:'';display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--grad-warm);transform:rotate(45deg);margin-right:9px;vertical-align:1px}
@@ -313,7 +316,7 @@ section{padding:86px 0}
    pastille reprend a l'identique celle des puces `.u-card li i` : c'est le
    meme signal, il doit se lire pareil. */
 .gf-soon-note{margin:9px 0 0 4px;max-width:66ch;color:var(--muted);font-size:14px;line-height:1.6}
-.gf-soon-note i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,162,228,.4);background:rgba(143,122,209,.12);border-radius:999px;padding:1px 9px;line-height:1.5;margin-right:7px}
+.gf-soon-note i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,143,245,.4);background:rgba(147,116,226,.12);border-radius:999px;padding:1px 9px;line-height:1.5;margin-right:7px}
 .gf-bar{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
 .gf-bar-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:600;color:var(--ink)}
 .gf-bar-s{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}

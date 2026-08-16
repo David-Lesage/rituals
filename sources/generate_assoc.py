@@ -95,7 +95,7 @@ b{color:#fff;font-weight:500}
 @media(max-width:760px){.nav .links a:not(.adh){display:none}}
 /* hero */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden;
-background:radial-gradient(1100px 720px at 50% -6%,rgba(143,122,209,.28),transparent 60%),radial-gradient(900px 600px at 85% 108%,rgba(216,178,90,.14),transparent 60%),radial-gradient(700px 500px at 10% 92%,rgba(90,75,138,.28),transparent 60%),var(--night)}
+background:radial-gradient(1100px 720px at 50% -6%,rgba(147,116,226,.28),transparent 60%),radial-gradient(900px 600px at 85% 108%,rgba(216,178,90,.14),transparent 60%),radial-gradient(700px 500px at 10% 92%,rgba(90,75,138,.28),transparent 60%),var(--night)}
 .flower{position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);width:min(560px,86vw);opacity:.16;pointer-events:none}
 .hero .inner{position:relative;z-index:2}
 .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,8vw,86px);font-weight:600;letter-spacing:.06em;color:#fff;line-height:1;text-shadow:0 6px 40px rgba(0,0,0,.4)}
@@ -106,7 +106,7 @@ background:radial-gradient(1100px 720px at 50% -6%,rgba(143,122,209,.28),transpa
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 /* association */
-.assoc{background:radial-gradient(900px 500px at 88% -10%,rgba(143,122,209,.10),transparent 60%),var(--night)}
+.assoc{background:radial-gradient(900px 500px at 88% -10%,rgba(147,116,226,.10),transparent 60%),var(--night)}
 /* prestations */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:44px}
 .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:transform .25s,border-color .25s;position:relative;display:block}
@@ -115,7 +115,7 @@ background:radial-gradient(1100px 720px at 50% -6%,rgba(143,122,209,.28),transpa
 .card h3{font-family:'Cormorant Garamond',serif;font-size:26px;color:#fff;margin:8px 0 10px;font-weight:600}
 .card p{color:var(--muted);font-size:15px}
 .card .go{color:var(--gold2);font-size:13px;margin-top:14px;display:inline-block}
-.card.feature{background:linear-gradient(160deg,rgba(143,122,209,.16),var(--card));border-color:var(--line)}
+.card.feature{background:linear-gradient(160deg,rgba(147,116,226,.16),var(--card));border-color:var(--line)}
 /* engagements */
 .eng{background:linear-gradient(180deg,var(--night),#0b0c1e)}
 .vals{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-top:40px}
@@ -177,10 +177,10 @@ CSS_CHALEUR = """/* ===== Accueil : declinaisons chaleureuses ===== */
    remet `background-size/repeat/position/origin` a leur valeur initiale — et
    elle est plus specifique (0,2,0) que le `.card{background-size:…}` d'ici
    (0,1,0). Le `100% 3px` du filet etait donc ecrase par un `auto`. */
-.card.feature{border-color:transparent;background-image:var(--grad),linear-gradient(160deg,rgba(143,122,209,.16),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat,no-repeat;background-position:0 0,0 0;background-origin:border-box,padding-box;background-attachment:scroll,scroll}
+.card.feature{border-color:transparent;background-image:var(--grad),linear-gradient(160deg,rgba(147,116,226,.16),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat,no-repeat;background-position:0 0,0 0;background-origin:border-box,padding-box;background-attachment:scroll,scroll}
 .card:hover{border-color:transparent}
 /* les quatre engagements : le trait dore de tete devient le filet degrade */
-.val{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.5),rgba(224,138,114,.5) 55%,rgba(179,162,228,.45));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+.val{border-top-color:transparent;background-image:linear-gradient(90deg,rgba(216,178,90,.5),rgba(238,128,98,.5) 55%,rgba(179,143,245,.45));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
 /* la prune revient en accent de TEXTE (--plum2 : 8,6:1 sur --night) */
 .val h3{color:var(--plum2)}
 """

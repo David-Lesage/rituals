@@ -431,7 +431,7 @@ __BG__""" + theme_chaleur.CSS + theme_chaleur.CSS_RITUALS + """/* ===== RITUALS 
    qu'un jour l'une des deux pages resterait froide.
    AUCUN TEXTE N'A BOUGE. */
 /* la pastille « trio » : un fond chaud degrade au lieu d'un aplat dore */
-.trio-badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(224,138,114,.11));border-color:rgba(240,209,138,.34)}
+.trio-badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(238,128,98,.11));border-color:rgba(248,210,116,.34)}
 /* la galerie de Julien : memes coins que les autres figures */
 .jgal figure{border-radius:18px}
 </style>"""

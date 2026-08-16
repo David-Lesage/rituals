@@ -633,7 +633,7 @@ b{color:#fff;font-weight:500}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 .cta{display:flex;gap:14px;flex-wrap:wrap}
 /* ===== Concerts de David Lesage ===== */
-.cdl-top{padding:128px 0 70px;background:radial-gradient(900px 560px at 12% -8%,rgba(143,122,209,.20),transparent 62%),radial-gradient(700px 460px at 90% 102%,rgba(216,178,90,.12),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+.cdl-top{padding:128px 0 70px;background:radial-gradient(900px 560px at 12% -8%,rgba(147,116,226,.20),transparent 62%),radial-gradient(700px 460px at 90% 102%,rgba(216,178,90,.12),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
 .cdl-top h1{font-size:clamp(38px,7vw,72px);font-weight:600;line-height:1.02;color:#fff;letter-spacing:.02em}
 .band{background:linear-gradient(180deg,#0b0c1e,var(--night))}
 .tagline{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.8vw,28px);margin-top:12px}
@@ -698,7 +698,7 @@ b{color:#fff;font-weight:500}
    Section volontairement PLAIN (pas .band) pour ne pas casser l'alternance
    band / non-band des sections suivantes : elle prend a la place un halo bleu
    qui lui est propre. Encadree de deux .divider comme les autres. */
-.cdl-water{background:radial-gradient(760px 500px at 86% 4%,rgba(70,132,214,.17),transparent 64%),radial-gradient(620px 420px at 4% 98%,rgba(143,122,209,.11),transparent 62%)}
+.cdl-water{background:radial-gradient(760px 500px at 86% 4%,rgba(70,132,214,.17),transparent 64%),radial-gradient(620px 420px at 4% 98%,rgba(147,116,226,.11),transparent 62%)}
 .cdl-duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:30px;max-width:820px;align-items:start}
 /* ===== Vignette video : BOUTON qui ouvre le lecteur DANS LA PAGE =====
    La source ne fait que 480 px de large : on ne l'agrandit JAMAIS au-dela.
@@ -707,7 +707,7 @@ b{color:#fff;font-weight:500}
 .cdl-video{display:block;max-width:480px;width:100%;margin-top:26px;background:none;border:0;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
 .cdl-video figure{margin:0}
 .cdl-video .shot{display:block;position:relative;line-height:0}
-.cdl-video .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(11,12,30,.72);border:1px solid rgba(240,209,138,.62);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.cdl-video .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(11,12,30,.72);border:1px solid rgba(248,210,116,.62);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
 .cdl-video .play::before{content:"";width:0;height:0;border-left:17px solid var(--gold2);border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:5px}
 .cdl-video:hover .play{background:rgba(11,12,30,.9);transform:translate(-50%,-50%) scale(1.06)}
 .cdl-video figcaption{display:flex;flex-direction:column;gap:2px;justify-content:center;min-height:44px}
@@ -802,7 +802,7 @@ p a:not(.btn):not(.adh),li a:not(.btn):not(.adh){font-size:inherit;text-decorati
 .lvc .shot{display:block;position:relative;line-height:0;aspect-ratio:16/9;overflow:hidden}
 .lvc .shot img{display:block;width:100%;height:100%;object-fit:cover}
 .lvc .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;
-  border-radius:50%;background:rgba(11,12,30,.7);border:1px solid rgba(240,209,138,.62);
+  border-radius:50%;background:rgba(11,12,30,.7);border:1px solid rgba(248,210,116,.62);
   display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
 .lvc .play::before{content:"";width:0;height:0;border-left:15px solid var(--gold2);
   border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
@@ -867,11 +867,11 @@ CSS_CHALEUR = """/* ===== Concerts de David Lesage : declinaisons chaleureuses =
 .cdl-card .sub,.cdl-card li>span:not(.rep-t):not(.pico){color:var(--plum2)}
 .toc a::before{color:var(--plum2)}
 /* les pastilles de citation : un fond chaud degrade plutot qu'un aplat dore */
-.cdl-cites li{background:linear-gradient(100deg,rgba(216,178,90,.10),rgba(224,138,114,.08) 62%,rgba(179,162,228,.09));border-color:rgba(240,209,138,.3)}
+.cdl-cites li{background:linear-gradient(100deg,rgba(216,178,90,.10),rgba(238,128,98,.08) 62%,rgba(179,143,245,.09));border-color:rgba(248,210,116,.3)}
 /* le petit rond du repertoire prend le degrade au survol au lieu de l'or plein */
 .cdl-card li button.rep-t:hover .pico,.cdl-card li button.rep-t:focus-visible .pico{background:var(--grad-warm);border-color:transparent}
 /* le bouton « retour en haut » : un halo chaud, pas un aplat */
-.totop{border-color:rgba(240,209,138,.34);box-shadow:0 10px 26px -14px rgba(224,138,114,.5)}
+.totop{border-color:rgba(248,210,116,.34);box-shadow:0 10px 26px -14px rgba(238,128,98,.5)}
 """
 
 CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR

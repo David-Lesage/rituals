@@ -677,7 +677,7 @@ body.lb-open{overflow:hidden}
 .dlc-video{display:block;max-width:560px;width:100%;margin-top:26px;background:none;border:0;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
 .dlc-video figure{margin:0}
 .dlc-video .shot{display:block;position:relative;line-height:0}
-.dlc-video .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(11,12,30,.72);border:1px solid rgba(240,209,138,.62);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
+.dlc-video .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(11,12,30,.72);border:1px solid rgba(248,210,116,.62);display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
 .dlc-video .play::before{content:"";width:0;height:0;border-left:17px solid var(--gold2);border-top:11px solid transparent;border-bottom:11px solid transparent;margin-left:5px}
 .dlc-video:hover .play{background:rgba(11,12,30,.9);transform:translate(-50%,-50%) scale(1.06)}
 .dlc-video figcaption{display:flex;flex-direction:column;gap:2px;justify-content:center;min-height:44px}
@@ -707,7 +707,7 @@ body.lb-open{overflow:hidden}
 .lvc .shot{display:block;position:relative;line-height:0;aspect-ratio:16/9;overflow:hidden}
 .lvc .shot img{display:block;width:100%;height:100%;object-fit:cover}
 .lvc .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;
-  border-radius:50%;background:rgba(11,12,30,.7);border:1px solid rgba(240,209,138,.62);
+  border-radius:50%;background:rgba(11,12,30,.7);border:1px solid rgba(248,210,116,.62);
   display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s}
 .lvc .play::before{content:"";width:0;height:0;border-left:15px solid var(--gold2);
   border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
@@ -1893,7 +1893,7 @@ b{color:#fff;font-weight:500}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 .cta{display:flex;gap:14px;flex-wrap:wrap}
 /* ===== David Lesage en concert (page professionnelle) ===== */
-.dlc-top{padding:128px 0 70px;background:radial-gradient(900px 560px at 12% -8%,rgba(143,122,209,.20),transparent 62%),radial-gradient(700px 460px at 90% 102%,rgba(216,178,90,.12),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+.dlc-top{padding:128px 0 70px;background:radial-gradient(900px 560px at 12% -8%,rgba(147,116,226,.20),transparent 62%),radial-gradient(700px 460px at 90% 102%,rgba(216,178,90,.12),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
 .dlc-top h1{font-size:clamp(36px,6.6vw,68px);font-weight:600;line-height:1.03;color:#fff;letter-spacing:.02em}
 .band{background:linear-gradient(180deg,#0b0c1e,var(--night))}
 .tagline{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.8vw,28px);margin-top:12px}
@@ -2307,16 +2307,16 @@ CSS_CHALEUR = """/* ===== David Lesage en concert : declinaisons chaleureuses ==
 .dlc-card .sub,.dlc-card li>span:not(.rep-t):not(.pico){color:var(--plum2)}
 .dlc-lieux li span,.toc a::before{color:var(--plum2)}
 /* les pastilles de citation : un fond chaud tres dilue au lieu d'un aplat dore */
-.dlc-cites li{background:linear-gradient(100deg,rgba(216,178,90,.10),rgba(224,138,114,.08) 62%,rgba(179,162,228,.09));border-color:rgba(240,209,138,.3)}
+.dlc-cites li{background:linear-gradient(100deg,rgba(216,178,90,.10),rgba(238,128,98,.08) 62%,rgba(179,143,245,.09));border-color:rgba(248,210,116,.3)}
 /* le petit rond du repertoire prend le degrade au survol au lieu de l'or plein */
 .dlc-card li button.rep-t:hover .pico,.dlc-card li button.rep-t:focus-visible .pico{background:var(--grad-warm);border-color:transparent}
 /* les deux filets qui encadrent le bandeau de reperes */
-.dlc-stats{border-top-color:transparent;border-bottom-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent),linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0,0 100%}
+.dlc-stats{border-top-color:transparent;border-bottom-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent),linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0,0 100%}
 /* arrondis genereux — la LARGEUR des diapos n'est pas touchee */
 .dlc-fig,.dlc-more,.dlc-tw,.dlc-cross{border-radius:18px}
 .slide{border-radius:16px}
 /* le bouton « retour en haut » : un halo chaud, pas un aplat */
-.totop{border-color:rgba(240,209,138,.34);box-shadow:0 10px 26px -14px rgba(224,138,114,.5)}
+.totop{border-color:rgba(248,210,116,.34);box-shadow:0 10px 26px -14px rgba(238,128,98,.5)}
 """
 
 CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR

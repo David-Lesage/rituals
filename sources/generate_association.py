@@ -204,11 +204,11 @@ CSS_PAGE = """/* ===== L’association ===== */
 /* --- le sommaire : cinq pastilles, cible tactile de 44 px --- */
 .somm{display:flex;flex-wrap:wrap;gap:10px;margin:30px 0 0;padding:0;list-style:none}
 .somm li{display:flex}
-.somm a{display:inline-flex;align-items:center;min-height:44px;padding:9px 17px;border-radius:999px;border:1px solid rgba(240,209,138,.3);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));color:var(--gold2);font-size:14.5px;line-height:1.3;transition:border-color .2s}
-.somm a:hover{border-color:rgba(240,209,138,.6)}
+.somm a{display:inline-flex;align-items:center;min-height:44px;padding:9px 17px;border-radius:999px;border:1px solid rgba(248,210,116,.3);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));color:var(--gold2);font-size:14.5px;line-height:1.3;transition:border-color .2s}
+.somm a:hover{border-color:rgba(248,210,116,.6)}
 /* --- les quatre valeurs : filet de tete au degrade (meme geste que l'accueil) --- */
 .vals{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:20px;margin-top:40px}
-.val{border-top:2px solid transparent;padding-top:16px;background-image:linear-gradient(90deg,rgba(216,178,90,.5),rgba(224,138,114,.5) 55%,rgba(179,162,228,.45));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+.val{border-top:2px solid transparent;padding-top:16px;background-image:linear-gradient(90deg,rgba(216,178,90,.5),rgba(238,128,98,.5) 55%,rgba(179,143,245,.45));background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
 .val h3{font-size:21px;font-weight:600;color:var(--plum2)}
 .val p{color:var(--muted);font-size:15px;margin-top:6px}
 /* --- l'encadre des statuts : repris de l'accueil, coins genereux --- */

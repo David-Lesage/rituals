@@ -188,7 +188,7 @@ b{color:#fff;font-weight:500}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
 /* hero */
-.top{padding:128px 0 62px;background:radial-gradient(900px 560px at 8% -10%,rgba(143,122,209,.20),transparent 62%),radial-gradient(760px 480px at 94% 104%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+.top{padding:128px 0 62px;background:radial-gradient(900px 560px at 8% -10%,rgba(147,116,226,.20),transparent 62%),radial-gradient(760px 480px at 94% 104%,rgba(216,178,90,.13),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
 .top h1{font-size:clamp(38px,7vw,70px);font-weight:600;line-height:1.03;color:#fff;letter-spacing:.02em}
 .tagline{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.8vw,28px);margin-top:12px}
 .hero-fig{margin:34px 0 0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
@@ -228,7 +228,7 @@ b{color:#fff;font-weight:500}
 .date .a{display:inline-flex;align-items:center;min-height:44px;padding:11px 20px;border-radius:30px;border:1px solid var(--line);color:var(--gold2);font-size:15px}
 .date .a:hover{background:rgba(216,178,90,.10)}
 /* ===== APPEL A CANDIDATURE ===== */
-.appel{background:radial-gradient(880px 540px at 12% -6%,rgba(216,178,90,.16),transparent 62%),radial-gradient(700px 460px at 92% 100%,rgba(143,122,209,.18),transparent 62%),linear-gradient(180deg,#0b0c1e,#101229)}
+.appel{background:radial-gradient(880px 540px at 12% -6%,rgba(216,178,90,.16),transparent 62%),radial-gradient(700px 460px at 92% 100%,rgba(147,116,226,.18),transparent 62%),linear-gradient(180deg,#0b0c1e,#101229)}
 .appel .letter{max-width:780px;margin-top:26px;border-left:2px solid var(--gold);padding-left:24px}
 .appel .letter p{color:#e4e1f2;font-size:17.5px;margin-top:18px}
 .appel .letter p:first-child{margin-top:0}
@@ -374,12 +374,12 @@ section{padding:92px 0}
 /* la prune revient en accent de texte (--plum2 : 8,3:1 sur --night) */
 .quote .who{color:var(--plum2)}
 /* le badge de l'appel a candidature : fond chaud, plus un aplat dore */
-.badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(224,138,114,.11));border-color:rgba(240,209,138,.34);border-radius:999px}
+.badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(238,128,98,.11));border-color:rgba(248,210,116,.34);border-radius:999px}
 /* les deux icones qui remplacent les emoji (voir theme_chaleur.ICONES) */
 .badge .ic{width:20px;height:20px}
 .appel .letter .emo{display:inline-block;vertical-align:-4px;line-height:0}
 .appel .letter .emo .ic{width:21px;height:21px}
-.appel .xp{border-top-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+.appel .xp{border-top-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
 .hero-fig,.fig,.form{border-radius:18px}
 @media(max-width:760px){section{padding:66px 0}}
 """

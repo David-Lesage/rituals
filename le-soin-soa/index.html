@@ -50,7 +50,7 @@ b{color:#fff;font-weight:500}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 .cta{display:flex;gap:14px;flex-wrap:wrap}
 /* ===== Le Soin Soa ===== */
-.soa-top{padding:128px 0 70px;background:radial-gradient(900px 560px at 10% -8%,rgba(143,122,209,.20),transparent 62%),radial-gradient(700px 460px at 92% 102%,rgba(216,178,90,.12),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
+.soa-top{padding:128px 0 70px;background:radial-gradient(900px 560px at 10% -8%,rgba(147,116,226,.20),transparent 62%),radial-gradient(700px 460px at 92% 102%,rgba(216,178,90,.12),transparent 62%),linear-gradient(180deg,#0b0c1e,var(--night))}
 .soa-top h1{font-size:clamp(38px,7vw,72px);font-weight:600;line-height:1.02;color:#fff;letter-spacing:.02em}
 .band{background:linear-gradient(180deg,#0b0c1e,var(--night))}
 .tagline{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.8vw,28px);margin-top:12px}
@@ -167,7 +167,10 @@ p a:not(.btn):not(.adh){text-decoration:underline;
 /* ===== couche chaleureuse commune (sources/theme_chaleur.py) =============
    Le degrade signature de /guso-facile, propage a tout le site. Par touches :
    filets, sur-titres, puces, bouton. Jamais en aplat de fond. */
-:root{--coral:#e08a72;--plum2:#b3a2e4;
+/* surfaces etagees : fond -> carte = x3,30 de luminance (x2,36 avant) */
+:root{--night2:#161839;--card:#1e214a;
+/* accents plus vifs — l'or primaire ne bouge pas */
+--gold2:#f8d274;--plum:#9374e2;--coral:#ee8062;--plum2:#b38ff5;
 --grad:linear-gradient(95deg,var(--gold2),var(--gold) 32%,var(--coral) 66%,var(--plum2));
 --grad-warm:linear-gradient(100deg,var(--gold2),var(--gold) 46%,var(--coral));
 /* meme degrade, axe VERTICAL : pour les filets de 3 px places sur le cote
@@ -177,19 +180,19 @@ p a:not(.btn):not(.adh){text-decoration:underline;
 --grad-v:linear-gradient(180deg,var(--gold2),var(--gold) 30%,var(--coral) 66%,var(--plum2))}
 /* trois lueurs fixes : c'est ce qui enleve le fond « noir de notice ».
    position:fixed + inset:0 -> aucun risque de debordement horizontal. */
-body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(224,138,114,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(143,122,209,.12),transparent 62%)}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(58vw 40vw at 10% -6%,rgba(216,178,90,.11),transparent 62%),radial-gradient(52vw 38vw at 100% 14%,rgba(238,128,98,.10),transparent 62%),radial-gradient(62vw 46vw at 46% 106%,rgba(147,116,226,.12),transparent 62%)}
 /* texte peint au degrade (titres, sur-titres) */
 .grad-t{width:fit-content;max-width:100%;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 /* soulignement degrade de 2 px sous un mot-cle */
 .mark{background-image:var(--grad);background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%;padding-bottom:3px}
-.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent)}
+.divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent)}
 .kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 /* boutons : le principal porte le degrade chaud, le fantome un filet dore */
 .btn{border-radius:999px}
-.btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(224,138,114,.55)}
-.btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(224,138,114,.65)}
-.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(240,209,138,.3);color:var(--gold2)}
-.btn.ghost:hover{border-color:rgba(240,209,138,.55)}
+.btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
+.btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
+.btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(248,210,116,.3);color:var(--gold2)}
+.btn.ghost:hover{border-color:rgba(248,210,116,.55)}
 /* contraste du pied de page : 3,8:1 -> 5,96:1 sur #08091a (seuil 4,5:1) */
 .legal{color:#8b8ba6}
 /* a l'impression, un texte peint au degrade sort blanc : on le rend a l'or */
@@ -218,7 +221,7 @@ section{padding:92px 0}
 /* la prune revient en accent de texte (--plum2 : 7,3:1 sur --card) */
 .soa-who .role,.who-txt .role{color:var(--plum2)}
 /* le sommaire : deux filets degrades a la place des deux traits dores */
-.toc{border-top-color:transparent;border-bottom-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent),linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0,0 100%}
+.toc{border-top-color:transparent;border-bottom-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent),linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0,0 100%}
 .toc a::before{color:var(--coral)}
 @media(max-width:760px){section{padding:66px 0}}
 

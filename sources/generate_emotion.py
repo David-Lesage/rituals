@@ -113,7 +113,7 @@ a{color:var(--gold2)}
    pas en fond derriere le texte (titre en double + illisible), et son format
    1640x624 (2,63:1) serait massacre par un recadrage en cover sur mobile. */
 .hero{display:block;text-align:center;padding:92px 0 58px;position:relative;overflow:hidden;
-  background:radial-gradient(900px 460px at 50% 4%,rgba(143,122,209,.16),transparent 64%),var(--night)}
+  background:radial-gradient(900px 460px at 50% 4%,rgba(147,116,226,.16),transparent 64%),var(--night)}
 .hero .banner{width:100%;max-width:1640px;margin:0 auto}
 .hero .banner img{width:100%;height:auto;display:block}
 .hero .inner{position:relative;z-index:2;padding:34px 24px 0}
@@ -127,7 +127,7 @@ a{color:var(--gold2)}
 .hero .tag{max-width:620px;margin:26px auto 0;color:#efeaf6;font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:23px;line-height:1.4}
 .scroll{margin-top:44px;font-size:13px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
 
-.intention{background:radial-gradient(900px 500px at 88% -10%,rgba(143,122,209,.12),transparent 60%),var(--night)}
+.intention{background:radial-gradient(900px 500px at 88% -10%,rgba(147,116,226,.12),transparent 60%),var(--night)}
 .big-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(27px,4.2vw,42px);line-height:1.25;color:#fff;font-weight:500;max-width:880px}
 .big-quote em{color:var(--gold2);font-style:italic}
 .sig{margin-top:34px;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;text-align:center}
@@ -139,7 +139,7 @@ a{color:var(--gold2)}
 .card h3{font-size:21px;color:#fff;margin:10px 0 8px;font-weight:600}
 .card p{color:var(--muted);font-size:14.5px}
 
-.keystone{text-align:center;background:radial-gradient(800px 500px at 50% 50%,rgba(143,122,209,.18),transparent 65%),#0b0c1e}
+.keystone{text-align:center;background:radial-gradient(800px 500px at 50% 50%,rgba(147,116,226,.18),transparent 65%),#0b0c1e}
 .keystone .big-quote{margin:0 auto}
 
 .artist{max-width:820px;margin:40px auto 0;padding:26px 0;border-top:1px solid rgba(255,255,255,.08);position:relative}
@@ -276,7 +276,7 @@ picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
 /* la prune revient en accent de TEXTE (--plum2 : 7,3:1 sur --card) */
 .artist .role{color:var(--plum2)}
 /* le filet qui separe les deux artistes : degrade, comme le .divider */
-.artist{border-top-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(224,138,114,.5) 50%,rgba(179,162,228,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
+.artist{border-top-color:transparent;background-image:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent);background-repeat:no-repeat;background-size:100% 2px;background-position:0 0}
 /* arrondis genereux, memes valeurs que sur /guso-facile */
 .figure,.tz,.affiche img,.aphoto,picture.aphoto,.gal-item,.lb-frame{border-radius:18px}
 /* la pastille de lecture du teaser : degrade chaud au lieu de l'or plein */
