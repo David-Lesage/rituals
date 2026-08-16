@@ -204,9 +204,9 @@ section{padding:86px 0}
 .aide .u-num{display:block;margin-bottom:8px}
 .aide-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
 .aide-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
-.aide-l{list-style:none;margin-top:15px;display:grid;gap:9px}
-.aide-l li{position:relative;padding-left:29px;color:#d7d4ea;font-size:15.5px;line-height:1.6}
-.aide-l li::before{content:'?';position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;line-height:1;color:var(--gold2);border:1px solid rgba(248,210,116,.34);background:rgba(216,178,90,.14)}
+.aide-l{list-style:none;margin-top:15px;display:grid;gap:9px;counter-reset:aide}
+.aide-l li{position:relative;padding-left:29px;color:#d7d4ea;font-size:15.5px;line-height:1.6;counter-increment:aide}
+.aide-l li::before{content:counter(aide);position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;line-height:1;color:var(--gold2);border:1px solid rgba(248,210,116,.34);background:rgba(216,178,90,.14)}
 .aide-l li b{color:#fff;font-weight:500}
 .dmd{margin-top:30px;border:1px solid rgba(255,255,255,.10);border-radius:22px;background:linear-gradient(180deg,rgba(11,12,30,.55),rgba(11,12,30,.28));padding:28px 26px 26px}
 .dmd-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:27px;font-weight:600;color:#fff;line-height:1.18}
@@ -1143,16 +1143,20 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
       <p class="u-num">« J’ai besoin d’aide » — demander, simplement</p>
       <p class="aide-claim">Demander de l’aide devient un geste simple, pas un aveu.</p>
       <p class="aide-p">Un bouton, dans l’application, ouvre un questionnaire très court — des réponses
-        simples — pour cerner le besoin sans jamais juger. Ce qu’on peut y cocher :</p>
-      <ul class="aide-l">
-        <li>Je ne sais pas quel est mon <b>prochain pas</b>.</li>
-        <li>Je suis <b>en retard sur mes heures</b>.</li>
-        <li>J’ai un <b>blocage administratif précis</b>.</li>
-        <li>J’ai un <b>doute plus personnel</b> sur ma valeur ou ma légitimité.</li>
-      </ul>
-      <p class="aide-p">Selon la réponse, l’application donne immédiatement un premier geste concret —
+        simples — pour cerner le besoin sans jamais juger. <b>3 questions, c’est tout :</b></p>
+      <ol class="aide-l">
+        <li><b>Qu’est-ce qui se passe ?</b> — ton prochain pas, un retard d’heures, un blocage
+          administratif, ou un doute plus perso sur ta valeur.</li>
+        <li><b>Tu veux que quelqu’un le sache ?</b> — ton groupe, ta structure, une personne
+          précise… ou personne du tout, et c’est une réponse pleine et entière : l’application
+          répond alors « c’était pour toi, prends soin de toi », et n’envoie rien.</li>
+        <li><b>C’est urgent ?</b> — ça peut attendre, c’est pour cette semaine, ou c’est là,
+          maintenant.</li>
+      </ol>
+      <p class="aide-p">Selon les réponses, l’application donne immédiatement un premier geste concret —
         pas une brochure, une action. Et si on le souhaite, elle prévient le groupe, la structure, ou une
-        personne précise : c’est l’artiste seul qui choisit qui, et quoi.</p>
+        personne précise : c’est l’artiste seul qui choisit qui, et quoi. On peut donc demander de l’aide
+        sans que ça devienne social.</p>
     </div>
   </div>
 

@@ -1387,19 +1387,25 @@ CSS_PAGE = ("""/* ===== Guso Facile ===== */
            # Meme habillage que l'encart de la Guilde et que « On veille les uns sur les
            # autres » : ces trois blocs disent la meme chose sous trois angles (le
            # groupe, le pacte, l'appel), ils doivent se lire comme une famille.
-           # ⚠️ Le marqueur des quatre lignes est un POINT D'INTERROGATION dessine en
-           # CSS (`content:'?'`), pas un pictogramme et surtout pas un emoji : la page de
-           # reference met un 🤗 sur cette section, la charte du site l'interdit. Aucun
-           # quinzieme trace a maintenir.
+           # ⚠️ Le marqueur des trois lignes est un NUMERO dessine en CSS
+           # (`counter-reset` sur la liste, `content:counter(aide)` dans le ::before),
+           # pas un pictogramme et surtout pas un emoji : la page de reference met un
+           # emoji sur cette section, la charte du site l'interdit. Aucun quinzieme
+           # trace a maintenir, et `NB_PICTOS` ne bouge pas.
+           # ⚠️ C'ETAIT UN POINT D'INTERROGATION (`content:'?'`) jusqu'au 16/08/2026,
+           # quand les lignes etaient quatre situations a cocher. Elles sont devenues
+           # les TROIS questions du parcours reel : le numero est ce qui rend le
+           # « 3 questions, c'est tout » annonce juste au-dessus verifiable a l'oeil.
+           # Le badge lui-meme (20x20, coins a 7px, filet dore) n'a pas bouge.
            """.aide{display:flex;gap:18px;align-items:flex-start;margin-top:34px;max-width:900px;padding:28px 30px 26px;border:1px solid rgba(248,210,116,.26);border-radius:22px;background:linear-gradient(135deg,rgba(216,178,90,.12),rgba(238,128,98,.09) 58%,rgba(147,116,226,.10));box-shadow:0 24px 56px -40px rgba(0,0,0,.95)}
 .aide .ic-w{flex:0 0 auto;line-height:0;margin-top:4px}
 .aide .ic{width:26px;height:26px}
 .aide .u-num{display:block;margin-bottom:8px}
 .aide-claim{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(19px,2.4vw,24px);line-height:1.32}
 .aide-p{color:#d7d4ea;font-size:15.5px;margin-top:13px}
-.aide-l{list-style:none;margin-top:15px;display:grid;gap:9px}
-.aide-l li{position:relative;padding-left:29px;color:#d7d4ea;font-size:15.5px;line-height:1.6}
-.aide-l li::before{content:'?';position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;line-height:1;color:var(--gold2);border:1px solid rgba(248,210,116,.34);background:rgba(216,178,90,.14)}
+.aide-l{list-style:none;margin-top:15px;display:grid;gap:9px;counter-reset:aide}
+.aide-l li{position:relative;padding-left:29px;color:#d7d4ea;font-size:15.5px;line-height:1.6;counter-increment:aide}
+.aide-l li::before{content:counter(aide);position:absolute;left:0;top:2px;width:20px;height:20px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;line-height:1;color:var(--gold2);border:1px solid rgba(248,210,116,.34);background:rgba(216,178,90,.14)}
 .aide-l li b{color:#fff;font-weight:500}
 """
            # --- le formulaire de demande d'acces (rapatrie le 16/08/2026) -----------
@@ -2967,10 +2973,8 @@ def build_html():
     #      - « un bouton dans l'app, un questionnaire ultra-rapide — 3
     #        questions, reponses simples — pour cerner ton besoin sans jamais
     #        te juger » -> le paragraphe d'ouverture ;
-    #      - les QUATRE situations proposees -> leurs quatre `.help-q`,
-    #        recopiees mot pour mot, seul le tutoiement passe au registre
-    #        neutre du corps de cette page (« ma valeur » plutot que « ta
-    #        valeur ») ;
+    #      - les TROIS questions du parcours -> voir la note datee ci-dessous :
+    #        elles ne viennent PAS de leur page, mais de l'auteur de l'app ;
     #      - « selon ta reponse, l'app te donne immediatement un premier geste
     #        concret — pas une brochure, une action » -> leur premiere carte ;
     #      - « si tu le veux, l'app previent ton groupe, ta structure, ou une
@@ -2978,16 +2982,36 @@ def build_html():
     #      - « Demander de l'aide devient un geste simple, pas un aveu » ->
     #        leur `.help-quote`, reprise TELLE QUELLE en accroche serif.
     #
-    # ⚠️ LEUR PAGE PORTE UNE INCOHERENCE QU'ON NE RECOPIE PAS : son titre de
-    #    panneau annonce « 3 questions, c'est tout » et il liste QUATRE lignes.
-    #    Les quatre lignes ressemblent aux REPONSES POSSIBLES d'une question
-    #    (« ou est-ce que ca coince ? »), pas a quatre questions. On ne tranche
-    #    donc pas a leur place : le bloc presente les quatre lignes comme « ce
-    #    qu'on peut cocher », sans annoncer de nombre. La puce d'inventaire de
-    #    l'univers 4, elle, garde « trois questions simples » — c'est un texte
-    #    deja valide, on n'y touche pas.
-    #    ➜ A FAIRE CONFIRMER PAR L'AUTEUR DE L'APP : trois questions, ou une
-    #      question a quatre reponses ? Le jour ou c'est su, une ligne suffit.
+    # ✅ TRANCHE LE 16/08/2026 — L'AUTEUR DE L'APP A REPONDU (il a lu le
+    #    parcours dans le code). L'incoherence de leur page etait celle-ci :
+    #    le titre annoncait « 3 questions, c'est tout » et listait QUATRE
+    #    lignes. Le NOMBRE etait juste, c'est l'illustration qui etait fausse :
+    #    les quatre lignes n'etaient pas les questions, c'etaient les REPONSES
+    #    POSSIBLES A LA PREMIERE. Le parcours reel pose bien trois questions :
+    #      1. Qu'est-ce qui se passe ?      (prochain pas · retard d'heures ·
+    #         blocage administratif · doute plus perso sur sa valeur —
+    #         ce sont les quatre anciennes lignes, remises a leur place)
+    #      2. Tu veux que quelqu'un le sache ?  (groupe · structure · une
+    #         personne precise · personne du tout)
+    #      3. C'est urgent ?                (ca peut attendre · cette semaine ·
+    #         la, maintenant)
+    #    Les lignes sont NUMEROTEES 1-2-3 : c'est ce qui rend le « trois »
+    #    verifiable a l'oeil, et c'est precisement ce qui manquait a leur page.
+    #    `ANCRES` compte desormais le nombre annonce ET le nombre affiche.
+    #
+    # ⚠️⚠️ LA NUANCE DE LA QUESTION 2, A NE PAS ECRASER AU PROCHAIN MENAGE.
+    #    « Personne du tout » est une REPONSE PLEINE ET ENTIERE, pas un
+    #    renoncement : l'application repond alors « c'etait pour toi, prends
+    #    soin de toi » et N'ENVOIE RIEN. C'est le coeur de la fonction — on
+    #    peut demander de l'aide sans que ca devienne social. Elle n'est donc
+    #    presentee ni comme une option par defaut, ni comme un refus, ni comme
+    #    un dernier recours : l'incise est dans la ligne meme, et la phrase
+    #    « On peut donc demander de l'aide sans que ca devienne social » ferme
+    #    le bloc. C'est ce qui distingue cette fonction d'un bouton d'alerte,
+    #    et c'est ce qui la rend utilisable par quelqu'un qui ne va pas bien.
+    #
+    #    La puce d'inventaire de l'univers 4 garde « trois questions simples » :
+    #    elle disait deja juste, on n'y touche pas.
     #
     # ⚠️ PLACEMENT — ET CE N'EST PAS UN DETAIL DE MISE EN PAGE. Ce bloc est pose
     #    AVANT `<div class="guilde">`, jamais entre lui et `<div class="aussi">` :
@@ -3004,16 +3028,20 @@ def build_html():
       <p class="u-num">« J’ai besoin d’aide » — demander, simplement</p>
       <p class="aide-claim">Demander de l’aide devient un geste simple, pas un aveu.</p>
       <p class="aide-p">Un bouton, dans l’application, ouvre un questionnaire très court — des réponses
-        simples — pour cerner le besoin sans jamais juger. Ce qu’on peut y cocher :</p>
-      <ul class="aide-l">
-        <li>Je ne sais pas quel est mon <b>prochain pas</b>.</li>
-        <li>Je suis <b>en retard sur mes heures</b>.</li>
-        <li>J’ai un <b>blocage administratif précis</b>.</li>
-        <li>J’ai un <b>doute plus personnel</b> sur ma valeur ou ma légitimité.</li>
-      </ul>
-      <p class="aide-p">Selon la réponse, l’application donne immédiatement un premier geste concret —
+        simples — pour cerner le besoin sans jamais juger. <b>3 questions, c’est tout :</b></p>
+      <ol class="aide-l">
+        <li><b>Qu’est-ce qui se passe ?</b> — ton prochain pas, un retard d’heures, un blocage
+          administratif, ou un doute plus perso sur ta valeur.</li>
+        <li><b>Tu veux que quelqu’un le sache ?</b> — ton groupe, ta structure, une personne
+          précise… ou personne du tout, et c’est une réponse pleine et entière : l’application
+          répond alors « c’était pour toi, prends soin de toi », et n’envoie rien.</li>
+        <li><b>C’est urgent ?</b> — ça peut attendre, c’est pour cette semaine, ou c’est là,
+          maintenant.</li>
+      </ol>
+      <p class="aide-p">Selon les réponses, l’application donne immédiatement un premier geste concret —
         pas une brochure, une action. Et si on le souhaite, elle prévient le groupe, la structure, ou une
-        personne précise : c’est l’artiste seul qui choisit qui, et quoi.</p>
+        personne précise : c’est l’artiste seul qui choisit qui, et quoi. On peut donc demander de l’aide
+        sans que ça devienne social.</p>
     </div>
   </div>
 """)
@@ -3821,7 +3849,20 @@ ANCRES = (
     # LIVREE et elle n'existait qu'en puce d'inventaire. Ces trois lignes
     # empechent que le bloc reparte au premier menage de hauteur.
     ('class="aide"', 1, 'le bloc « J’ai besoin d’aide »'),
-    ('class="aide-l"', 1, 'les quatre situations qu’on peut y cocher'),
+    ('class="aide-l"', 1, 'la liste des trois questions'),
+    # ⚠️ LE NOMBRE ANNONCE ET LE NOMBRE AFFICHE SONT COMPTES ENSEMBLE : c'est
+    #    exactement ce qui manquait a la page de reference, qui annoncait
+    #    « 3 questions, c'est tout » puis listait quatre lignes. Si l'un des
+    #    deux bouge sans l'autre, l'ecriture est refusee.
+    ('3 questions, c’est tout', 1, 'le nombre annoncé au-dessus de la liste'),
+    ('<li><b>Qu’est-ce qui se passe ?</b>', 1, 'question 1'),
+    ('<li><b>Tu veux que quelqu’un le sache ?</b>', 1, 'question 2'),
+    ('<li><b>C’est urgent ?</b>', 1, 'question 3'),
+    # ⚠️ « personne du tout » n'est PAS un renoncement : voir la note du bloc.
+    #    Si cette formulation disparait, la question 2 se relit comme un choix
+    #    entre trois destinataires, et la fonction devient un bouton d'alerte.
+    ('c’était pour toi, prends soin de toi', 1,
+     'la réponse de l’app quand on ne prévient personne'),
     ('J’ai besoin d’aide', 2,
      'la fonction est nommée DEUX fois : la puce de l’univers 4 et le bloc'),
     # Autant de marqueurs creux que de puces « a venir » (2 depuis le
