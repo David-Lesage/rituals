@@ -317,6 +317,21 @@ HELLO = T.HELLOASSO
 #    propriete « domaine ». Les deux methodes coexistent sans conflit, et un
 #    enregistrement `google-site-verification` existe deja dans cette zone : ne
 #    pas le remplacer en croyant faire le menage.
+# --------------------------------------------------------------------------- #
+# L'IMAGE DE PARTAGE (16/08/2026) — POURQUOI L'ACCUEIL GARDE `og-image.jpg`
+# --------------------------------------------------------------------------- #
+# `og-image.jpg` a longtemps servi de repli a sept pages, ce qui la faisait
+# passer pour une image « generique ». Elle ne l'est pas : c'est la photo du
+# Grand Rex — Iris Chasles et David Lesage assis face a la salle comble —
+# RECADREE a 1200x630, le seul fichier du depot deja taille pour un apercu de
+# partage (ratio 1,905, tres proche du 1,91:1 attendu par WhatsApp et Facebook).
+# Pour l'accueil de l'association, c'est la bonne image : le moment le plus fort
+# de son travail, et le seul cadrage qui ne sera rogne nulle part. Elle reste
+# donc ici par CHOIX, plus par defaut. Les pages qui parlent d'autre chose ont
+# recu la leur (voir lenid_source.html, rituals_source.html, trio_source.html).
+# ⚠️ Le recadrage a coupe la signature « MAGYE D'ART » visible en bas a droite de
+#    la photo d'origine (img/rituals/hero-grand-rex-1400.jpg). A signaler a David :
+#    c'est un credit photo, et il ne voyage plus avec l'image partagee.
 HTML=f"""<!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -335,6 +350,7 @@ HTML=f"""<!DOCTYPE html>
   <meta property="og:image" content="https://www.resonancesproductions.org/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Iris Chasles et David Lesage assis sur la scène du Grand Rex, face à une salle comble.">
   <meta name="google-site-verification" content="iPTmSfVj4xlmO8MwL_FnR4VJS583WHokrohFreY6pjk">
 </head>
 <body>

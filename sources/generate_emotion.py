@@ -67,6 +67,14 @@ OUT_HTML = os.path.join(OUT_DIR, 'index.html')
 # seraient perdus a la generation suivante.
 # --------------------------------------------------------------------------- #
 
+# L'IMAGE DE PARTAGE (16/08/2026) : la page l'avait deja, mais SANS ses
+# dimensions — les seules des 30 pages a manquer. Elles sont ajoutees ici
+# (mesurees sur le fichier : 1400x1980), avec un `og:image:alt`.
+# 🚩 A signaler a David : cette image est une AFFICHE VERTICALE (ratio 0,71).
+#    Les apercus de partage attendent du paysage (~1,91:1) et rognent le reste
+#    au petit bonheur — le titre de l'affiche peut disparaitre. Une version
+#    paysage de l'affiche, ou une photo du spectacle, serait meilleure. On ne la
+#    fabrique pas ici : le depot n'en contient aucune.
 GABARIT = (
 ("""<!DOCTYPE html>
 <html lang="fr">
@@ -78,6 +86,9 @@ GABARIT = (
 <meta property="og:title" content="E-MOTION — Spectacle participatif · ID duo">
 <meta property="og:description" content="Envole-toi vers l'inattendu ! Une expérience immersive des sens.">
 <meta property="og:image" content="https://www.resonancesproductions.org/img/e-motion/affiche-e-motion-1400.jpg">
+<meta property="og:image:width" content="1400">
+<meta property="og:image:height" content="1980">
+<meta property="og:image:alt" content="Affiche du spectacle E-Motion, par ID duo — Iris Chasles et David Lesage.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" type="image/webp" href="/img/e-motion/banniere-e-motion-1200.webp" fetchpriority="high">

@@ -617,6 +617,7 @@ def build_html(sizes):
 <meta property="og:image" content="https://www.resonancesproductions.org/img/rythme-calebasse/cercle-calebasses-{ogw}.jpg">
 <meta property="og:image:width" content="{ogw}">
 <meta property="og:image:height" content="{ogh}">
+<meta property="og:image:alt" content="Un cercle de participants, calebasse entre les mains, pendant un workshop de rythme.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate icon" href="/favicon.ico" sizes="any">

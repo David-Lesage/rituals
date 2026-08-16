@@ -26,6 +26,9 @@ a la main et trop tard. Ils sont ici pour qu'aucun ne puisse recommencer.
                       pages qui existent vraiment
  10. google           la balise de verification Search Console recopiee sur
                       toutes les pages au lieu de la seule page d'accueil
+ 11. partage          sept pages partageaient la meme vignette d'apercu, et
+                      rien ne verifiait que le fichier annonce existait ni que
+                      ses dimensions etaient les bonnes
 
 CE QU'IL NE FAIT PAS
 --------------------
@@ -267,6 +270,38 @@ def _charger():
     return [Page(url, rel) for url, rel in PAGES]
 
 
+def _taille_jpeg(chemin):
+    """(largeur, hauteur) d'un JPEG, en lisant son en-tete. Sans dependance.
+
+    Repli pour les machines ou Pillow n'est pas installe : sans lui,
+    `_lire_image` renvoyait None et DEUX controles se taisaient au lieu
+    d'echouer. Un controle muet ne protege personne.
+    """
+    import struct
+    try:
+        with open(chemin, 'rb') as f:
+            donnees = f.read()
+    except OSError:
+        return None
+    if not donnees.startswith(b'\xff\xd8'):
+        return None
+    i = 2
+    while i + 9 < len(donnees):
+        if donnees[i] != 0xFF:
+            i += 1
+            continue
+        marqueur = donnees[i + 1]
+        if marqueur in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7,
+                        0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
+            haut, larg = struct.unpack('>HH', donnees[i + 5:i + 9])
+            return larg, haut
+        if marqueur in (0xD8, 0xD9) or 0xD0 <= marqueur <= 0xD7:
+            i += 2
+            continue
+        i += 2 + struct.unpack('>H', donnees[i + 2:i + 4])[0]
+    return None
+
+
 def _lire_image(rel_url):
     """(largeur, hauteur) d'un fichier image du depot, ou None."""
     chemin = os.path.join(RACINE, rel_url.lstrip('/'))
@@ -278,7 +313,10 @@ def _lire_image(rel_url):
         with Image.open(chemin) as im:
             return im.size
     except Exception:
-        return None
+        pass
+    if chemin.lower().endswith(('.jpg', '.jpeg')):
+        return _taille_jpeg(chemin)
+    return None
 
 
 def _balises_img(html):
@@ -731,6 +769,75 @@ def controle_verification(pages):
 # Enchainement
 # --------------------------------------------------------------------------- #
 
+# --------------------------------------------------------------------------- #
+# 11. IMAGE DE PARTAGE  (og:image)
+# --------------------------------------------------------------------------- #
+# Ce que voit quelqu'un a qui on envoie un lien du site dans WhatsApp, sur
+# Facebook ou par SMS : une vignette, un titre, une ligne de texte. La vignette
+# est `og:image`, et c'est une balise PAR PAGE — c'est ce qui permet a chaque
+# page d'avoir la sienne (demande de David, 16/08/2026).
+#
+# Ce qui se casse en silence, et que ce controle attrape :
+#   - un chemin RELATIF : ignore par toutes les messageries, aucune image ne
+#     s'affiche. L'adresse doit etre absolue, sur le domaine du site ;
+#   - un fichier renomme ou deplace : le partage montre un cadre vide, et la
+#     page, elle, continue de s'afficher normalement — personne ne le voit ;
+#   - des dimensions declarees FAUSSES : l'apercu se dessine de travers, ou
+#     n'apparait qu'au deuxieme envoi. Elles sont donc relues sur le fichier ;
+#   - du WebP : plusieurs messageries ne le rendent pas encore en apercu. Le
+#     depot contient les deux formats pour chaque photo, on prend le `.jpg` ;
+#   - un `twitter:image` qui aurait diverge de `og:image` (deux balises a tenir
+#     d'accord). Aucune page n'en porte aujourd'hui : `twitter:card` +
+#     `og:image` suffisent, X reprend `og:image` a defaut. La regle est ecrite
+#     pour le jour ou quelqu'un en ajoutera une.
+MARQUES_PARTAGE = 'https://www.resonancesproductions.org'
+
+
+def controle_partage(pages):
+    """Une image de partage par page, qui existe et aux bonnes dimensions."""
+    pbs = []
+    for p in pages:
+        images = re.findall(r'<meta\s+property="og:image"\s+content="([^"]*)"', p.html)
+        if len(images) != 1:
+            pbs.append('%s : %d balise(s) og:image, attendu exactement 1 — c\'est '
+                       'l\'image affichee quand on partage le lien' % (p.rel, len(images)))
+            continue
+        url = images[0]
+        if not url.startswith(MARQUES_PARTAGE + '/'):
+            pbs.append('%s : og:image = %s — l\'adresse doit etre absolue et sur '
+                       '%s, sinon aucune messagerie ne l\'affiche'
+                       % (p.rel, url, MARQUES_PARTAGE))
+            continue
+        rel = url[len(MARQUES_PARTAGE):].split('?')[0]
+        if rel.lower().endswith('.webp'):
+            pbs.append('%s : og:image en WebP (%s) — plusieurs messageries ne le '
+                       'rendent pas en apercu ; prendre le .jpg' % (p.rel, rel))
+        chemin = os.path.join(RACINE, rel.lstrip('/'))
+        if not os.path.exists(chemin):
+            pbs.append('%s : og:image %s — ce fichier n\'existe pas dans le depot'
+                       % (p.rel, rel))
+            continue
+        for balise in ('og:image:width', 'og:image:height', 'og:image:alt'):
+            if 'property="%s"' % balise not in p.html:
+                pbs.append('%s : og:image sans %s' % (p.rel, balise))
+        taille = _lire_image(rel)
+        declare = {}
+        for nom in ('width', 'height'):
+            m = re.search(r'<meta\s+property="og:image:%s"\s+content="(\d+)"' % nom, p.html)
+            if m:
+                declare[nom] = int(m.group(1))
+        if taille and len(declare) == 2:
+            if (declare['width'], declare['height']) != taille:
+                pbs.append('%s : og:image annonce %dx%d, le fichier %s fait %dx%d'
+                           % (p.rel, declare['width'], declare['height'], rel,
+                              taille[0], taille[1]))
+        m = re.search(r'<meta\s+(?:name|property)="twitter:image"\s+content="([^"]*)"', p.html)
+        if m and m.group(1) != url:
+            pbs.append('%s : twitter:image (%s) differe de og:image (%s)'
+                       % (p.rel, m.group(1), url))
+    return pbs
+
+
 CONTROLES = (
     ('commentaires', 'Aucune note de travail dans le code des pages', controle_commentaires),
     ('menu',         'Menu present une fois, complet, sans doublon',   controle_menu),
@@ -742,6 +849,7 @@ CONTROLES = (
     ('chiffres',     'Les nombres affiches correspondent au contenu',  controle_chiffres),
     ('plan',         'Plan du site, robots.txt et redirections a jour', controle_plan),
     ('google',       'Verification Search Console posee une seule fois', controle_verification),
+    ('partage',      'Image de partage propre a chaque page, verifiee',  controle_partage),
 )
 
 

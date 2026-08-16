@@ -112,6 +112,14 @@ assert T.HELLOASSO == nav_menu.ADHESION, (
 #    fois, sur `/`. Le repeter sur 30 pages n'apporte rien et brouille la piste
 #    le jour ou il faudra le retirer. `_controles` refuse d'ecrire s'il apparait.
 
+# L'IMAGE DE PARTAGE (16/08/2026) : cette page garde `og-image.jpg`, et c'est un
+# choix, pas un repli. Voir la note complete en tete du gabarit de l'accueil
+# (`generate_assoc.py`) : ce fichier n'est pas une image « generique » mais la
+# photo du Grand Rex recadree a 1200x630, le seul cadrage du depot deja taille
+# pour un apercu de partage. Une page qui presente l'objet, les valeurs et les
+# statuts n'a aucune photo qui la represente mieux — le depot ne contient ni
+# document, ni logo de l'association exploitable a cette taille (img/logo/ ne
+# contient que le logo PERSONNEL de David Lesage, en PNG et en 900 px de large).
 HEAD = """<!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -124,6 +132,7 @@ HEAD = """<!DOCTYPE html>
 <meta property="og:image" content="https://www.resonancesproductions.org/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Iris Chasles et David Lesage assis sur la scène du Grand Rex, face à une salle comble.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://www.resonancesproductions.org/association">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">

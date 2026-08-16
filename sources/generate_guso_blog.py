@@ -223,6 +223,12 @@ DATE_MAJ_FR = '15 août 2026'
 #    Ce ne sont PAS des polices supplementaires : c'est exactement la meme
 #    feuille, deja chargee partout sur le site.
 
+# L'IMAGE DE PARTAGE (16/08/2026) : les 19 pages du blog gardent `og-image.jpg`
+# pour la meme raison que /guso-facile — le depot n'a aucune image de l'outil, et
+# une photo de concert sur un article d'administratif serait un contresens. La
+# note complete est en tete du gabarit de `generate_guso.py`. Une image par
+# ARTICLE serait le mieux (18 sujets differents) : elle demanderait 18 fichiers
+# qui n'existent pas. On ne les fabrique pas ici.
 HEAD = """<!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -238,6 +244,7 @@ HEAD = """<!DOCTYPE html>
 <meta property="og:image" content="https://www.resonancesproductions.org/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Iris Chasles et David Lesage assis sur la scène du Grand Rex, face à une salle comble.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="%(canonique)s">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">

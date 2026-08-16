@@ -1154,6 +1154,22 @@ URL_BLOG = '/guso-facile/blog'
 #    retomberaient en 600 et la page reperdrait exactement ce que David
 #    reprochait a la version precedente.
 
+# --------------------------------------------------------------------------- #
+# L'IMAGE DE PARTAGE (16/08/2026) — CETTE PAGE GARDE `og-image.jpg`, FAUTE DE MIEUX
+# --------------------------------------------------------------------------- #
+# Le reste du site a recu une image propre a chaque page. Pas celle-ci, et il
+# faut dire pourquoi plutot que de bricoler.
+#   - La page est en HTML/CSS pur : ses dix apercus d'interface sont DESSINES,
+#     il n'existe aucun fichier image a montrer. Le depot n'en contient aucune
+#     pour Guso Facile, et on ne fabrique pas d'image ici.
+#   - Les seules photos disponibles sont des photos de concert. En poser une sur
+#     une page de logiciel administratif ferait croire a un spectacle.
+# `og-image.jpg` reste donc, et ce n'est pas absurde : elle montre des artistes
+# en scene, et le lecteur vise par cette page EST un artiste intermittent — elle
+# dit d'ou vient l'outil, pas ce qu'il fait.
+# 🚩 Le jour ou une VRAIE capture de l'application sera disponible (recadree en
+#    1200x630, sans aucune donnee personnelle a l'ecran), c'est elle qu'il
+#    faudra mettre ici et sur le blog. C'est une decision de David.
 HEAD = """<!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -1166,6 +1182,7 @@ HEAD = """<!DOCTYPE html>
 <meta property="og:image" content="https://www.resonancesproductions.org/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Iris Chasles et David Lesage assis sur la scène du Grand Rex, face à une salle comble.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://www.resonancesproductions.org/guso-facile">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">

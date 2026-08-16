@@ -2389,6 +2389,7 @@ HTML = (f"""<!DOCTYPE html>
 <meta property="og:image" content="https://www.resonancesproductions.org/img/concert-scene/neotone-en-scene-1400.jpg">
 <meta property="og:image:width" content="1400">
 <meta property="og:image:height" content="933">
+<meta property="og:image:alt" content="David Lesage sur scène au Neotone, son handpan électronique, en concert.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate icon" href="/favicon.ico" sizes="any">
