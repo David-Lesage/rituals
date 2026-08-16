@@ -220,6 +220,11 @@ section{padding:92px 0}
 .somm ul{list-style:none;display:flex;flex-wrap:wrap;gap:9px 10px}
 .somm a{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border:1px solid rgba(240,209,138,.24);border-radius:999px;font-size:13.5px;color:var(--gold2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
 .somm a:hover{border-color:rgba(240,209,138,.55)}
+/* « Par ou commencer », en tete d'index. Cartes plus etroites que celles des
+   themes (232 px au lieu de 258) : trois tiennent sur une ligne des 800 px. */
+.debut{margin-top:34px}
+.debut-t{font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:14px}
+.debut .cartes{grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:18px}
 /* la ligne de renvoi aux organismes, sous le chapo de l'index */
 .bl-note{color:var(--plum2);font-size:15px;line-height:1.62;margin-top:14px;max-width:66ch}
 .bl-note a{color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:3px}

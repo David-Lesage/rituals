@@ -220,6 +220,11 @@ section{padding:92px 0}
 .somm ul{list-style:none;display:flex;flex-wrap:wrap;gap:9px 10px}
 .somm a{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border:1px solid rgba(240,209,138,.24);border-radius:999px;font-size:13.5px;color:var(--gold2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
 .somm a:hover{border-color:rgba(240,209,138,.55)}
+/* « Par ou commencer », en tete d'index. Cartes plus etroites que celles des
+   themes (232 px au lieu de 258) : trois tiennent sur une ligne des 800 px. */
+.debut{margin-top:34px}
+.debut-t{font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:14px}
+.debut .cartes{grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:18px}
 /* la ligne de renvoi aux organismes, sous le chapo de l'index */
 .bl-note{color:var(--plum2);font-size:15px;line-height:1.62;margin-top:14px;max-width:66ch}
 .bl-note a{color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:3px}
@@ -689,6 +694,29 @@ section{padding:92px 0}
       <p class="bl-intro">Dix-huit articles écrits pour les artistes intermittents et les structures qui les emploient : le compteur des 507 heures, les DPAE, les feuillets GUSO, l’actualisation France Travail, le contrat, l’impayé, la tournée. Chacun part d’une situation concrète et s’arrête à ce qui est utile.</p>
       <p class="bl-note">Ces articles partagent une expérience de terrain ; pour ce qui fait foi, la référence reste <a href="https://www.francetravail.fr" target="_blank" rel="noopener">France Travail</a> et le <a href="https://www.guso.fr" target="_blank" rel="noopener">GUSO</a>.</p>
       <p class="bl-meta"><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 6.6C10.3 5.2 8.4 4.6 5.4 4.6v12.6c3 0 4.9.6 6.6 2 1.7-1.4 3.6-2 6.6-2V4.6c-3 0-4.9.6-6.6 2Z"/><path d="M12 6.6v14"/></svg>18 articles</span><span><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.5" y="5.2" width="17" height="15.2" rx="3"/><path d="M3.5 9.9h17"/><path d="M8.2 3.6v3.1"/><path d="M15.8 3.6v3.1"/><path d="M9 14.8l2.2 2.2 4-4.3"/></svg>Mis à jour le <time datetime="2026-08-15">15 août 2026</time></span></p>
+    </div>
+    <div class="debut">
+      <p class="debut-t">Par où commencer</p>
+      <div class="cartes">
+    <a class="carte" href="/guso-facile/blog/c-est-quoi-le-guso-concretement">
+      <p class="carte-r">GUSO</p>
+      <p class="carte-t">C'est quoi le GUSO, concrètement ?</p>
+      <p class="carte-d">Le guichet unique qui permet à un employeur occasionnel de déclarer un artiste en une fois. Qui déclare, ce que tu reçois, dans quels délais.</p>
+      <span class="carte-l">6 min de lecture<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/></svg></span>
+    </a>
+    <a class="carte" href="/guso-facile/blog/combien-de-cachets-pour-507-heures">
+      <p class="carte-r">Suivi des heures</p>
+      <p class="carte-t">Combien de cachets faut-il pour atteindre 507 heures ?</p>
+      <p class="carte-d">Un cachet vaut 12 heures, donc environ 43 cachets par an. Voici le calcul complet, avec les répétitions et les plafonds à connaître.</p>
+      <span class="carte-l">6 min de lecture<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/></svg></span>
+    </a>
+    <a class="carte" href="/guso-facile/blog/employeur-ne-m-a-pas-paye-mon-cachet">
+      <p class="carte-r">Paiement</p>
+      <p class="carte-t">Mon employeur ne m'a pas payé mon cachet : que faire ?</p>
+      <p class="carte-d">Relance écrite, mise en demeure, puis prud'hommes : les étapes d'un impayé, les délais à connaître et les interlocuteurs à qui s'adresser.</p>
+      <span class="carte-l">6 min de lecture<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="url(#gf-ink) #e3bd7c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.6 12h13.6"/><path d="M13.1 6.4L18.8 12l-5.7 5.6"/></svg></span>
+    </a>
+      </div>
     </div>
     <div class="somm">
       <p class="somm-t">Par thème</p>

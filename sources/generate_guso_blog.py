@@ -314,6 +314,21 @@ p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216
 # ⚠️ La colonne de lecture d'un article est plafonnee a 760 px : au-dela, la
 #    ligne devient trop longue pour un texte suivi (le site tient ses autres
 #    pages a 820 px, mais elles alternent titres et blocs courts).
+# ⚠️ LES COMMENTAIRES DE CETTE FEUILLE PARTENT DANS LES 19 PAGES. Ce sont des
+#    commentaires CSS, pas HTML — `verif_commentaires` les laisse donc passer,
+#    et c'est normal : ils expliquent une regle a l'endroit ou on la lira. Mais
+#    ils sont RECOPIES DIX-NEUF FOIS. On les garde courts (deux ou trois
+#    lignes), et tout raisonnement plus long va en commentaire Python, ici,
+#    au-dessus de la constante. C'est le cas du bloc « Par ou commencer »
+#    (16/08/2026) :
+#
+#    Il est POSE ENTRE le chapo et le sommaire par themes, et pas plus bas.
+#    Avant lui, le premier ecran de l'index ne montrait QUE du texte
+#    d'introduction et une rangee de pastilles de theme — AUCUN titre
+#    d'article. Quelqu'un qui arrive de Google devait faire defiler pour voir
+#    de quoi parle le blog, alors que c'est le titre qui donne envie de
+#    cliquer : le lecteur y reconnait sa propre question. C'est le meme
+#    constat que celui de David sur /guso-facile, une page plus haut.
 CSS_BLOG = """/* ===== Blog Guso Facile ===== */
 /* Les variables (--coral, --plum2, --grad, --grad-warm), les halos de fond, le
    .divider, le .kick peint au degrade, le bouton principal et la correction de
@@ -432,6 +447,11 @@ section{padding:92px 0}
 .somm ul{list-style:none;display:flex;flex-wrap:wrap;gap:9px 10px}
 .somm a{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border:1px solid rgba(240,209,138,.24);border-radius:999px;font-size:13.5px;color:var(--gold2);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
 .somm a:hover{border-color:rgba(240,209,138,.55)}
+/* « Par ou commencer », en tete d'index. Cartes plus etroites que celles des
+   themes (232 px au lieu de 258) : trois tiennent sur une ligne des 800 px. */
+.debut{margin-top:34px}
+.debut-t{font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--gold);margin-bottom:14px}
+.debut .cartes{grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:18px}
 /* la ligne de renvoi aux organismes, sous le chapo de l'index */
 .bl-note{color:var(--plum2);font-size:15px;line-height:1.62;margin-top:14px;max-width:66ch}
 .bl-note a{color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(240,209,138,.4);text-underline-offset:3px}
@@ -2339,6 +2359,29 @@ THEMES = (
 )
 
 
+# --- les trois articles mis en avant --------------------------------------
+# CE SONT EXACTEMENT LES TROIS DE LA PAGE PRODUIT (`MISE_EN_AVANT` dans
+# `sources/generate_guso.py`), ET C'EST VOULU : quelqu'un qui arrive par
+# /guso-facile puis clique « les dix-huit articles » doit retrouver les memes
+# portes d'entree, au meme endroit. Deux listes differentes donneraient
+# l'impression d'un blog qui change d'avis entre deux pages.
+# Le raisonnement du choix (universalite, trois moments d'une date, et pourquoi
+# les trois articles les plus relies ont ete ECARTES) est ecrit en entier
+# au-dessus de `MISE_EN_AVANT` dans `generate_guso.py` — un seul endroit, pour
+# qu'il ne diverge pas.
+#
+# ⚠️ CES TROIS-LA APPARAISSENT DONC DEUX FOIS SUR L'INDEX : ici, et dans leur
+#    theme plus bas. C'est le fonctionnement normal d'une mise en avant, mais
+#    cela CASSAIT un garde-fou : `main()` comptait les liens `href=".../<slug>"`
+#    et exigeait 18. Il compte desormais les SLUGS DISTINCTS — c'est ce qu'il
+#    voulait verifier depuis le debut (« l'index renvoie bien vers les 18 »).
+MISE_EN_AVANT = (
+    'c-est-quoi-le-guso-concretement',
+    'combien-de-cachets-pour-507-heures',
+    'employeur-ne-m-a-pas-paye-mon-cachet',
+)
+
+
 def url_article(slug):
     return '%s/%s' % (URL_BLOG, slug)
 
@@ -2636,6 +2679,19 @@ def build_index():
       '<span>%sMis à jour le <time datetime="%s">%s</time></span></p>\n'
       % (_ic('carnet'), _ic('calendrier'), DATE_MAJ, DATE_MAJ_FR))
     A('    </div>\n')
+    # « PAR OU COMMENCER » — pose le 16/08/2026, AVANT le sommaire par themes.
+    # L'index se lisait comme un annuaire : trois paragraphes d'introduction,
+    # une rangee de pastilles, et le premier TITRE D'ARTICLE seulement apres
+    # avoir fait defiler. Or c'est le titre qui donne envie de cliquer — le
+    # lecteur y reconnait sa propre question. Ces trois cartes portent donc de
+    # vrais titres, avec leur accroche, dans le premier ecran.
+    # Elles sont HORS de `.col` (limite a 760 px) pour occuper toute la largeur
+    # du `wrap`, comme le sommaire juste en dessous.
+    A('    <div class="debut">\n      <p class="debut-t">Par où commencer</p>\n')
+    A('      <div class="cartes">\n')
+    for s in MISE_EN_AVANT:
+        A(carte(s))
+    A('      </div>\n    </div>\n')
     # Le sommaire par themes evite de faire defiler 18 cartes pour trouver le
     # bon sujet. Ce sont des ancres internes : aucune page supplementaire.
     A('    <div class="somm">\n      <p class="somm-t">Par thème</p>\n      <ul>\n')
@@ -2995,6 +3051,23 @@ def _controle_index(html):
     for u in ('https://www.francetravail.fr', 'https://www.guso.fr'):
         if 'href="%s"' % u not in html:
             ennuis.append('l’index ne renvoie pas vers %s' % u)
+
+    # « Par ou commencer » : le bloc existe, il contient exactement les trois
+    # articles de `MISE_EN_AVANT`, et dans cet ordre. Sans ce controle, une
+    # carte perdue ne se verrait qu'a l'oeil — et le premier ecran de l'index
+    # redeviendrait ce qu'il etait : du texte, sans un seul titre d'article.
+    if html.count('<div class="debut">') != 1:
+        ennuis.append('%d bloc « Par où commencer » (attendu : 1)'
+                      % html.count('<div class="debut">'))
+    bloc = re.search(r'<div class="debut">(.*?)\n    </div>\n', html, re.S)
+    if not bloc:
+        ennuis.append('le bloc « Par où commencer » n’est pas refermé correctement')
+    else:
+        mis = re.findall(r'href="%s/([a-z0-9-]+)"' % re.escape(URL_BLOG), bloc.group(1))
+        if tuple(mis) != MISE_EN_AVANT:
+            ennuis.append('« Par où commencer » met en avant %s (attendu : %s)'
+                          % (', '.join(mis) or '-', ', '.join(MISE_EN_AVANT)))
+
     if ennuis:
         raise SystemExit(
             '!! ABANDON : guso-facile/blog/index.html\n%s\n'
@@ -3049,6 +3122,22 @@ def _controles_structure():
     for slug in AVERT_DEJA_EN_TETE:
         if slug not in SLUGS:
             ennuis.append('AVERT_DEJA_EN_TETE vise un article inconnu : %s' % slug)
+    # les trois mis en avant existent, et ce sont trois articles differents
+    if len(set(MISE_EN_AVANT)) != 3:
+        ennuis.append('MISE_EN_AVANT contient deux fois le meme article')
+    for slug in MISE_EN_AVANT:
+        if slug not in SLUGS:
+            ennuis.append('MISE_EN_AVANT vise un article inconnu : %s' % slug)
+    # ⚠️ AUCUN ARTICLE ORPHELIN. Un article que personne ne cite n'est atteint
+    # que par l'index : ni un lecteur qui suit le fil, ni un moteur qui suit les
+    # liens ne tombe dessus. Mesure du 16/08/2026 : zero orphelin, le moins cite
+    # l'etant une fois. Ce controle interdit qu'une refonte du maillage en
+    # laisse un derriere.
+    cites = set(s for a in ARTICLES for s in a['suite'])
+    orphelins = sorted(set(SLUGS) - cites)
+    if orphelins:
+        ennuis.append('article(s) orphelin(s) — cite(s) par aucun autre : %s'
+                      % ', '.join(orphelins))
     if ennuis:
         raise SystemExit('!! ABANDON (structure) :\n%s'
                          % '\n'.join('   - ' + e for e in ennuis))
@@ -3068,9 +3157,19 @@ def main():
     html = nav_menu.inject(html, 'guso-facile')   # 2. puis le menu partage
     _controle_page(html, 'guso-facile/blog/index.html')
     _controle_index(html)
-    if html.count('href="%s/' % URL_BLOG) != len(ARTICLES):
-        raise SystemExit('!! ABANDON : l’index ne renvoie pas vers exactement %d articles.'
-                         % len(ARTICLES))
+    # ⚠️ ON COMPTE LES SLUGS DISTINCTS, PAS LES LIENS. Jusqu'au 16/08/2026 ce
+    # controle comptait les occurrences de `href=".../` et exigeait 18 : depuis
+    # que le bloc « Par où commencer » remet trois articles en tete, il y en a
+    # 21. Ce qu'il fallait verifier n'a pas change — que les DIX-HUIT articles
+    # soient tous atteignables depuis l'index, et qu'aucun lien ne pointe
+    # ailleurs. C'est exactement ce que dit la comparaison d'ensembles.
+    vus = set(re.findall(r'href="%s/([a-z0-9-]+)"' % re.escape(URL_BLOG), html))
+    if vus != set(SLUGS):
+        raise SystemExit(
+            '!! ABANDON : l’index ne renvoie pas vers les %d articles.\n'
+            '   absents : %s\n   inconnus : %s'
+            % (len(ARTICLES), ', '.join(sorted(set(SLUGS) - vus)) or '-',
+               ', '.join(sorted(vus - set(SLUGS))) or '-'))
     pages.append((os.path.join(OUT_DIR, 'index.html'), html))
 
     for a in ARTICLES:
