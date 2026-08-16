@@ -78,7 +78,10 @@ b{color:#fff;font-weight:500}
 .fig{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
 .fig img{display:block;width:100%}
 .fig figcaption{color:var(--muted);font-size:13.5px;line-height:1.55;padding:12px 16px 14px;border-top:1px solid rgba(255,255,255,.06)}
+/* carte claire : sa legende passe en prune sombre, sinon 2,10:1
+   (voir la note du generateur) */
 .fig.on-white{background:#f4f2ee}
+.fig.on-white figcaption{color:#4a4760;border-top-color:rgba(0,0,0,.10)}
 @media(max-width:820px){.two{grid-template-columns:1fr;gap:26px}}
 /* fiche pratique */
 .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:30px}

@@ -1028,6 +1028,15 @@ JSONLD = """<script type="application/ld+json">
 
 
 # --- socle commun aux 9 pages (couleurs, typo, nav, boutons, footer) ------
+# ⚠️ 16/08/2026 — `.legal` : #6b6b80 -> #8b8ba6, ET CETTE PAGE ETAIT LA SEULE
+#    A NE PAS L'AVOIR. Sur le pied de page #08091a, l'ancienne valeur donnait
+#    3,80:1, sous le seuil de 4,5:1. `theme_chaleur.py` avait corrige ce defaut
+#    le 15/08 pour tout le site — mais /guso-facile N'IMPORTE PAS ce module :
+#    elle est l'ORIGINE du langage visuel et porte sa propre copie de la couche.
+#    Resultat : 29 pages reparees, celle-ci oubliee, et personne ne pouvait le
+#    voir en lisant `theme_chaleur.py` qui affirmait « sur les 10 pages ».
+#    Trouve en mesurant les contrastes dans le navigateur, page par page.
+#    #8b8ba6 = 5,96:1, et reste tout aussi discret.
 CSS_BASE = """:root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -1071,7 +1080,8 @@ footer a.btn,footer a.adh{padding:14px 30px}
 footer a:hover{color:var(--gold2)}
 footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.35);text-underline-offset:3px}
 .fbrand{letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
-.legal{margin-top:40px;text-align:center;color:#6b6b80;font-size:13px}
+/* pied de page : #6b6b80 donnait 3,80:1 (voir la note du generateur) */
+.legal{margin-top:40px;text-align:center;color:#8b8ba6;font-size:13px}
 @media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:24px}section{padding:60px 0}}
 p a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 """

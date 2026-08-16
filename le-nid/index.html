@@ -321,6 +321,9 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 /* la liste d'agenda garde la surface sur laquelle son code couleur a ete
    calibre : `--c` est la couleur de texte des 20 boutons de billetterie */
 .ag-item{background:#191b3d}
+/* le fond du bouton s'assombrit au lieu de s'eclaircir : contraste des 20
+   boutons de billetterie (voir la note du generateur) */
+.ag-btn{background:rgba(0,0,0,.14)}
 .hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
 /* ⚠️ `width:fit-content` ET SURTOUT PAS `display:inline-block` ici. Mesure
    faite a l'ecran : `.offer-dates span` est un BLOC suivi, dans le meme

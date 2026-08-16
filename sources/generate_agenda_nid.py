@@ -641,10 +641,27 @@ CSS_DATES = """.offer-dates{margin-top:14px;padding-top:12px;border-top:1px soli
 #    couleur a ete calibre. Le reste de la page (cartes du programme, encarts)
 #    profite normalement du nouvel etagement.
 #    ⚠️ Si un jour `--card` rebouge, cette ligne ne suit PAS toute seule.
+#
+# 🚩 ET LE FOND DES BOUTONS S'ASSOMBRIT — le SEUL endroit du code couleur qui
+#    bouge, et il ne touche a AUCUNE des six teintes. `.ag-btn` posait
+#    rgba(255,255,255,.05) PAR-DESSUS la carte : le texte colore se retrouvait
+#    donc sur #242647, plus clair que la carte elle-meme. « Workshop rythme »
+#    (#8f7ad1) y etait a 4,07:1 — SOUS le seuil de 4,5:1, et deja avant la
+#    refonte. Trouve en relisant les contrastes REELLEMENT CALCULES par le
+#    navigateur sur les 30 pages, pas en relisant le CSS.
+#      monter la carte      -> 3,72:1  (pire)
+#      epingler seulement   -> 4,07:1  (le statu quo, toujours en panne)
+#      rgba(0,0,0,.14)      -> 4,87:1  (fond #161734)
+#    Les six types repassent au-dessus du seuil : mensuel 8,65 · concert 6,61 ·
+#    yoga 7,29 · rythme 4,87 · showcase 6,04 · residence 6,66. Un fond neutre
+#    n'est pas un code : aucune information n'est portee par ce gris.
 CSS_CHALEUR = """/* ===== Le Nid : declinaisons chaleureuses ===== */
 /* la liste d'agenda garde la surface sur laquelle son code couleur a ete
    calibre : `--c` est la couleur de texte des 20 boutons de billetterie */
 .ag-item{background:#191b3d}
+/* le fond du bouton s'assombrit au lieu de s'eclaircir : contraste des 20
+   boutons de billetterie (voir la note du generateur) */
+.ag-btn{background:rgba(0,0,0,.14)}
 .hero h1{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;width:fit-content;max-width:100%;margin:0 auto}
 /* ⚠️ `width:fit-content` ET SURTOUT PAS `display:inline-block` ici. Mesure
    faite a l'ecran : `.offer-dates span` est un BLOC suivi, dans le meme

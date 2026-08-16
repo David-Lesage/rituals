@@ -151,6 +151,18 @@ def picture(name, sizes, css_class='', sizes_attr='100vw', eager=False):
 
 MAILTO_CONTACT = 'mailto:contact@resonancesproductions.org'
 
+# ⚠️ 16/08/2026 — `.fig.on-white` : UNE CARTE CLAIRE DANS UNE PAGE SOMBRE, ET
+#    UNE LEGENDE RESTEE SOMBRE-SUR-CLAIR. La regle `.fig.on-white{background:
+#    #f4f2ee}` repeint le fond de la figure (la photo de la calebasse est prise
+#    sur fond blanc, une carte sombre l'aurait encadree d'un halo noir), mais la
+#    legende continuait d'heriter `color:var(--muted)` de `.fig` — soit #a9a6c4
+#    sur #f4f2ee : 2,10:1. Du gris clair sur du blanc casse, illisible.
+#    Anterieur a la refonte du 16/08 ; trouve en relisant les contrastes
+#    REELLEMENT CALCULES par le navigateur sur les 30 pages, pas en relisant le
+#    CSS — aucune inspection de code ne l'avait vu depuis la creation de la page.
+#    `#4a4760` donne 7,95:1 et reste dans la famille prune sombre. Le filet du
+#    haut, blanc a 6 %, etait lui aussi invisible sur clair : il passe au noir a
+#    10 %, meme discretion.
 CSS = """
 :root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--plum:#8f7ad1;--card:#191b3d;--line:rgba(216,178,90,.26)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -212,7 +224,10 @@ b{color:#fff;font-weight:500}
 .fig{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
 .fig img{display:block;width:100%}
 .fig figcaption{color:var(--muted);font-size:13.5px;line-height:1.55;padding:12px 16px 14px;border-top:1px solid rgba(255,255,255,.06)}
+/* carte claire : sa legende passe en prune sombre, sinon 2,10:1
+   (voir la note du generateur) */
 .fig.on-white{background:#f4f2ee}
+.fig.on-white figcaption{color:#4a4760;border-top-color:rgba(0,0,0,.10)}
 @media(max-width:820px){.two{grid-template-columns:1fr;gap:26px}}
 /* fiche pratique */
 .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:30px}
