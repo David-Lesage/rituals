@@ -44,3 +44,4 @@ venv/
 # --- serveurs locaux de verification ----------------------------------------
 # (`python3 -m http.server` pour regarder le site avant publication)
 .serveur-local.pid
+.vercel
