@@ -513,6 +513,98 @@ seul octet.
 
 ## Journal
 
+### 2026-08-17 — 🚨 `git push` NE SUFFIT PLUS À PUBLIER — lire avant toute mise en ligne
+
+**La section « COMMENT ON MODIFIE LE SITE » en tête de ce fichier dit que Vercel met le site en
+ligne tout seul ~40 s après le `push`. Ce n'est plus vrai depuis la nuit du 17/08.**
+
+**Ce qui se passe réellement** : à chaque `git push`, Vercel construit bien un déploiement
+(`● Ready`, `Production`) — **mais ne le rattache plus au domaine**. `vercel inspect` montre une
+section `Aliases` **vide**. Le domaine reste figé sur un ancien déploiement, et le site paraît en
+retard alors que tout est publié. Constaté sur plusieurs commits d'affilée : une page avait le
+nouveau titre pendant qu'une autre n'avait pas les nouveaux textes.
+
+**Contournement utilisé cette nuit** (à refaire à CHAQUE publication tant que ce n'est pas réparé) :
+
+```
+npx vercel ls rituals | grep -E "rituals-" | head -1     # le plus recent — VERIFIER L'AGE
+npx vercel alias set <url-du-deploiement> www.resonancesproductions.org
+```
+
+⚠️ **Le projet Vercel du site s'appelle `rituals`** (nom historique), pas « resonances ».
+
+🚨 **PIÈGE VÉCU, à ne pas refaire** : un `sed -n '5p'` censé attraper « la première ligne » a
+désigné un déploiement **vieux de 2 h**. Le domaine a pointé ~1 min sur une version antérieure —
+**le site a régressé en production**. Toujours **relire l'âge** de la ligne (`24s`, `1m`) avant
+d'aliaser, et **revérifier en ligne après**, par `curl`, un contenu qu'on vient de publier.
+
+🚨 **NE PAS lancer `npx vercel --prod` à la racine du projet** : il ne connaît pas le projet
+`rituals` et **crée un projet Vercel parasite** nommé d'après le dossier (`resonances-site`),
+plus un `.vercel/` local qui pointe dessus. Arrivé le 17/08 ; projet et dossier supprimés,
+`.gitignore` complété. Si ça se reproduit : `npx vercel project rm <nom>` — interactif, et
+**ne pas** tenter `yes |` (la commande boucle et produit des dizaines de Mo de sortie).
+
+**À réparer au calme** : soit relier proprement le dossier au projet `rituals`
+(`npx vercel link`), soit voir au tableau de bord pourquoi `main` ne promeut plus en production.
+Tant que ce n'est pas fait, **une publication n'est finie que lorsque l'alias est posé ET vérifié
+en ligne**.
+
+---
+
+### 2026-08-17 — `/guso-facile` raccourcie de 12,7 % sur téléphone (3 couches)
+
+Décidé avec David : réduire le défilement **sans rien cacher de ce qui convainc**.
+Commits `aace928` (sommaire) → `1199902` (repli) → `3775d58` (module retour-en-haut).
+
+| Largeur | Avant | Après | Gain |
+|---|---|---|---|
+| 390 px | 25 455 px | **22 222 px** | **−12,7 %** |
+| 820 px | 16 648 px | 15 450 px | −7,2 % |
+| 1440 px | 15 038 px | 14 098 px | −6,3 % |
+
+**Couche 1 — sommaire** : 5 liens vers des ancres **qui existaient déjà** (`#promesse` « Ce que
+ça change », `#situations` « Pour qui », `#fonctionnalites` « Ce qu'il y a dedans », `#faq`
+« Questions », `#acces` « Demander un accès »). Coût : +193 px à 390, **0 à 1440**.
+⚠️ **Défaut trouvé et corrigé au passage : les ancres atterrissaient SOUS le menu fixe** (barre
+de 110 px à 390 px). `scroll-margin-top` posé. Le défaut existait déjà pour « Demander un accès ».
+
+**Couche 2 — repli de l'INVENTAIRE seulement** : les 29 puces des 4 univers, derrière « Les 7 /
+8 fonctionnalités ». **Titres et sous-titres des cartes restent ouverts** — c'est là que la carte
+dit ce qu'elle change. 🚨 **Règle à tenir : on replie ce qui s'inventorie, jamais ce qui
+convainc.** Un titre fermé n'est presque jamais ouvert ; replier un argument, c'est le perdre.
+`<details>`/`<summary>` natifs, zéro JS. La **FAQ était déjà repliée** depuis le 15/08 (d'où un
+gain plus faible qu'espéré) et son **JSON-LD `FAQPage` est inchangé à l'octet**.
+
+**Couche 3 — `sources/retour_haut.py`** : le bouton existait déjà sur `/guso-facile`, **recopié à
+l'identique dans 5 générateurs**. Extrait en module partagé (modèle `visionneuse.py`), extraction
+prouvée neutre (md5 identique). **7 pages ne l'ont toujours pas** : `/`, `/association`,
+`/rituals`, `/rituals-trio`, `/e-motion`, `/le-nid`, le blog. Import + 3 appels, marche à suivre
+écrite dans le module ; les 4 autres générateurs devront migrer avec preuve md5.
+
+**Signalés, non corrigés** : la pastille « retour en haut » occupe la colonne 326–372 à 390 px et
+**croise 15 éléments interactifs** sur leur extrémité droite (3 cartes d'article, 2 blocs blog,
+6 titres de FAQ — tous antérieurs — et les 4 nouveaux titres repliables) ; **jamais** un champ du
+formulaire ni le bouton d'envoi, et rien à 1440. · La **barre de menu est anormalement haute sur
+téléphone** : 144 px à 320, 110 à 390, contre 75 à 1440, alors que ses éléments visibles font
+44 px — c'est elle qui impose le `scroll-margin-top`. · **Sans JavaScript, le hamburger n'existe
+pas** (créé par `mobile_nav.py`) : sur téléphone le menu du site devient inatteignable. Antérieur.
+
+---
+
+### 2026-08-17 — `/solune` et `/au-nid` supprimées, avec redirections
+
+Sur décision de David (`c7f17df`) : invisibles (aucun lien du site n'y menait) et déjà remplacées
+dans les faits. Elles ne disparaissent pas sèchement — **redirections 301** `/solune` →
+`/e-motion` et `/au-nid` → `/le-nid`, pour qu'un lien externe ou un signet n'atterrisse pas sur
+une erreur.
+🚨 **Leurs `Disallow:` ont été RETIRÉS de `robots.txt`, et c'est volontaire** : un `Disallow`
+empêche Google d'aller **constater** la redirection, donc de reporter le référencement sur la
+page qui remplace. Le contrôle `plan` refuse maintenant l'écriture si l'un des trois éléments
+manque (dossier encore présent / redirection absente / `Disallow` remis) — voir `SUPPRIMEES` dans
+`verif_site.py`. **Il ne reste plus aucune page sans générateur.**
+
+---
+
 ### 2026-08-17 — une seule photo du Grand Rex, sous un nom qui dit qui est dessus
 
 **Deux jeux de fichiers contenaient la même photo** : `au-grand-rex-{480,900,1400}` et
