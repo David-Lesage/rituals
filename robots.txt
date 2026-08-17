@@ -12,9 +12,4 @@ Disallow: /au-nid
 # n'a aucune valeur en referencement et n'a rien a faire dans Google.
 Disallow: /guso-facile/app
 
-# Page de passage des liens d'invitation de Guso Facile. Elle ne contient aucun
-# contenu a indexer : elle lit le fragment de l'adresse et rebondit vers
-# l'application. Une adresse d'invitation n'a rien a faire dans un moteur.
-Disallow: /guso-facile/invitation
-
 Sitemap: https://www.resonancesproductions.org/sitemap.xml

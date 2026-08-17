@@ -29,10 +29,6 @@ a la main et trop tard. Ils sont ici pour qu'aucun ne puisse recommencer.
  11. partage          sept pages partageaient la meme vignette d'apercu, et
                       rien ne verifiait que le fichier annonce existait ni que
                       ses dimensions etaient les bonnes
- 12. technique        la page de passage des invitations n'est PAS une page du
-                      site (le compte reste a 30) : aucun controle ne la
-                      relisait, ni son noindex, ni son Disallow, ni le rebond
-                      qui conserve le fragment `#invite=…`
 
 CE QU'IL NE FAIT PAS
 --------------------
@@ -102,30 +98,6 @@ PAGES = (
 #: ete tranchee par David — on ne les efface pas, on verifie juste qu'ils
 #: restent bien invisibles.
 ORPHELINES = ('/solune', '/au-nid')
-
-# --------------------------------------------------------------------------- #
-# LES PAGES TECHNIQUES  —  de vrais fichiers, mais PAS des pages du site
-# --------------------------------------------------------------------------- #
-# ⚠️ POURQUOI ELLES NE SONT PAS DANS `PAGES` (decide le 17/08/2026).
-#    `/guso-facile/invitation` est un fichier HTML bien reel, servi par Vercel
-#    comme n'importe quelle page. Mais ce n'est pas une PAGE : elle n'a ni menu,
-#    ni pied de page, ni image de partage, ni contenu a lire — c'est un
-#    aiguillage, qui existe une demi-seconde entre le lien recu et
-#    l'application. L'inscrire dans `PAGES` aurait fait echouer le controle
-#    `plan` de deux facons a la fois, et pour de BONNES raisons : il l'aurait
-#    exigee dans `sitemap.xml` (une adresse d'invitation n'a rien a faire dans
-#    Google) et aurait refuse son `Disallow` dans `robots.txt` (« c'est une page
-#    publiee, elle ne doit pas etre interdite aux moteurs »). Le compte reste
-#    donc a 30 pages publiees, et ce qu'il faut verifier sur ce fichier-la est
-#    verifie ici, explicitement, par le controle `technique`.
-#    CE N'EST PAS UNE EXEMPTION : sans cette table, la page ne serait relue par
-#    RIEN. Avec elle, sept exigences sont opposees a chaque passage.
-PAGES_TECHNIQUES = (
-    ('/guso-facile/invitation', 'guso-facile/invitation/index.html',
-     "page de passage des liens d'invitation de Guso Facile : elle recolle le "
-     "fragment #invite=... que la plateforme perdrait dans une redirection. "
-     "Notes completes dans sources/notes_pages_sans_generateur.py."),
-)
 
 # --------------------------------------------------------------------------- #
 # LISTES BLANCHES  —  ce qui est deja publie et assume
@@ -919,76 +891,6 @@ def controle_partage(pages):
     return pbs
 
 
-# --------------------------------------------------------------------------- #
-# 12. PAGES TECHNIQUES  (l'aiguillage des invitations)
-# --------------------------------------------------------------------------- #
-
-def controle_technique(pages):
-    """Les pages de `PAGES_TECHNIQUES` : invisibles aux moteurs, et fonctionnelles.
-
-    Ce que ce controle attrape, et qui se casserait EN SILENCE — la page
-    continuerait de s'afficher, seule l'invitation echouerait :
-
-      * le fichier disparait (un `git mv` malheureux) ;
-      * `noindex,nofollow` saute et l'adresse d'invitation part dans Google ;
-      * la ligne `Disallow` quitte robots.txt, ou la page entre au sitemap ;
-      * quelqu'un « simplifie » le rebond en `location.href` — l'invite qui
-        appuie sur « precedent » se retrouve alors dans un aller-retour ;
-      * quelqu'un « simplifie » le fragment en `?invite=` — le jeton part
-        des lors dans les journaux du serveur et les en-tetes `Referer` ;
-      * une note de redaction revient en commentaire dans le HTML livre.
-    """
-    pbs = []
-
-    chemin_robots = os.path.join(RACINE, 'robots.txt')
-    robots = ''
-    if os.path.exists(chemin_robots):
-        with open(chemin_robots, encoding='utf-8') as f:
-            robots = f.read()
-    interdites = set(re.findall(r'(?im)^\s*Disallow:\s*(\S+)\s*$', robots))
-
-    chemin_plan = os.path.join(RACINE, 'sitemap.xml')
-    listees = set()
-    if os.path.exists(chemin_plan):
-        with open(chemin_plan, encoding='utf-8') as f:
-            plan = f.read()
-        for loc in re.findall(r'<loc>\s*([^<]+?)\s*</loc>', plan):
-            listees.add(re.sub(r'^https?://[^/]+', '', loc).rstrip('/') or '/')
-
-    for url, rel, _pourquoi in PAGES_TECHNIQUES:
-        chemin = os.path.join(RACINE, rel)
-        if not os.path.exists(chemin):
-            pbs.append('%s : PAGE TECHNIQUE ABSENTE du depot — l\'adresse %s '
-                       'renverra 404' % (rel, url))
-            continue
-        with open(chemin, encoding='utf-8') as f:
-            html = f.read()
-
-        if not re.search(r'<meta\s+name="robots"\s+content="noindex[^"]*"', html):
-            pbs.append('%s : la balise <meta name="robots" content="noindex,…"> '
-                       'a disparu — cette adresse serait indexable' % rel)
-        if url not in interdites:
-            pbs.append('robots.txt : %s n\'y est plus interdite aux moteurs' % url)
-        if url in listees:
-            pbs.append('sitemap.xml : %s ne doit pas figurer dans le plan du site' % url)
-
-        if 'location.replace(' not in html:
-            pbs.append('%s : le rebond ne passe plus par location.replace() — avec '
-                       'location.href, « precedent » ramene ici et repart aussitot' % rel)
-        if 'location.hash' not in html:
-            pbs.append('%s : le fragment (location.hash) n\'est plus lu — les invites '
-                       'arriveraient sans leur code' % rel)
-        if re.search(r'[?&]invite=', html):
-            pbs.append('%s : le jeton passe en parametre de requete (?invite=) — il '
-                       'partirait dans les journaux du serveur et les en-tetes '
-                       'Referer. Il doit rester dans le fragment.' % rel)
-
-        for pos, pourquoi, texte in verif_commentaires.anomalies(html):
-            pbs.append('%s : %s (car. %d) — %s'
-                       % (rel, pourquoi, pos, verif_commentaires._apercu(texte, 90)))
-    return pbs
-
-
 CONTROLES = (
     ('commentaires', 'Aucune note de travail dans le code des pages', controle_commentaires),
     ('menu',         'Menu present une fois, complet, sans doublon',   controle_menu),
@@ -1001,7 +903,6 @@ CONTROLES = (
     ('plan',         'Plan du site, robots.txt et redirections a jour', controle_plan),
     ('google',       'Verification Search Console posee une seule fois', controle_verification),
     ('partage',      'Image de partage propre a chaque page, verifiee',  controle_partage),
-    ('technique',    'Pages techniques hors site : muettes et fonctionnelles', controle_technique),
 )
 
 
