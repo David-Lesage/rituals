@@ -72,6 +72,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
 import nav_menu  # noqa: E402
 import theme_chaleur  # couche chaleureuse commune  # noqa: E402
+import visionneuse  # visionneuse photo commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 # ⚠️ RETRAIT DU 15/08/2026 — une regle CSS de moins dans le bloc ci-dessous.
@@ -301,7 +302,27 @@ section{padding:92px 0}
 @media(max-width:760px){section{padding:66px 0}}
 """)
 
-CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
+# --------------------------------------------------------------------------
+# LA VISIONNEUSE PHOTO (17/08/2026)
+# --------------------------------------------------------------------------
+# Les 9 photos de la page s'ouvrent en grand au clic. Tout est dans
+# `sources/visionneuse.py` — meme visionneuse que sur les six autres pages a
+# photos du site.
+# ⚠️ ARGUMENT VIDE, ET C'EST MESURE : les legendes de cette page sont des
+#    `<figcaption>` posees SOUS l'image, dans le flux (`.soa-fig figcaption` a
+#    un `padding` et un `border-top`, aucun `position:absolute`). Rien ne
+#    recouvre le bas des photos, donc rien a rendre transparent au clic.
+#    Verifie par `elementFromPoint` sur les 9 photos.
+CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR + visionneuse.css('')
+
+# Les 9 photos, dans l'ordre du document : l'affiche du hero, les 3 portraits
+# des intervenants, le cercle d'ouverture, l'Espace Corps, puis les 3 photos de
+# la galerie du bas. `.who-ph` ce sont les portraits, `.soa-fig` tout le reste.
+# ⚠️ LES 3 PORTRAITS NE SONT PUBLIES QU'EN 260 px : ils s'ouvriront donc a
+#    260 px, a peine plus grands qu'a l'ecran (140 px). La visionneuse
+#    n'agrandit JAMAIS au-dela de la definition du fichier — au-dela ce serait
+#    flou. Une variante plus large de ces trois portraits reglerait la chose.
+VIS_JS = visionneuse.js('.soa-fig img, .who-ph img')
 
 IMGDIR = '/img/soin-soa'
 SOA_PHOTOS = {
@@ -692,7 +713,7 @@ HTML = f"""<!DOCTYPE html>
 }})();
 </script>
 
-</body></html>"""
+{VIS_JS}</body></html>"""
 
 HTML = mobile_nav.inject(HTML)
 # menu de navigation partage : remplace le <div class="links"> ci-dessus
@@ -743,6 +764,15 @@ def _rapatrier_retouches(html):
 
 
 HTML = _rapatrier_retouches(HTML)
+
+# Garde-fou : la visionneuse tient a DEUX choses, sa feuille de style et son
+# script. Perdre l'une des deux ne casserait rien a l'ecran — les photos
+# cesseraient simplement d'etre cliquables, en silence.
+for _marqueur, _role in (('.ph{position:fixed', 'feuille de style de la visionneuse'),
+                         ("var SEL='.soa-fig img", 'script de la visionneuse')):
+    if HTML.count(_marqueur) != 1:
+        raise SystemExit('!! ABANDON : %d occurrence(s) de « %s » (%s), attendu 1. '
+                         'Page NON ecrite.' % (HTML.count(_marqueur), _marqueur, _role))
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'soin_soa_final.html')
 # Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire HTML
