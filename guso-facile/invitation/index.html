@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Votre invitation — Guso Facile</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0e0f24">
+<style>
+:root{--night:#0e0f24;--night2:#141633;--ink:#eae7f3;--muted:#a9a6c4;--gold:#d8b25a;--gold2:#f0d18a;--card:#191b3d;--line:rgba(216,178,90,.26)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--night);color:var(--ink);font-family:'Jost',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.75;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 22px}
+.card{width:100%;max-width:520px;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:44px 26px 38px}
+.kick{letter-spacing:.32em;text-transform:uppercase;font-size:12px;font-weight:600;color:var(--gold);margin-bottom:18px}
+h1{font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;font-weight:600;font-size:clamp(28px,7vw,40px);line-height:1.12;margin-bottom:12px}
+p{color:var(--muted);margin:0 auto 10px;max-width:38ch}
+.dots{display:flex;gap:8px;justify-content:center;margin:24px 0 22px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--gold);opacity:.28;animation:puls 1.4s ease-in-out infinite}
+.dots i:nth-child(2){animation-delay:.18s}
+.dots i:nth-child(3){animation-delay:.36s}
+@keyframes puls{0%,100%{opacity:.22}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.dots i{animation:none;opacity:.5}}
+.go{display:inline-block;margin-top:6px;padding:13px 24px;border-radius:999px;border:1px solid var(--gold);color:var(--gold2);font-weight:600;letter-spacing:.02em;text-decoration:none;max-width:100%;overflow-wrap:anywhere}
+.go:hover,.go:focus-visible{background:var(--gold);color:var(--night)}
+.fine{font-size:14px;margin-top:20px;color:var(--muted);opacity:.8}
+</style>
+</head>
+<body>
+<main class="card">
+  <p class="kick">Guso Facile</p>
+  <h1>Un instant…</h1>
+  <p>On vous emmène sur Guso Facile pour ouvrir votre invitation.</p>
+  <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+  <a class="go" href="https://guso-facile.vercel.app/index.html">Continuer vers Guso Facile</a>
+  <p class="fine">Si rien ne se passe, utilisez le bouton ci-dessus.</p>
+  <noscript>
+    <p class="fine">Votre navigateur bloque JavaScript. Le bouton ouvre bien Guso Facile, mais votre invitation ne sera pas reconnue : autorisez JavaScript sur cette page, puis rechargez-la depuis le lien reçu.</p>
+  </noscript>
+</main>
+<script>
+(function(){
+  var base = 'https://guso-facile.vercel.app/index.html';
+  var frag = window.location.hash || '';
+  window.location.replace(base + frag);
+})();
+</script>
+</body>
+</html>
