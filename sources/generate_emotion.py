@@ -54,6 +54,159 @@ OUT_HTML = os.path.join(OUT_DIR, 'index.html')
 
 
 # --------------------------------------------------------------------------- #
+# LA SECTION « AU GRAND REX » (17/08/2026)
+# --------------------------------------------------------------------------- #
+# Onze photos du Grand Rex (Paris), fournies par David et publiees a sa demande.
+#
+# POURQUOI CES ONZE-LA, ET PAS TREIZE. David en avait retrouve treize.
+#  - Une est ECARTEE : son filigrane « MAGYE D'ART Production » est repete en
+#    mosaique sur toute l'image, par-dessus les visages — c'est une epreuve de
+#    previsualisation, pas un tirage. Decision prise avec David.
+#  - Une autre est un DOUBLON de `img/rituals/grand-rex-bras-leves-*`, deja
+#    publiee sur /rituals : c'est le meme cliche (la salle projetee sur l'ecran
+#    geant, l'equipe bras leves), simplement en definition superieure. Verifie a
+#    l'oeil, pas au md5 : les fichiers du depot sont redimensionnes, leur
+#    empreinte ne peut pas correspondre. On ne republie pas.
+#
+# LES DEUX PHOTOGRAPHES. Le nom est LISIBLE sur le filigrane, en bas a droite de
+# chaque image : huit portent « MAGYE D'ART », trois « Nadine Court
+# PHOTOGRAPHE ». Le credit est donc pose photo par photo, jamais en bloc.
+# ⚠️ Le site de Nadine Court affiche « Nadine Tremblay ». On credite « Nadine
+#    Court », le nom qu'elle a SIGNE sur l'image — meme regle que sur /rituals.
+# ⚠️ Les filigranes discrets restent visibles sur les photos publiees : arbitre
+#    par David (« tant pis pour les filigranes, la photographe est citee avec le
+#    lien vers son site »). Ne pas y revenir.
+#
+# CE QU'ON NE DIT PAS. La legende de la section est la mention seule, telle que
+# David l'a ecrite : « Grand Rex, Paris — 2 700 personnes. » Pas de « dans le
+# cadre de », pas de nom de production, pas de contexte. Consigne ferme :
+# « on n'a pas besoin de tout justifier tout le temps ».
+#
+# LES NOMS DE PERSONNES. Seul David Lesage est nomme, la ou il est formellement
+# identifiable (cheveux longs, ngoni sur calebasse, micro-casque). Les autres
+# artistes sont DECRITS, jamais nommes : le projet a deja publie une
+# identification erronee sur /rituals, corrigee apres coup. Dans le doute, on
+# decrit ce qu'on voit.
+#
+# STRUCTURE. Exactement celle de la galerie du dessus, ne pas la « simplifier » :
+#     .gal-item  >  .gal-ph (la photo + sa legende `.c`)  +  .cred (le credit)
+# C'est aussi ce qui met ces photos DANS LA VISIONNEUSE sans toucher a son
+# selecteur : elle prend `.gal-item img`. Une structure hors de ce moule serait
+# la structure a corriger, pas le selecteur.
+#
+# LES DERIVEES. Fabriquees a part (Pillow, LANCZOS, WebP q80 / JPEG q82
+# progressif — les reglages de `generate_site.py`), en 480/900/1400 px, plus une
+# 2000 px quand l'original le permet : la visionneuse zoome dans la PLUS GRANDE
+# variante du `srcset`, donc une 2000 px vaut un zoom net. Les deux photos
+# verticales (1440 px de large a l'origine) s'arretent a 1400 — on ne fabrique
+# jamais une variante plus grande que la source, elle serait floue.
+# Les originaux ne sont pas dans le depot : comme `grand-rex-bras-leves`, cette
+# serie n'a pas de recette rejouable ici.
+
+#: photographes cites, et leur site. Meme table que `generate_site.py`.
+CRED_PHOTO = {
+    "MAGYE D'ART": 'https://magyedart.fr/',
+    'Nadine Court': 'https://kairos-photo-artisan.com/',
+}
+
+#: (nom de fichier, largeurs disponibles, hauteur de la plus grande, photographe,
+#: legende affichee sous la photo, texte alternatif).
+#: L'ordre est celui de la page : la salle d'abord, puis le plateau.
+PHOTOS_REX = (
+    ('grand-rex-la-salle-debout', (480, 900, 1400, 2000), 1331, 'Nadine Court',
+     'La salle debout, bras levés',
+     'La salle du Grand Rex debout : au premier rang, des spectateurs les bras '
+     'tendus vers la scène ; derrière eux, les deux balcons pleins jusqu’en haut, '
+     'découpés par les projecteurs.'),
+    ('grand-rex-le-plateau-et-l-ecran', (480, 900, 1400, 2000), 1331, 'Nadine Court',
+     'Le plateau et l’écran géant',
+     'Sur le plateau du Grand Rex, une dizaine d’artistes en tenue sombre tendent '
+     'les mains vers la salle ; au-dessus d’eux, l’écran géant reprend trois '
+     'd’entre eux en gros plan. David Lesage est assis au centre derrière sa '
+     'calebasse, une artiste en rouge se tient à droite.'),
+    ('grand-rex-au-milieu-des-tambours', (480, 900, 1400, 2000), 1331, 'Nadine Court',
+     'Au milieu des tambours',
+     'David Lesage, assis derrière sa calebasse, rit aux côtés d’une artiste en '
+     'rouge ; tout autour d’eux, debout, des musiciennes et des musiciens tiennent '
+     'des tambours sur cadre, mailloche levée. Au premier plan, des silhouettes '
+     'floues.'),
+    ('grand-rex-chant-et-ngoni', (480, 900, 1400, 2000), 1333, "MAGYE D'ART",
+     'Le chant et le ngoni',
+     'David Lesage, micro-casque au visage, chante en jouant du ngoni monté sur '
+     'calebasse ; derrière lui un homme debout en tunique claire, devant lui une '
+     'artiste agenouillée qui tient de petites percussions à main.'),
+    ('grand-rex-le-ngoni-dans-la-lumiere', (480, 900, 1400, 2000), 1333, "MAGYE D'ART",
+     'Le ngoni dans la lumière',
+     'David Lesage, à genoux et micro-casque au visage, joue du ngoni dans une '
+     'lumière vert et or ; au premier plan, le mouvement flou d’une danseuse '
+     'traverse le cadre.'),
+    ('grand-rex-ngoni-et-lumieres-rouges', (480, 900, 1400, 2000), 1333, "MAGYE D'ART",
+     'Devant les colonnes de lumière',
+     'David Lesage, assis en tailleur sur une peau blanche et souriant, joue du '
+     'ngoni monté sur calebasse ; derrière lui deux colonnes de lumière rouge et '
+     'des palmes, une seconde calebasse posée à sa droite.'),
+    ('grand-rex-danse-en-rouge', (480, 900, 1400, 2000), 1333, "MAGYE D'ART",
+     'En rouge, sur le plateau',
+     'Une danseuse en tunique rouge, en grande fente sur le plateau, retient d’une '
+     'main le mousqueton de l’élastique qui descend des cintres ; derrière elle, '
+     'un fond bleu profond.'),
+    ('grand-rex-bras-ouverts', (480, 900, 1400, 2000), 1333, "MAGYE D'ART",
+     'Deux corps, un même geste',
+     'Deux artistes debout l’un derrière l’autre, bras grands ouverts vers le '
+     'haut, le même geste repris à deux ; celle de devant porte une tunique rouge, '
+     'l’élastique et son mousqueton pendent au-dessus d’eux.'),
+    ('grand-rex-suspendue-tete-en-bas', (480, 900, 1400), 2100, "MAGYE D'ART",
+     'Suspendue, tête en bas',
+     'Vue depuis la salle : une danseuse en rouge, suspendue tête en bas à '
+     'l’élastique, jambes ouvertes en grand écart, très haut au-dessus du plateau '
+     'du Grand Rex ; au premier plan, les têtes du public dans l’ombre.'),
+    ('grand-rex-jupe-en-tournoiement', (480, 900, 1400), 2100, "MAGYE D'ART",
+     'La jupe emportée par le tour',
+     'Une danseuse en haut vert et longue jupe orange tourne sur elle-même, un '
+     'bras levé et l’autre tendu ; la jupe s’ouvre en corolle. À gauche un grand '
+     'tambour sur pied, à droite la queue d’un piano.'),
+    ('grand-rex-devant-la-lune', (480, 900, 1400, 2000), 1333, "MAGYE D'ART",
+     'Devant la lune, en noir et blanc',
+     'Photo en noir et blanc : une artiste, micro-casque au visage et bras '
+     'ouverts, se détache devant l’immense lune projetée sur l’écran du Grand '
+     'Rex.'),
+)
+
+#: la meme valeur que les items de la galerie du dessus. Ecrite une fois.
+SIZES_GAL = '(max-width:700px) calc(100vw - 52px), 485px'
+
+
+def _item_rex(nom, largeurs, hauteur, qui, legende, alt):
+    """Un `.gal-item` : la photo, sa legende, puis le credit du photographe."""
+    def lot(ext):
+        return ', '.join('/img/e-motion/%s-%d.%s %dw' % (nom, w, ext, w)
+                         for w in largeurs)
+    return (
+        '    <div class="gal-item"><div class="gal-ph"><picture>'
+        '<source type="image/webp" srcset="%s" sizes="%s">'
+        '<img src="/img/e-motion/%s-900.jpg" srcset="%s" sizes="%s"'
+        ' width="%d" height="%d" alt="%s" loading="lazy" decoding="async">'
+        '</picture><span class="c">%s</span></div>'
+        '<span class="cred">Crédit photo <a href="%s" target="_blank"'
+        ' rel="noopener">%s</a></span></div>\n'
+        % (lot('webp'), SIZES_GAL, nom, lot('jpg'), SIZES_GAL,
+           largeurs[-1], hauteur, alt, legende, CRED_PHOTO[qui], qui))
+
+
+# La mention est celle de David, mot pour mot, et elle est SEULE : c'est la
+# legende de la section, pas une explication de texte.
+SECTION_GRAND_REX = (
+    '\n<section class="gal" id="grand-rex"><div class="wrap">\n'
+    '  <div class="kick">Sur scène</div>\n'
+    '  <h2 class="sec-title">Au Grand Rex</h2>\n'
+    '  <p class="lead">Grand Rex, Paris — 2 700 personnes.</p>\n'
+    '  <div class="gal-grid">\n'
+    + ''.join(_item_rex(*p) for p in PHOTOS_REX)
+    + '  </div>\n'
+    '</div></section>\n')
+
+
+# --------------------------------------------------------------------------- #
 # LE GABARIT
 #
 # Il est ecrit en plusieurs litteraux ADJACENTS (Python les concatene) : cela
@@ -359,9 +512,11 @@ picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
 # « Les photos ne sont pas cliquables. » — David. Il veut voir une photo en
 # grand, zoomer dedans, et faire defiler les photos.
 #
-# CE QUI EST CLIQUABLE, ET POURQUOI PAS TOUT : les 16 photos de la page, dans
-# leur ordre d'apparition (banniere, affiche, les 10 de la galerie, la photo du
-# duo, les 2 portraits, Sziget). La 17e balise <img> de la page est la vignette
+# CE QUI EST CLIQUABLE, ET POURQUOI PAS TOUT : les 27 photos de la page, dans
+# leur ordre d'apparition (banniere, affiche, les 10 de la galerie, les 11 du
+# Grand Rex, la photo du duo, les 2 portraits, Sziget). L'ordre est celui du
+# DOCUMENT, pas celui du selecteur : `querySelectorAll` rend toujours les
+# elements dans l'ordre de la page. La 28e balise <img> de la page est la vignette
 # du TEASER : elle porte deja un clic, celui qui ouvre la video. Lui ajouter la
 # visionneuse aurait mis deux actions sur un meme pixel. Son fichier est de
 # toute facon le meme que la 1re photo de la galerie, deja dans la visionneuse.
@@ -542,7 +697,26 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
   </div>
   <p class="credit">Crédits photo : Magye d’Art Production et archives du duo.</p>
 </div></section>
+"""
 
+# --- « Au Grand Rex » ---------------------------------------------------------
+#
+# POURQUOI ICI, et pas ailleurs. La page raconte, dans l'ordre : l'intention, le
+# teaser, l'affiche, ce qui compose le spectacle, la galerie de la danse
+# aerienne, le coeur du spectacle, les artistes, ce qu'en dit le public,
+# programmer E-Motion.
+# La serie du Grand Rex se pose JUSTE APRES la galerie et AVANT « le coeur du
+# spectacle », pour trois raisons :
+#  1. elle garde les photos ensemble — le regard ne fait qu'une seule traversee
+#     d'images au lieu de deux separees par du texte ;
+#  2. elle vient apres ce qui MONTRE le spectacle et avant ce qui l'AFFIRME
+#     (« Une experience immersive des sens »), puis avant « Ce qu'en dit le
+#     public » : la preuve d'echelle precede la promesse, puis les temoignages ;
+#  3. un programmateur qui fait defiler la page voit la salle pleine avant
+#     d'arriver au bloc « Programmer E-Motion », tout en bas.
+# Elle n'est PAS fondue dans la galerie du dessus : celle-ci a son titre a elle,
+# « La danse aerienne ». Deux sujets, deux sections.
++ SECTION_GRAND_REX + """
 <section class="keystone"><div class="wrap">
   <div class="kick">Le cœur du spectacle</div>
   <div class="big-quote">Une expérience <em>immersive</em> des sens — où l’on ne reste pas assis.</div>
@@ -679,7 +853,7 @@ document.querySelectorAll('.tz').forEach(function(t){t.addEventListener('keydown
 #
 # * TOUT est construit par ce script. Le HTML livre ne contient ni le dialogue
 #   ni un seul caractere de texte en plus : sans JavaScript, la page est
-#   exactement celle d'avant, les 16 photos affichees et rien de casse.
+#   exactement celle d'avant, les 27 photos affichees et rien de casse.
 # * LA PLUS GRANDE VARIANTE EST LUE DANS LA PAGE, jamais devinee : `plusGrande()`
 #   parcourt les `srcset` deja ecrits (ceux des `<source>` WebP et celui de
 #   l'`<img>`) et retient l'URL de plus grande largeur. Un nom de fichier
@@ -689,7 +863,7 @@ document.querySelectorAll('.tz').forEach(function(t){t.addEventListener('keydown
 # * LES LEGENDES SONT LES `alt` DEJA ECRITS. Rien n'est reformule ici.
 # * BUTEE, PAS BOUCLE, aux deux extremites. Raison mesuree : le defilement est
 #   celui du navigateur (`scroll-snap`), et un balayage ne peut PAS reboucler du
-#   16 au 1. Faire reboucler les fleches aurait donne deux comportements
+#   27 au 1. Faire reboucler les fleches aurait donne deux comportements
 #   differents selon qu'on balaye ou qu'on clique. Les fleches portent donc
 #   `aria-disabled` aux extremites — `aria-disabled` et non `disabled`, pour
 #   qu'elles restent atteignables au clavier et ne trouent pas le piege a focus.
@@ -1007,8 +1181,15 @@ GARDE_FOUS = (
     ('data-nav="%s"' % nav_menu.NAV_VERSION, 1, 'menu partage nav_menu.py'),
     ('.burger{', 3, 'CSS du menu hamburger'),
     ('<h1', 1, 'titre unique de la page'),
-    ('class="gal-ph"', 10, 'cadres photo de la galerie'),
-    ('magyedart.fr', 4, "credits photo MAGYE D'ART"),
+    # 10 pour la galerie « La danse aerienne » + 11 pour « Au Grand Rex ».
+    ('class="gal-ph"', 21, 'cadres photo de la galerie'),
+    # 4 dans la galerie du haut + 8 sur les onze photos du Grand Rex ; les 3
+    # autres sont signees Nadine Court. Perdre un credit, c'est publier une
+    # photo signee sans citer qui l'a prise.
+    ('magyedart.fr', 12, "credits photo MAGYE D'ART"),
+    ('kairos-photo-artisan.com', 3, 'credits photo Nadine Court'),
+    ('id="grand-rex"', 1, 'section Grand Rex'),
+    ('2 700 personnes', 1, 'la mention du Grand Rex'),
     ('id="ytlb"', 1, 'lecteur video en surimpression'),
     ('id="ytif"', 1, 'iframe du lecteur video'),
     # La visionneuse photo tient a DEUX choses : sa feuille de style et son
