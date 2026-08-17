@@ -73,6 +73,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
 import theme_chaleur  # couche chaleureuse commune  # noqa: E402
+import visionneuse  # visionneuse photo commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 ADHESION = ('https://www.helloasso.com/beta/associations/resonances-productions/adhesions/'
@@ -899,7 +900,32 @@ CSS_CHALEUR = (# ===== Concerts de David Lesage : declinaisons chaleureuses ====
               """.totop{border-color:rgba(248,210,116,.34);box-shadow:0 10px 26px -14px rgba(238,128,98,.5)}
 """)
 
-CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
+# --------------------------------------------------------------------------
+# LA VISIONNEUSE PHOTO (17/08/2026)
+# --------------------------------------------------------------------------
+# Tout est dans `sources/visionneuse.py` — meme visionneuse que sur les six
+# autres pages a photos du site.
+#
+# ⚠️ ARGUMENT VIDE POUR LE CSS, ET C'EST MESURE : les legendes de cette page
+#    sont des `<figcaption>` posees SOUS l'image, dans le flux
+#    (`.cdl-fig figcaption` a un `padding` et un `border-top`, aucun
+#    `position:absolute`). Rien ne recouvre le bas des photos.
+CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR + visionneuse.css('')
+
+# CE QUI EST CLIQUABLE, ET POURQUOI PAS LES 25 IMAGES DE LA PAGE. La page porte
+# 25 balises <img>, mais seulement NEUF sont des photos a regarder en grand :
+#
+#   * 15 sont des VIGNETTES DE VIDEO (`.shot`, dans un bouton `.cdl-video` ou
+#     dans une carte `.lvc`). Elles portent DEJA un clic, celui qui lance la
+#     video. Leur ajouter la visionneuse aurait mis deux actions sur un meme
+#     pixel — meme regle que la vignette du teaser sur /e-motion.
+#   * 1 est le LOGO de David Lesage (`.cdl-logo`), pas une photo.
+#   * les 9 autres sont les vraies photos : elles sont les seules a etre un
+#     `<picture>` ENFANT DIRECT d'un `<figure class="cdl-fig">`. Les vignettes
+#     video, elles, ont un `<span class="shot">` entre les deux — d'ou le
+#     combinateur `>` du selecteur, qui les laisse dehors sans avoir a lister
+#     les classes une a une.
+VISIONNEUSE_JS = visionneuse.js('.cdl-fig > picture img')
 
 TITLE = ('Concerts de David Lesage — concert-cérémonie participatif au Nid, '
          'Paris 20ᵉ · Résonances Productions')
@@ -1278,7 +1304,7 @@ f"""  <div class="cdl-listen" id="live">
 </script>
 {LIGHTBOX_JS}
 {SPOTIFY_JS}
-</body></html>""")
+{VISIONNEUSE_JS}</body></html>""")
 
 HTML = mobile_nav.inject(HTML)
 
@@ -1289,6 +1315,15 @@ OUT = os.path.join(OUT_DIR, 'index.html')
 # Garde-fou AVANT l'ecriture : aucune note de redaction en commentaire HTML
 # dans la page livree (elle serait publique et indexable). Si l'une revient, on
 # abandonne et le fichier sur disque reste inchange.
+# La visionneuse tient a DEUX choses : sa feuille de style et son script.
+# Perdre l'une des deux ne casserait rien a l'ecran — les photos cesseraient
+# simplement d'etre cliquables, en silence.
+for _m, _r in (('.ph{position:fixed', 'feuille de style de la visionneuse'),
+               ("var SEL='.cdl-fig > picture img", 'script de la visionneuse')):
+    if HTML.count(_m) != 1:
+        raise SystemExit('!! ABANDON : %d occurrence(s) de « %s » (%s), attendu 1. '
+                         'Page NON ecrite.' % (HTML.count(_m), _m, _r))
+
 verif_commentaires.verifier(HTML, OUT)
 open(OUT, 'w', encoding='utf-8').write(HTML)
 print('WROTE', OUT, round(len(HTML) / 1024), 'KB')
