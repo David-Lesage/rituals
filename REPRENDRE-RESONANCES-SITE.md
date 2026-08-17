@@ -635,38 +635,50 @@ l'adresse stable en 302 qui apporte la valeur, et elle est gratuite.
 
 ---
 
-### 2026-08-17 — 🚨 PIÈGE MESURÉ : une redirection Vercel AVALE le fragment (`#…`)
+### 2026-08-17 — ⚠️ ERREUR DE MESURE CORRIGÉE : une redirection Vercel transmet BIEN le fragment
 
-**À lire avant de promettre à qui que ce soit qu'un lien à fragment marchera sous
-`resonancesproductions.org`.** Ce résultat est contre-intuitif : la RFC 7231 laisse entendre
-qu'un client conserve le fragment quand la destination n'en a pas. **Mesuré en production, ce
-n'est pas ce qui se passe.**
+> **Cette entrée a d'abord affirmé le contraire** (« PIÈGE MESURÉ : une redirection AVALE le
+> fragment »). **C'était faux, et la fausse conclusion a été transmise à David et à la session
+> `GUSO FACILE V4` avant d'être rattrapée.** Le texte est conservé ici en tant que leçon de
+> méthode, pas effacé.
 
-| URL ouverte (Chrome, production) | URL finale |
-|---|---|
-| `resonancesproductions.org/guso-facile/app#invite=TESTCLAUDE0000` | `guso-facile.vercel.app/index.html` — **fragment perdu** |
-| `guso-facile.vercel.app/index.html#invite=TESTCLAUDE0000` | fragment **conservé** |
+**Ce qui est vrai, mesuré en production dans des onglets NEUFS (chargement complet) :**
 
-La seule différence entre les deux lignes est la redirection : c'est donc bien elle qui mange le
-fragment, et non l'application qui nettoierait son URL après lecture (hypothèse écartée par le
-second test).
+| URL ouverte | URL finale | Ce que l'application affiche |
+|---|---|---|
+| `resonancesproductions.org/guso-facile/app#invite=TESTCLAUDE0000` | `…/index.html` (sans `#`) | **« Tu es invité·e sur Guso Facile … 🎟️ accès VIP »** |
+| `guso-facile.vercel.app/index.html#invite=TESTCLAUDE0000` | `…/index.html` (sans `#`) | **le même écran d'invitation** |
 
-**Conséquence concrète** : les liens d'invitation VIP de Guso Facile
-(`…/index.html#invite=<token>`) **ne peuvent PAS** être servis par une simple redirection. Les
-invités arriveraient sans code, l'invitation échouerait silencieusement.
+**Les deux chemins fonctionnent.** Une simple redirection suffit pour les liens d'invitation.
 
-**Solution retenue** (pas encore construite, voir FILE D'ATTENTE) : une page de passage HTML qui
-lit `location.hash` en JS et rebondit vers l'app **en conservant le fragment**. Le token reste
-dans le fragment, donc jamais envoyé à un serveur ni écrit dans un log.
-⚠️ **Ne pas « simplifier » en passant le token en paramètre de requête (`?invite=`)** : ça
-marcherait avec une redirection nue, mais ça exposerait le token dans les logs serveur et les
-en-têtes `Referer`. Le choix du fragment est un choix de confidentialité, pas un hasard.
+**Les deux erreurs de méthode, à ne pas refaire sur ce projet :**
+
+1. **L'app Guso Facile efface elle-même `#invite=…` de son URL dès qu'elle l'a lu** (bon
+   comportement : le jeton ne traîne ni dans l'historique ni dans un copier-coller). La barre
+   d'adresse est donc vide **dans les deux cas** — elle ne prouve rien.
+   🚨 **Le seul indicateur valable est CE QUE MONTRE L'ÉCRAN**, pas l'URL.
+2. Le test « de contrôle » avait été fait **depuis un onglet déjà posé sur la même page** : un
+   changement de fragment dans le même document **ne recharge pas** l'application, le fragment
+   restait donc visible. D'où la fausse asymétrie.
+   🚨 **Comparer deux navigations, c'est les faire toutes les deux dans un onglet NEUF.**
+
+**Ce qui a été construit puis annulé** : une page de passage en JavaScript (`ba2bc85`) qui lisait
+`location.hash` et le recollait — annulée par `50e76e8`. Elle répondait à un problème inexistant,
+elle ne marchait pas sans JavaScript, et elle imposait un 12ᵉ contrôle dédié. La redirection nue
+est plus simple ET plus robuste.
+
+**En place depuis `50e76e8`** (302, comme `/guso-facile/app`, mêmes raisons) :
+`/guso-facile/invitation` → `https://guso-facile.vercel.app/index.html`, avec `Disallow` dans
+`robots.txt`. **Adresse à donner à l'app** :
+`https://www.resonancesproductions.org/guso-facile/invitation#invite=<token>`
+
+⚠️ **Ne PAS passer le jeton en paramètre de requête (`?invite=`)** : ça marcherait aussi, mais un
+paramètre part dans les journaux serveur et les en-têtes `Referer`, alors qu'un fragment n'est
+jamais envoyé au serveur. Le choix du fragment est un choix de confidentialité.
 
 **Seconde moitié du chantier, hors de ce dépôt** : c'est l'app qui fabrique le lien. Session
-`GUSO FACILE V4 - 16 Aout 2026` contactée le 17/08 (questions posées : où est fabriquée la base
-de l'URL, `#invite=` est-il stable, y a-t-il d'autres liens à fragment, le token est-il validé
-côté serveur). **Attendre sa réponse avant de figer l'adresse** — une fois diffusée aux
-bêta-testeurs, elle ne bouge plus.
+`GUSO FACILE V4 - 16 Aout 2026` contactée le 17/08, **puis re-contactée pour la correction**.
+Elle attend confirmation de l'adresse retenue avant de changer sa chaîne de base.
 
 ---
 
