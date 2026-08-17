@@ -122,6 +122,14 @@ section{padding:86px 0}
 .u-card li.soon::before{background:none;border:1.5px solid var(--plum2)}
 .u-card li b{color:#fff;font-weight:500}
 .u-card li i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,143,245,.4);background:rgba(147,116,226,.12);border-radius:999px;padding:1px 9px;line-height:1.5}
+.u-plus{margin-top:18px;border-top:1px solid rgba(255,255,255,.09)}
+.u-plus-s{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;min-height:44px;padding:11px 0;color:var(--gold2);font-size:15px}
+.u-plus-s::-webkit-details-marker{display:none}
+.u-plus-s span{flex:1 1 auto;min-width:0}
+.u-plus-s::after{content:'';flex:0 0 auto;width:9px;height:9px;margin-right:3px;border-right:1.6px solid var(--gold2);border-bottom:1.6px solid var(--gold2);transform:rotate(45deg) translateY(-3px)}
+.u-plus[open] .u-plus-s::after{transform:rotate(225deg) translateY(-3px)}
+.u-plus[open] .u-plus-s{color:var(--muted)}
+.u-plus ul{margin-top:4px;padding-bottom:4px}
 .aussi{margin-top:34px;padding:26px 28px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));display:flex;gap:18px;align-items:flex-start}
 .aussi .ic-w,.precision .ic-w{flex:0 0 auto;line-height:0;margin-top:3px}
 .aussi .ic{width:26px;height:26px}
@@ -1009,7 +1017,9 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         </div>
       </div>
       <p class="u-sub">Ne plus jamais perdre une heure ni rater une échéance.</p>
-      <ul>
+      <details class="u-plus">
+        <summary class="u-plus-s"><span>Les 7 fonctionnalités</span></summary>
+        <ul>
         <li><b>Jauge des 507 heures</b> — la progression vers l’ouverture de droits, toujours visible.</li>
         <li><b>« À faire maintenant »</b> — DPAE, feuillets GUSO et factures à venir, classés par urgence (J-3, J-7).</li>
         <li><b>Alertes de cohérence</b> — un badge « droits sécurisés » dès 507 heures, et un signalement cliquable dès qu’une incohérence se glisse dans les dates saisies.</li>
@@ -1017,7 +1027,8 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         <li><b>Bilan imprimable</b> — un contrôle de cohérence complet de la période, exporté en un document propre.</li>
         <li><b>Graphique annuel</b> — les heures acquises, et ce que les dates encore « possibles » ajouteraient à la projection.</li>
         <li><b>Profil complet</b> — identité, coordonnées bancaires, instruments et contrats, renseignés une seule fois et prêts à partager avec une structure.</li>
-      </ul>
+        </ul>
+      </details>
     </article>
 
     <article class="u-card">
@@ -1029,7 +1040,9 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         </div>
       </div>
       <p class="u-sub">Développer, relancer, négocier — et savoir avant de dire oui.</p>
-      <ul>
+      <details class="u-plus">
+        <summary class="u-plus-s"><span>Les 7 fonctionnalités</span></summary>
+        <ul>
         <li><b>Carte des dates</b> — les concerts géolocalisés, avec le calcul des kilomètres parcourus depuis le domicile, utile pour les frais.</li>
         <li><b>Tournée reliée</b> — les dates s’enchaînent chronologiquement sur la carte, les lieux à confirmer sont signalés, les adresses en autocomplétion.</li>
         <li><b>Carnet de contacts</b> — les organisateurs rassemblés automatiquement, avec l’historique des dates jouées ensemble.</li>
@@ -1037,7 +1050,8 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         <li><b>Évaluation d’une proposition</b> — l’offre reçue comparée aux conditions idéales de l’artiste, avec un verdict vert, jaune ou rouge avant de s’engager.</li>
         <li><b>Suivi de négociation</b> — statut du contrat, échéance de signature, informations manquantes, et une demande d’informations prête à envoyer.</li>
         <li><b>Je crée mon contrat</b> — un modèle d’engagement en 12 rubriques, personnalisable, pour poser un cadre clair avec l’organisateur.</li>
-      </ul>
+        </ul>
+      </details>
     </article>
     </div>
 
@@ -1058,7 +1072,9 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         </div>
       </div>
       <p class="u-sub">Pour celles et ceux qui emploient et accompagnent les artistes.</p>
-      <ul>
+      <details class="u-plus">
+        <summary class="u-plus-s"><span>Les 8 fonctionnalités</span></summary>
+        <ul>
         <li><b>Back-office transversal</b> — toutes les DPAE, feuillets GUSO et factures à faire, tous artistes confondus, au même endroit.</li>
         <li><b>Fiches artistes</b> — état civil, numéro de sécurité sociale, numéro GUSO, accessibles en un clic pour remplir une DPAE sans rien redemander.</li>
         <li><b>DPAE regroupées</b> — les dates proches (à sept jours près) rassemblées pour tout déclarer d’un coup.</li>
@@ -1067,7 +1083,8 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         <li><b>Fiche structure</b> — SIRET, coordonnées bancaires et coordonnées postales centralisés, réutilisés partout.</li>
         <li><b>Synchronisation</b> — les données sont partagées entre l’artiste et la structure.</li>
         <li><b>Niveaux de partage</b> — pour chaque structure, l’artiste choisit ce qu’elle voit : tout, l’essentiel administratif, ou seulement ses totaux d’heures. Il peut en changer ou se retirer à tout moment.</li>
-      </ul>
+        </ul>
+      </details>
     </article>
 <figure class="gf-block">
   <div class="gf-shot" role="img" aria-label="Tableau de bord d’une structure dans Guso Facile : quatre artistes, leur compteur d’heures sur 507 et leur niveau de vigilance — bon rythme, à surveiller ou seuil menacé.">
@@ -1284,7 +1301,9 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
         </div>
       </div>
       <p class="u-sub">Parce qu’on avance mieux à plusieurs.</p>
-      <ul>
+      <details class="u-plus">
+        <summary class="u-plus-s"><span>Les 7 fonctionnalités</span></summary>
+        <ul>
         <li><b>Vue groupe</b> — où en est chaque membre du groupe, pour se soutenir avant que la situation ne coince.</li>
         <li><b>Hub d’informations du groupe</b> — un espace commun où le groupe partage les informations d’une date.</li>
         <li><b>« J’ai besoin d’aide »</b> — trois questions simples, un premier conseil concret, et la possibilité de prévenir qui l’on veut.</li>
@@ -1297,7 +1316,8 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
           d’aider à le poser la prochaine fois, avec un modèle de contrat prêt à personnaliser.</li>
         <li><b>Points de vigilance côté structure</b> — la structure voit, par artiste : ses heures sur la période, les jours restants avant la date anniversaire, le rythme nécessaire, et un niveau d’alerte. Le tout trié par urgence.</li>
         <li><b>Confidentialité graduée</b> — le réglage des niveaux de partage, structure par structure : tout partager, l’essentiel administratif, ou ses totaux d’heures seuls. Le filtrage est fait côté serveur, pas seulement à l’affichage : la structure ne reçoit pas les données qu’elle n’a pas le droit de voir, au lieu de les recevoir et de ne pas les montrer. Et l’artiste peut changer d’avis, ou se retirer, quand il veut.</li>
-      </ul>
+        </ul>
+      </details>
     </article>
   </div>
 

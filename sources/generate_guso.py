@@ -1652,6 +1652,35 @@ CSS_PAGE = ("""/* ===== Guso Facile ===== */
 .u-card li.soon::before{background:none;border:1.5px solid var(--plum2)}
 .u-card li b{color:#fff;font-weight:500}
 .u-card li i{font-style:normal;display:inline-block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--plum2);border:1px solid rgba(179,143,245,.4);background:rgba(147,116,226,.12);border-radius:999px;padding:1px 9px;line-height:1.5}
+"""
+           # --- L'INVENTAIRE SE REPLIE (17/08/2026) --------------------------------
+           # Le POURQUOI est ecrit au-dessus de `_replier_inventaires()` : on replie
+           # l'inventaire, jamais l'argument. Ici, seulement la mise en forme.
+           # ⚠️ LE TITRE REPLIABLE EST DORE (`--gold2`), PAS GRIS. Un titre replie
+           #    qu'on ne remarque pas revient a supprimer son contenu : la page a
+           #    besoin qu'on VOIE qu'il y a quelque chose dessous. C'est le meme
+           #    parti que la FAQ, dont le chevron est deja dore.
+           # ⚠️ CIBLE TACTILE : `min-height:44px` sur le <summary>, plus 11 px de
+           #    rembourrage vertical — mesure, pas suppose. Le filet du haut le
+           #    detache du sous-titre de la carte, qui reste ouvert lui.
+           # ⚠️ `list-style:none` + `::-webkit-details-marker{display:none}` : le
+           #    triangle natif du navigateur est remplace par le meme chevron que la
+           #    FAQ, pour que la page n'ait qu'UNE maniere de dire « ceci se deplie ».
+           # ⚠️ AUCUNE TRANSITION N'EST DECLAREE — ni sur l'ouverture, ni sur le
+           #    chevron. `prefers-reduced-motion` est donc respecte par construction
+           #    (comme pour la FAQ) : il n'y a rien a desactiver. Ne pas ajouter
+           #    d'animation ici sans poser la requete media qui va avec.
+           # Le focus clavier est celui du site (`:focus-visible`, filet dore de 2 px
+           # dans CSS_BASE) : il tombe sur le <summary>, qui est focusable et
+           # ouvrable a Entree / Espace par nature. Aucun JavaScript.
+           """.u-plus{margin-top:18px;border-top:1px solid rgba(255,255,255,.09)}
+.u-plus-s{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;min-height:44px;padding:11px 0;color:var(--gold2);font-size:15px}
+.u-plus-s::-webkit-details-marker{display:none}
+.u-plus-s span{flex:1 1 auto;min-width:0}
+.u-plus-s::after{content:'';flex:0 0 auto;width:9px;height:9px;margin-right:3px;border-right:1.6px solid var(--gold2);border-bottom:1.6px solid var(--gold2);transform:rotate(45deg) translateY(-3px)}
+.u-plus[open] .u-plus-s::after{transform:rotate(225deg) translateY(-3px)}
+.u-plus[open] .u-plus-s{color:var(--muted)}
+.u-plus ul{margin-top:4px;padding-bottom:4px}
 .aussi{margin-top:34px;padding:26px 28px;border:1px solid rgba(255,255,255,.07);border-radius:20px;background:linear-gradient(180deg,rgba(28,30,70,.72),rgba(23,25,53,.5));display:flex;gap:18px;align-items:flex-start}
 .aussi .ic-w,.precision .ic-w{flex:0 0 auto;line-height:0;margin-top:3px}
 .aussi .ic{width:26px;height:26px}
@@ -3260,6 +3289,87 @@ def _faq_html():
         '      <summary><h3>%s</h3></summary>\n'
         '      <p class="faq-r">%s</p>\n'
         '    </details>\n' % (q, r) for q, r in FAQ)
+
+
+#: nombre total de puces d'inventaire dans les QUATRE univers (7 + 7 + 8 + 7).
+#: ⚠️ C'EST UN GARDE-FOU, PAS UN REGLAGE. Le nombre affiche dans chaque titre
+#: repliable est COMPTE dans la liste, jamais recopie a la main : il ne peut
+#: donc pas mentir. Ce total-ci sert a l'autre bout — il refuse l'ecriture si
+#: une puce apparait ou disparait sans que personne l'ait decide. Ajouter une
+#: fonctionnalite a l'inventaire = monter ce nombre, en connaissance de cause.
+NB_PUCES_INVENTAIRE = 29
+
+
+# ⚠️⚠️ LA REGLE DE CETTE FONCTION, ET ELLE NE SE NEGOCIE PAS :
+#      ON REPLIE L'INVENTAIRE, JAMAIS L'ARGUMENT.
+# Un titre replie n'est presque jamais ouvert. Replier un argument, c'est le
+# perdre — sur une page qui doit convaincre, c'est un mauvais echange. Ce qui
+# se replie ici, ce sont les VINGT-NEUF PUCES des quatre univers : de
+# l'inventaire, qu'on parcourt quand on cherche si telle chose existe, pas
+# quand on decide si l'outil est pour soi.
+# CE QUI RESTE OUVERT DANS CHAQUE CARTE, ET POURQUOI : le pictogramme, le
+# numero d'univers, le TITRE (« Tes droits, maitrises »…) et le SOUS-TITRE
+# (« Ne plus jamais perdre une heure ni rater une echeance. ») — c'est la que
+# la carte dit ce qu'elle change pour le lecteur. Les quatre promesses restent
+# donc lisibles d'un seul coup d'oeil, et le vis-a-vis artistes | structures
+# tient toujours : il se lit meme MIEUX une fois l'inventaire range.
+# Tout le reste de la page reste ouvert — la promesse, les trois situations,
+# les dix apercus d'interface, le bloc « J'ai besoin d'aide », la Guilde,
+# « On veille les uns sur les autres », le lien avec l'association, l'etat du
+# projet et le formulaire. Aucun de ces blocs n'est un inventaire.
+# (La FAQ, elle, etait DEJA repliee depuis le 15/08/2026 — six `<details
+#  class="faq-q">`. Il n'y avait rien a y faire.)
+#
+# POURQUOI UNE TRANSFORMATION ET PAS QUATRE BLOCS ECRITS A LA MAIN : le nombre
+# annonce (« Les 7 fonctionnalites ») est COMPTE dans la liste juste au-dessus.
+# Ecrit a la main en quatre exemplaires, il aurait menti au premier ajout de
+# puce, et personne ne l'aurait vu — c'est exactement le defaut que la page a
+# deja corrige ailleurs (« 3 questions, c'est tout » suivi de quatre lignes).
+#
+# ⚠️ `<details>` / `<summary>` NATIFS, aucun JavaScript : ca marche sans script
+#    (regle du site), c'est accessible et ouvrable au clavier par defaut, et
+#    Google indexe le contenu d'un accordeon — la page ne perd donc rien en
+#    referencement. Aucune animation n'est declaree : `prefers-reduced-motion`
+#    est respecte par construction, il n'y a rien a desactiver.
+def _replier_inventaires(html):
+    """Range les 4 listes d'inventaire des univers dans des <details> natifs.
+
+    Refuse d'ecrire si elle n'en trouve pas exactement quatre, ou si le total
+    des puces n'est plus `NB_PUCES_INVENTAIRE`.
+    """
+    import re
+
+    total = [0]
+    faits = [0]
+
+    def carte(m):
+        bloc = m.group(0)
+        liste = re.search(r'(?s)      <ul>\n(.*?)      </ul>\n', bloc)
+        if not liste:
+            raise SystemExit('!! ABANDON : une carte `u-card` sans liste '
+                             'd\'inventaire. Page NON ecrite.')
+        puces = liste.group(1).count('<li')
+        total[0] += puces
+        faits[0] += 1
+        remplace = (
+            '      <details class="u-plus">\n'
+            '        <summary class="u-plus-s"><span>Les %d fonctionnalités'
+            '</span></summary>\n'
+            '        <ul>\n%s        </ul>\n'
+            '      </details>\n' % (puces, liste.group(1)))
+        return bloc[:liste.start()] + remplace + bloc[liste.end():]
+
+    html = re.sub(r'(?s)<article class="u-card">.*?</article>', carte, html)
+    if faits[0] != 4:
+        raise SystemExit('!! ABANDON : %d carte(s) d\'univers repliee(s), attendu 4. '
+                         'Page NON ecrite.' % faits[0])
+    if total[0] != NB_PUCES_INVENTAIRE:
+        raise SystemExit(
+            '!! ABANDON : %d puces d\'inventaire dans les quatre univers, attendu '
+            '%d.\n   Une fonctionnalite vient d\'apparaitre ou de disparaitre : si '
+            'c\'est voulu, monter ou baisser NB_PUCES_INVENTAIRE en le disant.\n'
+            '   Page NON ecrite.' % (total[0], NB_PUCES_INVENTAIRE))
+    return html
 
 
 def build_html():
@@ -5056,7 +5166,11 @@ def build_html():
 """.replace('URL_DEMANDE', URL_DEMANDE).replace('CLE_PUBLIABLE', CLE_PUBLIABLE))
     A('</body></html>\n')
 
-    return ''.join(B)
+    # L'inventaire des quatre univers est range dans des <details> natifs — la
+    # transformation est faite ICI, sur la page assemblee, pour que le nombre
+    # annonce dans chaque titre soit COMPTE et non recopie. Voir le long
+    # commentaire au-dessus de `_replier_inventaires()`.
+    return _replier_inventaires(''.join(B))
 
 
 # =========================================================================
@@ -5265,6 +5379,18 @@ ANCRES = (
     ('id="etat"', 1, 'section « Jouons cartes sur table »'),
     ('class="badge"', 1, 'badge « Bêta privée · places limitées »'),
     ('class="u-card"', 4, 'les 4 univers de fonctionnalités'),
+    # --- L'INVENTAIRE REPLIE (17/08/2026) --------------------------------
+    # ⚠️ CES DEUX LIGNES DISENT CE QUI EST REPLIE, ET SEULEMENT CELA : les
+    #    QUATRE listes d'inventaire des univers. Si le compte montait, c'est
+    #    qu'un bloc d'ARGUMENT vient de passer derriere un titre replie — la
+    #    promesse, les trois situations, la Guilde, l'etat du projet. C'est
+    #    exactement ce que la regle interdit : on replie l'inventaire, jamais
+    #    l'argument. Un titre replie n'est presque jamais ouvert.
+    # ⚠️ Les six `<details class="faq-q">` de la FAQ sont comptes ailleurs
+    #    (voir plus bas) : la classe les separe, et c'est voulu — ils ne
+    #    repondent pas de la meme decision.
+    ('<details class="u-plus">', 4, 'les 4 inventaires d’univers, repliés'),
+    ('<summary class="u-plus-s">', 4, 'leur titre repliable, cible tactile 44 px'),
     # Les intitules EXACTS des 4 univers, virgule comprise. Ils ont ete releves
     # dans le code de l'application le 14/08/2026 : la page portait jusque-la
     # des titres approchants (« Suivi des droits », « Organisation de tournee »,
