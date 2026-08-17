@@ -11,5 +11,6 @@ Disallow: /au-nid
 # page : c'est une redirection posee dans vercel.json vers l'application. Elle
 # n'a aucune valeur en referencement et n'a rien a faire dans Google.
 Disallow: /guso-facile/app
+Disallow: /guso-facile/invitation
 
 Sitemap: https://www.resonancesproductions.org/sitemap.xml

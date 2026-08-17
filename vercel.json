@@ -13,6 +13,8 @@
     { "source": "/Guso-Facile", "destination": "/guso-facile", "permanent": true },
     { "source": "/Guso-Facile/", "destination": "/guso-facile", "permanent": true },
     { "source": "/guso-facile/app", "destination": "https://guso-facile.vercel.app/index.html", "permanent": false },
-    { "source": "/guso-facile/app/", "destination": "https://guso-facile.vercel.app/index.html", "permanent": false }
+    { "source": "/guso-facile/app/", "destination": "https://guso-facile.vercel.app/index.html", "permanent": false },
+    { "source": "/guso-facile/invitation", "destination": "https://guso-facile.vercel.app/index.html", "permanent": false },
+    { "source": "/guso-facile/invitation/", "destination": "https://guso-facile.vercel.app/index.html", "permanent": false }
   ]
 }
