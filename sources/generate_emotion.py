@@ -115,27 +115,29 @@ CRED_PHOTO = {
 #: L'ordre est celui de la page : la salle d'abord, puis le plateau.
 PHOTOS_REX = (
     ('grand-rex-la-salle-debout', (480, 900, 1400, 2000), 1331, 'Nadine Court',
-     'La salle debout, bras levés',
-     'La salle du Grand Rex debout : au premier rang, des spectateurs les bras '
-     'tendus vers la scène ; derrière eux, les deux balcons pleins jusqu’en haut, '
+     'La respiration de la joie, guidée par Iris Chasles',
+     'La mise en mouvement de la respiration de la joie de 2 700 personnes, guidée '
+     'par Iris Chasles : la salle du Grand Rex debout, au premier rang les bras '
+     'tendus vers la scène ; derrière, les deux balcons pleins jusqu’en haut, '
      'découpés par les projecteurs.'),
     ('grand-rex-le-plateau-et-l-ecran', (480, 900, 1400, 2000), 1331, 'Nadine Court',
-     'Le plateau et l’écran géant',
-     'Sur le plateau du Grand Rex, une dizaine d’artistes en tenue sombre tendent '
-     'les mains vers la salle ; au-dessus d’eux, l’écran géant reprend trois '
-     'd’entre eux en gros plan. David Lesage est assis au centre derrière sa '
-     'calebasse, une artiste en rouge se tient à droite.'),
+     'Iris guide, David impulse le rythme',
+     'Sur le plateau du Grand Rex, Iris Chasles en rouge guide les gestes de la '
+     'salle, tandis que David Lesage, assis derrière sa calebasse, impulse le '
+     'rythme pour que tout le monde soit ensemble dans le même geste ; autour '
+     'd’eux une dizaine d’artistes en tenue sombre, et au-dessus l’écran géant qui '
+     'les reprend en gros plan.'),
     ('grand-rex-au-milieu-des-tambours', (480, 900, 1400, 2000), 1331, 'Nadine Court',
-     'Au milieu des tambours',
-     'David Lesage, assis derrière sa calebasse, rit aux côtés d’une artiste en '
-     'rouge ; tout autour d’eux, debout, des musiciennes et des musiciens tiennent '
-     'des tambours sur cadre, mailloche levée. Au premier plan, des silhouettes '
-     'floues.'),
+     'À la calebasse, avec le chœur des tambours',
+     'David Lesage et Iris Chasles à la calebasse, entourés du chœur des tambours '
+     'de l’Academy de l’Act : tout autour d’eux, debout, des musiciennes et des '
+     'musiciens tiennent des tambours sur cadre, mailloche levée. Au premier plan, '
+     'des silhouettes floues.'),
     ('grand-rex-chant-et-ngoni', (480, 900, 1400, 2000), 1333, "MAGYE D'ART",
-     'Le chant et le ngoni',
-     'David Lesage, micro-casque au visage, chante en jouant du ngoni monté sur '
-     'calebasse ; derrière lui un homme debout en tunique claire, devant lui une '
-     'artiste agenouillée qui tient de petites percussions à main.'),
+     'Le public répond en écho',
+     'Arnaud Riou au tambour ; David Lesage, micro-casque au visage, fait chanter '
+     'la salle en l’accompagnant au ngoni, en échanges vocaux auxquels le public '
+     'répond en écho ; Iris Chasles à la calebasse.'),
     ('grand-rex-le-ngoni-dans-la-lumiere', (480, 900, 1400, 2000), 1333, "MAGYE D'ART",
      'Le ngoni dans la lumière',
      'David Lesage, à genoux et micro-casque au visage, joue du ngoni dans une '
@@ -147,28 +149,31 @@ PHOTOS_REX = (
      'ngoni monté sur calebasse ; derrière lui deux colonnes de lumière rouge et '
      'des palmes, une seconde calebasse posée à sa droite.'),
     ('grand-rex-danse-en-rouge', (480, 900, 1400, 2000), 1333, "MAGYE D'ART",
-     'En rouge, sur le plateau',
-     'Une danseuse en tunique rouge, en grande fente sur le plateau, retient d’une '
-     'main le mousqueton de l’élastique qui descend des cintres ; derrière elle, '
-     'un fond bleu profond.'),
+     'Iris Chasles, en rouge sur le plateau',
+     'Iris Chasles, en tunique rouge et en grande fente sur le plateau du Grand '
+     'Rex, tenue par son baudrier à l’élastique qui descend des cintres ; derrière '
+     'elle, un fond bleu profond.'),
     ('grand-rex-bras-ouverts', (480, 900, 1400, 2000), 1333, "MAGYE D'ART",
-     'Deux corps, un même geste',
-     'Deux artistes debout l’un derrière l’autre, bras grands ouverts vers le '
-     'haut, le même geste repris à deux ; celle de devant porte une tunique rouge, '
-     'l’élastique et son mousqueton pendent au-dessus d’eux.'),
+     'Comme deux oiseaux',
+     'Comme deux oiseaux, David Lesage et Iris Chasles saluent le public avec '
+     'grâce, dans le silence — un moment suspendu : debout l’un derrière l’autre '
+     'sur le plateau du Grand Rex, bras grands ouverts vers le haut, le même geste '
+     'repris à deux ; Iris Chasles, devant, porte une tunique rouge.'),
     ('grand-rex-suspendue-tete-en-bas', (480, 900, 1400), 2100, "MAGYE D'ART",
-     'Suspendue, tête en bas',
-     'Vue depuis la salle : une danseuse en rouge, suspendue tête en bas à '
-     'l’élastique, jambes ouvertes en grand écart, très haut au-dessus du plateau '
-     'du Grand Rex ; au premier plan, les têtes du public dans l’ombre.'),
+     'Iris Chasles vole, en grand écart',
+     'Vue depuis la salle : Iris Chasles, en rouge, vole très haut au-dessus du '
+     'plateau du Grand Rex — tête en bas et jambes ouvertes en grand écart, tenue '
+     'par son baudrier à l’élastique ; au premier plan, les têtes du public dans '
+     'l’ombre.'),
     ('grand-rex-jupe-en-tournoiement', (480, 900, 1400), 2100, "MAGYE D'ART",
-     'La jupe emportée par le tour',
-     'Une danseuse en haut vert et longue jupe orange tourne sur elle-même, un '
-     'bras levé et l’autre tendu ; la jupe s’ouvre en corolle. À gauche un grand '
-     'tambour sur pied, à droite la queue d’un piano.'),
+     'Iris Chasles, la danse de tournoiement',
+     'La danse de tournoiement : Iris Chasles, en haut vert et longue jupe orange, '
+     'tourne sur elle-même sur le plateau du Grand Rex, un bras levé et l’autre '
+     'tendu ; la jupe s’ouvre en corolle. À gauche un grand tambour sur pied, à '
+     'droite la queue d’un piano.'),
     ('grand-rex-devant-la-lune', (480, 900, 1400, 2000), 1333, "MAGYE D'ART",
-     'Devant la lune, en noir et blanc',
-     'Photo en noir et blanc : une artiste, micro-casque au visage et bras '
+     'Iris Chasles devant la lune',
+     'Photo en noir et blanc : Iris Chasles, micro-casque au visage et bras '
      'ouverts, se détache devant l’immense lune projetée sur l’écran du Grand '
      'Rex.'),
 )
@@ -619,13 +624,13 @@ picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
 """  <div class="gal-grid">
     <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/danse-aerienne-et-musique-live-sur-scene-480.webp 480w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-900.webp 900w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/danse-aerienne-et-musique-live-sur-scene-900.jpg" srcset="/img/e-motion/danse-aerienne-et-musique-live-sur-scene-480.jpg 480w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-900.jpg 900w, /img/e-motion/danse-aerienne-et-musique-live-sur-scene-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="783" alt="Danse aérienne à l'élastique et musique live sur scène" loading="lazy" decoding="async"></picture><span class="c">Sur scène : la danse aérienne et la musique live se répondent</span></div></div>
     <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/suspendue-l-elastique-porte-le-mouvement-480.webp 480w, /img/e-motion/suspendue-l-elastique-porte-le-mouvement-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/suspendue-l-elastique-porte-le-mouvement-900.jpg" srcset="/img/e-motion/suspendue-l-elastique-porte-le-mouvement-480.jpg 480w, /img/e-motion/suspendue-l-elastique-porte-le-mouvement-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="900" alt="Iris Chasles en danse aérienne à l'élastique" loading="lazy" decoding="async"></picture><span class="c">Suspendue — l’élastique porte le mouvement</span></div></div>
-    <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/everness-festival-480.webp 480w, /img/e-motion/everness-festival-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/everness-festival-900.jpg" srcset="/img/e-motion/everness-festival-480.jpg 480w, /img/e-motion/everness-festival-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="600" alt="Danse aérienne à l'élastique, Everness Festival" loading="lazy" decoding="async"></picture><span class="c">Everness Festival</span></div></div>
+    <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/everness-festival-480.webp 480w, /img/e-motion/everness-festival-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/everness-festival-900.jpg" srcset="/img/e-motion/everness-festival-480.jpg 480w, /img/e-motion/everness-festival-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="600" alt="Iris Chasles en danse aérienne à l’élastique, Everness Festival" loading="lazy" decoding="async"></picture><span class="c">Everness Festival</span></div></div>
     <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/l-envol-sous-les-arbres-480.webp 480w, /img/e-motion/l-envol-sous-les-arbres-900.webp 900w, /img/e-motion/l-envol-sous-les-arbres-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/l-envol-sous-les-arbres-900.jpg" srcset="/img/e-motion/l-envol-sous-les-arbres-480.jpg 480w, /img/e-motion/l-envol-sous-les-arbres-900.jpg 900w, /img/e-motion/l-envol-sous-les-arbres-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="1400" alt="Iris Chasles dans les airs avec la bungee dance, David Lesage à la musique" loading="lazy" decoding="async"></picture><span class="c">L’envol, sous les arbres</span></div></div>
-    <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/la-danse-de-tournoiement-480.webp 480w, /img/e-motion/la-danse-de-tournoiement-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/la-danse-de-tournoiement-900.jpg" srcset="/img/e-motion/la-danse-de-tournoiement-480.jpg 480w, /img/e-motion/la-danse-de-tournoiement-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="900" alt="Danse de tournoiement sur scène" loading="lazy" decoding="async"></picture><span class="c">La danse de tournoiement</span></div></div>
+    <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/la-danse-de-tournoiement-480.webp 480w, /img/e-motion/la-danse-de-tournoiement-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/la-danse-de-tournoiement-900.jpg" srcset="/img/e-motion/la-danse-de-tournoiement-480.jpg 480w, /img/e-motion/la-danse-de-tournoiement-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="900" alt="Iris Chasles dans la danse de tournoiement, sur scène" loading="lazy" decoding="async"></picture><span class="c">La danse de tournoiement</span></div></div>
     <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/suspendue-bras-ouverts-480.webp 480w, /img/e-motion/suspendue-bras-ouverts-900.webp 900w, /img/e-motion/suspendue-bras-ouverts-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/suspendue-bras-ouverts-900.jpg" srcset="/img/e-motion/suspendue-bras-ouverts-480.jpg 480w, /img/e-motion/suspendue-bras-ouverts-900.jpg 900w, /img/e-motion/suspendue-bras-ouverts-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="914" alt="Iris Chasles suspendue à l'élastique, bras ouverts" loading="lazy" decoding="async"></picture><span class="c">Suspendue, bras ouverts</span></div><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
-    <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/l-elastique-en-noir-et-blanc-480.webp 480w, /img/e-motion/l-elastique-en-noir-et-blanc-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/l-elastique-en-noir-et-blanc-900.jpg" srcset="/img/e-motion/l-elastique-en-noir-et-blanc-480.jpg 480w, /img/e-motion/l-elastique-en-noir-et-blanc-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="1321" alt="Danse aérienne à l'élastique, noir et blanc" loading="lazy" decoding="async"></picture><span class="c">L’élastique, en noir et blanc</span></div><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
-    <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/sur-grande-scene-480.webp 480w, /img/e-motion/sur-grande-scene-900.webp 900w, /img/e-motion/sur-grande-scene-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/sur-grande-scene-900.jpg" srcset="/img/e-motion/sur-grande-scene-480.jpg 480w, /img/e-motion/sur-grande-scene-900.jpg 900w, /img/e-motion/sur-grande-scene-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="916" alt="E-Motion sur grande scène, danse aérienne" loading="lazy" decoding="async"></picture><span class="c">Sur grande scène</span></div><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
-    <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/le-ciel-en-toile-de-fond-480.webp 480w, /img/e-motion/le-ciel-en-toile-de-fond-900.webp 900w, /img/e-motion/le-ciel-en-toile-de-fond-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/le-ciel-en-toile-de-fond-900.jpg" srcset="/img/e-motion/le-ciel-en-toile-de-fond-480.jpg 480w, /img/e-motion/le-ciel-en-toile-de-fond-900.jpg 900w, /img/e-motion/le-ciel-en-toile-de-fond-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="885" alt="Danse aérienne devant l'écran de ciel" loading="lazy" decoding="async"></picture><span class="c">Le ciel en toile de fond</span></div><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
+    <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/l-elastique-en-noir-et-blanc-480.webp 480w, /img/e-motion/l-elastique-en-noir-et-blanc-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/l-elastique-en-noir-et-blanc-900.jpg" srcset="/img/e-motion/l-elastique-en-noir-et-blanc-480.jpg 480w, /img/e-motion/l-elastique-en-noir-et-blanc-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="1321" alt="Iris Chasles en danse aérienne à l’élastique, en noir et blanc" loading="lazy" decoding="async"></picture><span class="c">L’élastique, en noir et blanc</span></div><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
+    <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/sur-grande-scene-480.webp 480w, /img/e-motion/sur-grande-scene-900.webp 900w, /img/e-motion/sur-grande-scene-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/sur-grande-scene-900.jpg" srcset="/img/e-motion/sur-grande-scene-480.jpg 480w, /img/e-motion/sur-grande-scene-900.jpg 900w, /img/e-motion/sur-grande-scene-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="916" alt="Iris Chasles en danse aérienne sur la grande scène du Grand Rex, à Paris" loading="lazy" decoding="async"></picture><span class="c">Sur grande scène</span></div><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
+    <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/le-ciel-en-toile-de-fond-480.webp 480w, /img/e-motion/le-ciel-en-toile-de-fond-900.webp 900w, /img/e-motion/le-ciel-en-toile-de-fond-1400.webp 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/le-ciel-en-toile-de-fond-900.jpg" srcset="/img/e-motion/le-ciel-en-toile-de-fond-480.jpg 480w, /img/e-motion/le-ciel-en-toile-de-fond-900.jpg 900w, /img/e-motion/le-ciel-en-toile-de-fond-1400.jpg 1400w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="1400" height="885" alt="David Lesage et Iris Chasles face à face au Grand Rex, devant l’écran de ciel" loading="lazy" decoding="async"></picture><span class="c">Le ciel en toile de fond</span></div><span class="cred">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></span></div>
     <div class="gal-item"><div class="gal-ph"><picture><source type="image/webp" srcset="/img/e-motion/le-tournoiement-de-la-beaute-480.webp 480w, /img/e-motion/le-tournoiement-de-la-beaute-900.webp 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px"><img src="/img/e-motion/le-tournoiement-de-la-beaute-900.jpg" srcset="/img/e-motion/le-tournoiement-de-la-beaute-480.jpg 480w, /img/e-motion/le-tournoiement-de-la-beaute-900.jpg 900w" sizes="(max-width:700px) calc(100vw - 52px), 485px" width="900" height="900" alt="Iris Chasles, danse de tournoiement" loading="lazy" decoding="async"></picture><span class="c">Le tournoiement de la beauté</span></div></div>
   </div>
   <p class="credit">Crédits photo : Magye d’Art Production et archives du duo.</p>
@@ -670,7 +675,7 @@ picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
 #
 # C'est l'ancienne image de fond du hero (`hero-iris-et-david`), redescendue
 # ici. Elle n'est donc plus le fond du hero : ne pas la reintroduire en haut.
-"""<div class="figure"><picture><source type="image/webp" srcset="/img/e-motion/hero-iris-et-david-480.webp 480w, /img/e-motion/hero-iris-et-david-900.webp 900w, /img/e-motion/hero-iris-et-david-1400.webp 1400w" sizes="(max-width:1040px) calc(100vw - 52px), 988px"><img src="/img/e-motion/hero-iris-et-david-900.jpg" srcset="/img/e-motion/hero-iris-et-david-480.jpg 480w, /img/e-motion/hero-iris-et-david-900.jpg 900w, /img/e-motion/hero-iris-et-david-1400.jpg 1400w" sizes="(max-width:1040px) calc(100vw - 52px), 988px" width="1400" height="712" alt="Iris Chasles et David Lesage entourés de leurs instruments" loading="lazy" decoding="async"></picture></div>
+"""<div class="figure"><picture><source type="image/webp" srcset="/img/e-motion/hero-iris-et-david-480.webp 480w, /img/e-motion/hero-iris-et-david-900.webp 900w, /img/e-motion/hero-iris-et-david-1400.webp 1400w" sizes="(max-width:1040px) calc(100vw - 52px), 988px"><img src="/img/e-motion/hero-iris-et-david-900.jpg" srcset="/img/e-motion/hero-iris-et-david-480.jpg 480w, /img/e-motion/hero-iris-et-david-900.jpg 900w, /img/e-motion/hero-iris-et-david-1400.jpg 1400w" sizes="(max-width:1040px) calc(100vw - 52px), 988px" width="1400" height="712" alt="Iris Chasles et David Lesage entourés de leurs instruments, au centre Élément, à Paris" loading="lazy" decoding="async"></picture></div>
   <div class="cap">Iris &amp; David — le duo et ses instruments</div>
 
   <div class="artist">
@@ -853,7 +858,13 @@ GARDE_FOUS = (
     ('magyedart.fr', 12, "credits photo MAGYE D'ART"),
     ('kairos-photo-artisan.com', 3, 'credits photo Nadine Court'),
     ('id="grand-rex"', 1, 'section Grand Rex'),
-    ('2 700 personnes', 1, 'la mention du Grand Rex'),
+    # DEUX occurrences depuis le 17/08/2026, et c'est voulu : la ligne de section
+    # (« Grand Rex, Paris — 2 700 personnes. ») et la description de la premiere
+    # photo, ou David a demande mot pour mot « la mise en mouvement de la
+    # respiration de la joie de 2 700 personnes, guidee par Iris Chasles ». Le
+    # garde-fou reste a un compte EXACT : si une troisieme apparait, c'est qu'on
+    # a recopie la mention quelque part, et l'ecriture doit etre refusee.
+    ('2 700 personnes', 2, 'la mention du Grand Rex'),
     ('id="ytlb"', 1, 'lecteur video en surimpression'),
     ('id="ytif"', 1, 'iframe du lecteur video'),
     # La visionneuse photo tient a DEUX choses : sa feuille de style et son
