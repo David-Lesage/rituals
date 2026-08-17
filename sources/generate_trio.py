@@ -59,7 +59,11 @@ SIZES_SLIDE = '(max-width:900px) 86vw, 700px'
 SIZES_APHOTO = '(max-width:600px) 62vw, 210px'
 
 SLUGS = {
-    'Au Grand Rex devant 2700 personnes': 'au-grand-rex',
+    # ⚠️ Meme table que dans generate_site.py — les deux pages partagent ces
+    #    fichiers. Nom long assume (17/08/2026) : il dit QUI est sur la photo et
+    #    OU. Ne pas raccourcir, et ne pas modifier ici sans modifier la-bas.
+    'Au Grand Rex devant 2700 personnes':
+        'iris-chasles-et-david-lesage-au-grand-rex-paris',
     'L’induction — la voix qui guide, vers un état de conscience élargie': 'l-induction',
 }
 
@@ -260,8 +264,12 @@ PERSP_NAME = {
 #    diverger a la prochaine fabrication.
 # =========================================================================== #
 
+# ⚠️ FUSION DU 17/08/2026 — `hero-grand-rex` a disparu de cette table et du depot.
+#    Sa recette etait ('web', 'RITUALS_00_header.jpg', 1600, None) : le MEME
+#    original que `slug(CAP_REX)` ci-dessous. Les deux jeux de derivees etaient la
+#    meme photo aux memes dimensions. Le fond du hero et la figure du Grand Rex
+#    partagent desormais un seul jeu de fichiers. Ne pas re-creer `hero-grand-rex`.
 RECETTES = {
-    'hero-grand-rex':           (DIR_SHARED, 'web',   'RITUALS_00_header.jpg', 1600, None),
     slug(CAP_INTENTION):        (DIR_SHARED, 'promo', '20248.', 1300, None),
     slug(CAP_REX):              (DIR_SHARED, 'web',   'RITUALS_00_header.jpg', 1500, None),
     slug(CAP_INDUCTION):        (DIR_SHARED, 'promo', 'iris_priere', 1300, None),
@@ -351,9 +359,8 @@ if '--images' in sys.argv:
 # Les dimensions viennent des JPEG deja versionnes. Ces lignes sont volontairement
 # APRES le bloc `--images` : sinon une derivee manquante arreterait le script avant
 # meme d'avoir eu la chance de la fabriquer.
-u_hero, v_hero = partagee('hero-grand-rex')
 u_intent, v_intent = partagee(slug(CAP_INTENTION))
-u_rex, v_rex = partagee(slug(CAP_REX))
+u_rex, v_rex = partagee(slug(CAP_REX))  # sert AUSSI de fond au hero (fusion 17/08)
 u_induc, v_induc = partagee(slug(CAP_INDUCTION))
 u_key, v_key = partagee('cle-de-voute-duo-theatre')
 u_david, v_david = partagee('portrait-david-lesage')
@@ -476,7 +483,7 @@ def bg_rules(sel, urlbase, vs, grad, pos):
 GRAD_HERO = 'linear-gradient(rgba(10,11,28,.52),rgba(10,11,28,.78))'
 GRAD_KEY = 'linear-gradient(rgba(11,12,30,.74),rgba(11,12,30,.88))'
 CSS_ADD = CSS_ADD.replace('__BG__',
-                          bg_rules('hero', u_hero, v_hero, GRAD_HERO, 'center/cover')
+                          bg_rules('hero', u_rex, v_rex, GRAD_HERO, 'center/cover')
                           + bg_rules('keystone', u_key, v_key, GRAD_KEY,
                                      'center 35%/cover'))
 
@@ -676,7 +683,7 @@ assert 'openIMG' not in html and 'imglb' not in html and 'imgbig' not in html, \
 html = html.replace('<style>',
                     '<link rel="preload" as="image" type="image/webp"'
                     ' href="%s-%d.webp" fetchpriority="high">\n<style>'
-                    % (u_hero, v_hero[-1][0]), 1)
+                    % (u_rex, v_rex[-1][0]), 1)
 
 # menu mobile (hamburger) : absent de la source, injecte ici
 sys.path.insert(0, HERE)

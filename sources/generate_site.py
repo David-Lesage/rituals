@@ -60,7 +60,14 @@ SIZES_SLIDE = '(max-width:900px) 86vw, 700px'
 SIZES_APHOTO = '(max-width:600px) 62vw, 210px'
 
 SLUGS = {
-    'Au Grand Rex devant 2700 personnes': 'au-grand-rex',
+    # ⚠️ Nom de fichier volontairement long (17/08/2026) : il dit QUI est sur la
+    # photo et OU elle a ete prise. Un nom de fichier est lu par Google Images et
+    # par les lecteurs d'ecran quand l'image ne charge pas ; `au-grand-rex` ne
+    # disait ni le nom des artistes ni la ville. Ne pas le « raccourcir » : c'est
+    # exactement ce qu'on est venu chercher. Le TEXTE affiche (la legende
+    # `CAP_REX`), lui, n'a pas change.
+    'Au Grand Rex devant 2700 personnes':
+        'iris-chasles-et-david-lesage-au-grand-rex-paris',
     'L’induction — la voix qui guide, vers un état de conscience élargie': 'l-induction',
 }
 
@@ -187,8 +194,14 @@ CAP_INDUCTION = 'L’induction — la voix qui guide, vers un état de conscienc
 # ⚠️ `grand-rex-bras-leves` n'y figure pas : cette photo a ete fournie et
 # preparee a la main (4 largeurs, jusqu'a 2000 px) ; son original n'a jamais
 # transite par ce script. La fabrication n'efface rien, elle ne la menace pas.
+# ⚠️ FUSION DU 17/08/2026 — `hero-grand-rex` a disparu de cette table et du depot.
+#    Sa recette etait ('web', 'RITUALS_00_header.jpg', 1600, None) : le MEME
+#    original que `slug(CAP_REX)` ci-dessous, a 100 px de plafond pres. Les deux
+#    jeux de derivees etaient donc la meme photo aux memes dimensions (mesure :
+#    480/900/1400 identiques, ecart moyen 1,3 a 2,0 sur 255 — du bruit de
+#    recompression). Le fond du hero et la figure du Grand Rex partagent
+#    desormais un seul jeu de fichiers. Ne pas re-creer `hero-grand-rex`.
 RECETTES = {
-    'hero-grand-rex':           ('web',   'RITUALS_00_header.jpg', 1600, None),
     slug(CAP_INTENTION):        ('promo', '20248.', 1300, None),
     slug(CAP_REX):              ('web',   'RITUALS_00_header.jpg', 1500, None),
     slug(CAP_INDUCTION):        ('promo', 'iris_priere', 1300, None),
@@ -198,9 +211,8 @@ RECETTES = {
                                  (0.20, 0.0, 0.82, 0.78)),
 }
 
-v_hero = derivees('hero-grand-rex')
 v_intention = derivees(slug(CAP_INTENTION))
-v_rex = derivees(slug(CAP_REX))
+v_rex = derivees(slug(CAP_REX))  # sert AUSSI de fond au hero (fusion du 17/08)
 v_induction = derivees(slug(CAP_INDUCTION))
 v_keystone = derivees('cle-de-voute-duo-theatre')
 v_david = derivees('portrait-david-lesage')
@@ -403,7 +415,7 @@ def bg_rules(sel, name, vs, grad, pos):
 GRAD_HERO = 'linear-gradient(rgba(10,11,28,.52),rgba(10,11,28,.78))'
 GRAD_KEY = 'linear-gradient(rgba(11,12,30,.74),rgba(11,12,30,.88))'
 CSS_ADD = CSS_ADD.replace('__BG__',
-                          bg_rules('hero', 'hero-grand-rex', v_hero,
+                          bg_rules('hero', slug(CAP_REX), v_rex,
                                    GRAD_HERO, 'center/cover')
                           + bg_rules('keystone', 'cle-de-voute-duo-theatre',
                                      v_keystone, GRAD_KEY, 'center 35%/cover'))
@@ -509,10 +521,11 @@ html = html.replace('<section class="keystone"><div class="wrap">',
 #
 # Placee ICI, juste apres la cle de voute, parce qu'elle montre exactement ce
 # que la citation decrit : la salle entiere prise dans le meme geste.
-# ⚠️ Elle ne remplace PAS `au-grand-rex` (plus haut) : les deux angles sont
+# ⚠️ Elle ne remplace PAS la photo du Grand Rex (plus haut, desormais
+# `iris-chasles-et-david-lesage-au-grand-rex-paris`) : les deux angles sont
 # opposes — celui-la est pris DEPUIS LA SALLE et montre le plateau, l'ecran
-# geant et les bras leves, la ou `au-grand-rex` et le fond du hero sont pris
-# DEPUIS LA SCENE. Trois sections les separent : aucune repetition.
+# geant et les bras leves, la ou l'autre — qui sert aussi de fond au hero — est
+# pris DEPUIS LA SCENE. Trois sections les separent : aucune repetition.
 # ⚠️ CREDIT PHOTO : signee « Nadine Court PHOTOGRAPHE » en bas a droite, pas
 # MAGYE D'ART comme les deux autres. Site fourni par David et verifie
 # (kairos-photo-artisan.com, « Kairos Photographie »). A CONFIRMER : le titre
@@ -640,8 +653,8 @@ assert 'openIMG' not in html and 'imglb' not in html and 'imgbig' not in html, \
 # ------------------------------------------- prechargement du fond du hero (LCP)
 html = html.replace('<style>',
                     '<link rel="preload" as="image" type="image/webp"'
-                    ' href="%s/hero-grand-rex-%d.webp" fetchpriority="high">\n<style>'
-                    % (IMG_URL, v_hero[-1][0]), 1)
+                    ' href="%s/%s-%d.webp" fetchpriority="high">\n<style>'
+                    % (IMG_URL, slug(CAP_REX), v_rex[-1][0]), 1)
 
 # menu mobile (hamburger) : absent de la source, injecte ici
 sys.path.insert(0, HERE)

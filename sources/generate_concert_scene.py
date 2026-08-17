@@ -184,7 +184,10 @@ DLC_PHOTOS = {
     'proche':     ('rituals',  'une-connexion-forte-avec-le-public',       [480, 900, 1400], 1400, 786),
     'setup':      ('rituals',  'un-univers-musical-electro-organique',     [480, 900, 1400], 1400, 778),
     'portrait':   ('rituals',  'david-lesage',                             [480, 900, 1400], 1400, 1400),
-    'rex':        ('rituals',  'au-grand-rex',                             [480, 900, 1400], 1400, 912),
+    # nom long assume (17/08/2026) : il dit qui est sur la photo et ou — voir SLUGS
+    # dans generate_site.py. Ancien nom : `au-grand-rex`.
+    'rex':        ('rituals',  'iris-chasles-et-david-lesage-au-grand-rex-paris',
+                                                                          [480, 900, 1400], 1400, 912),
     'aerien':     ('e-motion', 'danse-aerienne-et-musique-live-sur-scene', [480, 900, 1400], 1400, 783),
     'aerien-fest': ('e-motion', 'everness-festival',                       [480, 900],        900, 600),
     # PAS de photo du Sziget : la seule disponible dans le depot

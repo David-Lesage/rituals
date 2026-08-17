@@ -513,6 +513,44 @@ seul octet.
 
 ## Journal
 
+### 2026-08-17 — une seule photo du Grand Rex, sous un nom qui dit qui est dessus
+
+**Deux jeux de fichiers contenaient la même photo** : `au-grand-rex-{480,900,1400}` et
+`hero-grand-rex-{480,900,1400}` (JPEG + WebP). Confirmé avant toute suppression, sur les
+**6 paires** : mêmes dimensions (480×313, 900×586, 1400×912), écart moyen 1,3 à 2,0 sur 255,
+99 % des pixels sous 13, et sur une miniature 64×64 (qui efface le bruit de compression)
+écart max 9/255. Explication trouvée dans le code : les deux **recettes** partaient du même
+original `RITUALS_00_header.jpg`, à 100 px de plafond près (1600 vs 1500).
+
+**Ce n'était PAS une suppression mais une fusion** : `hero-grand-rex` servait de **fond au
+hero** de `/rituals` et `/rituals-trio` (règle CSS + `<link rel=preload>` du LCP), pendant que
+`au-grand-rex` servait de **figure** sur ces deux pages plus `/david-lesage-en-concert`.
+
+**Nom retenu** : `iris-chasles-et-david-lesage-au-grand-rex-paris-{480,900,1400}.{jpg,webp}`.
+Un nom de fichier est lu par Google Images et par les lecteurs d'écran quand l'image ne charge
+pas ; `au-grand-rex` ne disait ni qui ni où. Plus long que tout le reste du dossier (46
+caractères contre 36 au maximum jusqu'ici) — **assumé, ne pas raccourcir**.
+
+**Modifié** : `generate_site.py`, `generate_trio.py` (tables `SLUGS` + `RECETTES`, variables
+`v_hero`/`u_hero` supprimées au profit de `v_rex`/`u_rex`), `generate_concert_scene.py`
+(table `PHOTOS`, clé `rex`), `generate_assoc.py` (un commentaire seul — `/` ne référençait pas
+l'image, vérifié : 0 `<img>` sur l'accueil, `md5` inchangé).
+
+**Preuves** : diff du **texte visible** sur les 33 fichiers HTML = **vide** ; les 3 pages
+touchées sont **identiques à l'octet** une fois le nom de fichier normalisé ; les 30 autres
+fichiers ont un `md5` inchangé ; 6 URL en 200 en local (JPEG + WebP × 3 largeurs), les 6
+anciennes en 404 ; 146 / 206 / 302 URL d'images déclarées par page, toutes récupérées ET
+décodées (`createImageBitmap`), 0 cassée, console vide. **460,3 Ko économisés.**
+
+⚠️ **`grand-rex-bras-leves-*` n'a pas été touchée** — c'est l'autre photo du même soir.
+
+⚠️ **Un `grep "au-grand-rex"` renvoie forcément des résultats** : c'est un morceau du nouveau
+nom. Le contrôle qui a du sens est `grep "hero-grand-rex"` → il ne reste que **5 lignes de
+commentaire** (dans `generate_site.py` ×2, `generate_trio.py` ×2, `generate_assoc.py` ×1) qui
+disent « ne pas re-créer ce fichier ». Aucune référence de chemin nulle part.
+
+---
+
 ### 2026-08-17 — la visionneuse photo sur TOUT le site, et le Grand Rex sur `/e-motion`
 
 Publié en une fois : `663c5ce` → `9f87415` (10 commits). 30/30 à chaque étape.

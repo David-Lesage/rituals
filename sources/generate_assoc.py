@@ -330,7 +330,8 @@ HELLO = T.HELLOASSO
 # donc ici par CHOIX, plus par defaut. Les pages qui parlent d'autre chose ont
 # recu la leur (voir lenid_source.html, rituals_source.html, trio_source.html).
 # ⚠️ Le recadrage a coupe la signature « MAGYE D'ART » visible en bas a droite de
-#    la photo d'origine (img/rituals/hero-grand-rex-1400.jpg). A signaler a David :
+#    la photo d'origine (img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-1400.jpg
+#    — fichier renomme le 17/08/2026, ex-`hero-grand-rex`). A signaler a David :
 #    c'est un credit photo, et il ne voyage plus avec l'image partagee.
 HTML=f"""<!DOCTYPE html>
 <html lang="fr"><head>
