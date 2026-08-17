@@ -33,6 +33,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import theme_chaleur  # couche chaleureuse commune  # noqa: E402
+import visionneuse    # visionneuse photo commune     # noqa: E402
 
 IMG_DIR = os.path.join(REPO, 'img', 'rituals')
 IMG_URL = '/img/rituals'
@@ -308,6 +309,22 @@ with open(SOURCE, 'r', encoding='utf-8') as f:
     html = f.read()
 
 # ------------------------------------------------------------------------- CSS
+# --------------------------------------------------------------------------
+# LA VISIONNEUSE PHOTO (17/08/2026)
+# --------------------------------------------------------------------------
+# Les 26 photos de la page s'ouvrent en grand au clic. Tout est dans
+# `sources/visionneuse.py` — meme visionneuse que sur les six autres pages a
+# photos du site. Elle REMPLACE l'ancienne (`openIMG` / `#imglb`), retiree plus
+# bas : celle-la n'avait ni defilement d'une photo a l'autre, ni zoom, ni piege
+# a focus, ni retour du focus sur la photo de depart, ni verrou de la page.
+#
+# ⚠️ `.cap2` N'EST PAS UN ARGUMENT COSMETIQUE. La legende de chaque diapo du
+#    carrousel est en `position:absolute` PAR-DESSUS le bas de l'image (le
+#    degrade noir) : sans la ligne `pointer-events:none` que cet argument
+#    produit, tout le bas de chaque photo du carrousel n'est pas cliquable.
+#    Mesure faite par `elementFromPoint` sur les 26 photos.
+CSS_VISIONNEUSE = visionneuse.css('.cap2')
+
 CSS_ADD = ("""
 .nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:16px 26px;background:rgba(14,15,36,.82);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
 .nav .brand{font-family:'Cormorant Garamond',serif;letter-spacing:.14em;text-transform:uppercase;font-size:13.5px;color:#fff;text-decoration:none}
@@ -364,7 +381,7 @@ picture.aphoto>img{width:100%;height:auto;display:block;border-radius:inherit}
   .slide img{height:auto;width:100%;max-width:100%;max-height:none}
 }
 @media print{.slide{width:100%!important}.slide picture{width:100%!important}}
-__BG__""") + theme_chaleur.CSS + theme_chaleur.CSS_RITUALS + """</style>"""
+__BG__""") + theme_chaleur.CSS + theme_chaleur.CSS_RITUALS + CSS_VISIONNEUSE + """</style>"""
 
 
 def bg_rules(sel, name, vs, grad, pos):
@@ -554,12 +571,12 @@ slides = ''
 for i, (tok, cap) in enumerate(GAL):
     name = slug(cap)
     vs = derivees(name)
-    big = '%s/%s-%d' % (IMG_URL, name, vs[-1][0])
     ar = round(vs[-1][0] / vs[-1][1], 4)
+    # Plus de `onclick="openIMG(this)"` ni de `data-full` : la visionneuse
+    # commune n'a besoin d'aucun attribut en plus. Elle lit la plus grande
+    # variante DANS les `srcset` deja ecrits par `picture()`.
     slides += ('      <div class="slide" style="--ar:%s">' % ar
-               + picture(name, vs, SIZES_SLIDE, cap, lazy=i >= 3,
-                         img_extra=' onclick="openIMG(this)" data-full="%s.webp"'
-                                   ' data-full-jpg="%s.jpg"' % (big, big))
+               + picture(name, vs, SIZES_SLIDE, cap, lazy=i >= 3)
                + '<span class="cap2">' + cap + '</span></div>\n')
 
 gal = ('<section class="gallery-sec"><div class="wrap">\n  <div class="kick">Galerie</div>\n'
@@ -572,22 +589,41 @@ gal = ('<section class="gallery-sec"><div class="wrap">\n  <div class="kick">Gal
        '  </div>\n</div></section>\n<footer><div class="wrap">')
 html = html.replace('<footer><div class="wrap">', gal, 1)
 
-# ------------------------------------------- visionneuse : la plus grande variante
-OLD_JS = ("function openIMG(img){document.getElementById('imgbig').src=img.src;"
-          "document.getElementById('imglb').classList.add('open');}")
-NEW_JS = ("var WEBP_OK=(function(){try{return document.createElement('canvas')"
-          ".toDataURL('image/webp').indexOf('data:image/webp')===0}catch(e){return false}})();"
-          "function openIMG(img){var b=document.getElementById('imgbig');"
-          "b.src=(WEBP_OK?img.getAttribute('data-full'):img.getAttribute('data-full-jpg'))"
-          "||img.currentSrc||img.src;b.alt=img.alt||'';"
-          "document.getElementById('imglb').classList.add('open');}")
-assert OLD_JS in html, 'openIMG introuvable'
-html = html.replace(OLD_JS, NEW_JS, 1)
-html = html.replace('<img id="imgbig" src="" alt="">', '<img id="imgbig" alt="">', 1)
-html = html.replace("document.getElementById('imglb').classList.remove('open');"
-                    "document.getElementById('imgbig').src='';",
-                    "document.getElementById('imglb').classList.remove('open');"
-                    "document.getElementById('imgbig').removeAttribute('src');")
+# ---------------------------------------- l'ANCIENNE visionneuse est RETIREE
+# `sources/rituals_source.html` porte encore la visionneuse rudimentaire de
+# 2024 : un calque `#imglb`, une image `#imgbig`, et deux fonctions `openIMG` /
+# `closeIMG`. Elle ouvrait la photo, et c'est tout : ni defilement d'une photo
+# a l'autre, ni zoom, ni piege a focus, ni retour du focus sur la photo de
+# depart, ni verrou du corps de page. La visionneuse commune la remplace.
+# Les trois morceaux sont retires ICI, dans le generateur, plutot que dans la
+# source : la source reste la page telle qu'elle a ete ecrite, et le jour ou on
+# voudra revenir en arriere, il n'y a qu'un bloc a supprimer.
+# ⚠️ NE PAS CONFONDRE `.imglb` (photos, retire) ET `.lb` (le lecteur video
+#    YouTube, garde) : deux calques differents, deux roles differents.
+ANCIENNE_CSS = (
+    '.imglb{position:fixed;inset:0;background:rgba(6,7,18,.93);display:none;'
+    'align-items:center;justify-content:center;z-index:60;padding:20px;'
+    'cursor:zoom-out}\n.imglb.open{display:flex}\n'
+    '.imglb img{max-width:96vw;max-height:92vh;border-radius:10px;'
+    'border:1px solid var(--line)}\n')
+ANCIENNE_HTML = ('<div class="imglb" id="imglb" onclick="closeIMG()">'
+                 '<img id="imgbig" src="" alt=""></div>\n')
+ANCIEN_JS = ("function openIMG(img){document.getElementById('imgbig').src=img.src;"
+             "document.getElementById('imglb').classList.add('open');}\n"
+             "function closeIMG(){document.getElementById('imglb')"
+             ".classList.remove('open');"
+             "document.getElementById('imgbig').src='';}\n")
+for _mort, _quoi in ((ANCIENNE_CSS, "feuille de style de l'ancienne visionneuse"),
+                     (ANCIENNE_HTML, "calque de l'ancienne visionneuse"),
+                     (ANCIEN_JS, "script de l'ancienne visionneuse")):
+    assert html.count(_mort) == 1, '%s : introuvable ou en double' % _quoi
+    html = html.replace(_mort, '', 1)
+# la regle d'impression cachait l'ancien calque : elle cache maintenant le neuf
+assert html.count('  .lb,.imglb{display:none!important}\n') == 1
+html = html.replace('  .lb,.imglb{display:none!important}\n',
+                    '  .lb,.ph{display:none!important}\n', 1)
+assert 'openIMG' not in html and 'imglb' not in html and 'imgbig' not in html, \
+    "il reste une trace de l'ancienne visionneuse"
 
 # ------------------------------------------- prechargement du fond du hero (LCP)
 html = html.replace('<style>',
@@ -612,10 +648,34 @@ assert html.count(ANCRE_HAMBURGER) == 1, 'ancre du hamburger non unique'
 html = html.replace(mobile_nav.CSS, '', 1)
 html = html.replace(ANCRE_HAMBURGER, ANCRE_HAMBURGER + mobile_nav.CSS, 1)
 
-# Ligne vide entre le script du hamburger et le bloc du menu partage. Elle vient
-# de la mise a jour du menu v1 -> v2 : `nav_menu._strip()` a retire l'ancien bloc
-# en laissant le saut de ligne qui le suivait. Toutes les pages publiees l'ont ;
-# on la reproduit pour qu'une regeneration ne modifie pas un octet.
+# ------------------------------------------------------- la visionneuse photo
+# Les 26 photos de la page, dans l'ordre du document : les 4 grandes images de
+# section (`.figure`), les 2 portraits des artistes (`picture.aphoto`) et les
+# 20 photos du carrousel (`.slide`).
+# ⚠️ LE CARROUSEL RESTE. Son role est de faire defiler les photos DANS la page ;
+#    la visionneuse s'ajoute par-dessus. Les deux ne se marchent pas dessus :
+#    la visionneuse n'ecoute le clavier QUE pendant qu'elle est ouverte (son
+#    ecouteur `keydown` est pose a l'ouverture et retire a la fermeture), donc
+#    elle ne prend jamais les fleches du carrousel quand elle est fermee.
+# ⚠️ LE DEFILEMENT AUTOMATIQUE DU CARROUSEL EST MIS EN PAUSE quand on ouvre une
+#    photo. Au clic c'etait deja le cas : `carPause` est deja branche sur le
+#    `pointerdown` du rail. AU CLAVIER, non — d'ou les trois lignes ci-dessous.
+#    Sans elles, le carrousel continuait d'avancer derriere la visionneuse et la
+#    page se retrouvait ailleurs a la fermeture.
+PAUSE_JS = ('<script>\n'
+            "(function(){var t=document.getElementById('cartrack'); if(!t)return;\n"
+            "  t.addEventListener('keydown',function(e){\n"
+            "    if(e.key==='Enter'||e.key===' '||e.key==='Spacebar')carPause();});\n"
+            '})();\n</script>\n')
+html = html.replace('</body>',
+                    visionneuse.js('.figure img, picture.aphoto img, .slide img')
+                    + PAUSE_JS + '</body>', 1)
+
+# Ligne vide entre le dernier script de la page et le bloc du menu partage. Elle
+# vient de la mise a jour du menu v1 -> v2 : `nav_menu._strip()` a retire
+# l'ancien bloc en laissant le saut de ligne qui le suivait. Toutes les pages
+# publiees l'ont ; on la reproduit pour qu'une regeneration ne modifie pas un
+# octet.
 html = html.replace('</script>\n</body>', '</script>\n\n</body>', 1)
 
 # menu de navigation partage (Accueil / Sur scene / Le Nid / L'association / Contact)
@@ -628,6 +688,16 @@ assert 'data:image' not in html.replace("data:image/webp'", ''), 'il reste du ba
 # dans la page livree (elle serait publique et indexable).
 import verif_commentaires
 verif_commentaires.verifier(html, TARGET)
+
+# La visionneuse tient a DEUX choses : sa feuille de style et son script.
+# Perdre l'une des deux ne casserait rien a l'ecran — les photos cesseraient
+# simplement d'etre cliquables, en silence. Le troisieme marqueur protege la
+# ligne qui rend cliquable le BAS des photos du carrousel (la legende `.cap2`
+# passe par-dessus).
+for _m, _r in (('.ph{position:fixed', 'feuille de style de la visionneuse'),
+               ("var SEL='.figure img", 'script de la visionneuse'),
+               ('.cap2{pointer-events:none}', 'bas des photos du carrousel cliquable')):
+    assert html.count(_m) == 1, '%s : %d occurrence(s), attendu 1' % (_r, html.count(_m))
 
 os.makedirs(os.path.dirname(TARGET), exist_ok=True)
 with open(TARGET, 'w', encoding='utf-8') as f:
