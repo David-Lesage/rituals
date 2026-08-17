@@ -338,7 +338,16 @@ Code portail retiré des 20 événements · 3 rappels (10080/1440/120 min, popup
 10. **Tarifs des rendez-vous individuels** (50 € / 70 € d'après le site) à afficher dans l'email showcase ?
 11. **Rendez-vous mensuel** : l'adhésion est-elle vraiment requise ? (son seul bouton est « Adhérer »).
 12. Décisions anciennes : suppression `/solune` et `/au-nid` · booking `/e-motion` = `booking@solune.show` (autre marque, comme « SOLUNE présente » sur la bannière) · rôle de Julien sur `/rituals-trio` · séance photo trio · afficher les prix des instruments (3 700 € / 5 300 €) ?
-13. **E-Motion, aperçu de partage (17/08)** : le titre de partage est celui de Solune et ne porte
+13. 🔴 **Photos trop petites pour la visionneuse** — les **3 portraits de `/le-soin-soa` (260 px)**
+    d'abord : à cette taille l'agrandissement est quasi nul. Puis `portrait-iris-chasles` (480 px,
+    sur 3 pages) et `portrait-julien-dub-au-saxophone` (480 px). Fournir des variantes 900 px, ou
+    décider de sortir ces photos de la visionneuse.
+14. **Visionneuse — arbitrages laissés ouverts** : les 3 portraits 260 px restent-ils cliquables
+    (cohérence) ou en sortent-ils ? · la photo du haut de `/le-nid` est un **fond** (recouverte
+    par le voile qui rend le titre lisible) → laissée dehors, sinon un clic couvrirait toute
+    l'entête sous le titre et les boutons · les 15 vignettes vidéo et le logo des deux pages
+    « concert » restent à leur seul rôle.
+15. **E-Motion, aperçu de partage (17/08)** : le titre de partage est celui de Solune et ne porte
     plus **« · ID duo »** (le nom du duo reste dans le `<title>`, dans `og:image:alt` et dans la
     page). Le récupérer ? Et l'affiche garde le logo **« SOLUNE présente »** en tête : à trancher
     avec l'avancée de la migration vers Résonances.
@@ -503,6 +512,99 @@ seul octet.
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
 ## Journal
+
+### 2026-08-17 — la visionneuse photo sur TOUT le site, et le Grand Rex sur `/e-motion`
+
+Publié en une fois : `663c5ce` → `9f87415` (10 commits). 30/30 à chaque étape.
+
+**1. Une visionneuse photo commune — `sources/visionneuse.py`**
+
+Écrite d'abord pour `/e-motion`, puis **extraite en module partagé** sur le modèle de
+`theme_chaleur.py`. Deux paramètres : `css(legende)` (le sélecteur de la légende à rendre
+transparente au clic) et `js(selecteur)` (les photos cliquables). L'extraction a été prouvée
+neutre : md5 de `e-motion/index.html` identique avant/après.
+
+Posée ensuite **une page à la fois**, en vérifiant entre chaque (règle anti-régression du
+projet — ne jamais traiter ces 7 pages d'un bloc) :
+
+| Page | Photos | Sélecteur | Légende neutralisée |
+|---|---|---|---|
+| `/e-motion` | 27 | `.gal-item .gal-ph img` … | `.gal-item .c` |
+| `/david-lesage-en-concert` | 34 / 50 | `.dlc-fig > picture img, .slide > picture img` | — |
+| `/rituals-trio` | 38 | `.figure img, picture.aphoto img, .slide img` | `.cap2` |
+| `/rituals` | 26 | idem | `.cap2` |
+| `/concerts-david-lesage` | 9 / 25 | `.cdl-fig > picture img` | — |
+| `/le-soin-soa` | 9 | `.soa-fig img, .who-ph img` | — |
+| `/le-nid` | 6 / 7 | `.gal img` | — |
+| `/rythme-calebasse` | 5 | `.hero-fig img, .fig img` | — |
+
+⚠️ **`/rituals` et `/rituals-trio` : l'ancienne visionneuse a été SUPPRIMÉE** (`openIMG`,
+`#imglb`, `#imgbig`, CSS `.imglb`, attributs `data-full`). Elle ouvrait bien une photo mais
+sans navigation, sans zoom, sans piège à focus et sans rendre la position de la page. Les
+générateurs refusent désormais d'écrire si l'un des morceaux retirés réapparaît (`assert`).
+
+⚠️ **Les carrousels sont tous conservés** — ils défilent DANS la page, c'est leur rôle. Sur
+`/rituals` et `/rituals-trio` (défilement automatique), la lecture se met en pause à
+l'ouverture d'une photo au clavier ; au clic c'était déjà le cas via le `pointerdown` du rail.
+
+**Écarts entre le périmètre annoncé et le réel, comptés et non devinés** : `/concerts-david-lesage`
+n'a **aucun carrousel** ; sur ses 25 `<img>`, 15 sont des **vignettes de vidéo** (déjà cliquables
+pour lancer la vidéo) et 1 est un logo → 9 vraies photos. Idem `/david-lesage-en-concert` :
+50 `<img>` = 23 diapos + 11 grandes images + 15 vignettes vidéo + 1 logo → 34. **Règle appliquée
+partout : jamais deux actions sur le même pixel.**
+
+**Retour réel de David (ce que les agents ne pouvaient PAS vérifier)** : testé **sur ordinateur
+ET sur mobile** — défilement fluide, **zoom « super utile »**, photos du Grand Rex « au top ».
+⚠️ **Les captures d'écran sont inexploitables sur ce projet** (fenêtre non au premier plan →
+`visibilityState: "hidden"` → images uniformément noires). Tout le reste est mesuré par le DOM.
+C'est structurel : sur ce site, **le seul contrôle visuel fiable est celui de David**.
+
+**2. Onze photos du Grand Rex sur `/e-motion`** (`16a1146`)
+
+Section `#grand-rex` après la galerie de danse aérienne, avant « Le cœur du spectacle ».
+Mention **sobre** et seule : « Grand Rex, Paris — 2 700 personnes. »
+13 fichiers fournis − 1 filigrane en mosaïque plein cadre (épreuve non exploitable)
+− 1 doublon = **11 publiées**. Poids ajouté **6,78 Mo** (84 fichiers, 480/900/1400/2000,
+JPEG + WebP ; 3,1 Mo pour les 2000 px, qui font la netteté du zoom).
+
+⚠️ **Le doublon** : `NadineCourt-493.jpg` **est** `img/rituals/grand-rex-bras-leves-*`, déjà en
+ligne sur `/rituals`, `/rituals-trio` et `/david-lesage-en-concert`. Non republiée.
+
+**Crédits, relevés filigrane par filigrane : 8 MAGYE D'ART (`magyedart.fr`) · 3 Nadine Court
+(`kairos-photo-artisan.com`).** Rappel : son site affiche « Nadine **Tremblay** », on crédite
+« Nadine **Court** », le nom signé sur l'image.
+
+**3. Les noms sur les photos** (`9f87415`)
+
+🚨 **RÈGLE POSÉE PAR DAVID, à appliquer partout** : on ne nomme que **David Lesage, Iris
+Chasles et Arnaud Riou** — et Arnaud Riou seulement s'il est à l'image. Personne d'autre.
+(Le site a déjà publié une identification erronée par le passé.)
+
+Les descriptions reprennent **ses mots** : la respiration de la joie de 2 700 personnes guidée
+par Iris · le chœur des tambours de l'**Academy de l'Act** · le public qui répond **en écho**
+au ngoni · le salut **comme deux oiseaux**, dans le silence.
+
+⚠️ **Erreur de fait corrigée** : une description disait qu'Iris « retient d'une main le
+mousqueton de l'élastique ». **Faux — elle est tenue par son baudrier**, elle ne tient rien.
+C'est ce texte que lisent les lecteurs d'écran et Google. Le mot « mousqueton » ne doit plus
+réapparaître comme un geste de la main.
+
+⚠️ **Le garde-fou `('2 700 personnes', 1)` est passé à `2`** dans `generate_emotion.py` — la
+ligne de section **et** la description de la première photo. Il reste un compte **exact** :
+une troisième occurrence = recopie accidentelle = écriture refusée.
+
+**Correspondance des numéros** : David commente en faisant défiler la visionneuse et **numérote
+avec son compteur** (1→27 sur `/e-motion`). Utile à savoir pour toute demande future : lui
+envoyer une planche contact **numérotée dans l'ordre exact de la visionneuse**.
+
+**Images trop petites pour un vrai agrandissement** (la visionneuse n'agrandit jamais au-delà
+de la définition du fichier — au-delà, c'est flou) :
+- 🔴 `/le-soin-soa` : les **3 portraits (Gaïa, Iris, David) ne font que 260 px** — cas le plus criant
+- `/le-soin-soa` : `facade-le-nid` 600 px · `cercle-au-nid` 768 px (aussi sur `/concerts-david-lesage`)
+- `/rituals`, `/rituals-trio`, `/e-motion` : `portrait-iris-chasles` **480 px** ·
+  `/rituals-trio` : `portrait-julien-dub-au-saxophone` 480 px
+
+---
 
 ### 2026-08-17 — nuit — session récupérée après une coupure réseau, 3 chantiers publiés
 
