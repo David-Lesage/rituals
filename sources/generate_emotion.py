@@ -114,6 +114,18 @@ CRED_PHOTO = {
 #: legende affichee sous la photo, texte alternatif).
 #: L'ordre est celui de la page : la salle d'abord, puis le plateau.
 PHOTOS_REX = (
+    # ⚠️ CELLE-CI VIT DANS `img/rituals/`, pas dans `img/e-motion/` — d'ou le 7e
+    # champ. C'est le BANDEAU des deux pages RITUALS, et David a demande le
+    # 17/08 qu'elle soit aussi ici. Elle est reutilisee sur place, jamais
+    # recopiee (voir la docstring de `_item_rex`). Elle ouvre la section parce
+    # qu'elle donne le point de vue de la scene : ce que les artistes voient.
+    ('iris-chasles-et-david-lesage-au-grand-rex-paris', (480, 900, 1400), 912,
+     "MAGYE D'ART",
+     'Face à la salle',
+     'Vue depuis la scène du Grand Rex : David Lesage et Iris Chasles assis au '
+     'sol au centre du plateau, de dos, face à une salle comble sur deux '
+     'niveaux, dans les faisceaux de deux projecteurs en contre-jour.',
+     'rituals'),
     ('grand-rex-la-salle-debout', (480, 900, 1400, 2000), 1331, 'Nadine Court',
      'La respiration de la joie, guidée par Iris Chasles',
      'La mise en mouvement de la respiration de la joie de 2 700 personnes, guidée '
@@ -182,20 +194,29 @@ PHOTOS_REX = (
 SIZES_GAL = '(max-width:700px) calc(100vw - 52px), 485px'
 
 
-def _item_rex(nom, largeurs, hauteur, qui, legende, alt):
-    """Un `.gal-item` : la photo, sa legende, puis le credit du photographe."""
+def _item_rex(nom, largeurs, hauteur, qui, legende, alt, dossier='e-motion'):
+    """Un `.gal-item` : la photo, sa legende, puis le credit du photographe.
+
+    `dossier` existe pour UNE raison : la premiere photo de la section vit dans
+    `img/rituals/` et non `img/e-motion/`. C'est la meme image que le bandeau des
+    deux pages RITUALS, et David a demande le 17/08 qu'elle soit AUSSI sur
+    `/e-motion`. On la REUTILISE la ou elle est — on ne la recopie pas dans
+    `img/e-motion/`. Recopier aurait cree un doublon exactement le jour ou on
+    venait d'en supprimer un (`au-grand-rex` / `hero-grand-rex`, 460 Ko).
+    Une seule photo, un seul fichier, deux pages qui l'affichent.
+    """
     def lot(ext):
-        return ', '.join('/img/e-motion/%s-%d.%s %dw' % (nom, w, ext, w)
+        return ', '.join('/img/%s/%s-%d.%s %dw' % (dossier, nom, w, ext, w)
                          for w in largeurs)
     return (
         '    <div class="gal-item"><div class="gal-ph"><picture>'
         '<source type="image/webp" srcset="%s" sizes="%s">'
-        '<img src="/img/e-motion/%s-900.jpg" srcset="%s" sizes="%s"'
+        '<img src="/img/%s/%s-900.jpg" srcset="%s" sizes="%s"'
         ' width="%d" height="%d" alt="%s" loading="lazy" decoding="async">'
         '</picture><span class="c">%s</span></div>'
         '<span class="cred">Crédit photo <a href="%s" target="_blank"'
         ' rel="noopener">%s</a></span></div>\n'
-        % (lot('webp'), SIZES_GAL, nom, lot('jpg'), SIZES_GAL,
+        % (lot('webp'), SIZES_GAL, dossier, nom, lot('jpg'), SIZES_GAL,
            largeurs[-1], hauteur, alt, legende, CRED_PHOTO[qui], qui))
 
 
@@ -858,11 +879,17 @@ GARDE_FOUS = (
     ('.burger{', 3, 'CSS du menu hamburger'),
     ('<h1', 1, 'titre unique de la page'),
     # 10 pour la galerie « La danse aerienne » + 11 pour « Au Grand Rex ».
-    ('class="gal-ph"', 21, 'cadres photo de la galerie'),
+    # 22 depuis le 17/08 : les 10 de la galerie du haut + les 12 de la section
+    # Grand Rex (11 photos livrees le 17/08 + le bandeau des pages RITUALS,
+    # ajoute a la demande de David et reutilise depuis `img/rituals/`).
+    ('class="gal-ph"', 22, 'cadres photo de la galerie'),
     # 4 dans la galerie du haut + 8 sur les onze photos du Grand Rex ; les 3
     # autres sont signees Nadine Court. Perdre un credit, c'est publier une
     # photo signee sans citer qui l'a prise.
-    ('magyedart.fr', 12, "credits photo MAGYE D'ART"),
+    # 13 depuis le 17/08 : 4 dans la galerie du haut + 9 dans la section Grand
+    # Rex (8 des onze photos livrees ce jour-la, plus le bandeau des pages
+    # RITUALS). Les 3 restantes de la section sont signees Nadine Court.
+    ('magyedart.fr', 13, "credits photo MAGYE D'ART"),
     ('kairos-photo-artisan.com', 3, 'credits photo Nadine Court'),
     ('id="grand-rex"', 1, 'section Grand Rex'),
     # DEUX occurrences depuis le 17/08/2026, et c'est voulu : la ligne de section
