@@ -1,11 +1,10 @@
 User-agent: *
 Allow: /
 
-# Anciennes URL remplacees, conservees le temps de la transition :
-# /solune  -> /e-motion
-# /au-nid  -> /le-nid
-Disallow: /solune
-Disallow: /au-nid
+# /solune et /au-nid ont ete SUPPRIMEES le 17/08/2026. Ce sont maintenant des
+# redirections 301 (voir vercel.json) vers /e-motion et /le-nid.
+# ⚠️ Surtout PAS de Disallow ici : il empecherait Google de voir la redirection,
+# donc de reporter le referencement sur la page qui remplace.
 
 # Adresse stable de connexion des beta-testeurs de Guso Facile. Ce n'est pas une
 # page : c'est une redirection posee dans vercel.json vers l'application. Elle

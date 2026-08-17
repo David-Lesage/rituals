@@ -1,20 +1,100 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
-    { "source": "/accueil", "destination": "/", "permanent": true },
-    { "source": "/accueil/", "destination": "/", "permanent": true },
-    { "source": "/home", "destination": "/", "permanent": true },
-    { "source": "/contact", "destination": "/#contact", "permanent": true },
-    { "source": "/agenda", "destination": "/le-nid#agenda", "permanent": true },
-    { "source": "/statuts", "destination": "/association#statuts", "permanent": true },
-    { "source": "/adherer", "destination": "/#adherer", "permanent": true },
-    { "source": "/l-association", "destination": "/association", "permanent": true },
-    { "source": "/mentions-legales", "destination": "/association#mentions", "permanent": true },
-    { "source": "/Guso-Facile", "destination": "/guso-facile", "permanent": true },
-    { "source": "/Guso-Facile/", "destination": "/guso-facile", "permanent": true },
-    { "source": "/guso-facile/app", "destination": "https://guso-facile.vercel.app/index.html", "permanent": false },
-    { "source": "/guso-facile/app/", "destination": "https://guso-facile.vercel.app/index.html", "permanent": false },
-    { "source": "/guso-facile/invitation", "destination": "https://guso-facile.vercel.app/index.html", "permanent": false },
-    { "source": "/guso-facile/invitation/", "destination": "https://guso-facile.vercel.app/index.html", "permanent": false }
+    {
+      "source": "/accueil",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/accueil/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/#contact",
+      "permanent": true
+    },
+    {
+      "source": "/agenda",
+      "destination": "/le-nid#agenda",
+      "permanent": true
+    },
+    {
+      "source": "/statuts",
+      "destination": "/association#statuts",
+      "permanent": true
+    },
+    {
+      "source": "/adherer",
+      "destination": "/#adherer",
+      "permanent": true
+    },
+    {
+      "source": "/l-association",
+      "destination": "/association",
+      "permanent": true
+    },
+    {
+      "source": "/mentions-legales",
+      "destination": "/association#mentions",
+      "permanent": true
+    },
+    {
+      "source": "/solune",
+      "destination": "/e-motion",
+      "permanent": true
+    },
+    {
+      "source": "/solune/",
+      "destination": "/e-motion",
+      "permanent": true
+    },
+    {
+      "source": "/au-nid",
+      "destination": "/le-nid",
+      "permanent": true
+    },
+    {
+      "source": "/au-nid/",
+      "destination": "/le-nid",
+      "permanent": true
+    },
+    {
+      "source": "/Guso-Facile",
+      "destination": "/guso-facile",
+      "permanent": true
+    },
+    {
+      "source": "/Guso-Facile/",
+      "destination": "/guso-facile",
+      "permanent": true
+    },
+    {
+      "source": "/guso-facile/app",
+      "destination": "https://guso-facile.vercel.app/index.html",
+      "permanent": false
+    },
+    {
+      "source": "/guso-facile/app/",
+      "destination": "https://guso-facile.vercel.app/index.html",
+      "permanent": false
+    },
+    {
+      "source": "/guso-facile/invitation",
+      "destination": "https://guso-facile.vercel.app/index.html",
+      "permanent": false
+    },
+    {
+      "source": "/guso-facile/invitation/",
+      "destination": "https://guso-facile.vercel.app/index.html",
+      "permanent": false
+    }
   ]
 }

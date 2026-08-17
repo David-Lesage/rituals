@@ -97,7 +97,17 @@ PAGES = (
 #: absents du sitemap, interdits dans robots.txt. Leur suppression n'a jamais
 #: ete tranchee par David — on ne les efface pas, on verifie juste qu'ils
 #: restent bien invisibles.
-ORPHELINES = ('/solune', '/au-nid')
+# SUPPRIMEES le 17/08/2026, sur decision de David. Elles n'existent plus sur le
+# disque : ce sont desormais des REDIRECTIONS 301 posees dans vercel.json, vers
+# les pages qui les remplacent.
+#
+# ⚠️ Elles ne doivent PLUS figurer en `Disallow:` dans robots.txt, et c'est
+# volontaire — c'est meme l'inverse de ce qu'on croit d'instinct. Un `Disallow`
+# empeche Google d'aller VOIR l'adresse ; il ne verrait donc jamais la
+# redirection, et le referencement gagne par l'ancienne adresse serait perdu au
+# lieu d'etre transfere a la nouvelle. On laisse Google explorer, lire le 301,
+# et reporter la page sur celle qui la remplace.
+SUPPRIMEES = {'/solune': '/e-motion', '/au-nid': '/le-nid'}
 
 # --------------------------------------------------------------------------- #
 # LISTES BLANCHES  —  ce qui est deja publie et assume
@@ -711,10 +721,10 @@ def controle_plan(pages):
         for en_trop in sorted(listees - attendues):
             pbs.append('sitemap.xml : %s est annoncee mais ne correspond a aucune '
                        'page publiee' % en_trop)
-        for orpheline in ORPHELINES:
-            if orpheline in listees:
-                pbs.append('sitemap.xml : %s est une page orpheline, elle ne doit '
-                           'pas figurer dans le plan du site' % orpheline)
+        for supprimee in SUPPRIMEES:
+            if supprimee in listees:
+                pbs.append('sitemap.xml : %s est une page supprimee, elle ne doit '
+                           'pas figurer dans le plan du site' % supprimee)
 
     chemin = os.path.join(RACINE, 'robots.txt')
     if not os.path.exists(chemin):
@@ -723,10 +733,24 @@ def controle_plan(pages):
         with open(chemin, encoding='utf-8') as f:
             robots = f.read()
         interdites = set(re.findall(r'(?im)^\s*Disallow:\s*(\S+)\s*$', robots))
-        for orpheline in ORPHELINES:
-            if orpheline not in interdites:
-                pbs.append('robots.txt : %s reste accessible aux moteurs de '
-                           'recherche alors que la page est abandonnee' % orpheline)
+        for supprimee, remplacante in SUPPRIMEES.items():
+            # Le dossier ne doit plus exister : sinon la page repondrait encore,
+            # et la redirection ne servirait a rien.
+            if os.path.isdir(os.path.join(RACINE, supprimee.lstrip('/'))):
+                pbs.append('%s a ete supprimee mais son dossier existe encore sur '
+                           'le disque : la page repond toujours' % supprimee)
+            # Et la redirection doit exister, sinon l'ancienne adresse tombe en 404.
+            if supprimee not in {(s.rstrip('/') or '/') for s, _ in _redirections()}:
+                pbs.append('vercel.json : %s a ete supprimee sans redirection vers '
+                           '%s — l\'ancienne adresse tombera en 404'
+                           % (supprimee, remplacante))
+            # Voir la note de SUPPRIMEES : un Disallow empecherait Google de voir
+            # la redirection, donc de reporter le referencement.
+            if supprimee in interdites:
+                pbs.append('robots.txt : %s est interdite aux moteurs alors qu\'elle '
+                           'redirige vers %s — Google ne verra jamais la redirection '
+                           'et le referencement sera perdu au lieu d\'etre transfere'
+                           % (supprimee, remplacante))
         for interdite in sorted(interdites):
             if interdite.rstrip('/') in attendues:
                 pbs.append('robots.txt : %s est une page publiee, elle ne doit pas '

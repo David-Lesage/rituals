@@ -36,10 +36,26 @@ Le tableau qui fait foi est celui de `sources/build.py` (`--liste` pour l'affich
 il dit aussi ou chaque script ecrit reellement, et derriere lesquels il faut
 reposer le menu.
 
-Les deux seuls dossiers sans generateur sont `/solune` et `/au-nid` — des pages
-ORPHELINES, hors du site : absentes du plan du site, interdites dans robots.txt,
-sans entree de menu. Leur suppression n'a jamais ete tranchee par David. Elles ne
-contiennent aujourd'hui aucun commentaire HTML, donc aucune note a heberger ici.
+`/solune` et `/au-nid` etaient les deux seuls dossiers sans generateur — des pages
+ORPHELINES, hors du site : absentes du plan du site, sans entree de menu.
+**David a tranche leur suppression le 17/08/2026.** Les dossiers n'existent plus.
+
+Ce sont desormais des REDIRECTIONS 301 posees dans `vercel.json` :
+`/solune` -> `/e-motion` et `/au-nid` -> `/le-nid` — les pages qui les
+remplacaient deja dans les faits. On ne supprime pas une adresse sechement : un
+lien externe ou un signet qui pointait dessus aurait rendu 404, alors qu'il
+arrive maintenant sur la bonne page.
+
+⚠️ Et leurs `Disallow:` ont ete RETIRES de `robots.txt`, volontairement. C'est
+l'inverse de ce qu'on croit d'instinct : un `Disallow` empeche Google d'aller
+VOIR l'adresse, donc de constater la redirection — le referencement gagne par
+l'ancienne adresse serait perdu au lieu d'etre transfere a la nouvelle. Le
+controle `plan` de `verif_site.py` refuse maintenant l'ecriture si l'un des trois
+elements manque : dossier encore present, redirection absente, ou `Disallow`
+remis (voir `SUPPRIMEES` dans ce fichier).
+
+Il ne reste donc AUCUNE page sans generateur. Ce fichier n'heberge plus aucune
+note — il garde son mode d'emploi ci-dessous pour le jour ou le cas se represente.
 
 QUAND FAUT-IL REVENIR ECRIRE DANS CE FICHIER ?
 ----------------------------------------------
