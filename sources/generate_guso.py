@@ -1111,6 +1111,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav            # hamburger mobile              # noqa: E402
 import nav_menu              # menu de navigation partage    # noqa: E402
+import retour_haut           # bouton « retour en haut »     # noqa: E402
 import verif_commentaires    # garde-fou commentaires HTML   # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -1479,11 +1480,22 @@ b{color:#fff;font-weight:500}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 .cta{display:flex;gap:14px;flex-wrap:wrap}
-/* retour en haut */
-.totop{position:fixed;right:18px;bottom:18px;z-index:35;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(25,27,61,.92);border:1px solid var(--line);color:var(--gold2);font-size:19px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
-.totop.on{opacity:1;visibility:visible}
-.totop:hover{transform:translateY(-2px)}
-/* focus clavier visible (accessibilite) */
+"""
+           # --- LE BOUTON « RETOUR EN HAUT » (extrait le 17/08/2026) ---------------
+           # Il etait ecrit ICI, en toutes lettres — et a l'identique dans QUATRE
+           # autres generateurs. Il vit desormais dans `sources/retour_haut.py`, sur
+           # le modele de `visionneuse.py` : une definition, N generateurs qui
+           # l'appellent. Le pourquoi, l'etat page par page (5 l'ont, 7 ne l'ont pas)
+           # et la marche a suivre pour le poser ailleurs sont ecrits LA-BAS.
+           # ⚠️ L'EXTRACTION A ETE PROUVEE NEUTRE : md5 de `guso-facile/index.html`
+           #    identique avant et apres. Rien de ce qui etait publie n'a bouge d'un
+           #    octet — c'est la condition pour qu'un refactor reste un refactor.
+           # ⚠️ SA PLACE DANS LA FEUILLE NE CHANGE PAS : entre `.cta` et le focus
+           #    clavier, exactement ou elle etait. `_CSS` commence par le commentaire
+           #    `/* retour en haut */` et finit par un saut de ligne, pour que la
+           #    concatenation reproduise le fichier a l'octet pres.
+           + retour_haut.css() +
+           """/* focus clavier visible (accessibilite) */
 :focus-visible{outline:2px solid var(--gold2);outline-offset:2px;border-radius:4px}
 footer{background:#08091a;padding:70px 0 56px;border-top:1px solid var(--line)}
 .fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:34px}
@@ -4856,9 +4868,11 @@ def build_html():
     # Pied de page identique aux 9 pages, a une correction pres : le lien
     # Facebook pointe sur /resonancesproductions (comme sur l'accueil) et non
     # sur https://www.facebook.com/ , qui traine encore sur plusieurs pages.
-    A("""
-<a class="totop" href="#top" aria-label="Revenir en haut de la page">↑</a>
-
+    # Le lien vient de `sources/retour_haut.py` — meme decision que la feuille de
+    # style plus haut, meme preuve (md5 inchange). Il reste JUSTE AVANT le pied
+    # de page : c'est la fin du contenu, donc le dernier arret de tabulation
+    # avant le footer, et un `position:fixed` se moque de sa place dans le flux.
+    A("\n" + retour_haut.html() + """
 <footer id="contact"><div class="wrap">
   <div class="fgrid">
     <div>
@@ -4882,15 +4896,12 @@ def build_html():
   </div>
   <div class="legal">© 2026 Résonances Productions · resonancesproductions.org</div>
 </div></footer>
-
-<script>
-(function(){
-  var b=document.querySelector('.totop'); if(!b) return;
-  function upd(){ b.classList.toggle('on', window.scrollY>700); }
-  upd(); window.addEventListener('scroll',upd,{passive:true});
-})();
-</script>
 """
+      # Le script du bouton vient lui aussi de `sources/retour_haut.py`. Il
+      # precede celui du formulaire, comme avant l'extraction — les deux sont
+      # independants, aucun ordre n'est requis, mais l'ordre est garde pour que
+      # la page reste identique a l'octet.
+      + retour_haut.js()
       # ===================================================================
       # LE SCRIPT DU FORMULAIRE — la SEULE requete vers un tiers de la page
       # ===================================================================
@@ -4973,7 +4984,10 @@ def build_html():
       #     ⚠️ CE QUI N'A PAS CHANGE : toute colonne INCONNUE fait toujours
       #     echouer la requete, et `_controle_formulaire()` continue de comparer
       #     les cles envoyees a `COLONNES_DEMANDE`, une par une.
-      """
+      # (le `+` est OBLIGATOIRE ici : ce qui precede n'est plus un litteral mais
+      #  l'appel `retour_haut.js()`, et Python ne colle implicitement que des
+      #  chaines litterales entre elles.)
+      + """
 <script>
 (function(){
   var f = document.getElementById('demande');
