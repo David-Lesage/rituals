@@ -125,9 +125,6 @@ table.patch tr:hover td{background:rgba(255,255,255,.02)}
 .lb-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .lb-close{position:absolute;top:-48px;right:0;background:none;border:none;color:#fff;font-size:34px;line-height:1;cursor:pointer}
 .yt-fallback{display:block;text-align:center;color:var(--gold2);font-size:13px;margin-top:12px;text-decoration:underline}
-.imglb{position:fixed;inset:0;background:rgba(6,7,18,.93);display:none;align-items:center;justify-content:center;z-index:60;padding:20px;cursor:zoom-out}
-.imglb.open{display:flex}
-.imglb img{max-width:96vw;max-height:92vh;border-radius:10px;border:1px solid var(--line)}
 .dlbtn{display:inline-block;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 26px;border-radius:40px;font-size:15px;margin-top:14px;transition:transform .2s,box-shadow .2s}
 .dlbtn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
 @media print{
@@ -139,7 +136,7 @@ table.patch tr:hover td{background:rgba(255,255,255,.02)}
   .slide img{height:auto!important;width:100%!important;max-width:100%!important}
   .cap2{position:static!important;background:none!important;color:#a9a6c4!important;padding:8px 0 0 0!important;text-align:left!important}
   section{padding:46px 0}
-  .lb,.imglb{display:none!important}
+  .lb,.ph{display:none!important}
   .figure,.slide,.card,.artist,.q,.scene-card,.step{break-inside:avoid}
 }
 
@@ -265,6 +262,42 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .slide{border-radius:16px}
 .trio-badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(238,128,98,.11));border-color:rgba(248,210,116,.34)}
 .jgal figure{border-radius:18px}
+
+/* visionneuse photo */
+.ph{position:fixed;inset:0;z-index:1100;display:none;flex-direction:column;
+  background:rgba(8,9,26,.965);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.ph.open{display:flex}
+.ph-head{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 12px}
+.ph-num{font-size:14px;letter-spacing:.2em;color:var(--muted);padding-left:8px}
+.ph-tools{display:flex;gap:10px;align-items:center}
+.ph-body{position:relative;flex:1 1 auto;min-height:0}
+.ph-track{position:absolute;inset:0;z-index:1;display:flex;overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;overscroll-behavior:contain;touch-action:pan-x pinch-zoom;
+  scrollbar-width:none;-ms-overflow-style:none}
+.ph-track::-webkit-scrollbar{width:0;height:0}
+.ph-slide{flex:0 0 100%;width:100%;height:100%;scroll-snap-align:center;scroll-snap-stop:always;
+  display:flex;align-items:center;justify-content:center;padding:4px 12px}
+.ph-slide img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;
+  border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.6);-webkit-user-drag:none;
+  transform-origin:50% 50%;transition:transform .3s ease;cursor:zoom-in}
+.ph-slide img.ph-zoomed{cursor:grab;border-radius:0;box-shadow:none}
+.ph-cap{flex:0 0 auto;min-height:40px;padding:8px 20px 16px;text-align:center;
+  color:var(--muted);font-size:14.5px;font-style:italic}
+.ph-btn{background:rgba(20,22,52,.72);border:1px solid var(--line);color:var(--gold2);
+  min-width:46px;min-height:46px;border-radius:999px;cursor:pointer;padding:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;line-height:1}
+.ph-btn:hover{color:#fff;border-color:var(--gold2)}
+.ph-btn[aria-disabled="true"]{opacity:.3;cursor:default}
+.ph-arw{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:52px;height:52px;font-size:34px}
+.ph-arw.p{left:12px}
+.ph-arw.n{right:12px}
+.ph-btn.z{font-family:'Jost',sans-serif;font-size:23px}
+.cap2{pointer-events:none}
+.ph-op{cursor:zoom-in}
+body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
+@media(max-width:600px){.ph-arw{width:46px;height:46px;font-size:28px}.ph-arw.p{left:4px}.ph-arw.n{right:4px}}
+@media(prefers-reduced-motion:reduce){.ph-slide img{transition:none}}
 
 /* --- lisibilite des liens --- */
 .jo a{font-size:15px;display:inline-block;padding:6px 0;text-decoration:underline;
@@ -612,37 +645,37 @@ p a:not(.btn):not(.adh){text-decoration:underline;
     <button class="car-play" id="carplay" onclick="carStart()" aria-label="Reprendre le défilement">▶ Reprendre</button>
     <button class="car-btn prev" onclick="carNav(-1)" aria-label="Précédent">‹</button>
     <div class="car-track" id="cartrack">
-      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/le-trio-en-scene-festival-perspectives-480.webp 480w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-900.webp 900w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/le-trio-en-scene-festival-perspectives-1400.webp" data-full-jpg="/img/rituals-trio/le-trio-en-scene-festival-perspectives-1400.jpg" src="/img/rituals-trio/le-trio-en-scene-festival-perspectives-900.jpg" srcset="/img/rituals-trio/le-trio-en-scene-festival-perspectives-480.jpg 480w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-900.jpg 900w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Le trio en scène — festival Perspectives" loading="eager" decoding="async"></picture><span class="cap2">Le trio en scène — festival Perspectives</span></div>
-      <div class="slide" style="--ar:1.7949"><picture><source type="image/webp" srcset="/img/rituals/le-corps-en-mouvement-480.webp 480w, /img/rituals/le-corps-en-mouvement-900.webp 900w, /img/rituals/le-corps-en-mouvement-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/le-corps-en-mouvement-1400.webp" data-full-jpg="/img/rituals/le-corps-en-mouvement-1400.jpg" src="/img/rituals/le-corps-en-mouvement-900.jpg" srcset="/img/rituals/le-corps-en-mouvement-480.jpg 480w, /img/rituals/le-corps-en-mouvement-900.jpg 900w, /img/rituals/le-corps-en-mouvement-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="780" alt="Le corps en mouvement" loading="eager" decoding="async"></picture><span class="cap2">Le corps en mouvement</span></div>
-      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/julien-dub-au-saxophone-480.webp 480w, /img/rituals-trio/julien-dub-au-saxophone-900.webp 900w, /img/rituals-trio/julien-dub-au-saxophone-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/julien-dub-au-saxophone-1400.webp" data-full-jpg="/img/rituals-trio/julien-dub-au-saxophone-1400.jpg" src="/img/rituals-trio/julien-dub-au-saxophone-900.jpg" srcset="/img/rituals-trio/julien-dub-au-saxophone-480.jpg 480w, /img/rituals-trio/julien-dub-au-saxophone-900.jpg 900w, /img/rituals-trio/julien-dub-au-saxophone-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Julien Dub au saxophone" loading="eager" decoding="async"></picture><span class="cap2">Julien Dub au saxophone</span></div>
-      <div class="slide" style="--ar:1.7812"><picture><source type="image/webp" srcset="/img/rituals/une-connexion-forte-avec-le-public-480.webp 480w, /img/rituals/une-connexion-forte-avec-le-public-900.webp 900w, /img/rituals/une-connexion-forte-avec-le-public-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/une-connexion-forte-avec-le-public-1400.webp" data-full-jpg="/img/rituals/une-connexion-forte-avec-le-public-1400.jpg" src="/img/rituals/une-connexion-forte-avec-le-public-900.jpg" srcset="/img/rituals/une-connexion-forte-avec-le-public-480.jpg 480w, /img/rituals/une-connexion-forte-avec-le-public-900.jpg 900w, /img/rituals/une-connexion-forte-avec-le-public-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="786" alt="Une connexion forte avec le public" loading="lazy" decoding="async"></picture><span class="cap2">Une connexion forte avec le public</span></div>
-      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/le-public-en-priere-480.webp 480w, /img/rituals-trio/le-public-en-priere-900.webp 900w, /img/rituals-trio/le-public-en-priere-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/le-public-en-priere-1400.webp" data-full-jpg="/img/rituals-trio/le-public-en-priere-1400.jpg" src="/img/rituals-trio/le-public-en-priere-900.jpg" srcset="/img/rituals-trio/le-public-en-priere-480.jpg 480w, /img/rituals-trio/le-public-en-priere-900.jpg 900w, /img/rituals-trio/le-public-en-priere-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Le public en prière" loading="lazy" decoding="async"></picture><span class="cap2">Le public en prière</span></div>
-      <div class="slide" style="--ar:1.788"><picture><source type="image/webp" srcset="/img/rituals/danser-la-vie-480.webp 480w, /img/rituals/danser-la-vie-900.webp 900w, /img/rituals/danser-la-vie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/danser-la-vie-1400.webp" data-full-jpg="/img/rituals/danser-la-vie-1400.jpg" src="/img/rituals/danser-la-vie-900.jpg" srcset="/img/rituals/danser-la-vie-480.jpg 480w, /img/rituals/danser-la-vie-900.jpg 900w, /img/rituals/danser-la-vie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="783" alt="Danser la vie" loading="lazy" decoding="async"></picture><span class="cap2">Danser la vie</span></div>
-      <div class="slide" style="--ar:2.099"><picture><source type="image/webp" srcset="/img/rituals/everness-festival-hongrie-480.webp 480w, /img/rituals/everness-festival-hongrie-900.webp 900w, /img/rituals/everness-festival-hongrie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/everness-festival-hongrie-1400.webp" data-full-jpg="/img/rituals/everness-festival-hongrie-1400.jpg" src="/img/rituals/everness-festival-hongrie-900.jpg" srcset="/img/rituals/everness-festival-hongrie-480.jpg 480w, /img/rituals/everness-festival-hongrie-900.jpg 900w, /img/rituals/everness-festival-hongrie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="667" alt="Everness Festival, Hongrie" loading="lazy" decoding="async"></picture><span class="cap2">Everness Festival, Hongrie</span></div>
-      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/portes-ensemble-480.webp 480w, /img/rituals-trio/portes-ensemble-900.webp 900w, /img/rituals-trio/portes-ensemble-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/portes-ensemble-1400.webp" data-full-jpg="/img/rituals-trio/portes-ensemble-1400.jpg" src="/img/rituals-trio/portes-ensemble-900.jpg" srcset="/img/rituals-trio/portes-ensemble-480.jpg 480w, /img/rituals-trio/portes-ensemble-900.jpg 900w, /img/rituals-trio/portes-ensemble-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Portés ensemble" loading="lazy" decoding="async"></picture><span class="cap2">Portés ensemble</span></div>
-      <div class="slide" style="--ar:1.8018"><picture><source type="image/webp" srcset="/img/rituals/l-elan-480.webp 480w, /img/rituals/l-elan-900.webp 900w, /img/rituals/l-elan-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/l-elan-1400.webp" data-full-jpg="/img/rituals/l-elan-1400.jpg" src="/img/rituals/l-elan-900.jpg" srcset="/img/rituals/l-elan-480.jpg 480w, /img/rituals/l-elan-900.jpg 900w, /img/rituals/l-elan-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="777" alt="L’élan" loading="lazy" decoding="async"></picture><span class="cap2">L’élan</span></div>
-      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-480.webp 480w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-900.webp 900w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-1400.webp" data-full-jpg="/img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-1400.jpg" src="/img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-900.jpg" srcset="/img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-480.jpg 480w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-900.jpg 900w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Julien &amp; David — le souffle et le rythme" loading="lazy" decoding="async"></picture><span class="cap2">Julien &amp; David — le souffle et le rythme</span></div>
-      <div class="slide" style="--ar:1.7857"><picture><source type="image/webp" srcset="/img/rituals/le-tournoiement-de-la-beaute-480.webp 480w, /img/rituals/le-tournoiement-de-la-beaute-900.webp 900w, /img/rituals/le-tournoiement-de-la-beaute-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/le-tournoiement-de-la-beaute-1400.webp" data-full-jpg="/img/rituals/le-tournoiement-de-la-beaute-1400.jpg" src="/img/rituals/le-tournoiement-de-la-beaute-900.jpg" srcset="/img/rituals/le-tournoiement-de-la-beaute-480.jpg 480w, /img/rituals/le-tournoiement-de-la-beaute-900.jpg 900w, /img/rituals/le-tournoiement-de-la-beaute-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="784" alt="Le tournoiement de la beauté" loading="lazy" decoding="async"></picture><span class="cap2">Le tournoiement de la beauté</span></div>
-      <div class="slide" style="--ar:1.7995"><picture><source type="image/webp" srcset="/img/rituals/un-univers-musical-electro-organique-480.webp 480w, /img/rituals/un-univers-musical-electro-organique-900.webp 900w, /img/rituals/un-univers-musical-electro-organique-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/un-univers-musical-electro-organique-1400.webp" data-full-jpg="/img/rituals/un-univers-musical-electro-organique-1400.jpg" src="/img/rituals/un-univers-musical-electro-organique-900.jpg" srcset="/img/rituals/un-univers-musical-electro-organique-480.jpg 480w, /img/rituals/un-univers-musical-electro-organique-900.jpg 900w, /img/rituals/un-univers-musical-electro-organique-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="778" alt="Un univers musical électro-organique" loading="lazy" decoding="async"></picture><span class="cap2">Un univers musical électro-organique</span></div>
-      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/la-danse-collective-480.webp 480w, /img/rituals-trio/la-danse-collective-900.webp 900w, /img/rituals-trio/la-danse-collective-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/la-danse-collective-1400.webp" data-full-jpg="/img/rituals-trio/la-danse-collective-1400.jpg" src="/img/rituals-trio/la-danse-collective-900.jpg" srcset="/img/rituals-trio/la-danse-collective-480.jpg 480w, /img/rituals-trio/la-danse-collective-900.jpg 900w, /img/rituals-trio/la-danse-collective-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="La danse collective" loading="lazy" decoding="async"></picture><span class="cap2">La danse collective</span></div>
-      <div class="slide" style="--ar:1.7857"><picture><source type="image/webp" srcset="/img/rituals/respirer-en-mouvement-480.webp 480w, /img/rituals/respirer-en-mouvement-900.webp 900w, /img/rituals/respirer-en-mouvement-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/respirer-en-mouvement-1400.webp" data-full-jpg="/img/rituals/respirer-en-mouvement-1400.jpg" src="/img/rituals/respirer-en-mouvement-900.jpg" srcset="/img/rituals/respirer-en-mouvement-480.jpg 480w, /img/rituals/respirer-en-mouvement-900.jpg 900w, /img/rituals/respirer-en-mouvement-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="784" alt="Respirer en mouvement" loading="lazy" decoding="async"></picture><span class="cap2">Respirer en mouvement</span></div>
-      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/iris-et-david-l-instant-de-la-priere-480.webp 480w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-900.webp 900w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/iris-et-david-l-instant-de-la-priere-1400.webp" data-full-jpg="/img/rituals-trio/iris-et-david-l-instant-de-la-priere-1400.jpg" src="/img/rituals-trio/iris-et-david-l-instant-de-la-priere-900.jpg" srcset="/img/rituals-trio/iris-et-david-l-instant-de-la-priere-480.jpg 480w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-900.jpg 900w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Iris &amp; David — l'instant de la prière" loading="lazy" decoding="async"></picture><span class="cap2">Iris &amp; David — l'instant de la prière</span></div>
-      <div class="slide" style="--ar:1.7972"><picture><source type="image/webp" srcset="/img/rituals/retrouver-son-enfant-interieur-480.webp 480w, /img/rituals/retrouver-son-enfant-interieur-900.webp 900w, /img/rituals/retrouver-son-enfant-interieur-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/retrouver-son-enfant-interieur-1400.webp" data-full-jpg="/img/rituals/retrouver-son-enfant-interieur-1400.jpg" src="/img/rituals/retrouver-son-enfant-interieur-900.jpg" srcset="/img/rituals/retrouver-son-enfant-interieur-480.jpg 480w, /img/rituals/retrouver-son-enfant-interieur-900.jpg 900w, /img/rituals/retrouver-son-enfant-interieur-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="779" alt="Retrouver son enfant intérieur" loading="lazy" decoding="async"></picture><span class="cap2">Retrouver son enfant intérieur</span></div>
-      <div class="slide" style="--ar:1.7857"><picture><source type="image/webp" srcset="/img/rituals/etre-touche-dans-son-coeur-480.webp 480w, /img/rituals/etre-touche-dans-son-coeur-900.webp 900w, /img/rituals/etre-touche-dans-son-coeur-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/etre-touche-dans-son-coeur-1400.webp" data-full-jpg="/img/rituals/etre-touche-dans-son-coeur-1400.jpg" src="/img/rituals/etre-touche-dans-son-coeur-900.jpg" srcset="/img/rituals/etre-touche-dans-son-coeur-480.jpg 480w, /img/rituals/etre-touche-dans-son-coeur-900.jpg 900w, /img/rituals/etre-touche-dans-son-coeur-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="784" alt="Être touché dans son cœur" loading="lazy" decoding="async"></picture><span class="cap2">Être touché dans son cœur</span></div>
-      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/iris-chasles-le-chant-qui-relie-480.webp 480w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-900.webp 900w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/iris-chasles-le-chant-qui-relie-1400.webp" data-full-jpg="/img/rituals-trio/iris-chasles-le-chant-qui-relie-1400.jpg" src="/img/rituals-trio/iris-chasles-le-chant-qui-relie-900.jpg" srcset="/img/rituals-trio/iris-chasles-le-chant-qui-relie-480.jpg 480w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-900.jpg 900w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Iris Chasles — le chant qui relie" loading="lazy" decoding="async"></picture><span class="cap2">Iris Chasles — le chant qui relie</span></div>
-      <div class="slide" style="--ar:1.7789"><picture><source type="image/webp" srcset="/img/rituals/chanter-la-joie-480.webp 480w, /img/rituals/chanter-la-joie-900.webp 900w, /img/rituals/chanter-la-joie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/chanter-la-joie-1400.webp" data-full-jpg="/img/rituals/chanter-la-joie-1400.jpg" src="/img/rituals/chanter-la-joie-900.jpg" srcset="/img/rituals/chanter-la-joie-480.jpg 480w, /img/rituals/chanter-la-joie-900.jpg 900w, /img/rituals/chanter-la-joie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="787" alt="Chanter la joie" loading="lazy" decoding="async"></picture><span class="cap2">Chanter la joie</span></div>
-      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/recueilli-480.webp 480w, /img/rituals-trio/recueilli-900.webp 900w, /img/rituals-trio/recueilli-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/recueilli-1400.webp" data-full-jpg="/img/rituals-trio/recueilli-1400.jpg" src="/img/rituals-trio/recueilli-900.jpg" srcset="/img/rituals-trio/recueilli-480.jpg 480w, /img/rituals-trio/recueilli-900.jpg 900w, /img/rituals-trio/recueilli-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Recueilli" loading="lazy" decoding="async"></picture><span class="cap2">Recueilli</span></div>
-      <div class="slide" style="--ar:1.7949"><picture><source type="image/webp" srcset="/img/rituals/chanter-ensemble-480.webp 480w, /img/rituals/chanter-ensemble-900.webp 900w, /img/rituals/chanter-ensemble-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/chanter-ensemble-1400.webp" data-full-jpg="/img/rituals/chanter-ensemble-1400.jpg" src="/img/rituals/chanter-ensemble-900.jpg" srcset="/img/rituals/chanter-ensemble-480.jpg 480w, /img/rituals/chanter-ensemble-900.jpg 900w, /img/rituals/chanter-ensemble-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="780" alt="Chanter ensemble" loading="lazy" decoding="async"></picture><span class="cap2">Chanter ensemble</span></div>
-      <div class="slide" style="--ar:1.0"><picture><source type="image/webp" srcset="/img/rituals/touchee-par-la-grace-480.webp 480w, /img/rituals/touchee-par-la-grace-900.webp 900w, /img/rituals/touchee-par-la-grace-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/touchee-par-la-grace-1400.webp" data-full-jpg="/img/rituals/touchee-par-la-grace-1400.jpg" src="/img/rituals/touchee-par-la-grace-900.jpg" srcset="/img/rituals/touchee-par-la-grace-480.jpg 480w, /img/rituals/touchee-par-la-grace-900.jpg 900w, /img/rituals/touchee-par-la-grace-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="1400" alt="Touchée par la grâce" loading="lazy" decoding="async"></picture><span class="cap2">Touchée par la grâce</span></div>
-      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/communier-en-cercle-480.webp 480w, /img/rituals-trio/communier-en-cercle-900.webp 900w, /img/rituals-trio/communier-en-cercle-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/communier-en-cercle-1400.webp" data-full-jpg="/img/rituals-trio/communier-en-cercle-1400.jpg" src="/img/rituals-trio/communier-en-cercle-900.jpg" srcset="/img/rituals-trio/communier-en-cercle-480.jpg 480w, /img/rituals-trio/communier-en-cercle-900.jpg 900w, /img/rituals-trio/communier-en-cercle-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Communier en cercle" loading="lazy" decoding="async"></picture><span class="cap2">Communier en cercle</span></div>
-      <div class="slide" style="--ar:0.75"><picture><source type="image/webp" srcset="/img/rituals/david-et-iris-480.webp 480w, /img/rituals/david-et-iris-900.webp 900w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/david-et-iris-900.webp" data-full-jpg="/img/rituals/david-et-iris-900.jpg" src="/img/rituals/david-et-iris-900.jpg" srcset="/img/rituals/david-et-iris-480.jpg 480w, /img/rituals/david-et-iris-900.jpg 900w" sizes="(max-width:900px) 86vw, 700px" width="900" height="1200" alt="David & Iris" loading="lazy" decoding="async"></picture><span class="cap2">David & Iris</span></div>
-      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/autour-du-feu-480.webp 480w, /img/rituals-trio/autour-du-feu-900.webp 900w, /img/rituals-trio/autour-du-feu-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/autour-du-feu-1400.webp" data-full-jpg="/img/rituals-trio/autour-du-feu-1400.jpg" src="/img/rituals-trio/autour-du-feu-900.jpg" srcset="/img/rituals-trio/autour-du-feu-480.jpg 480w, /img/rituals-trio/autour-du-feu-900.jpg 900w, /img/rituals-trio/autour-du-feu-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Autour du feu" loading="lazy" decoding="async"></picture><span class="cap2">Autour du feu</span></div>
-      <div class="slide" style="--ar:1.4433"><picture><source type="image/webp" srcset="/img/rituals/iris-et-david-face-a-face-480.webp 480w, /img/rituals/iris-et-david-face-a-face-900.webp 900w, /img/rituals/iris-et-david-face-a-face-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/iris-et-david-face-a-face-1400.webp" data-full-jpg="/img/rituals/iris-et-david-face-a-face-1400.jpg" src="/img/rituals/iris-et-david-face-a-face-900.jpg" srcset="/img/rituals/iris-et-david-face-a-face-480.jpg 480w, /img/rituals/iris-et-david-face-a-face-900.jpg 900w, /img/rituals/iris-et-david-face-a-face-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="970" alt="Iris & David, face à face" loading="lazy" decoding="async"></picture><span class="cap2">Iris & David, face à face</span></div>
-      <div class="slide" style="--ar:1.7717"><picture><source type="image/webp" srcset="/img/rituals/l-amour-au-service-du-collectif-480.webp 480w, /img/rituals/l-amour-au-service-du-collectif-900.webp 900w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/l-amour-au-service-du-collectif-900.webp" data-full-jpg="/img/rituals/l-amour-au-service-du-collectif-900.jpg" src="/img/rituals/l-amour-au-service-du-collectif-900.jpg" srcset="/img/rituals/l-amour-au-service-du-collectif-480.jpg 480w, /img/rituals/l-amour-au-service-du-collectif-900.jpg 900w" sizes="(max-width:900px) 86vw, 700px" width="900" height="508" alt="L’amour au service du collectif" loading="lazy" decoding="async"></picture><span class="cap2">L’amour au service du collectif</span></div>
-      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/le-final-tous-ensemble-480.webp 480w, /img/rituals-trio/le-final-tous-ensemble-900.webp 900w, /img/rituals-trio/le-final-tous-ensemble-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/le-final-tous-ensemble-1400.webp" data-full-jpg="/img/rituals-trio/le-final-tous-ensemble-1400.jpg" src="/img/rituals-trio/le-final-tous-ensemble-900.jpg" srcset="/img/rituals-trio/le-final-tous-ensemble-480.jpg 480w, /img/rituals-trio/le-final-tous-ensemble-900.jpg 900w, /img/rituals-trio/le-final-tous-ensemble-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Le final, tous ensemble" loading="lazy" decoding="async"></picture><span class="cap2">Le final, tous ensemble</span></div>
-      <div class="slide" style="--ar:1.0"><picture><source type="image/webp" srcset="/img/rituals/david-lesage-480.webp 480w, /img/rituals/david-lesage-900.webp 900w, /img/rituals/david-lesage-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/david-lesage-1400.webp" data-full-jpg="/img/rituals/david-lesage-1400.jpg" src="/img/rituals/david-lesage-900.jpg" srcset="/img/rituals/david-lesage-480.jpg 480w, /img/rituals/david-lesage-900.jpg 900w, /img/rituals/david-lesage-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="1400" alt="David Lesage" loading="lazy" decoding="async"></picture><span class="cap2">David Lesage</span></div>
-      <div class="slide" style="--ar:1.5"><picture><source type="image/webp" srcset="/img/rituals/iris-chasles-480.webp 480w, /img/rituals/iris-chasles-900.webp 900w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals/iris-chasles-900.webp" data-full-jpg="/img/rituals/iris-chasles-900.jpg" src="/img/rituals/iris-chasles-900.jpg" srcset="/img/rituals/iris-chasles-480.jpg 480w, /img/rituals/iris-chasles-900.jpg 900w" sizes="(max-width:900px) 86vw, 700px" width="900" height="600" alt="Iris Chasles" loading="lazy" decoding="async"></picture><span class="cap2">Iris Chasles</span></div>
-      <div class="slide" style="--ar:1.7789"><picture><source type="image/webp" srcset="/img/rituals-trio/portrait-julien-dub-480.webp 480w, /img/rituals-trio/portrait-julien-dub-900.webp 900w, /img/rituals-trio/portrait-julien-dub-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img onclick="openIMG(this)" data-full="/img/rituals-trio/portrait-julien-dub-1400.webp" data-full-jpg="/img/rituals-trio/portrait-julien-dub-1400.jpg" src="/img/rituals-trio/portrait-julien-dub-900.jpg" srcset="/img/rituals-trio/portrait-julien-dub-480.jpg 480w, /img/rituals-trio/portrait-julien-dub-900.jpg 900w, /img/rituals-trio/portrait-julien-dub-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="787" alt="Julien Dub" loading="lazy" decoding="async"></picture><span class="cap2">Julien Dub</span></div>
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/le-trio-en-scene-festival-perspectives-480.webp 480w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-900.webp 900w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/le-trio-en-scene-festival-perspectives-900.jpg" srcset="/img/rituals-trio/le-trio-en-scene-festival-perspectives-480.jpg 480w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-900.jpg 900w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Le trio en scène — festival Perspectives" loading="eager" decoding="async"></picture><span class="cap2">Le trio en scène — festival Perspectives</span></div>
+      <div class="slide" style="--ar:1.7949"><picture><source type="image/webp" srcset="/img/rituals/le-corps-en-mouvement-480.webp 480w, /img/rituals/le-corps-en-mouvement-900.webp 900w, /img/rituals/le-corps-en-mouvement-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/le-corps-en-mouvement-900.jpg" srcset="/img/rituals/le-corps-en-mouvement-480.jpg 480w, /img/rituals/le-corps-en-mouvement-900.jpg 900w, /img/rituals/le-corps-en-mouvement-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="780" alt="Le corps en mouvement" loading="eager" decoding="async"></picture><span class="cap2">Le corps en mouvement</span></div>
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/julien-dub-au-saxophone-480.webp 480w, /img/rituals-trio/julien-dub-au-saxophone-900.webp 900w, /img/rituals-trio/julien-dub-au-saxophone-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/julien-dub-au-saxophone-900.jpg" srcset="/img/rituals-trio/julien-dub-au-saxophone-480.jpg 480w, /img/rituals-trio/julien-dub-au-saxophone-900.jpg 900w, /img/rituals-trio/julien-dub-au-saxophone-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Julien Dub au saxophone" loading="eager" decoding="async"></picture><span class="cap2">Julien Dub au saxophone</span></div>
+      <div class="slide" style="--ar:1.7812"><picture><source type="image/webp" srcset="/img/rituals/une-connexion-forte-avec-le-public-480.webp 480w, /img/rituals/une-connexion-forte-avec-le-public-900.webp 900w, /img/rituals/une-connexion-forte-avec-le-public-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/une-connexion-forte-avec-le-public-900.jpg" srcset="/img/rituals/une-connexion-forte-avec-le-public-480.jpg 480w, /img/rituals/une-connexion-forte-avec-le-public-900.jpg 900w, /img/rituals/une-connexion-forte-avec-le-public-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="786" alt="Une connexion forte avec le public" loading="lazy" decoding="async"></picture><span class="cap2">Une connexion forte avec le public</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/le-public-en-priere-480.webp 480w, /img/rituals-trio/le-public-en-priere-900.webp 900w, /img/rituals-trio/le-public-en-priere-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/le-public-en-priere-900.jpg" srcset="/img/rituals-trio/le-public-en-priere-480.jpg 480w, /img/rituals-trio/le-public-en-priere-900.jpg 900w, /img/rituals-trio/le-public-en-priere-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Le public en prière" loading="lazy" decoding="async"></picture><span class="cap2">Le public en prière</span></div>
+      <div class="slide" style="--ar:1.788"><picture><source type="image/webp" srcset="/img/rituals/danser-la-vie-480.webp 480w, /img/rituals/danser-la-vie-900.webp 900w, /img/rituals/danser-la-vie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/danser-la-vie-900.jpg" srcset="/img/rituals/danser-la-vie-480.jpg 480w, /img/rituals/danser-la-vie-900.jpg 900w, /img/rituals/danser-la-vie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="783" alt="Danser la vie" loading="lazy" decoding="async"></picture><span class="cap2">Danser la vie</span></div>
+      <div class="slide" style="--ar:2.099"><picture><source type="image/webp" srcset="/img/rituals/everness-festival-hongrie-480.webp 480w, /img/rituals/everness-festival-hongrie-900.webp 900w, /img/rituals/everness-festival-hongrie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/everness-festival-hongrie-900.jpg" srcset="/img/rituals/everness-festival-hongrie-480.jpg 480w, /img/rituals/everness-festival-hongrie-900.jpg 900w, /img/rituals/everness-festival-hongrie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="667" alt="Everness Festival, Hongrie" loading="lazy" decoding="async"></picture><span class="cap2">Everness Festival, Hongrie</span></div>
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/portes-ensemble-480.webp 480w, /img/rituals-trio/portes-ensemble-900.webp 900w, /img/rituals-trio/portes-ensemble-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/portes-ensemble-900.jpg" srcset="/img/rituals-trio/portes-ensemble-480.jpg 480w, /img/rituals-trio/portes-ensemble-900.jpg 900w, /img/rituals-trio/portes-ensemble-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Portés ensemble" loading="lazy" decoding="async"></picture><span class="cap2">Portés ensemble</span></div>
+      <div class="slide" style="--ar:1.8018"><picture><source type="image/webp" srcset="/img/rituals/l-elan-480.webp 480w, /img/rituals/l-elan-900.webp 900w, /img/rituals/l-elan-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/l-elan-900.jpg" srcset="/img/rituals/l-elan-480.jpg 480w, /img/rituals/l-elan-900.jpg 900w, /img/rituals/l-elan-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="777" alt="L’élan" loading="lazy" decoding="async"></picture><span class="cap2">L’élan</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-480.webp 480w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-900.webp 900w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-900.jpg" srcset="/img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-480.jpg 480w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-900.jpg 900w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Julien &amp; David — le souffle et le rythme" loading="lazy" decoding="async"></picture><span class="cap2">Julien &amp; David — le souffle et le rythme</span></div>
+      <div class="slide" style="--ar:1.7857"><picture><source type="image/webp" srcset="/img/rituals/le-tournoiement-de-la-beaute-480.webp 480w, /img/rituals/le-tournoiement-de-la-beaute-900.webp 900w, /img/rituals/le-tournoiement-de-la-beaute-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/le-tournoiement-de-la-beaute-900.jpg" srcset="/img/rituals/le-tournoiement-de-la-beaute-480.jpg 480w, /img/rituals/le-tournoiement-de-la-beaute-900.jpg 900w, /img/rituals/le-tournoiement-de-la-beaute-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="784" alt="Le tournoiement de la beauté" loading="lazy" decoding="async"></picture><span class="cap2">Le tournoiement de la beauté</span></div>
+      <div class="slide" style="--ar:1.7995"><picture><source type="image/webp" srcset="/img/rituals/un-univers-musical-electro-organique-480.webp 480w, /img/rituals/un-univers-musical-electro-organique-900.webp 900w, /img/rituals/un-univers-musical-electro-organique-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/un-univers-musical-electro-organique-900.jpg" srcset="/img/rituals/un-univers-musical-electro-organique-480.jpg 480w, /img/rituals/un-univers-musical-electro-organique-900.jpg 900w, /img/rituals/un-univers-musical-electro-organique-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="778" alt="Un univers musical électro-organique" loading="lazy" decoding="async"></picture><span class="cap2">Un univers musical électro-organique</span></div>
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/la-danse-collective-480.webp 480w, /img/rituals-trio/la-danse-collective-900.webp 900w, /img/rituals-trio/la-danse-collective-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/la-danse-collective-900.jpg" srcset="/img/rituals-trio/la-danse-collective-480.jpg 480w, /img/rituals-trio/la-danse-collective-900.jpg 900w, /img/rituals-trio/la-danse-collective-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="La danse collective" loading="lazy" decoding="async"></picture><span class="cap2">La danse collective</span></div>
+      <div class="slide" style="--ar:1.7857"><picture><source type="image/webp" srcset="/img/rituals/respirer-en-mouvement-480.webp 480w, /img/rituals/respirer-en-mouvement-900.webp 900w, /img/rituals/respirer-en-mouvement-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/respirer-en-mouvement-900.jpg" srcset="/img/rituals/respirer-en-mouvement-480.jpg 480w, /img/rituals/respirer-en-mouvement-900.jpg 900w, /img/rituals/respirer-en-mouvement-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="784" alt="Respirer en mouvement" loading="lazy" decoding="async"></picture><span class="cap2">Respirer en mouvement</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/iris-et-david-l-instant-de-la-priere-480.webp 480w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-900.webp 900w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/iris-et-david-l-instant-de-la-priere-900.jpg" srcset="/img/rituals-trio/iris-et-david-l-instant-de-la-priere-480.jpg 480w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-900.jpg 900w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Iris &amp; David — l'instant de la prière" loading="lazy" decoding="async"></picture><span class="cap2">Iris &amp; David — l'instant de la prière</span></div>
+      <div class="slide" style="--ar:1.7972"><picture><source type="image/webp" srcset="/img/rituals/retrouver-son-enfant-interieur-480.webp 480w, /img/rituals/retrouver-son-enfant-interieur-900.webp 900w, /img/rituals/retrouver-son-enfant-interieur-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/retrouver-son-enfant-interieur-900.jpg" srcset="/img/rituals/retrouver-son-enfant-interieur-480.jpg 480w, /img/rituals/retrouver-son-enfant-interieur-900.jpg 900w, /img/rituals/retrouver-son-enfant-interieur-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="779" alt="Retrouver son enfant intérieur" loading="lazy" decoding="async"></picture><span class="cap2">Retrouver son enfant intérieur</span></div>
+      <div class="slide" style="--ar:1.7857"><picture><source type="image/webp" srcset="/img/rituals/etre-touche-dans-son-coeur-480.webp 480w, /img/rituals/etre-touche-dans-son-coeur-900.webp 900w, /img/rituals/etre-touche-dans-son-coeur-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/etre-touche-dans-son-coeur-900.jpg" srcset="/img/rituals/etre-touche-dans-son-coeur-480.jpg 480w, /img/rituals/etre-touche-dans-son-coeur-900.jpg 900w, /img/rituals/etre-touche-dans-son-coeur-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="784" alt="Être touché dans son cœur" loading="lazy" decoding="async"></picture><span class="cap2">Être touché dans son cœur</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/iris-chasles-le-chant-qui-relie-480.webp 480w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-900.webp 900w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/iris-chasles-le-chant-qui-relie-900.jpg" srcset="/img/rituals-trio/iris-chasles-le-chant-qui-relie-480.jpg 480w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-900.jpg 900w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Iris Chasles — le chant qui relie" loading="lazy" decoding="async"></picture><span class="cap2">Iris Chasles — le chant qui relie</span></div>
+      <div class="slide" style="--ar:1.7789"><picture><source type="image/webp" srcset="/img/rituals/chanter-la-joie-480.webp 480w, /img/rituals/chanter-la-joie-900.webp 900w, /img/rituals/chanter-la-joie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/chanter-la-joie-900.jpg" srcset="/img/rituals/chanter-la-joie-480.jpg 480w, /img/rituals/chanter-la-joie-900.jpg 900w, /img/rituals/chanter-la-joie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="787" alt="Chanter la joie" loading="lazy" decoding="async"></picture><span class="cap2">Chanter la joie</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/recueilli-480.webp 480w, /img/rituals-trio/recueilli-900.webp 900w, /img/rituals-trio/recueilli-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/recueilli-900.jpg" srcset="/img/rituals-trio/recueilli-480.jpg 480w, /img/rituals-trio/recueilli-900.jpg 900w, /img/rituals-trio/recueilli-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Recueilli" loading="lazy" decoding="async"></picture><span class="cap2">Recueilli</span></div>
+      <div class="slide" style="--ar:1.7949"><picture><source type="image/webp" srcset="/img/rituals/chanter-ensemble-480.webp 480w, /img/rituals/chanter-ensemble-900.webp 900w, /img/rituals/chanter-ensemble-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/chanter-ensemble-900.jpg" srcset="/img/rituals/chanter-ensemble-480.jpg 480w, /img/rituals/chanter-ensemble-900.jpg 900w, /img/rituals/chanter-ensemble-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="780" alt="Chanter ensemble" loading="lazy" decoding="async"></picture><span class="cap2">Chanter ensemble</span></div>
+      <div class="slide" style="--ar:1.0"><picture><source type="image/webp" srcset="/img/rituals/touchee-par-la-grace-480.webp 480w, /img/rituals/touchee-par-la-grace-900.webp 900w, /img/rituals/touchee-par-la-grace-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/touchee-par-la-grace-900.jpg" srcset="/img/rituals/touchee-par-la-grace-480.jpg 480w, /img/rituals/touchee-par-la-grace-900.jpg 900w, /img/rituals/touchee-par-la-grace-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="1400" alt="Touchée par la grâce" loading="lazy" decoding="async"></picture><span class="cap2">Touchée par la grâce</span></div>
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/communier-en-cercle-480.webp 480w, /img/rituals-trio/communier-en-cercle-900.webp 900w, /img/rituals-trio/communier-en-cercle-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/communier-en-cercle-900.jpg" srcset="/img/rituals-trio/communier-en-cercle-480.jpg 480w, /img/rituals-trio/communier-en-cercle-900.jpg 900w, /img/rituals-trio/communier-en-cercle-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Communier en cercle" loading="lazy" decoding="async"></picture><span class="cap2">Communier en cercle</span></div>
+      <div class="slide" style="--ar:0.75"><picture><source type="image/webp" srcset="/img/rituals/david-et-iris-480.webp 480w, /img/rituals/david-et-iris-900.webp 900w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/david-et-iris-900.jpg" srcset="/img/rituals/david-et-iris-480.jpg 480w, /img/rituals/david-et-iris-900.jpg 900w" sizes="(max-width:900px) 86vw, 700px" width="900" height="1200" alt="David & Iris" loading="lazy" decoding="async"></picture><span class="cap2">David & Iris</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/autour-du-feu-480.webp 480w, /img/rituals-trio/autour-du-feu-900.webp 900w, /img/rituals-trio/autour-du-feu-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/autour-du-feu-900.jpg" srcset="/img/rituals-trio/autour-du-feu-480.jpg 480w, /img/rituals-trio/autour-du-feu-900.jpg 900w, /img/rituals-trio/autour-du-feu-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Autour du feu" loading="lazy" decoding="async"></picture><span class="cap2">Autour du feu</span></div>
+      <div class="slide" style="--ar:1.4433"><picture><source type="image/webp" srcset="/img/rituals/iris-et-david-face-a-face-480.webp 480w, /img/rituals/iris-et-david-face-a-face-900.webp 900w, /img/rituals/iris-et-david-face-a-face-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/iris-et-david-face-a-face-900.jpg" srcset="/img/rituals/iris-et-david-face-a-face-480.jpg 480w, /img/rituals/iris-et-david-face-a-face-900.jpg 900w, /img/rituals/iris-et-david-face-a-face-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="970" alt="Iris & David, face à face" loading="lazy" decoding="async"></picture><span class="cap2">Iris & David, face à face</span></div>
+      <div class="slide" style="--ar:1.7717"><picture><source type="image/webp" srcset="/img/rituals/l-amour-au-service-du-collectif-480.webp 480w, /img/rituals/l-amour-au-service-du-collectif-900.webp 900w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/l-amour-au-service-du-collectif-900.jpg" srcset="/img/rituals/l-amour-au-service-du-collectif-480.jpg 480w, /img/rituals/l-amour-au-service-du-collectif-900.jpg 900w" sizes="(max-width:900px) 86vw, 700px" width="900" height="508" alt="L’amour au service du collectif" loading="lazy" decoding="async"></picture><span class="cap2">L’amour au service du collectif</span></div>
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/le-final-tous-ensemble-480.webp 480w, /img/rituals-trio/le-final-tous-ensemble-900.webp 900w, /img/rituals-trio/le-final-tous-ensemble-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/le-final-tous-ensemble-900.jpg" srcset="/img/rituals-trio/le-final-tous-ensemble-480.jpg 480w, /img/rituals-trio/le-final-tous-ensemble-900.jpg 900w, /img/rituals-trio/le-final-tous-ensemble-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Le final, tous ensemble" loading="lazy" decoding="async"></picture><span class="cap2">Le final, tous ensemble</span></div>
+      <div class="slide" style="--ar:1.0"><picture><source type="image/webp" srcset="/img/rituals/david-lesage-480.webp 480w, /img/rituals/david-lesage-900.webp 900w, /img/rituals/david-lesage-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/david-lesage-900.jpg" srcset="/img/rituals/david-lesage-480.jpg 480w, /img/rituals/david-lesage-900.jpg 900w, /img/rituals/david-lesage-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="1400" alt="David Lesage" loading="lazy" decoding="async"></picture><span class="cap2">David Lesage</span></div>
+      <div class="slide" style="--ar:1.5"><picture><source type="image/webp" srcset="/img/rituals/iris-chasles-480.webp 480w, /img/rituals/iris-chasles-900.webp 900w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/iris-chasles-900.jpg" srcset="/img/rituals/iris-chasles-480.jpg 480w, /img/rituals/iris-chasles-900.jpg 900w" sizes="(max-width:900px) 86vw, 700px" width="900" height="600" alt="Iris Chasles" loading="lazy" decoding="async"></picture><span class="cap2">Iris Chasles</span></div>
+      <div class="slide" style="--ar:1.7789"><picture><source type="image/webp" srcset="/img/rituals-trio/portrait-julien-dub-480.webp 480w, /img/rituals-trio/portrait-julien-dub-900.webp 900w, /img/rituals-trio/portrait-julien-dub-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/portrait-julien-dub-900.jpg" srcset="/img/rituals-trio/portrait-julien-dub-480.jpg 480w, /img/rituals-trio/portrait-julien-dub-900.jpg 900w, /img/rituals-trio/portrait-julien-dub-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="787" alt="Julien Dub" loading="lazy" decoding="async"></picture><span class="cap2">Julien Dub</span></div>
     </div>
     <button class="car-btn next" onclick="carNav(1)" aria-label="Suivant">›</button>
   </div>
@@ -665,10 +698,7 @@ p a:not(.btn):not(.adh){text-decoration:underline;
     <a class="yt-fallback" href="https://youtu.be/wjJ44RDENQM" target="_blank" rel="noopener">La vidéo ne se lance pas ? Ouvrir sur YouTube ↗</a>
   </div>
 </div>
-<div class="imglb" id="imglb" onclick="closeIMG()"><img id="imgbig" alt=""></div>
 <script>
-var WEBP_OK=(function(){try{return document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp')===0}catch(e){return false}})();function openIMG(img){var b=document.getElementById('imgbig');b.src=(WEBP_OK?img.getAttribute('data-full'):img.getAttribute('data-full-jpg'))||img.currentSrc||img.src;b.alt=img.alt||'';document.getElementById('imglb').classList.add('open');}
-function closeIMG(){document.getElementById('imglb').classList.remove('open');document.getElementById('imgbig').removeAttribute('src');}
 function carScroll(d){var t=document.getElementById('cartrack');if(!t)return;var s=t.querySelector('.slide');var w=s?s.getBoundingClientRect().width+16:500;t.scrollBy({left:d*w,behavior:'smooth'});}
 var carTimer=null;
 function carStep(){var t=document.getElementById('cartrack');if(!t)return;var max=t.scrollWidth-t.clientWidth-4;if(t.scrollLeft>=max){t.scrollTo({left:0,behavior:'smooth'});}else{carScroll(1);}}
@@ -703,6 +733,250 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.ge
   links.addEventListener('click',function(e){ if(e.target.tagName==='A') set(false); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
   window.addEventListener('resize',function(){ if(window.innerWidth>860) set(false); });
+})();
+</script>
+<script>
+(function(){
+  var SEL='.figure img, picture.aphoto img, .slide img';
+  var photos=[].slice.call(document.querySelectorAll(SEL));
+  if(!photos.length||!document.body.classList) return;
+  var N=photos.length, ECH=2.2;
+  var WEBP=(function(){try{return document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp')===0}catch(e){return false}})();
+
+  function plusGrande(img,ext){
+    var lots=[],p=img.parentNode,best='',bw=-1,i,k,t,w;
+    if(p&&p.tagName==='PICTURE'){var s=p.getElementsByTagName('source');
+      for(i=0;i<s.length;i++)lots.push(s[i].getAttribute('srcset')||'');}
+    lots.push(img.getAttribute('srcset')||'');
+    for(i=0;i<lots.length;i++){var parts=lots[i].split(',');
+      for(k=0;k<parts.length;k++){t=parts[k].replace(/^\s+|\s+$/g,'').split(/\s+/);
+        if(!t[0]||t[0].slice(-ext.length).toLowerCase()!==ext) continue;
+        w=parseInt(t[1]||'0',10)||0; if(w>=bw){bw=w;best=t[0];}}}
+    return best;
+  }
+  function reduit(){return !!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);}
+
+  var dlg,track,cap,num,bP,bN,bZ,bX,slides=[],ouvert=false,idx=0,origine=null,posY=0;
+  var zImg=null,zOn=false,ztx=0,zty=0,glisse=false,bouge=false,sx=0,sy=0,btx=0,bty=0;
+  var minuteur=0,cible=-1,reparation=0;
+
+  function bouton(cls,label,txt){
+    var b=document.createElement('button');
+    b.type='button'; b.className=cls; b.setAttribute('aria-label',label); b.textContent=txt;
+    return b;
+  }
+  function div(cls){var e=document.createElement('div'); e.className=cls; return e;}
+  function relacher(){cible=-1;}
+
+  function construire(){
+    dlg=div('ph');
+    dlg.setAttribute('role','dialog');
+    dlg.setAttribute('aria-modal','true');
+    dlg.setAttribute('aria-label','Visionneuse de photos');
+    var head=div('ph-head');
+    num=document.createElement('span'); num.className='ph-num';
+    var tools=document.createElement('span'); tools.className='ph-tools';
+    bZ=bouton('ph-btn z','Agrandir la photo','+'); bZ.setAttribute('aria-pressed','false');
+    bX=bouton('ph-btn x','Fermer la visionneuse','×');
+    tools.appendChild(bZ); tools.appendChild(bX);
+    head.appendChild(num); head.appendChild(tools);
+    var body=div('ph-body');
+    track=div('ph-track');
+    bP=bouton('ph-btn ph-arw p','Photo précédente','‹');
+    bN=bouton('ph-btn ph-arw n','Photo suivante','›');
+    body.appendChild(track); body.appendChild(bP); body.appendChild(bN);
+    cap=document.createElement('p'); cap.className='ph-cap';
+    dlg.appendChild(head); dlg.appendChild(body); dlg.appendChild(cap);
+
+    photos.forEach(function(src){
+      var s=div('ph-slide'), im=document.createElement('img');
+      var jpg=plusGrande(src,'.jpg')||src.currentSrc||src.getAttribute('src')||'';
+      im.setAttribute('data-jpg',jpg);
+      im.setAttribute('data-webp',plusGrande(src,'.webp')||jpg);
+      im.alt=src.getAttribute('alt')||'';
+      var w=src.getAttribute('width'), h=src.getAttribute('height');
+      if(w&&h){im.setAttribute('width',w); im.setAttribute('height',h);}
+      im.decoding='async';
+      s.appendChild(im); track.appendChild(s); slides.push(im);
+    });
+    document.body.appendChild(dlg);
+
+    bP.addEventListener('click',function(){allerA(idx-1,true);});
+    bN.addEventListener('click',function(){allerA(idx+1,true);});
+    bZ.addEventListener('click',function(){if(zOn)dezoom();else zoomer(.5,.5);});
+    bX.addEventListener('click',fermer);
+    track.addEventListener('scroll',function(){
+      if(minuteur)return;
+      minuteur=setTimeout(function(){minuteur=0;
+        var i=Math.round(track.scrollLeft/Math.max(1,track.clientWidth));
+        if(cible>=0){if(i===cible)cible=-1; return;}
+        setIdx(i);},60);
+    });
+    track.addEventListener('wheel',relacher,{passive:true});
+    track.addEventListener('touchstart',relacher,{passive:true});
+    track.addEventListener('click',function(e){
+      var im=e.target;
+      if(im.tagName!=='IMG'){fermer();return;}
+      if(bouge)return;
+      if(zOn){dezoom();return;}
+      var r=im.getBoundingClientRect();
+      zoomer((e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height);
+    });
+    track.addEventListener('pointerdown',function(e){
+      bouge=false; relacher();
+      if(!zOn||e.target!==zImg)return;
+      glisse=true; sx=e.clientX; sy=e.clientY; btx=ztx; bty=zty;
+      zImg.style.transition='none';
+      if(zImg.setPointerCapture){try{zImg.setPointerCapture(e.pointerId);}catch(err){}}
+      e.preventDefault();
+    });
+    track.addEventListener('pointermove',function(e){
+      if(!glisse)return;
+      var dx=e.clientX-sx, dy=e.clientY-sy;
+      if(Math.abs(dx)>5||Math.abs(dy)>5)bouge=true;
+      ztx=btx+dx/ECH; zty=bty+dy/ECH; appliquer();
+    });
+    function finGlisse(){if(!glisse)return; glisse=false; if(zImg)zImg.style.transition='';}
+    track.addEventListener('pointerup',finGlisse);
+    track.addEventListener('pointercancel',finGlisse);
+    window.addEventListener('resize',function(){
+      if(!ouvert)return; dezoom(); track.scrollLeft=idx*track.clientWidth;
+    });
+  }
+
+  function charger(i){
+    for(var k=i-1;k<=i+1;k++){
+      if(k<0||k>=N)continue;
+      var im=slides[k];
+      if(im.getAttribute('src'))continue;
+      im.src=WEBP?im.getAttribute('data-webp'):im.getAttribute('data-jpg');
+    }
+  }
+  function setIdx(i){
+    i=Math.max(0,Math.min(N-1,i));
+    if(i!==idx)dezoom();
+    idx=i;
+    num.textContent=(i+1)+' / '+N;
+    cap.textContent=slides[i].alt;
+    bP.setAttribute('aria-disabled',i===0?'true':'false');
+    bN.setAttribute('aria-disabled',i===N-1?'true':'false');
+    charger(i);
+  }
+  function allerA(i,doux){
+    i=Math.max(0,Math.min(N-1,i));
+    if(i===idx&&cible<0)return;
+    dezoom();
+    cible=i;
+    var g=i*track.clientWidth;
+    if(track.scrollTo)track.scrollTo({left:g,behavior:(doux&&!reduit())?'smooth':'auto'});
+    else track.scrollLeft=g;
+    setIdx(i);
+    clearTimeout(reparation);
+    reparation=setTimeout(function(){
+      if(cible>=0&&Math.round(track.scrollLeft/Math.max(1,track.clientWidth))!==cible)
+        track.scrollLeft=cible*track.clientWidth;
+      cible=-1;
+    },450);
+  }
+  function borne(taille,cadre){
+    var d=(taille*ECH-cadre)/2;
+    return d>0?d/ECH:0;
+  }
+  function appliquer(){
+    if(!zImg||!zOn)return;
+    var mx=borne(zImg.clientWidth,track.clientWidth), my=borne(zImg.clientHeight,track.clientHeight);
+    ztx=Math.max(-mx,Math.min(mx,ztx)); zty=Math.max(-my,Math.min(my,zty));
+    zImg.style.transform='scale('+ECH+') translate('+ztx+'px,'+zty+'px)';
+  }
+  function zoomer(fx,fy){
+    zImg=slides[idx]; zOn=true;
+    ztx=-(fx-.5)*zImg.clientWidth; zty=-(fy-.5)*zImg.clientHeight;
+    zImg.classList.add('ph-zoomed'); zImg.style.touchAction='none';
+    track.style.overflowX='hidden';
+    bZ.textContent='−'; bZ.setAttribute('aria-pressed','true');
+    bZ.setAttribute('aria-label','Revenir à la taille normale');
+    appliquer();
+  }
+  function dezoom(){
+    if(!zOn)return;
+    zOn=false; glisse=false;
+    if(zImg){zImg.style.transform=''; zImg.style.touchAction=''; zImg.style.transition='';
+      zImg.classList.remove('ph-zoomed');}
+    zImg=null; ztx=0; zty=0;
+    track.style.overflowX='';
+    bZ.textContent='+'; bZ.setAttribute('aria-pressed','false');
+    bZ.setAttribute('aria-label','Agrandir la photo');
+  }
+  function boutons(){
+    return [bP,bN,bZ,bX].filter(function(b){return b.offsetWidth||b.offsetHeight;});
+  }
+  function clavier(e){
+    if(!ouvert)return;
+    if(e.key==='Escape'||e.key==='Esc'){e.preventDefault(); e.stopPropagation(); fermer(); return;}
+    if(e.key==='ArrowLeft'){e.preventDefault(); allerA(idx-1,true); return;}
+    if(e.key==='ArrowRight'){e.preventDefault(); allerA(idx+1,true); return;}
+    if(e.key==='Home'){e.preventDefault(); allerA(0,true); return;}
+    if(e.key==='End'){e.preventDefault(); allerA(N-1,true); return;}
+    if(e.key==='Tab'){
+      var f=boutons(); if(!f.length)return;
+      e.preventDefault();
+      var i=f.indexOf(document.activeElement);
+      var j=e.shiftKey?(i<=0?f.length-1:i-1):(i<0||i===f.length-1?0:i+1);
+      f[j].focus();
+    }
+  }
+  function verrouiller(){
+    posY=window.pageYOffset||document.documentElement.scrollTop||0;
+    document.body.style.top=(-posY)+'px';
+    document.body.classList.add('ph-lock');
+  }
+  function deverrouiller(){
+    document.body.classList.remove('ph-lock');
+    document.body.style.top='';
+    var d=document.documentElement, av=d.style.scrollBehavior;
+    d.style.scrollBehavior='auto';
+    window.scrollTo(0,posY);
+    d.style.scrollBehavior=av;
+  }
+  function ouvrir(i,dep){
+    if(ouvert)return;
+    if(!dlg)construire();
+    origine=dep; ouvert=true;
+    verrouiller();
+    dlg.classList.add('open');
+    clearTimeout(reparation); cible=-1;
+    track.scrollLeft=i*track.clientWidth;
+    setIdx(i);
+    document.addEventListener('keydown',clavier,true);
+    bX.focus();
+  }
+  function fermer(){
+    if(!ouvert)return;
+    ouvert=false;
+    dezoom();
+    dlg.classList.remove('open');
+    document.removeEventListener('keydown',clavier,true);
+    deverrouiller();
+    if(origine&&origine.focus){try{origine.focus({preventScroll:true});}catch(err){origine.focus();}}
+    origine=null;
+  }
+
+  photos.forEach(function(im,i){
+    im.classList.add('ph-op');
+    im.setAttribute('role','button');
+    im.setAttribute('tabindex','0');
+    im.setAttribute('aria-haspopup','dialog');
+    im.addEventListener('click',function(e){e.preventDefault(); ouvrir(i,im);});
+    im.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault(); ouvrir(i,im);}
+    });
+  });
+})();
+</script>
+<script>
+(function(){var t=document.getElementById('cartrack'); if(!t)return;
+  t.addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '||e.key==='Spacebar')carPause();});
 })();
 </script>
 
