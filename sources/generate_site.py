@@ -531,9 +531,21 @@ html = html.replace('<section class="keystone"><div class="wrap">',
 # secours est en 1400 px, pas en 900 comme les autres — d'ou `repli=1400`. Elle
 # n'a pas de recette dans RECETTES : son original n'est pas dans le depot.
 # ------------------------------------------------------------------------- #
+# ⚠️ LES TROIS NOMS DE LA LEGENDE (17/08/2026, demande de David).
+# La legende ne citait qu'Arnaud Riou, alors que la description longue (`alt`)
+# nommait deja les trois. David a demande que la legende VISIBLE nomme aussi
+# Iris Chasles et lui-meme. Ils sont donnes de gauche a droite, dans l'ordre ou
+# on les voit sur la photo — pas dans un ordre de preseance.
+# 🚨 REGLE FERME DE DAVID, VALABLE SUR TOUT LE SITE : on ne nomme que David
+#    Lesage, Iris Chasles et Arnaud Riou, et PERSONNE D'AUTRE. Les autres
+#    intervenants de la rangee restent « une rangee d'intervenants en noir »
+#    dans l'`alt` et ne sont pas nommes ici. Le site a deja publie une
+#    identification erronee par le passe (cf. l'avertissement plus haut sur le
+#    joueur de tambour).
 CAP_BRAS_LEVES = ('Le même geste, sur scène et dans la salle — projeté en direct'
-                  ' sur l’écran du Grand Rex. À droite, <b>Arnaud Riou</b> au'
-                  ' tambour sur cadre.')
+                  ' sur l’écran du Grand Rex. À gauche, <b>David Lesage</b>'
+                  ' derrière ses calebasses ; au centre, <b>Iris Chasles</b> ;'
+                  ' à droite, <b>Arnaud Riou</b> au tambour sur cadre.')
 ALT_BRAS_LEVES = ('Sur la scène du Grand Rex : David Lesage assis au sol à gauche,'
                   ' derrière deux calebasses ; une rangée d’intervenants en noir'
                   ' les bras levés ; Iris Chasles au centre en tailleur rouge,'
