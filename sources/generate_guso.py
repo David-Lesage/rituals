@@ -1819,6 +1819,78 @@ CSS_PAGE = ("""/* ===== Guso Facile ===== */
 .hero-cnx a{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);font-size:14.5px;text-decoration:underline;text-decoration-color:rgba(169,166,196,.38);text-underline-offset:4px}
 .hero-cnx a:hover{color:var(--gold2);text-decoration-color:var(--gold2)}
 """
+           # --- LE SOMMAIRE DE LA PAGE (17/08/2026) -------------------------------
+           # POURQUOI IL EXISTE, ET CE QU'IL NE FAIT PAS.
+           # La page mesurait 25 455 px de haut a 390 px — une trentaine d'ecrans de
+           # telephone. Quelqu'un qui SAIT ce qu'il vient chercher (« c'est combien ? »,
+           # « c'est pour moi ? », « comment je demande un acces ? ») n'avait aucun
+           # moyen d'y aller autrement qu'en faisant defiler. Le sommaire lui donne le
+           # controle SANS RIEN CACHER : il ne replie rien, il ne deplace rien, il
+           # n'enleve pas un mot. C'est la premiere des trois couches de la passe du
+           # 17/08/2026 (sommaire · inventaire repliable · retour en haut), et la seule
+           # qui serve AUSSI a celui qui ne clique pas : elle annonce le plan.
+           #
+           # ⚠️ CE N'EST PAS UNE SECONDE BARRE DE NAVIGATION, et trois choix le disent :
+           #   1. il vit DANS le hero de la page, sous le lien de connexion, pas dans
+           #      une bande collee en haut de l'ecran — le menu du site, lui, est en
+           #      `position:fixed` avec la marque de l'association ;
+           #   2. il est introduit par « Sur cette page », qui dit son perimetre en
+           #      trois mots ;
+           #   3. ses libelles sont des PHRASES DE LECTEUR (« Ce qu'il y a dedans »),
+           #      jamais les titres de section recopies — le menu du site, lui, nomme
+           #      des pages.
+           # Le point isole (`li + li::before`) acheve de le faire lire comme une liste
+           # en ligne et non comme une rangee de boutons : la page n'a QU'UN geste
+           # (ecart n° 8 en tete de fichier), et un sommaire n'en est pas un.
+           #
+           # COUT EN HAUTEUR — MESURE, PAS SUPPOSE (`scrollHeight` avec puis sans) :
+           #   390 px : +193 px · 820 px : +105 px · 1440 px : +0 px.
+           # Le zero de 1440 n'est pas une erreur : au-dela de 1000 px `.gf-topgrid`
+           # passe a deux colonnes et c'est la jauge des 507 h (400 px, a droite) qui
+           # fixe la hauteur du hero — exactement le mecanisme qui rendait deja le lien
+           # de connexion gratuit sur grand ecran. Le sommaire se paie donc UNIQUEMENT
+           # la ou il sert le plus (le telephone), et il y rend 154 px contre les
+           # 3 000 px et plus que la couche 2 fait gagner. C'est pour tenir ce budget
+           # qu'il n'a ni fond, ni cadre, ni pictogramme.
+           #
+           # LA CIBLE TACTILE EST OBTENUE PAR `inline-flex` + `min-height:44px` — la
+           # methode deja retenue pour `.hero-cnx` et pour `.offer .who a` de /le-nid :
+           # sans le flex, un <a> en ligne ne prend que la hauteur de sa ligne de texte
+           # et le `min-height` reste sans effet. Mesure faite, pas deduite.
+           """.gf-som{margin-top:22px;padding-top:15px;border-top:1px solid var(--line)}
+.gf-som-t{letter-spacing:.28em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--muted)}
+.gf-som ul{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:0 13px}
+.gf-som li{display:flex;align-items:center;gap:13px}
+.gf-som li+li::before{content:'·';color:var(--muted);opacity:.5}
+.gf-som a{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);font-size:15px}
+.gf-som a:hover{color:var(--gold2);text-decoration:underline;text-decoration-color:var(--gold2);text-underline-offset:4px}
+"""
+           # ⚠️⚠️ `scroll-margin-top` — SANS CETTE LIGNE LE SOMMAIRE MENAIT SOUS LE
+           # MENU. Le menu du site est en `position:fixed` : un lien d'ancre pose le
+           # HAUT de la section a y=0, donc sous la barre. Le defaut existait deja pour
+           # le bouton « Demander un acces » du hero (seule ancre de la page jusqu'ici),
+           # il ne se voyait pas parce qu'on ne le suivait qu'une fois. Avec cinq liens
+           # il devenait la regle.
+           # LES QUATRE MESURES QUI DONNENT CES DEUX VALEURS (hauteur reellement
+           # peinte par `.nav`, puis distance du premier texte au haut de la section) :
+           #     320 px : barre 144 px · premier texte a 67 px de la section
+           #     390 px : barre 110 px · 67 px
+           #     820 px : barre  77 px · 91 px
+           #    1440 px : barre  75 px · 91 px
+           # Il faut donc `marge + 67 >= 144 + une respiration` sur telephone, et
+           # `marge + 91 >= 77 + …` au-dela. D'ou 100 px sous 761 px et 56 px au-dela,
+           # soit 19 px de degagement dans le pire cas mesure (320 px) et 70 px sur
+           # grand ecran. Une valeur unique aurait fait atterrir un ecran large 100 px
+           # trop tot, dans le vide du bas de la section precedente.
+           # ⚠️ LE POINT DE BASCULE EST 760/761 px, celui du menu (`.nav .links
+           #    a:not(.adh){display:none}` sous 760 px) — pas celui de la grille des
+           #    univers. C'est la hauteur de la BARRE qu'on compense, pas la mise en
+           #    page du contenu : aligner ce seuil sur un autre le rendrait faux.
+           # ⚠️ Aucun effet visuel au chargement : `scroll-margin` ne s'applique QU'AUX
+           #    deplacements vers une ancre. La page ne bouge pas d'un pixel.
+           """section[id]{scroll-margin-top:56px}
+@media(max-width:760px){section[id]{scroll-margin-top:100px}}
+"""
            # Le bloc des trois articles. Il ferme #situations : un filet dore le detache
            # des trois cas d'usage sans ouvrir une section (qui aurait coute 184 px de
            # respiration — la page est sous plafond, voir l'entete).
@@ -3320,6 +3392,63 @@ def build_html():
       # La fleche est le caractere « → », pas un pictogramme : la page en compte
       # 11 et `NB_PICTOS` ne bouge pas. Aucun emoji (charte du site).
       """  <p class="hero-cnx"><a href="/guso-facile/app">J’ai déjà un compte → me connecter</a></p>
+"""
+      # ===================================================================
+      # LE SOMMAIRE DE LA PAGE (17/08/2026) — cinq ancres, aucune inventee
+      # ===================================================================
+      # LE CONSTAT : 25 455 px a 390 px, 15 038 px a 1440. Un lecteur qui sait
+      # ce qu'il cherche devait faire defiler une trentaine d'ecrans pour le
+      # trouver. Le sommaire lui rend ce controle SANS RIEN CACHER — c'est la
+      # difference avec la couche 2, qui replie l'inventaire.
+      #
+      # ⚠️ LES CINQ ANCRES EXISTAIENT DEJA TOUTES, relevees dans la page
+      #    livree et non devinees : `#promesse`, `#situations`,
+      #    `#fonctionnalites`, `#faq`, `#acces`. AUCUNE n'a ete creee pour ce
+      #    bloc, et aucune ne doit l'etre : le projet a deja publie des liens
+      #    vers des ancres inexistantes. `controle_liens()` de verif_site.py
+      #    verifie de son cote que chaque `href="#…"` trouve son `id`.
+      #
+      # LES LIBELLES NE RECOPIENT PAS LES TITRES DE SECTION, et c'est le point
+      # qui demande le plus d'attention. Un sommaire qui repete « Garde ton
+      # energie pour la scene · Trois situations typiques · Pensee pour les
+      # artistes et les structures » n'aide personne a choisir : ce sont des
+      # titres qui SEDUISENT, pas des titres qui SITUENT. Les cinq libelles
+      # repondent chacun a une question que le lecteur se pose vraiment :
+      #     #promesse        « Ce qu'il y a dedans » ? non : ce que ca CHANGE
+      #                      pour lui (la section dit la charge mentale et ce
+      #                      qui la remplace).
+      #     #situations      « Pour qui » — Lea, Marco et Sophie repondent
+      #                      exactement a « est-ce que c'est pour moi ? ».
+      #     #fonctionnalites « Ce qu'il y a dedans » — c'est l'inventaire, et
+      #                      c'est le mot juste depuis que la couche 2 le
+      #                      replie derriere quatre titres.
+      #     #faq             « Questions » — le mot que les gens cherchent ;
+      #                      la section s'appelle « Les questions qu'on se pose
+      #                      sur l'intermittence », trop long pour une ligne.
+      #     #acces           « Demander un acces » — MOT POUR MOT le libelle du
+      #                      bouton, a dessein : c'est le geste unique de la
+      #                      page, il doit se nommer partout pareil.
+      # ⚠️ LE DERNIER LIEN MENE A `#acces`, ET CE N'EST PAS NEGOCIABLE : l'appel
+      #    a l'action doit rester atteignable en UN clic depuis le haut, quelle
+      #    que soit la longueur de la page. Ce n'est pas un second bouton — un
+      #    lien gris de 15 px dans une liste a points ne concurrence pas le
+      #    bouton dore du hero, place trois lignes au-dessus. L'ecart n° 8 tient.
+      #
+      # ⚠️ `aria-label` EN FRANCAIS ET EXPLICITE sur le <nav> : la page en compte
+      #    desormais DEUX (le menu du site, pose par nav_menu.py, et celui-ci).
+      #    Sans etiquette, un lecteur d'ecran annonce « navigation » deux fois
+      #    sans dire laquelle. Le titre visible « Sur cette page » joue le meme
+      #    role pour tout le monde.
+      """  <nav class="gf-som" aria-label="Sommaire de la page">
+    <p class="gf-som-t">Sur cette page</p>
+    <ul>
+      <li><a href="#promesse">Ce que ça change</a></li>
+      <li><a href="#situations">Pour qui</a></li>
+      <li><a href="#fonctionnalites">Ce qu’il y a dedans</a></li>
+      <li><a href="#faq">Questions</a></li>
+      <li><a href="#acces">Demander un accès</a></li>
+    </ul>
+  </nav>
   </div>
 """)
     A(MAQ_JAUGE)
@@ -5325,6 +5454,26 @@ ANCRES = (
      'l’adresse stable de connexion (redirigée par vercel.json, une seule fois)'),
     ('J’ai déjà un compte → me connecter', 1,
      'le libellé exact du lien de connexion, validé par David le 17/08/2026'),
+    # --- LE SOMMAIRE DE LA PAGE (17/08/2026) -----------------------------
+    # ⚠️ LES CINQ LIGNES `href="#…"` SONT LE VRAI GARDE-FOU DE CE BLOC : elles
+    #    interdisent qu'un libellé soit un jour repointé sur une ancre qui
+    #    n'existe pas — le défaut que ce projet a déjà publié. Elles doublent
+    #    `controle_liens()` de verif_site.py, et c'est voulu : ici l'écriture
+    #    est REFUSÉE, là-bas elle est seulement signalée après coup.
+    # ⚠️ `href="#acces"` vaut DEUX et pas un : le bouton du hero, puis le
+    #    dernier lien du sommaire. C'est la seule ancre de la page visée deux
+    #    fois, parce que c'est le seul geste de la page — il doit rester à un
+    #    clic du haut quelle que soit la longueur du reste.
+    ('<nav class="gf-som"', 1, 'le sommaire de la page, dans le hero'),
+    ('<p class="gf-som-t">Sur cette page</p>', 1,
+     'le titre qui dit que ce sommaire est celui de la PAGE, pas du site'),
+    ('aria-label="Sommaire de la page"', 1,
+     'les deux <nav> de la page sont distingués pour les lecteurs d’écran'),
+    ('href="#promesse"', 1, 'sommaire → « Ce que ça change »'),
+    ('href="#situations"', 1, 'sommaire → « Pour qui »'),
+    ('href="#fonctionnalites"', 1, 'sommaire → « Ce qu’il y a dedans »'),
+    ('href="#faq"', 1, 'sommaire → « Questions »'),
+    ('href="#acces"', 2, 'le bouton du hero ET le dernier lien du sommaire'),
     # --- LE BLOG DEVIENT UN BLOC (nuit du 16/08/2026) --------------------
     # ⚠️ DEUX blocs, et l'ancre a ZERO qui interdit le retour de la ligne de
     #    texte qu'ils remplacent. David : « c'est même pas un bouton, c'est une

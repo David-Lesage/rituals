@@ -198,6 +198,15 @@ section{padding:86px 0}
 .hero-cnx{margin-top:6px}
 .hero-cnx a{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);font-size:14.5px;text-decoration:underline;text-decoration-color:rgba(169,166,196,.38);text-underline-offset:4px}
 .hero-cnx a:hover{color:var(--gold2);text-decoration-color:var(--gold2)}
+.gf-som{margin-top:22px;padding-top:15px;border-top:1px solid var(--line)}
+.gf-som-t{letter-spacing:.28em;text-transform:uppercase;font-size:13px;font-weight:600;color:var(--muted)}
+.gf-som ul{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:0 13px}
+.gf-som li{display:flex;align-items:center;gap:13px}
+.gf-som li+li::before{content:'·';color:var(--muted);opacity:.5}
+.gf-som a{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);font-size:15px}
+.gf-som a:hover{color:var(--gold2);text-decoration:underline;text-decoration-color:var(--gold2);text-underline-offset:4px}
+section[id]{scroll-margin-top:56px}
+@media(max-width:760px){section[id]{scroll-margin-top:100px}}
 .mea{margin-top:44px;padding-top:28px;border-top:1px solid rgba(216,178,90,.24)}
 .mea-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(25px,3.4vw,34px);font-weight:600;color:#fff;line-height:1.14}
 .mea-s{color:#d7d4ea;font-size:15.5px;margin-top:10px;max-width:78ch}
@@ -751,6 +760,16 @@ footer h4{font-family:'Cormorant Garamond',Georgia,serif}
     <a class="hero-blog" href="/guso-facile/blog">Le blog : dix-huit situations concrètes</a>
   </div>
   <p class="hero-cnx"><a href="/guso-facile/app">J’ai déjà un compte → me connecter</a></p>
+  <nav class="gf-som" aria-label="Sommaire de la page">
+    <p class="gf-som-t">Sur cette page</p>
+    <ul>
+      <li><a href="#promesse">Ce que ça change</a></li>
+      <li><a href="#situations">Pour qui</a></li>
+      <li><a href="#fonctionnalites">Ce qu’il y a dedans</a></li>
+      <li><a href="#faq">Questions</a></li>
+      <li><a href="#acces">Demander un accès</a></li>
+    </ul>
+  </nav>
   </div>
 <figure class="gf-block">
   <div class="gf-shot" role="img" aria-label="Tableau de bord de Guso Facile : la jauge des 507 heures, 412 heures validées sur 507, il reste 95 heures à trouver avant la date anniversaire du 16 août.">
