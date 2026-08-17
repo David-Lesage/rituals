@@ -257,11 +257,18 @@ SECTION_GRAND_REX = (
 #    le refuse expres), et cette image ne sert qu'a l'apercu, jamais a
 #    l'affichage responsive.
 #
-# 2. LE TITRE passe a celui de Solune, « E-Motion LE SPECTACLE PARTICIPATIF ».
-#    🚩 A signaler a David : la mention « · ID duo » disparait de l'apercu. Le
-#    nom du duo n'apparait donc plus dans la vignette de partage — il reste dans
-#    le `<title>` de la page, dans `og:image:alt` et dans le contenu. Si le duo
-#    doit rester visible au partage, c'est un arbitrage a rendre.
+# 2. LE TITRE reprend celui de Solune, SUIVI DU NOM DU DUO :
+#    « E-Motion LE SPECTACLE PARTICIPATIF · ID duo ».
+#    L'arbitrage signale le 17/08 a ete rendu par David le meme jour : en
+#    recopiant le titre de Solune tel quel, la mention « · ID duo » avait
+#    disparu de la vignette de partage — le nom du duo ne survivait plus que
+#    dans le `<title>`, dans `og:image:alt` et dans le corps de la page. David
+#    veut le garder VISIBLE AU PARTAGE : c'est le nom sous lequel Iris Chasles
+#    et David Lesage sont programmes.
+#    Longueur : 43 caracteres. La coupure des messageries se situe vers 60-70 ;
+#    on est largement dessous, rien ne sera tronque. ⚠️ Si ce titre devait
+#    s'allonger un jour, c'est « · ID duo » qui tomberait en premier puisqu'il
+#    est a la fin — donc ne rien ajouter derriere lui.
 #
 # 3. LE TEXTE reprend celui de Solune, avec deux reserves assumees :
 #    - Solune ecrit « Envole toi vers l'inattendu ! » sans trait d'union. C'est
@@ -286,7 +293,7 @@ GABARIT = (
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>E-MOTION — Spectacle participatif · ID duo, Iris Chasles &amp; David Lesage</title>
 <meta name="description" content="E-Motion, le spectacle immersif et participatif d’ID duo (Iris Chasles &amp; David Lesage) : danse aérienne à l’élastique, musique live, chant, pratiques corporelles et guidances. Une expérience immersive des sens où chaque spectateur devient acteur.">
-<meta property="og:title" content="E-Motion LE SPECTACLE PARTICIPATIF">
+<meta property="og:title" content="E-Motion LE SPECTACLE PARTICIPATIF · ID duo">
 <meta property="og:description" content="Envole-toi vers l'inattendu ! « Notre spectacle transforme chaque spectateur en acteur d'une expérience unique ! » Une expérience immersive des sens.">
 <meta property="og:image" content="https://www.resonancesproductions.org/img/e-motion/apercu-partage-e-motion-1400.jpg">
 <meta property="og:image:width" content="1400">
