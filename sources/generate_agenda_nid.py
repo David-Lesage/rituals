@@ -81,6 +81,7 @@ TARGET = os.path.join(REPO, 'le-nid', 'index.html')
 sys.path.insert(0, HERE)
 import nav_menu  # menu de navigation partage  # noqa: E402
 import theme_chaleur  # couche chaleureuse commune  # noqa: E402
+import visionneuse  # visionneuse photo commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 CAL_ID = '30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae@group.calendar.google.com'
@@ -994,7 +995,8 @@ def generer():
     _exiger(html, '</style>', 1, 'fin de la feuille de style')
     html = html.replace('</style>',
                         CSS.lstrip('\n') + CSS_DATES
-                        + theme_chaleur.CSS + CSS_CHALEUR + '\n</style>', 1)
+                        + theme_chaleur.CSS + CSS_CHALEUR
+                        + visionneuse.css('') + '\n</style>', 1)
 
     # --- la section agenda, juste avant le divider qui precede « Le lieu » ---
     ancre_lieu = '<div class="divider"></div>\n\n<section class="lieu">'
@@ -1038,6 +1040,21 @@ def generer():
     _exiger(html, '</body>', 1, 'fin du corps de page')
     html = html.replace('</body>', ICS_JS + '</body>', 1)
     html = html.replace('</body>', FILTER_JS + '</body>', 1)
+
+    # --- la visionneuse photo (17/08/2026) -----------------------------------
+    # Les 6 photos des trois galeries (`.gal img`) s'ouvrent en grand au clic.
+    # Tout est dans `sources/visionneuse.py` — meme visionneuse que sur les six
+    # autres pages a photos du site.
+    #
+    # ⚠️ LA PHOTO DU HERO EST VOLONTAIREMENT LAISSEE DEHORS. Ce n'est pas une
+    #    photo de galerie mais un FOND : `.hero-bg` porte `pointer-events:none`
+    #    et un voile `.hero::after` la recouvre entierement pour que le titre
+    #    reste lisible. La rendre cliquable aurait mis un clic sur toute la
+    #    hauteur du hero, sous le titre et les boutons. A trancher par David.
+    # ⚠️ ARGUMENT VIDE POUR LE CSS, ET C'EST MESURE : les legendes de cette page
+    #    (`.gal-cap`) sont dans la colonne de texte, a cote de la photo, jamais
+    #    par-dessus. Rien ne recouvre le bas des photos.
+    html = html.replace('</body>', visionneuse.js('.gal img') + '</body>', 1)
 
     # Ligne vide entre le dernier script de la page et le bloc du menu partage.
     # Elle vient de la migration du menu v1 -> v2 : `nav_menu._strip()` a retire
