@@ -2492,6 +2492,47 @@ HTML = (f"""<!DOCTYPE html>
   <div class="dlc-h">Le dispositif</div>
   <h2 class="sec-title">Une heure trente qui alterne écoute et participation</h2>
   <p>L’architecture de la soirée est simple et tenue : des temps où la salle se laisse traverser, des temps où elle prend part. Entre les deux, l’artiste parle — de vulnérabilité masculine, de spiritualité, d’amour — puis relance la musique.</p>
+"""
+#   EXTRAIT DE CONCERT « HUMANO » — POSE HAUT DANS LA PAGE (17/08/2026).
+#       Demande de David, mot a mot : « la video je voudrais qu'elle n'arrive pas
+#       trop en bas ». Cette video EXISTAIT deja sur la page, mais seulement dans
+#       le bas : une ligne du repertoire (#repertoire) et une vignette de la
+#       grille « Concerts Live » — soit vers 18 000 et 19 500 px, c'est-a-dire
+#       aux ~60 % de la page. Un programmateur qui vient de decouvrir la page ne
+#       l'atteignait jamais. Elle est donc REPRISE ICI, en tete de #dispositif,
+#       vers 3 400 px (~11 % de la page) : la meilleure preuve de ce que vaut le
+#       spectacle doit etre vue en premier.
+#       POURQUOI ICI plutot qu'ailleurs : c'est la premiere section qui DECRIT le
+#       concert (« une heure trente qui alterne ecoute et participation »), et la
+#       video la montre. On la pose entre le paragraphe d'ouverture et la phrase
+#       qui annonce les huit composantes — le couple « phrase d'annonce + liste »
+#       n'est pas coupe, et AUCUN contenu existant n'est deplace ni retire.
+#       ⚠️ Le lieu (abbaye d'Alet-les-Bains) est aussi celui d'une photo du
+#       carrousel de #scenes : la coherence de lieu est conservee dans le
+#       libelle, mais elle ne commande plus l'emplacement (le carrousel est
+#       beaucoup trop bas).
+#       ⚠️ DOUBLON ASSUME, a arbitrer par David : la meme vignette reste dans la
+#       grille « Concerts Live » plus bas. La retirer ramenerait cette grille a 5
+#       vignettes, alors que les DEUX grilles sont aujourd'hui un 3x2 parfait
+#       (mesure : 3 colonnes de 273 px, 2 rangees) — casser cette symetrie pour
+#       un doublon situe 16 000 px plus loin serait une regression visible.
+#       Rien d'invente sur le contenu : seuls le morceau, le lieu et le fait que
+#       c'est un extrait de concert sont affirmes. Le titre YouTube EXACT est
+#       cite tel quel en sous-legende (convention des deux autres videos de la
+#       page), verifie par oEmbed le 17/08/2026.
+#       Meme mecanique que toutes les videos du site : .ytlink + data-yt ->
+#       lecteur en surimpression (#ytlb/#ytif), youtube-nocookie, jamais de
+#       nouvel onglet. La vignette est deja en local dans /img/concert-live/
+#       (native 1280x720) : AUCUNE image nouvelle, aucune image distante.
+f"""  {live_feature('live-humano-abbaye-alet-les-bains', 'Y5D0_iiVflg',
+                'Vignette de la vidéo : vue depuis le fond de l’abbaye à ciel ouvert '
+                'd’Alet-les-Bains, un public nombreux assis sur des chaises entre les murs de '
+                'pierre, l’artiste seul debout au fond ; titre incrusté « L’Alliance du '
+                'Phoenix — Humano ».',
+                'Voir un extrait — « Humano », à l’abbaye d’Alet-les-Bains',
+                '« L’alliance du phoenix - Humano - Live Concert - Alet les bains - #432hz » '
+                '— le lecteur s’ouvre sur cette page.',
+                '(max-width:900px) calc(100vw - 52px), 560px')}
   <p>Huit composantes se relaient d’un bout à l’autre du concert :</p>
   <ul class="dlc-grid">{''.join(f'<li><h3>{t}</h3><p>{d}</p></li>' for t, d in COMPOSANTES)}</ul>
   {pic('setup',
