@@ -35,6 +35,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import nav_menu  # menu de navigation partage  # noqa: E402
 import theme_chaleur  # couche chaleureuse commune  # noqa: E402
+import visionneuse  # visionneuse photo commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -409,7 +410,18 @@ CSS_CHALEUR = (# ===== Rythme & calebasse : declinaisons chaleureuses =====
 @media(max-width:760px){section{padding:66px 0}}
 """)
 
-CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR
+# --------------------------------------------------------------------------
+# LA VISIONNEUSE PHOTO (17/08/2026)
+# --------------------------------------------------------------------------
+# Les 5 photos de la page s'ouvrent en grand au clic. Tout est dans
+# `sources/visionneuse.py` — meme visionneuse que sur les six autres pages a
+# photos du site.
+# ⚠️ ARGUMENT VIDE, ET C'EST MESURE : les legendes de cette page sont des
+#    `<figcaption>` posees SOUS l'image, dans le flux (`.fig figcaption` a un
+#    `padding` et un `border-top`, aucun `position:absolute`). Rien ne
+#    recouvre le bas des photos, donc rien a rendre transparent au clic.
+#    Verifie par `elementFromPoint` sur les 5 photos.
+CSS = CSS + theme_chaleur.CSS + CSS_CHALEUR + visionneuse.css('')
 
 NAV = """<nav class="nav">
   <a href="/" class="brand">Résonances Productions</a>
@@ -1095,6 +1107,10 @@ def build_html(sizes):
     A(FOOTER)
     A('\n<a class="totop" href="#top" aria-label="Revenir en haut de la page">↑</a>\n')
     A(JS)
+    # Les 5 photos de la page, dans l'ordre du document : la grande photo du
+    # haut (`.hero-fig`) puis les quatre `.fig`. Aucune autre balise <img> sur
+    # cette page — les pictogrammes sont des <svg> en ligne.
+    A(visionneuse.js('.hero-fig img, .fig img').rstrip('\n'))
     A('\n</body></html>\n')
 
     return head + '\n'.join(body)
@@ -1113,9 +1129,16 @@ def main():
     # injection post-traitement : il attrape AUSSI BIEN sa disparition que sa
     # duplication (le piege des 4 cartes identiques). On refuse d'ecrire une
     # page cassee plutot que d'imprimer un avertissement qui defile.
+    # La visionneuse tient a DEUX choses : sa feuille de style et son script.
+    # Perdre l'une des deux ne casserait rien a l'ecran — les photos
+    # cesseraient simplement d'etre cliquables, en silence.
     for marker, label in (('id="experience"', 'bloc experience (26 ateliers)'),
                           ('data-nav="%s"' % nav_menu.NAV_VERSION,
-                           'menu partage nav_menu.py')):
+                           'menu partage nav_menu.py'),
+                          ('.ph{position:fixed',
+                           'feuille de style de la visionneuse photo'),
+                          ("var SEL='.hero-fig img",
+                           'script de la visionneuse photo')):
         n = html.count(marker)
         if n != 1:
             raise SystemExit(
