@@ -19,11 +19,60 @@ Sources du contenu :
   - https://sites.google.com/lesagedavid.fr/now-groove/faq : le sol dur.
   - Dossier de presentation de David : format des interventions (2 h, jusqu'a
     50 participants, instrument fourni, grand espace ferme a sol dur).
-  - Agenda du Nid (`/le-nid#agenda`) : les 3 dates de workshops.
+  - Agenda du Nid (`/le-nid#agenda`) : les 3 dates du groupe de pratique.
 
-⚠️ Aucun tarif n'est affiche : le site source Now Groove n'en publie aucun
-   (les 40 € figurent seulement dans le dossier de presentation interne).
-   On renvoie donc systematiquement vers contact@resonancesproductions.org.
+⚠️ REFONTE DU 18/08/2026 — CE QUE LA PAGE VIENT CHERCHER A CHANGE.
+   Demande de David, mot pour mot : « je cherche aujourd'hui surtout l'appel a
+   candidature. en fait les dates de workshop annoncees sont pour le petit
+   groupe de personnes engage mensuel uniquement. les gros workshop c'est sur
+   demande pour des festivals uniquement. »
+
+   Consequences, tenues par la structure de la page :
+   1. L'APPEL A CANDIDATURE est passe en 2e position, juste apres le hero.
+      Il etait 4e, derriere une offre de workshops qui paraissaient ouverts.
+   2. LES 3 DATES NE SONT PLUS DES WORKSHOPS OUVERTS. Elles restent affichees
+      — elles rendent l'engagement concret — mais a l'interieur de l'appel,
+      sous le titre « Les prochains rendez-vous du groupe », et SANS AUCUN
+      BOUTON « RESERVER ». L'ancienne section `#workshops` a disparu en tant
+      que section : son contenu a ete reparti (voir ci-dessous). L'ancre
+      `id="workshops"` est conservee sur le bloc des dates pour ne casser
+      aucun lien exterieur ou signet.
+   3. TROIS FORMATS, ET UN SEUL SUJET PRINCIPAL. La page distingue desormais :
+      (a) le groupe de pratique engage, mensuel, sur candidature — le sujet ;
+      (b) les grands workshops en festival ou en evenement ;
+      (c) les ateliers d'initiation a la demande, A LA CONDITION QUE LA
+          PERSONNE ORGANISATRICE CONSTITUE LE GROUPE (mot de David).
+      (b) et (c) partagent la meme section `#interventions` : meme duree, meme
+      couverture geographique, meme materiel — ce qui change, c'est qui reunit
+      le groupe et qui paie.
+
+⚠️ LES TARIFS — CE QUI EST DIT ET CE QUI NE L'EST PAS (18/08/2026, mots de David)
+   - ATELIERS HORS DU NID : « 40 les 2H partout + loge nourri defraye »,
+     « minimum 15 participants », materiel fourni, location comprise. Les deux
+     moities (les 40 € ET l'accueil en plus) sont affichees AU MEME NIVEAU,
+     dans deux cartes voisines de la meme grille : quelqu'un qui ne lirait que
+     « 40 € » et decouvrirait le deplacement a sa charge se sentirait floue.
+     Le minimum de 15 est lui aussi au meme niveau, et pas en note : c'est lui
+     qui dit a quelqu'un s'il est concerne AVANT qu'il ecrive.
+   - GROUPE DE PRATIQUE : « je n'ai pas defini le tarif du groupe engage ».
+     La page n'en dit donc RIEN — ni montant, ni fourchette, ni « a partir
+     de », ni « gratuit ». La carte « Participation — Sur demande » reprend la
+     formulation deja validee. ⚠️ NE JAMAIS RAPPROCHER VISUELLEMENT LES DEUX :
+     les 40 € vivent dans `#interventions`, tout en bas de page, separes du
+     bloc `#appel` par trois sections entieres. Un lecteur ne doit pas pouvoir
+     conclure que le groupe mensuel coute 40 € la seance.
+
+⚠️ « ON PEUT LE REJOINDRE A TOUT MOMENT » est une decision explicite de David
+   (18/08/2026), reprise dans la description de l'agenda Google du Nid. La page
+   ne doit donc jamais donner l'impression d'une session de candidature fermee
+   ni d'une date limite.
+
+⚠️ VOCABULAIRE IMPOSE : les 3 evenements de l'agenda Google du Nid s'appellent
+   depuis le 18/08/2026 « Groupe de pratique rythme calebasse engage — Le Nid »,
+   et leur bouton d'action est « REJOINDRE LE GROUPE », qui renvoie ICI. On
+   emploie donc les memes mots — « groupe de pratique », « engage »,
+   « rejoindre le groupe » — pour que la meme chose soit reconnaissable des
+   deux cotes. Ne pas reinventer un autre nom.
 
 Usage : python3 sources/generate_rythme.py   (depuis la racine du depot)
 """
@@ -243,8 +292,13 @@ b{color:#fff;font-weight:500}
 .date{display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid rgba(255,255,255,.06);border-left:2px solid var(--plum);border-radius:14px;padding:16px 20px}
 .date .d{font-family:'Cormorant Garamond',Georgia,serif;color:var(--gold2);font-size:25px;font-weight:600;min-width:190px}
 .date .h{color:var(--muted);font-size:15.5px;flex:1 1 auto}
-.date .a{display:inline-flex;align-items:center;min-height:44px;padding:11px 20px;border-radius:30px;border:1px solid var(--line);color:var(--gold2);font-size:15px}
-.date .a:hover{background:rgba(216,178,90,.10)}
+.date .tag{color:var(--muted);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;border:1px solid rgba(255,255,255,.13);border-radius:30px;padding:7px 15px;line-height:1.3}
+.callout{max-width:820px;margin-top:28px;background:var(--card);border:1px solid rgba(255,255,255,.07);border-left:2px solid var(--gold);border-radius:14px;padding:20px 22px}
+.callout .badge{margin-bottom:12px}
+.callout p{color:#e4e1f2;font-size:16.5px;line-height:1.7}
+.callout p+p{margin-top:11px}
+.callout .small{color:var(--muted);font-size:15px}
+.callout a{color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px}
 /* ===== APPEL A CANDIDATURE ===== */
 .appel{background:radial-gradient(880px 540px at 12% -6%,rgba(216,178,90,.16),transparent 62%),radial-gradient(700px 460px at 92% 100%,rgba(147,116,226,.18),transparent 62%),linear-gradient(180deg,#0b0c1e,#101229)}
 .appel .letter{max-width:780px;margin-top:26px;border-left:2px solid var(--gold);padding-left:24px}
@@ -620,10 +674,10 @@ def build_html(sizes):
     head = """<!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Le rythme à la calebasse — workshops et groupe de pratique à Paris · Résonances Productions</title>
-<meta name="description" content="Apprendre le rythme à la calebasse avec David Lesage, au Nid (Paris 20ᵉ) : des workshops de 2 h en petit comité, instrument fourni, sans prérequis musical. Et un appel à candidature pour un groupe de pratique engagé sur un an, à raison d’un workshop par mois — il reste environ 4 places.">
-<meta property="og:title" content="Le rythme à la calebasse — workshops et groupe de pratique à Paris">
-<meta property="og:description" content="Une approche du rythme par le corps et la calebasse, au Nid (Paris 20ᵉ). Workshops de 2 h, instrument fourni. Appel à candidature : un groupe de pratique sur un an, un workshop par mois, environ 4 places à pourvoir.">
+<title>Rejoindre le groupe de pratique du rythme à la calebasse, à Paris · Résonances Productions</title>
+<meta name="description" content="Appel à candidature : un groupe de pratique engagé se retrouve au Nid (Paris 20ᵉ) avec David Lesage, un rendez-vous de 2 h par mois pendant un an. Instrument fourni, aucun prérequis musical, environ 4 places — on peut rejoindre le groupe à tout moment. Ailleurs, l’atelier de rythme se déplace sur demande.">
+<meta property="og:title" content="Rejoindre le groupe de pratique du rythme à la calebasse, à Paris">
+<meta property="og:description" content="Appel à candidature : un groupe de pratique engagé, au Nid (Paris 20ᵉ), avec David Lesage. Un rendez-vous de 2 h par mois pendant un an, instrument fourni, aucun prérequis musical, environ 4 places. On peut le rejoindre à tout moment.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.resonancesproductions.org/rythme-calebasse">
 <meta property="og:image" content="https://www.resonancesproductions.org/img/rythme-calebasse/cercle-calebasses-{ogw}.jpg">
@@ -652,6 +706,11 @@ def build_html(sizes):
     A(NAV)
 
     # ---------------------------------------------------------------- HERO
+    # Les deux boutons ont change de cible le 18/08/2026 : le principal menait
+    # a `#appel`, le second a `#workshops` (« Les prochains workshops ») — un
+    # libelle qui promettait des seances ouvertes. Ils menent maintenant au
+    # formulaire et a l'appel lui-meme. « Rejoindre le groupe » est le mot
+    # exact du bouton de l'agenda Google du Nid, qui renvoie sur cette page.
     A("""
 <header class="top" id="top"><div class="wrap">
   <div class="kick">Transmission · Le Nid, Paris 20<sup>e</sup> · avec David Lesage</div>
@@ -661,9 +720,22 @@ def build_html(sizes):
   qui se met à circuler. Une approche du rythme intégrative et joyeuse, qui passe par le corps
   autant que par l’esprit. Aucun prérequis musical : l’instrument est fourni, et on entre dans le
   rythme par la sensation avant d’y entrer par la théorie.</p>
+
+  <div class="callout">
+    <div class="badge">""" + theme_chaleur.ic('calebasse') + """<span>Appel à candidature</span></div>
+    <p><b>Un groupe de pratique engagé se retrouve au Nid, à Paris</b> : un rendez-vous par mois,
+    deux heures de pratique, sur un an. Il reste <b>environ quatre places</b>, et
+    <b>on peut rejoindre le groupe à tout moment</b> — il n’y a pas de date limite pour
+    candidater. C’est le sujet de cette page.</p>
+    <p class="small">Les trois dates annoncées plus bas sont les rendez-vous <b>de ce groupe</b> :
+    on ne s’y inscrit pas à la séance. Vous cherchez plutôt un atelier pour un festival, un
+    événement ou un cercle que vous réunissez vous-même ? C’est
+    <a href="#interventions">ailleurs qu’au Nid</a>.</p>
+  </div>
+
   <div class="cta">
-    <a class="btn" href="#appel">L’appel à candidature</a>
-    <a class="btn ghost" href="#workshops">Les prochains workshops</a>
+    <a class="btn" href="#candidature">Rejoindre le groupe</a>
+    <a class="btn ghost" href="#appel">Lire l’appel en entier</a>
   </div>
   <figure class="hero-fig">
 """ + p('cercle-calebasses', sizes, sizes_attr='(max-width:1080px) 100vw, 1028px', eager=True) + """
@@ -674,151 +746,26 @@ def build_html(sizes):
 <div class="divider"></div>
 """)
 
-    # ------------------------------------------------------ LA CALEBASSE
-    A("""
-<section class="blk band" id="calebasse"><div class="wrap">
-  <div class="h-min">L’instrument</div>
-  <h2>Une gourde, deux œufs, et des infra-basses</h2>
-  <div class="two">
-    <div>
-      <p class="body">Utilisée dans le monde entier, la « gourde » est une plante grimpante dont le
-      fruit creux, évidé et séché, donne la <b>calebasse</b>. Sa coque est si dure qu’elle autorise
-      des usages tout à fait exceptionnels : en musique, on la retrouve dans la kora ou le ngoni,
-      la harpe africaine.</p>
-      <p class="body">En 2012, David Lesage la rencontre en la posant simplement par terre, sur une
-      couverture. Il y découvre un son, une sensation — les <b>infra-basses</b>. Puis lui vient
-      l’idée d’utiliser des <b>œufs en plastique</b> pour reproduire le charleston et la caisse
-      claire. Une sorte de « batterie portative organique », au son électronique naturel, qu’il
-      emmène partout dans son quotidien de musicien : dans la rue, en soirée, en concert, et jusque
-      sur le plateau de <i>The Voice</i> en 2021.</p>
-    </div>
-    <figure class="fig on-white">
-""" + p('calebasse-tapis-oeufs', sizes, sizes_attr='(max-width:820px) 100vw, 360px') + """
-      <figcaption>Une calebasse, son tapis et ses deux œufs : tout ce qu’il faut pour jouer.</figcaption>
-    </figure>
-  </div>
-
-  <h3>Les calebasses « signature »</h3>
-  <div class="two">
-    <div>
-      <p class="body">Les calebasses de 46 cm de diamètre et plus, avec un bord épais de 1,5 à 2 cm,
-      sont très rares à trouver — en Europe tout particulièrement. Celles que David utilise
-      viennent d’<b>Afrique de l’Ouest</b> (Niger, Burkina Faso, Mali) et sont sélectionnées selon
-      ses critères propres à la pratique du rythme. Chacune est retravaillée à la main par
-      « Kamou », de Djoliba Percussions, qui affine le bord pour que la calebasse épouse
-      exactement son tapis — c’est de là que vient ce son unique et puissant. Chacune est enfin
-      pyrogravée au laser du logo Now Groove : les quatre éléments en mouvement, formant le
-      cinquième, l’éther.</p>
-      <div class="note">
-        <p><b>Un détail qui compte.</b> La calebasse ne donne sa pleine puissance que sur un
-        <b>sol dur</b> — béton, carrelage, pierre, bois plein — parce que le son naît de la
-        pression de l’air entre la coque, le tapis et le sol. Sur l’herbe, la terre ou un plancher
-        creux, les infra-basses ne sortent pas.</p>
-      </div>
-    </div>
-    <figure class="fig">
-""" + p('calebasses-brutes', sizes, sizes_attr='(max-width:820px) 100vw, 360px') + """
-      <figcaption>La sélection des calebasses, avant le travail du bord et la pyrogravure.</figcaption>
-    </figure>
-  </div>
-</div></section>
-
-<div class="divider"></div>
-""")
-
-    # --------------------------------------------------- CE QU'ON PRATIQUE
-    A("""
-<section class="blk" id="pratique"><div class="wrap">
-  <div class="h-min">Le déroulé</div>
-  <h2>Ce que l’on pratique ensemble</h2>
-  <p class="lead">Comprendre le rythme, c’est pouvoir se situer dans l’espace et le temps. C’est
-  pouvoir se donner des rendez-vous avec les autres, entrer en relation. Quand on comprend le
-  rythme, on peut faire des propositions claires.</p>
-  <ul class="lst">
-    <li>Une approche pédagogique <b>intégrative</b> du rythme par le corps et la calebasse, et
-    <b>philosophique</b> à travers l’esprit.</li>
-    <li>Une <b>introduction au rythme</b> guidée par la cohérence cardiaque, à travers la
-    respiration, et une visualisation guidée.</li>
-    <li>Des jeux de <b>questions / réponses</b> avec David.</li>
-    <li>La <b>synchronisation des membres</b> : pieds, mains, voix.</li>
-    <li><b>Chanter</b> ensemble.</li>
-    <li><b>Taper</b> ensemble, et en rythme.</li>
-    <li><b>Jouer sur la musique</b>, avec intensité.</li>
-    <li>Être <b>accompagné par David en musique</b>.</li>
-  </ul>
-  <blockquote class="quote">« Je t’invite à nous retrouver en cercle, te laisser guider par ma voix
-  et goûter à une expérience joyeuse, en mettant soigneusement ton cerveau de côté pour rentrer
-  simplement dans l’expérience de la sensation. »<span class="who">David Lesage</span></blockquote>
-
-  <h3>Ce que la pratique développe</h3>
-  <ul class="lst">
-    <li>Ressentir une <b>joie sans raison</b>.</li>
-    <li>Développer une <b>qualité de présence et d’écoute</b>.</li>
-    <li>Développer l’<b>indépendance des membres</b>.</li>
-    <li>Soutenir le <b>dépassement de soi</b>.</li>
-    <li>Oser <b>chanter en groupe</b> sans même s’en rendre compte.</li>
-    <li><b>Gagner en clarté</b> : mieux comprendre la musique et le placement.</li>
-    <li>Mieux <b>se situer dans l’espace et le temps</b>.</li>
-    <li>Arrêter de penser, et être <b>profondément présent</b>.</li>
-  </ul>
-  <p class="body" style="font-style:italic;color:var(--gold2)">Bref… on va kiffer et groover ensemble.</p>
-  <figure class="fig" style="margin-top:34px;max-width:820px">
-""" + p('atelier-cercle', sizes, sizes_attr='(max-width:880px) 100vw, 820px') + """
-    <figcaption>Le cercle : chacun derrière sa calebasse, David au milieu.</figcaption>
-  </figure>
-</div></section>
-
-<div class="divider"></div>
-""")
-
-    # ------------------------------------------------------- LES WORKSHOPS
-    A("""
-<section class="blk band" id="workshops"><div class="wrap">
-  <div class="h-min">Au Nid, Paris 20<sup>e</sup></div>
-  <h2>Les workshops « rythme à la calebasse »</h2>
-  <p class="lead">Deux heures pour faire l’expérience du rythme à travers la calebasse, ton corps et
-  ta voix. Au Nid, ces workshops se déroulent en <b>petit comité</b> : chacun a sa calebasse, et
-  David peut passer auprès de chacun.</p>
-
-  <div class="facts">
-    <div class="fact"><div class="k">Durée</div><div class="v">2 heures</div></div>
-    <div class="fact"><div class="k">Lieu</div><div class="v">Le Nid<small>29 rue des Orteaux, 75020 Paris</small></div></div>
-    <div class="fact"><div class="k">Niveau</div><div class="v">Tous<small>aucun prérequis musical</small></div></div>
-    <div class="fact"><div class="k">Instrument</div><div class="v">Fourni<small>une calebasse, un tapis, deux œufs</small></div></div>
-    <div class="fact"><div class="k">Jauge</div><div class="v">Petit comité<small>sur inscription préalable</small></div></div>
-    <div class="fact"><div class="k">Participation</div><div class="v">Sur demande<small>précisée à la réservation</small></div></div>
-  </div>
-
-  <h3>Les prochaines dates</h3>
-  <div class="dates">
-    <div class="date">
-      <div class="d">Dimanche 20 septembre 2026</div>
-      <div class="h">10 h – 12 h</div>
-      <a class="a" href="{M}?subject=Workshop%20rythme%20%C3%A0%20la%20calebasse%20%E2%80%94%2020%20septembre%202026">Réserver</a>
-    </div>
-    <div class="date">
-      <div class="d">Samedi 17 octobre 2026</div>
-      <div class="h">15 h – 17 h</div>
-      <a class="a" href="{M}?subject=Workshop%20rythme%20%C3%A0%20la%20calebasse%20%E2%80%94%2017%20octobre%202026">Réserver</a>
-    </div>
-    <div class="date">
-      <div class="d">Dimanche 15 novembre 2026</div>
-      <div class="h">15 h – 17 h</div>
-      <a class="a" href="{M}?subject=Workshop%20rythme%20%C3%A0%20la%20calebasse%20%E2%80%94%2015%20novembre%202026">Réserver</a>
-    </div>
-  </div>
-  <div class="note">
-    <p>Les dates suivantes sont publiées dans l’agenda du Nid, avec l’ajout au calendrier et les
-    autres rendez-vous du lieu : <a href="/le-nid#agenda" style="color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px">voir l’agenda du Nid</a>.</p>
-    <p>Réservation et participation : <a href="{M}" style="color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px">contact@resonancesproductions.org</a>.
-    Le code du portail vous est communiqué avec votre confirmation d’inscription.</p>
-  </div>
-</div></section>
-
-<div class="divider"></div>
-""".replace('{M}', MAILTO_CONTACT))
-
     # ================================================= APPEL A CANDIDATURE
+    #
+    # ============ PLACE DANS LA PAGE (refonte du 18/08/2026) ============
+    # Cette section etait la 4e ; elle est maintenant la 1re apres le hero.
+    # C'est ce que David vient chercher : « je cherche aujourd'hui surtout
+    # l'appel a candidature ».
+    #
+    # ============ LES 3 DATES (bloc `<div id="workshops">`) ============
+    # Elles vivaient dans une section `#workshops` autonome, avec un bouton
+    # « Reserver » par date pointant sur un mailto. C'ETAIT FAUX : ces dates
+    # sont les rendez-vous du seul groupe de pratique engage. Les boutons ont
+    # ete retires (zero « Reserver » sur la page), les dates sont descendues
+    # ici, et l'ancre `id="workshops"` reste posee sur le bloc pour ne casser
+    # aucun signet. Ce qui reste de l'ancienne section : sa phrase d'accroche
+    # (« Deux heures pour faire l'experience... petit comite ») ouvre le bloc,
+    # ses cartes de faits ont rejoint la grille ci-dessus, et sa note (agenda
+    # du Nid, contact, code du portail) est reecrite sous les dates.
+    # ⚠️ AUCUN MONTANT ICI : « je n'ai pas defini le tarif du groupe engage »
+    #    (David, 18/08/2026). Les 40 € des ateliers exterieurs sont a l'autre
+    #    bout de la page, dans `#interventions`, separes par trois sections.
     #
     # ============ EXPERIENCE D'ANIMATION (ajout 13/08/2026) ============
     # (bloc `<div class="xp" id="experience">`, plus bas dans ce gabarit)
@@ -835,7 +782,7 @@ def build_html(sizes):
     A("""
 <section class="blk appel" id="appel"><div class="wrap">
   <div class="badge">""" + theme_chaleur.ic('calebasse') + """<span>Appel à candidature · il reste environ 4 places</span></div>
-  <h2>Créons un groupe de pratique à Paris</h2>
+  <h2>Rejoindre le groupe de pratique engagé</h2>
 
   <div class="letter">
     <p class="big">Et si on créait un groupe de pratique calebasse ?</p>
@@ -864,10 +811,12 @@ def build_html(sizes):
   <div class="facts">
     <div class="fact"><div class="k">Où</div><div class="v">Le Nid, Paris 20<sup>e</sup><small>29 rue des Orteaux</small></div></div>
     <div class="fact"><div class="k">Rythme</div><div class="v">1 workshop par mois</div></div>
-    <div class="fact"><div class="k">Engagement</div><div class="v">1 an</div></div>
+    <div class="fact"><div class="k">Durée</div><div class="v">2 heures<small>de pratique, à chaque rendez-vous</small></div></div>
+    <div class="fact"><div class="k">Engagement</div><div class="v">1 an<small>on peut rejoindre à tout moment</small></div></div>
     <div class="fact"><div class="k">Places</div><div class="v">Environ 4 restantes</div></div>
-    <div class="fact"><div class="k">Niveau</div><div class="v">Tous<small>débutant compris</small></div></div>
-    <div class="fact"><div class="k">Instrument</div><div class="v">Fourni</div></div>
+    <div class="fact"><div class="k">Niveau</div><div class="v">Tous<small>débutant compris, aucun prérequis musical</small></div></div>
+    <div class="fact"><div class="k">Instrument</div><div class="v">Fourni<small>une calebasse, un tapis, deux œufs</small></div></div>
+    <div class="fact"><div class="k">Participation</div><div class="v">Sur demande<small>précisée avec David</small></div></div>
   </div>
 
   <div class="note">
@@ -875,6 +824,43 @@ def build_html(sizes):
     mois est celui qui se dessine aujourd’hui, mais certains préféreraient tous les quinze jours ou
     une fois par semaine. Indique ta préférence dans le formulaire : David en tient compte pour
     fixer le rythme définitif du groupe.</p>
+  </div>
+
+  <div id="workshops">
+    <h3>Les prochains rendez-vous du groupe</h3>
+    <p class="body">Deux heures pour faire l’expérience du rythme à travers la calebasse, ton corps
+    et ta voix. Au Nid, ces rendez-vous se déroulent en <b>petit comité</b> : chacun a sa calebasse,
+    et David peut passer auprès de chacun.</p>
+    <p class="body"><b>Ces trois dates sont celles du groupe de pratique engagé</b>, et de personne
+    d’autre : ce ne sont pas des ateliers ouverts, on ne s’y inscrit pas à la séance. Elles sont
+    affichées ici parce qu’elles disent concrètement à quoi ressemble l’année — et on les rejoint
+    en posant sa candidature.</p>
+    <div class="dates">
+      <div class="date">
+        <div class="d">Dimanche 20 septembre 2026</div>
+        <div class="h">10 h – 12 h</div>
+        <div class="tag">Groupe de pratique engagé</div>
+      </div>
+      <div class="date">
+        <div class="d">Samedi 17 octobre 2026</div>
+        <div class="h">15 h – 17 h</div>
+        <div class="tag">Groupe de pratique engagé</div>
+      </div>
+      <div class="date">
+        <div class="d">Dimanche 15 novembre 2026</div>
+        <div class="h">15 h – 17 h</div>
+        <div class="tag">Groupe de pratique engagé</div>
+      </div>
+    </div>
+    <div class="note">
+      <p><b>On peut rejoindre le groupe à tout moment</b>, y compris en cours d’année : il n’y a
+      pas de session de candidature qui se ferme, ni de date limite.
+      <a href="#candidature" style="color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px">Poser ma candidature</a>.</p>
+      <p>Participation et modalités pratiques : <a href="{M}" style="color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px">contact@resonancesproductions.org</a>.
+      Le code du portail vous est communiqué avec votre confirmation.</p>
+      <p>Ces rendez-vous figurent aussi dans l’agenda du Nid, avec les autres rendez-vous du lieu :
+      <a href="/le-nid#agenda" style="color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px">voir l’agenda du Nid</a>.</p>
+    </div>
   </div>
 
   <div class="xp" id="experience">
@@ -1015,33 +1001,104 @@ def build_html(sizes):
 </div></section>
 
 <div class="divider"></div>
-""")
+""".replace('{M}', MAILTO_CONTACT))
 
-    # ------------------------------------------------------ INTERVENTIONS
+    # ------------------------------------------------------ LA CALEBASSE
     A("""
-<section class="blk" id="interventions"><div class="wrap">
-  <div class="h-min">Ailleurs qu’au Nid</div>
-  <h2>Faire venir l’atelier chez vous</h2>
-  <p class="lead">Festival, séminaire, école, temps d’équipe, événement associatif : l’atelier de
-  rythme se déplace, et il change alors complètement d’échelle. C’est un format différent de celui
-  du Nid — beaucoup plus large.</p>
-  <div class="facts">
-    <div class="fact"><div class="k">Durée</div><div class="v">2 heures</div></div>
-    <div class="fact"><div class="k">Participants</div><div class="v">Jusqu’à 50</div></div>
-    <div class="fact"><div class="k">Instruments</div><div class="v">Fournis<small>une calebasse, un tapis et deux œufs par personne</small></div></div>
-    <div class="fact"><div class="k">Lieu requis</div><div class="v">Grand espace fermé<small>impérativement un sol dur</small></div></div>
+<section class="blk band" id="calebasse"><div class="wrap">
+  <div class="h-min">L’instrument</div>
+  <h2>Une gourde, deux œufs, et des infra-basses</h2>
+  <div class="two">
+    <div>
+      <p class="body">Utilisée dans le monde entier, la « gourde » est une plante grimpante dont le
+      fruit creux, évidé et séché, donne la <b>calebasse</b>. Sa coque est si dure qu’elle autorise
+      des usages tout à fait exceptionnels : en musique, on la retrouve dans la kora ou le ngoni,
+      la harpe africaine.</p>
+      <p class="body">En 2012, David Lesage la rencontre en la posant simplement par terre, sur une
+      couverture. Il y découvre un son, une sensation — les <b>infra-basses</b>. Puis lui vient
+      l’idée d’utiliser des <b>œufs en plastique</b> pour reproduire le charleston et la caisse
+      claire. Une sorte de « batterie portative organique », au son électronique naturel, qu’il
+      emmène partout dans son quotidien de musicien : dans la rue, en soirée, en concert, et jusque
+      sur le plateau de <i>The Voice</i> en 2021.</p>
+    </div>
+    <figure class="fig on-white">
+""" + p('calebasse-tapis-oeufs', sizes, sizes_attr='(max-width:820px) 100vw, 360px') + """
+      <figcaption>Une calebasse, son tapis et ses deux œufs : tout ce qu’il faut pour jouer.</figcaption>
+    </figure>
   </div>
-  <div class="note">
-    <p><b>Le sol conditionne tout.</b> Béton, carrelage, pierre ou bois plein : sans cela, les
-    infra-basses ne sortent pas et l’atelier perd sa puissance. Une salle entourée de murs amplifie
-    encore le son.</p>
-    <p>Tarif, jauge exacte et conditions sont établis au cas par cas selon le contexte :
-    <a href="{M}?subject=Atelier%20de%20rythme%20%C3%A0%20la%20calebasse%20%E2%80%94%20demande%20d%E2%80%99intervention" style="color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px">écrivez-nous</a>.</p>
+
+  <h3>Les calebasses « signature »</h3>
+  <div class="two">
+    <div>
+      <p class="body">Les calebasses de 46 cm de diamètre et plus, avec un bord épais de 1,5 à 2 cm,
+      sont très rares à trouver — en Europe tout particulièrement. Celles que David utilise
+      viennent d’<b>Afrique de l’Ouest</b> (Niger, Burkina Faso, Mali) et sont sélectionnées selon
+      ses critères propres à la pratique du rythme. Chacune est retravaillée à la main par
+      « Kamou », de Djoliba Percussions, qui affine le bord pour que la calebasse épouse
+      exactement son tapis — c’est de là que vient ce son unique et puissant. Chacune est enfin
+      pyrogravée au laser du logo Now Groove : les quatre éléments en mouvement, formant le
+      cinquième, l’éther.</p>
+      <div class="note">
+        <p><b>Un détail qui compte.</b> La calebasse ne donne sa pleine puissance que sur un
+        <b>sol dur</b> — béton, carrelage, pierre, bois plein — parce que le son naît de la
+        pression de l’air entre la coque, le tapis et le sol. Sur l’herbe, la terre ou un plancher
+        creux, les infra-basses ne sortent pas.</p>
+      </div>
+    </div>
+    <figure class="fig">
+""" + p('calebasses-brutes', sizes, sizes_attr='(max-width:820px) 100vw, 360px') + """
+      <figcaption>La sélection des calebasses, avant le travail du bord et la pyrogravure.</figcaption>
+    </figure>
   </div>
 </div></section>
 
 <div class="divider"></div>
-""".replace('{M}', MAILTO_CONTACT))
+""")
+
+    # --------------------------------------------------- CE QU'ON PRATIQUE
+    A("""
+<section class="blk" id="pratique"><div class="wrap">
+  <div class="h-min">Le déroulé</div>
+  <h2>Ce que l’on pratique ensemble</h2>
+  <p class="lead">Comprendre le rythme, c’est pouvoir se situer dans l’espace et le temps. C’est
+  pouvoir se donner des rendez-vous avec les autres, entrer en relation. Quand on comprend le
+  rythme, on peut faire des propositions claires.</p>
+  <ul class="lst">
+    <li>Une approche pédagogique <b>intégrative</b> du rythme par le corps et la calebasse, et
+    <b>philosophique</b> à travers l’esprit.</li>
+    <li>Une <b>introduction au rythme</b> guidée par la cohérence cardiaque, à travers la
+    respiration, et une visualisation guidée.</li>
+    <li>Des jeux de <b>questions / réponses</b> avec David.</li>
+    <li>La <b>synchronisation des membres</b> : pieds, mains, voix.</li>
+    <li><b>Chanter</b> ensemble.</li>
+    <li><b>Taper</b> ensemble, et en rythme.</li>
+    <li><b>Jouer sur la musique</b>, avec intensité.</li>
+    <li>Être <b>accompagné par David en musique</b>.</li>
+  </ul>
+  <blockquote class="quote">« Je t’invite à nous retrouver en cercle, te laisser guider par ma voix
+  et goûter à une expérience joyeuse, en mettant soigneusement ton cerveau de côté pour rentrer
+  simplement dans l’expérience de la sensation. »<span class="who">David Lesage</span></blockquote>
+
+  <h3>Ce que la pratique développe</h3>
+  <ul class="lst">
+    <li>Ressentir une <b>joie sans raison</b>.</li>
+    <li>Développer une <b>qualité de présence et d’écoute</b>.</li>
+    <li>Développer l’<b>indépendance des membres</b>.</li>
+    <li>Soutenir le <b>dépassement de soi</b>.</li>
+    <li>Oser <b>chanter en groupe</b> sans même s’en rendre compte.</li>
+    <li><b>Gagner en clarté</b> : mieux comprendre la musique et le placement.</li>
+    <li>Mieux <b>se situer dans l’espace et le temps</b>.</li>
+    <li>Arrêter de penser, et être <b>profondément présent</b>.</li>
+  </ul>
+  <p class="body" style="font-style:italic;color:var(--gold2)">Bref… on va kiffer et groover ensemble.</p>
+  <figure class="fig" style="margin-top:34px;max-width:820px">
+""" + p('atelier-cercle', sizes, sizes_attr='(max-width:880px) 100vw, 820px') + """
+    <figcaption>Le cercle : chacun derrière sa calebasse, David au milieu.</figcaption>
+  </figure>
+</div></section>
+
+<div class="divider"></div>
+""")
 
     # --------------------------------------------------------- QUI EST DAVID
     A("""
@@ -1072,6 +1129,73 @@ def build_html(sizes):
 
 <div class="divider"></div>
 """)
+
+    # ------------------------------------------------------ INTERVENTIONS
+    # ⚠️ REECRITE LE 18/08/2026. Elle disait « Faire venir l'atelier chez
+    #    vous » et decrivait un format generique « jusqu'a 50 personnes ».
+    #    Elle porte maintenant les DEUX formats exterieurs, dans une seule
+    #    section parce qu'ils partagent tout sauf qui reunit le groupe :
+    #      1. festivals et evenements — une structure fait venir l'atelier ;
+    #      2. ateliers d'initiation a la demande — « je suis toujours ouvert a
+    #         proposer des ateliers calebasse d'initiation si la personne
+    #         organisatrice s'occupe de constituer un groupe » (David).
+    #    La condition n'est PAS en petits caracteres : c'est elle qui evite a
+    #    David des demandes individuelles auxquelles il ne peut pas repondre.
+    # ⚠️ LES CHIFFRES VIENNENT DE DAVID (18/08/2026), aucun n'est deduit :
+    #    « 40 les 2H partout + loge nourri defraye », « minimum 15
+    #    participants ». Le tarif et l'accueil sont deux cartes VOISINES de la
+    #    meme grille, de meme poids : lire « 40 € » sans voir le defraiement
+    #    donnerait le sentiment d'avoir ete floue. Le minimum de 15 est au
+    #    meme niveau : il dit a quelqu'un s'il est concerne AVANT qu'il ecrive.
+    #    « Jusqu'a 50 » etait deja sur la page (dossier de presentation).
+    #    Ce qui n'est PAS dit, parce que David ne l'a pas dit : delai de
+    #    prevenance, mode de reglement, acompte, perimetre geographique.
+    A("""
+<section class="blk" id="interventions"><div class="wrap">
+  <div class="h-min">Ailleurs qu’au Nid · sur demande</div>
+  <h2>Faire venir l’atelier chez vous</h2>
+  <p class="lead">En dehors du groupe de pratique, l’atelier de rythme se déplace — et il n’y a
+  <b>aucune limite géographique</b> : n’importe où dans le monde. Deux heures, les instruments
+  fournis sur place, <b>à partir de quinze participants</b>, <b>40 € par personne</b>, auxquels
+  s’ajoutent l’hébergement, les repas et le défraiement du déplacement de David. Ce qui change
+  d’un cas à l’autre, ce n’est pas le contenu : c’est <b>qui réunit le groupe</b>.</p>
+  <div class="facts">
+    <div class="fact"><div class="k">Durée</div><div class="v">2 heures</div></div>
+    <div class="fact"><div class="k">Participants</div><div class="v">15 minimum<small>et jusqu’à 50</small></div></div>
+    <div class="fact"><div class="k">Tarif</div><div class="v">40 € par personne<small>pour les 2 heures, matériel compris</small></div></div>
+    <div class="fact"><div class="k">En plus du tarif</div><div class="v">Logé, nourri, défrayé<small>l’accueil et le déplacement de David</small></div></div>
+    <div class="fact"><div class="k">Où</div><div class="v">Partout dans le monde</div></div>
+    <div class="fact"><div class="k">Instruments</div><div class="v">Fournis<small>une calebasse, un tapis et deux œufs par personne, location comprise</small></div></div>
+    <div class="fact"><div class="k">Lieu requis</div><div class="v">Grand espace fermé<small>impérativement un sol dur</small></div></div>
+  </div>
+
+  <h3>En festival ou en événement</h3>
+  <p class="body">C’est le format le plus large : un grand cercle, jusqu’à cinquante personnes, dans
+  un festival, un séminaire, une école, un temps d’équipe ou un événement associatif. Ici,
+  <b>c’est la structure qui fait venir l’atelier</b> : elle a déjà son public. Il n’y a
+  <b>ni date annoncée ni billetterie</b> pour ce format — chaque venue se cale au cas par cas.</p>
+
+  <h3 id="initiation">Un atelier d’initiation, si vous constituez le groupe</h3>
+  <p class="body">Vous n’êtes ni un festival ni une structure, mais vous aimeriez faire découvrir la
+  calebasse autour de vous — votre cercle, votre lieu, votre association ? <b>David reste ouvert à
+  animer des ateliers d’initiation à la demande, à une condition : c’est la personne organisatrice
+  qui s’occupe de constituer le groupe.</b> Ce n’est pas un atelier ouvert où l’on s’inscrit un par
+  un : quelqu’un réunit les participants — <b>quinze au minimum</b> — et porte l’organisation ;
+  David apporte l’atelier et les instruments.</p>
+
+  <div class="note">
+    <p><b>Le sol conditionne tout.</b> Béton, carrelage, pierre ou bois plein : sans cela, les
+    infra-basses ne sortent pas et l’atelier perd sa puissance. Une salle entourée de murs amplifie
+    encore le son.</p>
+    <p>Jauge exacte et conditions se précisent au cas par cas selon le contexte :
+    <a href="{M}?subject=Atelier%20de%20rythme%20%C3%A0%20la%20calebasse%20%E2%80%94%20demande%20d%E2%80%99intervention" style="color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px">écrivez-nous</a>.</p>
+    <p>Ces conditions valent pour les ateliers <b>hors du Nid</b>. Elles ne s’appliquent pas au
+    groupe de pratique du Nid, dont la participation se précise avec David.</p>
+  </div>
+</div></section>
+
+<div class="divider"></div>
+""".replace('{M}', MAILTO_CONTACT))
 
     # ------------------------------------------------------- POUR ALLER PLUS LOIN
     A("""
