@@ -97,18 +97,18 @@ EVENTS = [
     ('2026-09-04', '18:30', '23:30', 'mensuel', 'Rendez-vous mensuel au Nid', ''),
     ('2026-09-06', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-09-19', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
-    ('2026-09-20', '10:00', '12:00', 'rythme',   'Workshop rythme à la calebasse', 'avec David Lesage'),
+    ('2026-09-20', '10:00', '12:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-09-26', '17:00', '19:00', 'residence','Sortie de résidence', 'restitution du travail en trio'),
     ('2026-09-26', '20:00', '22:00', 'concert',  'Concert — David, Iris & Julien', 'le trio en concert'),
     ('2026-10-02', '18:30', '23:30', 'mensuel',  'Rendez-vous mensuel au Nid', ''),
     ('2026-10-04', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-10-10', '19:00', '21:00', 'concert',  'Concert — David Lesage solo', ''),
-    ('2026-10-17', '15:00', '17:00', 'rythme',   'Workshop rythme à la calebasse', 'avec David Lesage'),
+    ('2026-10-17', '15:00', '17:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-10-18', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-11-07', '18:30', '23:30', 'mensuel',  'Rendez-vous mensuel au Nid', ''),
     ('2026-11-08', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-11-14', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
-    ('2026-11-15', '15:00', '17:00', 'rythme',   'Workshop rythme à la calebasse', 'avec David Lesage'),
+    ('2026-11-15', '15:00', '17:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-11-28', '18:00', '20:00', 'concert',  'Concert — David Lesage solo', ''),
     ('2026-12-04', '18:30', '23:30', 'mensuel',  'Rendez-vous mensuel au Nid', ''),
     ('2026-12-05', '15:00', '18:00', 'showcase', 'Présentation d’instruments d’exception', ''),
@@ -130,7 +130,7 @@ DESCR = {
  'mensuel':  'Le rendez-vous mensuel du Nid : un temps convivial qui melange pratique, musique et partage, dans un cadre intime. Reserve aux adherents de l\'association.',
  'concert':  'Un concert en format intime : voix, handpan electronique, harpe africaine (Ngoni), calebasse et percussions electro-organiques.',
  'yoga':     'Atelier de yoga guide par Iris Chasles : yoga postural, respiration et meditation. Pratique accessible a tous les niveaux.',
- 'rythme':   'Workshop rythme a la calebasse avec David Lesage : les bases, les frappes, la pulsation collective. Aucun prerequis musical.',
+ 'rythme':   'Rendez-vous mensuel du groupe de pratique engage, avec David Lesage : deux heures de pratique, les bases, les frappes, la pulsation collective. Aucun prerequis musical. Ce n\'est pas un atelier ouvert a la seance : on rejoint le groupe sur candidature, a tout moment.',
  'showcase': 'Presentation, decouverte et essai d\'instruments d\'exception : le Neotone (handpan electronique de facture professionnelle), des handpans acoustiques Yishama, la calebasse, le Gonilele (petite harpe africaine) et des micros concus pour le handpan. Des instruments faits main, produits en tres petites series, dont la valeur atteint plusieurs milliers d\'euros. David Lesage les presente, les fait sonner devant vous, repond aux questions, puis les met entre vos mains. Gratuit, sur inscription, environ 2 h. Aucune experience requise.',
  'residence':'Sortie de residence : restitution publique du travail mene en trio.',
 }
@@ -141,7 +141,7 @@ DESCR_FR = {
  'mensuel':  'Le rendez-vous mensuel du Nid : un temps convivial qui mélange pratique, musique et partage, dans un cadre intime. Réservé aux adhérents de l’association.',
  'concert':  'Un concert en format intime : voix, handpan électronique, harpe africaine (Ngoni), calebasse et percussions électro-organiques.',
  'yoga':     'Atelier de yoga guidé par Iris Chasles : yoga postural, respiration et méditation. Pratique accessible à tous les niveaux.',
- 'rythme':   'Workshop rythme à la calebasse avec David Lesage : les bases, les frappes, la pulsation collective. Aucun prérequis musical.',
+ 'rythme':   'Rendez-vous mensuel du groupe de pratique engagé, avec David Lesage : deux heures de pratique, les bases, les frappes, la pulsation collective. Aucun prérequis musical. Ce n\'est pas un atelier ouvert à la séance : on rejoint le groupe sur candidature, à tout moment.',
  'showcase': 'Présentation, découverte & essai d’instruments d’exception : le Neotone (handpan électronique de facture professionnelle), des handpans acoustiques Yishama, la calebasse, le Gonilélé (petite harpe africaine) et des micros conçus pour le handpan. Des instruments faits main, produits en très petites séries, dont la valeur atteint plusieurs milliers d’euros. David Lesage les présente, les fait sonner devant vous, répond à toutes les questions, puis les met entre vos mains. Gratuit, sur inscription, environ 2 h. Aucune expérience requise.',
  'residence':'Sortie de résidence : restitution publique du travail mené en trio.',
 }
@@ -165,6 +165,7 @@ SHOWROOM = 'https://www.lesagedavid.fr/showroom#agenda'
 ADHESION = 'https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions'
 YOGA_INS = 'https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid'
 MAILTO   = 'mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation'
+CANDIDATURE = '/rythme-calebasse#candidature'
 # Cours individuels : DEUX intervenants, donc DEUX destinations. Le bloc dit
 # lui-meme « Avec David : le rythme et la calebasse. Avec Iris : yoga postural,
 # breathwork adapte… » : un lien unique aurait envoye la moitie des lecteurs au
@@ -180,7 +181,15 @@ TYPES = {
     'mensuel':   ('Rendez-vous mensuel', '#d8b25a', ADHESION, 'Adhérer ↗'),
     'concert':   ('Concert',             '#e08a5f', LESAGE,   'Réserver ↗'),
     'yoga':      ('Atelier yoga',        '#7fb2a3', YOGA_INS, 'S’inscrire ↗'),
-    'rythme':    ('Workshop rythme',     '#8f7ad1', MAILTO,   'Réserver'),
+    # 17/08/2026 — David a tranche : ces rendez-vous ne sont PAS ouverts a la
+    # seance. C'est le groupe de pratique engage, qu'on rejoint sur candidature
+    # (« on peut le rejoindre a tout moment », ses mots). Le bouton menait a un
+    # mailto de reservation : il envoyait donc reserver une place qui n'existe
+    # pas. Il mene desormais a l'appel a candidature de /rythme-calebasse.
+    # ⚠️ Les memes evenements ont ete renommes dans l'agenda Google du Nid :
+    # « Groupe de pratique rythme calebasse engage — Le Nid ». Garder les deux
+    # accordes, sinon l'agenda et le site racontent deux choses differentes.
+    'rythme':    ('Groupe de pratique', '#8f7ad1', CANDIDATURE, 'Rejoindre le groupe'),
     # NB : cle technique 'showcase' conservee (interne). Libelle visible = badge court
     # (contrainte de place dans l'agenda) ; le nom complet de la categorie est
     # « Présentation, découverte & essai d'instruments d'exception ».
@@ -789,7 +798,11 @@ CARTES_DATES = (
      'concert', '\n    ', ' <a href="/concerts-david-lesage">En savoir plus →</a>'),
     ('retrouver de l’espace intérieur.</p>\n      <div class="who">Avec Iris Chasles</div>',
      'yoga', '\n    ', ''),
-    ('on entre dans le rythme par le corps et l’écoute.</p>\n      <div class="who">Avec David Lesage</div>',
+    # 17/08/2026 : le texte de la carte a change (groupe de pratique engage,
+    # plus un atelier ouvert), et le `who` porte desormais un lien. L'ancre
+    # suit — c'est le garde-fou qui a refuse d'ecrire tant qu'elle etait
+    # perimee, exactement son role.
+    ('on rejoint le groupe — et on peut le rejoindre à tout moment.</p>\n      <div class="who">Avec David Lesage</div>',
      'rythme', '', ''),
 )
 
@@ -874,8 +887,11 @@ CARTES_ACTION = (
      [(CONCERT_SOLO, 'réserver un concert ↗')], 'concert'),
     ('retrouver de l’espace intérieur.</p>\n      <div class="who">Avec Iris Chasles</div>',
      [(YOGA_INS, 's’inscrire à l’atelier ↗')], 'yoga'),
-    ('on entre dans le rythme par le corps et l’écoute.</p>\n      <div class="who">Avec David Lesage</div>',
-     [('/rythme-calebasse', 'voir les workshops →')], 'workshop calebasse'),
+    # 17/08/2026 : « voir les workshops » envoyait vers une offre qui n'existe
+    # plus. Ce sont les rendez-vous d'un groupe engage, qu'on rejoint sur
+    # candidature — le bouton mene donc a l'appel, pas a un catalogue.
+    ('on rejoint le groupe — et on peut le rejoindre à tout moment.</p>\n      <div class="who">Avec David Lesage</div>',
+     [('/rythme-calebasse#candidature', 'rejoindre le groupe →')], 'workshop calebasse'),
     ('libération des tensions dans le corps.</p>\n      <div class="who">Avec David Lesage ou Iris Chasles</div>',
      [(COURS_DAVID, 'les cours de David ↗'),
       (COURS_IRIS, 'l’agenda d’Iris ↗')], 'cours individuels'),
@@ -887,7 +903,7 @@ CARTES_ACTION = (
 BOUTONS_ATTENDUS = (
     (CONCERT_SOLO, 'réserver un concert ↗'),
     (YOGA_INS, 's’inscrire à l’atelier ↗'),
-    ('/rythme-calebasse', 'voir les workshops →'),
+    ('/rythme-calebasse#candidature', 'rejoindre le groupe →'),
     (COURS_DAVID, 'les cours de David ↗'),
     (COURS_IRIS, 'l’agenda d’Iris ↗'),
     ('https://www.irischasles.com/', 'Prendre rendez-vous sur irischasles.com ↗'),
