@@ -928,7 +928,13 @@ def carte_instruments():
     Elle faisait ~2 400 caracteres quand les autres en font 300 a 600 : cinq
     paragraphes, une revendication argumentee et une mention de transparence.
     Dans une grille de tuiles, la plus longue n'est pas la plus lue — elle
-    deseequilibre la grille et se saute.
+    desequilibre la grille et se saute.
+
+    ⚠️ IL A FALLU DEUX PASSES, et la lecon vaut d'etre gardee : la premiere
+    l'a ramenee a 654 caracteres — et elle restait LA PLUS HAUTE des six
+    (898 px, mesures dans le navigateur, contre 470 a 873 pour les autres).
+    Compter les caracteres du code ne suffit pas : c'est la HAUTEUR RENDUE
+    qu'il faut mesurer, tuile par tuile, dans la grille reelle.
 
     ⚠️ CE QUI A ETE RETIRE N'EST PAS PERDU, c'est DEPLACE sur la page de David
     (https://www.lesagedavid.fr/showroom), qui traite le meme sujet en detail :
@@ -951,11 +957,11 @@ def carte_instruments():
             '      <div class="t">Présentation, découverte &amp; essai</div>\n'
             '      <h3>Instruments d’exception</h3>\n'
             '      <div class="offer-meta">Gratuit · sur inscription · environ 2 h</div>\n'
-            '      <p>Prendre en main des instruments que l’on ne croise presque jamais : le <b>Neotone</b>, des <b>handpans acoustiques Yishama</b>, la <b>calebasse</b>, le <b>Gonilélé</b>. David Lesage les fait sonner devant vous, répond aux questions, puis les met entre vos mains. Aucune expérience requise.</p>\n'
+            '      <p>Prendre en main des instruments que l’on ne croise presque jamais : <b>Neotone</b>, <b>handpans Yishama</b>, <b>calebasse</b>, <b>Gonilélé</b>. David Lesage les fait sonner, puis les met entre vos mains. Aucune expérience requise.</p>\n'
             '      ' + dates_courtes('showcase') + '\n'
             '      <div class="who">Avec David Lesage · <a href="' + SHOWROOM
             + '" target="_blank" rel="noopener">le showroom et les réservations ↗</a></div>\n'
-            '      <p class="offer-fine">Ces présentations sont gratuites et sans obligation d’achat. L’association les accueille ; <b>elle ne vend pas les instruments présentés</b> et peut percevoir une contribution d’affiliation.</p>\n'
+            '      <p class="offer-fine">Sans obligation d’achat. <b>L’association ne vend pas ces instruments</b> et peut percevoir une contribution d’affiliation.</p>\n'
             '    </div>\n')
 
 
