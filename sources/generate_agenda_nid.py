@@ -46,8 +46,10 @@ billetterie qui DIFFERENT d'un evenement a l'autre (URL_PAR_EVENT). Un garde-fou
 verifie avant chaque ecriture que chaque billetterie attendue est bien dans la
 page et qu'il y a exactement un bouton de reservation par evenement.
 """
+import colorsys
 import datetime as dt
 import os
+import re
 import sys
 import urllib.parse
 
@@ -771,6 +773,175 @@ CSS_CHALEUR = ("""/* ===== Le Nid : declinaisons chaleureuses ===== */
 """)
 
 
+# =========================================================================== #
+# UNE COULEUR PAR ACTIVITE — LES SIX TUILES DU PROGRAMME (19/08/2026)
+# =========================================================================== #
+# « met des couleurs de fond differentes sur chaque tuile pour creer de la mise
+#   en lumiere de chaque activite "avec sa propre couleur" » — David, 19/08.
+#
+# 🚨 AUCUNE PALETTE N'A ETE INVENTEE. Quatre des six tuiles correspondent a un
+#    type d'evenement de l'agenda qui est JUSTE EN DESSOUS sur la meme page, et
+#    ce type a deja sa couleur dans `TYPES`. On la LIT dans `TYPES` — on ne la
+#    recopie pas : une seule source. Consequence voulue : une activite porte la
+#    MEME teinte dans sa tuile et dans l'agenda (badge, filet de la ligne,
+#    bouton de reservation, legende). Le lecteur fait le lien sans explication.
+#
+#    tuile                  type d'agenda   couleur
+#    instruments            showcase        #6f9bd1  « Découverte & essai »
+#    concerts-au-nid        concert         #e08a5f  « Concert »
+#    yoga                   yoga            #7fb2a3  « Atelier yoga »
+#    calebasse-workshop     rythme          #8f7ad1  « Groupe de pratique »
+#
+# LES DEUX TUILES SANS TYPE D'AGENDA (psychotherapie, cours individuels)
+# ----------------------------------------------------------------------
+# Elles ne paraissent jamais dans l'agenda : aucune couleur de `TYPES` ne leur
+# revient. Leur donner celle d'un type existant (il en reste deux inutilisees,
+# `mensuel` #d8b25a et `residence` #c98fb0) casserait justement le lien qu'on
+# vient d'etablir : le lecteur relierait « Psychothérapie » a « Rendez-vous
+# mensuel ». Elles recoivent donc deux teintes NEUVES, de la meme famille que
+# les six autres (memes saturation et luminosite perçues : S 42 %, L 62–66 %,
+# contre S 25–68 % / L 60–67 % pour les six d'agenda) et posees dans les deux
+# plus grands VIDES de la roue chromatique laissee par l'agenda — les six teintes
+# sont a H = 20, 42, 162, 213, 254, 326.
+#
+#    psychotherapie     #97c775  hsl( 95, 42 %, 62 %)  vert tendre
+#    cours-individuels  #c384cd  hsl(292, 42 %, 66 %)  mauve
+#
+# ⚠️ A ARBITRER PAR DAVID : le mauve est la teinte la plus proche d'une couleur
+#    d'agenda — 34° de « Sortie de résidence » #c98fb0. Le vert, lui, est a 53°
+#    de son plus proche voisin. La confusion ne peut aller que dans un sens (ces
+#    deux activites n'ont aucune ligne dans l'agenda) et la legende nomme ses
+#    types en toutes lettres, mais si David trouve le mauve trop proche du rose,
+#    c'est ici qu'on le change.
+#
+# COMMENT LA COULEUR EST POSEE, ET POURQUOI PAS EN APLAT
+# ------------------------------------------------------
+# Le site est SOMBRE (`--night` #0e0f24, cartes `--card` #1e214a). Un fond
+# franchement colore effacerait l'identite du site et ferait tomber tous les
+# textes sous le seuil de lisibilite. La couleur arrive donc en trois temps :
+#   1. le fond de la tuile = la teinte a 10 % SUR `--card` — un voile, pas un
+#      aplat. La valeur est PRECALCULEE ici en hexadecimal opaque : le
+#      navigateur renvoie alors la couleur exacte du fond, ce qui rend le
+#      contraste MESURABLE dans le DOM au lieu d'etre estime ;
+#   2. le liseré superieur de 3 px, deja present, passe de l'or commun a la
+#      teinte pleine : c'est l'accent net, celui que l'oeil accroche ;
+#   3. le chapeau `.t` (« MUSIQUE LIVE », « CORPS & SOUFFLE »…) prend la teinte.
+#
+# 🚨 ET C'EST LA QUE LE CHAPEAU NE PEUT PAS PRENDRE LA TEINTE BRUTE. Mesure
+#    faite : sur son propre fond, `rythme` #8f7ad1 tombe a 3,75:1 — SOUS le
+#    seuil de 4,5:1. C'est le meme piege que `--plum` dans `theme_chaleur.py`,
+#    qui note deja « des qu'il s'agit de TEXTE, c'est `--plum2` et jamais
+#    `--plum` ». On ne choisit donc pas une couleur de texte a la main : elle est
+#    DERIVEE de la teinte par eclaircissement (`_texte_lisible`), par pas de
+#    0,5 % de luminosite, jusqu'a atteindre 5,0:1 sur le fond reel de la tuile —
+#    une marge volontaire sur le seuil de 4,5. Trois teintes sur six ne bougent
+#    pas du tout ; `rythme` monte de L 65 % a 72 %. Si une teinte de `TYPES`
+#    change un jour, la couleur de texte suit toute seule.
+#
+# ⚠️ LE VOILE DORE DE LA TUILE « INSTRUMENTS » DISPARAIT, ET C'EST VOULU.
+#    `.offer--rare` posait un degrade dore : c'etait sa facon d'etre distinguee
+#    quand elle etait la seule a l'etre. Maintenant que les six tuiles portent
+#    chacune leur couleur, un doré en plus du bleu `showcase` ferait mentir le
+#    code couleur sur la seule tuile qui ouvre la grille. La classe RESTE dans le
+#    HTML (elle porte `.offer-meta` et `.offer-fine`, et le garde-fou structurel
+#    compte `class="offer offer--rare"`), seul son fond suit desormais le systeme.
+# =========================================================================== #
+#: fond des cartes, LU dans theme_chaleur (qui redefinit `--card`), jamais recopie
+FOND_CARTE = re.search(r'--card:(#[0-9a-fA-F]{6})', theme_chaleur.CSS).group(1)
+
+#: (id de la tuile dans le HTML, cle de TYPES, teinte propre si aucun type)
+TUILES = (
+    ('instruments',        'showcase',  None),
+    ('concerts-au-nid',    'concert',   None),
+    ('yoga',               'yoga',      None),
+    ('calebasse-workshop', 'rythme',    None),
+    ('psychotherapie',     None, '#97c775'),
+    ('cours-individuels',  None, '#c384cd'),
+)
+
+
+def _rgb(h):
+    h = h.lstrip('#')
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def _hexa(rgb):
+    return '#%02x%02x%02x' % tuple(max(0, min(255, round(x))) for x in rgb)
+
+
+def _melange(dessus, dessous, alpha):
+    """`dessus` pose a `alpha` sur `dessous`, rendu en couleur opaque."""
+    a, b = _rgb(dessus), _rgb(dessous)
+    return _hexa(a[i] * alpha + b[i] * (1 - alpha) for i in range(3))
+
+
+def _luminance(couleur):
+    def canal(v):
+        v /= 255.0
+        return v / 12.92 if v <= 0.03928 else ((v + 0.055) / 1.055) ** 2.4
+    r, v, b = (canal(x) for x in _rgb(couleur))
+    return .2126 * r + .7152 * v + .0722 * b
+
+
+def contraste(a, b):
+    """Rapport de contraste WCAG entre deux couleurs opaques."""
+    la, lb = _luminance(a), _luminance(b)
+    if la < lb:
+        la, lb = lb, la
+    return (la + .05) / (lb + .05)
+
+
+def _texte_lisible(teinte, fond, cible=5.0):
+    """Eclaircit la teinte jusqu'a `cible`:1 sur `fond`. Voir la note ci-dessus."""
+    r, v, b = (x / 255.0 for x in _rgb(teinte))
+    h, lum, sat = colorsys.rgb_to_hls(r, v, b)
+    while lum < 1.0:
+        essai = _hexa(x * 255 for x in colorsys.hls_to_rgb(h, lum, sat))
+        if contraste(essai, fond) >= cible:
+            return essai
+        lum += .005
+    raise SystemExit('!! ABANDON : aucune variante lisible pour %s.' % teinte)
+
+
+def couleurs_tuiles():
+    """[(id, teinte, fond, filet, texte, contraste_du_texte), ...] pour les 6 tuiles."""
+    out = []
+    for cid, typ, propre in TUILES:
+        teinte = TYPES[typ][1] if typ else propre
+        fond = _melange(teinte, FOND_CARTE, .10)
+        out.append((cid, teinte, fond,
+                    _melange(teinte, fond, .34),      # bordure au repos
+                    _melange(teinte, fond, .58),      # bordure au survol
+                    _texte_lisible(teinte, fond),
+                    contraste(_texte_lisible(teinte, fond), fond)))
+    return out
+
+
+def css_tuiles():
+    """CSS de la mise en lumiere. Rien n'est ecrit en dur : tout vient de TYPES."""
+    lignes = ['/* ===== une couleur par activite : les six tuiles ===== */']
+    for cid, teinte, fond, filet, vif, texte, _c in couleurs_tuiles():
+        lignes.append('#%s{--tint:%s;--tint-fond:%s;--tint-filet:%s;'
+                      '--tint-vif:%s;--tint-texte:%s}'
+                      % (cid, teinte, fond, filet, vif, texte))
+    lignes.append(
+        # le fond teinte et le liseré de 3 px, qui remplace l'or commun.
+        # `background-origin:border-box` : le liseré occupe exactement la
+        # bordure haute de 3 px posee par la couche chaleureuse.
+        '.offer{background-color:var(--tint-fond);'
+        'background-image:linear-gradient(var(--tint),var(--tint));'
+        'background-size:100% 3px;background-repeat:no-repeat;'
+        'background-position:0 0;background-origin:border-box;'
+        'border-color:var(--tint-filet)}')
+    lignes.append('.offer:hover{border-color:var(--tint-vif)}')
+    lignes.append(
+        # le chapeau quitte le degrade dore commun pour la couleur de SON
+        # activite — version eclaircie, voir `_texte_lisible`.
+        '.offer .t{background:none;-webkit-text-fill-color:currentColor;'
+        'color:var(--tint-texte)}')
+    return '\n'.join(lignes) + '\n'
+
+
 def dates_courtes(typ, n=3, extra=''):
     """Encart « Prochaines dates » a poser au bas d'une carte du programme.
 
@@ -1028,9 +1199,14 @@ def generer():
     # Le `\n` final est celui qui separe le CSS des encarts de la feuille du
     # menu partage, que `nav_menu.inject()` collera juste avant `</style>`.
     _exiger(html, '</style>', 1, 'fin de la feuille de style')
+    # ⚠️ `css_tuiles()` DOIT VENIR APRES `CSS_CHALEUR`, et c'est structurel :
+    # ses regles `.offer` et `.offer .t` valent (0,1,0) et (0,1,1), exactement
+    # comme celles qu'elles remplacent (le fond dore de `.offer--rare`, le filet
+    # dore commun, le chapeau au degrade). A specificite egale, c'est la
+    # DERNIERE qui gagne. Placee avant, la mise en lumiere serait sans effet.
     html = html.replace('</style>',
                         CSS.lstrip('\n') + CSS_DATES
-                        + theme_chaleur.CSS + CSS_CHALEUR
+                        + theme_chaleur.CSS + CSS_CHALEUR + css_tuiles()
                         + visionneuse.css('') + '\n</style>', 1)
 
     # --- la section agenda, juste avant le divider qui precede « Le lieu » ---
@@ -1066,10 +1242,17 @@ def generer():
                 + '</div>')
         html = html.replace(ancre, neuf, 1)
 
-    # --- carte « instruments d'exception » -----------------------------------
-    ancre_carte = '  </div>\n\n  <div class="note">'
-    _exiger(html, ancre_carte, 1, 'ancre de la carte « instruments d’exception »')
-    html = html.replace(ancre_carte, carte_instruments() + ancre_carte, 1)
+    # --- carte « instruments d'exception », EN PREMIERE TUILE -----------------
+    # 19/08/2026 — David : « met en premier la tuile du showroom ». Elle etait
+    # ajoutee EN DERNIER, juste avant l'encart `.note` qui suit la grille ;
+    # l'ancre est donc passee de la FERMETURE de la grille a son OUVERTURE.
+    # ⚠️ Les cinq autres tuiles ont ete reordonnees dans `lenid_source.html`,
+    # pas ici : leur ordre est celui de la source. Aucune ancre n'en depend —
+    # celles de CARTES_DATES et de CARTES_ACTION sont des fins de paragraphe
+    # locales a une carte (c'est exactement pour ca qu'elles sont locales).
+    ancre_carte = '  <div class="offers">\n'
+    _exiger(html, ancre_carte, 1, 'ouverture de la grille des tuiles')
+    html = html.replace(ancre_carte, ancre_carte + carte_instruments() + '\n', 1)
 
     # --- scripts : telechargement .ics, puis filtres -------------------------
     _exiger(html, '</body>', 1, 'fin du corps de page')

@@ -301,6 +301,16 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .note{border-radius:18px;border-color:rgba(248,210,116,.3)}
 .note b{color:var(--plum2)}
 .gal img{border-radius:18px}
+/* ===== une couleur par activite : les six tuiles ===== */
+#instruments{--tint:#6f9bd1;--tint-fond:#262d58;--tint-filet:#3f5281;--tint-vif:#506d9e;--tint-texte:#7ba3d5}
+#concerts-au-nid{--tint:#e08a5f;--tint-fond:#312c4c;--tint-filet:#6c4c52;--tint-vif:#966357;--tint-texte:#e08c61}
+#yoga{--tint:#7fb2a3;--tint-fond:#283053;--tint-filet:#465c6e;--tint-vif:#5a7b81;--tint-texte:#7fb2a3}
+#calebasse-workshop{--tint:#8f7ad1;--tint-fond:#292a58;--tint-filet:#4c4581;--tint-vif:#64589e;--tint-texte:#a595da}
+#psychotherapie{--tint:#97c775;--tint-fond:#2a324e;--tint-filet:#4f655b;--tint-vif:#698865;--tint-texte:#97c775}
+#cours-individuels{--tint:#c384cd;--tint-fond:#2e2b57;--tint-filet:#61497f;--tint-vif:#845f9b;--tint-texte:#c78bd0}
+.offer{background-color:var(--tint-fond);background-image:linear-gradient(var(--tint),var(--tint));background-size:100% 3px;background-repeat:no-repeat;background-position:0 0;background-origin:border-box;border-color:var(--tint-filet)}
+.offer:hover{border-color:var(--tint-vif)}
+.offer .t{background:none;-webkit-text-fill-color:currentColor;color:var(--tint-texte)}
 
 /* visionneuse photo */
 .ph{position:fixed;inset:0;z-index:1100;display:none;flex-direction:column;
@@ -505,13 +515,14 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
   <p class="lead">Six propositions, portées par Iris Chasles et David Lesage.</p>
 
   <div class="offers">
-    <div class="offer" id="psychotherapie">
-      <div class="t">Accompagnement · Individuel</div>
-      <h3>Psychothérapie &amp; approche psycho-corporelle</h3>
-      <p>Iris Chasles, psychopraticienne et yoga-thérapeute, accompagne les adultes par une approche où le corps est le véhicule d’intégration. Son travail s’appuie sur l’Intelligence Relationnelle® et l’IFS, la connexion au système nerveux autonome (théorie polyvagale), la régulation émotionnelle et la théorie de l’attachement.</p>
-      <p style="margin-top:12px">Séances en présentiel au Nid (Paris 20<sup>e</sup>) ou en visio. L’accompagnement peut être complété par la yoga-thérapie.</p>
-      <div class="who">Avec Iris Chasles</div>
-      <div class="offer-dates"><span>Sur rendez-vous</span>Séances en présentiel au Nid ou en visio. <a href="https://www.irischasles.com/" target="_blank" rel="noopener">Prendre rendez-vous sur irischasles.com ↗</a></div>
+    <div class="offer offer--rare" id="instruments">
+      <div class="t">Présentation, découverte &amp; essai</div>
+      <h3>Instruments d’exception</h3>
+      <div class="offer-meta">Gratuit · sur inscription · environ 2 h</div>
+      <p>Prendre en main des instruments que l’on ne croise presque jamais : <b>Neotone</b>, <b>handpans Yishama</b>, <b>calebasse</b>, <b>Gonilélé</b>. David Lesage les fait sonner, puis les met entre vos mains. Aucune expérience requise.</p>
+      <div class="offer-dates"><span>Prochaines dates</span>23 août. · 19 sept. · 18 octo. <a href="#agenda">tout voir</a></div>
+      <div class="who">Avec David Lesage · <a href="https://www.lesagedavid.fr/showroom#agenda" target="_blank" rel="noopener">le showroom et les réservations ↗</a></div>
+      <p class="offer-fine">Sans obligation d’achat. <b>L’association ne vend pas ces instruments</b> et peut percevoir une contribution d’affiliation.</p>
     </div>
 
     <div class="offer" id="concerts-au-nid">
@@ -535,20 +546,20 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
       <div class="who">Avec David Lesage · <a href="/rythme-calebasse#candidature">rejoindre le groupe →</a></div><div class="offer-dates"><span>Prochaines dates</span>20 sept. · 17 octo. · 15 nove. <a href="#agenda">tout voir</a></div>
     </div>
 
+    <div class="offer" id="psychotherapie">
+      <div class="t">Accompagnement · Individuel</div>
+      <h3>Psychothérapie &amp; approche psycho-corporelle</h3>
+      <p>Iris Chasles, psychopraticienne et yoga-thérapeute, accompagne les adultes par une approche où le corps est le véhicule d’intégration. Son travail s’appuie sur l’Intelligence Relationnelle® et l’IFS, la connexion au système nerveux autonome (théorie polyvagale), la régulation émotionnelle et la théorie de l’attachement.</p>
+      <p style="margin-top:12px">Séances en présentiel au Nid (Paris 20<sup>e</sup>) ou en visio. L’accompagnement peut être complété par la yoga-thérapie.</p>
+      <div class="who">Avec Iris Chasles</div>
+      <div class="offer-dates"><span>Sur rendez-vous</span>Séances en présentiel au Nid ou en visio. <a href="https://www.irischasles.com/" target="_blank" rel="noopener">Prendre rendez-vous sur irischasles.com ↗</a></div>
+    </div>
+
     <div class="offer" id="cours-individuels">
       <div class="t">Accompagnement</div>
       <h3>Cours individuels</h3>
       <p>Un accompagnement sur mesure, seul·e à seul·e. Avec David : le rythme et la calebasse. Avec Iris : yoga postural, breathwork adapté, renforcement, expression artistique, libération des tensions dans le corps.</p>
       <div class="who">Avec David Lesage ou Iris Chasles · <a href="https://lesagedavid.fr/cours" target="_blank" rel="noopener">les cours de David ↗</a> · <a href="https://www.irischasles.com/agenda-yoga" target="_blank" rel="noopener">l’agenda d’Iris ↗</a></div>
-    </div>
-    <div class="offer offer--rare" id="instruments">
-      <div class="t">Présentation, découverte &amp; essai</div>
-      <h3>Instruments d’exception</h3>
-      <div class="offer-meta">Gratuit · sur inscription · environ 2 h</div>
-      <p>Prendre en main des instruments que l’on ne croise presque jamais : <b>Neotone</b>, <b>handpans Yishama</b>, <b>calebasse</b>, <b>Gonilélé</b>. David Lesage les fait sonner, puis les met entre vos mains. Aucune expérience requise.</p>
-      <div class="offer-dates"><span>Prochaines dates</span>23 août. · 19 sept. · 18 octo. <a href="#agenda">tout voir</a></div>
-      <div class="who">Avec David Lesage · <a href="https://www.lesagedavid.fr/showroom#agenda" target="_blank" rel="noopener">le showroom et les réservations ↗</a></div>
-      <p class="offer-fine">Sans obligation d’achat. <b>L’association ne vend pas ces instruments</b> et peut percevoir une contribution d’affiliation.</p>
     </div>
   </div>
 

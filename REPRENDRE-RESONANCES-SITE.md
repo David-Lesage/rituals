@@ -551,6 +551,64 @@ en ligne**.
 
 ---
 
+### 2026-08-19 — `/le-nid` : le showroom en tête, et une couleur par activité sur les six tuiles
+
+Demande de David : « met en premier la tuile du showroom et met des couleurs de fond différentes
+sur chaque tuile pour créer de la mise en lumière de chaque activité "avec sa propre couleur"
+Vibe ) integrer une petite photo serait un plus — il faut que ça reste compacte impactant et
+efficace ».
+
+**L'ordre.** La tuile « instruments » était injectée EN DERNIER, juste avant l'encart `.note` qui
+suit la grille. L'ancre d'injection de `generate_agenda_nid.py` est passée de la FERMETURE de la
+grille à son **OUVERTURE** (`  <div class="offers">\n`). Les cinq autres ont été réordonnées dans
+`sources/lenid_source.html`, jamais dans le générateur. Aucune ancre n'a bougé : celles de
+`CARTES_DATES` et `CARTES_ACTION` sont des fins de paragraphe **locales à une carte** — c'est
+exactement pour ça qu'elles avaient été rendues locales.
+Ordre retenu : **ligne 1 = ce à quoi on vient à une date** (instruments · concerts · yoga),
+**ligne 2 = ce dans quoi on s'engage** (groupe calebasse · psychothérapie · cours individuels).
+
+**Les couleurs viennent de `TYPES`, elles ne sont pas recopiées.** Quatre tuiles sur six ont un
+type d'événement dans l'agenda de la MÊME page : la teinte est lue dans `TYPES`, donc une activité
+porte la même couleur dans sa tuile et dans l'agenda (badge, filet, bouton, légende). Les deux
+tuiles sans type d'agenda (psychothérapie, cours individuels) reçoivent deux teintes **neuves**,
+posées dans les deux plus grands vides de la roue laissée par l'agenda — leur donner une couleur
+de `TYPES` inutilisée (`mensuel`, `residence`) aurait fait relier « Psychothérapie » à
+« Rendez-vous mensuel ».
+
+🚨 **Le chapeau ne peut pas porter la teinte BRUTE.** Mesuré : `rythme` #8f7ad1 tombe à **3,75:1**
+sur son propre fond — même piège que `--plum` dans `theme_chaleur.py` (« dès qu'il s'agit de TEXTE,
+c'est `--plum2` »). La couleur de texte est donc **dérivée** par éclaircissement
+(`_texte_lisible`) jusqu'à 5,0:1 sur le fond réel, jamais choisie à la main : si une teinte de
+`TYPES` change, le texte suit tout seul.
+
+**Fond précalculé en hexadécimal opaque, et c'est délibéré** : la teinte à 10 % sur `--card` est
+calculée en Python (`--card` **lu** dans `theme_chaleur.CSS`, pas recopié). Le navigateur renvoie
+alors la couleur EXACTE du fond, donc le contraste se **mesure** dans le DOM au lieu de s'estimer.
+Six tuiles mesurées : minimum **4,75:1** (le libellé « PROCHAINES DATES », dégradé doré, arrêt
+corail), tous les autres textes ≥ 4,90.
+
+⚠️ **Le voile doré de `.offer--rare` disparaît, c'est voulu** : la classe reste (elle porte
+`.offer-meta` / `.offer-fine`, et le garde-fou structurel la compte), mais son fond suit désormais
+le système. Un doré en plus du bleu `showcase` ferait mentir le code couleur sur la tuile qui ouvre
+la grille.
+⚠️ `css_tuiles()` doit rester **après** `CSS_CHALEUR` dans la feuille : mêmes spécificités, c'est la
+dernière règle qui gagne.
+
+**Hauteurs : inchangées au pixel** aux trois largeurs (390 : 3 527 px · 820 : 1 936 · 1 440 :
+1 530 pour `.offers`). Les deux lignes ont simplement échangé leur hauteur (665 / 846 à 1 440).
+Le texte visible est **strictement le même** : le diff est une permutation, multiensemble de lignes
+identique. 29 autres pages inchangées (md5).
+
+**AUCUNE PHOTO POSÉE, et c'est un refus argumenté.** Inventaire fait : seules **yoga**
+(`atelier-yoga-*`) et **calebasse** (`workshop-calebasse-*`) ont une photo dédiée et vraie.
+Le showroom, la psychothérapie et les cours individuels n'ont **rien**, et les concerts n'ont que
+des photos prises **ailleurs** (festivals, églises), pas au Nid. Habiller 2 tuiles sur 6 donne une
+grille bancale, et poser une photo de concert sur « psychothérapie » serait mentir en image.
+**Photos à demander à David** (voir le rapport de session) : une séance de découverte d'instruments
+au Nid, une vue du cabinet / d'une séance de psychothérapie, un cours individuel.
+
+---
+
 ### 2026-08-17 — `/guso-facile` raccourcie de 12,7 % sur téléphone (3 couches)
 
 Décidé avec David : réduire le défilement **sans rien cacher de ce qui convainc**.
