@@ -645,12 +645,21 @@ CSS_DATES = (""".offer-dates{margin-top:14px;padding-top:12px;border-top:1px sol
             """.offer .who a{color:var(--gold2);font-weight:500;text-decoration:underline;text-underline-offset:4px;
   display:inline-flex;align-items:center;min-height:44px}
 """
-            # carte « instruments d'exception » : pleine largeur, registre premium
-            """.offer--rare{grid-column:1/-1;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));
+            # carte « instruments d'exception ».
+            # ⚠️ 17/08/2026 — `grid-column:1/-1` RETIRE. Elle occupait les TROIS
+            # colonnes (988 px mesures a 1440, contre 316 pour les cinq autres)
+            # et se retrouvait seule sur une 3e ligne : la grille se lisait comme
+            # « 5 tuiles + 1 banniere ». David : « fait quelque chose de coherent
+            # graphiquement entre les 6 tuiles de facon equilibree. »
+            # Six tuiles sur trois colonnes tombent juste : deux lignes pleines.
+            # Le fond dore reste — c'est un accent discret, pas un format a part.
+            # `max-width:78ch` sur les `p` devient sans objet dans une colonne de
+            # 316 px : garde sans effet, retire pour ne pas laisser croire a une
+            # contrainte active.
+            """.offer--rare{background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));
   border-color:rgba(216,178,90,.34)}
 .offer--rare h3{margin-bottom:6px}
 .offer--rare .offer-meta{color:var(--gold2);font-size:14px;font-style:italic;margin:0 0 14px}
-.offer--rare p{max-width:78ch}
 .offer--rare p+p{margin-top:12px}
 .offer--rare b{color:#efeaf6;font-weight:600}
 .offer-fine{margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.10);
