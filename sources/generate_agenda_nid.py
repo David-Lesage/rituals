@@ -907,7 +907,7 @@ BOUTONS_ATTENDUS = (
     (COURS_DAVID, 'les cours de David ↗'),
     (COURS_IRIS, 'l’agenda d’Iris ↗'),
     ('https://www.irischasles.com/', 'Prendre rendez-vous sur irischasles.com ↗'),
-    (SHOWROOM, 'réserver ma place ↗'),
+    (SHOWROOM, 'le showroom et les réservations ↗'),
 )
 
 
@@ -915,43 +915,47 @@ def carte_instruments():
     """Carte « Présentation, découverte & essai d'instruments d'exception ».
 
     (Anciennement « Scene ouverte / Showcase » ; la cle technique interne reste
-    `showcase`.) Le lien de reservation vient de la SEULE constante SHOWROOM :
-    un seul endroit a changer.
+    `showcase`.) Le lien vient de la SEULE constante SHOWROOM : un seul endroit
+    a changer.
 
-    ⚠️ `id="instruments"` a ete ajoute A LA MAIN dans la page publiee et le
-    generateur ne le reproduisait pas. Ce n'est pas decoratif : c'est la cible
-    de l'entree « Présentation d'instruments » du menu partage
-    (`/le-nid#instruments`, voir nav_menu.py). Sans lui, cette entree de menu ne
-    mene nulle part.
+    ⚠️ `id="instruments"` est la cible de l'entree « Présentation d'instruments »
+    du menu partage (`/le-nid#instruments`, voir nav_menu.py). Sans lui, cette
+    entree de menu ne mene nulle part.
+
+    RACCOURCIE LE 17/08/2026, sur demande de David : « il faut que la 6eme tuile
+    fasse la meme taille que les autres tuiles. Simple, court, efficace, les
+    dates et renvoi vers le site de David. »
+    Elle faisait ~2 400 caracteres quand les autres en font 300 a 600 : cinq
+    paragraphes, une revendication argumentee et une mention de transparence.
+    Dans une grille de tuiles, la plus longue n'est pas la plus lue — elle
+    deseequilibre la grille et se saute.
+
+    ⚠️ CE QUI A ETE RETIRE N'EST PAS PERDU, c'est DEPLACE sur la page de David
+    (https://www.lesagedavid.fr/showroom), qui traite le meme sujet en detail :
+      - la revendication « le seul lieu en France ou ces instruments s'essaient
+        et s'achetent en direct », validee mot pour mot par David le 16/08, et
+        sa borne (seul le Neotone repart le jour meme ; les Yishama sont ses
+        instruments PERSONNELS et ne sont pas en vente). ⚠️ Si elle devait
+        revenir ici un jour : ne JAMAIS la re-elargir au monde, et ne jamais la
+        reposer sans sa borne — sans elle, « s'achetent en direct » sur-promet.
+      - le detail des instruments, des micros, et du deroule d'une session.
+    Sur son site elle est ecrite A LA PREMIERE PERSONNE (« je l'assume »), ce
+    qui la rend tenable : c'est lui qui l'engage, pas l'association.
+
+    ⚠️ LA MENTION DE TRANSPARENCE RESTE, en une phrase : elle n'est pas
+    decorative. L'association accueille ces rencontres et peut percevoir une
+    contribution d'affiliation — le dire est une obligation de loyaute, pas un
+    ornement. NE PAS la supprimer pour gagner deux lignes.
     """
     return ('    <div class="offer offer--rare" id="instruments">\n'
             '      <div class="t">Présentation, découverte &amp; essai</div>\n'
             '      <h3>Instruments d’exception</h3>\n'
             '      <div class="offer-meta">Gratuit · sur inscription · environ 2 h</div>\n'
-            '      <p>Une occasion rare de rencontrer des instruments que l’on ne croise presque jamais : le <b>Neotone</b>, handpan électronique de facture professionnelle, des <b>handpans acoustiques Yishama</b>, la <b>calebasse</b>, le <b>Gonilélé</b> (petite harpe africaine), et des <b>micros conçus pour le handpan</b> — micro de contact anti-larsen et micro multifonction pour le studio et la scène.</p>\n'
-            # 16/08/2026 — REVENDICATION VALIDEE PAR DAVID, mot pour mot :
-            #   « le seul lieu en France ou ces instruments s'essaient et
-            #     s'achetent en direct »
-            # Il avait d'abord ete propose « premier lieu au MONDE » (formule
-            # deja en ligne sur lesagedavid.fr, ou elle est ecrite A LA PREMIERE
-            # PERSONNE — « je l'assume » — ce qui la rend tenable). Ici c'est
-            # une ASSOCIATION qui parle : elle ne peut pas dire « je l'assume »,
-            # la phrase l'engagerait, elle et ses dirigeants, sur une
-            # affirmation invérifiable. David a donc choisi lui-meme d'adoucir
-            # en « le seul lieu en France ». NE PAS la re-elargir au monde.
-            # ⚠️ La phrase suivante BORNE la revendication et n'est pas
-            # decorative : seul le Neotone repart le jour meme, les Yishama sont
-            # les instruments PERSONNELS de David et ne sont pas en vente. Sans
-            # cette borne, « s'achetent en direct » sur-promet — et contredirait
-            # la mention de transparence plus bas (« elle ne vend pas les
-            # instruments presentes »).
-            '      <p><b>Le seul lieu en France où ces instruments s’essaient et s’achètent en direct.</b> Ailleurs, on commande sans avoir joué. Ici, on prend l’instrument en main, on le compare, on l’écoute dans une vraie pièce — et le <b>Neotone</b> peut repartir le jour même. Les <b>handpans Yishama</b> présentés sont les instruments personnels de David Lesage : ils se découvrent et s’essaient, ils ne sont pas en vente sur place.</p>\n'
-            '      <p>Ce sont des instruments <b>faits main, produits en très petites séries</b>, dont la valeur atteint plusieurs milliers d’euros. David Lesage les présente et les fait sonner devant vous — le son brut, puis les effets et la voix, l’application <b>Handpan Studio</b> projetée à l’écran — répond à toutes les questions, puis met les instruments entre vos mains.</p>\n'
-            '      <p>Aucune expérience requise : la plupart des personnes présentes n’ont jamais tenu un handpan. Jauge limitée, inscription préalable nécessaire.</p>\n'
+            '      <p>Prendre en main des instruments que l’on ne croise presque jamais : le <b>Neotone</b>, des <b>handpans acoustiques Yishama</b>, la <b>calebasse</b>, le <b>Gonilélé</b>. David Lesage les fait sonner devant vous, répond aux questions, puis les met entre vos mains. Aucune expérience requise.</p>\n'
             '      ' + dates_courtes('showcase') + '\n'
-            '      <div class="who">Réservation en ligne : <a href="' + SHOWROOM
-            + '" target="_blank" rel="noopener">réserver ma place ↗</a></div>\n'
-            '      <p class="offer-fine"><b>En toute transparence.</b> Ces présentations sont gratuites et sans obligation d’achat. L’association accueille et valorise ces rencontres, animées par David Lesage ; <b>elle ne vend pas les instruments présentés</b> et peut percevoir une contribution d’affiliation lorsqu’une personne décide d’acquérir un instrument auprès du fabricant. Les seuls objets vendus par l’association sont les <b>calebasses pyrogravées</b>, façonnées dans son atelier.</p>\n'
+            '      <div class="who">Avec David Lesage · <a href="' + SHOWROOM
+            + '" target="_blank" rel="noopener">le showroom et les réservations ↗</a></div>\n'
+            '      <p class="offer-fine">Ces présentations sont gratuites et sans obligation d’achat. L’association les accueille ; <b>elle ne vend pas les instruments présentés</b> et peut percevoir une contribution d’affiliation.</p>\n'
             '    </div>\n')
 
 
