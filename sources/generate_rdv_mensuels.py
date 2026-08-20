@@ -349,6 +349,8 @@ section{padding:92px 0}
             # suite sur telephone.
             """.rdv-cta{margin-top:28px}
 .rdv-cta-haut{justify-content:center;margin-top:22px}
+.btn-resa{font-size:18px;font-weight:700;padding:17px 34px}
+@media(max-width:520px){.btn-resa{font-size:17px;padding:16px 26px}}
 .rdv-attente{padding:62px 0}
 """
             # L'encart d'abonnement des soirees non programmees. Il reprend le
@@ -672,6 +674,15 @@ def _abonnement():
             '</div></div>' % (CAL_SUB, CAL_WEBCAL))
 
 
+# `.btn-resa` : les DEUX boutons de billetterie sont plus gros et plus gras
+# que les autres boutons du site (18 px / 700 au lieu de 15 px / 600), a la
+# demande de David — « le texte est trop petit ». C'est justifie : sur cette
+# page, reserver est LA seule action qui compte, tous les autres boutons ne
+# font que naviguer. Un appel a l'action doit se voir plus qu'un lien de
+# navigation.
+# ⚠️ CLASSE DEDIEE, surtout pas `.btn` : `.btn` est partage par les 31 pages
+# du site (theme_chaleur). Le grossir ici aurait grossi tous les boutons du
+# site, y compris « Adherer » sur l'accueil.
 # `.rdv-cta-haut` : le bouton de reservation pose sous la fiche pratique est
 # CENTRE, a la demande de David. Il est seul sur sa ligne — contrairement au
 # bloc du bas, ou « Revoir les dates » l'accompagne — donc le centrer ne
@@ -701,8 +712,9 @@ def _encart_complet(d):
         # « — 20 € » : arrive la, on a quitte la fiche des ecrans plus haut.
         if d.get('resa'):
             bloc.append('<div class="cta rdv-cta rdv-cta-haut">'
-                        '<a class="btn" href="%s" target="_blank" rel="noopener">'
-                        'Réserver ma place ↗</a></div>' % d['resa'])
+                        '<a class="btn btn-resa" href="%s" target="_blank"'
+                        ' rel="noopener">Réserver ma place ↗</a></div>'
+                        % d['resa'])
     if d.get('alerte'):
         bloc.append('<div class="rdv-warn">%s</div>' % d['alerte'])
     bloc += ['<p>%s</p>' % t for t in d.get('recit', [])]
@@ -713,7 +725,8 @@ def _encart_complet(d):
         bloc.append('<p>%s</p>' % d['fin'])
     boutons = ''
     if d.get('resa'):
-        boutons = ('<a class="btn" href="%s" target="_blank" rel="noopener">%s</a>'
+        boutons = ('<a class="btn btn-resa" href="%s" target="_blank"'
+                   ' rel="noopener">%s</a>'
                    % (d['resa'], d['resa_texte']))
     bloc.append('<div class="cta rdv-cta">%s%s</div>' % (boutons, _retour()))
     bloc.append('</div></section>')
