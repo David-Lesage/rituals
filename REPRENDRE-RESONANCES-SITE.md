@@ -110,7 +110,7 @@ git config core.hooksPath .githooks
 
 ---
 
-## LES 30 PAGES EN LIGNE (2026-08-16)
+## LES 31 PAGES EN LIGNE (2026-08-20)
 
 | URL | Rôle | Public |
 |---|---|---|
@@ -121,6 +121,7 @@ git config core.hooksPath .githooks
 | `/david-lesage-en-concert` | **Concerts solo — grandes scènes & festivals** + fiche technique | programmateurs |
 | `/concerts-david-lesage` | **Concerts solo — version intimiste au Nid** | particuliers Paris |
 | `/le-nid` | Le lieu, programme, agenda | particuliers Paris |
+| `/rendez-vous-mensuels` | **Les RDV Mensuels au Nid** : les 4 dates, l'intention, l'encart INSTATIC | particuliers Paris |
 | `/le-soin-soa` | Week-end d'immersion (Iris, Gaïa, David) | particuliers |
 | `/rythme-calebasse` | Workshops + appel à candidature groupe de pratique | particuliers |
 | `/association` | **L'association** : objet, valeurs, statuts, mentions légales, adresses, adhésion, contact | mixte |
@@ -512,6 +513,70 @@ seul octet.
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
 ## Journal
+
+### 2026-08-20 — une 31ᵉ page : « Les RDV Mensuels au Nid » (commit `6482005`, NON poussé)
+
+Demande de David : une page qui annonce **tous** les rendez-vous mensuels, « avec une
+proposition d'activité différente à chaque fois ». Le programme est en cours d'élaboration,
+les **dates existent déjà**.
+
+**L'ordre des blocs est le sien, pas une proposition** : *« il faut que la première chose
+qu'on voit ce soit les dates, le titre de l'atelier, horaire, prix et un bouton cliquable
+"en savoir plus" qui en fait est une ancre »*. Donc : (1) le programme en un coup d'œil,
+(2) l'intention, (3) les encarts détaillés. Ne pas « améliorer » cet ordre.
+
+**Le slug : `/rendez-vous-mensuels`**, pas `/rdv-mensuels`. Le site écrit déjà
+« Rendez-vous mensuel » en toutes lettres partout (badge de l'agenda `TYPES['mensuel']`,
+tuile de la grille, les 4 événements du Google Agenda public) : `RDV` aurait introduit un
+troisième vocabulaire pour la même chose. Le libellé de menu, lui, est bien
+**« Les RDV Mensuels »** — les mots de David.
+
+**Menu** : entrée dans le sous-menu « Le Nid », **juste après « Agenda »** (les deux entrées
+qui parlent de dates se suivent). `NAV_VERSION` → **`resonances-5`**. Les 30 pages existantes
+ne changent **que** par cette ligne : diff du texte visible = un seul ajout, « Les RDV
+Mensuels », sur chacune ; 4 lignes de HTML modifiées par page (3 marqueurs de version + la
+nouvelle entrée), rien d'autre.
+
+**Ce qui a été mis au courant du passage de 30 à 31 pages** (rien n'a été désactivé) :
+`verif_site.py` (`PAGES`, en-têtes, `MENU_ENTREES_ATTENDUES` **18 → 19**, marqueurs de
+structure de la nouvelle page), `verif_commentaires.py` (`PAGES`), `build.py` (une ligne au
+TABLEAU), `sitemap.xml`.
+
+**Le générateur refuse d'écrire** si : une date diverge de `EVENTS` dans
+`generate_agenda_nid.py` (relu **en texte**, jamais importé — ce module réécrit `/le-nid`
+rien qu'en étant importé), si une ancre « En savoir plus » ne mène nulle part, s'il y a plus
+de boutons « En savoir plus » que de soirées au programme connu, ou si la précision « pas de
+sexualité » de la roue du consentement a disparu.
+
+🚨 **TROIS CONTRADICTIONS NON TRANCHÉES — elles attendent David :**
+1. **Horaires.** L'agenda annonce **18:30–23:30** pour les 4 dates ; le texte d'INSTATIC écrit
+   par David dit **19h00–21h30**, accueil 18h45, portes fermées à 19h00. La page affiche
+   l'horaire du texte de David pour INSTATIC et **aucun horaire** pour les 3 autres.
+   ⚠️ Si David tranche pour 19h00–21h30, c'est `generate_agenda_nid.py` (`EVENTS`) qu'il faut
+   corriger — et le Google Agenda public avec.
+2. **Adhésion vs billetterie.** L'agenda dit les RDV mensuels « Réservés aux adhérents » et son
+   seul bouton est « Adhérer ». INSTATIC est à **20 €** avec billetterie HelloAsso publique.
+   La page ne dit rien de l'adhésion. C'est la question 11 de « EN ATTENTE DE DAVID ».
+3. **Lien HelloAsso INSTATIC** : 403 aux tests automatisés = comportement habituel de HelloAsso
+   face aux robots, **pas** une preuve qu'il est cassé. Publié tel quel, à cliquer une fois en
+   vrai.
+
+**Informations qui manquent** (les 3 soirées d'octobre, novembre, décembre) : titre, intervenant,
+horaire, tarif, description, billetterie. Et pour les 4 formats cités sans détail (Workshop Sexto,
+Concert intimiste, La roue du consentement, Scène ouverte) : **tout**. Rien n'a été inventé.
+
+**Mesuré** : hauteur 9 137 px (390) · 6 421 px (820) · 6 079 px (1440) ; 0 débordement horizontal
+aux trois largeurs ; les 4 ancres atterrissent **76 à 87 px sous la barre fixe** (`scroll-margin-top`
+56/100 px, valeurs de `/guso-facile`) ; contrastes des nouveaux composants **≥ 5,95:1** ; plancher
+typo 13 px respecté (deux règles étaient à 12 px, corrigées avant publication) ; console vide ;
+menu mobile OK (cible 49 px, 0 débordement panneau ouvert).
+
+**Aucun fichier ajouté dans `img/`** : les deux photos sont celles des RDV mensuels déjà publiées
+sur `/le-nid` (`soiree-au-nid-*`, `soiree-mensuel-2-*`). `og:image` =
+`/img/le-nid/soiree-au-nid-1400.jpg`, 1400×646 mesurés.
+
+⚠️ **PAS POUSSÉ** : David doit valider les textes avant publication.
+
 
 ### 2026-08-17 — 🚨 `git push` NE SUFFIT PLUS À PUBLIER — lire avant toute mise en ligne
 
