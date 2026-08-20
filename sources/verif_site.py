@@ -205,15 +205,20 @@ MARQUEURS_UNIQUES = {
         #  l'accueil — l'entree de menu et le bouton « En savoir plus ». Le
         #  bouton est garde par `generate_assoc.py`, avec sa balise entiere.)
     ),
-    # Les quatre sections de /rendez-vous-mensuels. Les deux premieres sont les
-    # CIBLES des boutons « En savoir plus » et « Revoir les dates » : si l'une
-    # d'elles disparaissait ou se dedoublait, les ancres de la page ne
-    # meneraient plus au bon endroit.
+    # Les sections de /rendez-vous-mensuels. Ce sont les CIBLES des ancres de la
+    # page — le bouton « Voir les prochaines dates » du chapeau, chaque date du
+    # programme, et les « Revoir les dates » des encarts : si l'une d'elles
+    # disparaissait ou se dedoublait, un lien ne menerait plus au bon endroit.
+    # ⚠️ `id="a-venir"` A DISPARU le 20/08/2026 : David a fait supprimer la
+    #    section « Ce qui se prepare » (les quatre formats sans date). Ce n'est
+    #    pas un oubli, ne pas la remettre dans cette liste.
     'rendez-vous-mensuels/index.html': (
-        ('id="programme"', 'le programme en un coup d’oeil'),
-        ('id="intention"', "section intention"),
+        ('id="intention"', "section intention (le projet, en tete de page)"),
+        ('id="programme"', 'le programme et ses quatre dates'),
         ('id="instatic"', 'encart INSTATIC Dance'),
-        ('id="a-venir"', 'section « ce qui se prepare »'),
+        ('id="soiree-2026-10-02"', 'encart de la soiree du 2 octobre'),
+        ('id="soiree-2026-11-07"', 'encart de la soiree du 7 novembre'),
+        ('id="soiree-2026-12-04"', 'encart de la soiree du 4 decembre'),
     ),
     'association/index.html': (
         ('id="objet"', "section objet de l'association"),

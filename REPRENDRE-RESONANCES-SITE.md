@@ -121,7 +121,7 @@ git config core.hooksPath .githooks
 | `/david-lesage-en-concert` | **Concerts solo — grandes scènes & festivals** + fiche technique | programmateurs |
 | `/concerts-david-lesage` | **Concerts solo — version intimiste au Nid** | particuliers Paris |
 | `/le-nid` | Le lieu, programme, agenda | particuliers Paris |
-| `/rendez-vous-mensuels` | **Les RDV Mensuels au Nid** : les 4 dates, l'intention, l'encart INSTATIC | particuliers Paris |
+| `/rendez-vous-mensuels` | **Les RDV Mensuels au Nid** : le projet, puis le programme et un encart par date | particuliers Paris |
 | `/le-soin-soa` | Week-end d'immersion (Iris, Gaïa, David) | particuliers |
 | `/rythme-calebasse` | Workshops + appel à candidature groupe de pratique | particuliers |
 | `/association` | **L'association** : objet, valeurs, statuts, mentions légales, adresses, adhésion, contact | mixte |
@@ -513,6 +513,60 @@ seul octet.
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
 ## Journal
+
+### 2026-08-20 (2) — `/rendez-vous-mensuels` : nouvelle structure, dictée par David après relecture
+
+**La page était déjà en ligne et Iris la relisait.** David l'a rouverte et a dicté un autre
+ordre, en deux temps dans la même heure. C'est le SECOND qui fait foi, et il est écrit en tête
+de `sources/generate_rdv_mensuels.py` avec ses mots :
+
+1. le chapeau, qui se termine sur « Toujours sur réservation, toujours avec des intervenants
+   différents » ;
+2. **UN BOUTON, et rien d'autre** — « Voir les prochaines dates », ancre vers `#programme` tout
+   en bas. *« Juste un bouton »* : pas deux, pas un bouton plus une liste, pas un aperçu ;
+3. **l'intention** développée — la partie qu'on vient lire ;
+4. **le programme**, tout en bas : les 4 dates puis **un encart par date**.
+
+**Le raisonnement de David, à respecter** : qui découvre doit pouvoir lire l'intention sans être
+coupé par un tableau de dates ; qui vient chercher une date a un bouton immédiat pour sauter.
+
+**Ce qui a changé au fond**
+- **Chaque date a désormais SON encart** : `#instatic`, `#soiree-2026-10-02`, `#soiree-2026-11-07`,
+  `#soiree-2026-12-04`. Avant, trois des quatre dates ne menaient nulle part.
+- **Toute la ligne d'une date est un lien** (`a.rdv-go`) : cible de 128 à 299 px de haut. Le
+  « bouton » qu'on y voit est un `<span class="btn ghost">` — un `<a>` dans un `<a>` est invalide.
+- **UNE seule structure de données**, `SOIREES`, en tête du générateur, avec le mode d'emploi en
+  trois lignes pour compléter une soirée plus tard (remplir `titre`, `horaire`, `prix`, `faits`,
+  `recit`, `resa`… ; la présence de `titre` bascule tout seul la ligne ET l'encart en version
+  complète).
+- **Jauge INSTATIC 20 → 25 personnes** (David). Écrite UNE fois, dans la constante `JAUGE` ;
+  `_controle_jauge()` refuse d'écrire la page si un autre chiffre apparaît devant « places » ou
+  « personnes ». ⚠️ Le TARIF vaut toujours **20 €** — les deux valaient 20, un seul a changé.
+- **« Être prévenu du programme » ne fait plus un e-mail** : il pointe vers **l'abonnement à
+  l'agenda du Nid**, avec le même geste que `/le-nid` (bouton Google Agenda + lien Apple/Outlook).
+  `CAL_SUB` et `CAL_WEBCAL` sont **relus en texte** dans `generate_agenda_nid.py`, jamais recopiés.
+- **SUPPRIMÉ : la section « Ce qui se prépare »** (`#a-venir`) et ses 4 formats sans date. Entrée
+  retirée de `MARQUEURS_UNIQUES` dans `verif_site.py`. ⚠️ Si ce bloc revient, la précision de
+  David sur la roue du consentement revient avec : « pas de sexualité ».
+- **SUPPRIMÉ : les deux photos** et, avec elles, la **visionneuse** (`visionneuse.py` n'est plus
+  importé). Aucun fichier effacé dans `img/` ; `og:image` inchangée.
+- **La phrase longue des soirées non programmées est remplacée** par les mots de David :
+  « Programme en cours d'élaboration ».
+
+🚨 **L'HORAIRE DES TROIS SOIRÉES RESTE NON TRANCHÉ** — l'agenda dit 18:30–23:30, INSTATIC dit
+19h00–21h30. La page écrit **« À préciser »** et n'invente rien. Constante `HORAIRE_INCONNU`.
+
+**Nouveaux garde-fous du générateur** : `_controle_ordre()` (le bouton avant l'intention, avant le
+programme, avant le premier encart), `_controle_jauge()`, un lien et un seul par ancre de date,
+autant de lignes cliquables que de soirées, et **zéro `<img>` dans le corps**.
+
+**Mesuré** (DOM, pas capture) : hauteur 9 939 px (390) · 7 111 px (820) · 6 733 px (1440), contre
+9 156 / 6 436 / 6 093 avant. 0 débordement horizontal aux trois largeurs. Les 5 ancres atterrissent
+avec leur sur-titre **46 à 87 px sous la barre fixe**. Contrastes des composants nouveaux :
+5,95:1 à 18,9:1. Aucun texte sous 13 px. Console vide, 1 seule ressource chargée (les polices).
+
+⚠️ **PAS POUSSÉ.**
+
 
 ### 2026-08-20 — une 31ᵉ page : « Les RDV Mensuels au Nid » (commit `6482005`, NON poussé)
 

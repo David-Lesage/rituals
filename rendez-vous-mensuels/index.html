@@ -96,7 +96,10 @@ section{padding:92px 0}
 section[id]{scroll-margin-top:56px}
 @media(max-width:760px){section[id]{scroll-margin-top:100px}}
 .rdv-list{list-style:none;margin-top:34px;display:grid;gap:16px}
-.rdv-row{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:22px 24px;display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr) minmax(0,190px);gap:20px 26px;align-items:center}
+.rdv-row{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:18px;transition:transform .2s,border-color .2s}
+.rdv-go{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr) minmax(0,190px);gap:20px 26px;align-items:center;padding:22px 24px;border-radius:18px;color:inherit}
+.rdv-row:hover{transform:translateY(-2px);border-color:rgba(240,209,138,.5)}
+.rdv-row:hover .btn.ghost{color:#fff;border-color:var(--gold2)}
 .rdv-row{border-left:3px solid transparent;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
 .rdv-when{display:flex;flex-direction:column;gap:3px}
 .rdv-day{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;line-height:1.2;color:#fff;font-weight:600}
@@ -110,7 +113,7 @@ section[id]{scroll-margin-top:56px}
 .rdv-act .btn{padding:12px 22px;font-size:14.5px}
 .rdv-tell{display:inline-flex;align-items:center;min-height:44px;color:var(--gold2);font-size:15px;text-decoration:underline;text-decoration-color:rgba(248,210,116,.42);text-underline-offset:4px}
 .rdv-tell:hover{text-decoration-color:var(--gold2)}
-@media(max-width:860px){.rdv-row{grid-template-columns:minmax(0,1fr);gap:14px;padding:20px}
+@media(max-width:860px){.rdv-go{grid-template-columns:minmax(0,1fr);gap:14px;padding:20px}
   .rdv-act{flex-direction:row;align-items:center;gap:18px;flex-wrap:wrap}}
 .rdv-quote{margin:34px 0 0;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);font-size:clamp(21px,3vw,28px);line-height:1.35;padding-left:22px;max-width:760px;border-left:3px solid transparent;background-image:var(--grad-v);background-size:3px 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box}
 .rdv-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:30px}
@@ -124,11 +127,6 @@ section[id]{scroll-margin-top:56px}
 .rdv-ul li{color:#d7d4ea;font-size:16px;padding:9px 0 9px 26px;position:relative;border-bottom:1px solid rgba(255,255,255,.05)}
 .rdv-ul li:last-child{border-bottom:0}
 .rdv-ul li::before{content:"";position:absolute;left:4px;top:17px;width:7px;height:7px;background:var(--grad-warm);transform:rotate(45deg)}
-.rdv-figs{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:20px;margin-top:34px;align-items:start}
-.rdv-fig{margin:0;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
-.rdv-fig img{display:block;width:100%;height:auto}
-.rdv-fig figcaption{color:var(--muted);font-size:13.5px;line-height:1.5;padding:12px 16px 14px;border-top:1px solid rgba(255,255,255,.06)}
-@media(max-width:760px){.rdv-figs{grid-template-columns:minmax(0,1fr)}}
 .rdv-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2px 26px;margin-top:26px;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:20px 24px;border-top:3px solid transparent;background-image:var(--grad),linear-gradient(var(--card),var(--card));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
 .rdv-facts div{padding:10px 0}
 .rdv-facts dt{color:var(--gold);font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
@@ -138,49 +136,17 @@ section[id]{scroll-margin-top:56px}
 .rdv-warn b{color:var(--gold2)}
 .rdv-block h2{margin-top:4px}
 .rdv-block p{max-width:820px;color:#d7d4ea;margin-top:16px}
-.rdv-prep{display:grid;gap:14px;margin-top:30px;max-width:900px}
-.rdv-prep div{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:18px 22px;border-left:3px solid transparent;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
-.rdv-prep h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;color:var(--gold2);font-weight:600;line-height:1.2}
-.rdv-prep p{color:#d7d4ea;font-size:15.5px;margin-top:6px}
+.rdv-cta{margin-top:28px}
+.rdv-attente{padding:62px 0}
+.rdv-abo{margin-top:26px;max-width:820px;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));border:1px solid rgba(216,178,90,.34);border-radius:16px;padding:22px 24px}
+.rdv-abo h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;color:#fff;font-weight:600;line-height:1.2}
+.rdv-abo p{color:#d7d4ea;font-size:15.5px;margin-top:8px;line-height:1.65}
+.rdv-abo-act{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;margin-top:16px}
+.rdv-saut{margin-top:34px}
 /* retour en haut */
 .totop{position:fixed;right:18px;bottom:18px;z-index:35;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(25,27,61,.92);border:1px solid var(--line);color:var(--gold2);font-size:19px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s}
 .totop.on{opacity:1;visibility:visible}
 .totop:hover{transform:translateY(-2px)}
-
-/* visionneuse photo */
-.ph{position:fixed;inset:0;z-index:1100;display:none;flex-direction:column;
-  background:rgba(8,9,26,.965);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.ph.open{display:flex}
-.ph-head{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 12px}
-.ph-num{font-size:14px;letter-spacing:.2em;color:var(--muted);padding-left:8px}
-.ph-tools{display:flex;gap:10px;align-items:center}
-.ph-body{position:relative;flex:1 1 auto;min-height:0}
-.ph-track{position:absolute;inset:0;z-index:1;display:flex;overflow-x:auto;overflow-y:hidden;
-  scroll-snap-type:x mandatory;overscroll-behavior:contain;touch-action:pan-x pinch-zoom;
-  scrollbar-width:none;-ms-overflow-style:none}
-.ph-track::-webkit-scrollbar{width:0;height:0}
-.ph-slide{flex:0 0 100%;width:100%;height:100%;scroll-snap-align:center;scroll-snap-stop:always;
-  display:flex;align-items:center;justify-content:center;padding:4px 12px}
-.ph-slide img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;
-  border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.6);-webkit-user-drag:none;
-  transform-origin:50% 50%;transition:transform .3s ease;cursor:zoom-in}
-.ph-slide img.ph-zoomed{cursor:grab;border-radius:0;box-shadow:none}
-.ph-cap{flex:0 0 auto;min-height:40px;padding:8px 20px 16px;text-align:center;
-  color:var(--muted);font-size:14.5px;font-style:italic}
-.ph-btn{background:rgba(20,22,52,.72);border:1px solid var(--line);color:var(--gold2);
-  min-width:46px;min-height:46px;border-radius:999px;cursor:pointer;padding:0;
-  display:inline-flex;align-items:center;justify-content:center;
-  font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;line-height:1}
-.ph-btn:hover{color:#fff;border-color:var(--gold2)}
-.ph-btn[aria-disabled="true"]{opacity:.3;cursor:default}
-.ph-arw{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:52px;height:52px;font-size:34px}
-.ph-arw.p{left:12px}
-.ph-arw.n{right:12px}
-.ph-btn.z{font-family:'Jost',sans-serif;font-size:23px}
-.ph-op{cursor:zoom-in}
-body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
-@media(max-width:600px){.ph-arw{width:46px;height:46px;font-size:28px}.ph-arw.p{left:4px}.ph-arw.n{right:4px}}
-@media(prefers-reduced-motion:reduce){.ph-slide img{transition:none}}
 
 /* ===== MENU MOBILE (hamburger) ===== */
 .burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
@@ -337,18 +303,10 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
   <h1>Les RDV Mensuels au Nid</h1>
   <div class="tagline">« Une proposition différente à chaque fois »</div>
   <p class="lead">Un soir par mois, Le Nid ouvre ses portes pour une soirée qui n’est jamais tout à fait la même : un workshop, un concert, une scène ouverte. Toujours sur réservation, toujours avec des intervenants différents.</p>
+  <div class="cta rdv-saut"><a class="btn" href="#programme">Voir les prochaines dates &#8595;</a></div>
 </div></header>
 
-<section id="programme"><div class="wrap">
-  <div class="kick">Le programme</div>
-  <h2 class="sec-title">Les prochaines dates, en un coup d’œil</h2>
-  <p class="lead">Quatre rendez-vous sont posés jusqu’en décembre. Le programme du 4 septembre est écrit et la réservation est ouverte ; les trois soirées suivantes attendent le leur, et il sera annoncé ici.</p>
-  <ol class="rdv-list"><li class="rdv-row"><div class="rdv-when"><span class="rdv-day">Vendredi 4 septembre 2026</span><span class="rdv-hours">19h00 – 21h30</span></div><div class="rdv-what"><span class="rdv-type">Danse</span><h3>INSTATIC Dance</h3><p class="rdv-sub">Co-créée et facilitée par Iris &amp; David. Portes fermées à 19h00 · 20 places seulement.</p></div><div class="rdv-act"><span class="rdv-price">20 €</span><a class="btn ghost" href="#instatic">En savoir plus</a></div></li><li class="rdv-row"><div class="rdv-when"><span class="rdv-day">Vendredi 2 octobre 2026</span></div><div class="rdv-what"><p class="rdv-soon">La proposition de cette soirée sera annoncée ici. Le programme, l’horaire et le tarif ne sont pas encore arrêtés.</p></div><div class="rdv-act"><a class="rdv-tell" href="mailto:contact@resonancesproductions.org?subject=Les%20RDV%20Mensuels%20%E2%80%94%20%C3%AAtre%20pr%C3%A9venu%20du%202%20octobre%202026">Être prévenu du programme</a></div></li><li class="rdv-row"><div class="rdv-when"><span class="rdv-day">Samedi 7 novembre 2026</span></div><div class="rdv-what"><p class="rdv-soon">La proposition de cette soirée sera annoncée ici. Le programme, l’horaire et le tarif ne sont pas encore arrêtés.</p></div><div class="rdv-act"><a class="rdv-tell" href="mailto:contact@resonancesproductions.org?subject=Les%20RDV%20Mensuels%20%E2%80%94%20%C3%AAtre%20pr%C3%A9venu%20du%207%20novembre%202026">Être prévenu du programme</a></div></li><li class="rdv-row"><div class="rdv-when"><span class="rdv-day">Vendredi 4 décembre 2026</span></div><div class="rdv-what"><p class="rdv-soon">La proposition de cette soirée sera annoncée ici. Le programme, l’horaire et le tarif ne sont pas encore arrêtés.</p></div><div class="rdv-act"><a class="rdv-tell" href="mailto:contact@resonancesproductions.org?subject=Les%20RDV%20Mensuels%20%E2%80%94%20%C3%AAtre%20pr%C3%A9venu%20du%204%20d%C3%A9cembre%202026">Être prévenu du programme</a></div></li></ol>
-</div></section>
-
-<div class="divider"></div>
-
-<section class="band" id="intention"><div class="wrap">
+<section id="intention"><div class="wrap">
   <div class="kick">L’intention</div>
   <h2 class="sec-title">Créer du lien, et explorer ensemble</h2>
   <p class="body">Ce qui relie ces soirées entre elles, ce n’est pas une discipline : c’est une intention. <b>Créer du lien</b>, et <b>explorer</b> — sous plusieurs formes, d’un mois à l’autre.</p>
@@ -362,37 +320,20 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
     <p>La sélection des intervenants se fait par <b>Iris et David</b>. Ce sera toujours des personnes que nous connaissons, que nous avons rencontrées, dont on trouve la proposition de qualité, <b>avec du cadre, de la sécurité, du fun</b>.</p>
     <p>C’est le seul filtre, et c’est aussi tout ce qu’on peut promettre d’une soirée dont on ne connaît pas encore le contenu : nous savons qui la porte.</p>
   </div>
-  <div class="rdv-figs"><figure class="rdv-fig"><picture><source type="image/webp" srcset="/img/le-nid/soiree-au-nid-480.webp 480w, /img/le-nid/soiree-au-nid-900.webp 900w, /img/le-nid/soiree-au-nid-1400.webp 1400w, /img/le-nid/soiree-au-nid-2000.webp 2000w" sizes="(max-width:760px) 100vw, 620px"><img src="/img/le-nid/soiree-au-nid-1400.jpg" srcset="/img/le-nid/soiree-au-nid-480.jpg 480w, /img/le-nid/soiree-au-nid-900.jpg 900w, /img/le-nid/soiree-au-nid-1400.jpg 1400w, /img/le-nid/soiree-au-nid-2000.jpg 2000w" sizes="(max-width:760px) 100vw, 620px" width="2796" height="1290" loading="lazy" decoding="async" alt="Une soiree au Nid : le public assis au sol devant un rideau de guirlandes lumineuses, deux musiciennes et des bougies"></picture><figcaption>Une soirée au Nid — musique live, bougies et petit comité.</figcaption></figure><figure class="rdv-fig"><picture><source type="image/webp" srcset="/img/le-nid/soiree-mensuel-2-480.webp 480w, /img/le-nid/soiree-mensuel-2-900.webp 900w, /img/le-nid/soiree-mensuel-2-1400.webp 1400w" sizes="(max-width:760px) 100vw, 380px"><img src="/img/le-nid/soiree-mensuel-2-900.jpg" srcset="/img/le-nid/soiree-mensuel-2-480.jpg 480w, /img/le-nid/soiree-mensuel-2-900.jpg 900w, /img/le-nid/soiree-mensuel-2-1400.jpg 1400w" sizes="(max-width:760px) 100vw, 380px" width="1500" height="2000" loading="lazy" decoding="async" alt="Deux musiciens assis au sol jouent de la calebasse devant un mur de guirlandes lumineuses et un mandala lumineux, une lampe à flamme posée entre eux"></picture><figcaption>Un autre soir, la calebasse — d’une soirée à l’autre, la proposition change.</figcaption></figure></div>
 </div></section>
 
 <div class="divider"></div>
 
-<section class="rdv-block" id="instatic"><div class="wrap">
-  <div class="kick">Vendredi 4 septembre 2026</div>
-  <h2 class="sec-title">INSTATIC Dance</h2>
-  <p class="lead">Co-créée et facilitée par Iris &amp; David.</p>
-  <dl class="rdv-facts"><div><dt>Quand</dt><dd>Vendredi 4 septembre 2026, de 19h00 à 21h30</dd></div><div><dt>Accueil</dt><dd>Portes ouvertes dès 18h45<small>Fermeture stricte des portes à 19h00</small></dd></div><div><dt>Où</dt><dd>Le Nid — Paris 20<sup>e</sup><small>29 rue des Orteaux</small></dd></div><div><dt>Tarif</dt><dd>20 €<small>Réservation en ligne</small></dd></div><div><dt>Jauge</dt><dd>20 personnes seulement<small>Très limitée</small></dd></div></dl>
-  <div class="rdv-warn"><b>Les portes ferment à 19h00, sans exception</b>, et la jauge est de <b>20 personnes</b>. Arriver à 18h45 fait partie de la soirée : une fois la traversée commencée, on n’ouvre plus.</div>
-  <p>En cette rentrée, nous avons la joie de vous ouvrir les portes du Nid, notre cocon dans le 20<sup>e</sup> arrondissement, pour une toute nouvelle expérience : une <b>INSTATIC Dance</b>, co-créée et facilitée par Iris &amp; David.</p>
-  <p>Cette soirée est une invitation à réhabiter pleinement son corps à travers un véritable <b>voyage musical en vagues</b>.</p>
-  <p>L’INSTATIC Dance, ce n’est pas une simple méditation passive : c’est une traversée complète. Attendez-vous à une exploration dynamique, où des phases d’envolées très rythmées, puissantes et vibrantes alternent avec des temps d’ancrage, de douceur et d’intériorité. Loin de la sur-stimulation du clubbing ou de la recherche de catharsis à tout prix, <b>nous dansons pour restaurer notre énergie et nourrir notre présence</b>.</p>
-  <p>Une immersion conçue à quatre mains : Iris aux platines pour tisser les vagues musicales et la guidance corporelle, rejointe par David pour faire vibrer l’espace en direct avec sa voix chantée, son handpan électronique et sa harpe.</p>
-  <p class="body"><b>Au programme</b></p>
-  <ul class="rdv-ul"><li>DJ set en vagues (du rythme soutenu à la douceur) &amp; guidance corporelle par Iris.</li><li>Créations sonores &amp; instruments live (voix, Neotone, n’goni) par David.</li><li>Danse libre, expressive et consciente, dans le respect des guidelines traditionnelles.</li><li>Un cadre intimiste et sécurisant pour danser pleinement.</li></ul>
-  <p>Venez comme vous êtes, pour faire circuler l’énergie, traverser le mouvement et recharger votre flamme intérieure.</p>
-  <div class="cta" style="margin-top:28px"><a class="btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/instatic-dance" target="_blank" rel="noopener">Réserver ma place — 20 € ↗</a><a class="btn ghost" href="#programme">Revoir les dates →</a></div>
+<section class="band" id="programme"><div class="wrap">
+  <div class="kick">Le programme</div>
+  <h2 class="sec-title">Les prochaines dates, en un coup d’œil</h2>
+  <p class="lead">Quatre rendez-vous sont posés jusqu’en décembre. Le programme du 4 septembre est écrit et la réservation est ouverte ; les trois soirées suivantes attendent le leur, et il sera annoncé ici. Chaque date ouvre son encart, juste en dessous.</p>
+  <ol class="rdv-list"><li class="rdv-row"><a class="rdv-go" href="#instatic"><div class="rdv-when"><span class="rdv-day">Vendredi 4 septembre 2026</span><span class="rdv-hours">19h00 – 21h30</span></div><div class="rdv-what"><span class="rdv-type">Danse</span><h3>INSTATIC Dance</h3><p class="rdv-sub">Co-créée et facilitée par Iris &amp; David. Portes fermées à 19h00 · 25 places seulement.</p></div><div class="rdv-act"><span class="rdv-price">20 €</span><span class="btn ghost">En savoir plus</span></div></a></li><li class="rdv-row"><a class="rdv-go" href="#soiree-2026-10-02"><div class="rdv-when"><span class="rdv-day">Vendredi 2 octobre 2026</span><span class="rdv-hours">À préciser</span></div><div class="rdv-what"><p class="rdv-soon">Programme en cours d’élaboration</p></div><div class="rdv-act"><span class="btn ghost">Voir cette date</span></div></a></li><li class="rdv-row"><a class="rdv-go" href="#soiree-2026-11-07"><div class="rdv-when"><span class="rdv-day">Samedi 7 novembre 2026</span><span class="rdv-hours">À préciser</span></div><div class="rdv-what"><p class="rdv-soon">Programme en cours d’élaboration</p></div><div class="rdv-act"><span class="btn ghost">Voir cette date</span></div></a></li><li class="rdv-row"><a class="rdv-go" href="#soiree-2026-12-04"><div class="rdv-when"><span class="rdv-day">Vendredi 4 décembre 2026</span><span class="rdv-hours">À préciser</span></div><div class="rdv-what"><p class="rdv-soon">Programme en cours d’élaboration</p></div><div class="rdv-act"><span class="btn ghost">Voir cette date</span></div></a></li></ol>
 </div></section>
 
 <div class="divider"></div>
 
-<section class="band" id="a-venir"><div class="wrap">
-  <div class="kick">Ce qui se prépare</div>
-  <h2 class="sec-title">Les prochaines propositions</h2>
-  <p class="body">Voici les formats sur lesquels nous travaillons pour les mois qui viennent. <b>Rien n’est encore daté</b> : ni le programme, ni l’horaire, ni le tarif ne sont arrêtés. Dès qu’une soirée est calée, elle apparaît en haut de cette page.</p>
-  <div class="rdv-prep"><div><h3>Un workshop Sexto</h3><p>Le format se prépare.</p></div><div><h3>Un concert intimiste</h3><p>Le format se prépare.</p></div><div><h3>La roue du consentement</h3><p>Mieux se connaître dans nos désirs et nos limites — pas de sexualité.</p></div><div><h3>Une scène ouverte, un vendredi soir</h3><p>Le format se prépare.</p></div></div>
-  <p class="body">Vous voulez être prévenu dès qu’une date est posée, ou vous avez une proposition à nous faire ? <a href="mailto:contact@resonancesproductions.org">Écrivez-nous</a>.</p>
-  <div class="cta" style="margin-top:26px"><a class="btn ghost" href="/le-nid#agenda">Voir tout l’agenda du Nid →</a><a class="btn ghost" href="/le-nid">Découvrir Le Nid →</a></div>
-</div></section>
+<section class="rdv-block" id="instatic"><div class="wrap"><div class="kick">Vendredi 4 septembre 2026</div><h2 class="sec-title">INSTATIC Dance</h2><p class="lead">Co-créée et facilitée par Iris &amp; David.</p><dl class="rdv-facts"><div><dt>Quand</dt><dd>Vendredi 4 septembre 2026, de 19h00 à 21h30</dd></div><div><dt>Accueil</dt><dd>Portes ouvertes dès 18h45<small>Fermeture stricte des portes à 19h00</small></dd></div><div><dt>Où</dt><dd>Le Nid — Paris 20<sup>e</sup><small>29 rue des Orteaux</small></dd></div><div><dt>Tarif</dt><dd>20 €<small>Réservation en ligne</small></dd></div><div><dt>Jauge</dt><dd>25 personnes seulement<small>Très limitée</small></dd></div></dl><div class="rdv-warn"><b>Les portes ferment à 19h00, sans exception</b>, et la jauge est de <b>25 personnes</b>. Arriver à 18h45 fait partie de la soirée : une fois la traversée commencée, on n’ouvre plus.</div><p>En cette rentrée, nous avons la joie de vous ouvrir les portes du Nid, notre cocon dans le 20<sup>e</sup> arrondissement, pour une toute nouvelle expérience : une <b>INSTATIC Dance</b>, co-créée et facilitée par Iris &amp; David.</p><p>Cette soirée est une invitation à réhabiter pleinement son corps à travers un véritable <b>voyage musical en vagues</b>.</p><p>L’INSTATIC Dance, ce n’est pas une simple méditation passive : c’est une traversée complète. Attendez-vous à une exploration dynamique, où des phases d’envolées très rythmées, puissantes et vibrantes alternent avec des temps d’ancrage, de douceur et d’intériorité. Loin de la sur-stimulation du clubbing ou de la recherche de catharsis à tout prix, <b>nous dansons pour restaurer notre énergie et nourrir notre présence</b>.</p><p>Une immersion conçue à quatre mains : Iris aux platines pour tisser les vagues musicales et la guidance corporelle, rejointe par David pour faire vibrer l’espace en direct avec sa voix chantée, son handpan électronique et sa harpe.</p><p class="body"><b>Au programme</b></p><ul class="rdv-ul"><li>DJ set en vagues (du rythme soutenu à la douceur) &amp; guidance corporelle par Iris.</li><li>Créations sonores &amp; instruments live (voix, Neotone, n’goni) par David.</li><li>Danse libre, expressive et consciente, dans le respect des guidelines traditionnelles.</li><li>Un cadre intimiste et sécurisant pour danser pleinement.</li></ul><p>Venez comme vous êtes, pour faire circuler l’énergie, traverser le mouvement et recharger votre flamme intérieure.</p><div class="cta rdv-cta"><a class="btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/instatic-dance" target="_blank" rel="noopener">Réserver ma place — 20 € ↗</a><a class="btn ghost" href="#programme">Revoir les dates &#8594;</a></div></div></section><div class="divider"></div><section class="rdv-block rdv-attente" id="soiree-2026-10-02"><div class="wrap"><div class="kick">Rendez-vous mensuel</div><h2 class="sec-title">Vendredi 2 octobre 2026</h2><dl class="rdv-facts"><div><dt>Horaire</dt><dd>À préciser</dd></div><div><dt>Programme</dt><dd>En cours d’élaboration</dd></div></dl><div class="rdv-abo"><h3>Le programme n’est pas encore écrit</h3><p>Abonnez-vous à l’agenda du Nid : la soirée s’ajoutera toute seule dans votre agenda personnel dès qu’elle sera calée, avec son horaire et son programme. Gratuit, sans inscription.</p><div class="rdv-abo-act"><a class="btn" href="https://calendar.google.com/calendar/r?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1ZWIwNjA3ZTViMzNmZDUzM2I5ODRkZjJkZjYxZmU5NTE4YWIzMmVhZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener">S’abonner avec Google Agenda</a><a class="rdv-tell" href="webcal://calendar.google.com/calendar/ical/30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae%40group.calendar.google.com/public/basic.ics">Apple Calendrier, Outlook ou autre</a></div></div><div class="cta rdv-cta"><a class="btn ghost" href="#programme">Revoir les dates &#8594;</a></div></div></section><div class="divider"></div><section class="rdv-block rdv-attente" id="soiree-2026-11-07"><div class="wrap"><div class="kick">Rendez-vous mensuel</div><h2 class="sec-title">Samedi 7 novembre 2026</h2><dl class="rdv-facts"><div><dt>Horaire</dt><dd>À préciser</dd></div><div><dt>Programme</dt><dd>En cours d’élaboration</dd></div></dl><div class="rdv-abo"><h3>Le programme n’est pas encore écrit</h3><p>Abonnez-vous à l’agenda du Nid : la soirée s’ajoutera toute seule dans votre agenda personnel dès qu’elle sera calée, avec son horaire et son programme. Gratuit, sans inscription.</p><div class="rdv-abo-act"><a class="btn" href="https://calendar.google.com/calendar/r?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1ZWIwNjA3ZTViMzNmZDUzM2I5ODRkZjJkZjYxZmU5NTE4YWIzMmVhZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener">S’abonner avec Google Agenda</a><a class="rdv-tell" href="webcal://calendar.google.com/calendar/ical/30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae%40group.calendar.google.com/public/basic.ics">Apple Calendrier, Outlook ou autre</a></div></div><div class="cta rdv-cta"><a class="btn ghost" href="#programme">Revoir les dates &#8594;</a></div></div></section><div class="divider"></div><section class="rdv-block rdv-attente" id="soiree-2026-12-04"><div class="wrap"><div class="kick">Rendez-vous mensuel</div><h2 class="sec-title">Vendredi 4 décembre 2026</h2><dl class="rdv-facts"><div><dt>Horaire</dt><dd>À préciser</dd></div><div><dt>Programme</dt><dd>En cours d’élaboration</dd></div></dl><div class="rdv-abo"><h3>Le programme n’est pas encore écrit</h3><p>Abonnez-vous à l’agenda du Nid : la soirée s’ajoutera toute seule dans votre agenda personnel dès qu’elle sera calée, avec son horaire et son programme. Gratuit, sans inscription.</p><div class="rdv-abo-act"><a class="btn" href="https://calendar.google.com/calendar/r?cid=MzA3MTZkN2Y0MzczZDMzNzY5NjEyMTY1ZWIwNjA3ZTViMzNmZDUzM2I5ODRkZjJkZjYxZmU5NTE4YWIzMmVhZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener">S’abonner avec Google Agenda</a><a class="rdv-tell" href="webcal://calendar.google.com/calendar/ical/30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae%40group.calendar.google.com/public/basic.ics">Apple Calendrier, Outlook ou autre</a></div></div><div class="cta rdv-cta"><a class="btn ghost" href="#programme">Revoir les dates &#8594;</a></div></div></section>
 
 <a class="totop" href="#top" aria-label="Revenir en haut de la page">↑</a>
 
@@ -425,245 +366,6 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
   var b=document.querySelector('.totop'); if(!b) return;
   function upd(){ b.classList.toggle('on', window.scrollY>700); }
   upd(); window.addEventListener('scroll',upd,{passive:true});
-})();
-</script>
-
-<script>
-(function(){
-  var SEL='.rdv-fig img';
-  var photos=[].slice.call(document.querySelectorAll(SEL));
-  if(!photos.length||!document.body.classList) return;
-  var N=photos.length, ECH=2.2;
-  var WEBP=(function(){try{return document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp')===0}catch(e){return false}})();
-
-  function plusGrande(img,ext){
-    var lots=[],p=img.parentNode,best='',bw=-1,i,k,t,w;
-    if(p&&p.tagName==='PICTURE'){var s=p.getElementsByTagName('source');
-      for(i=0;i<s.length;i++)lots.push(s[i].getAttribute('srcset')||'');}
-    lots.push(img.getAttribute('srcset')||'');
-    for(i=0;i<lots.length;i++){var parts=lots[i].split(',');
-      for(k=0;k<parts.length;k++){t=parts[k].replace(/^\s+|\s+$/g,'').split(/\s+/);
-        if(!t[0]||t[0].slice(-ext.length).toLowerCase()!==ext) continue;
-        w=parseInt(t[1]||'0',10)||0; if(w>=bw){bw=w;best=t[0];}}}
-    return best;
-  }
-  function reduit(){return !!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);}
-
-  var dlg,track,cap,num,bP,bN,bZ,bX,slides=[],ouvert=false,idx=0,origine=null,posY=0;
-  var zImg=null,zOn=false,ztx=0,zty=0,glisse=false,bouge=false,sx=0,sy=0,btx=0,bty=0;
-  var minuteur=0,cible=-1,reparation=0;
-
-  function bouton(cls,label,txt){
-    var b=document.createElement('button');
-    b.type='button'; b.className=cls; b.setAttribute('aria-label',label); b.textContent=txt;
-    return b;
-  }
-  function div(cls){var e=document.createElement('div'); e.className=cls; return e;}
-  function relacher(){cible=-1;}
-
-  function construire(){
-    dlg=div('ph');
-    dlg.setAttribute('role','dialog');
-    dlg.setAttribute('aria-modal','true');
-    dlg.setAttribute('aria-label','Visionneuse de photos');
-    var head=div('ph-head');
-    num=document.createElement('span'); num.className='ph-num';
-    var tools=document.createElement('span'); tools.className='ph-tools';
-    bZ=bouton('ph-btn z','Agrandir la photo','+'); bZ.setAttribute('aria-pressed','false');
-    bX=bouton('ph-btn x','Fermer la visionneuse','×');
-    tools.appendChild(bZ); tools.appendChild(bX);
-    head.appendChild(num); head.appendChild(tools);
-    var body=div('ph-body');
-    track=div('ph-track');
-    bP=bouton('ph-btn ph-arw p','Photo précédente','‹');
-    bN=bouton('ph-btn ph-arw n','Photo suivante','›');
-    body.appendChild(track); body.appendChild(bP); body.appendChild(bN);
-    cap=document.createElement('p'); cap.className='ph-cap';
-    dlg.appendChild(head); dlg.appendChild(body); dlg.appendChild(cap);
-
-    photos.forEach(function(src){
-      var s=div('ph-slide'), im=document.createElement('img');
-      var jpg=plusGrande(src,'.jpg')||src.currentSrc||src.getAttribute('src')||'';
-      im.setAttribute('data-jpg',jpg);
-      im.setAttribute('data-webp',plusGrande(src,'.webp')||jpg);
-      im.alt=src.getAttribute('alt')||'';
-      var w=src.getAttribute('width'), h=src.getAttribute('height');
-      if(w&&h){im.setAttribute('width',w); im.setAttribute('height',h);}
-      im.decoding='async';
-      s.appendChild(im); track.appendChild(s); slides.push(im);
-    });
-    document.body.appendChild(dlg);
-
-    bP.addEventListener('click',function(){allerA(idx-1,true);});
-    bN.addEventListener('click',function(){allerA(idx+1,true);});
-    bZ.addEventListener('click',function(){if(zOn)dezoom();else zoomer(.5,.5);});
-    bX.addEventListener('click',fermer);
-    track.addEventListener('scroll',function(){
-      if(minuteur)return;
-      minuteur=setTimeout(function(){minuteur=0;
-        var i=Math.round(track.scrollLeft/Math.max(1,track.clientWidth));
-        if(cible>=0){if(i===cible)cible=-1; return;}
-        setIdx(i);},60);
-    });
-    track.addEventListener('wheel',relacher,{passive:true});
-    track.addEventListener('touchstart',relacher,{passive:true});
-    track.addEventListener('click',function(e){
-      var im=e.target;
-      if(im.tagName!=='IMG'){fermer();return;}
-      if(bouge)return;
-      if(zOn){dezoom();return;}
-      var r=im.getBoundingClientRect();
-      zoomer((e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height);
-    });
-    track.addEventListener('pointerdown',function(e){
-      bouge=false; relacher();
-      if(!zOn||e.target!==zImg)return;
-      glisse=true; sx=e.clientX; sy=e.clientY; btx=ztx; bty=zty;
-      zImg.style.transition='none';
-      if(zImg.setPointerCapture){try{zImg.setPointerCapture(e.pointerId);}catch(err){}}
-      e.preventDefault();
-    });
-    track.addEventListener('pointermove',function(e){
-      if(!glisse)return;
-      var dx=e.clientX-sx, dy=e.clientY-sy;
-      if(Math.abs(dx)>5||Math.abs(dy)>5)bouge=true;
-      ztx=btx+dx/ECH; zty=bty+dy/ECH; appliquer();
-    });
-    function finGlisse(){if(!glisse)return; glisse=false; if(zImg)zImg.style.transition='';}
-    track.addEventListener('pointerup',finGlisse);
-    track.addEventListener('pointercancel',finGlisse);
-    window.addEventListener('resize',function(){
-      if(!ouvert)return; dezoom(); track.scrollLeft=idx*track.clientWidth;
-    });
-  }
-
-  function charger(i){
-    for(var k=i-1;k<=i+1;k++){
-      if(k<0||k>=N)continue;
-      var im=slides[k];
-      if(im.getAttribute('src'))continue;
-      im.src=WEBP?im.getAttribute('data-webp'):im.getAttribute('data-jpg');
-    }
-  }
-  function setIdx(i){
-    i=Math.max(0,Math.min(N-1,i));
-    if(i!==idx)dezoom();
-    idx=i;
-    num.textContent=(i+1)+' / '+N;
-    cap.textContent=slides[i].alt;
-    bP.setAttribute('aria-disabled',i===0?'true':'false');
-    bN.setAttribute('aria-disabled',i===N-1?'true':'false');
-    charger(i);
-  }
-  function allerA(i,doux){
-    i=Math.max(0,Math.min(N-1,i));
-    if(i===idx&&cible<0)return;
-    dezoom();
-    cible=i;
-    var g=i*track.clientWidth;
-    if(track.scrollTo)track.scrollTo({left:g,behavior:(doux&&!reduit())?'smooth':'auto'});
-    else track.scrollLeft=g;
-    setIdx(i);
-    clearTimeout(reparation);
-    reparation=setTimeout(function(){
-      if(cible>=0&&Math.round(track.scrollLeft/Math.max(1,track.clientWidth))!==cible)
-        track.scrollLeft=cible*track.clientWidth;
-      cible=-1;
-    },450);
-  }
-  function borne(taille,cadre){
-    var d=(taille*ECH-cadre)/2;
-    return d>0?d/ECH:0;
-  }
-  function appliquer(){
-    if(!zImg||!zOn)return;
-    var mx=borne(zImg.clientWidth,track.clientWidth), my=borne(zImg.clientHeight,track.clientHeight);
-    ztx=Math.max(-mx,Math.min(mx,ztx)); zty=Math.max(-my,Math.min(my,zty));
-    zImg.style.transform='scale('+ECH+') translate('+ztx+'px,'+zty+'px)';
-  }
-  function zoomer(fx,fy){
-    zImg=slides[idx]; zOn=true;
-    ztx=-(fx-.5)*zImg.clientWidth; zty=-(fy-.5)*zImg.clientHeight;
-    zImg.classList.add('ph-zoomed'); zImg.style.touchAction='none';
-    track.style.overflowX='hidden';
-    bZ.textContent='−'; bZ.setAttribute('aria-pressed','true');
-    bZ.setAttribute('aria-label','Revenir à la taille normale');
-    appliquer();
-  }
-  function dezoom(){
-    if(!zOn)return;
-    zOn=false; glisse=false;
-    if(zImg){zImg.style.transform=''; zImg.style.touchAction=''; zImg.style.transition='';
-      zImg.classList.remove('ph-zoomed');}
-    zImg=null; ztx=0; zty=0;
-    track.style.overflowX='';
-    bZ.textContent='+'; bZ.setAttribute('aria-pressed','false');
-    bZ.setAttribute('aria-label','Agrandir la photo');
-  }
-  function boutons(){
-    return [bP,bN,bZ,bX].filter(function(b){return b.offsetWidth||b.offsetHeight;});
-  }
-  function clavier(e){
-    if(!ouvert)return;
-    if(e.key==='Escape'||e.key==='Esc'){e.preventDefault(); e.stopPropagation(); fermer(); return;}
-    if(e.key==='ArrowLeft'){e.preventDefault(); allerA(idx-1,true); return;}
-    if(e.key==='ArrowRight'){e.preventDefault(); allerA(idx+1,true); return;}
-    if(e.key==='Home'){e.preventDefault(); allerA(0,true); return;}
-    if(e.key==='End'){e.preventDefault(); allerA(N-1,true); return;}
-    if(e.key==='Tab'){
-      var f=boutons(); if(!f.length)return;
-      e.preventDefault();
-      var i=f.indexOf(document.activeElement);
-      var j=e.shiftKey?(i<=0?f.length-1:i-1):(i<0||i===f.length-1?0:i+1);
-      f[j].focus();
-    }
-  }
-  function verrouiller(){
-    posY=window.pageYOffset||document.documentElement.scrollTop||0;
-    document.body.style.top=(-posY)+'px';
-    document.body.classList.add('ph-lock');
-  }
-  function deverrouiller(){
-    document.body.classList.remove('ph-lock');
-    document.body.style.top='';
-    var d=document.documentElement, av=d.style.scrollBehavior;
-    d.style.scrollBehavior='auto';
-    window.scrollTo(0,posY);
-    d.style.scrollBehavior=av;
-  }
-  function ouvrir(i,dep){
-    if(ouvert)return;
-    if(!dlg)construire();
-    origine=dep; ouvert=true;
-    verrouiller();
-    dlg.classList.add('open');
-    clearTimeout(reparation); cible=-1;
-    track.scrollLeft=i*track.clientWidth;
-    setIdx(i);
-    document.addEventListener('keydown',clavier,true);
-    bX.focus();
-  }
-  function fermer(){
-    if(!ouvert)return;
-    ouvert=false;
-    dezoom();
-    dlg.classList.remove('open');
-    document.removeEventListener('keydown',clavier,true);
-    deverrouiller();
-    if(origine&&origine.focus){try{origine.focus({preventScroll:true});}catch(err){origine.focus();}}
-    origine=null;
-  }
-
-  photos.forEach(function(im,i){
-    im.classList.add('ph-op');
-    im.setAttribute('role','button');
-    im.setAttribute('tabindex','0');
-    im.setAttribute('aria-haspopup','dialog');
-    im.addEventListener('click',function(e){e.preventDefault(); ouvrir(i,im);});
-    im.addEventListener('keydown',function(e){
-      if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault(); ouvrir(i,im);}
-    });
-  });
 })();
 </script>
 

@@ -15,10 +15,43 @@ Le programme est en cours d'elaboration ; les DATES, elles, existent deja.
       fait est une ancre qui fait descendre la personne au bon endroit de la
       page ou il y a la description detaillee »
 
-L'ordre des trois blocs est donc IMPOSE, et il ne doit pas etre « ameliore » :
-  1. le programme en un coup d'oeil (les 4 dates) ;
-  2. l'intention des rendez-vous mensuels ;
-  3. un encart detaille par evenement, cible par les ancres du bloc 1.
+⚠️ L'ORDRE A CHANGE LE 20/08/2026, APRES UNE PREMIERE MISE EN LIGNE.
+   David a revu la page une fois publiee et a dicte une AUTRE structure, en deux
+   temps. C'est la SECONDE dictee qui fait foi ; la premiere version est gardee
+   ci-dessus comme historique, pour qu'on ne la reintroduise pas par megarde.
+
+    « apres le premier paragraphe qui se termine sur "toujours sur reservation,
+      toujours avec des intervenants differents", juste faire UN BOUTON qui
+      permet de cliquer sur "voir les prochaines dates" — comme ca ca nous amene
+      en bas sur le programme avec les prochaines dates. JUSTE UN BOUTON. Et
+      ensuite mettre L'INTENTION : c'est quoi le projet, creer du lien, explorer
+      ensemble — comme ca les gens peuvent vraiment lire et decouvrir ce qui est
+      notre intention. Et en bas de l'intention, il y a LE PROGRAMME DETAILLE de
+      chaque chose. »
+
+Le raisonnement de David, qui explique tout le reste et qu'il faut respecter :
+quelqu'un qui DECOUVRE doit pouvoir lire l'intention sans etre coupe par un
+tableau de dates ; quelqu'un qui CONNAIT DEJA et vient chercher une date a un
+bouton immediat pour sauter. Un seul chemin par intention, pas de compromis.
+
+L'ordre des blocs est donc IMPOSE, et il ne doit pas etre « ameliore » :
+  1. LE CHAPEAU d'ouverture, qui se termine par « Toujours sur reservation,
+     toujours avec des intervenants differents. » ;
+  2. UN BOUTON, ET RIEN D'AUTRE : « Voir les prochaines dates », ancre interne
+     vers `#programme`, tout en bas de la page.
+     ⚠️ « JUSTE UN BOUTON » — David insiste. Pas deux boutons, pas un bouton
+        plus une liste, pas un apercu des dates a cote. UN bouton ;
+  3. L'INTENTION developpee (`#intention`) : creer du lien, explorer ensemble,
+     les axes, les trois formats, la selection des intervenants. C'est la partie
+     qu'on vient lire ;
+  4. LE PROGRAMME (`#programme`), tout en bas : les 4 dates, chacune cliquable
+     vers son propre encart, puis UN ENCART PAR DATE dans l'ordre chronologique
+     — celui d'INSTATIC est complet, les trois autres portent « Programme en
+     cours d'elaboration ».
+
+⚠️ LES IDENTIFIANTS `intention`, `programme` et `instatic`
+   SONT ATTENDUS PAR `verif_site.py` (`MARQUEURS_UNIQUES`). Ce sont aussi des
+   adresses deja partagees. Les blocs se DEPLACENT, ils ne se renomment pas.
 
 LE SLUG : POURQUOI `/rendez-vous-mensuels`
 ------------------------------------------
@@ -67,17 +100,22 @@ TROIS CONTRADICTIONS CONNUES — REMONTEES A DAVID, PAS TRANCHEES ICI
    habituel de HelloAsso face aux robots, pas une preuve qu'il est casse. Il
    est publie tel que David l'a donne.
 
-CE QUI N'EST PAS ECRIT ICI, ET POURQUOI
----------------------------------------
-Quatre autres formats ont ete cites par David — Workshop Sexto, Concert
-intimiste, La roue du consentement, Scene ouverte du vendredi soir — SANS
-aucune date, aucun prix, aucun horaire, aucun intervenant, aucune description.
-Ils sont donc presentes en une ligne chacun, au futur, dans « Ce qui se
-prepare ». Rien n'est invente : pas de titre de remplacement, pas de duree
-« vraisemblable », pas de fourchette de tarif.
-⚠️ « La roue du consentement » porte la precision exacte de David — « mieux se
-   connaitre dans nos desirs et nos limites, pas de sexualite ». Elle cadre
-   l'atelier et evite un malentendu : elle ne doit pas etre coupee.
+CE QUI A ETE RETIRE DE LA PAGE LE 20/08/2026, SUR DEMANDE DE DAVID
+-----------------------------------------------------------------
+1. LA SECTION « CE QUI SE PREPARE » (`#a-venir`) et ses quatre formats sans
+   date — Workshop Sexto, Concert intimiste, La roue du consentement, Scene
+   ouverte du vendredi soir. Ils n'avaient ni date, ni prix, ni horaire, ni
+   intervenant : la page annoncait donc quatre choses dont on ne pouvait rien
+   dire, juste avant trois soirees dont on ne pouvait rien dire non plus.
+   ⚠️ SI CE BLOC REVIENT UN JOUR, la precision exacte de David sur « la roue du
+      consentement » revient avec lui : « mieux se connaitre dans nos desirs et
+      nos limites, pas de sexualite ». Elle cadre l'atelier et evite un
+      malentendu — elle ne se resume pas et elle ne se coupe pas.
+2. LES DEUX PHOTOS de soirees au Nid et leurs legendes, ainsi que la visionneuse
+   plein ecran qui n'existait que pour elles.
+   ⚠️ AUCUN FICHIER N'A ETE EFFACE DANS `img/` : ces photos servent toujours sur
+      `/le-nid`. Seul leur affichage ici a disparu. `og:image` n'est PAS
+      concernee : c'est la vignette de partage, elle n'est pas dans la page.
 
 LE TEXTE D'INSTATIC
 -------------------
@@ -91,27 +129,30 @@ Le corps du texte n'a pas ete reformule.
 ⚠️ SEUL AJUSTEMENT D'ORTHOGRAPHE : « neotone » -> « Neotone », le nom propre de
    l'instrument tel qu'il est ecrit sur les 30 autres pages du site. Signale a
    David dans le rapport de session.
-⚠️ « Fermeture stricte des portes a 19h00 » et « 20 places seulement » sont des
+⚠️ « Fermeture stricte des portes a 19h00 » et « 25 places seulement » sont des
    informations CRITIQUES : quelqu'un qui arrive a 19h05 n'entre pas. Elles
-   apparaissent DEUX fois — dans la ligne du programme en haut de page, et en
-   tete de l'encart — et jamais noyees dans un paragraphe.
+   apparaissent DEUX fois — dans la ligne du programme et en tete de l'encart —
+   et jamais noyees dans un paragraphe.
+⚠️ LA JAUGE EST PASSEE DE 20 A 25 le 20/08/2026 (David). Elle vit desormais
+   dans la constante `JAUGE`, une seule fois. Le TARIF, lui, reste 20 EUR.
 
 CE QUE LA PAGE PARTAGE AVEC LE RESTE DU SITE
 --------------------------------------------
 Menu (`nav_menu.py`) · hamburger (`mobile_nav.py`) · couche chaleureuse
-(`theme_chaleur.py`) · visionneuse photo (`visionneuse.py`) · bouton retour en
-haut (`retour_haut.py`, la page depasse 4 000 px sur telephone) · garde-fou
+(`theme_chaleur.py`) · bouton retour en haut (`retour_haut.py`) · garde-fou
 commentaires HTML (`verif_commentaires.py`).
+⚠️ PLUS DE `visionneuse.py` DEPUIS LE 20/08/2026 : elle n'agrandissait que les
+   deux photos, qui ont ete retirees. La reimporter sans photo ajouterait une
+   feuille de style et un script que rien n'ouvre.
 
-AUCUN FICHIER N'A ETE AJOUTE DANS `img/`. Les deux photos sont celles des
-rendez-vous mensuels deja publiees sur `/le-nid` (`soiree-au-nid-*` et
-`soiree-mensuel-2-*`) : ce sont de vraies photos de ces soirees-la. Leurs
-legendes ne disent pas qu'elles montrent INSTATIC — la soiree n'a pas encore eu
-lieu.
+CETTE PAGE N'AFFICHE AUCUNE IMAGE. Elle en declare une seule, `og:image`, qui
+est la vignette des partages (Facebook, Messenger, WhatsApp) et n'apparait
+jamais dans la page elle-meme.
 """
 import os
 import re
 import sys
+import urllib.parse
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav  # noqa: E402
@@ -119,7 +160,6 @@ import nav_menu  # noqa: E402
 import retour_haut  # bouton « retour en haut »  # noqa: E402
 import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
-import visionneuse  # visionneuse photo commune  # noqa: E402
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SLUG = 'rendez-vous-mensuels'
@@ -211,7 +251,21 @@ section{padding:92px 0}
             # et c'est une information, pas une decoration. Les puces sont
             # retirees, le compteur ne sert a rien a l'ecran.
             """.rdv-list{list-style:none;margin-top:34px;display:grid;gap:16px}
-.rdv-row{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:22px 24px;display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr) minmax(0,190px);gap:20px 26px;align-items:center}
+.rdv-row{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:18px;transition:transform .2s,border-color .2s}
+"""
+            # ⚠️ TOUTE LA LIGNE EST UN LIEN, et c'est le coeur de la demande de
+            # David (« chaque date cliquable »). La grille est donc portee par
+            # le `<a>` (`.rdv-go`), pas par le `<li>` : le lien couvre la carte
+            # entiere — cible tactile de 100 a 130 px de haut, tres au-dessus du
+            # plancher de 44 px — et il n'y a QU'UN SEUL arret de tabulation par
+            # date au lieu de deux.
+            # ⚠️ Les trois colonnes sont des `<div>` et non des `<span>` : elles
+            #    contiennent un `<h3>` et des `<p>`. Un `<a>` a le droit de
+            #    contenir du contenu de flux (il est « transparent »), un
+            #    `<span>` non — la page serait invalide.
+            """.rdv-go{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr) minmax(0,190px);gap:20px 26px;align-items:center;padding:22px 24px;border-radius:18px;color:inherit}
+.rdv-row:hover{transform:translateY(-2px);border-color:rgba(240,209,138,.5)}
+.rdv-row:hover .btn.ghost{color:#fff;border-color:var(--gold2)}
 """
             # Filet degrade de 3 px sur le cote gauche, en `--grad-v` (vertical) :
             # dans un filet haut de 120 px et large de 3, le degrade a 95deg de
@@ -232,17 +286,19 @@ section{padding:92px 0}
 .rdv-price{font-family:'Cormorant Garamond',Georgia,serif;font-size:27px;color:#fff;font-weight:600;line-height:1}
 .rdv-act .btn{padding:12px 22px;font-size:14.5px}
 """
-            # Le lien « etre prevenu » des trois dates sans programme : un lien
-            # texte, pas un bouton dore. Il ne doit pas peser autant que le seul
-            # bouton qui mene vraiment quelque part (« En savoir plus »).
-            # Cible tactile : 44 px de haut, plancher du site.
+            # Le lien « etre prevenu » : il vit maintenant DANS l'encart des
+            # trois soirees sans programme (avant le 20/08 il etait dans la
+            # ligne du programme, qui est devenue un lien entier et ne peut donc
+            # plus contenir un second lien). Lien texte et pas bouton dore : il
+            # ne doit pas peser autant que le bouton de reservation d'une soiree
+            # reellement ouverte. Cible tactile : 44 px de haut, plancher du site.
             """.rdv-tell{display:inline-flex;align-items:center;min-height:44px;color:var(--gold2);font-size:15px;text-decoration:underline;text-decoration-color:rgba(248,210,116,.42);text-underline-offset:4px}
 .rdv-tell:hover{text-decoration-color:var(--gold2)}
 """
             # Sous 860 px la ligne passe en deux colonnes (date + titre), puis en
             # une seule sous 620. Aucune valeur fixe : `minmax(0,…)` partout,
             # sinon une longue date force la grille a deborder.
-            """@media(max-width:860px){.rdv-row{grid-template-columns:minmax(0,1fr);gap:14px;padding:20px}
+            """@media(max-width:860px){.rdv-go{grid-template-columns:minmax(0,1fr);gap:14px;padding:20px}
   .rdv-act{flex-direction:row;align-items:center;gap:18px;flex-wrap:wrap}}
 """
             # --- l'intention ---------------------------------------------------
@@ -260,13 +316,6 @@ section{padding:92px 0}
 .rdv-ul li{color:#d7d4ea;font-size:16px;padding:9px 0 9px 26px;position:relative;border-bottom:1px solid rgba(255,255,255,.05)}
 .rdv-ul li:last-child{border-bottom:0}
 .rdv-ul li::before{content:"";position:absolute;left:4px;top:17px;width:7px;height:7px;background:var(--grad-warm);transform:rotate(45deg)}
-"""
-            # --- les photos ----------------------------------------------------
-            """.rdv-figs{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:20px;margin-top:34px;align-items:start}
-.rdv-fig{margin:0;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
-.rdv-fig img{display:block;width:100%;height:auto}
-.rdv-fig figcaption{color:var(--muted);font-size:13.5px;line-height:1.5;padding:12px 16px 14px;border-top:1px solid rgba(255,255,255,.06)}
-@media(max-width:760px){.rdv-figs{grid-template-columns:minmax(0,1fr)}}
 """
             # --- l'encart detaille d'un evenement -------------------------------
             # La fiche pratique (date, accueil, lieu, tarif, jauge) est en tete de
@@ -290,13 +339,34 @@ section{padding:92px 0}
 .rdv-warn b{color:var(--gold2)}
 .rdv-block h2{margin-top:4px}
 .rdv-block p{max-width:820px;color:#d7d4ea;margin-top:16px}
-.rdv-prep{display:grid;gap:14px;margin-top:30px;max-width:900px}
-.rdv-prep div{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:18px 22px;border-left:3px solid transparent;background-image:var(--grad-v),linear-gradient(var(--card),var(--card));background-size:3px 100%,100% 100%;background-repeat:no-repeat;background-position:0 0;background-origin:border-box,padding-box}
-.rdv-prep h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;color:var(--gold2);font-weight:600;line-height:1.2}
-.rdv-prep p{color:#d7d4ea;font-size:15.5px;margin-top:6px}
+"""
+            # `.rdv-cta` remplace le `style="margin-top:28px"` qui etait recopie
+            # a la main sur chaque bloc de boutons. Meme valeur, une seule
+            # source.
+            # `.rdv-attente` : les trois encarts « programme en cours
+            # d'elaboration » tiennent en cinq lignes. Leur donner les 92 px de
+            # `section` en haut ET en bas ferait trois ecrans presque vides a la
+            # suite sur telephone.
+            """.rdv-cta{margin-top:28px}
+.rdv-attente{padding:62px 0}
+"""
+            # L'encart d'abonnement des soirees non programmees. Il reprend le
+            # cadre dore de `.ag-sub` sur /le-nid — meme geste, meme allure —
+            # sans importer sa feuille de style : /le-nid met l'encart sur deux
+            # colonnes parce qu'il y a quatre arguments a lire, ici il y en a
+            # un seul et la pleine largeur serait du vide.
+            """.rdv-abo{margin-top:26px;max-width:820px;background:linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));border:1px solid rgba(216,178,90,.34);border-radius:16px;padding:22px 24px}
+.rdv-abo h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;color:#fff;font-weight:600;line-height:1.2}
+.rdv-abo p{color:#d7d4ea;font-size:15.5px;margin-top:8px;line-height:1.65}
+.rdv-abo-act{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;margin-top:16px}
+"""
+            # Le bouton unique du chapeau (« Voir les prochaines dates ») : il
+            # est SEUL, donc il porte tout le poids du raccourci. Marge un peu
+            # plus large que `.rdv-cta` pour le detacher du paragraphe.
+            """.rdv-saut{margin-top:34px}
 """)
 
-CSS = CSS + theme_chaleur.CSS + CSS_PAGE + retour_haut.css() + visionneuse.css('')
+CSS = CSS + theme_chaleur.CSS + CSS_PAGE + retour_haut.css()
 
 # --------------------------------------------------------------------------- #
 # LIENS ET ADRESSES
@@ -311,123 +381,210 @@ STATUTS = ('https://docs.google.com/document/d/'
            '1NxsbvaqHsA9VOXlN7cvsav7cxFwhsK4XCpowHb75o1w/edit?usp=sharing')
 
 
-def _prevenir(quand):
-    """Lien « etre prevenu » d'une soiree dont le programme n'est pas arrete.
+def _source_agenda():
+    """Le TEXTE de `generate_agenda_nid.py`. Jamais son import.
 
-    ⚠️ CE N'EST PAS UN BOUTON « EN SAVOIR PLUS » DEGUISE. Les trois soirees
-    d'octobre, novembre et decembre n'ont AUCUN encart : un bouton qui
-    descendrait vers du vide serait une promesse non tenue, et le projet a deja
-    eu des liens vers des ancres inexistantes. On propose donc le seul geste
-    reellement utile aujourd'hui : demander a etre prevenu. La date part dans
-    l'objet du message pour que David sache de laquelle on parle.
+    ⚠️ CE MODULE TRAVAILLE AU MOMENT DE L'IMPORT : l'importer reecrirait
+    `/le-nid`. On le lit donc comme un fichier, comme le fait `_controle_dates`.
     """
-    sujet = ('Les RDV Mensuels — être prévenu du %s' % quand)
-    return ('mailto:contact@resonancesproductions.org?subject='
-            + _url(sujet))
+    chemin = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                          'generate_agenda_nid.py')
+    with open(chemin, encoding='utf-8') as f:
+        return f.read()
 
 
-def _url(texte):
-    """Encodage pour un `mailto:` — sans dependance, comme partout sur le site."""
-    import urllib.parse
-    return urllib.parse.quote(texte, safe='')
+def _calendrier():
+    """Les deux adresses d'abonnement a l'agenda public du Nid.
+
+    ⚠️ ELLES SONT LUES CHEZ LEUR AUTEUR, PAS RECOPIEES. L'identifiant du
+    calendrier fait 79 caracteres ; une lettre de travers ne se verrait pas a
+    l'oeil, et le bouton menerait a un calendrier vide. Si `generate_agenda_nid`
+    change de calendrier, cette page suit toute seule — et si les constantes
+    disparaissent, la generation s'arrete au lieu de publier un lien mort.
+    """
+    src = _source_agenda()
+    ident = re.search(r"^CAL_ID = '([^']+)'", src, re.M)
+    sub = re.search(r"^CAL_SUB = \((.*?)\)\n", src, re.M | re.S)
+    ics = re.search(r"^CAL_WEBCAL = \((.*?)\)\n", src, re.M | re.S)
+    if not (ident and sub and ics):
+        raise SystemExit('!! ABANDON : CAL_ID / CAL_SUB / CAL_WEBCAL sont '
+                         'introuvables dans generate_agenda_nid.py — le bouton '
+                         'd’abonnement n’a plus d’adresse. Page NON ecrite.')
+    lien_google = ''.join(re.findall(r"'([^']*)'", sub.group(1)))
+    # `CAL_WEBCAL` est une expression : prefixe + l'identifiant encode + suffixe.
+    # On reprend le prefixe et le suffixe tels qu'ils sont ecrits la-bas.
+    morceaux = [m for m in re.findall(r"'([^']*)'", ics.group(1)) if m]
+    lien_ics = morceaux[0] + urllib.parse.quote(ident.group(1), safe='') + morceaux[-1]
+    if 'calendar.google.com' not in lien_google or not lien_ics.startswith('webcal://'):
+        raise SystemExit('!! ABANDON : les adresses d’abonnement relues ne '
+                         'ressemblent pas a un calendrier (%s / %s). Page NON '
+                         'ecrite.' % (lien_google[:40], lien_ics[:40]))
+    return lien_google, lien_ics
+
+
+CAL_SUB, CAL_WEBCAL = _calendrier()
 
 
 # --------------------------------------------------------------------------- #
-# LES QUATRE DATES
+# LES QUATRE SOIREES — LA SEULE SOURCE DE LA PAGE
 # --------------------------------------------------------------------------- #
-# (date ISO, jour + date en clair, horaire affiche, titre, sur-titre, sous-titre,
-#  prix affiche, ancre de l'encart detaille)
 #
-# ⚠️ `horaire`, `titre`, `prix` et `ancre` valent None tant que le programme
-#    n'est pas arrete. La page ecrit alors une phrase au FUTUR et propose
-#    « etre prevenu » — jamais un titre approchant, jamais un horaire repris de
-#    l'agenda (voir la contradiction 1 en tete de fichier), jamais un tarif.
-DATES = [
-    dict(iso='2026-09-04', jour='Vendredi 4 septembre 2026',
-         horaire='19h00 – 21h30', type='Danse',
-         titre='INSTATIC Dance',
-         sous='Co-créée et facilitée par Iris &amp; David. '
-              'Portes fermées à 19h00 · 20 places seulement.',
-         prix='20 €', ancre='instatic'),
+#   ┌──────────────────────────────────────────────────────────────────────┐
+#   │ COMPLETER UNE SOIREE, PLUS TARD — LA MARCHE A SUIVRE EN TROIS LIGNES │
+#   └──────────────────────────────────────────────────────────────────────┘
+#   1. Dans `SOIREES` ci-dessous, trouve la soiree a sa date et remplis ses
+#      champs : `titre`, `type`, `horaire`, `prix`, `sous`, puis `faits`,
+#      `alerte`, `recit`, `au_programme`, `fin`, `resa` et `resa_texte`.
+#   2. Ne touche a RIEN d'autre : des qu'une soiree a un `titre`, sa ligne du
+#      programme et son encart passent tout seuls en version complete.
+#   3. Lance `python3 sources/build.py` puis `python3 sources/verif_site.py`.
+#
+#   ⚠️ Un champ qu'on ne connait pas, ON LE LAISSE ABSENT. La page ecrit alors
+#      « Horaire a preciser », « Programme en cours d'elaboration » — jamais un
+#      titre approchant, jamais un horaire repris de l'agenda (voir la
+#      contradiction 1 en tete de fichier), jamais un tarif « vraisemblable ».
+#
+# LES CHAMPS, UN PAR UN
+#   iso ........... la date en 2026-09-04. Sert au controle contre l'agenda.
+#   jour .......... la date en clair. Le jour de la semaine a ete CALCULE.
+#   ancre ......... l'identifiant de l'encart. UNE ANCRE NE SE CHANGE PLUS une
+#                   fois la page en ligne : elle part dans les partages.
+#   --- a partir d'ici, tout est optionnel : c'est ce qui reste a remplir ---
+#   type .......... le sur-titre en petites capitales (« Danse »).
+#   titre ......... LE CHAMP PIVOT : sa presence bascule la soiree en « complete ».
+#   sous .......... la ligne de resume, sous le titre, dans le programme.
+#   horaire ....... affiche a cote de la date dans le programme.
+#   prix .......... affiche dans le programme. Le tarif detaille va dans `faits`.
+#   chapeau ....... le chapeau de l'encart, juste sous le grand titre.
+#   faits ......... la fiche pratique : (intitule, valeur, precision en petit).
+#   alerte ........ l'encadre corail. Reserve a ce qui fait qu'on entre ou non.
+#   recit ......... les paragraphes de description, dans l'ordre.
+#   au_programme .. la liste a puces « Au programme ».
+#   fin ........... le dernier paragraphe, celui qui invite.
+#   resa .......... l'adresse de la billetterie. `resa_texte` = le libelle.
+#: 🚨 LA JAUGE D'INSTATIC. Elle est passee de 20 a 25 personnes le 20/08/2026
+#: (David, apres la premiere mise en ligne). Elle est ecrite ICI et NULLE PART
+#: ailleurs : elle paraissait a trois endroits du texte, et un chiffre recopie
+#: trois fois est un chiffre corrige deux fois sur trois.
+#: ⚠️ NE PAS CONFONDRE avec le TARIF, qui vaut 20 EUR et n'a PAS change. Les
+#:    deux valaient 20 avant le 20/08 — c'est exactement le piege.
+JAUGE = 25
+
+SOIREES = [
+    dict(
+        iso='2026-09-04',
+        jour='Vendredi 4 septembre 2026',
+        ancre='instatic',
+        type='Danse',
+        titre='INSTATIC Dance',
+        horaire='19h00 – 21h30',
+        prix='20 €',
+        sous=('Co-créée et facilitée par Iris &amp; David. '
+              'Portes fermées à 19h00 · %d places seulement.' % JAUGE),
+        chapeau='Co-créée et facilitée par Iris &amp; David.',
+        # Reprise mot pour mot de l'annonce de David. L'accueil et la jauge sont
+        # dans cette fiche ET rappeles dans l'encadre juste en dessous : ce sont
+        # les deux informations qui font qu'on entre ou qu'on n'entre pas.
+        faits=[
+            ('Quand', 'Vendredi 4 septembre 2026, de 19h00 à 21h30', ''),
+            ('Accueil', 'Portes ouvertes dès 18h45',
+             'Fermeture stricte des portes à 19h00'),
+            ('Où', 'Le Nid — Paris 20<sup>e</sup>', '29 rue des Orteaux'),
+            ('Tarif', '20 €', 'Réservation en ligne'),
+            ('Jauge', '%d personnes seulement' % JAUGE, 'Très limitée'),
+        ],
+        alerte=('<b>Les portes ferment à 19h00, sans exception</b>, et la '
+                'jauge est de <b>%d personnes</b>. Arriver à 18h45 fait partie '
+                'de la soirée : une fois la traversée commencée, on n’ouvre '
+                'plus.' % JAUGE),
+        recit=[
+            'En cette rentrée, nous avons la joie de vous ouvrir les portes du '
+            'Nid, notre cocon dans le 20<sup>e</sup> arrondissement, pour une '
+            'toute nouvelle expérience : une <b>INSTATIC Dance</b>, co-créée et '
+            'facilitée par Iris &amp; David.',
+            'Cette soirée est une invitation à réhabiter pleinement son corps à '
+            'travers un véritable <b>voyage musical en vagues</b>.',
+            'L’INSTATIC Dance, ce n’est pas une simple méditation passive : '
+            'c’est une traversée complète. Attendez-vous à une exploration '
+            'dynamique, où des phases d’envolées très rythmées, puissantes et '
+            'vibrantes alternent avec des temps d’ancrage, de douceur et '
+            'd’intériorité. Loin de la sur-stimulation du clubbing ou de la '
+            'recherche de catharsis à tout prix, <b>nous dansons pour restaurer '
+            'notre énergie et nourrir notre présence</b>.',
+            'Une immersion conçue à quatre mains : Iris aux platines pour '
+            'tisser les vagues musicales et la guidance corporelle, rejointe '
+            'par David pour faire vibrer l’espace en direct avec sa voix '
+            'chantée, son handpan électronique et sa harpe.',
+        ],
+        au_programme=[
+            'DJ set en vagues (du rythme soutenu à la douceur) &amp; guidance '
+            'corporelle par Iris.',
+            'Créations sonores &amp; instruments live (voix, Neotone, n’goni) '
+            'par David.',
+            'Danse libre, expressive et consciente, dans le respect des '
+            'guidelines traditionnelles.',
+            'Un cadre intimiste et sécurisant pour danser pleinement.',
+        ],
+        fin='Venez comme vous êtes, pour faire circuler l’énergie, traverser le '
+            'mouvement et recharger votre flamme intérieure.',
+        resa=INSTATIC_RESA,
+        resa_texte='Réserver ma place — 20 € ↗',
+    ),
     dict(iso='2026-10-02', jour='Vendredi 2 octobre 2026',
-         horaire=None, type=None, titre=None, sous=None, prix=None, ancre=None),
+         ancre='soiree-2026-10-02'),
     dict(iso='2026-11-07', jour='Samedi 7 novembre 2026',
-         horaire=None, type=None, titre=None, sous=None, prix=None, ancre=None),
+         ancre='soiree-2026-11-07'),
     dict(iso='2026-12-04', jour='Vendredi 4 décembre 2026',
-         horaire=None, type=None, titre=None, sous=None, prix=None, ancre=None),
+         ancre='soiree-2026-12-04'),
 ]
 
-#: la phrase des soirees dont le programme n'est pas encore ecrit. Au FUTUR :
-#: regle du projet — ce qui n'est pas livre ne s'annonce jamais au present.
-A_VENIR = ('La proposition de cette soirée sera annoncée ici. '
-           'Le programme, l’horaire et le tarif ne sont pas encore arrêtés.')
+#: les mots de David pour une soiree dont le programme n'est pas arrete. Ils
+#: apparaissent dans la ligne du programme ET dans l'encart : c'est la meme
+#: information, et elle doit se lire aux deux endroits sans avoir a chercher.
+#: ⚠️ 20/08/2026 — ILS REMPLACENT une phrase plus longue (« La proposition de
+#:    cette soiree sera annoncee ici. Le programme, l'horaire et le tarif ne
+#:    sont pas encore arretes. »). David l'a raccourcie a ces quatre mots :
+#:    « court, net ». NE PAS LA RALLONGER, ne pas la faire suivre d'une
+#:    explication — c'est precisement ce qu'il a retire.
+EN_COURS = 'Programme en cours d’élaboration'
+
+#: 🚨 L'HORAIRE DES TROIS SOIREES NON PROGRAMMEES N'EST PAS TRANCHE.
+#: L'agenda du Nid annonce 18:30-23:30 pour les rendez-vous mensuels ; INSTATIC,
+#: qui EST un rendez-vous mensuel, est de 19h00 a 21h30. Les deux ne peuvent pas
+#: etre vrais. On n'en recopie donc AUCUN et on l'ecrit : « A préciser ».
+#: Le jour ou David tranche, cette valeur est remplacee par l'horaire reel dans
+#: le champ `horaire` de la soiree concernee, et cette constante disparait.
+HORAIRE_INCONNU = 'À préciser'
 
 
 def ligne(d):
-    """Une ligne du programme en un coup d'oeil."""
-    if d['titre']:
+    """Une ligne du programme en un coup d'oeil — la ligne ENTIERE est un lien.
+
+    ⚠️ Aucun `<a>` ne peut apparaitre a l'interieur : un lien dans un lien est
+    invalide et le second devient inatteignable au clavier. Ce qui ressemble a
+    un bouton (« En savoir plus ») est donc un `<span class="btn ghost">` : il
+    n'a pas besoin d'etre focalisable puisque toute la carte l'est deja.
+    """
+    if d.get('titre'):
         quoi = ('<span class="rdv-type">%s</span><h3>%s</h3>'
-                '<p class="rdv-sub">%s</p>' % (d['type'], d['titre'], d['sous']))
+                '<p class="rdv-sub">%s</p>'
+                % (d['type'], d['titre'], d.get('sous', '')))
         acte = ('<span class="rdv-price">%s</span>'
-                '<a class="btn ghost" href="#%s">En savoir plus</a>'
-                % (d['prix'], d['ancre']))
+                '<span class="btn ghost">En savoir plus</span>' % d['prix'])
         heures = '<span class="rdv-hours">%s</span>' % d['horaire']
     else:
-        quoi = '<p class="rdv-soon">%s</p>' % A_VENIR
-        acte = ('<a class="rdv-tell" href="%s">Être prévenu du programme</a>'
-                % _prevenir(d['jour'].split(' ', 1)[1]))
-        heures = ''
-    return ('<li class="rdv-row">'
+        quoi = '<p class="rdv-soon">%s</p>' % EN_COURS
+        acte = '<span class="btn ghost">Voir cette date</span>'
+        heures = '<span class="rdv-hours">%s</span>' % HORAIRE_INCONNU
+    return ('<li class="rdv-row"><a class="rdv-go" href="#%s">'
             '<div class="rdv-when"><span class="rdv-day">%s</span>%s</div>'
             '<div class="rdv-what">%s</div>'
             '<div class="rdv-act">%s</div>'
-            '</li>' % (d['jour'], heures, quoi, acte))
+            '</a></li>' % (d['ancre'], d['jour'], heures, quoi, acte))
 
 
 def programme():
-    return '<ol class="rdv-list">' + ''.join(ligne(d) for d in DATES) + '</ol>'
-
-
-# --------------------------------------------------------------------------- #
-# LES PHOTOS — deja publiees sur /le-nid, aucun fichier ajoute dans img/
-# --------------------------------------------------------------------------- #
-# `width` / `height` portent les dimensions de la photo D'ORIGINE et non la
-# largeur d'affichage : c'est la convention de /le-nid, et `verif_site.py` en
-# tient compte (il ne controle `width` que sur les images sans `sizes`, et
-# verifie surtout que chaque largeur annoncee dans un `srcset` correspond au
-# vrai fichier).
-PHOTOS = [
-    dict(base='/img/le-nid/soiree-au-nid', widths=(480, 900, 1400, 2000),
-         src=1400, w=2796, h=1290,
-         sizes='(max-width:760px) 100vw, 620px',
-         alt='Une soiree au Nid : le public assis au sol devant un rideau de '
-             'guirlandes lumineuses, deux musiciennes et des bougies',
-         cap='Une soirée au Nid — musique live, bougies et petit comité.'),
-    dict(base='/img/le-nid/soiree-mensuel-2', widths=(480, 900, 1400),
-         src=900, w=1500, h=2000,
-         sizes='(max-width:760px) 100vw, 380px',
-         alt='Deux musiciens assis au sol jouent de la calebasse devant un mur '
-             'de guirlandes lumineuses et un mandala lumineux, une lampe à '
-             'flamme posée entre eux',
-         cap='Un autre soir, la calebasse — d’une soirée à l’autre, la '
-             'proposition change.'),
-]
-
-
-def figure(p):
-    webp = ', '.join('%s-%d.webp %dw' % (p['base'], w, w) for w in p['widths'])
-    jpg = ', '.join('%s-%d.jpg %dw' % (p['base'], w, w) for w in p['widths'])
-    return ('<figure class="rdv-fig"><picture>'
-            '<source type="image/webp" srcset="%s" sizes="%s">'
-            '<img src="%s-%d.jpg" srcset="%s" sizes="%s" width="%d" height="%d" '
-            'loading="lazy" decoding="async" alt="%s">'
-            '</picture><figcaption>%s</figcaption></figure>'
-            % (webp, p['sizes'], p['base'], p['src'], jpg, p['sizes'],
-               p['w'], p['h'], p['alt'], p['cap']))
-
-
-def figures():
-    return '<div class="rdv-figs">' + ''.join(figure(p) for p in PHOTOS) + '</div>'
+    return '<ol class="rdv-list">' + ''.join(ligne(d) for d in SOIREES) + '</ol>'
 
 
 # --------------------------------------------------------------------------- #
@@ -462,57 +619,113 @@ def liste(items):
 
 
 # --------------------------------------------------------------------------- #
-# INSTATIC — la fiche pratique
+# LES ENCARTS — UN PAR SOIREE, DANS L'ORDRE CHRONOLOGIQUE
 # --------------------------------------------------------------------------- #
-# Reprise mot pour mot de l'annonce de David. L'accueil et la jauge sont dans
-# cette fiche ET rappeles dans l'encart d'avertissement juste en dessous : ce
-# sont les deux informations qui font qu'on entre ou qu'on n'entre pas.
-FAITS = [
-    ('Quand', 'Vendredi 4 septembre 2026, de 19h00 à 21h30', ''),
-    ('Accueil', 'Portes ouvertes dès 18h45',
-     'Fermeture stricte des portes à 19h00'),
-    ('Où', 'Le Nid — Paris 20<sup>e</sup>', '29 rue des Orteaux'),
-    ('Tarif', '20 €', 'Réservation en ligne'),
-    ('Jauge', '20 personnes seulement', 'Très limitée'),
-]
-
-AU_PROGRAMME = [
-    'DJ set en vagues (du rythme soutenu à la douceur) &amp; guidance '
-    'corporelle par Iris.',
-    'Créations sonores &amp; instruments live (voix, Neotone, n’goni) par David.',
-    'Danse libre, expressive et consciente, dans le respect des guidelines '
-    'traditionnelles.',
-    'Un cadre intimiste et sécurisant pour danser pleinement.',
-]
+# Chaque date du programme est un lien vers SON encart. Avant le 20/08/2026,
+# seule INSTATIC en avait un : les trois autres dates ne menaient nulle part,
+# donc rien n'etait cliquable. C'est ce que David a demande de reparer.
+#
+# Deux formes, et une seule bascule : la presence du champ `titre`.
+#   - soiree complete  -> `_encart_complet` : fiche pratique, encadre d'alerte,
+#     recit, « Au programme », phrase de fin, bouton de reservation ;
+#   - soiree en attente -> `_encart_attente` : la date, l'horaire, « Programme
+#     en cours d'elaboration ». Rien de plus, ce sont les mots de David.
 
 
-def faits():
+def faits(soiree):
+    """La fiche pratique en tete d'encart : ce qu'on vient chercher en arrivant."""
     return '<dl class="rdv-facts">' + ''.join(
         '<div><dt>%s</dt><dd>%s%s</dd></div>'
         % (t, v, ('<small>%s</small>' % s) if s else '')
-        for t, v, s in FAITS) + '</dl>'
+        for t, v, s in soiree['faits']) + '</dl>'
 
 
-# --------------------------------------------------------------------------- #
-# CE QUI SE PREPARE — quatre formats cites par David, SANS aucun detail
-# --------------------------------------------------------------------------- #
-# ⚠️ Ni date, ni prix, ni horaire, ni intervenant, ni description n'existent
-#    pour ces quatre-la. Une ligne chacun, au futur. Ne RIEN completer.
-PREPARE = [
-    ('Un workshop Sexto', 'Le format se prépare.'),
-    ('Un concert intimiste', 'Le format se prépare.'),
-    ('La roue du consentement',
-     'Mieux se connaître dans nos désirs et nos limites — pas de sexualité.'),
-    ('Une scène ouverte, un vendredi soir', 'Le format se prépare.'),
-]
+def _retour():
+    """Le chemin du retour : depuis un encart, on remonte au programme."""
+    return '<a class="btn ghost" href="#programme">Revoir les dates &#8594;</a>'
 
 
-def prepare():
-    return '<div class="rdv-prep">' + ''.join(
-        '<div><h3>%s</h3><p>%s</p></div>' % (t, p) for t, p in PREPARE) + '</div>'
+def _abonnement():
+    """« Etre prevenu » d'une soiree pas encore programmee.
+
+    ⚠️ CE N'ETAIT PAS CA AVANT LE 20/08/2026 : le lien ouvrait un e-mail
+    (`mailto:`) et David l'a redirige vers L'ABONNEMENT A L'AGENDA DU NID. Le
+    raisonnement se tient tout seul : un e-mail demande a quelqu'un de penser a
+    repondre, l'abonnement pose la date dans l'agenda du visiteur des qu'elle
+    existe, sans personne au milieu.
+
+    ⚠️ MEME GESTE QUE SUR `/le-nid`, VOLONTAIREMENT : meme bouton Google Agenda,
+    meme second lien pour Apple Calendrier / Outlook, memes adresses (relues
+    dans `generate_agenda_nid.py`, jamais recopiees). Quelqu'un qui a deja vu
+    l'encart de l'agenda reconnait le meme geste ici.
+    """
+    return ('<div class="rdv-abo">'
+            '<h3>Le programme n’est pas encore écrit</h3>'
+            '<p>Abonnez-vous à l’agenda du Nid : la soirée s’ajoutera toute '
+            'seule dans votre agenda personnel dès qu’elle sera calée, avec son '
+            'horaire et son programme. Gratuit, sans inscription.</p>'
+            '<div class="rdv-abo-act">'
+            '<a class="btn" href="%s" target="_blank" rel="noopener">'
+            'S’abonner avec Google Agenda</a>'
+            '<a class="rdv-tell" href="%s">Apple Calendrier, Outlook ou autre</a>'
+            '</div></div>' % (CAL_SUB, CAL_WEBCAL))
 
 
-VIS_JS = visionneuse.js('.rdv-fig img')
+def _encart_complet(d):
+    bloc = ['<section class="rdv-block" id="%s"><div class="wrap">' % d['ancre'],
+            '<div class="kick">%s</div>' % d['jour'],
+            '<h2 class="sec-title">%s</h2>' % d['titre']]
+    if d.get('chapeau'):
+        bloc.append('<p class="lead">%s</p>' % d['chapeau'])
+    if d.get('faits'):
+        bloc.append(faits(d))
+    if d.get('alerte'):
+        bloc.append('<div class="rdv-warn">%s</div>' % d['alerte'])
+    bloc += ['<p>%s</p>' % t for t in d.get('recit', [])]
+    if d.get('au_programme'):
+        bloc.append('<p class="body"><b>Au programme</b></p>')
+        bloc.append(liste(d['au_programme']))
+    if d.get('fin'):
+        bloc.append('<p>%s</p>' % d['fin'])
+    boutons = ''
+    if d.get('resa'):
+        boutons = ('<a class="btn" href="%s" target="_blank" rel="noopener">%s</a>'
+                   % (d['resa'], d['resa_texte']))
+    bloc.append('<div class="cta rdv-cta">%s%s</div>' % (boutons, _retour()))
+    bloc.append('</div></section>')
+    return ''.join(bloc)
+
+
+def _encart_attente(d):
+    """La date, l'horaire, « programme en cours d'elaboration ». Rien d'autre.
+
+    Ce sont les mots de David, et « juste » est de lui : on ne complete pas.
+
+    ⚠️ Le titre de l'encart est LA DATE, et pas « Programme en cours
+    d'elaboration » : ce dernier serait identique sur les trois encarts, et
+    quelqu'un qui navigue au clavier ou au lecteur d'ecran entendrait trois fois
+    le meme titre sans savoir de quelle soiree il s'agit. La formule de David
+    est juste en dessous, dans la fiche.
+    """
+    return ('<section class="rdv-block rdv-attente" id="%s"><div class="wrap">'
+            '<div class="kick">Rendez-vous mensuel</div>'
+            '<h2 class="sec-title">%s</h2>'
+            '<dl class="rdv-facts">'
+            '<div><dt>Horaire</dt><dd>%s</dd></div>'
+            '<div><dt>Programme</dt><dd>En cours d’élaboration</dd></div>'
+            '</dl>'
+            '%s'
+            '<div class="cta rdv-cta">%s</div>'
+            '</div></section>'
+            % (d['ancre'], d['jour'], HORAIRE_INCONNU, _abonnement(), _retour()))
+
+
+def encarts():
+    """Les quatre encarts, separes par le meme filet que le reste de la page."""
+    faits_html = [_encart_complet(d) if d.get('titre') else _encart_attente(d)
+                  for d in SOIREES]
+    return '<div class="divider"></div>'.join(faits_html)
+
 
 HTML = f"""<!DOCTYPE html>
 <html lang="fr"><head>
@@ -553,18 +766,10 @@ HTML = f"""<!DOCTYPE html>
   <h1>Les RDV Mensuels au Nid</h1>
   <div class="tagline">« Une proposition différente à chaque fois »</div>
   <p class="lead">Un soir par mois, Le Nid ouvre ses portes pour une soirée qui n’est jamais tout à fait la même : un workshop, un concert, une scène ouverte. Toujours sur réservation, toujours avec des intervenants différents.</p>
+  <div class="cta rdv-saut"><a class="btn" href="#programme">Voir les prochaines dates &#8595;</a></div>
 </div></header>
 
-<section id="programme"><div class="wrap">
-  <div class="kick">Le programme</div>
-  <h2 class="sec-title">Les prochaines dates, en un coup d’œil</h2>
-  <p class="lead">Quatre rendez-vous sont posés jusqu’en décembre. Le programme du 4 septembre est écrit et la réservation est ouverte ; les trois soirées suivantes attendent le leur, et il sera annoncé ici.</p>
-  {programme()}
-</div></section>
-
-<div class="divider"></div>
-
-<section class="band" id="intention"><div class="wrap">
+<section id="intention"><div class="wrap">
   <div class="kick">L’intention</div>
   <h2 class="sec-title">Créer du lien, et explorer ensemble</h2>
   <p class="body">Ce qui relie ces soirées entre elles, ce n’est pas une discipline : c’est une intention. <b>Créer du lien</b>, et <b>explorer</b> — sous plusieurs formes, d’un mois à l’autre.</p>
@@ -578,37 +783,20 @@ HTML = f"""<!DOCTYPE html>
     <p>La sélection des intervenants se fait par <b>Iris et David</b>. Ce sera toujours des personnes que nous connaissons, que nous avons rencontrées, dont on trouve la proposition de qualité, <b>avec du cadre, de la sécurité, du fun</b>.</p>
     <p>C’est le seul filtre, et c’est aussi tout ce qu’on peut promettre d’une soirée dont on ne connaît pas encore le contenu : nous savons qui la porte.</p>
   </div>
-  {figures()}
 </div></section>
 
 <div class="divider"></div>
 
-<section class="rdv-block" id="instatic"><div class="wrap">
-  <div class="kick">Vendredi 4 septembre 2026</div>
-  <h2 class="sec-title">INSTATIC Dance</h2>
-  <p class="lead">Co-créée et facilitée par Iris &amp; David.</p>
-  {faits()}
-  <div class="rdv-warn"><b>Les portes ferment à 19h00, sans exception</b>, et la jauge est de <b>20 personnes</b>. Arriver à 18h45 fait partie de la soirée : une fois la traversée commencée, on n’ouvre plus.</div>
-  <p>En cette rentrée, nous avons la joie de vous ouvrir les portes du Nid, notre cocon dans le 20<sup>e</sup> arrondissement, pour une toute nouvelle expérience : une <b>INSTATIC Dance</b>, co-créée et facilitée par Iris &amp; David.</p>
-  <p>Cette soirée est une invitation à réhabiter pleinement son corps à travers un véritable <b>voyage musical en vagues</b>.</p>
-  <p>L’INSTATIC Dance, ce n’est pas une simple méditation passive : c’est une traversée complète. Attendez-vous à une exploration dynamique, où des phases d’envolées très rythmées, puissantes et vibrantes alternent avec des temps d’ancrage, de douceur et d’intériorité. Loin de la sur-stimulation du clubbing ou de la recherche de catharsis à tout prix, <b>nous dansons pour restaurer notre énergie et nourrir notre présence</b>.</p>
-  <p>Une immersion conçue à quatre mains : Iris aux platines pour tisser les vagues musicales et la guidance corporelle, rejointe par David pour faire vibrer l’espace en direct avec sa voix chantée, son handpan électronique et sa harpe.</p>
-  <p class="body"><b>Au programme</b></p>
-  {liste(AU_PROGRAMME)}
-  <p>Venez comme vous êtes, pour faire circuler l’énergie, traverser le mouvement et recharger votre flamme intérieure.</p>
-  <div class="cta" style="margin-top:28px"><a class="btn" href="{INSTATIC_RESA}" target="_blank" rel="noopener">Réserver ma place — 20 € ↗</a><a class="btn ghost" href="#programme">Revoir les dates →</a></div>
+<section class="band" id="programme"><div class="wrap">
+  <div class="kick">Le programme</div>
+  <h2 class="sec-title">Les prochaines dates, en un coup d’œil</h2>
+  <p class="lead">Quatre rendez-vous sont posés jusqu’en décembre. Le programme du 4 septembre est écrit et la réservation est ouverte ; les trois soirées suivantes attendent le leur, et il sera annoncé ici. Chaque date ouvre son encart, juste en dessous.</p>
+  {programme()}
 </div></section>
 
 <div class="divider"></div>
 
-<section class="band" id="a-venir"><div class="wrap">
-  <div class="kick">Ce qui se prépare</div>
-  <h2 class="sec-title">Les prochaines propositions</h2>
-  <p class="body">Voici les formats sur lesquels nous travaillons pour les mois qui viennent. <b>Rien n’est encore daté</b> : ni le programme, ni l’horaire, ni le tarif ne sont arrêtés. Dès qu’une soirée est calée, elle apparaît en haut de cette page.</p>
-  {prepare()}
-  <p class="body">Vous voulez être prévenu dès qu’une date est posée, ou vous avez une proposition à nous faire ? <a href="mailto:contact@resonancesproductions.org">Écrivez-nous</a>.</p>
-  <div class="cta" style="margin-top:26px"><a class="btn ghost" href="/le-nid#agenda">Voir tout l’agenda du Nid →</a><a class="btn ghost" href="/le-nid">Découvrir Le Nid →</a></div>
-</div></section>
+{encarts()}
 
 {retour_haut.html()}
 <footer id="contact"><div class="wrap">
@@ -634,8 +822,7 @@ HTML = f"""<!DOCTYPE html>
   </div>
   <div class="legal">© 2026 Résonances Productions · resonancesproductions.org</div>
 </div></footer>
-{retour_haut.js()}
-{VIS_JS}</body></html>"""
+{retour_haut.js()}</body></html>"""
 
 HTML = mobile_nav.inject(HTML)
 HTML = nav_menu.inject(HTML, SLUG)
@@ -652,72 +839,139 @@ def _controle_dates():
     documente dans build.py). Une date ajoutee ou retiree la-bas arrete donc la
     generation ici, au lieu de laisser une page en retard partir en ligne.
     """
-    chemin = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                          'generate_agenda_nid.py')
-    with open(chemin, encoding='utf-8') as f:
-        src = f.read()
+    src = _source_agenda()
     vues = re.findall(r"\('(\d{4}-\d{2}-\d{2})',\s*'[^']*',\s*'[^']*',\s*'mensuel'", src)
-    attendu = [d['iso'] for d in DATES]
+    attendu = [d['iso'] for d in SOIREES]
     if vues != attendu:
         raise SystemExit(
             '!! ABANDON : les rendez-vous mensuels de generate_agenda_nid.py '
             'sont %s, cette page annonce %s. Page NON ecrite.' % (vues, attendu))
 
 
-def _controle_ancres():
-    """Chaque « En savoir plus » doit viser une ancre qui existe VRAIMENT.
+def _controle_ordre():
+    """L'ordre des blocs est celui que David a dicte. Il se verifie.
 
-    Le projet a deja publie des liens vers des ancres inexistantes. Le controle
-    est fait ici, avant l'ecriture, et refait ensuite par `verif_site.py` sur la
-    page livree — les deux ne coutent rien et ne se remplacent pas.
+    Le projet a deja « ameliore » un ordre impose et il a fallu le refaire. Le
+    controle est bete et suffisant : on compare les positions dans le texte de
+    la page livree.
+      chapeau (le bouton) -> l'intention -> le programme -> le premier encart.
+    """
+    reperes = [('le bouton « Voir les prochaines dates »',
+                'class="cta rdv-saut"'),
+               ('la section intention (le projet)', 'id="intention"'),
+               ('le programme et ses dates', 'id="programme"'),
+               ('le premier encart', 'id="%s"' % SOIREES[0]['ancre'])]
+    places = []
+    for quoi, marqueur in reperes:
+        ou = HTML.find(marqueur)
+        if ou < 0:
+            raise SystemExit('!! ABANDON : %s est introuvable dans la page. '
+                             'Page NON ecrite.' % quoi)
+        places.append((ou, quoi))
+    for (a, quoi_a), (b, quoi_b) in zip(places, places[1:]):
+        if a > b:
+            raise SystemExit('!! ABANDON : %s arrive APRES %s. L\'ordre voulu '
+                             'par David est : chapeau + bouton, puis '
+                             'l\'intention, puis le programme, puis les '
+                             'encarts. Page NON ecrite.' % (quoi_a, quoi_b))
+
+
+def _controle_ancres():
+    """Chaque date doit mener a un encart qui existe VRAIMENT.
+
+    Le projet a deja publie des liens vers des ancres inexistantes, et jusqu'au
+    20/08/2026 trois des quatre dates de cette page ne menaient nulle part. Le
+    controle est fait ici, avant l'ecriture, et refait ensuite par
+    `verif_site.py` sur la page livree — les deux ne coutent rien et ne se
+    remplacent pas.
     """
     ids = set(re.findall(r'\bid="([^"]+)"', HTML))
     for ancre in sorted(set(re.findall(r'href="#([^"]+)"', HTML))):
         if ancre not in ids:
             raise SystemExit('!! ABANDON : lien vers #%s, mais aucun bloc ne '
                              'porte cet identifiant. Page NON ecrite.' % ancre)
-    for d in DATES:
-        if d['ancre'] and d['ancre'] not in ids:
+    for d in SOIREES:
+        if not d.get('ancre'):
+            raise SystemExit('!! ABANDON : la soiree du %s n’a pas d’ancre, '
+                             'donc pas d’encart. Page NON ecrite.' % d['jour'])
+        if d['ancre'] not in ids:
             raise SystemExit('!! ABANDON : la date du %s renvoie a #%s, absente '
                              'de la page. Page NON ecrite.' % (d['jour'], d['ancre']))
-    # Une date SANS programme ne doit surtout pas porter de bouton « En savoir
-    # plus » : il descendrait vers du vide.
-    attendus = sum(1 for d in DATES if d['ancre'])
-    trouves = HTML.count('>En savoir plus</a>')
-    if trouves != attendus:
-        raise SystemExit('!! ABANDON : %d bouton(s) « En savoir plus » pour %d '
-                         'soiree(s) au programme connu. Page NON ecrite.'
-                         % (trouves, attendus))
+        if HTML.count('href="#%s"' % d['ancre']) != 1:
+            raise SystemExit('!! ABANDON : %d lien(s) vers #%s, attendu 1 (la '
+                             'ligne du programme). Page NON ecrite.'
+                             % (HTML.count('href="#%s"' % d['ancre']), d['ancre']))
+    # Autant de lignes cliquables que de soirees : une date sans lien, c'est
+    # exactement le defaut qu'on vient de corriger.
+    lignes = HTML.count('class="rdv-go"')
+    if lignes != len(SOIREES):
+        raise SystemExit('!! ABANDON : %d ligne(s) cliquable(s) pour %d '
+                         'soiree(s). Page NON ecrite.' % (lignes, len(SOIREES)))
+
+
+def _controle_jauge():
+    """La jauge d'INSTATIC est ecrite a trois endroits : elle doit dire pareil.
+
+    Elle est passee de 20 a 25 le 20/08/2026. C'est le genre de chiffre qu'on
+    corrige a un endroit sur deux — le second contredit alors le premier sur la
+    page publiee, et personne ne s'en apercoit avant la soiree.
+    ⚠️ Le TARIF vaut 20 EUR et n'a pas change : ne pas le confondre.
+    """
+    dits = re.findall(r'(\d+)\s*(?:places|personnes)', HTML)
+    faux = [n for n in dits if n != str(JAUGE)]
+    if faux:
+        raise SystemExit('!! ABANDON : la page annonce une jauge de %s alors '
+                         'que JAUGE vaut %d. Page NON ecrite.'
+                         % (' et '.join(faux), JAUGE))
+    if len(dits) != 3:
+        raise SystemExit('!! ABANDON : la jauge est annoncee %d fois, attendu 3 '
+                         '(la ligne du programme, la fiche pratique et '
+                         'l’encadre des portes). Page NON ecrite.' % len(dits))
 
 
 def _controle_structure():
     """Ce qui doit exister une fois et une seule sur la page livree."""
-    for marqueur, role in (
-            ('<h1', 'titre principal'),
-            ('id="programme"', 'le programme en un coup d’oeil'),
-            ('id="intention"', 'la section intention'),
-            ('id="instatic"', 'l’encart INSTATIC'),
-            ('id="a-venir"', 'la section « ce qui se prepare »'),
-            (INSTATIC_RESA, 'le lien de reservation HelloAsso'),
-            ('.ph{position:fixed', 'feuille de style de la visionneuse'),
-            ("var SEL='.rdv-fig img", 'script de la visionneuse'),
-            ('class="totop"', 'bouton retour en haut'),
-            ('id="top"', 'cible du bouton retour en haut'),
-    ):
+    attendus = [
+        ('<h1', 'titre principal'),
+        ('id="intention"', 'la section intention (le projet)'),
+        ('id="programme"', 'le programme et ses dates'),
+        (INSTATIC_RESA, 'le lien de reservation HelloAsso'),
+        ('class="totop"', 'bouton retour en haut'),
+        ('id="top"', 'cible du bouton retour en haut'),
+    ]
+    attendus += [('id="%s"' % d['ancre'], 'l’encart du %s' % d['jour'])
+                 for d in SOIREES]
+    for marqueur, role in attendus:
         if HTML.count(marqueur) != 1:
             raise SystemExit('!! ABANDON : %d occurrence(s) de « %s » (%s), '
                              'attendu 1. Page NON ecrite.'
                              % (HTML.count(marqueur), marqueur, role))
-    # La precision de David sur « la roue du consentement » cadre l'atelier et
-    # evite un malentendu : elle ne doit pas disparaitre a la faveur d'une
-    # reecriture.
-    if 'pas de sexualité' not in HTML:
-        raise SystemExit('!! ABANDON : la precision « pas de sexualite » de la '
-                         'roue du consentement a disparu. Page NON ecrite.')
+    # L'abonnement a l'agenda : une fois par soiree non programmee, et jamais
+    # une adresse recopiee a la main.
+    attente = sum(1 for d in SOIREES if not d.get('titre'))
+    if HTML.count('class="rdv-abo"') != attente:
+        raise SystemExit('!! ABANDON : %d encart(s) d’abonnement pour %d '
+                         'soiree(s) sans programme. Page NON ecrite.'
+                         % (HTML.count('class="rdv-abo"'), attente))
+    # Les mots de David pour une soiree pas encore programmee. Ils doivent se
+    # lire dans la ligne du programme ET dans l'encart.
+    if HTML.count(EN_COURS) != attente:
+        raise SystemExit('!! ABANDON : « %s » apparait %d fois, attendu %d (une '
+                         'par ligne de soiree sans programme). Page NON ecrite.'
+                         % (EN_COURS, HTML.count(EN_COURS), attente))
+    # ⚠️ AUCUNE IMAGE DANS CETTE PAGE depuis le 20/08/2026 (David). `og:image`
+    #    n'est pas concernee : c'est la vignette de partage, hors de la page.
+    corps = HTML.split('</head>', 1)[-1]
+    if '<img' in corps or '<picture' in corps:
+        raise SystemExit('!! ABANDON : une image est reapparue dans le corps de '
+                         'la page. David les a fait retirer le 20/08/2026. '
+                         'Page NON ecrite.')
 
 
 _controle_dates()
+_controle_ordre()
 _controle_ancres()
+_controle_jauge()
 _controle_structure()
 
 DOSSIER = os.path.join(RACINE, SLUG)
