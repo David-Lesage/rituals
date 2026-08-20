@@ -127,7 +127,7 @@ MARQUEURS_CSS_FONCTIONNELS = (
 #: caracteres ; au-dela, c'est une note de travail deguisee en marqueur.
 LONGUEUR_MAX = 60
 
-#: les 30 pages publiees (voir REPRENDRE-RESONANCES-SITE.md).
+#: les 31 pages publiees (voir REPRENDRE-RESONANCES-SITE.md).
 PAGES = (
     'index.html',
     'rituals/index.html',
@@ -136,6 +136,7 @@ PAGES = (
     'david-lesage-en-concert/index.html',
     'concerts-david-lesage/index.html',
     'le-nid/index.html',
+    'rendez-vous-mensuels/index.html',
     'le-soin-soa/index.html',
     'rythme-calebasse/index.html',
     'association/index.html',
@@ -306,7 +307,7 @@ def verifier(html, page='(page)'):
 
 
 # --------------------------------------------------------------------------- #
-# CLI : verifie les 30 pages d'un coup, sort en code d'erreur
+# CLI : verifie les 31 pages d'un coup, sort en code d'erreur
 # --------------------------------------------------------------------------- #
 
 def _controle_fichier(chemin):

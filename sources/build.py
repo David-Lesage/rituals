@@ -128,6 +128,17 @@ TABLEAU = (
         # dans le depot, et reproduit /le-nid a l'octet pres.
         bloque=None,
     ),
+    # Creee le 20/08/2026 : la page qui annonce TOUS les rendez-vous mensuels du
+    # Nid, avec « une proposition d'activite differente a chaque fois ». Les
+    # dates viennent de l'agenda de /le-nid ; le generateur RELIT
+    # `generate_agenda_nid.py` en texte (jamais par import : ce module reecrit
+    # /le-nid rien qu'en etant importe) et refuse d'ecrire si elles ont diverge.
+    dict(
+        nom='rendez-vous-mensuels', fichier='rendez-vous-mensuels/index.html',
+        generateur='generate_rdv_mensuels.py', ecrit=None,
+        passe_menu=False,  # il appelle mobile_nav puis nav_menu.inject() lui-meme
+        bloque=None,
+    ),
     dict(
         nom='le-soin-soa', fichier='le-soin-soa/index.html',
         generateur='generate_soin_soa.py', ecrit='sources/soin_soa_final.html',

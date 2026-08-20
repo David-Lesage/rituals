@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Filet de securite du site : une commande qui relit les 30 pages publiees.
+"""Filet de securite du site : une commande qui relit les 31 pages publiees.
 
     python3 sources/verif_site.py        # tout verifier
     echo $?                              # 0 = rien a signaler, 1 = probleme
@@ -58,7 +58,7 @@ import verif_commentaires  # noqa: E402  (garde-fou deja ecrit, on le reutilise)
 import nav_menu  # noqa: E402
 
 # --------------------------------------------------------------------------- #
-# LES 30 PAGES PUBLIEES  —  url visible <-> fichier sur disque
+# LES 31 PAGES PUBLIEES  —  url visible <-> fichier sur disque
 # --------------------------------------------------------------------------- #
 PAGES = (
     ('/',                        'index.html'),
@@ -68,6 +68,7 @@ PAGES = (
     ('/david-lesage-en-concert', 'david-lesage-en-concert/index.html'),
     ('/concerts-david-lesage',   'concerts-david-lesage/index.html'),
     ('/le-nid',                  'le-nid/index.html'),
+    ('/rendez-vous-mensuels',    'rendez-vous-mensuels/index.html'),
     ('/le-soin-soa',             'le-soin-soa/index.html'),
     ('/rythme-calebasse',        'rythme-calebasse/index.html'),
     ('/association',             'association/index.html'),
@@ -204,6 +205,16 @@ MARQUEURS_UNIQUES = {
         #  l'accueil — l'entree de menu et le bouton « En savoir plus ». Le
         #  bouton est garde par `generate_assoc.py`, avec sa balise entiere.)
     ),
+    # Les quatre sections de /rendez-vous-mensuels. Les deux premieres sont les
+    # CIBLES des boutons « En savoir plus » et « Revoir les dates » : si l'une
+    # d'elles disparaissait ou se dedoublait, les ancres de la page ne
+    # meneraient plus au bon endroit.
+    'rendez-vous-mensuels/index.html': (
+        ('id="programme"', 'le programme en un coup d’oeil'),
+        ('id="intention"', "section intention"),
+        ('id="instatic"', 'encart INSTATIC Dance'),
+        ('id="a-venir"', 'section « ce qui se prepare »'),
+    ),
     'association/index.html': (
         ('id="objet"', "section objet de l'association"),
         ('id="valeurs"', 'section valeurs / engagements'),
@@ -214,9 +225,14 @@ MARQUEURS_UNIQUES = {
 }
 
 #: nombre d'entrees attendu dans le menu partage (hors boutons de sous-menu) :
-#: Accueil + 4 « Sur scene » + 9 « Le Nid » + 2 « L’association » (la PAGE
+#: Accueil + 4 « Sur scene » + 10 « Le Nid » + 2 « L’association » (la PAGE
 #: /association depuis le 15/08/2026, + Guso Facile) + Contact + Adherer.
-MENU_ENTREES_ATTENDUES = 18
+#: ⚠️ 18 -> 19 le 20/08/2026 : « Les RDV Mensuels » entre dans le sous-menu
+#:    « Le Nid » (`resonances-5`). Ce nombre est ecrit EN DUR volontairement —
+#:    le deduire de `nav_menu` ferait que le controle validerait n'importe quel
+#:    menu, y compris un menu ampute. C'est un chiffre a mettre a jour a la
+#:    main, et c'est le but.
+MENU_ENTREES_ATTENDUES = 19
 
 
 # --------------------------------------------------------------------------- #
@@ -815,7 +831,7 @@ def controle_verification(pages):
 
     Posee le 15/08/2026 (code fourni par David). Elle verifie la propriete
     « prefixe d'URL » : Google ne lit la balise que sur la page demandee, donc
-    une seule pose suffit. La recopier sur les 30 pages ne verifie rien de plus
+    une seule pose suffit. La recopier sur les 31 pages ne verifie rien de plus
     et rend son retrait hasardeux — on ne saurait plus, un an apres, combien
     d'exemplaires trainent ni pourquoi.
 

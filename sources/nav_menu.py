@@ -22,8 +22,9 @@ UTILISATION
                il gagne sur `.nav .links a{font-size:14.5px}`) et un `</body>`.
 * `current`  : page affichee, une des CLES de PAGE_KEYS ci-dessous :
                'home', 'rituals', 'rituals-trio', 'e-motion',
-               'david-lesage-en-concert', 'le-nid', 'concerts-david-lesage',
-               'rythme-calebasse', 'le-soin-soa', 'association', 'guso-facile'.
+               'david-lesage-en-concert', 'le-nid', 'rendez-vous-mensuels',
+               'concerts-david-lesage', 'rythme-calebasse', 'le-soin-soa',
+               'association', 'guso-facile'.
                None => aucune entree marquee.
                La cle pose `aria-current="page"` sur la bonne entree et marque
                visuellement l'entree parente (`.nm-active`).
@@ -87,13 +88,15 @@ import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 #: resonances-4 (15/08/2026) : « L’association » ne renvoie plus a l'ancre
 #: `/#association` de l'accueil mais a la VRAIE page `/association`. David avait
 #: remarque que « Accueil » et « L’association » menaient au meme endroit.
+#: resonances-5 (20/08/2026) : entree « Les RDV Mensuels » (-> /rendez-vous-mensuels)
+#: dans le sous-menu « Le Nid ». Voir la note au-dessus de la table NID.
 #: ⚠️ Cinq generateurs lisent `nav_menu.NAV_VERSION` dans leurs garde-fous
 #:    depuis le 14/08/2026 (ils codaient `resonances-2` en dur avant, et une
 #:    montee de version les faisait tous refuser d'ecrire). Verifie AVANT cette
 #:    montee : plus aucune occurrence de « resonances-2 » ni « resonances-3 » en
 #:    dur dans sources/. `verif_site.py` et `verif_commentaires.py` suivent aussi
 #:    tout seuls (le motif de la liste blanche est ecrit SANS le numero).
-NAV_VERSION = 'resonances-4'
+NAV_VERSION = 'resonances-5'
 CSS_MARK = '/* == nav_menu.py (%s) == */' % NAV_VERSION
 CSS_END = '/* == fin nav_menu.py == */'
 #: ⚠️ CES DEUX MARQUEURS SONT FONCTIONNELS — ne jamais les retirer du HTML.
@@ -116,9 +119,21 @@ SCENE = [
     ('E-Motion', '/e-motion', 'e-motion'),
     ('David Lesage en concert', '/david-lesage-en-concert', 'david-lesage-en-concert'),
 ]
+# ⚠️ « Les RDV Mensuels » (20/08/2026) est place JUSTE APRES « Agenda », et
+#    avant les activites : les deux entrees qui parlent de DATES se suivent,
+#    puis viennent celles qui parlent de ce qu'on y fait. Le libelle est celui
+#    demande par David (« Les RDV Mensuels ») ; la page, elle, s'intitule
+#    « Les RDV Mensuels au Nid » et vit a l'adresse en toutes lettres
+#    `/rendez-vous-mensuels` (le raisonnement est en tete de
+#    `sources/generate_rdv_mensuels.py`).
+#    Une dixieme entree ne coute RIEN a la barre : le sous-menu « Le Nid » est
+#    un panneau deroulant, sa largeur ne depend pas du nombre de lignes. C'est
+#    la barre de premier niveau qui est contrainte (mesure entre 861 et
+#    1080 px), et elle ne bouge pas.
 NID = [
     ('Le Nid — Paris 20ᵉ', '/le-nid', 'le-nid'),
     ('Agenda', '/le-nid#agenda', 'le-nid'),
+    ('Les RDV Mensuels', '/rendez-vous-mensuels', 'rendez-vous-mensuels'),
     ('Présentation d’instruments', '/le-nid#instruments', 'le-nid'),
     ('Concerts au Nid', '/concerts-david-lesage', 'concerts-david-lesage'),
     ('Atelier de yoga', '/le-nid#yoga', 'le-nid'),
@@ -526,6 +541,7 @@ _PATH_KEYS = {
     'e-motion': 'e-motion',
     'david-lesage-en-concert': 'david-lesage-en-concert',
     'le-nid': 'le-nid',
+    'rendez-vous-mensuels': 'rendez-vous-mensuels',
     'concerts-david-lesage': 'concerts-david-lesage',
     'rythme-calebasse': 'rythme-calebasse',
     'le-soin-soa': 'le-soin-soa',
