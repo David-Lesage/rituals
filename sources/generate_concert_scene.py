@@ -698,8 +698,16 @@ body.lb-open{overflow:hidden}
                """.dlc-listen{margin-top:36px;max-width:860px;border-top:1px solid var(--line);padding-top:26px}
 .dlc-listen p{max-width:none;font-size:16px}
 .dlc-listen .cta{margin-top:20px}
-.dlc-listen .btn{font-size:15px;padding:12px 22px}
-@media(max-width:560px){.dlc-listen .btn{width:100%}}
+"""
+               # Les trois boutons « Ecouter » prennent l'echelle SECONDAIRE de
+               # `theme_chaleur` (16 px au lieu de 15) : ils grossissent et prennent la
+               # graisse de 700 par heritage de `.btn`, mais gardent un rembourrage
+               # resserre. Ils sont TROIS sur une meme ligne sous un paragraphe ; au
+               # rembourrage de l'appel a l'action ils passeraient sur trois lignes des
+               # 820 px (mesure). L'ecart d'un cran est aussi ce qui les tient a leur
+               # place derriere le seul bouton qui compte sur cette page.
+               + theme_chaleur.css_bouton_secondaire('.dlc-listen .btn') +
+               """@media(max-width:560px){.dlc-listen .btn{width:100%}}
 """
                # ===== Grille de vignettes live (chaque vignette ouvre le lecteur DANS la page)
                # Les vignettes sont natives en 1280x720 : la grille plafonne les colonnes bien

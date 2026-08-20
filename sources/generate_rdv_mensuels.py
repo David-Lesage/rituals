@@ -283,8 +283,14 @@ section{padding:92px 0}
 .rdv-soon{color:var(--muted);font-size:16px;font-style:italic;line-height:1.55}
 .rdv-act{display:flex;flex-direction:column;align-items:flex-start;gap:11px}
 .rdv-price{font-family:'Cormorant Garamond',Georgia,serif;font-size:27px;color:#fff;font-weight:600;line-height:1}
-.rdv-act .btn{padding:12px 22px;font-size:14.5px}
 """
+            # « En savoir plus » du programme : c'etait le plus petit texte de
+            # bouton du site (14,5 px). Il passe a l'echelle SECONDAIRE de
+            # `theme_chaleur` — 16 px, et 700 par heritage de `.btn` — en gardant
+            # un rembourrage resserre : il est dans la colonne de droite d'une
+            # ligne de programme, a cote du prix, et le rembourrage large de
+            # l'appel a l'action y ferait passer chaque ligne sur deux etages.
+            + theme_chaleur.css_bouton_secondaire('.rdv-act .btn') +
             # Le lien « etre prevenu » : il vit maintenant DANS l'encart des
             # trois soirees sans programme (avant le 20/08 il etait dans la
             # ligne du programme, qui est devenue un lien entier et ne peut donc
@@ -348,8 +354,6 @@ section{padding:92px 0}
             # suite sur telephone.
             """.rdv-cta{margin-top:28px}
 .rdv-cta-haut{justify-content:center;margin-top:22px}
-.btn-resa{font-size:18px;font-weight:700;padding:17px 34px}
-@media(max-width:520px){.btn-resa{font-size:17px;padding:16px 26px}}
 .rdv-attente{padding:62px 0}
 """
             # L'encart d'abonnement des soirees non programmees. Il reprend le
@@ -361,6 +365,24 @@ section{padding:92px 0}
 .rdv-abo h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;color:#fff;font-weight:600;line-height:1.2}
 .rdv-abo p{color:#d7d4ea;font-size:15.5px;margin-top:8px;line-height:1.65}
 .rdv-abo-act{display:flex;flex-wrap:wrap;align-items:center;gap:10px 20px;margin-top:16px}
+"""
+            # ⚠️ 20/08/2026 — LE SEUL ENDROIT DU SITE OU LE GROSSISSEMENT A CASSE
+            #    QUELQUE CHOSE, ET COMMENT C'EST RATTRAPE. « S'abonner avec Google
+            #    Agenda » fait 28 caracteres. A 390 px l'encart `.rdv-abo` laisse
+            #    288 px utiles ; a 17 px / 700 avec le rembourrage de 26 px, le
+            #    libelle demande 302 px et passait donc sur DEUX lignes (mesure :
+            #    54 px de haut avant, 92 px apres). 18 px de rembourrage le ramene
+            #    a 281 px et a une seule ligne.
+            #    C'est exactement le remede que `/le-nid` applique deja au meme
+            #    libelle (`.btn.ag-sub-btn`, 14px 18px sous 760 px) : meme
+            #    probleme, meme geste, pour que les deux pages ne divergent pas.
+            # ⚠️ SOUS ~380 px LE LIBELLE PASSERA SUR DEUX LIGNES QUOI QU'ON FASSE
+            #    (mesure a 360 px : 258 px utiles, le texte seul en demande 245).
+            #    Ce n'est pas un defaut a corriger en rognant encore : le bouton
+            #    reste dans sa carte, rien ne deborde, et le raccourcir voudrait
+            #    dire changer un texte — ce que ce chantier n'a pas le droit de
+            #    faire.
+            """@media(max-width:520px){.rdv-abo-act .btn{padding:16px 18px}}
 """
             # Le bouton unique du chapeau (« Voir les prochaines dates ») : il
             # est SEUL, donc il porte tout le poids du raccourci. Marge un peu
@@ -673,15 +695,21 @@ def _abonnement():
             '</div></div>' % (CAL_SUB, CAL_WEBCAL))
 
 
-# `.btn-resa` : les DEUX boutons de billetterie sont plus gros et plus gras
-# que les autres boutons du site (18 px / 700 au lieu de 15 px / 600), a la
-# demande de David — « le texte est trop petit ». C'est justifie : sur cette
-# page, reserver est LA seule action qui compte, tous les autres boutons ne
-# font que naviguer. Un appel a l'action doit se voir plus qu'un lien de
-# navigation.
-# ⚠️ CLASSE DEDIEE, surtout pas `.btn` : `.btn` est partage par les 31 pages
-# du site (theme_chaleur). Le grossir ici aurait grossi tous les boutons du
-# site, y compris « Adherer » sur l'accueil.
+# ⚠️ `.btn-resa` A EXISTE ICI, ET N'EXISTE PLUS (20/08/2026). Elle portait
+# 18 px / 700 / 17px 34px sur les deux boutons de billetterie, quand le reste
+# du site etait a 15 px / 600 : « le texte est trop petit », disait David. La
+# note d'alors disait « CLASSE DEDIEE, surtout pas `.btn` : le grossir ici
+# aurait grossi tous les boutons du site » — c'est exactement ce que David a
+# demande en voyant le resultat : « et de tous les boutons en general par
+# consequent ». L'echelle de `.btn-resa` est donc devenue l'echelle de `.btn`,
+# dans `theme_chaleur.CSS_BOUTONS`, et la classe a ete supprimee : deux
+# classes qui produisent la meme apparence, c'est le defaut que tout ce
+# chantier corrige.
+# ⚠️ NE PAS LA REINTRODUIRE « un cran au-dessus ». La hierarchie de cette page
+# ne passe plus par la taille mais par la COULEUR et la PLACE : le bouton de
+# reservation est le seul bouton plein (degrade chaud) de son bloc, les autres
+# sont des `.ghost` a filet. Recreer un troisieme etage de taille rouvrirait
+# le meme ecart, un niveau plus haut, sans que David l'ait valide.
 # `.rdv-cta-haut` : le bouton de reservation pose sous la fiche pratique est
 # CENTRE, a la demande de David. Il est seul sur sa ligne — contrairement au
 # bloc du bas, ou « Revoir les dates » l'accompagne — donc le centrer ne
@@ -711,7 +739,7 @@ def _encart_complet(d):
         # « — 20 € » : arrive la, on a quitte la fiche des ecrans plus haut.
         if d.get('resa'):
             bloc.append('<div class="cta rdv-cta rdv-cta-haut">'
-                        '<a class="btn btn-resa" href="%s" target="_blank"'
+                        '<a class="btn" href="%s" target="_blank"'
                         ' rel="noopener">Réserver ma place ↗</a></div>'
                         % d['resa'])
     if d.get('alerte'):
@@ -724,7 +752,7 @@ def _encart_complet(d):
         bloc.append('<p>%s</p>' % d['fin'])
     boutons = ''
     if d.get('resa'):
-        boutons = ('<a class="btn btn-resa" href="%s" target="_blank"'
+        boutons = ('<a class="btn" href="%s" target="_blank"'
                    ' rel="noopener">%s</a>'
                    % (d['resa'], d['resa_texte']))
     bloc.append('<div class="cta rdv-cta">%s%s</div>' % (boutons, _retour()))

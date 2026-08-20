@@ -514,6 +514,106 @@ seul octet.
 
 ## Journal
 
+### 2026-08-20 (3) — Les boutons grossissent sur les 31 pages, et `.btn` n'est plus écrit qu'une fois
+
+**La demande de David**, en deux messages : « le texte du bouton "réserver ma place" est trop
+petit, mets-le en gras et grossis-le », puis « et de tous les boutons en général par conséquent ».
+
+**Ce qu'on a trouvé en ouvrant le capot, et qui était le vrai sujet.** `.btn` était écrit **onze
+fois**, et les onze avaient **déjà divergé** — ce n'est pas le grossissement qui a créé l'écart :
+
+| Échelle | Où |
+|---|---|
+| 15 px / 600 / `14px 26px` / r40 | accueil, `/association`, `/le-soin-soa`, `/rendez-vous-mensuels`, `/guso-facile`, les 19 pages du blog |
+| 16 px / 600 / `14px 28px` / r40 / mh48 | `/concerts-david-lesage`, `/david-lesage-en-concert` |
+| 16 px / 600 / `15px 26px` / r40 / mh48 | `/rythme-calebasse` |
+| 16,5 px / 600 / `16px 34px` / r30 / mh44, en `inline-block` | `/e-motion` |
+| 17 px / 600 / `14px 30px` / r30 / mh48 | `/le-nid` (dans `sources/lenid_source.html`) |
+
+Le même libellé « Réserver » faisait donc **15 px sur une page et 17 px sur l'autre**. C'est
+exactement la divergence que `sources/theme_chaleur.py` a été écrit pour empêcher, et elle était
+invisible en lisant un seul fichier. ⚠️ La liste de onze qui circulait citait `theme_chaleur.py`
+(qui ne portait qu'un `border-radius`) et **oubliait `sources/lenid_source.html`** — c'est un
+fichier HTML, pas un générateur, et aucun `grep sources/*.py` ne le voit.
+
+**Où vit la définition maintenant** : `theme_chaleur.CSS_BOUTONS`, **une seule** déclaration de
+sélecteur `.btn` pour les 31 pages, plus sa variante `@media(max-width:520px)`. Les valeurs sont
+dans des constantes Python (`BOUTON_TAILLE`, `BOUTON_GRAISSE`, `BOUTON_MARGE`, …) : une seule
+écriture déplace les boutons du site entier.
+
+**Deux exceptions, traitées explicitement — c'est là que ça se joue :**
+- **`/guso-facile` n'importe pas `theme_chaleur.CSS`** (elle est l'origine du langage visuel et
+  porte sa propre copie de la couche chaleureuse). Elle importe désormais `CSS_BOUTONS`, et lui
+  seul. Sans ça elle serait restée la 31ᵉ page à l'ancienne taille, exactement comme elle avait
+  été oubliée pour `.legal` le 16/08.
+- **`/rituals` et `/rituals-trio` n'ont PAS un seul `class="btn"`** dans leur corps (vérifié).
+  Leur unique bouton d'appel à l'action est `.dlbtn` (« Télécharger le kit presse »), défini dans
+  les deux sources HTML jumelles. Il prend l'échelle via `theme_chaleur.CSS_RITUALS`, en **lisant
+  les mêmes constantes**. Sans cette ligne, deux pages sur 31 seraient restées à 15 px sans que
+  rien ne le signale.
+
+**La nouvelle échelle** — celle de `.btn-resa`, validée par David en la voyant :
+
+| Famille | Avant | Après | Pourquoi |
+|---|---|---|---|
+| `.btn`, `.dlbtn` (appel à l'action) | 15 → 17 px / 600 | **18 px / 700 / `17px 34px`** (17 px / `16px 26px` sous 520 px) | la demande |
+| `.cdl-listen .btn`, `.dlc-listen .btn`, `.rdv-act .btn` (secondaire) | 14,5–15 px / 600 | **16 px / 700 / `13px 24px`** | trois côte à côte sous un paragraphe ; au rembourrage complet ils passent sur trois lignes dès 820 px |
+| `.ag-btn`, `.ag-cal` (les 20 lignes de l'agenda) | 16 px / 500 et 400 | **17 px / 700**, rembourrage `11px 20px` / `11px 17px` | ils sont la 3ᵉ colonne d'une grille de 20 lignes : au rembourrage complet, la colonne du titre tombe sous 150 px à 390 px et chaque intitulé casse sur trois lignes |
+| `.car-btn`, `.totop`, `.lb-close`, `.burger`, `.ag-f` | — | **inchangés** | ce ne sont pas des appels à l'action mais des commandes d'interface ; leur cible tactile fait déjà ≥ 44 px et leur glyphe 20 à 34 px. Grossir `.totop` aggraverait le croisement documenté avec les liens de sommaire |
+| `.nav .adh` (« Adhérer » de la barre fixe) | 15 px / 600 | **inchangé — décision** | voir ci-dessous |
+
+**`.btn-resa` est SUPPRIMÉE** (CSS et balisage). Elle portait 18 px / 700 / `17px 34px` sur les
+deux boutons de billetterie ; c'est devenu l'échelle de `.btn`. Deux classes qui produisent la
+même apparence, c'est le défaut que tout ce chantier corrige. **Ne pas la réintroduire « un cran
+au-dessus »** : sur `/rendez-vous-mensuels` la hiérarchie passe désormais par la **couleur** et la
+**place** — le bouton de réservation est le seul bouton plein (dégradé chaud) de son bloc, les
+autres sont des `.ghost` à filet.
+
+**⚠️ `.nav .adh` n'a PAS été touchée, et c'est un choix.** Trois raisons : (1) c'est un item de
+barre de navigation, aligné sur ses six voisins à 15 px — la grossir seule la désaligne ;
+(2) c'est une **deuxième famille de duplication**, à dix copies et **déjà divergente** elle aussi
+(`padding:8px 16px` sur huit pages, `padding:0 17px` sur les deux pages concert ; point de rupture
+à 1080 px partout sauf 1340 px sur `/david-lesage-en-concert`) — la traiter ici aurait mélangé
+deux sujets dans un commit ; (3) la barre est **fixe et partagée par les 31 pages**, c'est le
+point le plus risqué du site. **Chantier à part, à ouvrir sur le même modèle que `.btn`.**
+
+**La seule page où le grossissement a cassé quelque chose**, et comment c'est rattrapé :
+`/rendez-vous-mensuels`, bouton « S'abonner avec Google Agenda » (28 caractères). À 390 px
+l'encart `.rdv-abo` laisse 288 px utiles ; à 17 px / 700 avec 26 px de rembourrage le libellé en
+demande 302 et passait **sur deux lignes** (54 px de haut avant, 92 px après). Remède : `padding:
+16px 18px` sous 520 px → 281 px, une seule ligne. C'est **exactement** le remède que `/le-nid`
+applique déjà au même libellé (`.btn.ag-sub-btn`). ⚠️ **Sous ~380 px il passera sur deux lignes
+quoi qu'on fasse** (mesure à 360 px : 258 px utiles, le texte seul en demande 245) — ce n'est pas
+à corriger en rognant encore, rien ne déborde et raccourcir voudrait dire changer un texte.
+
+**Vérifications (Chrome sans interface, pilote CDP, mesures DOM — pas de capture d'écran) :**
+- `build.py` deux passes → « Aucune page n'a changé » ; `verif_site.py` **31/31**, code 0 ;
+  `verif_commentaires.py` 31/31, code 0.
+- **0 débordement horizontal sur 31 pages × 15 largeurs** (320, 360, 390, 480, 520, 560, 640,
+  761, 800, 820, 860, 1000, 1080, 1200, 1340, 1440), soit 496 couples page × largeur.
+- **0 recouvrement** : chaque bouton amené au centre de l'écran, `elementFromPoint` sur son
+  centre et ses quatre coins, aux trois largeurs.
+- **Diff du texte visible : vide** sur les 31 pages, aux 15 largeurs.
+- Console **vide** partout.
+- Libellés sur deux lignes à 390 px : quatre, et **les quatre l'étaient déjà avant** (« Commander
+  l'album… » ×2, « Demander la fiche technique complète », « ↓ Ajouter toutes les dates… »).
+
+**Compte des définitions** : sélecteur exactement `.btn` — **11 → 1** (plus sa variante mobile).
+
+**Restent à signaler, non corrigés (hors périmètre) :**
+- `.nav .adh` : 10 copies déjà divergentes (ci-dessus).
+- `.btn:hover`, `.btn.ghost` et `footer a.btn` : ~9 copies chacune. Elles ne portent **ni taille
+  ni graisse**, et les deux premières sont repeintes juste après par la couche chaleureuse — donc
+  sans effet visible aujourd'hui. Même remède le jour où on y touchera.
+- `.dlbtn` : encore défini deux fois (`rituals_source.html`, `trio_source.html`) pour tout ce qui
+  n'est pas la taille.
+- **`sources/home_generated.html` et `sources/lenid_final.html` sont des fossiles** : aucun
+  générateur ni `build.py` ne les lit (vérifié), et ils portent encore l'ancien `.btn`. Ils
+  induiront en erreur la prochaine recherche `grep`. À supprimer avec David.
+- `/david-lesage-en-concert` : la pastille « retour en haut » croise **14 liens de sommaire** à
+  390 px et 6 à 820 px (mesuré). **Aucun bouton** n'est concerné, et le grossissement n'a rien
+  changé à ce compte — mais le défaut documenté est toujours là.
+
 ### 2026-08-20 (2) — `/rendez-vous-mensuels` : nouvelle structure, dictée par David après relecture
 
 **La page était déjà en ligne et Iris la relisait.** David l'a rouverte et a dicté un autre

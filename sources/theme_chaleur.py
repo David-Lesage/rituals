@@ -184,15 +184,62 @@ classes de CHAQUE page et vit dans son generateur, juste apres cet import.
 #    CE bloc-ci, et lui seul : une exception explicite vaut mieux qu'une
 #    31e page restee a l'ancienne taille sans que personne le voie.
 
+# =========================================================================
+# LE GROSSISSEMENT DU 20/08/2026 — demande de David
+# =========================================================================
+# « le texte du bouton "reserver ma place" est trop petit, mets-le en gras et
+#   grossis-le » — puis, dans la foulee : « et de tous les boutons en general
+#   par consequent ».
+#
+# L'echelle n'a pas ete inventee : elle a ete essayee en vrai. Les deux
+# boutons de reservation de `/rendez-vous-mensuels` ont porte une classe
+# `.btn-resa` a 18 px / 700 / 17px 34px, David l'a vue, et c'est en la voyant
+# qu'il a demande la meme chose partout. C'est donc CETTE echelle-la qui
+# monte ici, au caractere pres. `.btn-resa` a disparu dans le meme
+# mouvement : deux classes qui produisent exactement la meme apparence, c'est
+# le defaut que tout ce chantier corrige.
+#
+# ⚠️ LE RISQUE N'EST PAS LA TAILLE, C'EST LA LARGEUR. Un bouton qui gagne
+#    8 px de rembourrage de chaque cote peut deborder de sa carte, ou casser
+#    une rangee de deux boutons. Mesure a 390 / 820 / 1440 px sur les 31
+#    pages : voir le journal de `REPRENDRE-RESONANCES-SITE.md`.
+#
+# ⚠️ POURQUOI UN CRAN DE MOINS SOUS 520 px. A 390 px, `padding:17px 34px`
+#    laisse 322 px de large utile ; « S'abonner avec Google Agenda » et
+#    « Ajouter toutes les dates a mon agenda » y passent alors sur trois
+#    lignes. 16px 26px les ramene a deux. La taille du TEXTE ne perd qu'un
+#    pixel (18 -> 17), ce qui etait deja le reglage valide de `.btn-resa`.
+
 #: La taille du texte des boutons, et le rembourrage qui va avec.
 #: Une seule ecriture ici deplace les boutons des 31 pages.
-BOUTON_TAILLE = '15px'
-BOUTON_GRAISSE = '600'
-BOUTON_MARGE = '14px 26px'
+BOUTON_TAILLE = '18px'
+BOUTON_GRAISSE = '700'
+BOUTON_MARGE = '17px 34px'
 #: Sous 520 px, le meme bouton avec un cran de moins : a cette largeur une
 #: rangee de deux boutons cote a cote passe a la ligne avant de deborder.
-BOUTON_TAILLE_TEL = '15px'
-BOUTON_MARGE_TEL = '14px 26px'
+BOUTON_TAILLE_TEL = '17px'
+BOUTON_MARGE_TEL = '16px 26px'
+
+#: L'ECHELLE SECONDAIRE — pour les boutons qui vivent DANS une rangee ou une
+#: carte etroite et ne sont pas l'action principale de leur bloc : « Ecouter
+#: le lecteur Spotify » des deux pages concert, « En savoir plus » du
+#: programme de `/rendez-vous-mensuels`. Ils grossissent aussi (14,5-15 px ->
+#: 16 px) et prennent la graisse de 700 par heritage de `.btn` ; ils gardent
+#: seulement un rembourrage resserre, parce qu'ils sont deux ou trois cote a
+#: cote sous un paragraphe. Un cran d'ecart suffit a dire « secondaire » —
+#: c'est la meme logique qui a fait supprimer `.btn-resa` un cran au-dessus.
+BOUTON_TAILLE_2 = '16px'
+BOUTON_MARGE_2 = '13px 24px'
+
+
+def css_bouton_secondaire(selecteur):
+    """L'echelle secondaire, ecrite une fois pour les trois pages qui s'en servent.
+
+    `selecteur` est plus specifique que `.btn` (par ex. `.cdl-listen .btn`) :
+    c'est ce qui lui permet de gagner, quel que soit l'ordre des blocs.
+    """
+    return '%s{font-size:%s;padding:%s}\n' % (selecteur, BOUTON_TAILLE_2,
+                                              BOUTON_MARGE_2)
 
 CSS_BOUTONS = (
     # ===== l'echelle des boutons (sources/theme_chaleur.py) ==================
@@ -320,6 +367,17 @@ CSS_RITUALS = (# ===== RITUALS : declinaisons chaleureuses (15/08/2026) =====
               """.dlbtn,.car-play{background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
 .dlbtn:hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
 """
+              # ⚠️ `.dlbtn` PREND AUSSI L'ECHELLE DES BOUTONS, et c'est indispensable :
+              #    `/rituals` et `/rituals-trio` sont les DEUX SEULES pages du site ou
+              #    la classe `.btn` n'apparait pas une seule fois dans le corps (verifie).
+              #    « Telecharger le kit presse » y est le seul bouton d'appel a l'action.
+              #    Sans cette ligne, deux des 31 pages seraient restees a 15 px — et rien
+              #    ne l'aurait signale, puisque le controle porte sur `.btn`.
+              #    Les valeurs sont LUES dans les constantes ci-dessus, jamais recopiees.
+              + ('.dlbtn{font-weight:%s;font-size:%s;padding:%s;border-radius:999px}\n'
+                 '@media(max-width:520px){.dlbtn{font-size:%s;padding:%s}}\n'
+                 % (BOUTON_GRAISSE, BOUTON_TAILLE, BOUTON_MARGE,
+                    BOUTON_TAILLE_TEL, BOUTON_MARGE_TEL)) +
               # arrondis genereux — la LARGEUR des diapos n'est pas touchee
               """.figure,.aphoto,picture.aphoto,.ask .item,.third,.tbl-wrap,.lb-frame{border-radius:18px}
 .slide{border-radius:16px}

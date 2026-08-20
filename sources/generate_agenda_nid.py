@@ -425,6 +425,22 @@ def build():
 # effet visuel, mais les ecrire une seule fois changerait la page de 152 octets.
 # On les reproduit pour que la regeneration soit neutre. A nettoyer un jour avec
 # David, en verifiant la page apres — pas au detour d'une reparation.
+#
+# ⚠️ 20/08/2026 — `.ag-btn` ET `.ag-cal` NE PRENNENT PAS L'ECHELLE COMPLETE DES
+#    BOUTONS, ET C'EST UNE DECISION, PAS UN OUBLI. David a demande des boutons
+#    plus gros et plus gras « en general » ; `.btn` passe donc a 18 px / 700 /
+#    17px 34px partout (`theme_chaleur.CSS_BOUTONS`). Les 20 boutons
+#    « Reserver » de la liste d'agenda et les 20 « + .ics » qui les accompagnent
+#    prennent la GRAISSE (500 -> 700, 400 -> 700) et UN CRAN de taille
+#    (16 -> 17 px), mais gardent leur rembourrage resserre (9 -> 11 px en
+#    hauteur seulement).
+#    Pourquoi : ils ne sont pas seuls dans un bloc, ils sont la troisieme
+#    colonne d'une grille de 20 lignes. Mesure a 390 px avec le rembourrage
+#    complet : la colonne du titre tombe sous 150 px et chaque intitule
+#    d'evenement casse sur trois lignes — c'est exactement le defaut que le
+#    bloc `@media(max-width:1000px)` plus bas a ete ecrit pour eviter
+#    (« On empile, on ne rapetissit pas »).
+#    Le texte, lui, grossit bien : c'etait la demande.
 CSS = ("""
 /* ===== AGENDA DU NID ===== */
 .agenda{background:linear-gradient(180deg,var(--night),#0b0c1e)}
@@ -450,7 +466,7 @@ CSS = ("""
   .ag-sub{grid-template-columns:1fr;padding:20px 18px;gap:18px}
   .ag-sub h3{font-size:22px}
   .ag-sub-act{min-width:0}
-  .btn.ag-sub-btn{padding:14px 18px;white-space:normal}
+  .btn.ag-sub-btn{padding:16px 18px;white-space:normal}
 }
 .ag-leg{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}
 .ag-leg i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
@@ -507,14 +523,14 @@ CSS = ("""
 .ag-hour span{display:block;color:var(--muted);font-size:14px}
 .ag-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;
   border:1px solid var(--c);background:rgba(255,255,255,.05);color:var(--c);border-radius:24px;
-  padding:9px 20px;font-size:16px;font-weight:500;text-decoration:none;white-space:nowrap;
+  padding:11px 20px;font-size:17px;font-weight:700;text-decoration:none;white-space:nowrap;
   transition:background .2s,color .2s}
 .ag-btn:hover{background:var(--c);color:#12121f}
 .ag-foot{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
 .ag-tip{color:var(--muted);font-size:15px;margin-top:16px;font-style:italic}
 .ag-cal{display:inline-flex;align-items:center;justify-content:center;min-height:44px;
   border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.05);color:#e6e3f5;
-  border-radius:24px;padding:9px 17px;font-size:16px;cursor:pointer;white-space:nowrap;
+  border-radius:24px;padding:11px 17px;font-size:17px;font-weight:700;cursor:pointer;white-space:nowrap;
   font-family:inherit;transition:background .2s,color .2s,border-color .2s}
 .ag-cal:hover{background:var(--gold);color:#1a1608;border-color:var(--gold)}
 .ag-access{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:40px}
