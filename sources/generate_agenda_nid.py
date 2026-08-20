@@ -96,7 +96,11 @@ CAL_WEBCAL = ('webcal://calendar.google.com/calendar/ical/'
 # (date ISO, heure debut, heure fin, type, titre, note)
 EVENTS = [
     ('2026-08-23', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
-    ('2026-09-04', '18:30', '23:30', 'mensuel', 'Rendez-vous mensuel au Nid', ''),
+    # 20/08/2026 — David a tranche : « c'est l'horaire de l'INSTATIC qui gagne ».
+    # Ce RDV mensuel a un programme, donc il porte son nom et ses horaires reels
+    # (19h00-21h30, accueil 18h45, portes fermees a 19h00). L'agenda Google
+    # public a ete corrige en meme temps : garder les deux accordes.
+    ('2026-09-04', '19:00', '21:30', 'mensuel', 'INSTATIC Dance', 'avec Iris & David'),
     ('2026-09-06', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-09-19', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-09-20', '10:00', '12:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
@@ -219,6 +223,9 @@ TYPES = {
 CONCERT_SOLO = ('https://www.helloasso.com/associations/resonances-productions/'
                 'evenements/concert-intimiste-david-lesage-au-coeur-de-paris-1')
 URL_PAR_EVENT = {
+    # INSTATIC Dance : billetterie dediee, et non le formulaire d'adhesion.
+    ('2026-09-04', '19:00'):
+        'https://www.helloasso.com/associations/resonances-productions/evenements/instatic-dance',
     ('2026-10-10', '19:00'): CONCERT_SOLO,   # Concert — David Lesage solo
     ('2026-11-28', '18:00'): CONCERT_SOLO,   # Concert — David Lesage solo
     # Verifie sur la billetterie HelloAsso le 04/08 : elle vend bien TROIS dates
