@@ -169,7 +169,6 @@ b{color:#fff;font-weight:500}
 @media(max-width:760px){.nav .links a:not(.adh){display:none}}
 @media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
-.btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 26px;border-radius:40px;font-size:15px;transition:transform .2s,box-shadow .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 .cta{display:flex;gap:14px;flex-wrap:wrap}

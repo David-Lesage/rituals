@@ -141,6 +141,76 @@ classes de CHAQUE page et vit dans son generateur, juste apres cet import.
 #    rythme » sous 4,5:1. La liste d'agenda garde donc sa surface d'origine :
 #    voir `generate_agenda_nid.py`, qui la reepingle explicitement.
 
+# =========================================================================
+# L'ECHELLE DES BOUTONS — une seule ecriture pour les 31 pages
+# =========================================================================
+# ⚠️ CE BLOC EXISTE PARCE QUE `.btn` ETAIT ECRIT ONZE FOIS. Releve du
+#    20/08/2026, generateur par generateur, avant d'y toucher :
+#
+#      15 px / 600 / 14px 26px / r40      generate_assoc.py (accueil),
+#                                         generate_association.py,
+#                                         generate_soin_soa.py,
+#                                         generate_rdv_mensuels.py,
+#                                         generate_guso.py,
+#                                         generate_guso_blog.py
+#      16 px / 600 / 14px 28px / r40 / mh48   generate_concert_dl.py,
+#                                             generate_concert_scene.py
+#      16 px / 600 / 15px 26px / r40 / mh48   generate_rythme.py
+#      16,5 px / 600 / 16px 34px / r30 / mh44 / inline-BLOCK  generate_emotion.py
+#      17 px / 600 / 14px 30px / r30 / mh48   sources/lenid_source.html
+#
+#    CINQ echelles differentes pour une seule apparence — exactement la
+#    divergence que ce module a ete ecrit pour empecher (voir l'en-tete). Ce
+#    n'est donc PAS une divergence introduite par le grossissement : elle
+#    etait deja la, et personne ne pouvait la voir en lisant un seul fichier.
+#    Consequence mesuree : le meme bouton « Reserver » faisait 15 px sur
+#    `/rendez-vous-mensuels` et 17 px sur `/le-nid`.
+#
+# ⚠️ CE QUI N'EST PAS ICI, ET POURQUOI. `.btn:hover`, `.btn.ghost` et
+#    `footer a.btn` restent dans le socle de chaque page : ils ne portent
+#    NI taille NI graisse, et les deux premiers sont de toute facon repeints
+#    juste apres par la couche chaleureuse ci-dessous. Un seul sujet a la
+#    fois — la TAILLE — pour que le grossissement reste prouvable.
+#
+# ⚠️ OU CE BLOC ARRIVE DANS LA FEUILLE. Il est concatene dans `CSS`, donc EN
+#    FIN de feuille. Le `.btn` du socle a ete supprime de chaque generateur :
+#    il n'y a plus qu'une declaration `.btn{…}` de specificite (0,1,0) par
+#    page. Tout ce qui doit encore la surcharger le fait par une specificite
+#    superieure (`.cdl-listen .btn`, `.rdv-act .btn`, `footer a.btn`) — pas
+#    par l'ordre. Verifie page par page apres coup.
+#
+# ⚠️ `/guso-facile` N'IMPORTE PAS `CSS` (elle porte sa propre copie de la
+#    couche chaleureuse, voir `generate_guso.py`). Elle importe en revanche
+#    CE bloc-ci, et lui seul : une exception explicite vaut mieux qu'une
+#    31e page restee a l'ancienne taille sans que personne le voie.
+
+#: La taille du texte des boutons, et le rembourrage qui va avec.
+#: Une seule ecriture ici deplace les boutons des 31 pages.
+BOUTON_TAILLE = '15px'
+BOUTON_GRAISSE = '600'
+BOUTON_MARGE = '14px 26px'
+#: Sous 520 px, le meme bouton avec un cran de moins : a cette largeur une
+#: rangee de deux boutons cote a cote passe a la ligne avant de deborder.
+BOUTON_TAILLE_TEL = '15px'
+BOUTON_MARGE_TEL = '14px 26px'
+
+CSS_BOUTONS = (
+    # ===== l'echelle des boutons (sources/theme_chaleur.py) ==================
+    # Reunion des cinq definitions relevees ci-dessus : inline-flex (et non
+    # inline-block, qui ne centrait pas le contenu de /e-motion), centrage
+    # horizontal (utile des qu'une page force `width:100%` sur telephone),
+    # `gap` pour les libelles a fleche, `min-height` a 48 px (cible tactile du
+    # projet : >= 44 px) et le rayon plein, qui etait deja impose partout par
+    # la couche chaleureuse.
+    """.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;"""
+    """background:var(--gold);color:#1a1608;text-decoration:none;"""
+    """font-weight:%s;padding:%s;border-radius:999px;font-size:%s;"""
+    """min-height:48px;transition:transform .2s,box-shadow .2s}
+@media(max-width:520px){.btn{font-size:%s;padding:%s}}
+""" % (BOUTON_GRAISSE, BOUTON_MARGE, BOUTON_TAILLE,
+       BOUTON_TAILLE_TEL, BOUTON_MARGE_TEL))
+
+
 #: Couche commune. Doit etre concatenee EN FIN de la feuille de style de la
 #: page (voir le mode d'emploi ci-dessus).
 #: ⚠️ Elle REDEFINIT `--night2`, `--card`, `--gold2` et `--plum` : ces quatre
@@ -174,9 +244,10 @@ CSS = ("""
 .divider{height:2px;background:linear-gradient(90deg,transparent,rgba(216,178,90,.42) 16%,rgba(238,128,98,.5) 50%,rgba(179,143,245,.42) 84%,transparent)}
 .kick{display:inline-block;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 """
-      # boutons : le principal porte le degrade chaud, le fantome un filet dore
-      """.btn{border-radius:999px}
-.btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
+      # boutons : la taille commune d'abord (une seule ecriture, voir plus haut),
+      # puis le degrade chaud sur le principal et un filet dore sur le fantome
+      + CSS_BOUTONS +
+      """.btn:not(.ghost){background:var(--grad-warm);color:#1b1206;box-shadow:0 12px 30px -18px rgba(238,128,98,.55)}
 .btn:not(.ghost):hover{box-shadow:0 18px 40px -16px rgba(238,128,98,.65)}
 .btn.ghost{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(248,210,116,.3);color:var(--gold2)}
 .btn.ghost:hover{border-color:rgba(248,210,116,.55)}

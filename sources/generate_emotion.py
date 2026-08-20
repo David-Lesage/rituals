@@ -431,7 +431,6 @@ a{color:var(--gold2)}
 .scene-card h3{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold2);font-weight:600}
 .scene-card p{color:var(--muted);margin-top:10px;font-size:15.5px}
 .btnrow{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
-.btn{display:inline-block;background:var(--gold);color:#1a1608;padding:16px 34px;border-radius:30px;text-decoration:none;font-weight:600;font-size:16.5px;min-height:44px}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 
 /* focus clavier visible (accessibilite) */

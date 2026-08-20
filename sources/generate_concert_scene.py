@@ -1899,7 +1899,6 @@ b{color:#fff;font-weight:500}
 @media(min-width:861px) and (max-width:960px){.nav .links a[href="/#prestations"]{display:none}}
 @media(min-width:861px) and (max-width:920px){.nav .links a[href="#contact"]{display:none}}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 28px;border-radius:40px;font-size:16px;min-height:48px;transition:transform .2s,box-shadow .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 .cta{display:flex;gap:14px;flex-wrap:wrap}

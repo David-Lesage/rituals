@@ -450,7 +450,7 @@ CSS = ("""
   .ag-sub{grid-template-columns:1fr;padding:20px 18px;gap:18px}
   .ag-sub h3{font-size:22px}
   .ag-sub-act{min-width:0}
-  .ag-sub-btn{padding:14px 18px;white-space:normal}
+  .btn.ag-sub-btn{padding:14px 18px;white-space:normal}
 }
 .ag-leg{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}
 .ag-leg i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
@@ -461,6 +461,15 @@ CSS = ("""
 .ag-list{display:grid;gap:10px}
 .ag-anchor{display:block;height:0;scroll-margin-top:90px}
 """
+      # ⚠️ 20/08/2026 — `.btn.ag-sub-btn` ET NON `.ag-sub-btn` dans le bloc
+      #    @media(max-width:760px) ci-dessus. La definition de `.btn` ne vit plus
+      #    dans cette feuille : elle vient de `theme_chaleur.CSS_BOUTONS`,
+      #    concatene APRES. A specificite egale (0,1,0) c'est donc `.btn` qui
+      #    gagne, et le bouton « S'abonner avec Google Agenda » reprenait le
+      #    rembourrage large au lieu du rembourrage resserre du telephone.
+      #    Mesure : 26 px au lieu de 18 px de chaque cote a 390 px. `.btn.ag-sub-btn`
+      #    = (0,2,0), la surcharge redevient volontaire au lieu d'etre un effet
+      #    de l'ordre des blocs.
       # --- filtres : masques sans JS (tout reste visible), affiches par .ag-js ---
       """.ag-filters{display:none;flex-direction:column;gap:10px;margin-top:22px}
 .agenda.ag-js .ag-filters{display:flex}

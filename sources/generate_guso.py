@@ -1112,6 +1112,12 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import mobile_nav            # hamburger mobile              # noqa: E402
 import nav_menu              # menu de navigation partage    # noqa: E402
 import retour_haut           # bouton « retour en haut »     # noqa: E402
+# ⚠️ CETTE PAGE N'IMPORTE PAS `theme_chaleur.CSS` (elle porte sa propre copie
+#    de la couche chaleureuse, voir plus bas). Elle importe UNIQUEMENT
+#    `theme_chaleur.CSS_BOUTONS` : l'echelle des boutons doit etre la meme sur
+#    les 31 pages, et une 31e page restee a l'ancienne taille ne se verrait
+#    dans aucun controle. Exception explicite, pas un oubli.
+import theme_chaleur         # echelle commune des boutons   # noqa: E402
 import verif_commentaires    # garde-fou commentaires HTML   # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -1476,7 +1482,6 @@ b{color:#fff;font-weight:500}
 @media(max-width:760px){.nav .links a:not(.adh){display:none}}
 @media(min-width:861px) and (max-width:1080px){.nav{padding:16px 18px}.nav .brand{font-size:17px;white-space:nowrap}.nav .links{gap:9px;font-size:13px}.nav .adh{padding:8px 13px}}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
-.btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 26px;border-radius:40px;font-size:15px;transition:transform .2s,box-shadow .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 .cta{display:flex;gap:14px;flex-wrap:wrap}
@@ -1574,8 +1579,10 @@ CSS_PAGE = ("""/* ===== Guso Facile ===== */
 .lead b,.body b{color:#fff}
 """
            # boutons : le principal porte le degrade chaud, le fantome un filet dore
-           """.btn{border-radius:999px;padding:15px 28px}
-.btn svg{width:18px;height:18px;flex:0 0 auto}
+           # ⚠️ le rembourrage et la taille ne sont plus ecrits ici : ils viennent
+           #    de `theme_chaleur.CSS_BOUTONS`, seule source pour les 31 pages.
+           + theme_chaleur.CSS_BOUTONS +
+           """.btn svg{width:18px;height:18px;flex:0 0 auto}
 .acces .btn{background:var(--grad-warm);color:#1b1206;box-shadow:0 14px 34px -16px rgba(238,128,98,.6)}
 """
            # la fleche du bouton reprend la couleur du TEXTE : le degrade signature, clair, disparaissait sur le bouton clair (mesure a l'ecran)

@@ -102,7 +102,6 @@ background:radial-gradient(1100px 720px at 50% -6%,rgba(147,116,226,.28),transpa
 .hero .tag{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold2);font-size:clamp(20px,3.4vw,30px);margin-top:12px}
 .hero .sub{max-width:640px;margin:22px auto 0;color:#e7e4f5;font-size:18px}
 .hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
-.btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#1a1608;font-weight:600;padding:14px 26px;border-radius:40px;font-size:15px;transition:transform .2s,box-shadow .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(216,178,90,.28)}
 .btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
 /* association */
