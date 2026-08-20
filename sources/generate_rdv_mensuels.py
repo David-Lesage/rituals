@@ -348,6 +348,7 @@ section{padding:92px 0}
             # `section` en haut ET en bas ferait trois ecrans presque vides a la
             # suite sur telephone.
             """.rdv-cta{margin-top:28px}
+.rdv-cta-haut{justify-content:center;margin-top:22px}
 .rdv-attente{padding:62px 0}
 """
             # L'encart d'abonnement des soirees non programmees. Il reprend le
@@ -671,6 +672,13 @@ def _abonnement():
             '</div></div>' % (CAL_SUB, CAL_WEBCAL))
 
 
+# `.rdv-cta-haut` : le bouton de reservation pose sous la fiche pratique est
+# CENTRE, a la demande de David. Il est seul sur sa ligne — contrairement au
+# bloc du bas, ou « Revoir les dates » l'accompagne — donc le centrer ne
+# desequilibre rien, et ca le detache de la fiche au lieu de le coller a son
+# bord gauche.
+# ⚠️ La note est ICI et pas dans le CSS : le depot est public, et un garde-fou
+# refuse les commentaires de plus d'une ligne dans la feuille livree.
 def _encart_complet(d):
     bloc = ['<section class="rdv-block" id="%s"><div class="wrap">' % d['ancre'],
             '<div class="kick">%s</div>' % d['jour'],
@@ -679,6 +687,22 @@ def _encart_complet(d):
         bloc.append('<p class="lead">%s</p>' % d['chapeau'])
     if d.get('faits'):
         bloc.append(faits(d))
+        # UN BOUTON DE RESERVATION JUSTE SOUS LA FICHE PRATIQUE (20/08/2026)
+        # ------------------------------------------------------------------
+        # Demande de David, et elle est juste : la fiche pratique est l'endroit
+        # ou quelqu'un decide. Il vient d'y lire la date, l'heure, le lieu, le
+        # tarif et la jauge — c'est LA qu'il veut cliquer, pas apres avoir
+        # deroule trois paragraphes de recit. Le bouton du bas reste pour celui
+        # qui a tout lu ; celui-ci est pour celui qui est deja convaincu.
+        #
+        # ⚠️ SANS LE PRIX, volontairement : « Reserver ma place » tout court.
+        # Le tarif est affiche deux lignes plus haut dans la fiche ; le repeter
+        # dans le bouton ferait bafouiller la page. Le bouton du BAS, lui, garde
+        # « — 20 € » : arrive la, on a quitte la fiche des ecrans plus haut.
+        if d.get('resa'):
+            bloc.append('<div class="cta rdv-cta rdv-cta-haut">'
+                        '<a class="btn" href="%s" target="_blank" rel="noopener">'
+                        'Réserver ma place ↗</a></div>' % d['resa'])
     if d.get('alerte'):
         bloc.append('<div class="rdv-warn">%s</div>' % d['alerte'])
     bloc += ['<p>%s</p>' % t for t in d.get('recit', [])]
@@ -935,7 +959,6 @@ def _controle_structure():
         ('<h1', 'titre principal'),
         ('id="intention"', 'la section intention (le projet)'),
         ('id="programme"', 'le programme et ses dates'),
-        (INSTATIC_RESA, 'le lien de reservation HelloAsso'),
         ('class="totop"', 'bouton retour en haut'),
         ('id="top"', 'cible du bouton retour en haut'),
     ]
@@ -946,6 +969,25 @@ def _controle_structure():
             raise SystemExit('!! ABANDON : %d occurrence(s) de « %s » (%s), '
                              'attendu 1. Page NON ecrite.'
                              % (HTML.count(marqueur), marqueur, role))
+    # LE LIEN DE BILLETTERIE : DEUX FOIS, et c'est voulu (20/08/2026).
+    # Un bouton sous la fiche pratique — la ou on decide — et un en bas de
+    # l'encart, pour qui a tout lu. Le compte reste EXACT : une troisieme
+    # occurrence signifierait qu'un bouton a ete duplique par megarde, ou
+    # qu'une adresse a ete recopiee a la main au lieu d'etre lue dans
+    # INSTATIC_RESA. Les deux libelles different et c'est aussi verifie :
+    # celui du haut n'affiche pas le prix (il est deux lignes plus haut dans la
+    # fiche), celui du bas si.
+    if HTML.count(INSTATIC_RESA) != 2:
+        raise SystemExit('!! ABANDON : %d occurrence(s) du lien de billetterie, '
+                         'attendu 2 (sous la fiche pratique, et en bas de '
+                         'l’encart). Page NON ecrite.' % HTML.count(INSTATIC_RESA))
+    for libelle, ou in (('Réserver ma place ↗', 'sous la fiche pratique'),
+                        ('Réserver ma place — 20 € ↗', 'en bas de l’encart')):
+        if HTML.count('>%s<' % libelle) != 1:
+            raise SystemExit('!! ABANDON : le bouton « %s » (%s) apparait %d '
+                             'fois, attendu 1. Page NON ecrite.'
+                             % (libelle, ou, HTML.count('>%s<' % libelle)))
+
     # L'abonnement a l'agenda : une fois par soiree non programmee, et jamais
     # une adresse recopiee a la main.
     attente = sum(1 for d in SOIREES if not d.get('titre'))
