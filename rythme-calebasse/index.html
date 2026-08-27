@@ -275,6 +275,8 @@ section{padding:92px 0}
 body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 @media(max-width:600px){.ph-arw{width:46px;height:46px;font-size:28px}.ph-arw.p{left:4px}.ph-arw.n{right:4px}}
 @media(prefers-reduced-motion:reduce){.ph-slide img{transition:none}}
+.dt-vide{display:none;color:var(--muted);font-style:italic}
+.dt-plus{display:none}
 /* == nav_menu.py (resonances-5) == */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
@@ -355,6 +357,27 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 @media print{.nm-sub{display:none}}
 /* == fin nav_menu.py == */
 </style>
+<script>
+(function(){
+var F=["2026-09-20T10:00:00Z","2026-10-17T15:00:00Z","2026-11-15T16:00:00Z"],B=[["rythme-dates",[0,1,2],0,"block",0,0]],n=Date.now(),r=[],i,k,j;
+function passe(x){return Date.parse(F[x])<=n;}
+for(i=0;i<F.length;i++){if(passe(i))r.push('html [data-dt="'+i+'"]{display:none!important}');}
+for(k=0;k<B.length;k++){
+var b=B[k],v=[];
+for(j=0;j<b[1].length;j++){if(!passe(b[1][j]))v.push(b[1][j]);}
+if(!v.length){
+if(b[2])r.push('html [data-dt-bloc="'+b[0]+'"]{display:none!important}');
+if(b[3])r.push('html [data-dt-vide="'+b[0]+'"]{display:'+b[3]+'!important}');
+r.push('html [data-dt-lie="'+b[0]+'"]{display:none!important}');
+}else{
+if(b[5]){for(j=0;j<v.length;j++)r.push('html [data-dt="'+v[j]+'"]{display:'+(j<b[5]?'inline':'none')+'!important}');}
+if(b[4])r.push('html [data-dt="'+v[0]+'"] .dt-sep{display:none!important}');
+}
+}
+if(r.length&&document.head){var s=document.createElement('style');
+s.appendChild(document.createTextNode(r.join('')));document.head.appendChild(s);}
+})();
+</script>
 </head>
 <body>
 <svg class="tc-defs" aria-hidden="true" focusable="false"><defs><linearGradient id="gf-ink" gradientUnits="userSpaceOnUse" x1="3" y1="4" x2="21" y2="20"><stop offset="0" stop-color="#f8d274"/><stop offset=".42" stop-color="#d8b25a"/><stop offset=".74" stop-color="#ee8062"/><stop offset="1" stop-color="#b38ff5"/></linearGradient></defs></svg>
@@ -493,21 +516,22 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
     affichées ici parce qu’elles disent concrètement à quoi ressemble l’année — et on les rejoint
     en posant sa candidature.</p>
     <div class="dates">
-      <div class="date">
+      <div class="date" data-dt="0" data-dt-fin="2026-09-20T10:00:00Z">
         <div class="d">Dimanche 20 septembre 2026</div>
         <div class="h">10 h – 12 h</div>
         <div class="tag">Groupe de pratique engagé</div>
       </div>
-      <div class="date">
+      <div class="date" data-dt="1" data-dt-fin="2026-10-17T15:00:00Z">
         <div class="d">Samedi 17 octobre 2026</div>
         <div class="h">15 h – 17 h</div>
         <div class="tag">Groupe de pratique engagé</div>
       </div>
-      <div class="date">
+      <div class="date" data-dt="2" data-dt-fin="2026-11-15T16:00:00Z">
         <div class="d">Dimanche 15 novembre 2026</div>
         <div class="h">15 h – 17 h</div>
         <div class="tag">Groupe de pratique engagé</div>
       </div>
+      <p class="dt-vide" data-dt-vide="rythme-dates">Prochaines dates en préparation.</p>
     </div>
     <div class="note">
       <p><b>On peut rejoindre le groupe à tout moment</b>, y compris en cours d’année : il n’y a
@@ -1286,6 +1310,13 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 })();
 </script>
 
+<script>
+(function(){
+var n=Date.now(),L=document.querySelectorAll('[data-dt-fin]'),i,e;
+for(i=L.length-1;i>=0;i--){e=L[i];
+if(Date.parse(e.getAttribute('data-dt-fin'))<=n&&e.parentNode)e.parentNode.removeChild(e);}
+})();
+</script>
 <!-- nav_menu.py (resonances-5) -->
 <script>
 /* Sous-menus du menu partage (voir sources/nav_menu.py).

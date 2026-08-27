@@ -67,10 +67,12 @@ Usage :
     python3 sources/generate_concert_dl.py
     -> ecrit directement concerts-david-lesage/index.html
 """
+import datetime as dt
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import dates_a_venir  # dates passees masquees par le navigateur  # noqa: E402
 import mobile_nav  # noqa: E402
 import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import visionneuse  # visionneuse photo commune  # noqa: E402
@@ -563,10 +565,32 @@ SCENES = [
     ('Mont Korhogo', 'Côte d’Ivoire'),
 ]
 
+# --------------------------------------------------------------------------- #
+# LES DEUX DATES AU NID  —  ET LEUR DISPARITION AUTOMATIQUE (27/08/2026)
+# --------------------------------------------------------------------------- #
+# Une date n'est passee qu'a la FIN du concert : la 4e colonne est l'heure de
+# fin, et elle n'est jamais affichee. Elle n'a pas ete inventee — ce sont les
+# memes deux concerts que l'agenda de `/le-nid`, ou ils sont declares
+# 19:00-21:00 et 18:00-20:00 dans `EVENTS` (type `concert`).
+# ⚠️ GARDER LES DEUX ACCORDES. Ce fichier ne PEUT PAS lire l'agenda : importer
+#    `generate_agenda_nid` REECRIT `/le-nid` au moment meme de l'import (piege
+#    documente dans `build.py`). La valeur est donc recopiee, a la main, ici.
+# Mecanisme et limites du masquage : `sources/dates_a_venir.py` — RUSTINE.
+#
+# (le jour en clair, l'heure affichee, l'instant ISO, l'heure de FIN)
 DATES = [
-    ('Samedi 10 octobre 2026', '19 h', '2026-10-10T19:00'),
-    ('Samedi 28 novembre 2026', '18 h', '2026-11-28T18:00'),
+    ('Samedi 10 octobre 2026', '19 h', '2026-10-10T19:00', '21:00'),
+    ('Samedi 28 novembre 2026', '18 h', '2026-11-28T18:00', '20:00'),
 ]
+
+#: le registre des dates de cette page.
+REG = dates_a_venir.Registre()
+REG.declare('cdl-dates', repli='block')
+
+#: ce que la page affiche quand les deux dates sont passees. Sans lui,
+#: « Prochaines dates au Nid » surmonterait le vide, juste au-dessus du bouton
+#: de reservation — le pire endroit possible pour un blanc.
+EN_PREPARATION = 'Prochaines dates en préparation.'
 
 TOC = [
     ('#soiree', 'La soirée'),
@@ -1264,10 +1288,11 @@ f"""  <div class="cdl-listen" id="live">
   <h2 class="sec-title">Prochaines dates au Nid</h2>
   <p>Le cercle est petit : on réserve à l’avance, en ligne.</p>
   <div class="cdl-dates">
-    {''.join(f'''<div class="cdl-date">
+    {''.join(f'''<div class="cdl-date"{REG.date('cdl-dates', dt.date.fromisoformat(iso[:10]), fin)}>
       <div><div class="when"><time datetime="{iso}">{d}</time> — {h}</div><div class="where">Le Nid, Paris 20<sup>e</sup></div></div>
       <a class="btn" href="{BILLET}" target="_blank" rel="noopener">Réserver ma place</a>
-    </div>''' for d, h, iso in DATES)}
+    </div>''' for d, h, iso, fin in DATES)}
+    <p{REG.repli('cdl-dates')}>{EN_PREPARATION}</p>
   </div>
   <div class="cdl-note">
     <p>L’adresse et les précisions vous parviennent avec votre confirmation de réservation.</p>
@@ -1312,6 +1337,14 @@ f"""  <div class="cdl-listen" id="live">
 {LIGHTBOX_JS}
 {SPOTIFY_JS}
 {VISIONNEUSE_JS}</body></html>""")
+
+# La table des dates est posee APRES le gabarit, jamais dedans : une f-string
+# est evaluee de gauche a droite, et le `<head>` y est ecrit AVANT la liste des
+# dates — la table y serait donc vide. Sa place reste la FIN de `<head>`, pour
+# que le masquage soit connu avant la premiere peinture.
+HTML = HTML.replace('</style>', dates_a_venir.css() + '</style>', 1)
+HTML = HTML.replace('</body>', REG.js() + '</body>', 1)
+HTML = HTML.replace('</head>', REG.tete() + '</head>', 1)
 
 HTML = mobile_nav.inject(HTML)
 

@@ -149,12 +149,14 @@ CETTE PAGE N'AFFICHE AUCUNE IMAGE. Elle en declare une seule, `og:image`, qui
 est la vignette des partages (Facebook, Messenger, WhatsApp) et n'apparait
 jamais dans la page elle-meme.
 """
+import datetime as dt
 import os
 import re
 import sys
 import urllib.parse
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import dates_a_venir  # dates passees masquees par le navigateur  # noqa: E402
 import mobile_nav  # noqa: E402
 import nav_menu  # noqa: E402
 import retour_haut  # bouton « retour en haut »  # noqa: E402
@@ -478,6 +480,10 @@ CAL_SUB, CAL_WEBCAL = _calendrier()
 #   titre ......... LE CHAMP PIVOT : sa presence bascule la soiree en « complete ».
 #   sous .......... la ligne de resume, sous le titre, dans le programme.
 #   horaire ....... affiche a cote de la date dans le programme.
+#   fin_heure ..... 'HH:MM', l'heure a laquelle la soiree se TERMINE. Elle n'est
+#                   jamais affichee : elle sert au masquage automatique des
+#                   dates passees (voir la note en bas de ce bloc). Absente =
+#                   la soiree reste visible jusqu'a la fin de la journee.
 #   prix .......... affiche dans le programme. Le tarif detaille va dans `faits`.
 #   chapeau ....... le chapeau de l'encart, juste sous le grand titre.
 #   faits ......... la fiche pratique : (intitule, valeur, precision en petit).
@@ -494,6 +500,40 @@ CAL_SUB, CAL_WEBCAL = _calendrier()
 #:    deux valaient 20 avant le 20/08 — c'est exactement le piege.
 JAUGE = 25
 
+# --------------------------------------------------------------------------- #
+# LES DATES PASSEES DISPARAISSENT TOUTES SEULES  (27/08/2026)
+# ---------------------------------------------------------
+# Mecanisme complet — et raison pour laquelle ce n'est qu'une RUSTINE — dans
+# `sources/dates_a_venir.py`. Ici, deux elements portent chaque soiree : SA
+# LIGNE dans le programme, et SON ENCART plus bas. Les deux disparaissent
+# ensemble ; sinon la ligne renverrait vers un encart absent, ou l'inverse.
+#
+# ⚠️ LE FILET `.divider` QUI SEPARE DEUX ENCARTS EST ATTACHE A L'ENCART QUI LE
+#    PRECEDE, pas a celui qui le suit. Les dates passees sont toujours les
+#    PREMIERES de la liste : en attachant le filet a l'encart d'AVANT, effacer
+#    les premieres soirees efface aussi leurs filets et il n'en reste jamais un
+#    orphelin en tete. L'inverse (le filet attache a l'encart d'apres) laisserait
+#    un trait tout seul sous le programme.
+#
+# ⚠️ POURQUOI `fin_heure` N'EST RENSEIGNE QUE POUR INSTATIC. Une date n'est passee
+#    qu'a la FIN de l'evenement. INSTATIC finit a 21h30 — c'est ecrit et
+#    tranche. Les trois autres soirees n'ont pas d'horaire arrete (voir
+#    HORAIRE_INCONNU) : on ne va pas en inventer un pour les faire disparaitre
+#    plus tot. Sans `fin_heure`, `dates_a_venir` prend la fin de la journee, heure de
+#    Paris — la soiree reste donc affichee tout le jour J, ce qui est le seul
+#    comportement defendable quand on ne sait pas a quelle heure elle s'arrete.
+REG = dates_a_venir.Registre()
+
+#: le message affiche si les quatre dates sont passees. Ce n'est PAS
+#: « Programme en cours d'élaboration » (EN_COURS) : celui-la parle d'une soiree
+#: dont on connait la date mais pas le contenu. Ici, il n'y a plus de date.
+EN_PREPARATION = 'Prochaines dates en préparation.'
+
+
+def _jour(d):
+    return dt.date.fromisoformat(d['iso'])
+
+
 SOIREES = [
     dict(
         iso='2026-09-04',
@@ -502,6 +542,7 @@ SOIREES = [
         type='Danse',
         titre='INSTATIC Dance',
         horaire='19h00 – 21h30',
+        fin_heure='21:30',
         prix='20 €',
         sous=('Co-créée et facilitée par Iris &amp; David. '
               'Portes fermées à 19h00 · %d places seulement.' % JAUGE),
@@ -600,15 +641,25 @@ def ligne(d):
         quoi = '<p class="rdv-soon">%s</p>' % EN_COURS
         acte = '<span class="btn ghost">Voir cette date</span>'
         heures = '<span class="rdv-hours">%s</span>' % HORAIRE_INCONNU
-    return ('<li class="rdv-row"><a class="rdv-go" href="#%s">'
+    return ('<li class="rdv-row"%s><a class="rdv-go" href="#%s">'
             '<div class="rdv-when"><span class="rdv-day">%s</span>%s</div>'
             '<div class="rdv-what">%s</div>'
             '<div class="rdv-act">%s</div>'
-            '</a></li>' % (d['ancre'], d['jour'], heures, quoi, acte))
+            '</a></li>' % (REG.date('rdv-programme', _jour(d), d.get('fin_heure')),
+                           d['ancre'], d['jour'], heures, quoi, acte))
 
 
 def programme():
-    return '<ol class="rdv-list">' + ''.join(ligne(d) for d in SOIREES) + '</ol>'
+    """Les quatre lignes, plus le message de repli si les quatre sont passees.
+
+    Le repli est un `<li>` : il vit dans la meme liste, donc il occupe la place
+    exacte des lignes, sans laisser « Les prochaines dates, en un coup d'oeil »
+    au-dessus du vide.
+    """
+    REG.declare('rdv-programme', repli='block')
+    return ('<ol class="rdv-list">' + ''.join(ligne(d) for d in SOIREES)
+            + '<li%s>%s</li>' % (REG.repli('rdv-programme'), EN_PREPARATION)
+            + '</ol>')
 
 
 # --------------------------------------------------------------------------- #
@@ -717,8 +768,9 @@ def _abonnement():
 # bord gauche.
 # ⚠️ La note est ICI et pas dans le CSS : le depot est public, et un garde-fou
 # refuse les commentaires de plus d'une ligne dans la feuille livree.
-def _encart_complet(d):
-    bloc = ['<section class="rdv-block" id="%s"><div class="wrap">' % d['ancre'],
+def _encart_complet(d, marque=''):
+    bloc = ['<section class="rdv-block" id="%s"%s><div class="wrap">'
+            % (d['ancre'], marque),
             '<div class="kick">%s</div>' % d['jour'],
             '<h2 class="sec-title">%s</h2>' % d['titre']]
     if d.get('chapeau'):
@@ -748,7 +800,7 @@ def _encart_complet(d):
     if d.get('au_programme'):
         bloc.append('<p class="body"><b>Au programme</b></p>')
         bloc.append(liste(d['au_programme']))
-    if d.get('fin'):
+    if d.get('fin_heure'):
         bloc.append('<p>%s</p>' % d['fin'])
     boutons = ''
     if d.get('resa'):
@@ -760,7 +812,7 @@ def _encart_complet(d):
     return ''.join(bloc)
 
 
-def _encart_attente(d):
+def _encart_attente(d, marque=''):
     """La date, l'horaire, « programme en cours d'elaboration ». Rien d'autre.
 
     Ce sont les mots de David, et « juste » est de lui : on ne complete pas.
@@ -771,7 +823,7 @@ def _encart_attente(d):
     le meme titre sans savoir de quelle soiree il s'agit. La formule de David
     est juste en dessous, dans la fiche.
     """
-    return ('<section class="rdv-block rdv-attente" id="%s"><div class="wrap">'
+    return ('<section class="rdv-block rdv-attente" id="%s"%s><div class="wrap">'
             '<div class="kick">Rendez-vous mensuel</div>'
             '<h2 class="sec-title">%s</h2>'
             '<dl class="rdv-facts">'
@@ -781,14 +833,26 @@ def _encart_attente(d):
             '%s'
             '<div class="cta rdv-cta">%s</div>'
             '</div></section>'
-            % (d['ancre'], d['jour'], HORAIRE_INCONNU, _abonnement(), _retour()))
+            % (d['ancre'], marque, d['jour'], HORAIRE_INCONNU, _abonnement(),
+               _retour()))
 
 
 def encarts():
-    """Les quatre encarts, separes par le meme filet que le reste de la page."""
-    faits_html = [_encart_complet(d) if d.get('titre') else _encart_attente(d)
-                  for d in SOIREES]
-    return '<div class="divider"></div>'.join(faits_html)
+    """Les quatre encarts, separes par le meme filet que le reste de la page.
+
+    ⚠️ LE FILET EST ATTACHE A L'ENCART QUI LE PRECEDE et porte LES MEMES
+    attributs de date : quand une soiree passee disparait, son filet part avec
+    elle. Les dates passees etant toujours les premieres de la liste, il ne
+    reste jamais un trait orphelin. Voir la note en tete de SOIREES.
+    """
+    morceaux = []
+    for k, d in enumerate(SOIREES):
+        marque = REG.date('rdv-encarts', _jour(d), d.get('fin_heure'))
+        morceaux.append(_encart_complet(d, marque) if d.get('titre')
+                        else _encart_attente(d, marque))
+        if k < len(SOIREES) - 1:
+            morceaux.append('<div class="divider"%s></div>' % marque)
+    return ''.join(morceaux)
 
 
 HTML = f"""<!DOCTYPE html>
@@ -886,7 +950,16 @@ HTML = f"""<!DOCTYPE html>
   </div>
   <div class="legal">© 2026 Résonances Productions · resonancesproductions.org</div>
 </div></footer>
-{retour_haut.js()}</body></html>"""
+{retour_haut.js()}{REG.js()}</body></html>"""
+
+# ⚠️ LA TABLE DES DATES EST POSEE ICI, ET PAS DANS LE GABARIT CI-DESSUS. Une
+# f-string est evaluee de GAUCHE A DROITE : ecrite dans le `<head>`, elle serait
+# construite AVANT `{programme()}` et `{encarts()}`, donc avant que la moindre
+# date n'ait ete enregistree — la table serait vide et rien ne serait masque.
+# Elle doit etre en FIN DE `<head>` pour que le masquage soit connu avant la
+# premiere peinture : pas de date passee qui s'affiche puis disparait.
+HTML = HTML.replace('</style>', dates_a_venir.css() + '</style>', 1)
+HTML = HTML.replace('</head>', REG.tete() + '</head>', 1)
 
 HTML = mobile_nav.inject(HTML)
 HTML = nav_menu.inject(HTML, SLUG)

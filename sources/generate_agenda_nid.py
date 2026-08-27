@@ -84,6 +84,7 @@ sys.path.insert(0, HERE)
 import nav_menu  # menu de navigation partage  # noqa: E402
 import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import visionneuse  # visionneuse photo commune  # noqa: E402
+import dates_a_venir  # dates passees masquees par le navigateur  # noqa: E402
 import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 
 CAL_ID = '30716d7f4373d33769612165eb0607e5b33fd533b984df2df61fe9518ab32eae@group.calendar.google.com'
@@ -315,6 +316,29 @@ SUB_BLOCK = (
     '  </div>')
 
 
+# --------------------------------------------------------------------------- #
+# LES DATES PASSEES DISPARAISSENT TOUTES SEULES  (27/08/2026)
+# ---------------------------------------------------------
+# Tout le mecanisme est dans `sources/dates_a_venir.py` — y compris la raison
+# pour laquelle ce n'est qu'une RUSTINE (le site est statique, il ne sait pas
+# quel jour on est). Ici, on ne fait que DECLARER ce qui porte une date :
+#
+#   * les 20 lignes de l'agenda (`.ag-item`), chacune dans DEUX blocs : son
+#     groupe de mois (qui s'efface en entier, titre compris, quand le mois est
+#     passe) et l'agenda entier (qui bascule sur un message de repli) ;
+#   * le bouton de filtre du mois, la legende, la barre de filtres, le bouton
+#     « tout ajouter a mon agenda » et sa note : ils n'ont plus d'objet quand il
+#     ne reste aucune date, donc ils portent `lie('agenda')` ;
+#   * les quatre encarts « Prochaines dates » des tuiles du programme.
+#
+# ⚠️ UN SEUL REGISTRE PAR GENERATION. `generer()` le remet a neuf : deux appels
+#    dans le meme processus ne doivent pas empiler deux fois les memes dates.
+REG = dates_a_venir.Registre()
+
+#: le message de repli, ecrit une seule fois pour les cinq endroits de la page.
+EN_PREPARATION = 'Prochaines dates en préparation.'
+
+
 def build():
     # regroupement par mois, dans l'ordre chronologique
     groupes = []
@@ -337,8 +361,10 @@ def build():
         f'<button class="ag-f" type="button" data-f="type" data-v="{t}" '
         f'style="--c:{TYPES[t][1]}">{TYPES[t][0]}</button>'
         for t in types_presents)
+    # `lie(...)` : ce bouton de mois disparait avec son groupe de mois.
     f_mois = ''.join(
-        f'<button class="ag-f" type="button" data-f="mois" data-v="{an:04d}-{mo:02d}">'
+        f'<button class="ag-f" type="button" data-f="mois" data-v="{an:04d}-{mo:02d}"'
+        f'{REG.lie("agenda-%04d-%02d" % (an, mo))}>'
         f'{MOIS[mo-1]}</button>'
         for (an, mo), _evs in groupes)
 
@@ -348,8 +374,8 @@ def build():
            '  <h2 class="sec-title">Les prochaines dates</h2>',
            '  <p class="lead">Rendez-vous mensuels, concerts, ateliers et workshops — au Nid, 29 rue des Orteaux, Paris 20<sup>e</sup>.</p>',
            SUB_BLOCK,
-           f'  <div class="ag-legend">{leg}</div>',
-           '  <div class="ag-filters" aria-label="Filtrer l’agenda">',
+           f'  <div class="ag-legend"{REG.lie("agenda")}>{leg}</div>',
+           f'  <div class="ag-filters" aria-label="Filtrer l’agenda"{REG.lie("agenda")}>',
            '    <div class="ag-frow"><span class="ag-flab">Type</span>'
            '<button class="ag-f is-on" type="button" data-f="type" data-v="">Tous</button>'
            + f_types + '</div>',
@@ -358,10 +384,21 @@ def build():
            + f_mois + '</div>',
            '    <p class="ag-fnone" hidden>Aucune date ne correspond à ces filtres. '
            '<button class="ag-freset" type="button">Tout afficher</button></p>',
-           '  </div>']
+           '  </div>',
+           # Le message de repli de l'agenda entier : invisible tant qu'il reste
+           # une date a venir, il prend la place de la liste quand il n'en reste
+           # plus une seule. Sans lui la page garderait « Les prochaines dates »
+           # au-dessus du vide.
+           f'  <p{REG.repli("agenda")}>{EN_PREPARATION}</p>']
 
+    REG.declare('agenda', repli='block')
     for (an, mois), evs in groupes:
-        out.append(f'  <div class="ag-group" data-mois="{an:04d}-{mois:02d}">')
+        cle_mois = 'agenda-%04d-%02d' % (an, mois)
+        # `cacher` : quand le mois est passe, le groupe part EN ENTIER — sinon
+        # il resterait un titre de mois seul au-dessus de rien.
+        REG.declare(cle_mois, cacher=True)
+        out.append(f'  <div class="ag-group" data-mois="{an:04d}-{mois:02d}"'
+                   f'{REG.bloc_attr(cle_mois)}>')
         out.append(f'  <div class="ag-month">{MOIS[mois-1]} {an}</div>')
         out.append('  <div class="ag-list">')
         for iso, d, h1, h2, typ, titre, note in evs:
@@ -377,9 +414,14 @@ def build():
                 return (dt.datetime(d.year, d.month, d.day, hh, mm)
                         - dt.timedelta(hours=offset)).strftime('%Y%m%dT%H%M%SZ')
             desc = DESCR[typ] + ' | ' + ACCES_PUBLIC + ' | ' + JAUGE + ' | Reservation : ' + url_public(url)
+            # ⚠️ `data-e` est deja l'heure de FIN en UTC — c'est elle qui decide
+            # si la ligne a vecu, pas `data-s`. `REG.date()` la recalcule de son
+            # cote (meme resultat, calcul de fuseau propre : voir la regle 2 de
+            # `dates_a_venir.py`) plutot que de relire un attribut de la page.
             data = (f' data-s="{utc(h1)}" data-e="{utc(h2)}"'
                     f' data-t="{esc_attr(titre)}" data-d="{esc_attr(desc)}"'
-                    f' data-typ="{typ}" data-mois="{d.year:04d}-{d.month:02d}"')
+                    f' data-typ="{typ}" data-mois="{d.year:04d}-{d.month:02d}"'
+                    + REG.date(('agenda', cle_mois), d, h2))
             note_html = f'<span class="ag-note">{note}</span>' if note else ''
             g = esc_attr(gcal_url(titre, utc(h1), utc(h2), typ, url))
             out.append(
@@ -408,10 +450,14 @@ def build():
         'Merci de réserver avant de venir : les places partent vite.</div>',
         '  </div>',
         '  <div class="ag-foot">',
-        '    <button class="btn ag-all" type="button">↓ Ajouter toutes les dates à mon agenda</button>',
+        # `lie('agenda')` : sans aucune date a venir, ce bouton telechargerait un
+        # fichier .ics vide. Le bouton « Réserver une place », lui, RESTE : on
+        # peut toujours ecrire, meme quand rien n'est encore programme.
+        '    <button class="btn ag-all" type="button"' + REG.lie('agenda')
+        + '>↓ Ajouter toutes les dates à mon agenda</button>',
         '    <a class="btn" href="mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20réservation">Réserver une place</a>',
         '  </div>',
-        '  <p class="ag-tip">« + Google Agenda » ajoute la date directement dans votre Google Agenda '
+        '  <p class="ag-tip"' + REG.lie('agenda') + '>« + Google Agenda » ajoute la date directement dans votre Google Agenda '
         '(pratique sur smartphone). « + .ics » télécharge un fichier compatible Apple Calendrier, '
         'Outlook et Google Agenda, avec trois rappels automatiques '
         '(une semaine, un jour et 2 h avant).</p>',
@@ -978,14 +1024,39 @@ def dates_courtes(typ, n=3, extra=''):
     """Encart « Prochaines dates » a poser au bas d'une carte du programme.
 
     `extra` ajoute un lien apres « tout voir » (seule la carte concert en a un).
+
+    ⚠️ 27/08/2026 — L'ENCART PORTE DESORMAIS **TOUTES** LES DATES DU TYPE, pas
+    seulement les trois premieres, et n'en montre que trois. Ce n'est pas un
+    detail : la carte « instruments d'exception » commence par le 23 aout, deja
+    passe. Si le HTML ne portait que trois dates, l'encart serait vide des le
+    19 octobre alors que l'agenda, juste en dessous, en annonce encore deux.
+    Les dates au-dela de la fenetre sont masquees par `.dt-plus` — SANS
+    JavaScript, la page affiche donc exactement les trois premieres ecrites,
+    comme avant.
+
+    ⚠️ NI `<span>` NI `<div>` POUR PORTER UNE DATE, ET C'EST MESURE : la page
+    porte `.offer-dates span{display:block;…}` et une seconde regle qui peint
+    ces `span` en degrade dore transparent. Un `<span>` par date les aurait
+    donc empiles en colonne, en dore. On utilise `<time>`, que rien ne cible —
+    et qui dit ce qu'il est. Le separateur, lui, est un `<i>` POSE A
+    L'INTERIEUR de la date : il disparait avec elle (pas de « · » orphelin).
     """
-    items = [(dt.date.fromisoformat(iso), h1)
-             for iso, h1, _h2, t, _ti, _no in EVENTS if t == typ][:n]
+    items = [(dt.date.fromisoformat(iso), h2)
+             for iso, _h1, h2, t, _ti, _no in EVENTS if t == typ]
     if not items:
         return ''
-    txt = ' · '.join('%d %s.' % (d.day, MOIS[d.month - 1][:4]) for d, _h in items)
-    return ('<div class="offer-dates"><span>Prochaines dates</span>%s '
-            '<a href="#agenda">tout voir</a>%s</div>' % (txt, extra))
+    cle = 'offer-' + typ
+    REG.declare(cle, repli='inline', sep=True, fenetre=n)
+    txt = ''.join(
+        '<time%s%s>%s%d %s.</time>'
+        % (' class="dt-plus"' if k >= n else '', REG.date(cle, d, h),
+           dates_a_venir.separateur() if k else '',
+           d.day, MOIS[d.month - 1][:4])
+        for k, (d, h) in enumerate(items))
+    return ('<div class="offer-dates"><span>Prochaines dates</span>%s'
+            '<i%s>%s</i> '
+            '<a href="#agenda">tout voir</a>%s</div>'
+            % (txt, REG.repli(cle), EN_PREPARATION, extra))
 
 
 # --------------------------------------------------------------------------- #
@@ -1222,6 +1293,12 @@ def generer():
     fichier. C'est ce qui manquait a la version precedente, qui retouchait sa
     propre sortie et ajoutait un bloc a chaque passage.
     """
+    # Un registre de dates NEUF a chaque generation : sans cette remise a zero,
+    # deux appels dans le meme processus enregistreraient deux fois les memes
+    # dates et la table du script de tete doublerait.
+    global REG
+    REG = dates_a_venir.Registre()
+
     with open(SOURCE, encoding='utf-8') as f:
         html = f.read()
 
@@ -1239,7 +1316,8 @@ def generer():
     html = html.replace('</style>',
                         CSS.lstrip('\n') + CSS_DATES
                         + theme_chaleur.CSS + CSS_CHALEUR + css_tuiles()
-                        + visionneuse.css('') + '\n</style>', 1)
+                        + visionneuse.css('') + dates_a_venir.css()
+                        + '\n</style>', 1)
 
     # --- la section agenda, juste avant le divider qui precede « Le lieu » ---
     ancre_lieu = '<div class="divider"></div>\n\n<section class="lieu">'
@@ -1288,6 +1366,14 @@ def generer():
 
     # --- scripts : telechargement .ics, puis filtres -------------------------
     _exiger(html, '</body>', 1, 'fin du corps de page')
+    # ⚠️ LE MENAGE DES DATES PASSEES EST POSE EN PREMIER, DONC IL S'EXECUTE
+    # AVANT `FILTER_JS`, ET C'EST STRUCTUREL. Le filtre par type et par mois
+    # fige sa liste de `.ag-item` au moment ou il tourne : s'il la fige avant le
+    # menage, il compte des dates finies (« Aucune date ne correspond a ces
+    # filtres » ne s'affiche plus quand il le faudrait) et « Ajouter toutes les
+    # dates a mon agenda » telecharge un .ics contenant des evenements passes.
+    # Dans cet ordre, les deux scripts existants restent intacts.
+    html = html.replace('</body>', REG.js() + '</body>', 1)
     html = html.replace('</body>', ICS_JS + '</body>', 1)
     html = html.replace('</body>', FILTER_JS + '</body>', 1)
 
@@ -1312,6 +1398,14 @@ def generer():
     # publiees la portent ; on la reproduit pour qu'une regeneration ne modifie
     # pas un octet.
     html = html.replace('</script>\n</body>', '</script>\n\n</body>', 1)
+
+    # --- la table des dates, en FIN DE <head> --------------------------------
+    # Elle doit etre lue AVANT le corps de page, sinon la ligne du 23 aout
+    # s'afficherait le temps d'une image avant d'etre cachee. Et elle doit etre
+    # ecrite EN DERNIER dans ce fichier : elle embarque toutes les dates
+    # enregistrees plus haut (agenda + les quatre encarts).
+    _exiger(html, '</head>', 1, 'fin de l’en-tete de page')
+    html = html.replace('</head>', REG.tete() + '</head>', 1)
 
     # --- menu de navigation partage ------------------------------------------
     # ⚠️ Il n'y a PLUS d'ajout d'une entree « Agenda » a la main comme autrefois.

@@ -77,11 +77,13 @@ Sources du contenu :
 Usage : python3 sources/generate_rythme.py   (depuis la racine du depot)
 """
 
+import datetime as dt
 import os
 import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import dates_a_venir  # dates passees masquees par le navigateur  # noqa: E402
 import nav_menu  # menu de navigation partage  # noqa: E402
 import theme_chaleur  # couche chaleureuse commune  # noqa: E402
 import visionneuse  # visionneuse photo commune  # noqa: E402
@@ -667,7 +669,57 @@ JS = r"""<script>
 </script>"""
 
 
+# --------------------------------------------------------------------------- #
+# LES TROIS RENDEZ-VOUS DU GROUPE DE PRATIQUE  —  ET LEUR DISPARITION AUTOMATIQUE
+# --------------------------------------------------------------------------- #
+# Ils etaient ecrits en dur dans le gabarit HTML plus bas. Ils vivent maintenant
+# ICI, en une seule liste : c'est ce qui permet de leur attacher une heure de
+# FIN, donc de les faire disparaitre tout seuls une fois passes (mecanisme et
+# limites : `sources/dates_a_venir.py` — c'est une RUSTINE, pas la solution).
+#
+# ⚠️ CES TROIS DATES DOIVENT RESTER ACCORDEES A `EVENTS` (type `rythme`) DANS
+#    `sources/generate_agenda_nid.py` : ce sont les memes rendez-vous, annonces
+#    a deux endroits. Elles y sont a 10:00-12:00, 15:00-17:00 et 15:00-17:00 —
+#    les memes heures de fin que ci-dessous.
+#
+# (date ISO, le jour en clair, l'horaire affiche, l'heure de FIN)
+RDV_GROUPE = (
+    ('2026-09-20', 'Dimanche 20 septembre 2026', '10 h – 12 h', '12:00'),
+    ('2026-10-17', 'Samedi 17 octobre 2026', '15 h – 17 h', '17:00'),
+    ('2026-11-15', 'Dimanche 15 novembre 2026', '15 h – 17 h', '17:00'),
+)
+
+#: le registre des dates de CETTE page. Remis a neuf par `build_html()`.
+REG = dates_a_venir.Registre()
+
+#: ce que la page affiche quand les trois dates sont passees. Sans lui,
+#: « Les prochains rendez-vous du groupe » surmonterait une grille vide.
+EN_PREPARATION = 'Prochaines dates en préparation.'
+
+
+def dates_groupe():
+    """La grille des trois rendez-vous, plus son message de repli (invisible)."""
+    dates_a_venir_declare = REG.declare('rythme-dates', repli='block')
+    del dates_a_venir_declare  # le conteneur `.dates` n'a pas besoin d'attribut
+    lignes = ''.join(
+        '      <div class="date"%s>\n'
+        '        <div class="d">%s</div>\n'
+        '        <div class="h">%s</div>\n'
+        '        <div class="tag">Groupe de pratique engagé</div>\n'
+        '      </div>\n'
+        % (REG.date('rythme-dates', dt.date.fromisoformat(iso), fin), jour, heure)
+        for iso, jour, heure, fin in RDV_GROUPE)
+    return ('    <div class="dates">\n' + lignes
+            + '      <p%s>%s</p>\n' % (REG.repli('rythme-dates'), EN_PREPARATION)
+            + '    </div>')
+
+
 def build_html(sizes):
+    # Registre de dates NEUF a chaque construction : deux appels dans le meme
+    # processus enregistreraient sinon deux fois les memes dates.
+    global REG
+    REG = dates_a_venir.Registre()
+
     p = lambda *a, **k: picture(*a, **k)
 
     head = """<!DOCTYPE html>
@@ -834,23 +886,7 @@ def build_html(sizes):
     d’autre : ce ne sont pas des ateliers ouverts, on ne s’y inscrit pas à la séance. Elles sont
     affichées ici parce qu’elles disent concrètement à quoi ressemble l’année — et on les rejoint
     en posant sa candidature.</p>
-    <div class="dates">
-      <div class="date">
-        <div class="d">Dimanche 20 septembre 2026</div>
-        <div class="h">10 h – 12 h</div>
-        <div class="tag">Groupe de pratique engagé</div>
-      </div>
-      <div class="date">
-        <div class="d">Samedi 17 octobre 2026</div>
-        <div class="h">15 h – 17 h</div>
-        <div class="tag">Groupe de pratique engagé</div>
-      </div>
-      <div class="date">
-        <div class="d">Dimanche 15 novembre 2026</div>
-        <div class="h">15 h – 17 h</div>
-        <div class="tag">Groupe de pratique engagé</div>
-      </div>
-    </div>
+""" + dates_groupe() + """
     <div class="note">
       <p><b>On peut rejoindre le groupe à tout moment</b>, y compris en cours d’année : il n’y a
       pas de session de candidature qui se ferme, ni de date limite.
@@ -1242,6 +1278,12 @@ def build_html(sizes):
 def main():
     sizes = build_images()
     html = build_html(sizes)
+    # Masquage des dates passees : la feuille de style est posee avec les
+    # autres, la table des dates en FIN de <head> (avant la premiere peinture,
+    # donc aucune date qui s'affiche puis disparait), le menage avant </body>.
+    html = html.replace('</style>', dates_a_venir.css() + '</style>', 1)
+    html = html.replace('</body>', REG.js() + '</body>', 1)
+    html = html.replace('</head>', REG.tete() + '</head>', 1)
     # menu de navigation partage : remplace le <div class="links"> du gabarit
     html = nav_menu.inject(html, 'rythme-calebasse')
 

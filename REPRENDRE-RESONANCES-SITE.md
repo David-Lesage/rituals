@@ -514,6 +514,113 @@ seul octet.
 
 ## Journal
 
+### 2026-08-27 — Les dates passées disparaissent toutes seules (rustine niveau 1, NON POUSSÉ)
+
+**Le constat de David** : *« quand les dates sont dépassées, la date reste visible. Je voudrais
+qu'elle disparaisse pour que seules les dates à venir restent, **sans avoir à te le demander**.
+Que ce soit automatique. »* `/le-nid` affichait encore le 23 août, passé depuis quatre jours.
+
+**La cause, mesurée** : le site est STATIQUE. Aucun filtrage n'existait — ni à la génération, ni
+dans le navigateur (le seul `new Date()` de `/le-nid` servait à fabriquer le `.ics`).
+
+🚨 **CE QUI A ÉTÉ POSÉ EST UNE RUSTINE, ET C'EST ÉCRIT EN TÊTE DU MODULE.** Le HTML livré contient
+toujours TOUTES les dates ; c'est le navigateur qui masque celles qui sont finies. La page ne
+gagne donc jamais de nouvelle date toute seule, elle ne fait qu'en perdre. **Le niveau 2 reste à
+faire** : reconstruction automatique depuis l'agenda Google (tâche planifiée → `build.py` →
+republication). Ne pas prendre ce chantier pour terminé.
+
+**Un seul fichier porte le mécanisme : `sources/dates_a_venir.py`** (modèle `visionneuse.py` /
+`retour_haut.py` — quatre générateurs l'appellent, personne ne recopie). Ce n'est PAS un
+générateur : aucune ligne dans `build.py`.
+
+**Les quatre décisions qui tiennent tout :**
+1. **Une date est passée à la FIN de l'événement**, jamais à son début. INSTATIC (19h00–21h30)
+   reste affichée pendant la soirée et part à 21h31. Quand la fin est inconnue (les trois soirées
+   mensuelles sans horaire arrêté), on prend **la fin de la journée, heure de Paris** — on garde
+   trop longtemps plutôt que de faire disparaître un événement en cours.
+2. **Le fuseau est calculé en Python, pas dans le navigateur.** Chaque fin devient un INSTANT
+   ABSOLU (UTC) via `_offset_paris()` (vrai changement d'heure : dernier dimanche de mars /
+   d'octobre). Le navigateur ne compare que deux instants — juste depuis n'importe où. Vérifié :
+   Paris, New York, Tokyo et Kiritimati donnent **le même résultat au même instant**, y compris
+   quand le fuseau est déjà au lendemain.
+   ⚠️ Le raccourci historique de `generate_agenda_nid.py` (`offset = 2 if (month,day) < (10,25)`)
+   n'a PAS été touché : il alimente des `.ics` déjà téléchargés par des gens.
+3. **Aucun clignotement** : le masquage est écrit par un script en FIN de `<head>`, donc avant la
+   première peinture. Mesuré : aucune date passée n'a jamais occupé un pixel (espion sur
+   30 frames). Le script de ménage, lui, ne fait que retirer du DOM ce qui est déjà invisible.
+4. **Jamais un bloc vide sous son titre** : chaque liste est un BLOC ; quand tout est passé, un
+   repli sobre s'affiche (« Prochaines dates en préparation. ») et ce qui n'a plus d'objet
+   disparaît (légende, barre de filtres, bouton « tout ajouter à mon agenda »).
+
+**⚠️ SUR `/le-nid`, LE MÉNAGE EST POSÉ AVANT `FILTER_JS`, ET C'EST STRUCTUREL.** Le filtre fige sa
+liste de `.ag-item` quand il s'exécute : posé après, il compterait des dates finies (« Aucune date
+ne correspond » ne s'afficherait plus au bon moment) et le `.ics` « toutes les dates » exporterait
+des événements passés. Dans cet ordre, `ICS_JS` et `FILTER_JS` n'ont pas bougé d'une ligne.
+
+**⚠️ LE FILET ORPHELIN, sur `/rendez-vous-mensuels`** : les quatre encarts sont séparés par des
+`.divider`. Le filet est désormais attaché à l'encart qui le PRÉCÈDE et porte les mêmes attributs
+de date. Les dates passées étant toujours les premières de la liste, il ne reste jamais un trait
+seul. L'inverse (filet attaché à l'encart suivant) laisserait un trait sous le programme.
+
+**⚠️ LE SÉPARATEUR ORPHELIN, sur `/le-nid`** : dans « 4 sept. · 19 sept. », le « · » est écrit
+À L'INTÉRIEUR de la date qu'il précède, et la feuille générée efface celui de la première date
+encore à venir.
+
+**⚠️ NI `<span>` NI `<div>` pour porter une date dans `.offer-dates`** : la page porte
+`.offer-dates span{display:block}` + une seconde règle qui les peint en dégradé doré. Un `<span>`
+par date les aurait empilés en colonne, en doré. C'est `<time>` qui est utilisé — que rien ne
+cible. Le séparateur est un `<i>`.
+
+**⚠️ LES ENCARTS « PROCHAINES DATES » PORTENT MAINTENANT TOUTES LES DATES DU TYPE**, et n'en
+montrent que trois (classe `.dt-plus` + fenêtre). Sinon la carte « instruments d'exception »
+serait vide dès le 19 octobre alors que l'agenda en annonce encore deux. Sans JavaScript, ce sont
+les trois premières écrites — la page d'avant, à l'identique.
+
+**CE QUI N'A DÉLIBÉRÉMENT PAS ÉTÉ FILTRÉ** (et ne doit pas l'être) :
+- `/david-lesage-en-concert`, `.dlc-chrono` : **112 dates de scène de 2009 à 2026**. C'est une
+  chronologie du PASSÉ, et c'est elle que le contrôle `chiffres` compare au nombre annoncé.
+  Vérifié à l'affichage, aujourd'hui et en 2027 : **112 annoncées = 112 rendues**.
+- `/guso-facile` et les 18 articles du blog : les dates y sont des **données fictives** d'aperçu
+  d'interface (« 14 mars 2026 · Le Rocher de Palmer ») et des **dates de publication**.
+- `/e-motion`, `/rituals`, `/rituals-trio`, `/le-soin-soa`, `/association`, `/` : aucune date
+  d'événement (vérifié par balayage des 31 pages).
+
+**L'INVENTAIRE — 45 dates masquables sur 4 pages :**
+
+| Page | Ce qui porte une date | Combien |
+|---|---|---|
+| `/le-nid` | lignes d'agenda `.ag-item` | 20 |
+| `/le-nid` | encarts « Prochaines dates » (concert 3, yoga 4, rythme 3, showcase 5) | 15 |
+| `/rendez-vous-mensuels` | lignes `.rdv-row` + encarts `.rdv-block` (+ leurs filets) | 4 + 4 |
+| `/rythme-calebasse` | `.date` du groupe de pratique | 3 |
+| `/concerts-david-lesage` | `.cdl-date` | 2 |
+
+**Vérifications (Chrome sans interface, pilote CDP, mesures DOM — aucune capture d'écran) :**
+- `build.py` deux passes → « Aucune page n'a changé » ; `verif_site.py` **31/31**, code 0 ;
+  `verif_commentaires.py` **31/31**, code 0.
+- **Diff du texte visible, JavaScript DÉSACTIVÉ : VIDE** sur les 4 pages (311/135/201/210 lignes,
+  identiques au caractère près).
+- **Simulations de « aujourd'hui »** : 27/08 (le 23 août a disparu, 20 → 19 lignes) · veille
+  d'INSTATIC (visible) · **pendant** INSTATIC à 20h00 et à 21h29 (visible) · 21h31 (parti) ·
+  lendemain (parti) · **15/01/2027, tout est passé** (0 ligne, repli affiché, légende + filtres +
+  bouton « tout ajouter » effacés, un seul filet restant).
+- Filtres de l'agenda après ménage : Tous → 19, septembre → 6, showcase+septembre → 1,
+  résidence+décembre → 0 **avec** le message « Aucune date ne correspond ».
+- `.ics` « toutes les dates » : 19 événements, **20260823 absent**.
+- **0 débordement horizontal** à 390 / 820 / 1440 sur 6 pages × 2 « aujourd'hui ».
+- Console **vide** (le seul message, `allowfullscreen`, est présent à l'identique AVANT).
+
+**À signaler, non corrigé (hors périmètre) :**
+- `dates_courtes()` écrit « 18 **octo.** », « 14 **nove.** », « 5 **déce.** » — un `[:4]` sur le
+  nom du mois, **défaut d'avant ce chantier**, laissé tel quel pour ne pas mélanger deux sujets.
+- `/concerts-david-lesage` : la META description dit « Prochaines dates : 10 octobre et
+  28 novembre 2026 ». Elle vieillira, et aucune rustine navigateur ne peut la rattraper.
+- `/rendez-vous-mensuels` : l'horaire des trois soirées reste **non tranché** (voir 20/08). Faute
+  d'heure de fin, elles restent affichées jusqu'à minuit le jour J.
+
+⚠️ **PAS POUSSÉ.**
+
+
 ### 2026-08-20 (3) — Les boutons grossissent sur les 31 pages, et `.btn` n'est plus écrit qu'une fois
 
 **La demande de David**, en deux messages : « le texte du bouton "réserver ma place" est trop

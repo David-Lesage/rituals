@@ -270,6 +270,8 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 @media(max-width:600px){.ph-arw{width:46px;height:46px;font-size:28px}.ph-arw.p{left:4px}.ph-arw.n{right:4px}}
 @media(prefers-reduced-motion:reduce){.ph-slide img{transition:none}}
+.dt-vide{display:none;color:var(--muted);font-style:italic}
+.dt-plus{display:none}
 
 /* ===== MENU MOBILE (hamburger) ===== */
 .burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
@@ -378,6 +380,27 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 @media print{.nm-sub{display:none}}
 /* == fin nav_menu.py == */
 </style>
+<script>
+(function(){
+var F=["2026-10-10T19:00:00Z","2026-11-28T19:00:00Z"],B=[["cdl-dates",[0,1],0,"block",0,0]],n=Date.now(),r=[],i,k,j;
+function passe(x){return Date.parse(F[x])<=n;}
+for(i=0;i<F.length;i++){if(passe(i))r.push('html [data-dt="'+i+'"]{display:none!important}');}
+for(k=0;k<B.length;k++){
+var b=B[k],v=[];
+for(j=0;j<b[1].length;j++){if(!passe(b[1][j]))v.push(b[1][j]);}
+if(!v.length){
+if(b[2])r.push('html [data-dt-bloc="'+b[0]+'"]{display:none!important}');
+if(b[3])r.push('html [data-dt-vide="'+b[0]+'"]{display:'+b[3]+'!important}');
+r.push('html [data-dt-lie="'+b[0]+'"]{display:none!important}');
+}else{
+if(b[5]){for(j=0;j<v.length;j++)r.push('html [data-dt="'+v[j]+'"]{display:'+(j<b[5]?'inline':'none')+'!important}');}
+if(b[4])r.push('html [data-dt="'+v[0]+'"] .dt-sep{display:none!important}');
+}
+}
+if(r.length&&document.head){var s=document.createElement('style');
+s.appendChild(document.createTextNode(r.join('')));document.head.appendChild(s);}
+})();
+</script>
 </head>
 <body id="top">
 
@@ -613,13 +636,14 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
   <h2 class="sec-title">Prochaines dates au Nid</h2>
   <p>Le cercle est petit : on réserve à l’avance, en ligne.</p>
   <div class="cdl-dates">
-    <div class="cdl-date">
+    <div class="cdl-date" data-dt="0" data-dt-fin="2026-10-10T19:00:00Z">
       <div><div class="when"><time datetime="2026-10-10T19:00">Samedi 10 octobre 2026</time> — 19 h</div><div class="where">Le Nid, Paris 20<sup>e</sup></div></div>
       <a class="btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/concert-intimiste-david-lesage-au-coeur-de-paris-1" target="_blank" rel="noopener">Réserver ma place</a>
-    </div><div class="cdl-date">
+    </div><div class="cdl-date" data-dt="1" data-dt-fin="2026-11-28T19:00:00Z">
       <div><div class="when"><time datetime="2026-11-28T18:00">Samedi 28 novembre 2026</time> — 18 h</div><div class="where">Le Nid, Paris 20<sup>e</sup></div></div>
       <a class="btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/concert-intimiste-david-lesage-au-coeur-de-paris-1" target="_blank" rel="noopener">Réserver ma place</a>
     </div>
+    <p class="dt-vide" data-dt-vide="cdl-dates">Prochaines dates en préparation.</p>
   </div>
   <div class="cdl-note">
     <p>L’adresse et les précisions vous parviennent avec votre confirmation de réservation.</p>
@@ -965,6 +989,13 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
       if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault(); ouvrir(i,im);}
     });
   });
+})();
+</script>
+<script>
+(function(){
+var n=Date.now(),L=document.querySelectorAll('[data-dt-fin]'),i,e;
+for(i=L.length-1;i>=0;i--){e=L[i];
+if(Date.parse(e.getAttribute('data-dt-fin'))<=n&&e.parentNode)e.parentNode.removeChild(e);}
 })();
 </script>
 
