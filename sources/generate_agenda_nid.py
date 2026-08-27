@@ -135,10 +135,6 @@ EVENTS = [
     ('2026-11-08', '16:30', '19:00', 'yoga',      'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-11-14', '16:00', '19:00', 'showcase',  'Présentation d’instruments d’exception', ''),
     ('2026-11-15', '15:00', '17:00', 'rythme',    'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
-    # 27/08/2026 — David a pose le principe : « on garde toujours ce que dit
-    # l'agenda Google comme etant la derniere source de verite, la plus a
-    # jour ». L'agenda annonce « + Guest Lucie au violon » : le site ne peut
-    # donc plus ecrire « solo ». Le mot etait devenu faux.
     ('2026-11-28', '18:00', '20:00', 'concert',   'Concert — David Lesage', 'avec Lucie au violon'),
     ('2026-12-04', '18:30', '23:30', 'mensuel',   'Rendez-vous mensuel au Nid', ''),
     ('2026-12-05', '15:00', '18:00', 'showcase',  'Présentation d’instruments d’exception', ''),
