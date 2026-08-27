@@ -118,6 +118,19 @@ CAL_WEBCAL = ('webcal://calendar.google.com/calendar/ical/'
 # fermees a 19h00). L'agenda Google public a ete corrige en meme temps — et
 # c'est desormais LUI qui fournit ces horaires, donc les deux ne peuvent plus
 # diverger.
+# 🚨 PRINCIPE POSE PAR DAVID LE 27/08/2026 :
+#    « on garde toujours ce que dit l'agenda Google comme etant la derniere
+#      source de verite, la plus a jour »
+#    Quand l'agenda et le site divergent, C'EST LE SITE QU'ON CORRIGE.
+#    Premiere application : l'agenda annoncait « + Guest Lucie au violon »
+#    pour le 28 novembre, le site ecrivait « solo » — le mot etait devenu
+#    faux, le site a ete corrige.
+#
+# ⚠️ CETTE NOTE EST ICI, ET PAS PLUS BAS, POUR UNE RAISON : tout ce qui se
+#    trouve entre les balises DEBUT/FIN est reecrit a chaque synchronisation
+#    nocturne. Une note placee dedans disparait — c'est arrive a celle-ci le
+#    jour meme de sa mise en service.
+
 # --- DEBUT DES DATES SYNCHRONISEES (ecrit par sources/synchro_agenda.py) ---
 EVENTS = [
     ('2026-09-04', '19:00', '21:30', 'mensuel',   'INSTATIC Dance', 'avec Iris & David'),

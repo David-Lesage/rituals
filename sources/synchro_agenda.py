@@ -121,6 +121,18 @@ import verif_site  # ses motifs de fuite de donnees, reutilises tels quels  # no
 #: le fichier qui porte la liste des dates du site
 AGENDA = os.path.join(HERE, 'generate_agenda_nid.py')
 #: les deux balises qui encadrent la liste. Ce qui est entre elles est REECRIT.
+# ⚠️ TOUT CE QUI SE TROUVE ENTRE CES DEUX BALISES EST REECRIT A CHAQUE
+# SYNCHRONISATION. Les commentaires places la-dedans sont EFFACES.
+#
+# Constate le 27/08/2026, une heure apres la mise en service : une note de
+# quatre lignes expliquant pourquoi le concert du 28 novembre n'est plus
+# annonce « solo » avait ete ecrite au milieu du bloc. La premiere execution
+# reelle l'a supprimee — sans rien casser, mais en emportant la memoire du
+# POURQUOI. Sur ce projet, le pourquoi vaut autant que le quoi : c'est lui
+# qui empeche de defaire dans six mois une decision prise aujourd'hui.
+#
+# 🚨 REGLE : une note qui doit survivre se met AU-DESSUS de la balise DEBUT,
+# jamais entre les deux. Le bloc synchronise ne contient que des donnees.
 DEBUT = '# --- DEBUT DES DATES SYNCHRONISEES (ecrit par sources/synchro_agenda.py) ---'
 FIN = '# --- FIN DES DATES SYNCHRONISEES ---'
 
