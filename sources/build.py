@@ -182,14 +182,21 @@ TABLEAU = (
     ),
 )
 
-#: dossiers encore presents dans le depot mais qui ne font plus partie du site.
-#: Aucun generateur, aucune entree de menu, absents du plan du site, interdits
-#: aux moteurs de recherche. David n'a jamais tranche leur suppression : on ne
-#: les efface pas, on rappelle juste qu'ils sont la.
-ORPHELINES = {
-    'solune': 'ancienne page, remplacee par /e-motion',
-    'au-nid': 'ancienne page, remplacee par /le-nid',
-}
+#: dossiers presents dans le depot mais hors du site : aucun generateur, aucune
+#: entree de menu, absents du plan du site.
+#:
+#: ⚠️ VIDE DEPUIS LE 17/08/2026, et c'est normal. `/solune` et `/au-nid` y
+#: figuraient ; David a tranche leur suppression, ils n'existent plus sur le
+#: disque et sont devenus des REDIRECTIONS 301 (voir vercel.json et SUPPRIMEES
+#: dans verif_site.py). La table est restee garnie dix jours de trop : chaque
+#: construction annoncait « DOSSIERS ORPHELINS — encore dans le depot » pour des
+#: dossiers effaces. Un rapport qui decrit un site qui n'existe plus est pire
+#: que pas de rapport du tout : on cesse de le lire.
+#:
+#: Le controle plus bas verifie desormais que ce qui est annonce ici existe
+#: VRAIMENT : une entree perimee fait echouer la construction au lieu de
+#: s'afficher pour rien.
+ORPHELINES = {}
 
 #: scripts de sources/ qui ne fabriquent aucune page du site : ils sont ignores
 #: par le controle « generateur non inscrit » plus bas.
@@ -366,6 +373,12 @@ def _signaler_non_reconstructibles(lignes):
             _dit('  · %s  (sources/%s)' % (l['nom'], l['generateur']))
             for morceau in _replier(l['bloque'], 68):
                 _dit('      %s' % morceau)
+    for nom in sorted(ORPHELINES):
+        if not os.path.isdir(os.path.join(RACINE, nom)):
+            raise SystemExit(
+                "!! ABANDON : ORPHELINES annonce le dossier /%s, qui n'existe "
+                "pas sur le disque. Retire-le de la table — sinon chaque "
+                "construction decrit un site qui n'est plus le vrai." % nom)
     if ORPHELINES:
         _dit()
         _dit('  DOSSIERS ORPHELINS — encore dans le depot, hors du site')
@@ -471,7 +484,15 @@ def main(argv=None):
     # ------------------------------------------------------------------ #
     _dit()
     _dit('  ' + '-' * 74)
-    _dit('  Verification des %d pages…' % len(TABLEAU))
+    # `len(TABLEAU)` est le nombre de GENERATEURS (13), pas de pages (31) :
+    # le message annoncait « Verification des 13 pages » depuis toujours.
+    # On lit le vrai compte la ou il fait foi, dans verif_site.PAGES.
+    try:
+        import verif_site
+        _nb = len(verif_site.PAGES)
+    except Exception:
+        _nb = len(TABLEAU)
+    _dit('  Verification des %d pages…' % _nb)
     r = subprocess.run([sys.executable, os.path.join(HERE, 'verif_site.py')],
                        cwd=RACINE)
     if r.returncode != 0:
