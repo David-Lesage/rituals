@@ -136,6 +136,27 @@ FIN = '# --- FIN DES DATES SYNCHRONISEES ---'
 #   └──────────────────────────────────────────────────────────────────────┘
 #
 # ⚠️ LE TITRE AFFICHE SUR LE SITE N'EST PAS CELUI DE L'AGENDA, ET C'EST VOULU.
+# 🚨 PRINCIPE POSE PAR DAVID LE 27/08/2026, il tranche les futurs desaccords :
+#
+#    « on garde toujours ce que dit l'agenda Google comme etant la derniere
+#      source de verite, la plus a jour »
+#
+#    Quand l'agenda et le site divergent, C'EST LE SITE QU'ON CORRIGE. Premiere
+#    application le 27/08 : l'agenda annoncait « + Guest Lucie au violon » pour
+#    le 28 novembre, le site ecrivait « solo » — le site a ete corrige.
+#
+#    ⚠️ CE PRINCIPE NE VEUT PAS DIRE QUE LE SCRIPT RECOPIE LES TITRES. Il ne le
+#    fera jamais : un titre d'agenda peut contenir un nom, un numero, une note
+#    perso. Le mecanisme est celui-ci, et il est deja en place :
+#      - David modifie un titre dans son agenda ;
+#      - ce titre n'est plus dans la table ci-dessous ;
+#      - l'evenement est ECARTE et SIGNALE (mail GitHub) — il ne disparait pas
+#        du site pour autant, l'ancienne ligne reste tant qu'on n'a pas tranche ;
+#      - un humain lit le signalement et met la table a jour.
+#    Autrement dit : l'agenda fait foi, mais un humain valide la formulation
+#    avant qu'elle soit publique. C'est le seul assemblage qui respecte a la
+#    fois le principe de David et le depot PUBLIC.
+#
 #    L'agenda dit « Concert de David Lesage — Le Nid + Guest Lucie au violon » ;
 #    le site ecrit « Concert — David Lesage solo ». L'agenda dit « Concert
 #    Sortie de residence — Le Nid » ; le site ecrit « Sortie de residence ».
@@ -163,7 +184,7 @@ CORRESPONDANCE = {
     #    « David Lesage solo ». On ne change pas une annonce publiee sans que
     #    David le decide : la ligne reproduit ce qui est en ligne aujourd'hui.
     'Concert de David Lesage — Le Nid + Guest Lucie au violon':
-        ('concert', 'Concert — David Lesage solo', ''),
+        ('concert', 'Concert — David Lesage', 'avec Lucie au violon'),
     'Concert RITUALS trio — David, Iris & Julien — Le Nid':
         ('concert', 'Concert — David, Iris & Julien', 'le trio en concert'),
     'Concert Sortie de résidence — Le Nid':
