@@ -164,16 +164,51 @@ def read_existing_sizes():
         sizes.setdefault(name, set()).add(w)
     out = {}
     for name, ws in sizes.items():
-        try:
-            from PIL import Image
-            res = []
-            for w in sorted(ws):
-                with Image.open(os.path.join(OUT_IMG, '%s-%d.jpg' % (name, w))) as im:
-                    res.append(im.size)
-            out[name] = res
-        except Exception:
-            out[name] = [(w, 0) for w in sorted(ws)]
+        res = []
+        for w in sorted(ws):
+            res.append(_taille_jpeg(os.path.join(OUT_IMG, '%s-%d.jpg' % (name, w))))
+        out[name] = res
     return out
+
+
+def _taille_jpeg(chemin):
+    """(largeur, hauteur) d'un JPEG, SANS dependance exterieure.
+
+    ⚠️ POURQUOI CETTE FONCTION EXISTE (27/08/2026)
+    Ce module lisait les dimensions avec Pillow, et retombait en silence sur
+    `(largeur, 0)` quand l'import echouait. Sur la machine de David, Pillow est
+    installe : tout allait bien. Sur GitHub Actions, il ne l'est pas — la
+    premiere execution de la synchronisation nocturne a donc produit une page
+    annoncant `og:image` en « 1280x0 ».
+
+    Le controle `partage` de verif_site.py l'a vu et a refuse de publier. Mais
+    le vrai defaut n'etait pas l'absence de Pillow : c'etait un repli qui
+    fabriquait une valeur FAUSSE au lieu d'echouer. Un `except Exception` qui
+    renvoie une donnee inventee transforme une panne franche en page cassee.
+
+    Un JPEG porte ses dimensions dans son segment SOF : quinze lignes de lecture
+    d'octets suffisent, et le resultat est le meme partout — machine de David,
+    GitHub, ou n'importe quelle autre. Plus de dependance, donc plus d'ecart
+    entre ce qu'on construit ici et ce qui est construit la-bas.
+    """
+    with open(chemin, 'rb') as f:
+        octets = f.read()
+    if octets[:2] != b'\xff\xd8':
+        raise SystemExit('!! ABANDON : %s n\'est pas un JPEG. Page NON ecrite.' % chemin)
+    i = 2
+    while i < len(octets) - 9:
+        if octets[i] != 0xFF:
+            i += 1
+            continue
+        marqueur = octets[i + 1]
+        # SOF0..SOF15 portent la taille ; C4 (Huffman), C8 et CC n'en sont pas.
+        if 0xC0 <= marqueur <= 0xCF and marqueur not in (0xC4, 0xC8, 0xCC):
+            hauteur = (octets[i + 5] << 8) + octets[i + 6]
+            largeur = (octets[i + 7] << 8) + octets[i + 8]
+            return (largeur, hauteur)
+        i += 2 + (octets[i + 2] << 8) + octets[i + 3]
+    raise SystemExit('!! ABANDON : dimensions illisibles dans %s. Page NON ecrite.'
+                     % chemin)
 
 
 def picture(name, sizes, css_class='', sizes_attr='100vw', eager=False):
