@@ -452,15 +452,33 @@ CAL_SUB, CAL_WEBCAL = _calendrier()
 
 
 # --------------------------------------------------------------------------- #
-# LES QUATRE SOIREES — LA SEULE SOURCE DE LA PAGE
+# LES SOIREES — LES DATES VIENNENT DE L'AGENDA, LE TEXTE VIENT D'ICI
 # --------------------------------------------------------------------------- #
+#
+# ⚠️ 27/08/2026 — CHANGEMENT DE SOURCE. Les dates n'etaient plus recopiees ici
+# a la main : elles sont LUES dans `generate_agenda_nid.py` (lignes de type
+# `mensuel`), qui est lui-meme reecrit chaque nuit depuis l'agenda Google par
+# `sources/synchro_agenda.py`. Il n'y a donc plus qu'UNE liste de dates sur tout
+# le projet, et plus aucun moyen que cette page annonce autre chose que l'agenda.
+#
+# CE QUI EN DECOULE, ET QU'IL FAUT AVOIR EN TETE :
+#   * une soiree mensuelle ajoutee a l'agenda apparait ici TOUTE SEULE, en
+#     version « Programme en cours d'elaboration », avec son ancre et son
+#     encart. Personne n'a rien a faire ;
+#   * une soiree passee disparait de l'agenda, donc de cette page. SON TEXTE
+#     N'EST PAS EFFACE POUR AUTANT : il reste dans `CONTENUS` ci-dessous, range
+#     a sa date. On ne perd jamais ce que David a ecrit ;
+#   * la liste peut devenir VIDE (aucune date a venir). La page affiche alors
+#     « Prochaines dates en préparation. » et rien d'autre. Tous les garde-fous
+#     en bas de fichier savent compter zero — c'est teste.
 #
 #   ┌──────────────────────────────────────────────────────────────────────┐
 #   │ COMPLETER UNE SOIREE, PLUS TARD — LA MARCHE A SUIVRE EN TROIS LIGNES │
 #   └──────────────────────────────────────────────────────────────────────┘
-#   1. Dans `SOIREES` ci-dessous, trouve la soiree a sa date et remplis ses
-#      champs : `titre`, `type`, `horaire`, `prix`, `sous`, puis `faits`,
-#      `alerte`, `recit`, `au_programme`, `fin`, `resa` et `resa_texte`.
+#   1. Dans `CONTENUS` ci-dessous, ajoute (ou complete) l'entree qui porte la
+#      date de la soiree, et remplis ses champs : `titre`, `type`, `horaire`,
+#      `prix`, `sous`, puis `faits`, `alerte`, `recit`, `au_programme`, `fin`,
+#      `resa` et `resa_texte`.
 #   2. Ne touche a RIEN d'autre : des qu'une soiree a un `titre`, sa ligne du
 #      programme et son encart passent tout seuls en version complete.
 #   3. Lance `python3 sources/build.py` puis `python3 sources/verif_site.py`.
@@ -470,12 +488,16 @@ CAL_SUB, CAL_WEBCAL = _calendrier()
 #      titre approchant, jamais un horaire repris de l'agenda (voir la
 #      contradiction 1 en tete de fichier), jamais un tarif « vraisemblable ».
 #
+#   ⚠️ LA DATE D'UNE ENTREE DE `CONTENUS` DOIT EXISTER DANS L'AGENDA. Si David
+#      deplace une soiree dans son agenda Google sans deplacer son texte ici, le
+#      texte cesserait d'etre publie en silence : `_controle_contenus()` refuse
+#      alors d'ecrire la page. (Une entree dont la date est PASSEE, elle, est
+#      normale : c'est une soiree qui a eu lieu, on garde son texte.)
+#
 # LES CHAMPS, UN PAR UN
-#   iso ........... la date en 2026-09-04. Sert au controle contre l'agenda.
-#   jour .......... la date en clair. Le jour de la semaine a ete CALCULE.
-#   ancre ......... l'identifiant de l'encart. UNE ANCRE NE SE CHANGE PLUS une
-#                   fois la page en ligne : elle part dans les partages.
-#   --- a partir d'ici, tout est optionnel : c'est ce qui reste a remplir ---
+#   (`iso`, `jour` et `ancre` ne sont plus ecrits a la main : la date vient de
+#    l'agenda, la date en clair est calculee, l'ancre vaut « soiree-<date> » —
+#    sauf exception declaree dans `ANCRES`.)
 #   type .......... le sur-titre en petites capitales (« Danse »).
 #   titre ......... LE CHAMP PIVOT : sa presence bascule la soiree en « complete ».
 #   sous .......... la ligne de resume, sous le titre, dans le programme.
@@ -534,11 +556,38 @@ def _jour(d):
     return dt.date.fromisoformat(d['iso'])
 
 
-SOIREES = [
-    dict(
-        iso='2026-09-04',
-        jour='Vendredi 4 septembre 2026',
-        ancre='instatic',
+# --------------------------------------------------------------------------- #
+# LA DATE EN CLAIR — CALCULEE, JAMAIS RECOPIEE
+# --------------------------------------------------------------------------- #
+# « Vendredi 4 septembre 2026 ». Le jour de la semaine etait deja CALCULE avant
+# ce chantier (jamais devine) ; il l'est maintenant a chaque generation, ce qui
+# rend impossible le decalage entre la date et son jour.
+JOURS = ('lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche')
+MOIS = ('janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet',
+        'août', 'septembre', 'octobre', 'novembre', 'décembre')
+
+
+def _en_clair(iso):
+    d = dt.date.fromisoformat(iso)
+    return '%s %d %s %d' % (JOURS[d.weekday()].capitalize(), d.day,
+                            MOIS[d.month - 1], d.year)
+
+
+#: 🚨 LES ANCRES NE SE CHANGENT PLUS une fois la page en ligne : elles partent
+#: dans les partages et dans l'index de Google. Par defaut, l'ancre d'une soiree
+#: vaut « soiree-<date> » — stable par construction, quoi qu'il arrive au titre.
+#: Cette table ne sert qu'aux EXCEPTIONS HISTORIQUES : des ancres publiees avant
+#: cette regle, qu'on ne peut plus toucher. NE PAS EN AJOUTER.
+ANCRES = {
+    '2026-09-04': 'instatic',   # publiee le 20/08/2026, avant la regle
+}
+
+#: le texte d'une soiree, range a sa date. Une date absente d'ici = une soiree
+#: dont le programme n'est pas encore ecrit : la page le dit, elle n'invente pas.
+#: ⚠️ On n'efface PAS une entree dont la soiree a eu lieu : elle ne sera plus
+#:    publiee (sa date a quitte l'agenda) mais le texte de David reste ecrit.
+CONTENUS = {
+    '2026-09-04': dict(
         type='Danse',
         titre='INSTATIC Dance',
         horaire='19h00 – 21h30',
@@ -595,13 +644,43 @@ SOIREES = [
         resa=INSTATIC_RESA,
         resa_texte='Réserver ma place — 20 € ↗',
     ),
-    dict(iso='2026-10-02', jour='Vendredi 2 octobre 2026',
-         ancre='soiree-2026-10-02'),
-    dict(iso='2026-11-07', jour='Samedi 7 novembre 2026',
-         ancre='soiree-2026-11-07'),
-    dict(iso='2026-12-04', jour='Vendredi 4 décembre 2026',
-         ancre='soiree-2026-12-04'),
-]
+}
+
+
+def _dates_mensuelles():
+    """Les dates des rendez-vous mensuels, LUES dans l'agenda de /le-nid.
+
+    On relit `generate_agenda_nid.py` EN TEXTE plutot que de l'importer : ce
+    module travaille au moment de l'import et reecrirait /le-nid (piege
+    documente dans build.py). Meme technique que `_calendrier()` plus haut.
+
+    ⚠️ ON LIT D'ABORD TOUS LES EVENEMENTS, PUIS ON FILTRE SUR « mensuel ». La
+    difference n'est pas cosmetique : « aucune soiree mensuelle a venir » est un
+    etat NORMAL (elles sont toutes passees), alors que « le motif ne mord plus »
+    est une panne. Les distinguer demande de savoir si la liste a ete lue du
+    tout. Si elle contient des evenements et qu'on n'en lit AUCUN, on abandonne.
+    """
+    src = _source_agenda()
+    tous = re.findall(
+        r"\('(\d{4}-\d{2}-\d{2})',\s*'[^']*',\s*'[^']*',\s*'([a-z]+)'", src)
+    if not tous and re.search(r'^EVENTS = \[\s*\n\s*\(', src, re.M):
+        raise SystemExit(
+            '!! ABANDON : la liste EVENTS de generate_agenda_nid.py n’est pas '
+            'vide, mais aucune de ses lignes n’a pu etre lue : le motif de '
+            'lecture ne mord plus. Page NON ecrite.')
+    dates = [iso for iso, typ in tous if typ == 'mensuel']
+    if sorted(dates) != dates or len(set(dates)) != len(dates):
+        raise SystemExit(
+            '!! ABANDON : les rendez-vous mensuels de l’agenda ne sont pas dans '
+            'l’ordre chronologique, ou une date y figure deux fois : %s. '
+            'Page NON ecrite.' % dates)
+    return dates
+
+
+#: Une soiree = sa date (venue de l'agenda) + son texte (venu de `CONTENUS`).
+SOIREES = [dict(CONTENUS.get(iso, {}), iso=iso, jour=_en_clair(iso),
+                ancre=ANCRES.get(iso, 'soiree-' + iso))
+           for iso in _dates_mensuelles()]
 
 #: les mots de David pour une soiree dont le programme n'est pas arrete. Ils
 #: apparaissent dans la ligne du programme ET dans l'encart : c'est la meme
@@ -660,6 +739,71 @@ def programme():
     return ('<ol class="rdv-list">' + ''.join(ligne(d) for d in SOIREES)
             + '<li%s>%s</li>' % (REG.repli('rdv-programme'), EN_PREPARATION)
             + '</ol>')
+
+
+# --------------------------------------------------------------------------- #
+# LE CHAPEAU DU PROGRAMME — LES MOTS DE DAVID, LES NOMBRES CALCULES
+# --------------------------------------------------------------------------- #
+# ⚠️ 27/08/2026 — CETTE PHRASE ETAIT ECRITE EN DUR, ET ELLE ALLAIT MENTIR.
+# Elle disait « Quatre rendez-vous sont posés jusqu'en décembre. Le programme du
+# 4 septembre est écrit… » : le 5 septembre, il n'y en aurait plus eu que trois,
+# et la page l'aurait affirme quand meme. Depuis que les dates viennent de
+# l'agenda, ce chapeau doit suivre.
+#
+# CE QUI A ETE FAIT, ET CE QUI NE L'A PAS ETE : la phrase de David n'est PAS
+# reecrite. Seuls ses NOMBRES et ses DATES sont calcules — « Quatre », « en
+# décembre », « du 4 septembre », « les trois soirées suivantes ». Aucun mot
+# nouveau n'est invente ; les variantes ci-dessous ne font qu'accorder la meme
+# phrase au singulier, ou la raccourcir quand aucun programme n'est encore ecrit.
+# Avec les donnees du 27/08/2026, elle rend le texte publie AU CARACTERE PRES.
+NOMBRES = ('aucun', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept',
+           'huit', 'neuf', 'dix', 'onze', 'douze')
+
+
+def _en_lettres(n):
+    """« trois » jusqu'a douze, puis le chiffre. Au-dela, on n'ecrit plus en
+    toutes lettres : « quinze » se lit mal dans une phrase deja longue."""
+    return NOMBRES[n] if n < len(NOMBRES) else str(n)
+
+
+def _jour_mois(iso):
+    d = dt.date.fromisoformat(iso)
+    return '%d %s' % (d.day, MOIS[d.month - 1])
+
+
+def intro_programme():
+    if not SOIREES:
+        return 'Les prochaines dates seront annoncées ici.'
+    dernier = dt.date.fromisoformat(SOIREES[-1]['iso'])
+    n = len(SOIREES)
+    if n == 1:
+        phrases = ['Un rendez-vous est posé en %s.' % MOIS[dernier.month - 1]]
+    else:
+        phrases = ['%s rendez-vous sont posés jusqu’en %s.'
+                   % (_en_lettres(n).capitalize(), MOIS[dernier.month - 1])]
+    ecrits = [d for d in SOIREES if d.get('titre')]
+    reste = n - len(ecrits)
+    if len(ecrits) == 1:
+        debut = ('Le programme du %s est écrit et la réservation est ouverte'
+                 if ecrits[0].get('resa') else 'Le programme du %s est écrit')
+        debut = debut % _jour_mois(ecrits[0]['iso'])
+    elif ecrits:
+        debut = '%s soirées ont déjà leur programme' % _en_lettres(len(ecrits)).capitalize()
+    else:
+        debut = ''
+    if not debut:
+        phrases.append('Leur programme sera annoncé ici.' if n > 1
+                       else 'Son programme sera annoncé ici.')
+    elif reste == 0:
+        phrases.append(debut[0].upper() + debut[1:] + '.')
+    elif reste == 1:
+        phrases.append('%s ; la soirée suivante attend le sien, et il sera '
+                       'annoncé ici.' % debut)
+    else:
+        phrases.append('%s ; les %s soirées suivantes attendent le leur, et il '
+                       'sera annoncé ici.' % (debut, _en_lettres(reste)))
+    phrases.append('Chaque date ouvre son encart, juste en dessous.')
+    return ' '.join(phrases)
 
 
 # --------------------------------------------------------------------------- #
@@ -918,7 +1062,7 @@ HTML = f"""<!DOCTYPE html>
 <section class="band" id="programme"><div class="wrap">
   <div class="kick">Le programme</div>
   <h2 class="sec-title">Les prochaines dates, en un coup d’œil</h2>
-  <p class="lead">Quatre rendez-vous sont posés jusqu’en décembre. Le programme du 4 septembre est écrit et la réservation est ouverte ; les trois soirées suivantes attendent le leur, et il sera annoncé ici. Chaque date ouvre son encart, juste en dessous.</p>
+  <p class="lead">{intro_programme()}</p>
   {programme()}
 </div></section>
 
@@ -968,21 +1112,35 @@ HTML = nav_menu.inject(HTML, SLUG)
 # --------------------------------------------------------------------------- #
 # GARDE-FOUS — la page n'est PAS ecrite si l'un d'eux tombe
 # --------------------------------------------------------------------------- #
-def _controle_dates():
-    """Les 4 dates doivent etre celles de l'agenda de /le-nid.
+def _controle_contenus():
+    """Aucun texte de David ne doit cesser d'etre publie en silence.
 
-    On RELIT `generate_agenda_nid.py` en texte plutot que de l'importer : ce
-    module travaille au moment de l'import et reecrirait /le-nid (piege
-    documente dans build.py). Une date ajoutee ou retiree la-bas arrete donc la
-    generation ici, au lieu de laisser une page en retard partir en ligne.
+    ⚠️ 27/08/2026 — CE CONTROLE REMPLACE `_controle_dates()`. L'ancien exigeait
+    que la liste de dates ecrite ici soit MOT POUR MOT celle de l'agenda ; les
+    dates ne sont plus ecrites ici, elles en viennent, la question ne se pose
+    donc plus. Le risque a change de place : c'est maintenant le TEXTE qui peut
+    se retrouver orphelin.
+
+    Une entree de `CONTENUS` dont la date n'est PAS dans l'agenda, deux cas :
+      * date PASSEE  -> normal. La soiree a eu lieu, elle a quitte l'agenda, son
+                        texte reste range ici. On ne dit rien.
+      * date A VENIR -> anormal. David a deplace la soiree dans son agenda sans
+                        deplacer son texte : la page publierait « Programme en
+                        cours d'elaboration » a la nouvelle date alors que le
+                        programme est ecrit. On ABANDONNE.
     """
-    src = _source_agenda()
-    vues = re.findall(r"\('(\d{4}-\d{2}-\d{2})',\s*'[^']*',\s*'[^']*',\s*'mensuel'", src)
-    attendu = [d['iso'] for d in SOIREES]
-    if vues != attendu:
+    connues = set(d['iso'] for d in SOIREES)
+    aujourdhui = dt.date.today().isoformat()
+    perdus = sorted(iso for iso in CONTENUS
+                    if iso not in connues and iso >= aujourdhui)
+    if perdus:
         raise SystemExit(
-            '!! ABANDON : les rendez-vous mensuels de generate_agenda_nid.py '
-            'sont %s, cette page annonce %s. Page NON ecrite.' % (vues, attendu))
+            '!! ABANDON : le texte de la ou des soirees du %s est ecrit dans '
+            'CONTENUS, mais aucune date correspondante n’existe dans l’agenda '
+            'de /le-nid (generate_agenda_nid.py, lignes « mensuel »). Ce texte '
+            'ne serait pas publie. Soit la date a bouge dans l’agenda Google et '
+            'il faut deplacer l’entree de CONTENUS, soit la soiree est annulee '
+            'et il faut le dire. Page NON ecrite.' % ', '.join(perdus))
 
 
 def _controle_ordre():
@@ -996,8 +1154,11 @@ def _controle_ordre():
     reperes = [('le bouton « Voir les prochaines dates »',
                 'class="cta rdv-saut"'),
                ('la section intention (le projet)', 'id="intention"'),
-               ('le programme et ses dates', 'id="programme"'),
-               ('le premier encart', 'id="%s"' % SOIREES[0]['ancre'])]
+               ('le programme et ses dates', 'id="programme"')]
+    # Sans aucune date a venir, il n'y a pas d'encart : les trois premiers
+    # reperes se verifient quand meme, le quatrieme n'a plus d'objet.
+    if SOIREES:
+        reperes.append(('le premier encart', 'id="%s"' % SOIREES[0]['ancre']))
     places = []
     for quoi, marqueur in reperes:
         ou = HTML.find(marqueur)
@@ -1046,6 +1207,22 @@ def _controle_ancres():
                          'soiree(s). Page NON ecrite.' % (lignes, len(SOIREES)))
 
 
+def _mots(valeur):
+    """Tout le texte d'une soiree, mis bout a bout.
+
+    Les champs sont des chaines, des listes de chaines et des listes de tuples :
+    on aplatit, sans rien interpreter. Sert aux garde-fous qui doivent compter
+    ce que le TEXTE d'une soiree contient, sans dependre de la forme du champ.
+    """
+    if isinstance(valeur, str):
+        return valeur + ' '
+    if isinstance(valeur, dict):
+        return ''.join(_mots(v) for v in valeur.values())
+    if isinstance(valeur, (list, tuple)):
+        return ''.join(_mots(v) for v in valeur)
+    return ''
+
+
 def _controle_jauge():
     """La jauge d'INSTATIC est ecrite a trois endroits : elle doit dire pareil.
 
@@ -1053,6 +1230,13 @@ def _controle_jauge():
     corrige a un endroit sur deux — le second contredit alors le premier sur la
     page publiee, et personne ne s'en apercoit avant la soiree.
     ⚠️ Le TARIF vaut 20 EUR et n'a pas change : ne pas le confondre.
+
+    ⚠️ 27/08/2026 — LE COMPTE ATTENDU N'EST PLUS LE CHIFFRE 3 ECRIT EN DUR. Le
+    3 valait pour INSTATIC, qui est la seule soiree redigee ; le jour ou elle
+    quitte l'agenda (le 5 septembre), la page n'annoncerait plus aucune jauge et
+    un « attendu 3 » aurait bloque la generation pour toujours. On compte donc
+    ce que les soirees REELLEMENT PUBLIEES contiennent, et on exige que la page
+    le repete exactement.
     """
     dits = re.findall(r'(\d+)\s*(?:places|personnes)', HTML)
     faux = [n for n in dits if n != str(JAUGE)]
@@ -1060,10 +1244,12 @@ def _controle_jauge():
         raise SystemExit('!! ABANDON : la page annonce une jauge de %s alors '
                          'que JAUGE vaut %d. Page NON ecrite.'
                          % (' et '.join(faux), JAUGE))
-    if len(dits) != 3:
-        raise SystemExit('!! ABANDON : la jauge est annoncee %d fois, attendu 3 '
-                         '(la ligne du programme, la fiche pratique et '
-                         'l’encadre des portes). Page NON ecrite.' % len(dits))
+    attendu = sum(len(re.findall(r'(\d+)\s*(?:places|personnes)', _mots(d)))
+                  for d in SOIREES if d.get('titre'))
+    if len(dits) != attendu:
+        raise SystemExit('!! ABANDON : la jauge est annoncee %d fois sur la '
+                         'page, alors que le texte des soirees publiees la dit '
+                         '%d fois. Page NON ecrite.' % (len(dits), attendu))
 
 
 def _controle_structure():
@@ -1090,16 +1276,31 @@ def _controle_structure():
     # INSTATIC_RESA. Les deux libelles different et c'est aussi verifie :
     # celui du haut n'affiche pas le prix (il est deux lignes plus haut dans la
     # fiche), celui du bas si.
-    if HTML.count(INSTATIC_RESA) != 2:
-        raise SystemExit('!! ABANDON : %d occurrence(s) du lien de billetterie, '
-                         'attendu 2 (sous la fiche pratique, et en bas de '
-                         'l’encart). Page NON ecrite.' % HTML.count(INSTATIC_RESA))
-    for libelle, ou in (('Réserver ma place ↗', 'sous la fiche pratique'),
-                        ('Réserver ma place — 20 € ↗', 'en bas de l’encart')):
-        if HTML.count('>%s<' % libelle) != 1:
+    # ⚠️ 27/08/2026 — LES COMPTES SONT CALCULES, PLUS ECRITS EN DUR. « 2 » ne
+    # valait que tant qu'INSTATIC etait publiee : sa date passee, elle quitte
+    # l'agenda, l'encart disparait et un « attendu 2 » aurait bloque la
+    # generation pour toujours. Le controle dit maintenant la meme chose, mais
+    # en partant des soirees reellement publiees : une soiree redigee qui a une
+    # billetterie porte son bouton DEUX fois, une soiree sans billetterie zero.
+    publiees = [d for d in SOIREES if d.get('titre')]
+    haut = [d for d in publiees if d.get('faits') and d.get('resa')]
+    attendu = sum(1 for d in haut if d['resa'] == INSTATIC_RESA) \
+        + sum(1 for d in publiees if d.get('resa') == INSTATIC_RESA)
+    if HTML.count(INSTATIC_RESA) != attendu:
+        raise SystemExit('!! ABANDON : %d occurrence(s) du lien de billetterie '
+                         'd’INSTATIC, attendu %d (un bouton sous la fiche '
+                         'pratique et un en bas de l’encart, pour chaque soiree '
+                         'publiee qui l’utilise). Page NON ecrite.'
+                         % (HTML.count(INSTATIC_RESA), attendu))
+    for libelle, ou, combien in (
+            ('Réserver ma place ↗', 'sous la fiche pratique', len(haut)),
+            ('Réserver ma place — 20 € ↗', 'en bas de l’encart',
+             sum(1 for d in publiees
+                 if d.get('resa_texte') == 'Réserver ma place — 20 € ↗'))):
+        if HTML.count('>%s<' % libelle) != combien:
             raise SystemExit('!! ABANDON : le bouton « %s » (%s) apparait %d '
-                             'fois, attendu 1. Page NON ecrite.'
-                             % (libelle, ou, HTML.count('>%s<' % libelle)))
+                             'fois, attendu %d. Page NON ecrite.'
+                             % (libelle, ou, HTML.count('>%s<' % libelle), combien))
 
     # L'abonnement a l'agenda : une fois par soiree non programmee, et jamais
     # une adresse recopiee a la main.
@@ -1123,7 +1324,7 @@ def _controle_structure():
                          'Page NON ecrite.')
 
 
-_controle_dates()
+_controle_contenus()
 _controle_ordre()
 _controle_ancres()
 _controle_jauge()

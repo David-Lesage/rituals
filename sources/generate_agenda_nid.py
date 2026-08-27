@@ -38,8 +38,20 @@ meme fichier, et plus AUCUN `re.sub` de nettoyage n'est necessaire.
 
 LES EVENEMENTS
 --------------
-Ils sont recuperes via le connecteur Google Calendar puis figes dans EVENTS.
-Pour actualiser : relancer la lecture du calendrier et mettre a jour EVENTS.
+⚠️ 27/08/2026 — `EVENTS` N'EST PLUS RECOPIE A LA MAIN. Il est REECRIT chaque
+nuit par `sources/synchro_agenda.py`, qui lit le flux public du meme agenda
+Google (CAL_ID ci-dessous) et n'en garde que les evenements A VENIR dont le
+titre figure dans sa table de correspondance. Tout le mode d'emploi est en tete
+de ce fichier-la. Ici, retenir seulement :
+
+  * la liste vit ENTRE DEUX BALISES (« DEBUT / FIN DES DATES SYNCHRONISEES ») ;
+    n'ecrire aucune note entre elles, la prochaine synchronisation l'effacerait.
+    Les notes vont AU-DESSUS de la balise de debut, comme celles qui suivent ;
+  * le titre et la note publies ne viennent PAS du flux : ils sont decides une
+    fois pour toutes dans la table de `synchro_agenda.py`. Le flux ne fournit
+    que la date, l'heure de debut et l'heure de fin ;
+  * on peut toujours modifier la liste a la main : la synchronisation suivante
+    la reecrira depuis l'agenda, sans se plaindre.
 
 ⚠️ PAGE SENSIBLE : elle porte l'agenda, les reservations et des liens de
 billetterie qui DIFFERENT d'un evenement a l'autre (URL_PAR_EVENT). Un garde-fou
@@ -95,12 +107,20 @@ CAL_WEBCAL = ('webcal://calendar.google.com/calendar/ical/'
               + urllib.parse.quote(CAL_ID, safe='') + '/public/basic.ics')
 
 # (date ISO, heure debut, heure fin, type, titre, note)
+#
+# ⚠️ N'ECRIRE AUCUN COMMENTAIRE ENTRE LES DEUX BALISES CI-DESSOUS : le bloc est
+#    reecrit en entier a chaque synchronisation et tout ce qu'il contient serait
+#    perdu. Les notes se posent ICI, au-dessus de la balise de debut.
+#
+# 20/08/2026 — David a tranche pour le rendez-vous mensuel du 4 septembre :
+# « c'est l'horaire de l'INSTATIC qui gagne ». Ce RDV a un programme, donc il
+# porte son nom et ses horaires reels (19h00-21h30, accueil 18h45, portes
+# fermees a 19h00). L'agenda Google public a ete corrige en meme temps — et
+# c'est desormais LUI qui fournit ces horaires, donc les deux ne peuvent plus
+# diverger.
+# --- DEBUT DES DATES SYNCHRONISEES (ecrit par sources/synchro_agenda.py) ---
 EVENTS = [
     ('2026-08-23', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
-    # 20/08/2026 — David a tranche : « c'est l'horaire de l'INSTATIC qui gagne ».
-    # Ce RDV mensuel a un programme, donc il porte son nom et ses horaires reels
-    # (19h00-21h30, accueil 18h45, portes fermees a 19h00). L'agenda Google
-    # public a ete corrige en meme temps : garder les deux accordes.
     ('2026-09-04', '19:00', '21:30', 'mensuel', 'INSTATIC Dance', 'avec Iris & David'),
     ('2026-09-06', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-09-19', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
@@ -121,6 +141,7 @@ EVENTS = [
     ('2026-12-05', '15:00', '18:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-12-06', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
 ]
+# --- FIN DES DATES SYNCHRONISEES ---
 
 LIEU = 'Le Nid, 29 rue des Orteaux, 75020 Paris'
 # Libelle de lieu utilise dans les liens Google Agenda (tirets cadratins comme sur le site)

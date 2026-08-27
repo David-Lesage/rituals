@@ -212,13 +212,21 @@ MARQUEURS_UNIQUES = {
     # ⚠️ `id="a-venir"` A DISPARU le 20/08/2026 : David a fait supprimer la
     #    section « Ce qui se prepare » (les quatre formats sans date). Ce n'est
     #    pas un oubli, ne pas la remettre dans cette liste.
+    # ⚠️ LES QUATRE ANCRES D'ENCART (`id="instatic"`, `id="soiree-2026-10-02"`
+    #    et les deux suivantes) ONT QUITTE CETTE LISTE LE 27/08/2026. Elles y
+    #    etaient ecrites en dur ; depuis que les dates des soirees viennent de
+    #    l'agenda Google (voir `generate_rdv_mensuels.py`), elles changent
+    #    toutes seules, et une liste figee aurait fait echouer la verification
+    #    de tout le site des la premiere soiree passee.
+    #    CE QUI LES REMPLACE, ET QUI COUVRE LA MEME CHOSE SANS DATE FIGEE :
+    #      * `controle_doublons` refuse deja TOUT identifiant present deux fois
+    #        (quelques lignes plus bas, sur `id="…"` en general) ;
+    #      * `controle_liens` refuse tout lien `href="#…"` sans cible ;
+    #      * `_controle_ancres()` du generateur exige, AVANT d'ecrire, qu'il y
+    #        ait exactement un encart et un lien par soiree.
     'rendez-vous-mensuels/index.html': (
         ('id="intention"', "section intention (le projet, en tete de page)"),
-        ('id="programme"', 'le programme et ses quatre dates'),
-        ('id="instatic"', 'encart INSTATIC Dance'),
-        ('id="soiree-2026-10-02"', 'encart de la soiree du 2 octobre'),
-        ('id="soiree-2026-11-07"', 'encart de la soiree du 7 novembre'),
-        ('id="soiree-2026-12-04"', 'encart de la soiree du 4 decembre'),
+        ('id="programme"', 'le programme et ses dates'),
     ),
     'association/index.html': (
         ('id="objet"', "section objet de l'association"),
