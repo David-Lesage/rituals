@@ -1,0 +1,118 @@
+# ---------------------------------------------------------------------------
+# L'AGENDA DU NID MET LE SITE A JOUR TOUT SEUL, TOUTES LES NUITS
+# ---------------------------------------------------------------------------
+# Ce fichier est la « tache planifiee ». Il ne contient aucune intelligence :
+# tout le travail — et surtout tous les garde-fous — est dans
+# `sources/synchro_agenda.py`, qui s'explique lui-meme en tete de fichier.
+#
+# CE QU'IL FAIT, DANS L'ORDRE :
+#   1. il recupere le depot ;
+#   2. il lance la synchronisation (lecture du flux public de l'agenda Google,
+#      reecriture des dates, reconstruction des 31 pages, verifications) ;
+#   3. il ne commite QUE si quelque chose a change ;
+#   4. Vercel publie tout seul, environ 40 secondes plus tard ;
+#   5. en dernier, il previent si un evenement de l'agenda n'a pas ete reconnu.
+#
+# COMBIEN CA COUTE : rien. Le depot est PUBLIC, et GitHub Actions y est gratuit
+# et sans plafond de minutes.
+#
+# AUCUN SECRET N'EST NECESSAIRE. Le flux de l'agenda est public (c'est le meme
+# que celui du bouton « s'abonner au calendrier » sur /le-nid), et le commit se
+# fait avec le `GITHUB_TOKEN` que GitHub fournit tout seul a chaque execution.
+#
+# ⚠️ POUR ARRETER L'AUTOMATISATION : onglet « Actions » du depot -> « Agenda du
+#    Nid » -> menu « ... » -> « Disable workflow ». Le site reste exactement
+#    dans l'etat de la derniere execution ; rien n'est perdu. Pour l'arreter
+#    definitivement, supprimer ce fichier.
+# ---------------------------------------------------------------------------
+name: Agenda du Nid
+
+on:
+  schedule:
+    # 03:17 UTC — soit 05:17 a Paris en heure d'ete, 04:17 en heure d'hiver.
+    # POURQUOI CETTE HEURE-LA :
+    #   * c'est APRES minuit heure de Paris dans les deux saisons. Une soiree
+    #     qui se termine a 23h30 est donc bien finie quand le script trie ;
+    #   * personne ne lit le site a cette heure-la : si une publication devait
+    #     mal tourner, elle serait vue par personne avant qu'on la rattrape ;
+    #   * 17 et pas 00 : les taches planifiees de GitHub se bousculent sur les
+    #     heures rondes et peuvent etre retardees de plusieurs dizaines de
+    #     minutes. Une minute « impaire » passe tout de suite.
+    # ⚠️ GitHub ne garantit pas la minute exacte, et peut sauter une execution
+    #    si la plateforme est saturee. Ce n'est pas grave : la synchronisation
+    #    n'est pas incrementale, la nuit suivante rattrape tout.
+    - cron: '17 3 * * *'
+  # Pour lancer une synchronisation a la main : onglet « Actions » du depot ->
+  # « Agenda du Nid » -> bouton « Run workflow ».
+  workflow_dispatch:
+
+# Le seul droit demande : ecrire dans le depot (le commit des dates).
+permissions:
+  contents: write
+
+# Jamais deux synchronisations en meme temps : la seconde attend la premiere.
+concurrency:
+  group: agenda-du-nid
+  cancel-in-progress: false
+
+jobs:
+  synchroniser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Recuperer le depot
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Les memes garde-fous qu'en local : le crochet `pre-push` relance la
+      # verification des 31 pages juste avant que quoi que ce soit ne parte.
+      - name: Activer les crochets git du projet
+        run: git config core.hooksPath .githooks
+
+      # Si ce pas echoue, TOUT s'arrete : les pas suivants ne s'executent pas,
+      # donc rien n'est commite ni publie. C'est exactement ce qu'on veut.
+      - name: Lire l'agenda, reecrire les dates, reconstruire et verifier
+        run: |
+          python3 sources/synchro_agenda.py \
+            --appliquer \
+            --rapport "$RUNNER_TEMP/signalements.txt"
+
+      - name: Publier, seulement si quelque chose a change
+        run: |
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "Rien n'a change : aucune publication."
+            exit 0
+          fi
+          git config user.name  "Agenda du Nid"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit \
+            -m "Dates du Nid mises a jour depuis l'agenda Google" \
+            -m "Ecrit par sources/synchro_agenda.py, lance par .github/workflows/agenda-du-nid.yml. Les 31 pages ont ete reconstruites et verifiees avant ce commit."
+          git push
+          echo "Publie. Vercel met le site en ligne dans environ 40 secondes."
+
+      # DERNIER PAS, ET IL EST VOLONTAIREMENT APRES LA PUBLICATION : un
+      # evenement non reconnu ne doit pas empecher les autres de paraitre. Mais
+      # il ne doit pas passer inapercu non plus — un pas rouge, c'est un email
+      # de GitHub a David, avec le detail juste au-dessus.
+      - name: Signaler les evenements de l'agenda qui n'ont pas ete reconnus
+        if: always()
+        run: |
+          FICHIER="$RUNNER_TEMP/signalements.txt"
+          if [ ! -s "$FICHIER" ]; then
+            echo "Tous les evenements a venir de l'agenda ont ete reconnus."
+            exit 0
+          fi
+          echo "Ces evenements de l'agenda ne sont PAS publies sur le site :"
+          echo ""
+          sed 's/^/  · /' "$FICHIER"
+          echo ""
+          echo "Le reste du site a bien ete mis a jour."
+          echo "Si l'un d'eux doit paraitre, ajouter son titre EXACT dans la"
+          echo "table CORRESPONDANCE de sources/synchro_agenda.py."
+          exit 1

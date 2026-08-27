@@ -25,14 +25,19 @@ Il fait UNE chose : a l'ouverture de la page, le NAVIGATEUR compare chaque date
 publiee a l'instant present et masque celles qui sont finies. Le HTML livre,
 lui, contient TOUJOURS toutes les dates.
 
-    ⚠️ CE N'EST DONC PAS LA VRAIE REPONSE. La vraie reponse — le niveau 2 — est
-       la reconstruction automatique du site depuis l'agenda Google (une tache
-       planifiee qui relance `build.py` et republie). Tant qu'elle n'existe pas,
-       la page publiee VIEILLIT quand meme : son HTML ne gagne jamais de
-       nouvelle date, il ne fait qu'en perdre. Le jour ou toutes les dates
-       ecrites seront passees, la page dira « en preparation » — ce qui est
-       exact — mais elle ne saura pas annoncer la suite toute seule.
-       NE PAS PRENDRE CE FICHIER POUR LE CHANTIER TERMINE.
+    ⚠️ CE N'EST DONC PAS LA VRAIE REPONSE, ET CE MODULE NE L'A JAMAIS ETE. La
+       vraie reponse — le niveau 2 — est la reconstruction automatique du site
+       depuis l'agenda Google. ELLE EXISTE DEPUIS LE 27/08/2026 :
+       `sources/synchro_agenda.py`, lance chaque nuit par
+       `.github/workflows/agenda-du-nid.yml`. C'est elle qui fait GAGNER des
+       dates a la page ; ce module-ci ne fait qu'en cacher.
+
+       LES DEUX NE FONT PAS DOUBLE EMPLOI, et il ne faut retirer ni l'un ni
+       l'autre : la synchronisation passe une fois par nuit, donc entre 21h31 et
+       le lendemain matin, une soiree finie serait encore ecrite dans le HTML.
+       C'est exactement le trou que ce module bouche, dans le navigateur, a la
+       seconde pres. Il reste aussi le seul filet si la tache planifiee est
+       arretee ou saute une nuit.
 
 Il ne touche a rien d'autre : aucune date n'est retiree du HTML, aucun texte
 n'est reecrit, et sans JavaScript la page est EXACTEMENT celle d'avant (les

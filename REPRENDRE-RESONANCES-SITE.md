@@ -110,6 +110,131 @@ git config core.hooksPath .githooks
 
 ---
 
+# 🗓️ L'AGENDA GOOGLE MET LE SITE À JOUR TOUT SEUL (27/08/2026)
+
+*Cette section est écrite pour David. Aucune commande à taper, aucun jargon.*
+
+## En une phrase
+
+**Ton agenda Google « Le Nid » est devenu la seule source des dates du site.**
+Chaque nuit, vers 5 h du matin, le site va le lire, se refabrique et se republie tout
+seul. Tu n'as plus rien à me demander : tu ajoutes une date dans ton agenda, elle est
+en ligne le lendemain matin. Une date passée disparaît de la même façon.
+
+Ça tourne sur GitHub, c'est **gratuit** (le dépôt est public), et **aucune IA n'est en
+marche** : c'est du code qui fait toujours exactement la même chose.
+
+## Pour qu'une date apparaisse sur le site : duplique un événement existant
+
+C'est la seule chose à retenir.
+
+> Dans Google Agenda, **ouvre un événement du même genre qui existe déjà**, fais
+> « Dupliquer », et change la date et l'heure. **Ne touche pas au titre.**
+
+Pourquoi : le site ne publie que les événements dont le titre est dans une liste
+connue. Un titre reconnu = la date paraît. Un titre inconnu = **elle ne paraît pas**,
+et je (ou GitHub) te préviens. C'est volontaire, et c'est ce qui protège le site.
+
+**Les neuf titres reconnus aujourd'hui** (à gauche ce que dit ton agenda, à droite ce
+que le site affiche) :
+
+| Dans ton agenda Google | Sur le site |
+|---|---|
+| `Rendez-vous mensuel au Nid` | Rendez-vous mensuel au Nid |
+| `INSTATIC Dance — Le Nid` | INSTATIC Dance · *avec Iris & David* |
+| `Concert de David Lesage — Le Nid` | Concert — David Lesage solo |
+| `Concert de David Lesage — Le Nid + Guest Lucie au violon` | Concert — David Lesage solo |
+| `Concert RITUALS trio — David, Iris & Julien — Le Nid` | Concert — David, Iris & Julien |
+| `Concert Sortie de résidence — Le Nid` | Sortie de résidence |
+| `Atelier de yoga — Le Nid` | Atelier de yoga · *avec Iris Chasles* |
+| `Groupe de pratique rythme calebasse engagé — Le Nid` | Groupe de pratique rythme calebasse engagé |
+| `Présentation d'instruments d'exception — Le Nid` | Présentation d'instruments d'exception |
+
+Tu vois que **le titre du site n'est pas celui de l'agenda**. C'est voulu : ce sont des
+textes qu'on a écrits et validés ensemble. Ça veut aussi dire qu'un emoji, un nom
+d'invité ou une note perso glissés dans un titre d'agenda **ne peuvent pas** se
+retrouver sur le site.
+
+## Ce qui n'ira JAMAIS sur le site
+
+- **Tout ce dont le titre n'est pas dans le tableau ci-dessus.** Si tu notes « RDV
+  médecin » ou « Anniversaire Iris » dans cet agenda, c'est ignoré. (Testé : ils sont
+  bien restés dehors.) Cet agenda a déjà contenu 13 événements privés — c'est
+  exactement pour ça que la règle est aussi stricte.
+- **Les descriptions de tes événements.** Elles ne sont même pas lues. C'est important :
+  elles contiennent la phrase sur le code du portail.
+- **Les lieux, les invités, les adresses e-mail.** Jamais lus non plus.
+- **Un événement « journée entière »** (sans horaire) : le site a besoin d'une heure de
+  début et d'une heure de fin. Mets un horaire.
+- **Un événement qui se répète** (« tous les mois »). Crée-les un par un ou duplique-les.
+
+## Comment savoir qu'une date n'est pas passée
+
+Quand un événement à venir n'est pas reconnu, **GitHub t'envoie un e-mail** disant que
+la tâche « Agenda du Nid » a échoué. Le site, lui, a bien été mis à jour pour tout le
+reste. Dans l'e-mail, un lien mène à la page où c'est écrit noir sur blanc : quel
+événement, et pourquoi.
+
+Pour aller voir toi-même à n'importe quel moment :
+**github.com/David-Lesage/rituals → onglet « Actions » → « Agenda du Nid »**. Chaque
+nuit y laisse une ligne. Vert = tout est passé, rouge = quelque chose est à regarder.
+
+## Si une date n'apparaît pas — les trois choses à vérifier, dans l'ordre
+
+1. **L'orthographe du titre** dans ton agenda. Une lettre en trop et ce n'est plus le
+   même titre. (Les accents comptent ; les espaces en double et les majuscules, non.)
+2. **L'événement a-t-il un horaire ?** Une « journée entière » n'est pas publiable.
+3. **Est-ce que la nuit est passée ?** La mise à jour a lieu vers 5 h du matin. Une date
+   ajoutée à 22 h paraît le lendemain matin, pas dans la minute.
+
+Et si tu veux la publier **tout de suite** sans attendre la nuit : onglet « Actions » →
+« Agenda du Nid » → bouton **« Run workflow »**. Ça prend deux minutes.
+
+## Pour l'arrêter
+
+Onglet **« Actions »** du dépôt → « Agenda du Nid » → le menu **« … »** en haut à droite
+→ **« Disable workflow »**. Le site reste exactement dans l'état de la dernière nuit ;
+rien n'est perdu, rien n'est effacé. On peut le réactiver au même endroit.
+
+## Ce que ça ne fait PAS (à savoir)
+
+- **Ça ne rédige rien.** Une nouvelle soirée mensuelle apparaît avec la mention
+  « Programme en cours d'élaboration », et elle reste comme ça tant que le texte n'est
+  pas écrit. C'est le seul travail humain qui reste.
+- **Ça ne crée pas de billetterie.** Si tu déplaces un concert qui a un lien HelloAsso,
+  la mise à jour **s'arrête et te prévient** plutôt que de publier un bouton
+  « Réserver » qui mènerait au mauvais endroit.
+- **Ça ne touche pas à deux pages qui portent encore leurs propres dates** :
+  `/rythme-calebasse` et `/concerts-david-lesage`. Elles se mettent à jour à la main.
+  Le script le rappelle à chaque passage, sans jamais rien changer chez elles.
+- **Ça ne rattrape pas les textes qui vieillissent** : par exemple, la phrase de
+  présentation de `/concerts-david-lesage` cite « 10 octobre et 28 novembre 2026 ».
+
+## Une seule chose à faire de ton côté, une seule fois
+
+Après la mise en ligne de ce chantier, va sur
+**github.com/David-Lesage/rituals → onglet « Actions »** et vérifie que les
+« workflows » sont **activés** (GitHub demande parfois de cliquer un bouton vert la
+première fois sur un dépôt qui n'en avait jamais eu). Ensuite, plus rien.
+
+## Pour la prochaine session (technique)
+
+- Le script : **`sources/synchro_agenda.py`**. Il s'explique en tête de fichier. Mode
+  essai par défaut (`python3 sources/synchro_agenda.py`), `--appliquer` pour agir,
+  `--flux <fichier.ics>` pour rejouer un faux flux, `--date AAAA-MM-JJ` pour simuler un
+  autre jour. **Il ne touche jamais à git.**
+- La tâche planifiée : **`.github/workflows/agenda-du-nid.yml`**, `cron: '17 3 * * *'`.
+- La liste blanche : le dictionnaire **`CORRESPONDANCE`**. Un type nouveau doit exister
+  dans `TYPES` de `generate_agenda_nid.py` — le script le vérifie et refuse sinon.
+- `EVENTS` de `generate_agenda_nid.py` vit entre deux balises
+  `# --- DEBUT/FIN DES DATES SYNCHRONISEES ---`. **Ne rien écrire entre elles** : c'est
+  réécrit à chaque passage. Les notes vont au-dessus.
+- `/rendez-vous-mensuels` **lit** ses dates dans `EVENTS` et ne garde que le texte de
+  chaque soirée (`CONTENUS`, rangé par date). Une soirée passée n'efface jamais son
+  texte.
+
+---
+
 ## LES 31 PAGES EN LIGNE (2026-08-20)
 
 | URL | Rôle | Public |
@@ -307,6 +432,10 @@ Cibles tactiles 44 px · plancher typo 13 px (hors `<sup>`) · `:focus-visible` 
 - **`/rythme-calebasse`** : contenu Now Groove (gourde, 2012, infra-basses, œufs = charleston + caisse claire, calebasses signature d'Afrique de l'Ouest retravaillées par Kamou) · workshops au Nid (2 h, instrument fourni, 3 dates) · format « intervention jusqu'à 50 personnes » présenté séparément · **appel à candidature** groupe de pratique 1 an, 1 workshop/mois, ~4 places · **formulaire par email** (compose un `mailto` + panneau « copier le message », repli sans JS). Écarté : « c'est prouvé scientifiquement », hémisphères du cerveau, états de transe. Aucun tarif (la source n'en publie aucun).
 
 ### Google Agenda « Le Nid » (`30716d7f…@group.calendar.google.com`, PUBLIC)
+🗓️ **DEPUIS LE 27/08/2026, CET AGENDA EST LA SOURCE UNIQUE DES DATES DU SITE** — il est lu
+chaque nuit et le site se republie tout seul. Mode d'emploi complet : section « 🗓️ L'AGENDA
+GOOGLE MET LE SITE À JOUR TOUT SEUL » en haut de ce fichier. ⚠️ Ne plus modifier `EVENTS` à
+la main en pensant que ça durera : la nuit suivante réécrit tout depuis l'agenda.
 Code portail retiré des 20 événements · 3 rappels (10080/1440/120 min, popup) sur les 42 · 5 événements renommés « Présentation d'instruments d'exception — Le Nid ».
 ⚠️ **Limite Google actée** : les rappels d'un calendrier public **ne se propagent pas aux abonnés**. Seuls les `.ics` téléchargés les embarquent (3 VALARM : 1 sem / 1 j / 2 h).
 🔴 **ALERTE NON RÉSOLUE — action de David requise** : le code du portail est en clair **3 fois**, sur `https://sites.google.com/lesagedavid.fr/soin-incarnation-soa/accueil`, page publique sans authentification. Je ne peux pas éditer Google Sites. À remplacer par « le code du portail vous est communiqué avec votre confirmation d'inscription ».
@@ -327,6 +456,11 @@ Code portail retiré des 20 événements · 3 rappels (10080/1440/120 min, popup
 **Toutes les vidéos doivent se lire SUR le site**, jamais dans un nouvel onglet ni dans l'appli YouTube. Composant `.lb` / `openYT()` en surimpression (déjà présent sur rituals, trio, e-motion), en cours de généralisation + passage à `youtube-nocookie.com`, fermeture par Échap, `src` vidée à la fermeture. Un lien de secours discret reste **dans** le lecteur (iframe bloquée = personne coincée sinon). Les liens de **plateformes** (Spotify, chaîne YouTube, boutique) restent en nouvel onglet : ce n'est pas la même chose.
 
 ## EN ATTENTE DE DAVID
+0. 🗓️ **Concert du 28 novembre : « solo » ou « + Guest Lucie au violon » ?** L'agenda Google
+   annonce « Concert de David Lesage — Le Nid **+ Guest Lucie au violon** », le site écrit
+   « Concert — David Lesage solo ». Les deux se contredisent. La synchronisation reproduit
+   **ce qui est déjà en ligne** ; changer l'annonce est une décision de David. (Une fois
+   tranché : une ligne de `CORRESPONDANCE` dans `sources/synchro_agenda.py`.)
 1. 🔴 **Retirer le code du portail de la page Google Sites du Soin Soa** (voir alerte ci-dessus).
 2. **Trancher entre les deux chaînes YouTube.**
 3. **Durée des séances du Soin Soa** : 50 min (sa page) ou 1 h (ancienne page) ? **Durée du week-end** : samedi 8 h 30 → dimanche 14 h (1 nuit) ou vendredi soir → dimanche (2 nuits) ? Le nombre de repas à apporter en dépend. **Yoga du matin et mouvements libres du dimanche** : encore d'actualité ? **« Le Cœur du Cercle »** : appellation à revoir si les 3 intervenants sont désormais chacun en individuel.
@@ -513,6 +647,118 @@ seul octet.
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
 ## Journal
+
+### 2026-08-27 (2) — NIVEAU 2 : l'agenda Google écrit le site tout seul (NON POUSSÉ)
+
+**La demande de David** : *« est-ce que ça peut être écrit et automatisé en fonction du
+Google Agenda tout seul, **sans qu'un agent ait besoin de vérifier tous les jours** ? »*
+Réponse : oui, et **sans aucune IA en fonctionnement**. Code déterministe, tâche
+planifiée GitHub Actions, zéro token, zéro secret, gratuit (dépôt public).
+
+**Ce qui a été construit** (mode d'emploi complet pour David : section
+« 🗓️ L'AGENDA GOOGLE MET LE SITE À JOUR TOUT SEUL » en haut de ce fichier) :
+
+| Fichier | Rôle |
+|---|---|
+| `sources/synchro_agenda.py` | lit le flux `.ics` public, réécrit `EVENTS`, reconstruit, vérifie |
+| `.github/workflows/agenda-du-nid.yml` | le lance chaque nuit à 03:17 UTC + bouton manuel |
+| `sources/generate_rdv_mensuels.py` | ne recopie plus les dates : il les **lit** dans `EVENTS` |
+
+**LE MÉCANISME DE LISTE BLANCHE — c'est le cœur, et c'est un choix argumenté.** Un
+événement est publié si, et seulement si, **son titre exact est dans le dictionnaire
+`CORRESPONDANCE`**, qui donne aussi le type, le titre affiché et la note. Trois raisons
+d'avoir écarté les autres pistes :
+
+- *deviner le type depuis le titre* → interdit par le brief, et faux dès qu'un titre
+  bouge d'un mot ;
+- *demander à David de préfixer ses événements* (`[SITE:concert]`) → l'agenda est
+  **public** et des gens y sont abonnés : ils verraient le code technique ;
+- *la couleur de l'événement, ou ses catégories* → Google ne les exporte pas dans le
+  flux `.ics` public. Mesuré : les seules propriétés présentes sont `DTSTART`, `DTEND`,
+  `SUMMARY`, `STATUS`, `DESCRIPTION`, `LOCATION`, `UID`, `SEQUENCE`, `TRANSP`, `CREATED`,
+  `LAST-MODIFIED`, `DTSTAMP`.
+
+Le geste demandé à David est donc le plus simple possible : **dupliquer un événement
+existant** dans Google Agenda et changer la date. Le titre est alors exact par
+construction.
+
+🚨 **CE QUI VIENT DU FLUX : UNE DATE, UNE HEURE DE DÉBUT, UNE HEURE DE FIN. RIEN
+D'AUTRE.** Le titre publié et sa note viennent de la table, donc d'un humain. Le lecteur
+de flux **jette** `DESCRIPTION`, `LOCATION`, `UID` et tout le reste à la lecture : il ne
+filtre pas ce qu'il a gardé, il ne garde pas. Prouvé après coup sur la sortie réelle :
+les 19 lignes écrites ne contiennent **aucun** texte absent de la table, et ni
+« portail », ni « confirmation », ni « Orteaux », ni `@`, ni `http`.
+
+**LES GARDE-FOUS, ET CE QU'ILS ONT REFUSÉ EN ESSAI** :
+
+| Situation simulée | Ce que le script a fait |
+|---|---|
+| « RDV medecin », « Anniversaire Iris » ajoutés au flux | ignorés + **signalés**, site publié quand même |
+| événement « journée entière » | ignoré + signalé (pas d'horaire = pas publiable) |
+| flux vide | **REFUS**, rien écrit |
+| flux tronqué (3 dates sur 19) | **REFUS** — plus de la moitié disparaîtrait |
+| fichier qui n'est pas un calendrier | **REFUS** |
+| 18 dates ajoutées d'un coup | **REFUS** (plafond 15, à appliquer à la main) |
+| concert déplacé de 19:00 à 18:00 | **REFUS** — la clé `URL_PAR_EVENT` ne mordrait plus, le bouton « Réserver » retomberait sur le lien générique |
+| `build.py` / `verif_site.py` / `verif_commentaires.py` en échec | fichier **remis comme avant**, site reconstruit dans son état d'origine, code de sortie 1 → **le workflow ne commite pas** |
+
+Cette dernière ligne a été **observée pour de vrai** pendant les essais (une simulation
+au 10 septembre a fait tomber un garde-fou de `generate_rdv_mensuels.py`) : le script a
+remis `generate_agenda_nid.py` en état et rebâti le site d'origine tout seul.
+
+**POURQUOI `/rendez-vous-mensuels` A DÛ ÊTRE REPRISE EN MÊME TEMPS.** Elle recopiait les
+quatre dates mensuelles et un garde-fou exigeait qu'elles soient **mot pour mot** celles
+de l'agenda. Dès la première soirée passée, la génération se serait arrêtée — tous les
+soirs, pour toujours. Elle **lit** maintenant ses dates dans `EVENTS` et ne garde en
+propre que le **texte** de chaque soirée (`CONTENUS`, rangé par date). Conséquences :
+
+- une soirée ajoutée à l'agenda apparaît toute seule, en « Programme en cours
+  d'élaboration », avec son ancre `soiree-<date>` et son encart ;
+- une soirée passée disparaît **sans que son texte soit effacé** ;
+- trois garde-fous écrits en dur (« attendu 3 jauges », « attendu 2 liens de
+  billetterie », les quatre ancres figées dans `verif_site.py`) comptent désormais ce
+  que les soirées **réellement publiées** contiennent. C'étaient trois impasses.
+
+⚠️ **UNE PHRASE DE LA PAGE ALLAIT MENTIR** : « Quatre rendez-vous sont posés jusqu'en
+décembre. Le programme du 4 septembre est écrit… ». Ses **nombres et ses dates** sont
+maintenant calculés ; **ses mots sont ceux de David**, non réécrits. Avec les données du
+27/08 elle rend le texte publié **au caractère près** ; au 5 septembre elle donne
+« Trois rendez-vous sont posés jusqu'en décembre. Leur programme sera annoncé ici. »
+
+**Vérifications faites** :
+- essai sur le **vrai** flux : 30 événements lus, **19 retenus**, 11 écartés sans alerte
+  (10 passés + …), **0 à signaler**. Le seul changement : le 23 août, passé, disparaît ;
+- application réelle : `EVENTS` passe de 20 à 19 lignes, **identiques à celles écrites à
+  la main** (seul l'alignement des colonnes est normalisé) → la synchro reproduit
+  exactement le travail manuel ;
+- `/le-nid` : le groupe « août 2026 » part en entier (titre + liste + bouton de filtre du
+  mois), 20 → 19 `.ag-item`, aucune date apparue par surprise ;
+- `build.py` deux passes, `verif_site.py` **31/31 code 0**, `verif_commentaires.py`
+  **31/31 code 0** ;
+- scénario du 5 septembre rejoué (INSTATIC retirée d'`EVENTS`, « aujourd'hui » simulé) :
+  page reconstruite, encart et jauge partis proprement, **31/31** ;
+- scénario « plus aucune soirée mensuelle » : la page se réduit à
+  « Prochaines dates en préparation. », **31/31** ;
+- YAML du workflow relu par un analyseur, et le shell de chacun de ses pas par `bash -n`.
+
+**CE QUI N'A PAS ÉTÉ AUTOMATISÉ, DÉLIBÉRÉMENT** :
+- `/rythme-calebasse` et `/concerts-david-lesage` gardent leur petite liste de dates
+  écrite à la main. Les aligner demanderait de **décider** ce que chaque page doit
+  montrer (la seconde n'annonce pas la sortie de résidence en trio, par exemple) : c'est
+  un arbitrage de David. Le script **le dit à chaque passage**, pour information, et
+  **n'alerte jamais** là-dessus ;
+- la META description de `/concerts-david-lesage` (« Prochaines dates : 10 octobre et
+  28 novembre 2026 ») vieillira toujours ;
+- la rédaction d'une soirée mensuelle reste humaine, par construction.
+
+⚠️ **POUR DAVID, À TRANCHER** : l'agenda Google annonce le 28 novembre comme
+« Concert de David Lesage — Le Nid **+ Guest Lucie au violon** », alors que le site écrit
+« Concert — David Lesage solo ». La table reproduit **ce qui est en ligne aujourd'hui**
+(on ne change pas une annonce publiée sans lui) — mais les deux se contredisent.
+
+⚠️ **PAS POUSSÉ.** Et **rien ne tournera** tant que le workflow n'est pas sur `main` :
+GitHub ne lit les tâches planifiées que sur la branche par défaut.
+
 
 ### 2026-08-27 — Les dates passées disparaissent toutes seules (rustine niveau 1, NON POUSSÉ)
 
