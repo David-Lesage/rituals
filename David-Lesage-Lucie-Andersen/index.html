@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
 <title>Lucie Andersen &amp; David Lesage — violon électrique &amp; handpan électronique</title>
-<meta name="description" content="Violon électrique, handpan électronique, harpe africaine ngoni et voix. Cinq pièces enregistrées à Paris le 28 août 2026.">
+<meta name="description" content="Violon électrique, handpan électronique, harpe africaine ngoni et voix. Enregistré à Paris le 28 août 2026.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lucie Andersen &amp; David Lesage">
 <meta property="og:description" content="Violon électrique et handpan électronique. Paris.">
@@ -75,7 +75,12 @@ b{color:#fff;font-weight:500}
 .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;
   padding-bottom:76px;overflow:hidden}
 .hero-img{position:absolute;inset:0;z-index:-1}
-.hero-img img{width:100%;height:100%;object-fit:cover;object-position:50% 32%}
+/* ⚠️ CADRAGE BAS (70 %), ET C'EST LE POINT. A 32 %, le sur-titre et le titre
+   tombaient sur le visage de Lucie. Le cadre etant plus large que la photo,
+   `object-fit:cover` ne rogne QUE verticalement : le seul reglage utile est
+   donc le pourcentage vertical, et le monter fait remonter les deux visages
+   au-dessus du bloc de texte. Verifie en 1440x900 et en 2000x975. */
+.hero-img img{width:100%;height:100%;object-fit:cover;object-position:50% 70%}
 .hero-img::after{content:'';position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(14,15,36,.72) 0%,rgba(14,15,36,.34) 30%,
     rgba(14,15,36,.88) 78%,var(--night) 100%)}
@@ -93,8 +98,15 @@ b{color:#fff;font-weight:500}
 .hero h1 .amp{font-style:italic;font-weight:400;
   background:var(--grad);-webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:transparent;padding:0 .08em}
-.hero .sub{font-size:clamp(18px,2.4vw,23px);color:#e6e2f5;max-width:640px;
+.hero .sub{font-size:clamp(17px,2.3vw,22px);color:#e6e2f5;max-width:640px;
   margin-top:22px;line-height:1.55}
+/* ⚠️ LA PHRASE D'ACCROCHE TIENT SUR UNE SEULE LIGNE — mais seulement quand la
+   fenetre est assez large pour ca. Elle fait 103 caracteres : la mettre sur
+   une ligne a 375 px de large demanderait du 6 px, illisible. En dessous de
+   1024 px elle revient donc a la ligne normalement, et c'est volontaire. */
+@media (min-width:1024px){
+  .hero .sub{max-width:none;white-space:nowrap;font-size:min(1.9vw,25px)}
+}
 /* ⚠️ `>` OBLIGATOIRE. Chaque element bilingue est lui-meme un <span> imbrique
    (voir `_bi()`) : sans le selecteur d'enfant direct, la puce en losange se
    dessinait DEUX fois par entree. */
@@ -384,14 +396,14 @@ body.en [data-lang="fr"]{display:none}
   <div class="wrap">
     <span class="kick"><span data-lang="fr">Violon électrique &amp; handpan électronique &middot; Paris</span><span data-lang="en">Electric violin &amp; electronic handpan &middot; Paris</span></span>
     <h1>Lucie Andersen<span class="amp">&amp;</span>David Lesage</h1>
-    <p class="sub"><span data-lang="fr">Un handpan électronique et un violon électrique. Deux instruments qui n&rsquo;existaient pas il y a quinze ans, au service de gestes qui, eux, sont très anciens.</span><span data-lang="en">An electronic handpan and an electric violin. Two instruments that did not exist fifteen years ago, in the service of gestures that are very old indeed.</span></p>
+    <p class="sub"><span data-lang="fr">L&rsquo;excellence de la vibration au service de l&rsquo;émotion, un voyage ouvrant des espaces qui traverse le temps.</span><span data-lang="en">The excellence of vibration in the service of emotion &mdash; a journey that opens up spaces and travels through time.</span></p>
     <div class="meta">
       <span><span data-lang="fr">Handpan électronique &middot; harpe africaine ngoni &middot; voix</span><span data-lang="en">Electronic handpan &middot; African ngoni harp &middot; voice</span></span>
       <span><span data-lang="fr">Violon électrique &middot; violon acoustique</span><span data-lang="en">Electric violin &middot; acoustic violin</span></span>
-      <span><span data-lang="fr">Format construit avec vous</span><span data-lang="en">Format built with you</span></span>
+      <span><span data-lang="fr">Format sur mesure</span><span data-lang="en">Bespoke format</span></span>
     </div>
     <div class="cta">
-      <a class="btn js-ecouter" href="#ecouter"><span data-lang="fr">Écouter les cinq pièces</span><span data-lang="en">Listen to the five pieces</span></a>
+      <a class="btn js-ecouter" href="#ecouter"><span data-lang="fr">Écouter le duo</span><span data-lang="en">Listen to the duo</span></a>
       <a class="btn ghost" href="#contact"><span data-lang="fr">Contact &amp; booking</span><span data-lang="en">Contact &amp; booking</span></a>
     </div>
   </div>
@@ -425,7 +437,7 @@ body.en [data-lang="fr"]{display:none}
 <div class="divider"></div>
 <section id="ecouter"><div class="wrap">
   <span class="kick"><span data-lang="fr">Écouter</span><span data-lang="en">Listen</span></span>
-  <h2 class="sec-title"><span data-lang="fr">Cinq pièces, enregistrées le 28 août 2026</span><span data-lang="en">Five pieces, recorded on 28 August 2026</span></h2>
+  <h2 class="sec-title"><span data-lang="fr">Enregistré à Paris, le 28 août 2026</span><span data-lang="en">Recorded in Paris, 28 August 2026</span></h2>
   <figure class="grande">
     <img src="/David-Lesage-Lucie-Andersen/media/photos/duo-large.jpg" loading="lazy" alt="Lucie au violon électrique et David Lesage au handpan électronique Neotone">
     <figcaption><span data-lang="fr">Lucie et David Lesage &mdash; violon électrique Yamaha et handpan électronique Neotone.</span><span data-lang="en">Lucie and David Lesage &mdash; Yamaha electric violin and Neotone electronic handpan.</span></figcaption>

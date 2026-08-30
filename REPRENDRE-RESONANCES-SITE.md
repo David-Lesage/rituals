@@ -1940,3 +1940,22 @@ Corrections dictées par David, qui seul connaît ce qui a été joué :
   dans un format avant même la discussion avec l'organisateur. La constante `DUREE_TOTALE_MIN` reste
   calculée dans le générateur — elle documente la captation — mais **elle n'est plus affichée**.
   Ne pas la réafficher.
+
+### 30/08/2026, même jour — septième passe : le hero
+
+- **Cadrage de la photo du hero : `object-position` passe de 32 % à 70 %.** Le sur-titre et le titre
+  tombaient sur le visage de Lucie. ⚠️ Le cadre du hero est plus large que la photo : `object-fit:cover`
+  ne rogne donc QUE verticalement, et le pourcentage vertical est le **seul** réglage qui ait un effet —
+  changer le pourcentage horizontal ne fait rien. Monter la valeur fait remonter les deux visages
+  au-dessus du bloc de texte. Vérifié en 1440×900, 1280×800 et 2000×975 (le format d'écran de David).
+- **Nouvelle phrase d'accroche, mot pour mot de David** : « L'excellence de la vibration au service de
+  l'émotion, un voyage ouvrant des espaces qui traverse le temps. » Elle remplace l'ancienne
+  (« Deux instruments qui n'existaient pas… »).
+- **Elle tient sur une seule ligne au-dessus de 1024 px** (`white-space:nowrap` + `font-size:min(1.9vw,25px)`).
+  ⚠️ En dessous, elle revient à la ligne normalement, **et c'est voulu** : 103 caractères sur une ligne
+  à 375 px demanderaient du 6 px.
+- **« Cinq pièces » retiré** partout, dans le même esprit que la durée : le bouton du hero devient
+  « Écouter le duo », le titre de section « Enregistré à Paris, le 28 août 2026 », et la
+  `meta description` suit. Un compte donne une borne — « cinq pièces » se lit comme « ils n'ont que ça ».
+- Le troisième élément du sur-titre devient **« Format sur mesure »** (« Format construit avec vous »
+  passait à la ligne à 1280 px).

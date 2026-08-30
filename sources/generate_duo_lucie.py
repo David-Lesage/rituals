@@ -233,7 +233,12 @@ b{color:#fff;font-weight:500}
 .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;
   padding-bottom:76px;overflow:hidden}
 .hero-img{position:absolute;inset:0;z-index:-1}
-.hero-img img{width:100%;height:100%;object-fit:cover;object-position:50% 32%}
+/* ⚠️ CADRAGE BAS (70 %), ET C'EST LE POINT. A 32 %, le sur-titre et le titre
+   tombaient sur le visage de Lucie. Le cadre etant plus large que la photo,
+   `object-fit:cover` ne rogne QUE verticalement : le seul reglage utile est
+   donc le pourcentage vertical, et le monter fait remonter les deux visages
+   au-dessus du bloc de texte. Verifie en 1440x900 et en 2000x975. */
+.hero-img img{width:100%;height:100%;object-fit:cover;object-position:50% 70%}
 .hero-img::after{content:'';position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(14,15,36,.72) 0%,rgba(14,15,36,.34) 30%,
     rgba(14,15,36,.88) 78%,var(--night) 100%)}
@@ -251,8 +256,15 @@ b{color:#fff;font-weight:500}
 .hero h1 .amp{font-style:italic;font-weight:400;
   background:var(--grad);-webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:transparent;padding:0 .08em}
-.hero .sub{font-size:clamp(18px,2.4vw,23px);color:#e6e2f5;max-width:640px;
+.hero .sub{font-size:clamp(17px,2.3vw,22px);color:#e6e2f5;max-width:640px;
   margin-top:22px;line-height:1.55}
+/* ⚠️ LA PHRASE D'ACCROCHE TIENT SUR UNE SEULE LIGNE — mais seulement quand la
+   fenetre est assez large pour ca. Elle fait 103 caracteres : la mettre sur
+   une ligne a 375 px de large demanderait du 6 px, illisible. En dessous de
+   1024 px elle revient donc a la ligne normalement, et c'est volontaire. */
+@media (min-width:1024px){
+  .hero .sub{max-width:none;white-space:nowrap;font-size:min(1.9vw,25px)}
+}
 /* ⚠️ `>` OBLIGATOIRE. Chaque element bilingue est lui-meme un <span> imbrique
    (voir `_bi()`) : sans le selecteur d'enfant direct, la puce en losange se
    dessinait DEUX fois par entree. */
@@ -810,7 +822,7 @@ def page():
     a('<title>Lucie Andersen &amp; David Lesage — violon électrique &amp; handpan '
       'électronique</title>')
     a('<meta name="description" content="Violon électrique, handpan électronique, '
-      'harpe africaine ngoni et voix. Cinq pièces enregistrées à Paris le 28 août 2026.">')
+      'harpe africaine ngoni et voix. Enregistré à Paris le 28 août 2026.">')
     a('<meta property="og:type" content="website">')
     a('<meta property="og:title" content="Lucie Andersen &amp; David Lesage">')
     a('<meta property="og:description" content="Violon électrique et handpan électronique. '
@@ -856,12 +868,12 @@ def page():
     # qui annonce un ordre et une page qui en applique un autre se lit comme un
     # oubli.
     a('    <h1>Lucie Andersen<span class="amp">&amp;</span>David Lesage</h1>')
+    # Phrase d'accroche donnee par David le 30/08/2026, mot pour mot.
     a('    <p class="sub">%s</p>' % _bi(
-        'Un handpan électronique et un violon électrique. Deux instruments qui '
-        'n&rsquo;existaient pas il y a quinze ans, au service de gestes qui, eux, '
-        'sont très anciens.',
-        'An electronic handpan and an electric violin. Two instruments that did not '
-        'exist fifteen years ago, in the service of gestures that are very old indeed.'))
+        'L&rsquo;excellence de la vibration au service de l&rsquo;émotion, un voyage '
+        'ouvrant des espaces qui traverse le temps.',
+        'The excellence of vibration in the service of emotion &mdash; a journey that '
+        'opens up spaces and travels through time.'))
     a('    <div class="meta">')
     a('      <span>%s</span>' % _bi(
         'Handpan électronique &middot; harpe africaine ngoni &middot; voix',
@@ -874,12 +886,11 @@ def page():
     #    enfermerait le duo dans un format avant meme la discussion.
     #    La constante DUREE_TOTALE_MIN reste calculee — elle documente la
     #    captation — mais elle n'est plus AFFICHEE nulle part.
-    a('      <span>%s</span>' % _bi('Format construit avec vous',
-                                    'Format built with you'))
+    a('      <span>%s</span>' % _bi('Format sur mesure', 'Bespoke format'))
     a('    </div>')
     a('    <div class="cta">')
     a('      <a class="btn js-ecouter" href="#ecouter">%s</a>'
-      % _bi('Écouter les cinq pièces', 'Listen to the five pieces'))
+      % _bi('Écouter le duo', 'Listen to the duo'))
     a('      <a class="btn ghost" href="#contact">%s</a>'
       % _bi('Contact &amp; booking', 'Contact &amp; booking'))
     a('    </div>')
@@ -951,9 +962,12 @@ def page():
     # ------------------------------------------------------------- ecouter
     a('<section id="ecouter"><div class="wrap">')
     a('  <span class="kick">%s</span>' % _bi('Écouter', 'Listen'))
+    # ⚠️ NE PAS ANNONCER LE NOMBRE DE MORCEAUX. Demande de David du 30/08/2026,
+    #    dans le meme esprit que le retrait de la duree : un compte donne une
+    #    borne, et « cinq pieces » se lit comme « ils n'ont que ca ».
     a('  <h2 class="sec-title">%s</h2>' % _bi(
-        'Cinq pièces, enregistrées le 28 août 2026',
-        'Five pieces, recorded on 28 August 2026'))
+        'Enregistré à Paris, le 28 août 2026',
+        'Recorded in Paris, 28 August 2026'))
     a('  <figure class="grande">')
     a('    <img src="media/photos/duo-large.jpg" loading="lazy" '
       'alt="Lucie au violon électrique et David Lesage au handpan électronique Neotone">')
