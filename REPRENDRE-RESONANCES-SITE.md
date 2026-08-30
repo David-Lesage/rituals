@@ -1895,3 +1895,28 @@ Retours arrivés après la mise en ligne, tous appliqués :
 - Les liens des deux fiches sont désormais **groupés** de la même façon : ce qui se programme d'abord
   (« Ses spectacles » / « Ses projets »), les réseaux ensuite (« En ligne »). Une agence cherche ce qui
   se programme, pas un fil d'actualité.
+
+### 30/08/2026, même jour — cinquième passe : le défaut des chemins relatifs
+
+- 🚨 **AUCUNE PHOTO NE S'AFFICHAIT** quand on ouvrait l'adresse **sans sa barre oblique finale**.
+  Signalé par David depuis son navigateur, reproduit, corrigé.
+  **La cause** : la page était écrite avec des chemins **relatifs** (`media/photos/…`). Vercel sert la
+  page aux DEUX adresses, et **sans redirection** :
+  `/David-Lesage-Lucie-Andersen` → 200, et `/David-Lesage-Lucie-Andersen/` → 200.
+  Sans la barre finale, le navigateur traite le dernier segment comme un FICHIER et résout
+  `media/photos/hero.jpg` contre la **racine** du site → `/media/photos/hero.jpg` → 404. **L'audio
+  tombait pareil.** Et rien ne le signalait : la page s'affichait, simplement vide de ses images.
+  ⚠️ **C'est l'adresse qu'on tape ou qu'on colle à la main.** Un `curl` sur l'adresse AVEC la barre
+  finale renvoyait 200 partout — c'est ce qui avait laissé passer le défaut à la vérification.
+  **Le correctif** : `page()` préfixe tout par le chemin absolu du dossier, en une seule substitution
+  sur le document fini (`"media/` → `"/<DOSSIER>/media/`), avec une assertion derrière. Écrire les
+  chemins absolus à la main dans les vingt occurrences aurait garanti d'en oublier une au premier ajout.
+  **Vérifié** aux deux adresses : 17 images chargées, 0 cassée.
+- **Le titre tient sur UNE SEULE LIGNE** à toutes les largeurs (`white-space:nowrap` +
+  `font-size:min(5.6vw,78px)`). Mesuré de 320 px à 2000 px : jamais de débordement, toujours une ligne.
+  ⚠️ Le réglage est calé sur la longueur de **cette** chaîne (28 caractères) : si le duo prend un nom,
+  revérifier. Contrepartie assumée : sur un téléphone de 375 px, le titre descend à 21 px.
+- **« Duo en émergence » retiré** du sur-titre (demande de David). Les deux autres formulations qui
+  disaient la même chose — « Le duo est neuf » (Références) et « Le duo se construit » (Contact) — ont
+  été réécrites dans la foulée, ainsi que les deux `meta description`. Les laisser aurait contredit le
+  retrait. Devant une agence, annoncer qu'on émerge, c'est annoncer qu'on n'est pas encore établi.

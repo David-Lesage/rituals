@@ -236,8 +236,17 @@ b{color:#fff;font-weight:500}
 .hero-img::after{content:'';position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(14,15,36,.72) 0%,rgba(14,15,36,.34) 30%,
     rgba(14,15,36,.88) 78%,var(--night) 100%)}
-.hero h1{font-size:clamp(44px,8.4vw,104px);line-height:.98;color:#fff;
-  letter-spacing:-.01em;margin-top:10px}
+/* ⚠️ LE TITRE TIENT SUR UNE SEULE LIGNE, a toutes les largeurs. Demande de
+   David du 30/08/2026 : « Lucie Andersen & David Lesage » se coupait apres
+   « David » et laissait « Lesage » seul sur la deuxieme ligne.
+   Comment : `nowrap` interdit la coupure, et la taille est pilotee par la
+   LARGEUR DE LA FENETRE (`vw`) pour que le texte retrecisse au lieu de
+   deborder. Le `min()` plafonne a 78 px : au-dela, `.wrap` bloque a 1120 px
+   et le titre depasserait du cadre alors que `vw`, lui, continue de grandir.
+   ⚠️ Si le nom du duo change, REVERIFIER : ce reglage est cale sur la
+   longueur de CETTE chaine (28 caracteres). */
+.hero h1{font-size:min(5.6vw,78px);line-height:1.04;color:#fff;
+  letter-spacing:-.015em;margin-top:10px;white-space:nowrap}
 .hero h1 .amp{font-style:italic;font-weight:400;
   background:var(--grad);-webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:transparent;padding:0 .08em}
@@ -799,12 +808,12 @@ def page():
     a('<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">')
     a('<title>Lucie Andersen &amp; David Lesage — violon électrique &amp; handpan '
       'électronique</title>')
-    a('<meta name="description" content="Duo en émergence : handpan électronique, '
-      'ngoni, voix et violon électrique. Cinq pièces enregistrées à Paris le 28 août 2026.">')
+    a('<meta name="description" content="Violon électrique, handpan électronique, '
+      'ngoni et voix. Cinq pièces enregistrées à Paris le 28 août 2026.">')
     a('<meta property="og:type" content="website">')
     a('<meta property="og:title" content="Lucie Andersen &amp; David Lesage">')
     a('<meta property="og:description" content="Violon électrique et handpan électronique. '
-      'Duo en émergence, Paris.">')
+      'Paris.">')
     a('<meta property="og:image" content="%s/media/photos/og-duo.jpg">' % URL)
     a('<meta property="og:url" content="%s">' % URL)
     a('<meta name="twitter:card" content="summary_large_image">')
@@ -833,9 +842,14 @@ def page():
     a('  <div class="hero-img"><img src="media/photos/hero.jpg" '
       'alt="David Lesage au handpan électronique et Lucie au violon électrique"></div>')
     a('  <div class="wrap">')
+    # ⚠️ « Duo en émergence » a ete RETIRE le 30/08/2026, demande de David.
+    #    Devant une agence, annoncer qu'on emerge, c'est annoncer qu'on n'est
+    #    pas encore etabli. Les deux autres formulations qui disaient la meme
+    #    chose — « Le duo est neuf » et « Le duo se construit » — ont ete
+    #    reecrites dans la foulee : les laisser aurait contredit ce retrait.
     a('    <span class="kick">%s</span>' % _bi(
-        'Duo en émergence &middot; Paris &middot; 2026',
-        'Emerging duo &middot; Paris &middot; 2026'))
+        'Violon électrique &amp; handpan électronique &middot; Paris',
+        'Electric violin &amp; electronic handpan &middot; Paris'))
     # Ordre des deux noms : LUCIE D'ABORD, demande de David le 30/08/2026.
     # Les fiches et les colonnes de references suivent le meme ordre — un titre
     # qui annonce un ordre et une page qui en applique un autre se lit comme un
@@ -1138,10 +1152,12 @@ def page():
         'Ce que chacun apporte dans la corbeille',
         'What each of them brings to the table'))
     a('  <p class="lead">%s</p>' % _bi(
-        'Le duo est neuf ; les deux parcours ne le sont pas. À gauche les marques et les '
-        'institutions qui ont fait jouer Lucie, à droite les scènes de David.',
-        'The duo is new; the two careers behind it are not. On the left, the brands and '
-        'institutions that have hired Lucie; on the right, David&rsquo;s stages.'))
+        'Deux carnets d&rsquo;adresses, deux publics, réunis sur le même plateau. À gauche '
+        'les marques et les institutions qui ont fait jouer Lucie, à droite les scènes de '
+        'David.',
+        'Two address books, two audiences, brought together on the same stage. On the left, '
+        'the brands and institutions that have hired Lucie; on the right, David&rsquo;s '
+        'stages.'))
     a('  <div class="refs">')
 
     a('    <div class="ref-col">')
@@ -1331,13 +1347,12 @@ def page():
     a('  <h2 class="sec-title">%s</h2>' % _bi(
         'Parlons du format qui vous va', 'Let us talk about the format you need'))
     a('  <p class="lead">%s</p>' % _bi(
-        'Le duo se construit. Le répertoire enregistré compte cinq pièces, soit '
-        '%d minutes de musique, et la durée comme la scénographie se calent sur '
-        'votre événement. Écrivez-nous : nous répondons vite.'
-        % DUREE_TOTALE_MIN,
-        'The duo is taking shape. The recorded repertoire holds five pieces &mdash; '
-        '%d minutes of music &mdash; and both length and staging are set to fit your '
-        'event. Write to us: we answer quickly.' % DUREE_TOTALE_MIN))
+        'Le répertoire enregistré compte cinq pièces, soit %d minutes de musique, et '
+        'la durée comme la scénographie se calent sur votre événement. '
+        'Écrivez-nous : nous répondons vite.' % DUREE_TOTALE_MIN,
+        'The recorded repertoire holds five pieces &mdash; %d minutes of music &mdash; '
+        'and both length and staging are set to fit your event. Write to us: we answer '
+        'quickly.' % DUREE_TOTALE_MIN))
     a('  <div class="contact">')
     a('    <div class="ct-grid">')
     a('      <div class="ct-rows">')
@@ -1405,7 +1420,35 @@ def page():
     a('<script>%s</script>' % (
         JS.replace('__ICO_PLAY__', I_PLAY).replace('__ICO_PAUSE__', I_PAUSE)))
     a('</body></html>')
-    return '\n'.join(h) + '\n'
+    html = '\n'.join(h) + '\n'
+
+    # ----------------------------------------------------------------- #
+    # ⚠️ CHEMINS ABSOLUS — CORRECTIF DU 30/08/2026, SIGNALE PAR DAVID :
+    #    « il n'y a aucune photo qui apparait ».
+    #
+    #    La page est ecrite avec des chemins RELATIFS (`media/photos/…`),
+    #    ce qui est correct… tant qu'on ouvre l'adresse AVEC sa barre
+    #    oblique finale. Vercel sert la page aux DEUX adresses :
+    #
+    #        /David-Lesage-Lucie-Andersen     -> 200, SANS redirection
+    #        /David-Lesage-Lucie-Andersen/    -> 200
+    #
+    #    Sans la barre finale, le navigateur considere que le dernier
+    #    segment est un FICHIER et resout `media/photos/hero.jpg` contre
+    #    la RACINE du site : `/media/photos/hero.jpg`, qui n'existe pas.
+    #    Resultat : aucune image, et aucun son non plus — en silence, sans
+    #    la moindre erreur visible sur la page. C'est exactement l'adresse
+    #    qu'on tape ou qu'on colle a la main.
+    #
+    #    On prefixe donc TOUT par le chemin absolu du dossier. La
+    #    substitution est faite ici, en un seul endroit, sur le document
+    #    fini : ecrire les chemins absolus a la main dans les vingt
+    #    occurrences reviendrait a en oublier une au premier ajout.
+    # ----------------------------------------------------------------- #
+    html = html.replace('"media/', '"/%s/media/' % DOSSIER)
+    html = html.replace('url(media/', 'url(/%s/media/' % DOSSIER)
+    assert '"media/' not in html and 'url(media/' not in html
+    return html
 
 
 RENVOI = """<!DOCTYPE html>

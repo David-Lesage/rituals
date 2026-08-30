@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
 <title>Lucie Andersen &amp; David Lesage — violon électrique &amp; handpan électronique</title>
-<meta name="description" content="Duo en émergence : handpan électronique, ngoni, voix et violon électrique. Cinq pièces enregistrées à Paris le 28 août 2026.">
+<meta name="description" content="Violon électrique, handpan électronique, ngoni et voix. Cinq pièces enregistrées à Paris le 28 août 2026.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lucie Andersen &amp; David Lesage">
-<meta property="og:description" content="Violon électrique et handpan électronique. Duo en émergence, Paris.">
+<meta property="og:description" content="Violon électrique et handpan électronique. Paris.">
 <meta property="og:image" content="https://www.resonancesproductions.org/David-Lesage-Lucie-Andersen/media/photos/og-duo.jpg">
 <meta property="og:url" content="https://www.resonancesproductions.org/David-Lesage-Lucie-Andersen">
 <meta name="twitter:card" content="summary_large_image">
@@ -79,8 +79,17 @@ b{color:#fff;font-weight:500}
 .hero-img::after{content:'';position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(14,15,36,.72) 0%,rgba(14,15,36,.34) 30%,
     rgba(14,15,36,.88) 78%,var(--night) 100%)}
-.hero h1{font-size:clamp(44px,8.4vw,104px);line-height:.98;color:#fff;
-  letter-spacing:-.01em;margin-top:10px}
+/* ⚠️ LE TITRE TIENT SUR UNE SEULE LIGNE, a toutes les largeurs. Demande de
+   David du 30/08/2026 : « Lucie Andersen & David Lesage » se coupait apres
+   « David » et laissait « Lesage » seul sur la deuxieme ligne.
+   Comment : `nowrap` interdit la coupure, et la taille est pilotee par la
+   LARGEUR DE LA FENETRE (`vw`) pour que le texte retrecisse au lieu de
+   deborder. Le `min()` plafonne a 78 px : au-dela, `.wrap` bloque a 1120 px
+   et le titre depasserait du cadre alors que `vw`, lui, continue de grandir.
+   ⚠️ Si le nom du duo change, REVERIFIER : ce reglage est cale sur la
+   longueur de CETTE chaine (28 caracteres). */
+.hero h1{font-size:min(5.6vw,78px);line-height:1.04;color:#fff;
+  letter-spacing:-.015em;margin-top:10px;white-space:nowrap}
 .hero h1 .amp{font-style:italic;font-weight:400;
   background:var(--grad);-webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:transparent;padding:0 .08em}
@@ -371,9 +380,9 @@ body.en [data-lang="fr"]{display:none}
   </div>
 </div>
 <header class="hero">
-  <div class="hero-img"><img src="media/photos/hero.jpg" alt="David Lesage au handpan électronique et Lucie au violon électrique"></div>
+  <div class="hero-img"><img src="/David-Lesage-Lucie-Andersen/media/photos/hero.jpg" alt="David Lesage au handpan électronique et Lucie au violon électrique"></div>
   <div class="wrap">
-    <span class="kick"><span data-lang="fr">Duo en émergence &middot; Paris &middot; 2026</span><span data-lang="en">Emerging duo &middot; Paris &middot; 2026</span></span>
+    <span class="kick"><span data-lang="fr">Violon électrique &amp; handpan électronique &middot; Paris</span><span data-lang="en">Electric violin &amp; electronic handpan &middot; Paris</span></span>
     <h1>Lucie Andersen<span class="amp">&amp;</span>David Lesage</h1>
     <p class="sub"><span data-lang="fr">Un handpan électronique et un violon électrique. Deux instruments qui n&rsquo;existaient pas il y a quinze ans, au service de gestes qui, eux, sont très anciens.</span><span data-lang="en">An electronic handpan and an electric violin. Two instruments that did not exist fifteen years ago, in the service of gestures that are very old indeed.</span></p>
     <div class="meta">
@@ -409,7 +418,7 @@ body.en [data-lang="fr"]{display:none}
     </div>
   </div>
   <figure class="grande">
-    <img src="media/photos/complicite.jpg" loading="lazy" alt="David Lesage et Lucie se regardent pendant la captation">
+    <img src="/David-Lesage-Lucie-Andersen/media/photos/complicite.jpg" loading="lazy" alt="David Lesage et Lucie se regardent pendant la captation">
     <figcaption><span data-lang="fr">Première journée d&rsquo;enregistrement, Paris, 28 août 2026.</span><span data-lang="en">First recording day, Paris, 28 August 2026.</span></figcaption>
   </figure>
 </div></section>
@@ -418,16 +427,16 @@ body.en [data-lang="fr"]{display:none}
   <span class="kick"><span data-lang="fr">Écouter</span><span data-lang="en">Listen</span></span>
   <h2 class="sec-title"><span data-lang="fr">Cinq pièces, enregistrées le 28 août 2026</span><span data-lang="en">Five pieces, recorded on 28 August 2026</span></h2>
   <figure class="grande">
-    <img src="media/photos/duo-large.jpg" loading="lazy" alt="Lucie au violon électrique et David Lesage au handpan électronique Neotone">
+    <img src="/David-Lesage-Lucie-Andersen/media/photos/duo-large.jpg" loading="lazy" alt="Lucie au violon électrique et David Lesage au handpan électronique Neotone">
     <figcaption><span data-lang="fr">Lucie et David Lesage &mdash; violon électrique Yamaha et handpan électronique Neotone.</span><span data-lang="en">Lucie and David Lesage &mdash; Yamaha electric violin and Neotone electronic handpan.</span></figcaption>
   </figure>
   <p class="lead" style="margin-top:26px"><span data-lang="fr">Une seule journée, à Paris. Prise de son en direct : sortie de console et micro d&rsquo;ambiance, sans retouche ni réenregistrement. C&rsquo;est littéralement ce que le duo joue dans une pièce.</span><span data-lang="en">A single day, in Paris. Live recording: desk output plus a room microphone, with no overdubs and no fixing. This is literally what the duo sounds like in a room.</span></p>
   <div class="player">
-<div class="tr" data-i="0" data-src="media/audio/01-lappel-du-vent.mp3" data-titre-fr="L'appel du vent" data-titre-en="L'appel du vent" role="button" tabindex="0" aria-label="L'appel du vent"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">L'appel du vent</span><span data-lang="en">L'appel du vent</span></h4><div class="sous"><span data-lang="fr">Handpan électronique, voix et violon électrique</span><span data-lang="en">Electronic handpan, voice and electric violin</span></div><div class="note"><span data-lang="fr">Du répertoire de David Lesage, album <i>L'Alliance du Phoenix</i>, repris à deux.</span><span data-lang="en">From David Lesage's own repertoire, album <i>L'Alliance du Phoenix</i>, rewritten for two.</span></div></div><div class="dur">11:09</div></div>
-<div class="tr" data-i="1" data-src="media/audio/02-transe-lunaire.mp3" data-titre-fr="Transe lunaire" data-titre-en="Transe lunaire" role="button" tabindex="0" aria-label="Transe lunaire"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">Transe lunaire</span><span data-lang="en">Transe lunaire</span></h4><div class="sous"><span data-lang="fr">Handpan électronique et violon électrique</span><span data-lang="en">Electronic handpan and electric violin</span></div><div class="note"><span data-lang="fr">Du répertoire de David Lesage, album <i>L'Alliance du Phoenix</i>.</span><span data-lang="en">From David Lesage's own repertoire, album <i>L'Alliance du Phoenix</i>.</span></div></div><div class="dur">5:52</div></div>
-<div class="tr" data-i="2" data-src="media/audio/03-ave-maria.mp3" data-titre-fr="Ave Maria" data-titre-en="Ave Maria" role="button" tabindex="0" aria-label="Ave Maria"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">Ave Maria</span><span data-lang="en">Ave Maria</span></h4><div class="sous"><span data-lang="fr">Violon électrique et handpan électronique</span><span data-lang="en">Electric violin and electronic handpan</span></div><div class="note"><span data-lang="fr">Une pièce du grand répertoire, portée par le violon et posée sur le handpan.</span><span data-lang="en">A piece from the classical repertoire, carried by the violin over the handpan.</span></div></div><div class="dur">10:07</div></div>
-<div class="tr" data-i="3" data-src="media/audio/04-voyage-meditatif-d-kurd.mp3" data-titre-fr="Voyage méditatif en Ré Kurd" data-titre-en="Meditative journey in D Kurd" role="button" tabindex="0" aria-label="Voyage méditatif en Ré Kurd"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">Voyage méditatif en Ré Kurd</span><span data-lang="en">Meditative journey in D Kurd</span></h4><div class="sous"><span data-lang="fr">Improvisation — handpan électronique et violon électrique</span><span data-lang="en">Improvisation — electronic handpan and electric violin</span></div><div class="note"><span data-lang="fr">Ré Kurd : la gamme de handpan la plus jouée au monde. Écrit sur le moment, à deux.</span><span data-lang="en">D Kurd: the most widely played handpan scale. Written on the spot, by both.</span></div></div><div class="dur">10:03</div></div>
-<div class="tr" data-i="4" data-src="media/audio/05-ngoni-violon.mp3" data-titre-fr="Voyage méditatif — ngoni et violon" data-titre-en="Meditative journey — ngoni and violin" role="button" tabindex="0" aria-label="Voyage méditatif — ngoni et violon"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">Voyage méditatif — ngoni et violon</span><span data-lang="en">Meditative journey — ngoni and violin</span></h4><div class="sous"><span data-lang="fr">Harpe africaine 14 cordes et violon électrique</span><span data-lang="en">14-string African harp and electric violin</span></div><div class="note"><span data-lang="fr">L'instrument le plus ancien du duo face au plus récent. Improvisation.</span><span data-lang="en">The duo's oldest instrument against its newest. Improvisation.</span></div></div><div class="dur">8:56</div></div>
+<div class="tr" data-i="0" data-src="/David-Lesage-Lucie-Andersen/media/audio/01-lappel-du-vent.mp3" data-titre-fr="L'appel du vent" data-titre-en="L'appel du vent" role="button" tabindex="0" aria-label="L'appel du vent"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">L'appel du vent</span><span data-lang="en">L'appel du vent</span></h4><div class="sous"><span data-lang="fr">Handpan électronique, voix et violon électrique</span><span data-lang="en">Electronic handpan, voice and electric violin</span></div><div class="note"><span data-lang="fr">Du répertoire de David Lesage, album <i>L'Alliance du Phoenix</i>, repris à deux.</span><span data-lang="en">From David Lesage's own repertoire, album <i>L'Alliance du Phoenix</i>, rewritten for two.</span></div></div><div class="dur">11:09</div></div>
+<div class="tr" data-i="1" data-src="/David-Lesage-Lucie-Andersen/media/audio/02-transe-lunaire.mp3" data-titre-fr="Transe lunaire" data-titre-en="Transe lunaire" role="button" tabindex="0" aria-label="Transe lunaire"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">Transe lunaire</span><span data-lang="en">Transe lunaire</span></h4><div class="sous"><span data-lang="fr">Handpan électronique et violon électrique</span><span data-lang="en">Electronic handpan and electric violin</span></div><div class="note"><span data-lang="fr">Du répertoire de David Lesage, album <i>L'Alliance du Phoenix</i>.</span><span data-lang="en">From David Lesage's own repertoire, album <i>L'Alliance du Phoenix</i>.</span></div></div><div class="dur">5:52</div></div>
+<div class="tr" data-i="2" data-src="/David-Lesage-Lucie-Andersen/media/audio/03-ave-maria.mp3" data-titre-fr="Ave Maria" data-titre-en="Ave Maria" role="button" tabindex="0" aria-label="Ave Maria"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">Ave Maria</span><span data-lang="en">Ave Maria</span></h4><div class="sous"><span data-lang="fr">Violon électrique et handpan électronique</span><span data-lang="en">Electric violin and electronic handpan</span></div><div class="note"><span data-lang="fr">Une pièce du grand répertoire, portée par le violon et posée sur le handpan.</span><span data-lang="en">A piece from the classical repertoire, carried by the violin over the handpan.</span></div></div><div class="dur">10:07</div></div>
+<div class="tr" data-i="3" data-src="/David-Lesage-Lucie-Andersen/media/audio/04-voyage-meditatif-d-kurd.mp3" data-titre-fr="Voyage méditatif en Ré Kurd" data-titre-en="Meditative journey in D Kurd" role="button" tabindex="0" aria-label="Voyage méditatif en Ré Kurd"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">Voyage méditatif en Ré Kurd</span><span data-lang="en">Meditative journey in D Kurd</span></h4><div class="sous"><span data-lang="fr">Improvisation — handpan électronique et violon électrique</span><span data-lang="en">Improvisation — electronic handpan and electric violin</span></div><div class="note"><span data-lang="fr">Ré Kurd : la gamme de handpan la plus jouée au monde. Écrit sur le moment, à deux.</span><span data-lang="en">D Kurd: the most widely played handpan scale. Written on the spot, by both.</span></div></div><div class="dur">10:03</div></div>
+<div class="tr" data-i="4" data-src="/David-Lesage-Lucie-Andersen/media/audio/05-ngoni-violon.mp3" data-titre-fr="Voyage méditatif — ngoni et violon" data-titre-en="Meditative journey — ngoni and violin" role="button" tabindex="0" aria-label="Voyage méditatif — ngoni et violon"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">Voyage méditatif — ngoni et violon</span><span data-lang="en">Meditative journey — ngoni and violin</span></h4><div class="sous"><span data-lang="fr">Harpe africaine 14 cordes et violon électrique</span><span data-lang="en">14-string African harp and electric violin</span></div><div class="note"><span data-lang="fr">L'instrument le plus ancien du duo face au plus récent. Improvisation.</span><span data-lang="en">The duo's oldest instrument against its newest. Improvisation.</span></div></div><div class="dur">8:56</div></div>
   </div>
   <p class="player-note"><span data-lang="fr">La captation vidéo multicaméra de cette même journée existe : le montage est en cours. Les rushes sont disponibles sur demande.</span><span data-lang="en">The multi-camera video of that same day exists; the edit is in progress. Raw footage is available on request.</span></p>
 </div></section>
@@ -437,7 +446,7 @@ body.en [data-lang="fr"]{display:none}
   <h2 class="sec-title"><span data-lang="fr">Qui joue</span><span data-lang="en">Who plays</span></h2>
   <div class="deux">
     <article class="qui">
-      <div class="qui-img"><img src="media/photos/lucie.jpg" loading="lazy" alt="Lucie, violoniste électrique"></div>
+      <div class="qui-img"><img src="/David-Lesage-Lucie-Andersen/media/photos/lucie.jpg" loading="lazy" alt="Lucie, violoniste électrique"></div>
       <div class="qui-in">
         <h3>Lucie Andersen</h3>
         <div class="role"><span data-lang="fr">Violon électrique &middot; violon acoustique &middot; violon LED</span><span data-lang="en">Electric violin &middot; acoustic violin &middot; LED violin</span></div>
@@ -465,7 +474,7 @@ body.en [data-lang="fr"]{display:none}
       </div>
     </article>
     <article class="qui">
-      <div class="qui-img"><img src="media/photos/david.webp" loading="lazy" alt="Portrait de David Lesage"></div>
+      <div class="qui-img"><img src="/David-Lesage-Lucie-Andersen/media/photos/david.webp" loading="lazy" alt="Portrait de David Lesage"></div>
       <div class="qui-in">
         <h3>David Lesage</h3>
         <div class="role"><span data-lang="fr">Handpan électronique &middot; ngoni &middot; calebasse &middot; voix</span><span data-lang="en">Electronic handpan &middot; ngoni &middot; calabash &middot; voice</span></div>
@@ -501,13 +510,13 @@ body.en [data-lang="fr"]{display:none}
 <section id="references"><div class="wrap">
   <span class="kick"><span data-lang="fr">Références</span><span data-lang="en">Track record</span></span>
   <h2 class="sec-title"><span data-lang="fr">Ce que chacun apporte dans la corbeille</span><span data-lang="en">What each of them brings to the table</span></h2>
-  <p class="lead"><span data-lang="fr">Le duo est neuf ; les deux parcours ne le sont pas. À gauche les marques et les institutions qui ont fait jouer Lucie, à droite les scènes de David.</span><span data-lang="en">The duo is new; the two careers behind it are not. On the left, the brands and institutions that have hired Lucie; on the right, David&rsquo;s stages.</span></p>
+  <p class="lead"><span data-lang="fr">Deux carnets d&rsquo;adresses, deux publics, réunis sur le même plateau. À gauche les marques et les institutions qui ont fait jouer Lucie, à droite les scènes de David.</span><span data-lang="en">Two address books, two audiences, brought together on the same stage. On the left, the brands and institutions that have hired Lucie; on the right, David&rsquo;s stages.</span></p>
   <div class="refs">
     <div class="ref-col">
       <h3><span data-lang="fr">Les marques de Lucie</span><span data-lang="en">Lucie&rsquo;s clients</span></h3>
       <div class="who"><span data-lang="fr">Maisons de luxe, groupes internationaux, institutions</span><span data-lang="en">Luxury houses, international groups, institutions</span></div>
       <div class="logos">
-        <img src="media/photos/references-lucie.jpg" loading="lazy" alt="Airbus, Google, Louis Vuitton, Moët &amp; Chandon, Allianz, Audi, Chanel, Disney+, Dior, Galénic, Huawei, Schlumberger, Société Générale, Patek Philippe, Generali, HEC Paris, Total, L&rsquo;Oréal, The Ritz-Carlton, E.Leclerc, M6, Square Enix, Sephora, Sheraton, Pernod Ricard, Mandarin Oriental, Thales, Renault Nissan Mitsubishi">
+        <img src="/David-Lesage-Lucie-Andersen/media/photos/references-lucie.jpg" loading="lazy" alt="Airbus, Google, Louis Vuitton, Moët &amp; Chandon, Allianz, Audi, Chanel, Disney+, Dior, Galénic, Huawei, Schlumberger, Société Générale, Patek Philippe, Generali, HEC Paris, Total, L&rsquo;Oréal, The Ritz-Carlton, E.Leclerc, M6, Square Enix, Sephora, Sheraton, Pernod Ricard, Mandarin Oriental, Thales, Renault Nissan Mitsubishi">
       </div>
       <p class="ref-note"><span data-lang="fr">Planche publiée par Lucie sur violonisteelectrique.com. Les marques citées restent la propriété de leurs titulaires.</span><span data-lang="en">Sheet published by Lucie on violonisteelectrique.com. All trademarks remain the property of their respective owners.</span></p>
     </div>
@@ -566,12 +575,12 @@ body.en [data-lang="fr"]{display:none}
     </div>
   </div>
   <figure class="grande">
-    <img src="media/photos/handpan-acoustique.jpg" loading="lazy" alt="Le handpan acoustique Yishama en tôle martelée, tenu par David Lesage">
+    <img src="/David-Lesage-Lucie-Andersen/media/photos/handpan-acoustique.jpg" loading="lazy" alt="Le handpan acoustique Yishama en tôle martelée, tenu par David Lesage">
     <figcaption><span data-lang="fr">Le handpan acoustique Yishama, en tôle martelée &mdash; l&rsquo;autre versant du même geste.</span><span data-lang="en">The Yishama acoustic handpan, in hammered steel &mdash; the other side of the same gesture.</span></figcaption>
   </figure>
   <div class="deux-photos">
-    <figure><img src="media/photos/instruments.jpg" loading="lazy" alt="Tout le parc du duo : calebasse au premier plan, handpan électronique, ngoni et violon électrique."><figcaption><span data-lang="fr">Tout le parc du duo : calebasse au premier plan, handpan électronique, ngoni et violon électrique.</span><span data-lang="en">The duo&rsquo;s full set: calabash in the foreground, electronic handpan, ngoni and electric violin.</span></figcaption></figure>
-    <figure><img src="media/photos/ngoni.jpg" loading="lazy" alt="Le ngoni quatorze cordes, harpe africaine, et la calebasse."><figcaption><span data-lang="fr">Le ngoni quatorze cordes, harpe africaine, et la calebasse.</span><span data-lang="en">The fourteen-string ngoni, an African harp, and the calabash.</span></figcaption></figure>
+    <figure><img src="/David-Lesage-Lucie-Andersen/media/photos/instruments.jpg" loading="lazy" alt="Tout le parc du duo : calebasse au premier plan, handpan électronique, ngoni et violon électrique."><figcaption><span data-lang="fr">Tout le parc du duo : calebasse au premier plan, handpan électronique, ngoni et violon électrique.</span><span data-lang="en">The duo&rsquo;s full set: calabash in the foreground, electronic handpan, ngoni and electric violin.</span></figcaption></figure>
+    <figure><img src="/David-Lesage-Lucie-Andersen/media/photos/ngoni.jpg" loading="lazy" alt="Le ngoni quatorze cordes, harpe africaine, et la calebasse."><figcaption><span data-lang="fr">Le ngoni quatorze cordes, harpe africaine, et la calebasse.</span><span data-lang="en">The fourteen-string ngoni, an African harp, and the calabash.</span></figcaption></figure>
   </div>
 </div></section>
 <div class="divider"></div>
@@ -580,14 +589,14 @@ body.en [data-lang="fr"]{display:none}
   <h2 class="sec-title"><span data-lang="fr">Paris, 28 août 2026</span><span data-lang="en">Paris, 28 August 2026</span></h2>
   <div class="carrousel">
     <div class="piste" tabindex="0" role="group" aria-roledescription="carrousel" aria-label="Photographies du 28 août 2026">
-      <figure class="slide" aria-roledescription="slide" aria-label="1 / 8"><span class="slide-fond" style="background-image:url(media/photos/duo-portrait.jpg)"></span><img src="media/photos/duo-portrait.jpg" loading="eager" alt="Lucie et David Lesage, violon électrique et handpan électronique Neotone"><figcaption><span data-lang="fr">Lucie et David Lesage, violon électrique et handpan électronique Neotone</span><span data-lang="en">Lucie and David Lesage, electric violin and Neotone electronic handpan</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="2 / 8"><span class="slide-fond" style="background-image:url(media/photos/regard.jpg)"></span><img src="media/photos/regard.jpg" loading="lazy" alt="Lucie et David Lesage, regard vers le lointain"><figcaption><span data-lang="fr">Lucie et David Lesage, regard vers le lointain</span><span data-lang="en">Lucie and David Lesage, looking into the distance</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="3 / 8"><span class="slide-fond" style="background-image:url(media/photos/jeu-01.jpg)"></span><img src="media/photos/jeu-01.jpg" loading="lazy" alt="Lucie au violon électrique, David au handpan électronique"><figcaption><span data-lang="fr">Lucie au violon électrique, David au handpan électronique</span><span data-lang="en">Lucie on electric violin, David on electronic handpan</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="4 / 8"><span class="slide-fond" style="background-image:url(media/photos/sourire.jpg)"></span><img src="media/photos/sourire.jpg" loading="lazy" alt="Le duo, Paris, août 2026"><figcaption><span data-lang="fr">Le duo, Paris, août 2026</span><span data-lang="en">The duo, Paris, August 2026</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="5 / 8"><span class="slide-fond" style="background-image:url(media/photos/jeu-03.jpg)"></span><img src="media/photos/jeu-03.jpg" loading="lazy" alt="Le duo en répétition, Paris, août 2026"><figcaption><span data-lang="fr">Le duo en répétition, Paris, août 2026</span><span data-lang="en">The duo rehearsing, Paris, August 2026</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="6 / 8"><span class="slide-fond" style="background-image:url(media/photos/jeu-02.jpg)"></span><img src="media/photos/jeu-02.jpg" loading="lazy" alt="Handpan électronique et violon électrique, en jeu"><figcaption><span data-lang="fr">Handpan électronique et violon électrique, en jeu</span><span data-lang="en">Electronic handpan and electric violin, playing</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="7 / 8"><span class="slide-fond" style="background-image:url(media/photos/jeu-04.jpg)"></span><img src="media/photos/jeu-04.jpg" loading="lazy" alt="Le duo en jeu, handpan électronique et violon électrique"><figcaption><span data-lang="fr">Le duo en jeu, handpan électronique et violon électrique</span><span data-lang="en">The duo playing, electronic handpan and electric violin</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="8 / 8"><span class="slide-fond" style="background-image:url(media/photos/instrumentarium-01.jpg)"></span><img src="media/photos/instrumentarium-01.jpg" loading="lazy" alt="Le dispositif au sol, avant la captation"><figcaption><span data-lang="fr">Le dispositif au sol, avant la captation</span><span data-lang="en">The floor setup, before the recording session</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="1 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/duo-portrait.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/duo-portrait.jpg" loading="eager" alt="Lucie et David Lesage, violon électrique et handpan électronique Neotone"><figcaption><span data-lang="fr">Lucie et David Lesage, violon électrique et handpan électronique Neotone</span><span data-lang="en">Lucie and David Lesage, electric violin and Neotone electronic handpan</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="2 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/regard.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/regard.jpg" loading="lazy" alt="Lucie et David Lesage, regard vers le lointain"><figcaption><span data-lang="fr">Lucie et David Lesage, regard vers le lointain</span><span data-lang="en">Lucie and David Lesage, looking into the distance</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="3 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-01.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-01.jpg" loading="lazy" alt="Lucie au violon électrique, David au handpan électronique"><figcaption><span data-lang="fr">Lucie au violon électrique, David au handpan électronique</span><span data-lang="en">Lucie on electric violin, David on electronic handpan</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="4 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/sourire.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/sourire.jpg" loading="lazy" alt="Le duo, Paris, août 2026"><figcaption><span data-lang="fr">Le duo, Paris, août 2026</span><span data-lang="en">The duo, Paris, August 2026</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="5 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-03.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-03.jpg" loading="lazy" alt="Le duo en répétition, Paris, août 2026"><figcaption><span data-lang="fr">Le duo en répétition, Paris, août 2026</span><span data-lang="en">The duo rehearsing, Paris, August 2026</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="6 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-02.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-02.jpg" loading="lazy" alt="Handpan électronique et violon électrique, en jeu"><figcaption><span data-lang="fr">Handpan électronique et violon électrique, en jeu</span><span data-lang="en">Electronic handpan and electric violin, playing</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="7 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-04.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-04.jpg" loading="lazy" alt="Le duo en jeu, handpan électronique et violon électrique"><figcaption><span data-lang="fr">Le duo en jeu, handpan électronique et violon électrique</span><span data-lang="en">The duo playing, electronic handpan and electric violin</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="8 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/instrumentarium-01.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/instrumentarium-01.jpg" loading="lazy" alt="Le dispositif au sol, avant la captation"><figcaption><span data-lang="fr">Le dispositif au sol, avant la captation</span><span data-lang="en">The floor setup, before the recording session</span></figcaption></figure>
     </div>
     <button type="button" class="fleche prec" aria-label="Photo précédente"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.8 1.4 4.2 8l6.6 6.6 1.4-1.4L7 8l5.2-5.2z"/></svg></button>
     <button type="button" class="fleche suiv" aria-label="Photo suivante"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.2 1.4 3.8 2.8 9 8l-5.2 5.2 1.4 1.4L11.8 8z"/></svg></button>
@@ -606,7 +615,7 @@ body.en [data-lang="fr"]{display:none}
 <section id="contact"><div class="wrap">
   <span class="kick"><span data-lang="fr">Contact</span><span data-lang="en">Contact</span></span>
   <h2 class="sec-title"><span data-lang="fr">Parlons du format qui vous va</span><span data-lang="en">Let us talk about the format you need</span></h2>
-  <p class="lead"><span data-lang="fr">Le duo se construit. Le répertoire enregistré compte cinq pièces, soit 46 minutes de musique, et la durée comme la scénographie se calent sur votre événement. Écrivez-nous : nous répondons vite.</span><span data-lang="en">The duo is taking shape. The recorded repertoire holds five pieces &mdash; 46 minutes of music &mdash; and both length and staging are set to fit your event. Write to us: we answer quickly.</span></p>
+  <p class="lead"><span data-lang="fr">Le répertoire enregistré compte cinq pièces, soit 46 minutes de musique, et la durée comme la scénographie se calent sur votre événement. Écrivez-nous : nous répondons vite.</span><span data-lang="en">The recorded repertoire holds five pieces &mdash; 46 minutes of music &mdash; and both length and staging are set to fit your event. Write to us: we answer quickly.</span></p>
   <div class="contact">
     <div class="ct-grid">
       <div class="ct-rows">
