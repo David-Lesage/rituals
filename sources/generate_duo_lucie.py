@@ -870,10 +870,14 @@ def page():
     a('    <h1>Lucie Andersen<span class="amp">&amp;</span>David Lesage</h1>')
     # Phrase d'accroche donnee par David le 30/08/2026, mot pour mot.
     a('    <p class="sub">%s</p>' % _bi(
+        # ⚠️ « traversENT », au pluriel : ce sont les ESPACES qui traversent le
+        #    temps, pas le voyage. Tranche par David le 30/08/2026. Ne pas
+        #    « corriger » au singulier — les deux orthographes sont justes, mais
+        #    elles ne disent pas la meme chose, et c'est ce sens-la qui est voulu.
         'L&rsquo;excellence de la vibration au service de l&rsquo;émotion, un voyage '
-        'ouvrant des espaces qui traverse le temps.',
+        'ouvrant des espaces qui traversent le temps.',
         'The excellence of vibration in the service of emotion &mdash; a journey that '
-        'opens up spaces and travels through time.'))
+        'opens up spaces reaching across time.'))
     a('    <div class="meta">')
     a('      <span>%s</span>' % _bi(
         'Handpan électronique &middot; harpe africaine ngoni &middot; voix',
