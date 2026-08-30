@@ -2076,3 +2076,17 @@ publié. Signalé à David.
 **La licence est donc citée sur la page** — ce qui n'était pas possible avec l'autre structure, dont
 aucune trace n'existait au registre. Pour une agence, « licence catégorie 2 » + numéro de récépissé est
 souvent la première pièce demandée avant un contrat de cession.
+
+### 30/08/2026 — douzième passe
+
+- **« Page publiée par Résonances Productions » retiré** de la mention légale, demande de David. Une
+  seule structure y est nommée : celle qui contractualise. Ne pas la remettre « pour faire complet » —
+  deux structures dans le même bloc, c'est la question « qui facture ? » qui revient.
+- **APE : rien à changer, 90.02Z était déjà le bon** (celui du registre INSEE, et le code d'une agence
+  de booking). Le 9329Z annoncé ne correspondait à aucune source.
+- **Portrait de Lucie aligné sur celui de David.** ⚠️ Le cadrage seul ne suffisait plus : à 5 % on est
+  déjà tout en haut de la photo, sa tête touche le bord et il n'y a plus rien au-dessus à montrer.
+  L'image est donc **agrandie de 22 % et ancrée par le haut** (`transform:scale(1.22)` +
+  `transform-origin:50% 0%`) : le visage descend, et au passage les deux têtes prennent la même place
+  dans leur carré — celle de David remplissait davantage le sien. Le fichier fait 841 px de large pour
+  un affichage à 636 px : la définition suit.

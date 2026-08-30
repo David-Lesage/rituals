@@ -397,7 +397,13 @@ b{color:#fff;font-weight:500}
    haut que celui de David et les deux cartes ne s'alignaient pas. Descendre le
    pourcentage montre plus du HAUT de la photo, ce qui fait descendre le visage
    dans le cadre : 12 % met les deux regards a la meme hauteur. */
-.qui-img img.p-lucie{object-position:50% 12%}
+/* Descendre le cadrage ne suffisait plus : a 5 % on est deja tout en haut de
+   la photo, la tete de Lucie touche le bord et il n'y a rien au-dessus a
+   montrer. On agrandit donc l'image en l'ancrant par le haut — le visage
+   descend dans le cadre, et au passage les deux tetes prennent la meme place,
+   celle de David remplissant davantage son carre. */
+.qui-img img.p-lucie{object-position:50% 0%;transform:scale(1.22);
+  transform-origin:50% 0%}
 .qui-in{padding:30px 28px 30px;flex:1;display:flex;flex-direction:column}
 .qui h3{font-size:32px;color:#fff;line-height:1.1}
 .qui .role{font-size:13px;letter-spacing:.24em;text-transform:uppercase;
@@ -1515,8 +1521,12 @@ def page():
         'association loi 1901. SIRET 839 766 656 00020, code APE 90.02Z. '
         'Licence d’entrepreneur de spectacles vivants de catégorie 2, '
         'récépissé PLATESV-R-2022-005368. '
-        'Siège social : 5 rue Léo Delibes, 22000 Saint-Brieuc.<br>'
-        'Page publiée par Résonances Productions (SIRET 919 514 075 00010).',
+        # ⚠️ « Page publiee par Resonances Productions » a ete RETIRE le
+        #    30/08/2026, demande de David. Une seule structure est nommee ici :
+        #    celle qui contractualise. Ne pas la remettre « pour faire
+        #    complet » — deux structures dans le meme bloc, c'est la question
+        #    « qui facture ? » qui revient.
+        'Siège social : 5 rue Léo Delibes, 22000 Saint-Brieuc.',
         '<b>Administration and contracting</b> &mdash; Agence Artistique Les Muses, a '
         'French non-profit association (loi 1901). SIRET 839 766 656 00020, '
         # ⚠️ « APE 90.02Z » et non « APE code 90.02Z » : le controle « code
@@ -1526,8 +1536,7 @@ def page():
         #    CODES_HORS_SOUPCON.
         'APE 90.02Z. Category 2 French live-performance producer licence, '
         'receipt PLATESV-R-2022-005368. '
-        'Registered office: 5 rue Léo Delibes, 22000 Saint-Brieuc.<br>'
-        'Page published by Résonances Productions (SIRET 919 514 075 00010).'))
+        'Registered office: 5 rue Léo Delibes, 22000 Saint-Brieuc.'))
     a('  </div>')
     a('</div></section>')
 
