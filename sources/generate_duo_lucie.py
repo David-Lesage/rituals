@@ -1424,18 +1424,29 @@ def page():
     #    ⚠️ CHIFFRES VERIFIES LE 30/08/2026 au registre officiel
     #    (recherche-entreprises.api.gouv.fr, SIREN 482777455) : denomination
     #    « ASSOCIATION LES MUSES », SIRET du siege 482 777 455 00015, APE
-    #    90.01Z, siege 24 rue des Amandiers 75020 Paris, creee le 10/01/2005,
-    #    etat administratif ACTIF. Ne pas les modifier sans reverifier a la
-    #    source : ils partent dans des contrats.
+    #    90.01Z, declaree le 10/01/2005, etat administratif ACTIF.
+    #    ⚠️ L'ADRESSE EST UNE PLAGE DE NUMEROS : le registre porte « 24 A 32 RUE
+    #    DES AMANDIERS ». On ecrit donc « 24-32 » et surtout PAS « 24 » tout
+    #    court — reduire une plage a son premier numero, c'est ecrire une
+    #    adresse qui ne correspond a aucun enregistrement.
+    #    ⚠️ AUCUNE LICENCE D'ENTREPRENEUR DE SPECTACLES N'EST CITEE ICI, et
+    #    c'est deliberé : le registre public du ministere de la Culture
+    #    (PLATESV, 114 000 lignes) ne contient AUCUNE ligne pour ce SIREN, et
+    #    SIRENE porte `est_entrepreneur_spectacle: false`. Tant que le recepisse
+    #    DRAC n'a pas ete fourni, ne rien ecrire : une licence inventee sur un
+    #    dossier de booking se retrouverait dans un contrat de cession.
+    #    Ne pas modifier ces chiffres sans reverifier a la source.
     a('    <p class="legal">%s</p>' % _bi(
         '<b>Administration et contractualisation</b> &mdash; Association Les Muses, '
         'association loi 1901, arts du spectacle vivant. SIRET 482 777 455 00015, '
-        'code APE 90.01Z. Siège social : 24 rue des Amandiers, 75020 Paris.<br>'
+        'code APE 90.01Z. Association déclarée en 2005. '
+        'Siège social : 24-32 rue des Amandiers, 75020 Paris.<br>'
         'Page publiée par Résonances Productions (SIRET 919 514 075 00010), '
         'structure des projets de David Lesage.',
         '<b>Administration and contracting</b> &mdash; Association Les Muses, a French '
         'non-profit association (loi 1901), performing arts. SIRET 482 777 455 00015, '
-        'APE code 90.01Z. Registered office: 24 rue des Amandiers, 75020 Paris.<br>'
+        'APE code 90.01Z. Registered in 2005. '
+        'Registered office: 24-32 rue des Amandiers, 75020 Paris.<br>'
         'Page published by Résonances Productions (SIRET 919 514 075 00010), the '
         'structure behind David Lesage&rsquo;s projects.'))
     a('  </div>')

@@ -1973,3 +1973,34 @@ Corrections dictées par David, qui seul connaît ce qui a été joué :
   légale du bas de page ne cite que **Résonances Productions** comme structure habilitée à
   contractualiser et à employer. Une agence peut se demander qui facture. À clarifier avec Lucie avant
   la première demande sérieuse.
+
+### 30/08/2026 — neuvième passe : qui contractualise
+
+Le booking passe par Lucie, **l'administratif par l'Association Les Muses**, et la page est publiée sur
+le site de Résonances Productions. Les trois rôles sont maintenant nommés dans la mention légale : une
+agence qui lisait une adresse de booking d'un côté et une seule structure de l'autre ne pouvait pas
+savoir qui facture.
+
+**Chiffres VÉRIFIÉS au registre officiel** (`recherche-entreprises.api.gouv.fr`, SIREN 482777455) et non
+recopiés de ce qu'on nous a dit :
+« ASSOCIATION LES MUSES » · SIRET du siège **482 777 455 00015** · APE **90.01Z** · déclarée le
+**10/01/2005** · état administratif **actif**.
+
+⚠️ **L'adresse est une PLAGE de numéros.** Le registre porte « 24 A 32 RUE DES AMANDIERS ». La page écrit
+donc **« 24-32 rue des Amandiers »**. Ne pas la réduire à « 24 » : ce serait une adresse qui ne
+correspond à aucun enregistrement.
+
+🚨 **AUCUNE LICENCE D'ENTREPRENEUR DE SPECTACLES N'EST CITÉE, et c'est délibéré.** David a indiqué que
+l'association « a la licence du spectacle, est enregistrée à la DRAC ». **Vérification faite, rien ne le
+confirme** :
+- le registre public du ministère de la Culture (**PLATESV**, jeu de données « Licences et demandes de
+  licences d'entrepreneurs de spectacles vivants », 114 375 lignes) ne contient **aucune ligne** pour le
+  SIREN 482777455 ; les 50 lignes contenant « MUSES » correspondent à d'autres SIREN, ailleurs ;
+- SIRENE porte `est_entrepreneur_spectacle: false`.
+Réserve honnête : PLATESV ne couvre que les déclarations depuis la réforme d'octobre 2019 — mais dans le
+régime actuel, une licence valide **doit** y figurer. **Tant que le récépissé DRAC n'a pas été fourni, ne
+rien écrire** : une licence inexacte sur un dossier de booking se retrouverait dans un contrat de cession.
+Signalé à David le 30/08.
+
+Également non trouvés et donc absents de la page : le numéro RNA (W…), les dirigeants, et tout document
+public reliant ce SIREN à Lucie Andersen ou au Quatuor Les Muses.
