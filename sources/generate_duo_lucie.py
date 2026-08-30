@@ -327,8 +327,11 @@ b{color:#fff;font-weight:500}
 .deux{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
 .qui{background:var(--card);border-radius:20px;overflow:hidden;
   border:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column}
-.qui-img{aspect-ratio:4/3;overflow:hidden;background:var(--night2)}
-.qui-img img{width:100%;height:100%;object-fit:cover}
+/* Carré : le portrait officiel de David est carré, celui de Lucie est un
+   recadrage vertical. Le décalage vers le haut garde les deux visages dans le
+   cadre au lieu de les couper au menton. */
+.qui-img{aspect-ratio:1/1;overflow:hidden;background:var(--night2)}
+.qui-img img{width:100%;height:100%;object-fit:cover;object-position:50% 26%}
 .qui-in{padding:30px 28px 30px;flex:1;display:flex;flex-direction:column}
 .qui h3{font-size:32px;color:#fff;line-height:1.1}
 .qui .role{font-size:13px;letter-spacing:.24em;text-transform:uppercase;
@@ -343,6 +346,21 @@ b{color:#fff;font-weight:500}
 .liens a{font-size:13px;letter-spacing:.08em;padding:7px 15px;border-radius:40px;
   border:1px solid rgba(248,210,116,.26);color:var(--gold2)}
 .liens a:hover{background:rgba(216,178,90,.1)}
+
+/* ------------------------------------------------------------- references */
+.refs{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
+.ref-col{background:var(--card);border-radius:20px;padding:30px 28px;
+  border:1px solid rgba(255,255,255,.05)}
+.ref-col h3{font-size:24px;color:#fff}
+.ref-col .who{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--plum2);margin-top:6px;margin-bottom:20px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+/* Des noms de tiers : jamais de logo (marques deposees), jamais cliquable —
+   ce sont des references, pas des partenariats a suggerer. */
+.chip{font-size:14px;line-height:1.2;padding:8px 14px;border-radius:40px;
+  color:#ded9f0;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.1)}
+.ref-note{font-size:13px;color:#8b8ba6;margin-top:18px}
 
 /* -------------------------------------------------------- instrumentarium */
 .instr{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
@@ -395,7 +413,7 @@ body.en [data-lang="fr"]{display:none}
 
 @media (max-width:900px){
   .piliers{grid-template-columns:1fr}
-  .deux,.instr{grid-template-columns:1fr}
+  .deux,.instr,.refs{grid-template-columns:1fr}
   .gal{columns:2}
   .ct-grid{grid-template-columns:1fr;gap:26px}
   section{padding:64px 0}
@@ -767,26 +785,41 @@ def page():
 
     # -- David
     a('    <article class="qui">')
-    a('      <div class="qui-img"><img src="media/photos/david.jpg" loading="lazy" '
-      'alt="David Lesage et son handpan électronique Neotone"></div>')
+    # Portrait officiel (celui de /rituals), et non une photo du shooting : la
+    # carte doit montrer le musicien seul, pas le duo.
+    a('      <div class="qui-img"><img src="media/photos/david.webp" loading="lazy" '
+      'alt="Portrait de David Lesage"></div>')
     a('      <div class="qui-in">')
     a('        <h3>David Lesage</h3>')
     a('        <div class="role">%s</div>' % _bi(
         'Handpan électronique &middot; ngoni &middot; calebasse &middot; voix',
         'Electronic handpan &middot; ngoni &middot; calabash &middot; voice'))
     a('        <p>%s</p>' % _bi(
-        'Batteur de formation devenu joueur de handpan, chanteur et pédagogue. '
-        'Quatre ans au collège de jazz de Marciac, quatre ans au Conservatoire de '
-        'Toulouse, prix de batterie. Il chante en français, en swahili, en sanskrit '
-        'et en luo, sur cinq octaves, et accorde tous ses instruments en La 432 Hz.',
-        'A trained drummer who became a handpan player, singer and teacher. Four years '
-        'at the Marciac jazz college, four years at the Toulouse Conservatoire, with a '
-        'drumming prize. He sings in French, Swahili, Sanskrit and Luo across five '
-        'octaves, and tunes every instrument to A 432 Hz.'))
+        'Percussionniste de formation classique devenu l&rsquo;un des rares musiciens à '
+        'jouer le handpan électronique sur scène. Il vient du jazz &mdash; quatre ans au '
+        'collège de jazz de Marciac, quatre ans au Conservatoire de Toulouse, prix de '
+        'batterie &mdash; et en a gardé un sens du rythme millimétré, qu&rsquo;il applique '
+        'aujourd&rsquo;hui à des instruments qui n&rsquo;ont pas de partition. '
+        '<b>Ses trois terrains</b> : le handpan, acoustique et numérique, dont il est '
+        'ambassadeur officiel de la marque Neotone ; la voix, cinq octaves, en cinq '
+        'langues ; et les instruments à peau et à cordes d&rsquo;Afrique de l&rsquo;Ouest. '
+        'Ses instruments sont accordés en <b>La 432 Hz</b> &mdash; une couleur, pas un '
+        'dogme : le duo se joue aussi en 440.',
+        'A classically trained percussionist who became one of the very few musicians '
+        'playing the electronic handpan on stage. He comes from jazz &mdash; four years at '
+        'the Marciac jazz college, four years at the Toulouse Conservatoire, with a '
+        'drumming prize &mdash; and kept from it a millimetric sense of rhythm, which he now '
+        'applies to instruments that have no written score. <b>His three grounds</b>: the '
+        'handpan, acoustic and digital, for which he is an official Neotone ambassador; '
+        'the voice, five octaves across five languages; and the skin and string '
+        'instruments of West Africa. His instruments are tuned to <b>A 432 Hz</b> '
+        '&mdash; a colour, not a doctrine: the duo plays at 440 just as happily.'))
     a('        <ul class="faits">')
     faits_d = (
-        ('112 dates de scène entre 2009 et 2026, dans sept pays',
-         '112 live dates between 2009 and 2026, across seven countries'),
+        ('Sept pays de scène : France, Hongrie, Suisse, Belgique, Grèce, Espagne, '
+         'Côte d&rsquo;Ivoire',
+         'Seven countries on stage: France, Hungary, Switzerland, Belgium, Greece, Spain, '
+         'Ivory Coast'),
         ('Le Grand Rex, Paris, devant 2 700 personnes',
          'Le Grand Rex, Paris, in front of 2,700 people'),
         ('Sziget Festival, Budapest, en 2022 et 2023 ; Everness Festival, Hongrie',
@@ -826,17 +859,26 @@ def page():
         'Violon électrique &middot; violon acoustique &middot; violon LED',
         'Electric violin &middot; acoustic violin &middot; LED violin'))
     a('        <p>%s</p>' % _bi(
-        'Violoniste électrique basée à Paris, plus de vingt ans de scène, spécialisée '
-        'dans l&rsquo;événementiel haut de gamme et les marques de luxe. Conservatoire '
-        'à Paris, diplôme de performance de l&rsquo;Associated Board of the Royal '
-        'Schools of Music à Londres en violon et en chant lyrique, jazz et improvisation '
-        'au CMDL. Fondatrice et manageuse des Muses, premier quatuor de violons '
-        'électriques féminin en France.',
-        'An electric violinist based in Paris with over twenty years on stage, specialising '
-        'in high-end corporate events and luxury brands. Conservatoire in Paris, ABRSM '
-        'performance diploma in London in both violin and classical singing, jazz and '
-        'improvisation at the CMDL. Founder and manager of Les Muses, France&rsquo;s first '
-        'all-female electric string quartet.'))
+        'Vingt ans de scène, et une spécialité rare : elle est la violoniste que les '
+        'grandes maisons appellent quand une soirée doit être mémorable. Airbus, Google, '
+        'Chanel, Dior, Louis Vuitton, Moët &amp; Chandon, Patek Philippe l&rsquo;ont fait '
+        'jouer. <b>Ses trois terrains</b> : l&rsquo;événementiel haut de gamme et les '
+        'marques de luxe, où elle sait tenir une salle sans la couvrir ; le classique, '
+        'qu&rsquo;elle a appris au Conservatoire à Paris puis à Londres, diplôme de '
+        'performance de l&rsquo;Associated Board of the Royal Schools of Music en violon '
+        '<i>et</i> en chant lyrique ; et la scène pop et rock, aux côtés de Lara Fabian, '
+        'Florent Pagny ou Johnny Hallyday. Elle a aussi fondé et dirige Les Muses, premier '
+        'quatuor de violons électriques féminin en France.',
+        'Twenty years on stage, and a rare specialism: she is the violinist the great '
+        'houses call when an evening has to be remembered. Airbus, Google, Chanel, Dior, '
+        'Louis Vuitton, Moët &amp; Chandon and Patek Philippe have all hired her. '
+        '<b>Her three grounds</b>: high-end corporate events and luxury brands, where she '
+        'knows how to hold a room without drowning it; classical music, learned at the '
+        'Paris Conservatoire and then in London, with an Associated Board of the Royal '
+        'Schools of Music performance diploma in violin <i>and</i> in classical singing; '
+        'and the pop and rock stage, alongside Lara Fabian, Florent Pagny and Johnny '
+        'Hallyday. She also founded and runs Les Muses, France&rsquo;s first all-female '
+        'electric string quartet.'))
     a('        <ul class="faits">')
     faits_l = (
         ('A accompagné sur scène Lara Fabian, Florent Pagny, Johnny Hallyday, Christophe',
@@ -879,6 +921,65 @@ def page():
 
     a('<div class="divider"></div>')
 
+    # ------------------------------------------------------------ references
+    # ⚠️ DEUX COLONNES SEPAREES, ET C'EST LE POINT. Les scenes sont celles de
+    #    David, les marques sont celles de Lucie : melanger les deux listes
+    #    ferait croire que chacun a fait ce que l'autre a fait. Les marques sont
+    #    reprises telles qu'elles figurent sur le site de Lucie
+    #    (violonisteelectrique.com), les scenes telles qu'elles figurent sur
+    #    /david-lesage-en-concert. Rien n'a ete ajoute a l'une ni a l'autre.
+    a('<section id="references"><div class="wrap">')
+    a('  <span class="kick">%s</span>' % _bi('Références', 'Track record'))
+    a('  <h2 class="sec-title">%s</h2>' % _bi(
+        'Ce que chacun apporte dans la corbeille',
+        'What each of them brings to the table'))
+    a('  <p class="lead">%s</p>' % _bi(
+        'Le duo est neuf ; les deux parcours ne le sont pas. À gauche les scènes de David, '
+        'à droite les marques et les institutions qui ont fait jouer Lucie.',
+        'The duo is new; the two careers behind it are not. On the left, David&rsquo;s '
+        'stages; on the right, the brands and institutions that have hired Lucie.'))
+    a('  <div class="refs">')
+
+    a('    <div class="ref-col">')
+    a('      <h3>%s</h3>' % _bi('Les scènes de David', 'David&rsquo;s stages'))
+    a('      <div class="who">%s</div>' % _bi(
+        'Festivals, salles, lieux de patrimoine, télévision',
+        'Festivals, venues, heritage sites, television'))
+    a('      <div class="chips">')
+    for nom in ('Jazz in Marciac', 'Le Grand Rex', 'Sziget Festival',
+                'Everness Festival', 'The Voice &mdash; TF1', 'Amadou &amp; Mariam',
+                'Hona Festival &mdash; Naxos', 'HUG Fesztivál',
+                'Abbaye Notre-Dame d&rsquo;Alet', 'Basilique Saint-Nazaire',
+                'Cloître de Saint-Geniez-d&rsquo;Olt', 'FLORIPAN'):
+        a('        <span class="chip">%s</span>' % nom)
+    a('      </div>')
+    a('    </div>')
+
+    a('    <div class="ref-col">')
+    a('      <h3>%s</h3>' % _bi('Les marques de Lucie', 'Lucie&rsquo;s clients'))
+    a('      <div class="who">%s</div>' % _bi(
+        'Maisons de luxe, groupes internationaux, institutions',
+        'Luxury houses, international groups, institutions'))
+    a('      <div class="chips">')
+    for nom in ('Chanel', 'Dior', 'Louis Vuitton', 'Patek Philippe',
+                'Moët &amp; Chandon', 'Sephora', 'L&rsquo;Oréal', 'Galénic',
+                'Google', 'Airbus', 'Thales', 'Audi', 'Renault Nissan Mitsubishi',
+                'Total', 'Schlumberger', 'Huawei', 'Square Enix', 'Disney+',
+                'M6', 'Allianz', 'Generali', 'Société Générale', 'Pernod Ricard',
+                'E.Leclerc', 'The Ritz-Carlton', 'Mandarin Oriental', 'Sheraton',
+                'HEC Paris'):
+        a('        <span class="chip">%s</span>' % nom)
+    a('      </div>')
+    a('      <p class="ref-note">%s</p>' % _bi(
+        'Liste publiée par Lucie sur violonisteelectrique.com.',
+        'List published by Lucie on violonisteelectrique.com.'))
+    a('    </div>')
+
+    a('  </div>')
+    a('</div></section>')
+
+    a('<div class="divider"></div>')
+
     # ----------------------------------------------------- instrumentarium
     a('<section id="scene"><div class="wrap">')
     a('  <span class="kick">%s</span>' % _bi('Sur scène', 'On stage'))
@@ -886,9 +987,18 @@ def page():
         'Ce qui monte sur le plateau', 'What goes on stage'))
     a('  <p class="lead">%s</p>' % _bi(
         'Tout est joué en direct. Le bouclage se construit devant le public, à vue : '
-        'il n&rsquo;y a aucune bande préenregistrée.',
+        'il n&rsquo;y a aucune bande préenregistrée. Côté handpan, le Neotone tient la '
+        'place principale &mdash; il porte toutes les gammes dans un seul instrument, ce qui '
+        'évite d&rsquo;en transporter quatre, tient dans une soute et se branche directement '
+        'en console : c&rsquo;est ce qui rend le duo simple à faire voyager et rapide à caler '
+        'en balance. Les handpans acoustiques Yishama restent de la partie quand la salle '
+        'et le format s&rsquo;y prêtent.',
         'Everything is played live. The looping is built in front of the audience, in '
-        'plain sight: there is no pre-recorded backing track.'))
+        'plain sight: there is no pre-recorded backing track. On the handpan side the '
+        'Neotone takes the lead &mdash; it holds every scale in one instrument, which saves '
+        'carrying four of them, fits in a hold and plugs straight into the desk: that is '
+        'what makes this duo easy to fly out and quick to soundcheck. The Yishama acoustic '
+        'handpans stay in the picture whenever the room and the format call for them.'))
     a('  <div class="instr">')
 
     a('    <div class="instr-col">')
@@ -896,21 +1006,26 @@ def page():
     a('      <div class="who">%s</div>' % _bi('Percussions, cordes, voix', 'Percussion, strings, voice'))
     a('      <ul>')
     instr_d = (
-        ('<b>Handpan électronique Neotone</b> &mdash; toutes les gammes dans un seul instrument, '
-         'changement de gamme en cours de morceau',
-         '<b>Neotone electronic handpan</b> &mdash; every scale in a single instrument, with '
-         'scale changes mid-piece'),
-        ('<b>Handpans acoustiques Yishama</b> &mdash; deux à trois instruments',
-         '<b>Yishama acoustic handpans</b> &mdash; two to three instruments'),
+        ('<b>Deux handpans électroniques Neotone</b> &mdash; toutes les gammes dans un seul '
+         'instrument, changement de gamme en cours de morceau, sortie directe en console',
+         '<b>Two Neotone electronic handpans</b> &mdash; every scale in a single instrument, '
+         'scale changes mid-piece, direct output to the desk'),
+        ('<b>Deux handpans acoustiques Yishama</b> &mdash; le grain de la tôle martelée, '
+         'quand la salle et le format s&rsquo;y prêtent',
+         '<b>Two Yishama acoustic handpans</b> &mdash; the grain of hammered steel, when the '
+         'room and the format call for it'),
         ('<b>Ngoni quatorze cordes</b> &mdash; harpe africaine',
          '<b>Fourteen-string ngoni</b> &mdash; African harp'),
-        ('<b>Calebasse</b> et <b>wavedrum</b>',
-         '<b>Calabash</b> and <b>wavedrum</b>'),
-        ('<b>Voix</b> &mdash; cinq octaves, français, swahili, sanskrit, luo',
-         '<b>Voice</b> &mdash; five octaves, in French, Swahili, Sanskrit and Luo'),
-        ('<b>Loop station Roland RC-505 MK2</b>, sampler TM-2, déclencheurs BT-1, '
-         'contrôleur Erae 2',
-         '<b>Roland RC-505 MK2 loop station</b>, TM-2 sampler, BT-1 triggers, Erae 2 controller'),
+        ('<b>Calebasse</b>',
+         '<b>Calabash</b>'),
+        ('<b>Erae 2</b> &mdash; le multipad lumineux d&rsquo;Embodme, une surface de jeu '
+         'qui s&rsquo;éclaire sous les doigts',
+         '<b>Erae 2</b> &mdash; Embodme&rsquo;s illuminated multipad, a playing surface that '
+         'lights up under the fingers'),
+        ('<b>Voix</b> &mdash; cinq octaves, en français, anglais, swahili, sanskrit et luo',
+         '<b>Voice</b> &mdash; five octaves, in French, English, Swahili, Sanskrit and Luo'),
+        ('<b>Loop station Roland RC-505 MK2</b>, sampler TM-2, déclencheurs BT-1',
+         '<b>Roland RC-505 MK2 loop station</b>, TM-2 sampler, BT-1 triggers'),
     )
     for fr, en in instr_d:
         a('        <li>%s</li>' % _bi(fr, en))
@@ -973,12 +1088,14 @@ def page():
       '<a href="mailto:contact@resonancesproductions.org">'
       'contact@resonancesproductions.org</a></div></div>'
       % _bi('Courriel', 'Email'))
-    a('        <div><span class="ct-l">%s</span><div class="ct-v">'
-      '<a href="tel:+33610733152">+33 6 10 73 31 52</a></div></div>'
-      % _bi('Téléphone', 'Phone'))
-    a('        <div><span class="ct-l">%s</span><div class="ct-v">'
-      '29 rue des Orteaux, 75020 Paris</div></div>'
-      % _bi('Adresse', 'Address'))
+    # ⚠️ NI TELEPHONE NI ADRESSE POSTALE — demande de David du 30/08/2026. Cette
+    #    page circule chez des tiers : un numero personnel et une adresse de
+    #    domicile n'ont rien a y faire, le courriel suffit a une agence. Ne pas
+    #    les remettre « pour faire complet ».
+    a('        <div><span class="ct-l">%s</span><div class="ct-v">%s</div></div>'
+      % (_bi('Base', 'Based in'),
+         _bi('Paris &mdash; disponibles à l&rsquo;international',
+             'Paris &mdash; available internationally')))
     a('      </div>')
     a('      <div>')
     a('        <a class="btn" href="mailto:contact@resonancesproductions.org'
@@ -989,10 +1106,10 @@ def page():
     a('    <p class="legal">%s</p>' % _bi(
         'Résonances Productions &mdash; association loi 1901, arts du spectacle vivant. '
         'SIRET 919 514 075 00010, code APE 9001Z. Structure porteuse des projets de '
-        'David Lesage.',
+        'David Lesage, habilitée à contractualiser et à employer.',
         'Résonances Productions &mdash; French non-profit association (loi 1901), '
         'performing arts. SIRET 919 514 075 00010, APE code 9001Z. The structure behind '
-        'David Lesage&rsquo;s projects.'))
+        'David Lesage&rsquo;s projects, able to contract and to employ.'))
     a('  </div>')
     a('</div></section>')
 

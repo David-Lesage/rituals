@@ -185,8 +185,11 @@ b{color:#fff;font-weight:500}
 .deux{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
 .qui{background:var(--card);border-radius:20px;overflow:hidden;
   border:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column}
-.qui-img{aspect-ratio:4/3;overflow:hidden;background:var(--night2)}
-.qui-img img{width:100%;height:100%;object-fit:cover}
+/* Carré : le portrait officiel de David est carré, celui de Lucie est un
+   recadrage vertical. Le décalage vers le haut garde les deux visages dans le
+   cadre au lieu de les couper au menton. */
+.qui-img{aspect-ratio:1/1;overflow:hidden;background:var(--night2)}
+.qui-img img{width:100%;height:100%;object-fit:cover;object-position:50% 26%}
 .qui-in{padding:30px 28px 30px;flex:1;display:flex;flex-direction:column}
 .qui h3{font-size:32px;color:#fff;line-height:1.1}
 .qui .role{font-size:13px;letter-spacing:.24em;text-transform:uppercase;
@@ -201,6 +204,21 @@ b{color:#fff;font-weight:500}
 .liens a{font-size:13px;letter-spacing:.08em;padding:7px 15px;border-radius:40px;
   border:1px solid rgba(248,210,116,.26);color:var(--gold2)}
 .liens a:hover{background:rgba(216,178,90,.1)}
+
+/* ------------------------------------------------------------- references */
+.refs{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
+.ref-col{background:var(--card);border-radius:20px;padding:30px 28px;
+  border:1px solid rgba(255,255,255,.05)}
+.ref-col h3{font-size:24px;color:#fff}
+.ref-col .who{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--plum2);margin-top:6px;margin-bottom:20px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+/* Des noms de tiers : jamais de logo (marques deposees), jamais cliquable —
+   ce sont des references, pas des partenariats a suggerer. */
+.chip{font-size:14px;line-height:1.2;padding:8px 14px;border-radius:40px;
+  color:#ded9f0;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.1)}
+.ref-note{font-size:13px;color:#8b8ba6;margin-top:18px}
 
 /* -------------------------------------------------------- instrumentarium */
 .instr{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
@@ -253,7 +271,7 @@ body.en [data-lang="fr"]{display:none}
 
 @media (max-width:900px){
   .piliers{grid-template-columns:1fr}
-  .deux,.instr{grid-template-columns:1fr}
+  .deux,.instr,.refs{grid-template-columns:1fr}
   .gal{columns:2}
   .ct-grid{grid-template-columns:1fr;gap:26px}
   section{padding:64px 0}
@@ -343,13 +361,13 @@ body.en [data-lang="fr"]{display:none}
   <h2 class="sec-title"><span data-lang="fr">Qui joue</span><span data-lang="en">Who plays</span></h2>
   <div class="deux">
     <article class="qui">
-      <div class="qui-img"><img src="media/photos/david.jpg" loading="lazy" alt="David Lesage et son handpan électronique Neotone"></div>
+      <div class="qui-img"><img src="media/photos/david.webp" loading="lazy" alt="Portrait de David Lesage"></div>
       <div class="qui-in">
         <h3>David Lesage</h3>
         <div class="role"><span data-lang="fr">Handpan électronique &middot; ngoni &middot; calebasse &middot; voix</span><span data-lang="en">Electronic handpan &middot; ngoni &middot; calabash &middot; voice</span></div>
-        <p><span data-lang="fr">Batteur de formation devenu joueur de handpan, chanteur et pédagogue. Quatre ans au collège de jazz de Marciac, quatre ans au Conservatoire de Toulouse, prix de batterie. Il chante en français, en swahili, en sanskrit et en luo, sur cinq octaves, et accorde tous ses instruments en La 432 Hz.</span><span data-lang="en">A trained drummer who became a handpan player, singer and teacher. Four years at the Marciac jazz college, four years at the Toulouse Conservatoire, with a drumming prize. He sings in French, Swahili, Sanskrit and Luo across five octaves, and tunes every instrument to A 432 Hz.</span></p>
+        <p><span data-lang="fr">Percussionniste de formation classique devenu l&rsquo;un des rares musiciens à jouer le handpan électronique sur scène. Il vient du jazz &mdash; quatre ans au collège de jazz de Marciac, quatre ans au Conservatoire de Toulouse, prix de batterie &mdash; et en a gardé un sens du rythme millimétré, qu&rsquo;il applique aujourd&rsquo;hui à des instruments qui n&rsquo;ont pas de partition. <b>Ses trois terrains</b> : le handpan, acoustique et numérique, dont il est ambassadeur officiel de la marque Neotone ; la voix, cinq octaves, en cinq langues ; et les instruments à peau et à cordes d&rsquo;Afrique de l&rsquo;Ouest. Ses instruments sont accordés en <b>La 432 Hz</b> &mdash; une couleur, pas un dogme : le duo se joue aussi en 440.</span><span data-lang="en">A classically trained percussionist who became one of the very few musicians playing the electronic handpan on stage. He comes from jazz &mdash; four years at the Marciac jazz college, four years at the Toulouse Conservatoire, with a drumming prize &mdash; and kept from it a millimetric sense of rhythm, which he now applies to instruments that have no written score. <b>His three grounds</b>: the handpan, acoustic and digital, for which he is an official Neotone ambassador; the voice, five octaves across five languages; and the skin and string instruments of West Africa. His instruments are tuned to <b>A 432 Hz</b> &mdash; a colour, not a doctrine: the duo plays at 440 just as happily.</span></p>
         <ul class="faits">
-          <li><span data-lang="fr">112 dates de scène entre 2009 et 2026, dans sept pays</span><span data-lang="en">112 live dates between 2009 and 2026, across seven countries</span></li>
+          <li><span data-lang="fr">Sept pays de scène : France, Hongrie, Suisse, Belgique, Grèce, Espagne, Côte d&rsquo;Ivoire</span><span data-lang="en">Seven countries on stage: France, Hungary, Switzerland, Belgium, Greece, Spain, Ivory Coast</span></li>
           <li><span data-lang="fr">Le Grand Rex, Paris, devant 2 700 personnes</span><span data-lang="en">Le Grand Rex, Paris, in front of 2,700 people</span></li>
           <li><span data-lang="fr">Sziget Festival, Budapest, en 2022 et 2023 ; Everness Festival, Hongrie</span><span data-lang="en">Sziget Festival, Budapest, in 2022 and 2023; Everness Festival, Hungary</span></li>
           <li><span data-lang="fr">Vingt et une dates à Jazz in Marciac, sur sept éditions</span><span data-lang="en">Twenty-one dates at Jazz in Marciac, over seven editions</span></li>
@@ -370,7 +388,7 @@ body.en [data-lang="fr"]{display:none}
       <div class="qui-in">
         <h3>Lucie</h3>
         <div class="role"><span data-lang="fr">Violon électrique &middot; violon acoustique &middot; violon LED</span><span data-lang="en">Electric violin &middot; acoustic violin &middot; LED violin</span></div>
-        <p><span data-lang="fr">Violoniste électrique basée à Paris, plus de vingt ans de scène, spécialisée dans l&rsquo;événementiel haut de gamme et les marques de luxe. Conservatoire à Paris, diplôme de performance de l&rsquo;Associated Board of the Royal Schools of Music à Londres en violon et en chant lyrique, jazz et improvisation au CMDL. Fondatrice et manageuse des Muses, premier quatuor de violons électriques féminin en France.</span><span data-lang="en">An electric violinist based in Paris with over twenty years on stage, specialising in high-end corporate events and luxury brands. Conservatoire in Paris, ABRSM performance diploma in London in both violin and classical singing, jazz and improvisation at the CMDL. Founder and manager of Les Muses, France&rsquo;s first all-female electric string quartet.</span></p>
+        <p><span data-lang="fr">Vingt ans de scène, et une spécialité rare : elle est la violoniste que les grandes maisons appellent quand une soirée doit être mémorable. Airbus, Google, Chanel, Dior, Louis Vuitton, Moët &amp; Chandon, Patek Philippe l&rsquo;ont fait jouer. <b>Ses trois terrains</b> : l&rsquo;événementiel haut de gamme et les marques de luxe, où elle sait tenir une salle sans la couvrir ; le classique, qu&rsquo;elle a appris au Conservatoire à Paris puis à Londres, diplôme de performance de l&rsquo;Associated Board of the Royal Schools of Music en violon <i>et</i> en chant lyrique ; et la scène pop et rock, aux côtés de Lara Fabian, Florent Pagny ou Johnny Hallyday. Elle a aussi fondé et dirige Les Muses, premier quatuor de violons électriques féminin en France.</span><span data-lang="en">Twenty years on stage, and a rare specialism: she is the violinist the great houses call when an evening has to be remembered. Airbus, Google, Chanel, Dior, Louis Vuitton, Moët &amp; Chandon and Patek Philippe have all hired her. <b>Her three grounds</b>: high-end corporate events and luxury brands, where she knows how to hold a room without drowning it; classical music, learned at the Paris Conservatoire and then in London, with an Associated Board of the Royal Schools of Music performance diploma in violin <i>and</i> in classical singing; and the pop and rock stage, alongside Lara Fabian, Florent Pagny and Johnny Hallyday. She also founded and runs Les Muses, France&rsquo;s first all-female electric string quartet.</span></p>
         <ul class="faits">
           <li><span data-lang="fr">A accompagné sur scène Lara Fabian, Florent Pagny, Johnny Hallyday, Christophe</span><span data-lang="en">Has performed on stage with Lara Fabian, Florent Pagny, Johnny Hallyday, Christophe</span></li>
           <li><span data-lang="fr">Première partie, en duo, de la tournée <i>The Live Experience</i> d&rsquo;ERA dans les Zéniths de France, de Belgique et de Suisse</span><span data-lang="en">Opened, as a duo, for ERA&rsquo;s <i>The Live Experience</i> tour in arenas across France, Belgium and Switzerland</span></li>
@@ -391,21 +409,83 @@ body.en [data-lang="fr"]{display:none}
   </div>
 </div></section>
 <div class="divider"></div>
+<section id="references"><div class="wrap">
+  <span class="kick"><span data-lang="fr">Références</span><span data-lang="en">Track record</span></span>
+  <h2 class="sec-title"><span data-lang="fr">Ce que chacun apporte dans la corbeille</span><span data-lang="en">What each of them brings to the table</span></h2>
+  <p class="lead"><span data-lang="fr">Le duo est neuf ; les deux parcours ne le sont pas. À gauche les scènes de David, à droite les marques et les institutions qui ont fait jouer Lucie.</span><span data-lang="en">The duo is new; the two careers behind it are not. On the left, David&rsquo;s stages; on the right, the brands and institutions that have hired Lucie.</span></p>
+  <div class="refs">
+    <div class="ref-col">
+      <h3><span data-lang="fr">Les scènes de David</span><span data-lang="en">David&rsquo;s stages</span></h3>
+      <div class="who"><span data-lang="fr">Festivals, salles, lieux de patrimoine, télévision</span><span data-lang="en">Festivals, venues, heritage sites, television</span></div>
+      <div class="chips">
+        <span class="chip">Jazz in Marciac</span>
+        <span class="chip">Le Grand Rex</span>
+        <span class="chip">Sziget Festival</span>
+        <span class="chip">Everness Festival</span>
+        <span class="chip">The Voice &mdash; TF1</span>
+        <span class="chip">Amadou &amp; Mariam</span>
+        <span class="chip">Hona Festival &mdash; Naxos</span>
+        <span class="chip">HUG Fesztivál</span>
+        <span class="chip">Abbaye Notre-Dame d&rsquo;Alet</span>
+        <span class="chip">Basilique Saint-Nazaire</span>
+        <span class="chip">Cloître de Saint-Geniez-d&rsquo;Olt</span>
+        <span class="chip">FLORIPAN</span>
+      </div>
+    </div>
+    <div class="ref-col">
+      <h3><span data-lang="fr">Les marques de Lucie</span><span data-lang="en">Lucie&rsquo;s clients</span></h3>
+      <div class="who"><span data-lang="fr">Maisons de luxe, groupes internationaux, institutions</span><span data-lang="en">Luxury houses, international groups, institutions</span></div>
+      <div class="chips">
+        <span class="chip">Chanel</span>
+        <span class="chip">Dior</span>
+        <span class="chip">Louis Vuitton</span>
+        <span class="chip">Patek Philippe</span>
+        <span class="chip">Moët &amp; Chandon</span>
+        <span class="chip">Sephora</span>
+        <span class="chip">L&rsquo;Oréal</span>
+        <span class="chip">Galénic</span>
+        <span class="chip">Google</span>
+        <span class="chip">Airbus</span>
+        <span class="chip">Thales</span>
+        <span class="chip">Audi</span>
+        <span class="chip">Renault Nissan Mitsubishi</span>
+        <span class="chip">Total</span>
+        <span class="chip">Schlumberger</span>
+        <span class="chip">Huawei</span>
+        <span class="chip">Square Enix</span>
+        <span class="chip">Disney+</span>
+        <span class="chip">M6</span>
+        <span class="chip">Allianz</span>
+        <span class="chip">Generali</span>
+        <span class="chip">Société Générale</span>
+        <span class="chip">Pernod Ricard</span>
+        <span class="chip">E.Leclerc</span>
+        <span class="chip">The Ritz-Carlton</span>
+        <span class="chip">Mandarin Oriental</span>
+        <span class="chip">Sheraton</span>
+        <span class="chip">HEC Paris</span>
+      </div>
+      <p class="ref-note"><span data-lang="fr">Liste publiée par Lucie sur violonisteelectrique.com.</span><span data-lang="en">List published by Lucie on violonisteelectrique.com.</span></p>
+    </div>
+  </div>
+</div></section>
+<div class="divider"></div>
 <section id="scene"><div class="wrap">
   <span class="kick"><span data-lang="fr">Sur scène</span><span data-lang="en">On stage</span></span>
   <h2 class="sec-title"><span data-lang="fr">Ce qui monte sur le plateau</span><span data-lang="en">What goes on stage</span></h2>
-  <p class="lead"><span data-lang="fr">Tout est joué en direct. Le bouclage se construit devant le public, à vue : il n&rsquo;y a aucune bande préenregistrée.</span><span data-lang="en">Everything is played live. The looping is built in front of the audience, in plain sight: there is no pre-recorded backing track.</span></p>
+  <p class="lead"><span data-lang="fr">Tout est joué en direct. Le bouclage se construit devant le public, à vue : il n&rsquo;y a aucune bande préenregistrée. Côté handpan, le Neotone tient la place principale &mdash; il porte toutes les gammes dans un seul instrument, ce qui évite d&rsquo;en transporter quatre, tient dans une soute et se branche directement en console : c&rsquo;est ce qui rend le duo simple à faire voyager et rapide à caler en balance. Les handpans acoustiques Yishama restent de la partie quand la salle et le format s&rsquo;y prêtent.</span><span data-lang="en">Everything is played live. The looping is built in front of the audience, in plain sight: there is no pre-recorded backing track. On the handpan side the Neotone takes the lead &mdash; it holds every scale in one instrument, which saves carrying four of them, fits in a hold and plugs straight into the desk: that is what makes this duo easy to fly out and quick to soundcheck. The Yishama acoustic handpans stay in the picture whenever the room and the format call for them.</span></p>
   <div class="instr">
     <div class="instr-col">
       <h3>David Lesage</h3>
       <div class="who"><span data-lang="fr">Percussions, cordes, voix</span><span data-lang="en">Percussion, strings, voice</span></div>
       <ul>
-        <li><span data-lang="fr"><b>Handpan électronique Neotone</b> &mdash; toutes les gammes dans un seul instrument, changement de gamme en cours de morceau</span><span data-lang="en"><b>Neotone electronic handpan</b> &mdash; every scale in a single instrument, with scale changes mid-piece</span></li>
-        <li><span data-lang="fr"><b>Handpans acoustiques Yishama</b> &mdash; deux à trois instruments</span><span data-lang="en"><b>Yishama acoustic handpans</b> &mdash; two to three instruments</span></li>
+        <li><span data-lang="fr"><b>Deux handpans électroniques Neotone</b> &mdash; toutes les gammes dans un seul instrument, changement de gamme en cours de morceau, sortie directe en console</span><span data-lang="en"><b>Two Neotone electronic handpans</b> &mdash; every scale in a single instrument, scale changes mid-piece, direct output to the desk</span></li>
+        <li><span data-lang="fr"><b>Deux handpans acoustiques Yishama</b> &mdash; le grain de la tôle martelée, quand la salle et le format s&rsquo;y prêtent</span><span data-lang="en"><b>Two Yishama acoustic handpans</b> &mdash; the grain of hammered steel, when the room and the format call for it</span></li>
         <li><span data-lang="fr"><b>Ngoni quatorze cordes</b> &mdash; harpe africaine</span><span data-lang="en"><b>Fourteen-string ngoni</b> &mdash; African harp</span></li>
-        <li><span data-lang="fr"><b>Calebasse</b> et <b>wavedrum</b></span><span data-lang="en"><b>Calabash</b> and <b>wavedrum</b></span></li>
-        <li><span data-lang="fr"><b>Voix</b> &mdash; cinq octaves, français, swahili, sanskrit, luo</span><span data-lang="en"><b>Voice</b> &mdash; five octaves, in French, Swahili, Sanskrit and Luo</span></li>
-        <li><span data-lang="fr"><b>Loop station Roland RC-505 MK2</b>, sampler TM-2, déclencheurs BT-1, contrôleur Erae 2</span><span data-lang="en"><b>Roland RC-505 MK2 loop station</b>, TM-2 sampler, BT-1 triggers, Erae 2 controller</span></li>
+        <li><span data-lang="fr"><b>Calebasse</b></span><span data-lang="en"><b>Calabash</b></span></li>
+        <li><span data-lang="fr"><b>Erae 2</b> &mdash; le multipad lumineux d&rsquo;Embodme, une surface de jeu qui s&rsquo;éclaire sous les doigts</span><span data-lang="en"><b>Erae 2</b> &mdash; Embodme&rsquo;s illuminated multipad, a playing surface that lights up under the fingers</span></li>
+        <li><span data-lang="fr"><b>Voix</b> &mdash; cinq octaves, en français, anglais, swahili, sanskrit et luo</span><span data-lang="en"><b>Voice</b> &mdash; five octaves, in French, English, Swahili, Sanskrit and Luo</span></li>
+        <li><span data-lang="fr"><b>Loop station Roland RC-505 MK2</b>, sampler TM-2, déclencheurs BT-1</span><span data-lang="en"><b>Roland RC-505 MK2 loop station</b>, TM-2 sampler, BT-1 triggers</span></li>
       </ul>
     </div>
     <div class="instr-col">
@@ -447,14 +527,13 @@ body.en [data-lang="fr"]{display:none}
     <div class="ct-grid">
       <div class="ct-rows">
         <div><span class="ct-l"><span data-lang="fr">Courriel</span><span data-lang="en">Email</span></span><div class="ct-v"><a href="mailto:contact@resonancesproductions.org">contact@resonancesproductions.org</a></div></div>
-        <div><span class="ct-l"><span data-lang="fr">Téléphone</span><span data-lang="en">Phone</span></span><div class="ct-v"><a href="tel:+33610733152">+33 6 10 73 31 52</a></div></div>
-        <div><span class="ct-l"><span data-lang="fr">Adresse</span><span data-lang="en">Address</span></span><div class="ct-v">29 rue des Orteaux, 75020 Paris</div></div>
+        <div><span class="ct-l"><span data-lang="fr">Base</span><span data-lang="en">Based in</span></span><div class="ct-v"><span data-lang="fr">Paris &mdash; disponibles à l&rsquo;international</span><span data-lang="en">Paris &mdash; available internationally</span></div></div>
       </div>
       <div>
         <a class="btn" href="mailto:contact@resonancesproductions.org?subject=Duo%20David%20Lesage%20%26%20Lucie"><span data-lang="fr">Nous écrire</span><span data-lang="en">Get in touch</span></a>
       </div>
     </div>
-    <p class="legal"><span data-lang="fr">Résonances Productions &mdash; association loi 1901, arts du spectacle vivant. SIRET 919 514 075 00010, code APE 9001Z. Structure porteuse des projets de David Lesage.</span><span data-lang="en">Résonances Productions &mdash; French non-profit association (loi 1901), performing arts. SIRET 919 514 075 00010, APE code 9001Z. The structure behind David Lesage&rsquo;s projects.</span></p>
+    <p class="legal"><span data-lang="fr">Résonances Productions &mdash; association loi 1901, arts du spectacle vivant. SIRET 919 514 075 00010, code APE 9001Z. Structure porteuse des projets de David Lesage, habilitée à contractualiser et à employer.</span><span data-lang="en">Résonances Productions &mdash; French non-profit association (loi 1901), performing arts. SIRET 919 514 075 00010, APE code 9001Z. The structure behind David Lesage&rsquo;s projects, able to contract and to employ.</span></p>
   </div>
 </div></section>
 <footer><div class="wrap">

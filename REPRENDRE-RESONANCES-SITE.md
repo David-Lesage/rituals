@@ -1816,3 +1816,29 @@ où il existe (choix de David) ; *Ave Maria* n'existe qu'en sortie de table.
 - ⚠️ **Le dépôt GitHub est PUBLIC.** La page est introuvable sur le site, mais ses photos et ses MP3 sont
   lisibles par n'importe qui sur `github.com/David-Lesage/rituals`, et l'historique git les garde même
   après suppression. Point signalé à David le 30/08.
+
+### 30/08/2026, même jour — deuxième passe, sur retours de David
+
+Retours arrivés après la mise en ligne, tous appliqués :
+
+- **Ni téléphone ni adresse postale** sur la page. Elle circule chez des tiers : le courriel suffit à
+  une agence. Remplacés par « Paris — disponibles à l'international ». **Ne pas les remettre.**
+- **Portrait de David** : son portrait officiel (`img/rituals/david-lesage-900.webp`, recopié dans
+  `media/photos/david.webp`) à la place d'une photo du shooting où le duo apparaissait. Les deux cartes
+  sont passées en format carré, avec `object-position:50% 26%` pour ne pas couper les visages.
+- **Portrait de Lucie** : recadrage de `AQ1B0102.JPG` (`crop=1720:2700:1900:400` avec ffmpeg — sips
+  recadre depuis le CENTRE, ce qui rend ses offsets inutilisables ici). L'ancienne photo ne lui allait pas.
+- **« 112 dates de scène » retiré** — David : « 112 dates c'est peu ». Remplacé par les **sept pays** nommés.
+- **Nouvelle section « Références »**, deux colonnes SÉPARÉES : les scènes de David à gauche, les marques
+  de Lucie à droite. ⚠️ Ne jamais fusionner les deux listes : ce serait attribuer à l'un ce que l'autre a
+  fait. Les 28 marques sont celles que **Lucie publie elle-même** sur violonisteelectrique.com (Chanel,
+  Dior, Louis Vuitton, Patek Philippe, Google, Airbus…). Des **noms en texte, jamais de logos** (marques
+  déposées), et rien de cliquable : ce sont des références, pas des partenariats à suggérer.
+- **Mini-bios réécrites** pour montrer les domaines d'excellence de chacun (« Ses trois terrains »).
+- **Instrumentarium** : `wavedrum` remplacé par l'**Erae 2**, le multipad lumineux d'Embodme ;
+  **2 Neotone et 2 Yishama** (et non « deux à trois ») ; **anglais ajouté** aux langues chantées.
+- **Handpan électronique mis en avant** comme argument de tournée (toutes les gammes dans un instrument,
+  tient en soute, sortie directe console) **sans fermer la porte à l'acoustique** : les Yishama restent
+  annoncés « quand la salle et le format s'y prêtent ».
+- **432 Hz présenté comme une couleur, pas un dogme** : la page dit explicitement que le duo se joue
+  aussi en 440.
