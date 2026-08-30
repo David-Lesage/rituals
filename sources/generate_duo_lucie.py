@@ -95,42 +95,43 @@ MORCEAUX = (
     dict(
         fichier='01-lappel-du-vent.mp3', duree='11:09', secondes=669,
         titre_fr="L'appel du vent", titre_en="L'appel du vent",
-        sous_fr='Handpan électronique, voix et violon électrique',
-        sous_en='Electronic handpan, voice and electric violin',
+        sous_fr='Handpan électronique, violon électrique &amp; voix',
+        sous_en='Electronic handpan, electric violin &amp; voice',
         note_fr="Du répertoire de David Lesage, album <i>L'Alliance du Phoenix</i>, repris à deux.",
         note_en="From David Lesage's own repertoire, album <i>L'Alliance du Phoenix</i>, rewritten for two.",
     ),
     dict(
         fichier='02-transe-lunaire.mp3', duree='5:52', secondes=352,
         titre_fr='Transe lunaire', titre_en='Transe lunaire',
-        sous_fr='Handpan électronique et violon électrique',
-        sous_en='Electronic handpan and electric violin',
+        sous_fr='Handpan électronique, violon électrique &amp; voix',
+        sous_en='Electronic handpan, electric violin &amp; voice',
         note_fr="Du répertoire de David Lesage, album <i>L'Alliance du Phoenix</i>.",
         note_en="From David Lesage's own repertoire, album <i>L'Alliance du Phoenix</i>.",
     ),
     dict(
         fichier='03-ave-maria.mp3', duree='10:07', secondes=607,
         titre_fr='Ave Maria', titre_en='Ave Maria',
-        sous_fr='Violon électrique et handpan électronique',
-        sous_en='Electric violin and electronic handpan',
+        sous_fr='Violon électrique, handpan acoustique Yishama &amp; voix',
+        sous_en='Electric violin, Yishama acoustic handpan &amp; voice',
         note_fr='Une pièce du grand répertoire, portée par le violon et posée sur le handpan.',
         note_en='A piece from the classical repertoire, carried by the violin over the handpan.',
     ),
     dict(
         fichier='04-voyage-meditatif-d-kurd.mp3', duree='10:03', secondes=603,
-        titre_fr='Voyage méditatif en Ré Kurd',
-        titre_en='Meditative journey in D Kurd',
-        sous_fr='Improvisation — handpan électronique et violon électrique',
-        sous_en='Improvisation — electronic handpan and electric violin',
-        note_fr='Ré Kurd : la gamme de handpan la plus jouée au monde. Écrit sur le moment, à deux.',
-        note_en='D Kurd: the most widely played handpan scale. Written on the spot, by both.',
+        titre_fr='Voyage immersif violon &amp; handpan',
+        titre_en='Immersive journey — violin &amp; handpan',
+        sous_fr='Improvisation — handpan électronique, violon électrique &amp; voix',
+        sous_en='Improvisation — electronic handpan, electric violin &amp; voice',
+        note_fr='Écrit sur le moment, à deux, en Ré Kurd — la gamme de handpan la plus '
+                'jouée au monde.',
+        note_en='Written on the spot, by both, in D Kurd — the most widely played handpan scale.',
     ),
     dict(
         fichier='05-ngoni-violon.mp3', duree='8:56', secondes=536,
-        titre_fr='Voyage méditatif — ngoni et violon',
-        titre_en='Meditative journey — ngoni and violin',
-        sous_fr='Harpe africaine 14 cordes et violon électrique',
-        sous_en='14-string African harp and electric violin',
+        titre_fr='Voyage méditatif — harpe africaine ngoni &amp; violon',
+        titre_en='Meditative journey — African ngoni harp &amp; violin',
+        sous_fr='Harpe africaine ngoni 14 cordes, violon électrique &amp; voix',
+        sous_en='14-string African ngoni harp, electric violin &amp; voice',
         note_fr="L'instrument le plus ancien du duo face au plus récent. Improvisation.",
         note_en="The duo's oldest instrument against its newest. Improvisation.",
     ),
@@ -809,7 +810,7 @@ def page():
     a('<title>Lucie Andersen &amp; David Lesage — violon électrique &amp; handpan '
       'électronique</title>')
     a('<meta name="description" content="Violon électrique, handpan électronique, '
-      'ngoni et voix. Cinq pièces enregistrées à Paris le 28 août 2026.">')
+      'harpe africaine ngoni et voix. Cinq pièces enregistrées à Paris le 28 août 2026.">')
     a('<meta property="og:type" content="website">')
     a('<meta property="og:title" content="Lucie Andersen &amp; David Lesage">')
     a('<meta property="og:description" content="Violon électrique et handpan électronique. '
@@ -862,12 +863,19 @@ def page():
         'An electronic handpan and an electric violin. Two instruments that did not '
         'exist fifteen years ago, in the service of gestures that are very old indeed.'))
     a('    <div class="meta">')
-    a('      <span>%s</span>' % _bi('Handpan électronique &middot; ngoni &middot; voix',
-                                    'Electronic handpan &middot; ngoni &middot; voice'))
+    a('      <span>%s</span>' % _bi(
+        'Handpan électronique &middot; harpe africaine ngoni &middot; voix',
+        'Electronic handpan &middot; African ngoni harp &middot; voice'))
     a('      <span>%s</span>' % _bi('Violon électrique &middot; violon acoustique',
                                     'Electric violin &middot; acoustic violin'))
-    a('      <span>%s</span>' % _bi('Cinq pièces &middot; %d minutes' % DUREE_TOTALE_MIN,
-                                    'Five pieces &middot; %d minutes' % DUREE_TOTALE_MIN))
+    # ⚠️ PAS DE DUREE CHIFFREE, demande de David du 30/08/2026 : « concernant
+    #    le format reste vague ». Annoncer « 46 minutes » ferait passer la
+    #    duree du seul enregistrement pour la duree du spectacle, et
+    #    enfermerait le duo dans un format avant meme la discussion.
+    #    La constante DUREE_TOTALE_MIN reste calculee — elle documente la
+    #    captation — mais elle n'est plus AFFICHEE nulle part.
+    a('      <span>%s</span>' % _bi('Format construit avec vous',
+                                    'Format built with you'))
     a('    </div>')
     a('    <div class="cta">')
     a('      <a class="btn js-ecouter" href="#ecouter">%s</a>'
@@ -1064,8 +1072,8 @@ def page():
     a('      <div class="qui-in">')
     a('        <h3>David Lesage</h3>')
     a('        <div class="role">%s</div>' % _bi(
-        'Handpan électronique &middot; ngoni &middot; calebasse &middot; voix',
-        'Electronic handpan &middot; ngoni &middot; calabash &middot; voice'))
+        'Handpan électronique &middot; harpe africaine ngoni &middot; calebasse &middot; voix',
+        'Electronic handpan &middot; African ngoni harp &middot; calabash &middot; voice'))
     a('        <p>%s</p>' % _bi(
         'Percussionniste de formation classique devenu l&rsquo;un des rares musiciens à '
         'jouer le handpan électronique sur scène. Il vient du jazz &mdash; quatre ans au '
@@ -1244,16 +1252,18 @@ def page():
          'quand la salle et le format s&rsquo;y prêtent',
          '<b>Two Yishama acoustic handpans</b> &mdash; the grain of hammered steel, when the '
          'room and the format call for it'),
-        ('<b>Ngoni quatorze cordes</b> &mdash; harpe africaine',
-         '<b>Fourteen-string ngoni</b> &mdash; African harp'),
+        ('<b>Harpe africaine ngoni</b> &mdash; quatorze cordes',
+         '<b>African ngoni harp</b> &mdash; fourteen strings'),
         ('<b>Calebasse</b>',
          '<b>Calabash</b>'),
         ('<b>Erae 2</b> &mdash; le multipad lumineux d&rsquo;Embodme, une surface de jeu '
          'qui s&rsquo;éclaire sous les doigts',
          '<b>Erae 2</b> &mdash; Embodme&rsquo;s illuminated multipad, a playing surface that '
          'lights up under the fingers'),
-        ('<b>Voix</b> &mdash; cinq octaves, en français, anglais, swahili, sanskrit et luo',
-         '<b>Voice</b> &mdash; five octaves, in French, English, Swahili, Sanskrit and Luo'),
+        ('<b>Voix</b> et <b>improvisation vocale</b> &mdash; cinq octaves, en français, '
+         'anglais, swahili, sanskrit et luo',
+         '<b>Voice</b> and <b>vocal improvisation</b> &mdash; five octaves, in French, '
+         'English, Swahili, Sanskrit and Luo'),
         ('<b>Loop station Roland RC-505 MK2</b>, sampler TM-2, déclencheurs BT-1',
          '<b>Roland RC-505 MK2 loop station</b>, TM-2 sampler, BT-1 triggers'),
     )
@@ -1305,12 +1315,12 @@ def page():
     photos_scene = (
         ('instruments.jpg',
          'Tout le parc du duo : calebasse au premier plan, handpan électronique, '
-         'ngoni et violon électrique.',
+         'harpe africaine ngoni et violon électrique.',
          'The duo&rsquo;s full set: calabash in the foreground, electronic handpan, '
-         'ngoni and electric violin.'),
+         'African ngoni harp and electric violin.'),
         ('ngoni.jpg',
-         'Le ngoni quatorze cordes, harpe africaine, et la calebasse.',
-         'The fourteen-string ngoni, an African harp, and the calabash.'),
+         'La harpe africaine ngoni, quatorze cordes, et la calebasse.',
+         'The fourteen-string African ngoni harp, and the calabash.'),
     )
     for fichier, cfr, cen in photos_scene:
         a('    <figure><img src="media/photos/%s" loading="lazy" alt="%s">'
@@ -1347,12 +1357,12 @@ def page():
     a('  <h2 class="sec-title">%s</h2>' % _bi(
         'Parlons du format qui vous va', 'Let us talk about the format you need'))
     a('  <p class="lead">%s</p>' % _bi(
-        'Le répertoire enregistré compte cinq pièces, soit %d minutes de musique, et '
-        'la durée comme la scénographie se calent sur votre événement. '
-        'Écrivez-nous : nous répondons vite.' % DUREE_TOTALE_MIN,
-        'The recorded repertoire holds five pieces &mdash; %d minutes of music &mdash; '
-        'and both length and staging are set to fit your event. Write to us: we answer '
-        'quickly.' % DUREE_TOTALE_MIN))
+        'Le répertoire continue de s&rsquo;écrire. La durée, la formule et la scénographie '
+        'se construisent avec vous, selon la salle, le moment et ce que vous attendez de '
+        'la soirée. Écrivez-nous : nous répondons vite.',
+        'The repertoire keeps growing. Length, line-up and staging are built with you, to '
+        'suit the room, the moment and what you want the evening to be. Write to us: we '
+        'answer quickly.'))
     a('  <div class="contact">')
     a('    <div class="ct-grid">')
     a('      <div class="ct-rows">')

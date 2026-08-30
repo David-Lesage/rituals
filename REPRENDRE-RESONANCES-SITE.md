@@ -1920,3 +1920,23 @@ Retours arrivés après la mise en ligne, tous appliqués :
   disaient la même chose — « Le duo est neuf » (Références) et « Le duo se construit » (Contact) — ont
   été réécrites dans la foulée, ainsi que les deux `meta description`. Les laisser aurait contredit le
   retrait. Devant une agence, annoncer qu'on émerge, c'est annoncer qu'on n'est pas encore établi.
+
+### 30/08/2026, même jour — sixième passe : les titres, l'instrumentation, le format
+
+Corrections dictées par David, qui seul connaît ce qui a été joué :
+
+- **« Voyage méditatif en Ré Kurd » → « Voyage immersif violon & handpan ».** La gamme (Ré Kurd) passe
+  dans la note sous le titre, elle n'est plus le titre.
+- **Ave Maria** : ce n'est pas le handpan électronique mais le **handpan acoustique Yishama**.
+- **« & voix » sur les cinq morceaux** : David chante sur chacun. C'était faux de ne l'indiquer que sur
+  un seul.
+- **« ngoni » devient partout « harpe africaine ngoni »** — dans les cinq morceaux, la fiche de David,
+  le sur-titre, l'instrumentarium, les légendes et la `meta description`. Le mot seul ne dit rien à une
+  agence.
+- **« improvisation vocale »** ajoutée à la ligne Voix de l'instrumentarium.
+- ⚠️ **PLUS AUCUNE DURÉE CHIFFRÉE.** Demande de David : « concernant le format reste vague ». Les
+  « 46 minutes » disparaissent du sur-titre du hero et de la section Contact. Annoncer 46 minutes
+  faisait passer la durée du seul **enregistrement** pour la durée du **spectacle**, et enfermait le duo
+  dans un format avant même la discussion avec l'organisateur. La constante `DUREE_TOTALE_MIN` reste
+  calculée dans le générateur — elle documente la captation — mais **elle n'est plus affichée**.
+  Ne pas la réafficher.
