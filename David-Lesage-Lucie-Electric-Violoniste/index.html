@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
-<title>David Lesage &amp; Lucie — handpan électronique &amp; violon électrique</title>
+<title>Lucie &amp; David Lesage — violon électrique &amp; handpan électronique</title>
 <meta name="description" content="Duo en émergence : handpan électronique, ngoni, voix et violon électrique. Cinq pièces enregistrées à Paris le 28 août 2026.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="David Lesage &amp; Lucie">
-<meta property="og:description" content="Handpan électronique et violon électrique. Duo en émergence, Paris.">
+<meta property="og:title" content="Lucie &amp; David Lesage">
+<meta property="og:description" content="Violon électrique et handpan électronique. Duo en émergence, Paris.">
 <meta property="og:image" content="https://www.resonancesproductions.org/David-Lesage-Lucie-Electric-Violoniste/media/photos/og-duo.jpg">
 <meta property="og:url" content="https://www.resonancesproductions.org/David-Lesage-Lucie-Electric-Violoniste">
 <meta name="twitter:card" content="summary_large_image">
@@ -205,6 +205,29 @@ b{color:#fff;font-weight:500}
   border:1px solid rgba(248,210,116,.26);color:var(--gold2)}
 .liens a:hover{background:rgba(216,178,90,.1)}
 
+/* ------------------------------------------------------ photos de section */
+/* Une grande image portrait au milieu d'une page en colonnes deborderait en
+   hauteur : `max-height` la borne, et `object-fit:cover` recadre plutot que
+   de deformer. */
+.grande{margin-top:44px;border-radius:20px;overflow:hidden;background:var(--night2);
+  border:1px solid rgba(255,255,255,.06)}
+.grande img{width:100%;max-height:640px;object-fit:cover;object-position:50% 28%}
+.grande figcaption{font-size:13.5px;color:#8b8ba6;padding:14px 22px 16px;
+  background:var(--card)}
+.deux-photos{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.deux-photos figure{border-radius:16px;overflow:hidden;background:var(--night2);
+  border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column}
+/* `object-position` bas : sur ces deux photos verticales, ce qu'il faut voir
+   (la calebasse au sol, la caisse du ngoni) est dans la MOITIE BASSE. Un
+   recadrage centre par defaut coupait justement les instruments. */
+/* 2/3 et pas 4/5 : les sources sont des verticales de telephone (9/16). Un
+   cadre plus haut montre 84 % de l'image au lieu de 70 %, ce qui suffit a
+   garder A LA FOIS les visages en haut et les instruments au sol en bas —
+   sans quoi la legende promet une calebasse qu'on ne voit pas. */
+.deux-photos img{width:100%;aspect-ratio:2/3;object-fit:cover;object-position:50% 96%}
+.deux-photos figcaption{font-size:13.5px;color:var(--muted);padding:13px 18px 15px;
+  background:var(--card);flex:1}
+
 /* ------------------------------------------------------------- references */
 .refs{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
 .ref-col{background:var(--card);border-radius:20px;padding:30px 28px;
@@ -219,6 +242,12 @@ b{color:#fff;font-weight:500}
   color:#ded9f0;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
   border:1px solid rgba(255,255,255,.1)}
 .ref-note{font-size:13px;color:#8b8ba6;margin-top:18px}
+/* Le panneau clair qui porte la planche de logos. Les logos sont polychromes
+   et concus pour du blanc : les poser sur le bleu nuit les salirait. Un
+   panneau blanc franc, c'est le geste d'un dossier de presse. */
+.logos{background:#fff;border-radius:14px;padding:18px 16px;
+  box-shadow:0 18px 40px -26px rgba(0,0,0,.8)}
+.logos img{width:100%;height:auto;display:block}
 
 /* -------------------------------------------------------- instrumentarium */
 .instr{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
@@ -234,12 +263,36 @@ b{color:#fff;font-weight:500}
   transform:rotate(45deg);background:var(--coral)}
 .instr-col li b{color:#fff;font-weight:500}
 
-/* -------------------------------------------------------------- galerie */
-.gal{columns:3;column-gap:16px;margin-top:44px}
-.gal figure{break-inside:avoid;margin-bottom:16px;border-radius:14px;
-  overflow:hidden;background:var(--night2);position:relative}
-.gal img{width:100%;height:auto;transition:transform .5s cubic-bezier(.2,.7,.3,1)}
-.gal figure:hover img{transform:scale(1.035)}
+/* ------------------------------------------------------------- carrousel */
+.carrousel{position:relative;margin-top:44px}
+.piste{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;gap:0;border-radius:20px;
+  scrollbar-width:none;-ms-overflow-style:none}
+.piste::-webkit-scrollbar{display:none}
+.piste:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+.slide{position:relative;flex:0 0 100%;scroll-snap-align:center;
+  background:var(--night2);overflow:hidden;isolation:isolate}
+/* Le fond : la meme image, floutee et assombrie, pour habiller les bandes
+   laterales des photos verticales sans jamais les recadrer. */
+.slide-fond{position:absolute;inset:0;z-index:-1;background-size:cover;
+  background-position:center;filter:blur(34px) brightness(.42) saturate(.9);
+  transform:scale(1.15)}
+.slide img{width:100%;height:min(62vh,620px);object-fit:contain;display:block}
+.slide figcaption{font-size:13.5px;color:#cfcbe4;padding:14px 22px 16px;
+  background:rgba(10,11,30,.72);backdrop-filter:blur(8px);text-align:center}
+.fleche{position:absolute;top:calc(50% - 30px);transform:translateY(-50%);
+  width:46px;height:46px;border-radius:50%;cursor:pointer;z-index:3;
+  display:grid;place-items:center;border:1px solid rgba(248,210,116,.32);
+  background:rgba(10,11,30,.66);color:var(--gold2);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.fleche:hover{background:rgba(216,178,90,.18)}
+.fleche svg{width:15px;height:15px;fill:currentColor}
+.fleche.prec{left:14px}
+.fleche.suiv{right:14px}
+.puces{display:flex;justify-content:center;gap:9px;margin-top:20px;flex-wrap:wrap}
+.puce{width:9px;height:9px;padding:0;border-radius:50%;cursor:pointer;
+  border:0;background:rgba(255,255,255,.22)}
+.puce.on{background:var(--grad-warm);transform:scale(1.25)}
 
 /* ---------------------------------------------------------------- contact */
 .contact{background:var(--card);border-radius:22px;padding:46px 40px;
@@ -271,7 +324,8 @@ body.en [data-lang="fr"]{display:none}
 
 @media (max-width:900px){
   .piliers{grid-template-columns:1fr}
-  .deux,.instr,.refs{grid-template-columns:1fr}
+  .deux,.instr,.refs,.deux-photos{grid-template-columns:1fr}
+  .grande img{max-height:420px}
   .gal{columns:2}
   .ct-grid{grid-template-columns:1fr;gap:26px}
   section{padding:64px 0}
@@ -279,6 +333,15 @@ body.en [data-lang="fr"]{display:none}
 }
 @media (max-width:620px){
   .gal{columns:1}
+  /* Cadre CARRE sur telephone. Le cadre haut du bureau (62 vh) laissait, sur
+     une photo horizontale en 375 px de large, deux bandes vides de plus d'un
+     tiers de la hauteur. Un carre est le seul format qui traite correctement
+     les deux orientations du lot : une horizontale y fait 375x211, une
+     verticale 211x375 — aucune des deux n'est minuscule, aucune n'est rognee. */
+  .slide img{height:auto;aspect-ratio:1/1}
+  .fleche{width:40px;height:40px}
+  .fleche.prec{left:8px}
+  .fleche.suiv{right:8px}
   .topbar{padding:11px 16px}
   .topbar .home{font-size:11px;letter-spacing:.12em}
   .ct-v{font-size:17.5px}
@@ -306,7 +369,7 @@ body.en [data-lang="fr"]{display:none}
   <div class="hero-img"><img src="media/photos/hero.jpg" alt="David Lesage au handpan électronique et Lucie au violon électrique"></div>
   <div class="wrap">
     <span class="kick"><span data-lang="fr">Duo en émergence &middot; Paris &middot; 2026</span><span data-lang="en">Emerging duo &middot; Paris &middot; 2026</span></span>
-    <h1>David Lesage<span class="amp">&amp;</span>Lucie</h1>
+    <h1>Lucie<span class="amp">&amp;</span>David Lesage</h1>
     <p class="sub"><span data-lang="fr">Un handpan électronique et un violon électrique. Deux instruments qui n&rsquo;existaient pas il y a quinze ans, au service de gestes qui, eux, sont très anciens.</span><span data-lang="en">An electronic handpan and an electric violin. Two instruments that did not exist fifteen years ago, in the service of gestures that are very old indeed.</span></p>
     <div class="meta">
       <span><span data-lang="fr">Handpan électronique &middot; ngoni &middot; voix</span><span data-lang="en">Electronic handpan &middot; ngoni &middot; voice</span></span>
@@ -340,12 +403,20 @@ body.en [data-lang="fr"]{display:none}
       <p><span data-lang="fr">Deux musiciens, deux instruments principaux, aucune batterie à installer. La densité vient du bouclage en direct et du jeu, pas du nombre de personnes sur le plateau.</span><span data-lang="en">Two musicians, two main instruments, no drum kit to install. The density comes from live looping and from playing, not from the number of people on stage.</span></p>
     </div>
   </div>
+  <figure class="grande">
+    <img src="media/photos/complicite.jpg" loading="lazy" alt="David Lesage et Lucie se regardent pendant la captation">
+    <figcaption><span data-lang="fr">Première journée d&rsquo;enregistrement, Paris, 28 août 2026.</span><span data-lang="en">First recording day, Paris, 28 August 2026.</span></figcaption>
+  </figure>
 </div></section>
 <div class="divider"></div>
 <section id="ecouter"><div class="wrap">
   <span class="kick"><span data-lang="fr">Écouter</span><span data-lang="en">Listen</span></span>
   <h2 class="sec-title"><span data-lang="fr">Cinq pièces, enregistrées le 28 août 2026</span><span data-lang="en">Five pieces, recorded on 28 August 2026</span></h2>
-  <p class="lead"><span data-lang="fr">Une seule journée, à Paris. Prise de son en direct : sortie de console et micro d&rsquo;ambiance, sans retouche ni réenregistrement. C&rsquo;est littéralement ce que le duo joue dans une pièce.</span><span data-lang="en">A single day, in Paris. Live recording: desk output plus a room microphone, with no overdubs and no fixing. This is literally what the duo sounds like in a room.</span></p>
+  <figure class="grande">
+    <img src="media/photos/duo-large.jpg" loading="lazy" alt="Lucie au violon électrique et David Lesage au handpan électronique Neotone">
+    <figcaption><span data-lang="fr">Lucie et David Lesage &mdash; violon électrique Yamaha et handpan électronique Neotone.</span><span data-lang="en">Lucie and David Lesage &mdash; Yamaha electric violin and Neotone electronic handpan.</span></figcaption>
+  </figure>
+  <p class="lead" style="margin-top:26px"><span data-lang="fr">Une seule journée, à Paris. Prise de son en direct : sortie de console et micro d&rsquo;ambiance, sans retouche ni réenregistrement. C&rsquo;est littéralement ce que le duo joue dans une pièce.</span><span data-lang="en">A single day, in Paris. Live recording: desk output plus a room microphone, with no overdubs and no fixing. This is literally what the duo sounds like in a room.</span></p>
   <div class="player">
 <div class="tr" data-i="0" data-src="media/audio/01-lappel-du-vent.mp3" data-titre-fr="L'appel du vent" data-titre-en="L'appel du vent" role="button" tabindex="0" aria-label="L'appel du vent"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">L'appel du vent</span><span data-lang="en">L'appel du vent</span></h4><div class="sous"><span data-lang="fr">Handpan électronique, voix et violon électrique</span><span data-lang="en">Electronic handpan, voice and electric violin</span></div><div class="note"><span data-lang="fr">Du répertoire de David Lesage, album <i>L'Alliance du Phoenix</i>, repris à deux.</span><span data-lang="en">From David Lesage's own repertoire, album <i>L'Alliance du Phoenix</i>, rewritten for two.</span></div></div><div class="dur">11:09</div></div>
 <div class="tr" data-i="1" data-src="media/audio/02-transe-lunaire.mp3" data-titre-fr="Transe lunaire" data-titre-en="Transe lunaire" role="button" tabindex="0" aria-label="Transe lunaire"><span class="tr-btn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.6v12.8L14 8z"/></svg></span><div><h4><span data-lang="fr">Transe lunaire</span><span data-lang="en">Transe lunaire</span></h4><div class="sous"><span data-lang="fr">Handpan électronique et violon électrique</span><span data-lang="en">Electronic handpan and electric violin</span></div><div class="note"><span data-lang="fr">Du répertoire de David Lesage, album <i>L'Alliance du Phoenix</i>.</span><span data-lang="en">From David Lesage's own repertoire, album <i>L'Alliance du Phoenix</i>.</span></div></div><div class="dur">5:52</div></div>
@@ -360,29 +431,6 @@ body.en [data-lang="fr"]{display:none}
   <span class="kick"><span data-lang="fr">Les deux musiciens</span><span data-lang="en">The two musicians</span></span>
   <h2 class="sec-title"><span data-lang="fr">Qui joue</span><span data-lang="en">Who plays</span></h2>
   <div class="deux">
-    <article class="qui">
-      <div class="qui-img"><img src="media/photos/david.webp" loading="lazy" alt="Portrait de David Lesage"></div>
-      <div class="qui-in">
-        <h3>David Lesage</h3>
-        <div class="role"><span data-lang="fr">Handpan électronique &middot; ngoni &middot; calebasse &middot; voix</span><span data-lang="en">Electronic handpan &middot; ngoni &middot; calabash &middot; voice</span></div>
-        <p><span data-lang="fr">Percussionniste de formation classique devenu l&rsquo;un des rares musiciens à jouer le handpan électronique sur scène. Il vient du jazz &mdash; quatre ans au collège de jazz de Marciac, quatre ans au Conservatoire de Toulouse, prix de batterie &mdash; et en a gardé un sens du rythme millimétré, qu&rsquo;il applique aujourd&rsquo;hui à des instruments qui n&rsquo;ont pas de partition. <b>Ses trois terrains</b> : le handpan, acoustique et numérique, dont il est ambassadeur officiel de la marque Neotone ; la voix, cinq octaves, en cinq langues ; et les instruments à peau et à cordes d&rsquo;Afrique de l&rsquo;Ouest. Ses instruments sont accordés en <b>La 432 Hz</b> &mdash; une couleur, pas un dogme : le duo se joue aussi en 440.</span><span data-lang="en">A classically trained percussionist who became one of the very few musicians playing the electronic handpan on stage. He comes from jazz &mdash; four years at the Marciac jazz college, four years at the Toulouse Conservatoire, with a drumming prize &mdash; and kept from it a millimetric sense of rhythm, which he now applies to instruments that have no written score. <b>His three grounds</b>: the handpan, acoustic and digital, for which he is an official Neotone ambassador; the voice, five octaves across five languages; and the skin and string instruments of West Africa. His instruments are tuned to <b>A 432 Hz</b> &mdash; a colour, not a doctrine: the duo plays at 440 just as happily.</span></p>
-        <ul class="faits">
-          <li><span data-lang="fr">Sept pays de scène : France, Hongrie, Suisse, Belgique, Grèce, Espagne, Côte d&rsquo;Ivoire</span><span data-lang="en">Seven countries on stage: France, Hungary, Switzerland, Belgium, Greece, Spain, Ivory Coast</span></li>
-          <li><span data-lang="fr">Le Grand Rex, Paris, devant 2 700 personnes</span><span data-lang="en">Le Grand Rex, Paris, in front of 2,700 people</span></li>
-          <li><span data-lang="fr">Sziget Festival, Budapest, en 2022 et 2023 ; Everness Festival, Hongrie</span><span data-lang="en">Sziget Festival, Budapest, in 2022 and 2023; Everness Festival, Hungary</span></li>
-          <li><span data-lang="fr">Vingt et une dates à Jazz in Marciac, sur sept éditions</span><span data-lang="en">Twenty-one dates at Jazz in Marciac, over seven editions</span></li>
-          <li><span data-lang="fr">Première partie d&rsquo;Amadou &amp; Mariam, septembre 2022</span><span data-lang="en">Opening for Amadou &amp; Mariam, September 2022</span></li>
-          <li><span data-lang="fr">The Voice saison 11 (TF1), diffusé le 12 février 2022</span><span data-lang="en">The Voice season 11 (TF1, France), broadcast 12 February 2022</span></li>
-          <li><span data-lang="fr">Ambassadeur officiel et bêta-testeur du handpan électronique Neotone depuis 2023</span><span data-lang="en">Official ambassador and beta-tester of the Neotone electronic handpan since 2023</span></li>
-        </ul>
-        <div class="liens">
-          <a href="https://www.resonancesproductions.org/david-lesage-en-concert" target="_blank" rel="noopener">Biographie complète</a>
-          <a href="https://lesagedavid.fr" target="_blank" rel="noopener">lesagedavid.fr</a>
-          <a href="https://www.youtube.com/@DavidLesageArtiste" target="_blank" rel="noopener">YouTube</a>
-          <a href="https://www.instagram.com/david.lesage.artiste/" target="_blank" rel="noopener">Instagram</a>
-        </div>
-      </div>
-    </article>
     <article class="qui">
       <div class="qui-img"><img src="media/photos/lucie.jpg" loading="lazy" alt="Lucie, violoniste électrique"></div>
       <div class="qui-in">
@@ -406,14 +454,45 @@ body.en [data-lang="fr"]{display:none}
         </div>
       </div>
     </article>
+    <article class="qui">
+      <div class="qui-img"><img src="media/photos/david.webp" loading="lazy" alt="Portrait de David Lesage"></div>
+      <div class="qui-in">
+        <h3>David Lesage</h3>
+        <div class="role"><span data-lang="fr">Handpan électronique &middot; ngoni &middot; calebasse &middot; voix</span><span data-lang="en">Electronic handpan &middot; ngoni &middot; calabash &middot; voice</span></div>
+        <p><span data-lang="fr">Percussionniste de formation classique devenu l&rsquo;un des rares musiciens à jouer le handpan électronique sur scène. Il vient du jazz &mdash; quatre ans au collège de jazz de Marciac, quatre ans au Conservatoire de Toulouse, prix de batterie &mdash; et en a gardé un sens du rythme millimétré, qu&rsquo;il applique aujourd&rsquo;hui à des instruments qui n&rsquo;ont pas de partition. <b>Ses trois terrains</b> : le handpan, acoustique et numérique, dont il est ambassadeur officiel de la marque Neotone ; la voix, cinq octaves, en cinq langues ; et les instruments à peau et à cordes d&rsquo;Afrique de l&rsquo;Ouest. Ses instruments sont accordés en <b>La 432 Hz</b> &mdash; une couleur, pas un dogme : le duo se joue aussi en 440.</span><span data-lang="en">A classically trained percussionist who became one of the very few musicians playing the electronic handpan on stage. He comes from jazz &mdash; four years at the Marciac jazz college, four years at the Toulouse Conservatoire, with a drumming prize &mdash; and kept from it a millimetric sense of rhythm, which he now applies to instruments that have no written score. <b>His three grounds</b>: the handpan, acoustic and digital, for which he is an official Neotone ambassador; the voice, five octaves across five languages; and the skin and string instruments of West Africa. His instruments are tuned to <b>A 432 Hz</b> &mdash; a colour, not a doctrine: the duo plays at 440 just as happily.</span></p>
+        <ul class="faits">
+          <li><span data-lang="fr">Sept pays de scène : France, Hongrie, Suisse, Belgique, Grèce, Espagne, Côte d&rsquo;Ivoire</span><span data-lang="en">Seven countries on stage: France, Hungary, Switzerland, Belgium, Greece, Spain, Ivory Coast</span></li>
+          <li><span data-lang="fr">Le Grand Rex, Paris, devant 2 700 personnes</span><span data-lang="en">Le Grand Rex, Paris, in front of 2,700 people</span></li>
+          <li><span data-lang="fr">Sziget Festival, Budapest, en 2022 et 2023 ; Everness Festival, Hongrie</span><span data-lang="en">Sziget Festival, Budapest, in 2022 and 2023; Everness Festival, Hungary</span></li>
+          <li><span data-lang="fr">Vingt et une dates à Jazz in Marciac, sur sept éditions</span><span data-lang="en">Twenty-one dates at Jazz in Marciac, over seven editions</span></li>
+          <li><span data-lang="fr">Première partie d&rsquo;Amadou &amp; Mariam, septembre 2022</span><span data-lang="en">Opening for Amadou &amp; Mariam, September 2022</span></li>
+          <li><span data-lang="fr">The Voice saison 11 (TF1), diffusé le 12 février 2022</span><span data-lang="en">The Voice season 11 (TF1, France), broadcast 12 February 2022</span></li>
+          <li><span data-lang="fr">Ambassadeur officiel et bêta-testeur du handpan électronique Neotone depuis 2023</span><span data-lang="en">Official ambassador and beta-tester of the Neotone electronic handpan since 2023</span></li>
+        </ul>
+        <div class="liens">
+          <a href="https://www.resonancesproductions.org/david-lesage-en-concert" target="_blank" rel="noopener">Biographie complète</a>
+          <a href="https://lesagedavid.fr" target="_blank" rel="noopener">lesagedavid.fr</a>
+          <a href="https://www.youtube.com/@DavidLesageArtiste" target="_blank" rel="noopener">YouTube</a>
+          <a href="https://www.instagram.com/david.lesage.artiste/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </article>
   </div>
 </div></section>
 <div class="divider"></div>
 <section id="references"><div class="wrap">
   <span class="kick"><span data-lang="fr">Références</span><span data-lang="en">Track record</span></span>
   <h2 class="sec-title"><span data-lang="fr">Ce que chacun apporte dans la corbeille</span><span data-lang="en">What each of them brings to the table</span></h2>
-  <p class="lead"><span data-lang="fr">Le duo est neuf ; les deux parcours ne le sont pas. À gauche les scènes de David, à droite les marques et les institutions qui ont fait jouer Lucie.</span><span data-lang="en">The duo is new; the two careers behind it are not. On the left, David&rsquo;s stages; on the right, the brands and institutions that have hired Lucie.</span></p>
+  <p class="lead"><span data-lang="fr">Le duo est neuf ; les deux parcours ne le sont pas. À gauche les marques et les institutions qui ont fait jouer Lucie, à droite les scènes de David.</span><span data-lang="en">The duo is new; the two careers behind it are not. On the left, the brands and institutions that have hired Lucie; on the right, David&rsquo;s stages.</span></p>
   <div class="refs">
+    <div class="ref-col">
+      <h3><span data-lang="fr">Les marques de Lucie</span><span data-lang="en">Lucie&rsquo;s clients</span></h3>
+      <div class="who"><span data-lang="fr">Maisons de luxe, groupes internationaux, institutions</span><span data-lang="en">Luxury houses, international groups, institutions</span></div>
+      <div class="logos">
+        <img src="media/photos/references-lucie.jpg" loading="lazy" alt="Airbus, Google, Louis Vuitton, Moët &amp; Chandon, Allianz, Audi, Chanel, Disney+, Dior, Galénic, Huawei, Schlumberger, Société Générale, Patek Philippe, Generali, HEC Paris, Total, L&rsquo;Oréal, The Ritz-Carlton, E.Leclerc, M6, Square Enix, Sephora, Sheraton, Pernod Ricard, Mandarin Oriental, Thales, Renault Nissan Mitsubishi">
+      </div>
+      <p class="ref-note"><span data-lang="fr">Planche publiée par Lucie sur violonisteelectrique.com. Les marques citées restent la propriété de leurs titulaires.</span><span data-lang="en">Sheet published by Lucie on violonisteelectrique.com. All trademarks remain the property of their respective owners.</span></p>
+    </div>
     <div class="ref-col">
       <h3><span data-lang="fr">Les scènes de David</span><span data-lang="en">David&rsquo;s stages</span></h3>
       <div class="who"><span data-lang="fr">Festivals, salles, lieux de patrimoine, télévision</span><span data-lang="en">Festivals, venues, heritage sites, television</span></div>
@@ -429,43 +508,11 @@ body.en [data-lang="fr"]{display:none}
         <span class="chip">Abbaye Notre-Dame d&rsquo;Alet</span>
         <span class="chip">Basilique Saint-Nazaire</span>
         <span class="chip">Cloître de Saint-Geniez-d&rsquo;Olt</span>
+        <span class="chip">Église Saint-Jean-l&rsquo;Évangéliste &mdash; Tourcoing</span>
+        <span class="chip">Chapelle du Mas Galifa &mdash; Espagne</span>
+        <span class="chip">Mont Korhogo &mdash; Côte d&rsquo;Ivoire</span>
         <span class="chip">FLORIPAN</span>
       </div>
-    </div>
-    <div class="ref-col">
-      <h3><span data-lang="fr">Les marques de Lucie</span><span data-lang="en">Lucie&rsquo;s clients</span></h3>
-      <div class="who"><span data-lang="fr">Maisons de luxe, groupes internationaux, institutions</span><span data-lang="en">Luxury houses, international groups, institutions</span></div>
-      <div class="chips">
-        <span class="chip">Chanel</span>
-        <span class="chip">Dior</span>
-        <span class="chip">Louis Vuitton</span>
-        <span class="chip">Patek Philippe</span>
-        <span class="chip">Moët &amp; Chandon</span>
-        <span class="chip">Sephora</span>
-        <span class="chip">L&rsquo;Oréal</span>
-        <span class="chip">Galénic</span>
-        <span class="chip">Google</span>
-        <span class="chip">Airbus</span>
-        <span class="chip">Thales</span>
-        <span class="chip">Audi</span>
-        <span class="chip">Renault Nissan Mitsubishi</span>
-        <span class="chip">Total</span>
-        <span class="chip">Schlumberger</span>
-        <span class="chip">Huawei</span>
-        <span class="chip">Square Enix</span>
-        <span class="chip">Disney+</span>
-        <span class="chip">M6</span>
-        <span class="chip">Allianz</span>
-        <span class="chip">Generali</span>
-        <span class="chip">Société Générale</span>
-        <span class="chip">Pernod Ricard</span>
-        <span class="chip">E.Leclerc</span>
-        <span class="chip">The Ritz-Carlton</span>
-        <span class="chip">Mandarin Oriental</span>
-        <span class="chip">Sheraton</span>
-        <span class="chip">HEC Paris</span>
-      </div>
-      <p class="ref-note"><span data-lang="fr">Liste publiée par Lucie sur violonisteelectrique.com.</span><span data-lang="en">List published by Lucie on violonisteelectrique.com.</span></p>
     </div>
   </div>
 </div></section>
@@ -500,23 +547,42 @@ body.en [data-lang="fr"]{display:none}
       </ul>
     </div>
   </div>
+  <figure class="grande">
+    <img src="media/photos/handpan-acoustique.jpg" loading="lazy" alt="Le handpan acoustique Yishama en tôle martelée, tenu par David Lesage">
+    <figcaption><span data-lang="fr">Le handpan acoustique Yishama, en tôle martelée &mdash; l&rsquo;autre versant du même geste.</span><span data-lang="en">The Yishama acoustic handpan, in hammered steel &mdash; the other side of the same gesture.</span></figcaption>
+  </figure>
+  <div class="deux-photos">
+    <figure><img src="media/photos/instruments.jpg" loading="lazy" alt="Tout le parc du duo : calebasse au premier plan, handpan électronique, ngoni et violon électrique."><figcaption><span data-lang="fr">Tout le parc du duo : calebasse au premier plan, handpan électronique, ngoni et violon électrique.</span><span data-lang="en">The duo&rsquo;s full set: calabash in the foreground, electronic handpan, ngoni and electric violin.</span></figcaption></figure>
+    <figure><img src="media/photos/ngoni.jpg" loading="lazy" alt="Le ngoni quatorze cordes, harpe africaine, et la calebasse."><figcaption><span data-lang="fr">Le ngoni quatorze cordes, harpe africaine, et la calebasse.</span><span data-lang="en">The fourteen-string ngoni, an African harp, and the calabash.</span></figcaption></figure>
+  </div>
 </div></section>
 <div class="divider"></div>
 <section id="galerie"><div class="wrap">
   <span class="kick"><span data-lang="fr">En images</span><span data-lang="en">In pictures</span></span>
   <h2 class="sec-title"><span data-lang="fr">Paris, 28 août 2026</span><span data-lang="en">Paris, 28 August 2026</span></h2>
-  <div class="gal">
-<figure><img src="media/photos/duo-portrait.jpg" loading="lazy" alt="David Lesage et Lucie, handpan électronique Neotone et violon électrique" data-alt-en="David Lesage and Lucie, Neotone electronic handpan and electric violin"></figure>
-<figure><img src="media/photos/jeu-01.jpg" loading="lazy" alt="Lucie au violon électrique, David au handpan électronique" data-alt-en="Lucie on electric violin, David on electronic handpan"></figure>
-<figure><img src="media/photos/jeu-03.jpg" loading="lazy" alt="Le duo en répétition, Paris, août 2026" data-alt-en="The duo rehearsing, Paris, August 2026"></figure>
-<figure><img src="media/photos/duo-02.jpg" loading="lazy" alt="Le handpan électronique Neotone, face avant" data-alt-en="The Neotone electronic handpan, front"></figure>
-<figure><img src="media/photos/jeu-02.jpg" loading="lazy" alt="Handpan électronique et violon électrique, en jeu" data-alt-en="Electronic handpan and electric violin, playing"></figure>
-<figure><img src="media/photos/instrumentarium-01.jpg" loading="lazy" alt="L'instrumentarium du duo : calebasse, ngoni, handpans, violon" data-alt-en="The duo's instruments: calabash, ngoni, handpans, violin"></figure>
-<figure><img src="media/photos/duo-03.jpg" loading="lazy" alt="David Lesage et Lucie, Paris, août 2026" data-alt-en="David Lesage and Lucie, Paris, August 2026"></figure>
-<figure><img src="media/photos/instrumentarium-02.jpg" loading="lazy" alt="Le dispositif au sol, avant la captation" data-alt-en="The floor setup, before the recording session"></figure>
-<figure><img src="media/photos/lucie.jpg" loading="lazy" alt="Lucie, violoniste électrique" data-alt-en="Lucie, electric violinist"></figure>
-<figure><img src="media/photos/jeu-04.jpg" loading="lazy" alt="Le duo en jeu, handpan électronique et violon électrique" data-alt-en="The duo playing, electronic handpan and electric violin"></figure>
-<figure><img src="media/photos/duo-04.jpg" loading="lazy" alt="David Lesage et Lucie, portrait de duo" data-alt-en="David Lesage and Lucie, duo portrait"></figure>
+  <div class="carrousel">
+    <div class="piste" tabindex="0" role="group" aria-roledescription="carrousel" aria-label="Photographies du 28 août 2026">
+      <figure class="slide" aria-roledescription="slide" aria-label="1 / 8"><span class="slide-fond" style="background-image:url(media/photos/duo-portrait.jpg)"></span><img src="media/photos/duo-portrait.jpg" loading="eager" alt="Lucie et David Lesage, violon électrique et handpan électronique Neotone"><figcaption><span data-lang="fr">Lucie et David Lesage, violon électrique et handpan électronique Neotone</span><span data-lang="en">Lucie and David Lesage, electric violin and Neotone electronic handpan</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="2 / 8"><span class="slide-fond" style="background-image:url(media/photos/regard.jpg)"></span><img src="media/photos/regard.jpg" loading="lazy" alt="Lucie et David Lesage, regard vers le lointain"><figcaption><span data-lang="fr">Lucie et David Lesage, regard vers le lointain</span><span data-lang="en">Lucie and David Lesage, looking into the distance</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="3 / 8"><span class="slide-fond" style="background-image:url(media/photos/jeu-01.jpg)"></span><img src="media/photos/jeu-01.jpg" loading="lazy" alt="Lucie au violon électrique, David au handpan électronique"><figcaption><span data-lang="fr">Lucie au violon électrique, David au handpan électronique</span><span data-lang="en">Lucie on electric violin, David on electronic handpan</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="4 / 8"><span class="slide-fond" style="background-image:url(media/photos/sourire.jpg)"></span><img src="media/photos/sourire.jpg" loading="lazy" alt="Le duo, Paris, août 2026"><figcaption><span data-lang="fr">Le duo, Paris, août 2026</span><span data-lang="en">The duo, Paris, August 2026</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="5 / 8"><span class="slide-fond" style="background-image:url(media/photos/jeu-03.jpg)"></span><img src="media/photos/jeu-03.jpg" loading="lazy" alt="Le duo en répétition, Paris, août 2026"><figcaption><span data-lang="fr">Le duo en répétition, Paris, août 2026</span><span data-lang="en">The duo rehearsing, Paris, August 2026</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="6 / 8"><span class="slide-fond" style="background-image:url(media/photos/jeu-02.jpg)"></span><img src="media/photos/jeu-02.jpg" loading="lazy" alt="Handpan électronique et violon électrique, en jeu"><figcaption><span data-lang="fr">Handpan électronique et violon électrique, en jeu</span><span data-lang="en">Electronic handpan and electric violin, playing</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="7 / 8"><span class="slide-fond" style="background-image:url(media/photos/jeu-04.jpg)"></span><img src="media/photos/jeu-04.jpg" loading="lazy" alt="Le duo en jeu, handpan électronique et violon électrique"><figcaption><span data-lang="fr">Le duo en jeu, handpan électronique et violon électrique</span><span data-lang="en">The duo playing, electronic handpan and electric violin</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="8 / 8"><span class="slide-fond" style="background-image:url(media/photos/instrumentarium-01.jpg)"></span><img src="media/photos/instrumentarium-01.jpg" loading="lazy" alt="Le dispositif au sol, avant la captation"><figcaption><span data-lang="fr">Le dispositif au sol, avant la captation</span><span data-lang="en">The floor setup, before the recording session</span></figcaption></figure>
+    </div>
+    <button type="button" class="fleche prec" aria-label="Photo précédente"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.8 1.4 4.2 8l6.6 6.6 1.4-1.4L7 8l5.2-5.2z"/></svg></button>
+    <button type="button" class="fleche suiv" aria-label="Photo suivante"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.2 1.4 3.8 2.8 9 8l-5.2 5.2 1.4 1.4L11.8 8z"/></svg></button>
+    <div class="puces">
+      <button type="button" class="puce" data-i="0" aria-label="Photo 1"></button>
+      <button type="button" class="puce" data-i="1" aria-label="Photo 2"></button>
+      <button type="button" class="puce" data-i="2" aria-label="Photo 3"></button>
+      <button type="button" class="puce" data-i="3" aria-label="Photo 4"></button>
+      <button type="button" class="puce" data-i="4" aria-label="Photo 5"></button>
+      <button type="button" class="puce" data-i="5" aria-label="Photo 6"></button>
+      <button type="button" class="puce" data-i="6" aria-label="Photo 7"></button>
+      <button type="button" class="puce" data-i="7" aria-label="Photo 8"></button>
+    </div>
   </div>
 </div></section>
 <section id="contact"><div class="wrap">
@@ -673,6 +739,57 @@ body.en [data-lang="fr"]{display:none}
 
   langue(choisi || auto, false);
   icones();
+
+  /* --------------------------------------------------------- le carrousel */
+  /* La piste defile deja toute seule (scroll-snap) : ce bloc n'ajoute que les
+     fleches, les puces et le clavier. Si le script tombe, on peut encore
+     faire defiler a la main — c'est voulu. */
+  var piste = document.querySelector('.piste');
+  if (piste) {
+    var slides = [].slice.call(piste.querySelectorAll('.slide'));
+    var puces  = [].slice.call(document.querySelectorAll('.puce'));
+
+    /* ⚠️ UN INDEX EXPLICITE, ET PAS `scrollLeft`. Deduire la position courante
+       du defilement paraissait plus simple, mais le defilement est ANIME :
+       deux clics rapprochés lisaient tous les deux une position intermediaire
+       et demandaient la meme diapositive — le second clic ne servait a rien.
+       L'index est donc tenu a part ; `scrollLeft` ne sert plus qu'a se
+       resynchroniser quand c'est le doigt qui a fait defiler. */
+    var idx = 0, minuteur;
+
+    function majPuces(){
+      puces.forEach(function(p, i){ p.classList.toggle('on', i === idx); });
+    }
+    function versSlide(i){
+      idx = Math.max(0, Math.min(slides.length - 1, i));
+      piste.scrollTo({left: idx * piste.clientWidth, behavior: 'smooth'});
+      majPuces();
+    }
+    document.querySelector('.prec').addEventListener('click', function(){
+      versSlide(idx - 1);
+    });
+    document.querySelector('.suiv').addEventListener('click', function(){
+      versSlide(idx + 1);
+    });
+    puces.forEach(function(p){
+      p.addEventListener('click', function(){ versSlide(+p.dataset.i); });
+    });
+    piste.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowRight') { e.preventDefault(); versSlide(idx + 1); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); versSlide(idx - 1); }
+    });
+    piste.addEventListener('scroll', function(){
+      clearTimeout(minuteur);
+      minuteur = setTimeout(function(){
+        idx = Math.round(piste.scrollLeft / piste.clientWidth);
+        majPuces();
+      }, 140);
+    });
+    window.addEventListener('resize', function(){
+      piste.scrollTo({left: idx * piste.clientWidth, behavior: 'auto'});
+    });
+    majPuces();
+  }
 
   /* Le lien « Ecouter » du hero lance la premiere piste apres le defilement. */
   var ecouter = document.querySelector('.js-ecouter');

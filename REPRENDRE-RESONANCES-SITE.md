@@ -1842,3 +1842,30 @@ Retours arrivés après la mise en ligne, tous appliqués :
   annoncés « quand la salle et le format s'y prêtent ».
 - **432 Hz présenté comme une couleur, pas un dogme** : la page dit explicitement que le duo se joue
   aussi en 440.
+
+### 30/08/2026, même jour — troisième passe : photos, carrousel, ordre des noms
+
+- **« Lucie & David Lesage »** : l'ordre des deux noms est inversé, demande de David. Le `<h1>`, le
+  `<title>`, l'`og:title`, **l'ordre des deux fiches** et **l'ordre des deux colonnes de références**
+  suivent tous le même ordre. ⚠️ Un titre qui annonce un ordre et une page qui en applique un autre se
+  lit comme un oubli : si on réinverse, il faut réinverser les quatre.
+- **Six photos ajoutées**, envoyées par David via Google Photos (les liens `photos.app.goo.gl` se
+  résolvent en `curl` + `grep` sur `lh3.googleusercontent.com`, puis `=w2600` pour la pleine
+  définition) :
+  `complicite.jpg` (le regard complice, dans « Ce que c'est »), `duo-large.jpg` (en tête de « Écouter »
+  **et** comme image de partage), `handpan-acoustique.jpg` (pleine largeur dans « Sur scène » — aucune
+  photo ne montrait le handpan acoustique jusque-là), `instruments.jpg` et `ngoni.jpg` (sous les colonnes
+  d'instruments), `regard.jpg` et `sourire.jpg` (carrousel).
+- **Portrait de Lucie** : `Lucie violon.png` du Bureau de David remplace le recadrage précédent.
+- **La galerie est devenue un CARROUSEL** sous « Paris, 28 août 2026 » : piste à défilement avec
+  accroche, flèches, puces, clavier. ⚠️ Il défile **aussi sans JavaScript** — les flèches et les puces
+  ne sont que du confort. Le JS tient un **index explicite** et ne le déduit PAS de `scrollLeft` : le
+  défilement étant animé, deux clics rapprochés lisaient la même position intermédiaire et le second
+  clic ne servait à rien (mesuré, puis corrigé).
+- **Photos retirées de la galerie sur demande de David** : `duo-02/03/04.jpg` (fichiers supprimés du
+  dépôt) et le portrait de Lucie (qui reste sa photo de fiche). Ne pas les remettre.
+- **Recadrages** : `object-position` bas (96 %) sur les deux photos verticales de « Sur scène », sinon
+  la légende promet une calebasse que le cadre coupe. Sur téléphone, le cadre du carrousel passe en
+  **carré** : le cadre haut du bureau laissait plus d'un tiers de vide sur une photo horizontale.
+- ⚠️ `sips --cropOffset` recadre **depuis le centre**, pas depuis le coin. Les recadrages précis de ce
+  chantier sont faits avec `ffmpeg -vf crop=w:h:x:y`, en coordonnées absolues.

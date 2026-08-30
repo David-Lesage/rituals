@@ -125,29 +125,27 @@ DUREE_TOTALE_MIN = sum(m['secondes'] for m in MORCEAUX) // 60   # 46
 # --------------------------------------------------------------------------- #
 #  LES PHOTOS  (shooting du 28 aout 2026, Paris)
 # --------------------------------------------------------------------------- #
+#: ⚠️ CE QUI A ETE RETIRE, ET POURQUOI ON NE LE REMET PAS. David a ecarte le
+#: 30/08/2026 `duo-02.jpg`, `duo-03.jpg`, `duo-04.jpg` et le portrait de Lucie
+#: (qui reste, lui, la photo de sa fiche). Les fichiers `duo-0*.jpg` ont ete
+#: supprimes du depot : plus rien ne les reclame.
 GALERIE = (
-    ('duo-portrait.jpg', 'David Lesage et Lucie, handpan électronique Neotone et violon électrique',
-     'David Lesage and Lucie, Neotone electronic handpan and electric violin'),
+    ('duo-portrait.jpg', 'Lucie et David Lesage, violon électrique et handpan électronique Neotone',
+     'Lucie and David Lesage, electric violin and Neotone electronic handpan'),
+    ('regard.jpg', 'Lucie et David Lesage, regard vers le lointain',
+     'Lucie and David Lesage, looking into the distance'),
     ('jeu-01.jpg', 'Lucie au violon électrique, David au handpan électronique',
      'Lucie on electric violin, David on electronic handpan'),
+    ('sourire.jpg', 'Le duo, Paris, août 2026',
+     'The duo, Paris, August 2026'),
     ('jeu-03.jpg', 'Le duo en répétition, Paris, août 2026',
      'The duo rehearsing, Paris, August 2026'),
-    ('duo-02.jpg', 'Le handpan électronique Neotone, face avant',
-     'The Neotone electronic handpan, front'),
     ('jeu-02.jpg', 'Handpan électronique et violon électrique, en jeu',
      'Electronic handpan and electric violin, playing'),
-    ('instrumentarium-01.jpg', "L'instrumentarium du duo : calebasse, ngoni, handpans, violon",
-     "The duo's instruments: calabash, ngoni, handpans, violin"),
-    ('duo-03.jpg', 'David Lesage et Lucie, Paris, août 2026',
-     'David Lesage and Lucie, Paris, August 2026'),
-    ('instrumentarium-02.jpg', 'Le dispositif au sol, avant la captation',
-     'The floor setup, before the recording session'),
-    ('lucie.jpg', 'Lucie, violoniste électrique',
-     'Lucie, electric violinist'),
     ('jeu-04.jpg', 'Le duo en jeu, handpan électronique et violon électrique',
      'The duo playing, electronic handpan and electric violin'),
-    ('duo-04.jpg', 'David Lesage et Lucie, portrait de duo',
-     'David Lesage and Lucie, duo portrait'),
+    ('instrumentarium-01.jpg', 'Le dispositif au sol, avant la captation',
+     'The floor setup, before the recording session'),
 )
 
 
@@ -347,6 +345,29 @@ b{color:#fff;font-weight:500}
   border:1px solid rgba(248,210,116,.26);color:var(--gold2)}
 .liens a:hover{background:rgba(216,178,90,.1)}
 
+/* ------------------------------------------------------ photos de section */
+/* Une grande image portrait au milieu d'une page en colonnes deborderait en
+   hauteur : `max-height` la borne, et `object-fit:cover` recadre plutot que
+   de deformer. */
+.grande{margin-top:44px;border-radius:20px;overflow:hidden;background:var(--night2);
+  border:1px solid rgba(255,255,255,.06)}
+.grande img{width:100%;max-height:640px;object-fit:cover;object-position:50% 28%}
+.grande figcaption{font-size:13.5px;color:#8b8ba6;padding:14px 22px 16px;
+  background:var(--card)}
+.deux-photos{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.deux-photos figure{border-radius:16px;overflow:hidden;background:var(--night2);
+  border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column}
+/* `object-position` bas : sur ces deux photos verticales, ce qu'il faut voir
+   (la calebasse au sol, la caisse du ngoni) est dans la MOITIE BASSE. Un
+   recadrage centre par defaut coupait justement les instruments. */
+/* 2/3 et pas 4/5 : les sources sont des verticales de telephone (9/16). Un
+   cadre plus haut montre 84 % de l'image au lieu de 70 %, ce qui suffit a
+   garder A LA FOIS les visages en haut et les instruments au sol en bas —
+   sans quoi la legende promet une calebasse qu'on ne voit pas. */
+.deux-photos img{width:100%;aspect-ratio:2/3;object-fit:cover;object-position:50% 96%}
+.deux-photos figcaption{font-size:13.5px;color:var(--muted);padding:13px 18px 15px;
+  background:var(--card);flex:1}
+
 /* ------------------------------------------------------------- references */
 .refs{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
 .ref-col{background:var(--card);border-radius:20px;padding:30px 28px;
@@ -361,6 +382,12 @@ b{color:#fff;font-weight:500}
   color:#ded9f0;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
   border:1px solid rgba(255,255,255,.1)}
 .ref-note{font-size:13px;color:#8b8ba6;margin-top:18px}
+/* Le panneau clair qui porte la planche de logos. Les logos sont polychromes
+   et concus pour du blanc : les poser sur le bleu nuit les salirait. Un
+   panneau blanc franc, c'est le geste d'un dossier de presse. */
+.logos{background:#fff;border-radius:14px;padding:18px 16px;
+  box-shadow:0 18px 40px -26px rgba(0,0,0,.8)}
+.logos img{width:100%;height:auto;display:block}
 
 /* -------------------------------------------------------- instrumentarium */
 .instr{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
@@ -376,12 +403,36 @@ b{color:#fff;font-weight:500}
   transform:rotate(45deg);background:var(--coral)}
 .instr-col li b{color:#fff;font-weight:500}
 
-/* -------------------------------------------------------------- galerie */
-.gal{columns:3;column-gap:16px;margin-top:44px}
-.gal figure{break-inside:avoid;margin-bottom:16px;border-radius:14px;
-  overflow:hidden;background:var(--night2);position:relative}
-.gal img{width:100%;height:auto;transition:transform .5s cubic-bezier(.2,.7,.3,1)}
-.gal figure:hover img{transform:scale(1.035)}
+/* ------------------------------------------------------------- carrousel */
+.carrousel{position:relative;margin-top:44px}
+.piste{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;gap:0;border-radius:20px;
+  scrollbar-width:none;-ms-overflow-style:none}
+.piste::-webkit-scrollbar{display:none}
+.piste:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+.slide{position:relative;flex:0 0 100%;scroll-snap-align:center;
+  background:var(--night2);overflow:hidden;isolation:isolate}
+/* Le fond : la meme image, floutee et assombrie, pour habiller les bandes
+   laterales des photos verticales sans jamais les recadrer. */
+.slide-fond{position:absolute;inset:0;z-index:-1;background-size:cover;
+  background-position:center;filter:blur(34px) brightness(.42) saturate(.9);
+  transform:scale(1.15)}
+.slide img{width:100%;height:min(62vh,620px);object-fit:contain;display:block}
+.slide figcaption{font-size:13.5px;color:#cfcbe4;padding:14px 22px 16px;
+  background:rgba(10,11,30,.72);backdrop-filter:blur(8px);text-align:center}
+.fleche{position:absolute;top:calc(50% - 30px);transform:translateY(-50%);
+  width:46px;height:46px;border-radius:50%;cursor:pointer;z-index:3;
+  display:grid;place-items:center;border:1px solid rgba(248,210,116,.32);
+  background:rgba(10,11,30,.66);color:var(--gold2);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.fleche:hover{background:rgba(216,178,90,.18)}
+.fleche svg{width:15px;height:15px;fill:currentColor}
+.fleche.prec{left:14px}
+.fleche.suiv{right:14px}
+.puces{display:flex;justify-content:center;gap:9px;margin-top:20px;flex-wrap:wrap}
+.puce{width:9px;height:9px;padding:0;border-radius:50%;cursor:pointer;
+  border:0;background:rgba(255,255,255,.22)}
+.puce.on{background:var(--grad-warm);transform:scale(1.25)}
 
 /* ---------------------------------------------------------------- contact */
 .contact{background:var(--card);border-radius:22px;padding:46px 40px;
@@ -413,7 +464,8 @@ body.en [data-lang="fr"]{display:none}
 
 @media (max-width:900px){
   .piliers{grid-template-columns:1fr}
-  .deux,.instr,.refs{grid-template-columns:1fr}
+  .deux,.instr,.refs,.deux-photos{grid-template-columns:1fr}
+  .grande img{max-height:420px}
   .gal{columns:2}
   .ct-grid{grid-template-columns:1fr;gap:26px}
   section{padding:64px 0}
@@ -421,6 +473,15 @@ body.en [data-lang="fr"]{display:none}
 }
 @media (max-width:620px){
   .gal{columns:1}
+  /* Cadre CARRE sur telephone. Le cadre haut du bureau (62 vh) laissait, sur
+     une photo horizontale en 375 px de large, deux bandes vides de plus d'un
+     tiers de la hauteur. Un carre est le seul format qui traite correctement
+     les deux orientations du lot : une horizontale y fait 375x211, une
+     verticale 211x375 — aucune des deux n'est minuscule, aucune n'est rognee. */
+  .slide img{height:auto;aspect-ratio:1/1}
+  .fleche{width:40px;height:40px}
+  .fleche.prec{left:8px}
+  .fleche.suiv{right:8px}
   .topbar{padding:11px 16px}
   .topbar .home{font-size:11px;letter-spacing:.12em}
   .ct-v{font-size:17.5px}
@@ -482,13 +543,39 @@ def _morceaux_html():
 
 
 def _galerie_html():
+    """Le carrousel de la galerie.
+
+    ⚠️ POURQUOI `object-fit:contain` ET UN FOND FLOU. Les photos viennent de
+       deux appareils : les Canon sont horizontales, les iPhone verticales. Un
+       `cover` dans un cadre unique amputerait les verticales de moitie. On
+       affiche donc l'image ENTIERE, et on remplit le vide avec la meme image
+       floutee et assombrie — le cadre reste stable d'une photo a l'autre sans
+       rien couper.
+    ⚠️ Il defile aussi SANS JAVASCRIPT : la piste est un conteneur a
+       defilement horizontal avec accroche. Les fleches et les puces ne font
+       qu'ajouter du confort.
+    """
     out = []
-    for fichier, alt_fr, alt_en in GALERIE:
+    for i, (fichier, alt_fr, alt_en) in enumerate(GALERIE):
         out.append(
-            '<figure><img src="media/photos/%s" loading="lazy" '
-            'alt="%s" data-alt-en="%s"></figure>'
-            % (fichier, alt_fr.replace('"', '&quot;'), alt_en.replace('"', '&quot;')))
+            '      <figure class="slide" aria-roledescription="slide" '
+            'aria-label="%d / %d">'
+            '<span class="slide-fond" style="background-image:url(media/photos/%s)"></span>'
+            '<img src="media/photos/%s" loading="%s" alt="%s">'
+            '<figcaption>%s</figcaption>'
+            '</figure>'
+            % (i + 1, len(GALERIE), fichier, fichier,
+               'eager' if i == 0 else 'lazy',
+               alt_fr.replace('"', '&quot;'),
+               _bi(alt_fr, alt_en)))
     return '\n'.join(out)
+
+
+def _puces_html():
+    return '\n'.join(
+        '      <button type="button" class="puce" data-i="%d" '
+        'aria-label="Photo %d"></button>' % (i, i + 1)
+        for i in range(len(GALERIE)))
 
 
 # --------------------------------------------------------------------------- #
@@ -612,6 +699,57 @@ JS = """
   langue(choisi || auto, false);
   icones();
 
+  /* --------------------------------------------------------- le carrousel */
+  /* La piste defile deja toute seule (scroll-snap) : ce bloc n'ajoute que les
+     fleches, les puces et le clavier. Si le script tombe, on peut encore
+     faire defiler a la main — c'est voulu. */
+  var piste = document.querySelector('.piste');
+  if (piste) {
+    var slides = [].slice.call(piste.querySelectorAll('.slide'));
+    var puces  = [].slice.call(document.querySelectorAll('.puce'));
+
+    /* ⚠️ UN INDEX EXPLICITE, ET PAS `scrollLeft`. Deduire la position courante
+       du defilement paraissait plus simple, mais le defilement est ANIME :
+       deux clics rapprochés lisaient tous les deux une position intermediaire
+       et demandaient la meme diapositive — le second clic ne servait a rien.
+       L'index est donc tenu a part ; `scrollLeft` ne sert plus qu'a se
+       resynchroniser quand c'est le doigt qui a fait defiler. */
+    var idx = 0, minuteur;
+
+    function majPuces(){
+      puces.forEach(function(p, i){ p.classList.toggle('on', i === idx); });
+    }
+    function versSlide(i){
+      idx = Math.max(0, Math.min(slides.length - 1, i));
+      piste.scrollTo({left: idx * piste.clientWidth, behavior: 'smooth'});
+      majPuces();
+    }
+    document.querySelector('.prec').addEventListener('click', function(){
+      versSlide(idx - 1);
+    });
+    document.querySelector('.suiv').addEventListener('click', function(){
+      versSlide(idx + 1);
+    });
+    puces.forEach(function(p){
+      p.addEventListener('click', function(){ versSlide(+p.dataset.i); });
+    });
+    piste.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowRight') { e.preventDefault(); versSlide(idx + 1); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); versSlide(idx - 1); }
+    });
+    piste.addEventListener('scroll', function(){
+      clearTimeout(minuteur);
+      minuteur = setTimeout(function(){
+        idx = Math.round(piste.scrollLeft / piste.clientWidth);
+        majPuces();
+      }, 140);
+    });
+    window.addEventListener('resize', function(){
+      piste.scrollTo({left: idx * piste.clientWidth, behavior: 'auto'});
+    });
+    majPuces();
+  }
+
   /* Le lien « Ecouter » du hero lance la premiere piste apres le defilement. */
   var ecouter = document.querySelector('.js-ecouter');
   if (ecouter) ecouter.addEventListener('click', function(){
@@ -637,12 +775,12 @@ def page():
     #    empeche l'indexation d'une adresse qu'un moteur aurait apprise
     #    autrement (un lien dans un mail, une barre d'adresse partagee).
     a('<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">')
-    a('<title>David Lesage &amp; Lucie — handpan électronique &amp; violon électrique</title>')
+    a('<title>Lucie &amp; David Lesage — violon électrique &amp; handpan électronique</title>')
     a('<meta name="description" content="Duo en émergence : handpan électronique, '
       'ngoni, voix et violon électrique. Cinq pièces enregistrées à Paris le 28 août 2026.">')
     a('<meta property="og:type" content="website">')
-    a('<meta property="og:title" content="David Lesage &amp; Lucie">')
-    a('<meta property="og:description" content="Handpan électronique et violon électrique. '
+    a('<meta property="og:title" content="Lucie &amp; David Lesage">')
+    a('<meta property="og:description" content="Violon électrique et handpan électronique. '
       'Duo en émergence, Paris.">')
     a('<meta property="og:image" content="%s/media/photos/og-duo.jpg">' % URL)
     a('<meta property="og:url" content="%s">' % URL)
@@ -675,7 +813,11 @@ def page():
     a('    <span class="kick">%s</span>' % _bi(
         'Duo en émergence &middot; Paris &middot; 2026',
         'Emerging duo &middot; Paris &middot; 2026'))
-    a('    <h1>David Lesage<span class="amp">&amp;</span>Lucie</h1>')
+    # Ordre des deux noms : LUCIE D'ABORD, demande de David le 30/08/2026.
+    # Les fiches et les colonnes de references suivent le meme ordre — un titre
+    # qui annonce un ordre et une page qui en applique un autre se lit comme un
+    # oubli.
+    a('    <h1>Lucie<span class="amp">&amp;</span>David Lesage</h1>')
     a('    <p class="sub">%s</p>' % _bi(
         'Un handpan électronique et un violon électrique. Deux instruments qui '
         'n&rsquo;existaient pas il y a quinze ans, au service de gestes qui, eux, '
@@ -749,6 +891,14 @@ def page():
         a('      <p>%s</p>' % _bi(pfr, pen))
         a('    </div>')
     a('  </div>')
+    # La photo qui dit ce que le texte ne peut pas dire : ils se regardent.
+    a('  <figure class="grande">')
+    a('    <img src="media/photos/complicite.jpg" loading="lazy" '
+      'alt="David Lesage et Lucie se regardent pendant la captation">')
+    a('    <figcaption>%s</figcaption>' % _bi(
+        'Première journée d&rsquo;enregistrement, Paris, 28 août 2026.',
+        'First recording day, Paris, 28 August 2026.'))
+    a('  </figure>')
     a('</div></section>')
 
     a('<div class="divider"></div>')
@@ -759,7 +909,16 @@ def page():
     a('  <h2 class="sec-title">%s</h2>' % _bi(
         'Cinq pièces, enregistrées le 28 août 2026',
         'Five pieces, recorded on 28 August 2026'))
-    a('  <p class="lead">%s</p>' % _bi(
+    a('  <figure class="grande">')
+    a('    <img src="media/photos/duo-large.jpg" loading="lazy" '
+      'alt="Lucie au violon électrique et David Lesage au handpan électronique Neotone">')
+    a('    <figcaption>%s</figcaption>' % _bi(
+        'Lucie et David Lesage &mdash; violon électrique Yamaha et handpan électronique '
+        'Neotone.',
+        'Lucie and David Lesage &mdash; Yamaha electric violin and Neotone electronic '
+        'handpan.'))
+    a('  </figure>')
+    a('  <p class="lead" style="margin-top:26px">%s</p>' % _bi(
         'Une seule journée, à Paris. Prise de son en direct : sortie de console et '
         'micro d&rsquo;ambiance, sans retouche ni réenregistrement. C&rsquo;est '
         'littéralement ce que le duo joue dans une pièce.',
@@ -782,71 +941,6 @@ def page():
     a('  <span class="kick">%s</span>' % _bi('Les deux musiciens', 'The two musicians'))
     a('  <h2 class="sec-title">%s</h2>' % _bi('Qui joue', 'Who plays'))
     a('  <div class="deux">')
-
-    # -- David
-    a('    <article class="qui">')
-    # Portrait officiel (celui de /rituals), et non une photo du shooting : la
-    # carte doit montrer le musicien seul, pas le duo.
-    a('      <div class="qui-img"><img src="media/photos/david.webp" loading="lazy" '
-      'alt="Portrait de David Lesage"></div>')
-    a('      <div class="qui-in">')
-    a('        <h3>David Lesage</h3>')
-    a('        <div class="role">%s</div>' % _bi(
-        'Handpan électronique &middot; ngoni &middot; calebasse &middot; voix',
-        'Electronic handpan &middot; ngoni &middot; calabash &middot; voice'))
-    a('        <p>%s</p>' % _bi(
-        'Percussionniste de formation classique devenu l&rsquo;un des rares musiciens à '
-        'jouer le handpan électronique sur scène. Il vient du jazz &mdash; quatre ans au '
-        'collège de jazz de Marciac, quatre ans au Conservatoire de Toulouse, prix de '
-        'batterie &mdash; et en a gardé un sens du rythme millimétré, qu&rsquo;il applique '
-        'aujourd&rsquo;hui à des instruments qui n&rsquo;ont pas de partition. '
-        '<b>Ses trois terrains</b> : le handpan, acoustique et numérique, dont il est '
-        'ambassadeur officiel de la marque Neotone ; la voix, cinq octaves, en cinq '
-        'langues ; et les instruments à peau et à cordes d&rsquo;Afrique de l&rsquo;Ouest. '
-        'Ses instruments sont accordés en <b>La 432 Hz</b> &mdash; une couleur, pas un '
-        'dogme : le duo se joue aussi en 440.',
-        'A classically trained percussionist who became one of the very few musicians '
-        'playing the electronic handpan on stage. He comes from jazz &mdash; four years at '
-        'the Marciac jazz college, four years at the Toulouse Conservatoire, with a '
-        'drumming prize &mdash; and kept from it a millimetric sense of rhythm, which he now '
-        'applies to instruments that have no written score. <b>His three grounds</b>: the '
-        'handpan, acoustic and digital, for which he is an official Neotone ambassador; '
-        'the voice, five octaves across five languages; and the skin and string '
-        'instruments of West Africa. His instruments are tuned to <b>A 432 Hz</b> '
-        '&mdash; a colour, not a doctrine: the duo plays at 440 just as happily.'))
-    a('        <ul class="faits">')
-    faits_d = (
-        ('Sept pays de scène : France, Hongrie, Suisse, Belgique, Grèce, Espagne, '
-         'Côte d&rsquo;Ivoire',
-         'Seven countries on stage: France, Hungary, Switzerland, Belgium, Greece, Spain, '
-         'Ivory Coast'),
-        ('Le Grand Rex, Paris, devant 2 700 personnes',
-         'Le Grand Rex, Paris, in front of 2,700 people'),
-        ('Sziget Festival, Budapest, en 2022 et 2023 ; Everness Festival, Hongrie',
-         'Sziget Festival, Budapest, in 2022 and 2023; Everness Festival, Hungary'),
-        ('Vingt et une dates à Jazz in Marciac, sur sept éditions',
-         'Twenty-one dates at Jazz in Marciac, over seven editions'),
-        ('Première partie d&rsquo;Amadou &amp; Mariam, septembre 2022',
-         'Opening for Amadou &amp; Mariam, September 2022'),
-        ('The Voice saison 11 (TF1), diffusé le 12 février 2022',
-         'The Voice season 11 (TF1, France), broadcast 12 February 2022'),
-        ('Ambassadeur officiel et bêta-testeur du handpan électronique Neotone depuis 2023',
-         'Official ambassador and beta-tester of the Neotone electronic handpan since 2023'),
-    )
-    for fr, en in faits_d:
-        a('          <li>%s</li>' % _bi(fr, en))
-    a('        </ul>')
-    a('        <div class="liens">')
-    a('          <a href="https://www.resonancesproductions.org/david-lesage-en-concert" '
-      'target="_blank" rel="noopener">Biographie complète</a>')
-    a('          <a href="https://lesagedavid.fr" target="_blank" rel="noopener">lesagedavid.fr</a>')
-    a('          <a href="https://www.youtube.com/@DavidLesageArtiste" '
-      'target="_blank" rel="noopener">YouTube</a>')
-    a('          <a href="https://www.instagram.com/david.lesage.artiste/" '
-      'target="_blank" rel="noopener">Instagram</a>')
-    a('        </div>')
-    a('      </div>')
-    a('    </article>')
 
     # -- Lucie
     # ⚠️ Son nom de famille n'est PAS ecrit ici : voir l'en-tete du fichier.
@@ -916,6 +1010,71 @@ def page():
     a('      </div>')
     a('    </article>')
 
+    # -- David
+    a('    <article class="qui">')
+    # Portrait officiel (celui de /rituals), et non une photo du shooting : la
+    # carte doit montrer le musicien seul, pas le duo.
+    a('      <div class="qui-img"><img src="media/photos/david.webp" loading="lazy" '
+      'alt="Portrait de David Lesage"></div>')
+    a('      <div class="qui-in">')
+    a('        <h3>David Lesage</h3>')
+    a('        <div class="role">%s</div>' % _bi(
+        'Handpan électronique &middot; ngoni &middot; calebasse &middot; voix',
+        'Electronic handpan &middot; ngoni &middot; calabash &middot; voice'))
+    a('        <p>%s</p>' % _bi(
+        'Percussionniste de formation classique devenu l&rsquo;un des rares musiciens à '
+        'jouer le handpan électronique sur scène. Il vient du jazz &mdash; quatre ans au '
+        'collège de jazz de Marciac, quatre ans au Conservatoire de Toulouse, prix de '
+        'batterie &mdash; et en a gardé un sens du rythme millimétré, qu&rsquo;il applique '
+        'aujourd&rsquo;hui à des instruments qui n&rsquo;ont pas de partition. '
+        '<b>Ses trois terrains</b> : le handpan, acoustique et numérique, dont il est '
+        'ambassadeur officiel de la marque Neotone ; la voix, cinq octaves, en cinq '
+        'langues ; et les instruments à peau et à cordes d&rsquo;Afrique de l&rsquo;Ouest. '
+        'Ses instruments sont accordés en <b>La 432 Hz</b> &mdash; une couleur, pas un '
+        'dogme : le duo se joue aussi en 440.',
+        'A classically trained percussionist who became one of the very few musicians '
+        'playing the electronic handpan on stage. He comes from jazz &mdash; four years at '
+        'the Marciac jazz college, four years at the Toulouse Conservatoire, with a '
+        'drumming prize &mdash; and kept from it a millimetric sense of rhythm, which he now '
+        'applies to instruments that have no written score. <b>His three grounds</b>: the '
+        'handpan, acoustic and digital, for which he is an official Neotone ambassador; '
+        'the voice, five octaves across five languages; and the skin and string '
+        'instruments of West Africa. His instruments are tuned to <b>A 432 Hz</b> '
+        '&mdash; a colour, not a doctrine: the duo plays at 440 just as happily.'))
+    a('        <ul class="faits">')
+    faits_d = (
+        ('Sept pays de scène : France, Hongrie, Suisse, Belgique, Grèce, Espagne, '
+         'Côte d&rsquo;Ivoire',
+         'Seven countries on stage: France, Hungary, Switzerland, Belgium, Greece, Spain, '
+         'Ivory Coast'),
+        ('Le Grand Rex, Paris, devant 2 700 personnes',
+         'Le Grand Rex, Paris, in front of 2,700 people'),
+        ('Sziget Festival, Budapest, en 2022 et 2023 ; Everness Festival, Hongrie',
+         'Sziget Festival, Budapest, in 2022 and 2023; Everness Festival, Hungary'),
+        ('Vingt et une dates à Jazz in Marciac, sur sept éditions',
+         'Twenty-one dates at Jazz in Marciac, over seven editions'),
+        ('Première partie d&rsquo;Amadou &amp; Mariam, septembre 2022',
+         'Opening for Amadou &amp; Mariam, September 2022'),
+        ('The Voice saison 11 (TF1), diffusé le 12 février 2022',
+         'The Voice season 11 (TF1, France), broadcast 12 February 2022'),
+        ('Ambassadeur officiel et bêta-testeur du handpan électronique Neotone depuis 2023',
+         'Official ambassador and beta-tester of the Neotone electronic handpan since 2023'),
+    )
+    for fr, en in faits_d:
+        a('          <li>%s</li>' % _bi(fr, en))
+    a('        </ul>')
+    a('        <div class="liens">')
+    a('          <a href="https://www.resonancesproductions.org/david-lesage-en-concert" '
+      'target="_blank" rel="noopener">Biographie complète</a>')
+    a('          <a href="https://lesagedavid.fr" target="_blank" rel="noopener">lesagedavid.fr</a>')
+    a('          <a href="https://www.youtube.com/@DavidLesageArtiste" '
+      'target="_blank" rel="noopener">YouTube</a>')
+    a('          <a href="https://www.instagram.com/david.lesage.artiste/" '
+      'target="_blank" rel="noopener">Instagram</a>')
+    a('        </div>')
+    a('      </div>')
+    a('    </article>')
+
     a('  </div>')
     a('</div></section>')
 
@@ -934,12 +1093,38 @@ def page():
         'Ce que chacun apporte dans la corbeille',
         'What each of them brings to the table'))
     a('  <p class="lead">%s</p>' % _bi(
-        'Le duo est neuf ; les deux parcours ne le sont pas. À gauche les scènes de David, '
-        'à droite les marques et les institutions qui ont fait jouer Lucie.',
-        'The duo is new; the two careers behind it are not. On the left, David&rsquo;s '
-        'stages; on the right, the brands and institutions that have hired Lucie.'))
+        'Le duo est neuf ; les deux parcours ne le sont pas. À gauche les marques et les '
+        'institutions qui ont fait jouer Lucie, à droite les scènes de David.',
+        'The duo is new; the two careers behind it are not. On the left, the brands and '
+        'institutions that have hired Lucie; on the right, David&rsquo;s stages.'))
     a('  <div class="refs">')
 
+    a('    <div class="ref-col">')
+    a('      <h3>%s</h3>' % _bi('Les marques de Lucie', 'Lucie&rsquo;s clients'))
+    a('      <div class="who">%s</div>' % _bi(
+        'Maisons de luxe, groupes internationaux, institutions',
+        'Luxury houses, international groups, institutions'))
+    # ⚠️ LA PLANCHE DE LOGOS EST CELLE DE LUCIE, reprise telle quelle depuis son
+    #    propre site. On ne redessine pas, on ne recolore pas et on ne recompose
+    #    pas des marques deposees : on reprend l'image qu'elle publie elle-meme.
+    #    Elle a un fond blanc — c'est VOULU qu'elle soit posee sur un panneau
+    #    clair : un mur de logos se lit comme une planche de presse, pas comme
+    #    un element du decor de la page. Les noms restent dans l'attribut `alt`,
+    #    pour que la liste existe aussi pour qui ne voit pas l'image.
+    a('      <div class="logos">')
+    a('        <img src="media/photos/references-lucie.jpg" loading="lazy" alt="%s">'
+      % ('Airbus, Google, Louis Vuitton, Moët &amp; Chandon, Allianz, Audi, Chanel, '
+         'Disney+, Dior, Galénic, Huawei, Schlumberger, Société Générale, '
+         'Patek Philippe, Generali, HEC Paris, Total, L&rsquo;Oréal, The Ritz-Carlton, '
+         'E.Leclerc, M6, Square Enix, Sephora, Sheraton, Pernod Ricard, '
+         'Mandarin Oriental, Thales, Renault Nissan Mitsubishi'))
+    a('      </div>')
+    a('      <p class="ref-note">%s</p>' % _bi(
+        'Planche publiée par Lucie sur violonisteelectrique.com. Les marques citées '
+        'restent la propriété de leurs titulaires.',
+        'Sheet published by Lucie on violonisteelectrique.com. All trademarks remain '
+        'the property of their respective owners.'))
+    a('    </div>')
     a('    <div class="ref-col">')
     a('      <h3>%s</h3>' % _bi('Les scènes de David', 'David&rsquo;s stages'))
     a('      <div class="who">%s</div>' % _bi(
@@ -950,30 +1135,14 @@ def page():
                 'Everness Festival', 'The Voice &mdash; TF1', 'Amadou &amp; Mariam',
                 'Hona Festival &mdash; Naxos', 'HUG Fesztivál',
                 'Abbaye Notre-Dame d&rsquo;Alet', 'Basilique Saint-Nazaire',
-                'Cloître de Saint-Geniez-d&rsquo;Olt', 'FLORIPAN'):
+                'Cloître de Saint-Geniez-d&rsquo;Olt',
+                'Église Saint-Jean-l&rsquo;Évangéliste &mdash; Tourcoing',
+                'Chapelle du Mas Galifa &mdash; Espagne',
+                'Mont Korhogo &mdash; Côte d&rsquo;Ivoire', 'FLORIPAN'):
         a('        <span class="chip">%s</span>' % nom)
     a('      </div>')
     a('    </div>')
 
-    a('    <div class="ref-col">')
-    a('      <h3>%s</h3>' % _bi('Les marques de Lucie', 'Lucie&rsquo;s clients'))
-    a('      <div class="who">%s</div>' % _bi(
-        'Maisons de luxe, groupes internationaux, institutions',
-        'Luxury houses, international groups, institutions'))
-    a('      <div class="chips">')
-    for nom in ('Chanel', 'Dior', 'Louis Vuitton', 'Patek Philippe',
-                'Moët &amp; Chandon', 'Sephora', 'L&rsquo;Oréal', 'Galénic',
-                'Google', 'Airbus', 'Thales', 'Audi', 'Renault Nissan Mitsubishi',
-                'Total', 'Schlumberger', 'Huawei', 'Square Enix', 'Disney+',
-                'M6', 'Allianz', 'Generali', 'Société Générale', 'Pernod Ricard',
-                'E.Leclerc', 'The Ritz-Carlton', 'Mandarin Oriental', 'Sheraton',
-                'HEC Paris'):
-        a('        <span class="chip">%s</span>' % nom)
-    a('      </div>')
-    a('      <p class="ref-note">%s</p>' % _bi(
-        'Liste publiée par Lucie sur violonisteelectrique.com.',
-        'List published by Lucie on violonisteelectrique.com.'))
-    a('    </div>')
 
     a('  </div>')
     a('</div></section>')
@@ -1054,6 +1223,39 @@ def page():
     a('    </div>')
 
     a('  </div>')
+
+    # Les trois images qui PROUVENT la liste ci-dessus : l'ensemble du parc,
+    # le handpan acoustique (qu'aucune photo ne montrait jusqu'au 30/08), et
+    # la harpe africaine.
+    # ⚠️ LE HANDPAN ACOUSTIQUE PREND LA PLEINE LARGEUR, et ce n'est pas
+    #    decoratif : jusqu'au 30/08 aucune photo de la page ne le montrait, alors
+    #    que le texte l'annonce. La photo est en 16/9 — la mettre dans une
+    #    colonne etroite en 3/4 aurait recadre Lucie hors du cadre.
+    a('  <figure class="grande">')
+    a('    <img src="media/photos/handpan-acoustique.jpg" loading="lazy" '
+      'alt="Le handpan acoustique Yishama en tôle martelée, tenu par David Lesage">')
+    a('    <figcaption>%s</figcaption>' % _bi(
+        'Le handpan acoustique Yishama, en tôle martelée &mdash; l&rsquo;autre versant '
+        'du même geste.',
+        'The Yishama acoustic handpan, in hammered steel &mdash; the other side of the '
+        'same gesture.'))
+    a('  </figure>')
+    a('  <div class="deux-photos">')
+    photos_scene = (
+        ('instruments.jpg',
+         'Tout le parc du duo : calebasse au premier plan, handpan électronique, '
+         'ngoni et violon électrique.',
+         'The duo&rsquo;s full set: calabash in the foreground, electronic handpan, '
+         'ngoni and electric violin.'),
+        ('ngoni.jpg',
+         'Le ngoni quatorze cordes, harpe africaine, et la calebasse.',
+         'The fourteen-string ngoni, an African harp, and the calabash.'),
+    )
+    for fichier, cfr, cen in photos_scene:
+        a('    <figure><img src="media/photos/%s" loading="lazy" alt="%s">'
+          '<figcaption>%s</figcaption></figure>'
+          % (fichier, cfr.replace('"', '&quot;'), _bi(cfr, cen)))
+    a('  </div>')
     a('</div></section>')
 
     a('<div class="divider"></div>')
@@ -1063,8 +1265,18 @@ def page():
     a('  <span class="kick">%s</span>' % _bi('En images', 'In pictures'))
     a('  <h2 class="sec-title">%s</h2>' % _bi(
         'Paris, 28 août 2026', 'Paris, 28 August 2026'))
-    a('  <div class="gal">')
+    a('  <div class="carrousel">')
+    a('    <div class="piste" tabindex="0" role="group" '
+      'aria-roledescription="carrousel" aria-label="Photographies du 28 août 2026">')
     a(_galerie_html())
+    a('    </div>')
+    a('    <button type="button" class="fleche prec" aria-label="Photo précédente">'
+      '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.8 1.4 4.2 8l6.6 6.6 1.4-1.4L7 8l5.2-5.2z"/></svg></button>')
+    a('    <button type="button" class="fleche suiv" aria-label="Photo suivante">'
+      '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.2 1.4 3.8 2.8 9 8l-5.2 5.2 1.4 1.4L11.8 8z"/></svg></button>')
+    a('    <div class="puces">')
+    a(_puces_html())
+    a('    </div>')
     a('  </div>')
     a('</div></section>')
 
