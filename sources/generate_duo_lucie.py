@@ -1384,10 +1384,13 @@ def page():
     a('  <div class="contact">')
     a('    <div class="ct-grid">')
     a('      <div class="ct-rows">')
-    # ⚠️ LE BOOKING PASSE PAR LES MUSES, pas par Resonances Productions.
-    #    Adresse et numero donnes par David le 30/08/2026. Le numero n'est PAS
-    #    son numero personnel — celui-la reste banni de cette page (voir plus
-    #    bas) — c'est la ligne de booking du quatuor de Lucie.
+    # ⚠️ LE BOOKING PASSE PAR LUCIE, pas par Resonances Productions. Adresse et
+    #    numero donnes par David le 30/08/2026.
+    #    LE NUMERO EST CELUI DE LUCIE, en personne — pas une ligne de standard,
+    #    pas celui de David. Celui de David a ete retire de cette page a sa
+    #    demande (deuxieme passe) et ne doit pas y revenir : si quelqu'un croit
+    #    un jour reparer un oubli en ajoutant « le numero de David », c'est une
+    #    erreur.
     a('        <div><span class="ct-l">%s</span><div class="ct-v">'
       '<a href="mailto:lesmusesbooking@gmail.com">'
       'lesmusesbooking@gmail.com</a></div></div>'

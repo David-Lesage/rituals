@@ -1965,9 +1965,10 @@ Corrections dictées par David, qui seul connaît ce qui a été joué :
 - **Adresse de booking : `lesmusesbooking@gmail.com`** (et non plus `contact@resonancesproductions.org`).
   **Téléphone : 06 59 93 21 06**, affiché en `+33 6 59 93 21 06` dans la version anglaise, le lien
   `tel:` étant au format international dans les deux cas.
-  ⚠️ **Ce numéro n'est PAS celui de David** : c'est la ligne de booking du quatuor de Lucie. Le numéro
-  personnel de David reste banni de cette page (voir la deuxième passe) — ne pas confondre les deux si
-  quelqu'un « rétablit » un numéro plus tard.
+  ⚠️ **C'est le numéro personnel de LUCIE** (précisé par David le 30/08) — pas un standard, pas celui
+  de David. Le numéro de David a été retiré de cette page à sa demande (deuxième passe) et ne doit pas
+  y revenir : si quelqu'un croit un jour réparer un oubli en ajoutant « le numéro de David », c'est une
+  erreur.
 - ⏳ **Point non tranché, signalé à David** : le booking passe désormais par Les Muses, mais la mention
   légale du bas de page ne cite que **Résonances Productions** comme structure habilitée à
   contractualiser et à employer. Une agence peut se demander qui facture. À clarifier avec Lucie avant
