@@ -2052,3 +2052,27 @@ retirée du pied de page (elle demandait de garder secrète une page trouvable d
 que « structure des projets de David Lesage » de la mention légale. Le cadrage du portrait de Lucie est
 passé de 26 % à 12 % pour aligner son regard sur celui de David — son portrait est vertical donc
 recadré, celui de David est carré et `object-position` n'a aucun effet dessus.
+
+### 30/08/2026 — onzième passe : ce n'était pas la bonne structure
+
+🚨 **Le premier SIREN communiqué n'était pas le bon.** La mention légale a cité pendant une heure
+« ASSOCIATION LES MUSES » (SIREN 482 777 455, Paris 20e). La vraie structure est
+**l'AGENCE ARTISTIQUE LES MUSES, à Saint-Brieuc**. Si l'ancien SIRET réapparaît dans l'historique git,
+c'est celui-là qui est faux.
+
+**Vérifié à la source, pas recopié :**
+- `recherche-entreprises.api.gouv.fr` (SIREN 839766656) → « AGENCE ARTISTIQUE LES MUSES », SIRET du
+  siège **839 766 656 00020**, APE **90.02Z**, association déclarée (nature juridique 9220), RNA
+  **W224006079**, siège **5 rue Léo Delibes 22000 Saint-Brieuc**, active,
+  `est_entrepreneur_spectacle: true`, statut « valide », convention collective IDCC 1285 (entreprises
+  artistiques et culturelles).
+- Registre **PLATESV** du ministère de la Culture → récépissé **PLATESV-R-2022-005368**, **catégorie 2**,
+  statut « Valide », dossier déposé le 16/04/2022, aucune date de retrait.
+
+⚠️ **L'APE annoncé par David (9329Z) ne correspond à aucune source.** Le registre porte **90.02Z**
+(soutien au spectacle vivant), qui est exactement le code d'une agence de booking. C'est 90.02Z qui est
+publié. Signalé à David.
+
+**La licence est donc citée sur la page** — ce qui n'était pas possible avec l'autre structure, dont
+aucune trace n'existait au registre. Pour une agence, « licence catégorie 2 » + numéro de récépissé est
+souvent la première pièce demandée avant un contrat de cession.

@@ -1486,36 +1486,47 @@ def page():
     #    et une seule structure de l'autre se demande qui facture : les deux
     #    roles sont donc nommes, chacun a sa place.
     #
-    #    ⚠️ CHIFFRES VERIFIES LE 30/08/2026 au registre officiel
-    #    (recherche-entreprises.api.gouv.fr, SIREN 482777455) : denomination
-    #    « ASSOCIATION LES MUSES », SIRET du siege 482 777 455 00015, APE
-    #    90.01Z, declaree le 10/01/2005, etat administratif ACTIF.
-    #    ⚠️ L'ADRESSE EST UNE PLAGE DE NUMEROS : le registre porte « 24 A 32 RUE
-    #    DES AMANDIERS ». On ecrit donc « 24-32 » et surtout PAS « 24 » tout
-    #    court — reduire une plage a son premier numero, c'est ecrire une
-    #    adresse qui ne correspond a aucun enregistrement.
-    #    ⚠️ AUCUNE LICENCE D'ENTREPRENEUR DE SPECTACLES N'EST CITEE ICI, et
-    #    c'est deliberé : le registre public du ministere de la Culture
-    #    (PLATESV, 114 000 lignes) ne contient AUCUNE ligne pour ce SIREN, et
-    #    SIRENE porte `est_entrepreneur_spectacle: false`. Tant que le recepisse
-    #    DRAC n'a pas ete fourni, ne rien ecrire : une licence inventee sur un
-    #    dossier de booking se retrouverait dans un contrat de cession.
-    #    Ne pas modifier ces chiffres sans reverifier a la source.
+    #    ⚠️ CE N'EST PAS LA MEME STRUCTURE QUE CELLE CITEE D'ABORD. Le premier
+    #    SIREN communique (482 777 455, « ASSOCIATION LES MUSES », Paris 20e)
+    #    n'etait pas le bon. David a corrige le 30/08/2026 : c'est l'AGENCE
+    #    ARTISTIQUE LES MUSES, a Saint-Brieuc. Si quelqu'un retrouve un jour
+    #    l'ancien SIRET dans l'historique git, c'est celui-la qui est faux.
+    #
+    #    ⚠️ CHIFFRES VERIFIES A LA SOURCE le 30/08/2026, pas recopies :
+    #      * recherche-entreprises.api.gouv.fr (SIREN 839766656) : denomination
+    #        « AGENCE ARTISTIQUE LES MUSES », SIRET du siege 839 766 656 00020,
+    #        APE 90.02Z, association declaree (nature juridique 9220), RNA
+    #        W224006079, siege 5 rue Leo Delibes 22000 Saint-Brieuc, ACTIVE,
+    #        `est_entrepreneur_spectacle: true`, statut « valide ».
+    #      * registre PLATESV du ministere de la Culture (jeu de donnees des
+    #        licences d'entrepreneurs de spectacles vivants) : recepisse
+    #        PLATESV-R-2022-005368, CATEGORIE 2, statut « Valide », dossier
+    #        depose le 16/04/2022, aucune date de retrait.
+    #
+    #    ⚠️ L'APE ANNONCE PAR DAVID (9329Z) NE CORRESPOND A AUCUNE SOURCE. Le
+    #    registre porte 90.02Z (soutien au spectacle vivant), ce qui est
+    #    exactement le code d'une agence de booking. C'est 90.02Z qui est
+    #    publie. Signale a David.
+    #
+    #    Ne pas modifier ces chiffres sans reverifier a la source : ils partent
+    #    dans des contrats de cession.
     a('    <p class="legal">%s</p>' % _bi(
-        '<b>Administration et contractualisation</b> &mdash; Association Les Muses, '
-        'association loi 1901, arts du spectacle vivant. SIRET 482 777 455 00015, '
-        'code APE 90.01Z. Association déclarée en 2005. '
-        'Siège social : 24-32 rue des Amandiers, 75020 Paris.<br>'
+        '<b>Administration et contractualisation</b> &mdash; Agence Artistique Les Muses, '
+        'association loi 1901. SIRET 839 766 656 00020, code APE 90.02Z. '
+        'Licence d’entrepreneur de spectacles vivants de catégorie 2, '
+        'récépissé PLATESV-R-2022-005368. '
+        'Siège social : 5 rue Léo Delibes, 22000 Saint-Brieuc.<br>'
         'Page publiée par Résonances Productions (SIRET 919 514 075 00010).',
-        '<b>Administration and contracting</b> &mdash; Association Les Muses, a French '
-        'non-profit association (loi 1901), performing arts. SIRET 482 777 455 00015, '
-        # ⚠️ « APE 90.01Z » et non « APE code 90.01Z » : le controle « code
+        '<b>Administration and contracting</b> &mdash; Agence Artistique Les Muses, a '
+        'French non-profit association (loi 1901). SIRET 839 766 656 00020, '
+        # ⚠️ « APE 90.02Z » et non « APE code 90.02Z » : le controle « code
         #    d'acces » de verif_site.py cherche un mot comme « code » suivi de
-        #    chiffres a moins de 45 caracteres, et attrapait « code … 2005 ».
-        #    La version francaise, elle, passe : « code ape » est une exception
-        #    deja documentee dans CODES_HORS_SOUPCON.
-        'APE 90.01Z. Registered in 2005. '
-        'Registered office: 24-32 rue des Amandiers, 75020 Paris.<br>'
+        #    chiffres a moins de 45 caracteres. La version francaise, elle,
+        #    passe : « code ape » est une exception deja documentee dans
+        #    CODES_HORS_SOUPCON.
+        'APE 90.02Z. Category 2 French live-performance producer licence, '
+        'receipt PLATESV-R-2022-005368. '
+        'Registered office: 5 rue Léo Delibes, 22000 Saint-Brieuc.<br>'
         'Page published by Résonances Productions (SIRET 919 514 075 00010).'))
     a('  </div>')
     a('</div></section>')
