@@ -1751,3 +1751,68 @@ Tonino 15/09/2019, Live inédit 01/07/2020).
   ⚠️ `resize_window` de l'extension répond « succès » sans effet, le volet reste à sa largeur) ;
   hamburger vérifié à l'ouverture **et** à la fermeture, un seul menu et un seul `<h1>` par page,
   0 lien mort, 0 ancre morte.
+
+---
+
+## 30/08/2026 — Page CACHÉE du duo David Lesage & Lucie (session dédiée)
+
+> Écrit par une **session Claude séparée**, ouverte exprès par David pour ce seul sujet, afin de ne pas
+> mélanger ce contexte avec le reste du site. Rien du site existant n'a été modifié : `verif_site.py`
+> reste à **31/31 pages conformes**, et les 31 pages publiées n'ont pas été touchées.
+
+**Ce que c'est.** Une page de communication professionnelle destinée aux agences parisiennes et
+internationales, pour le duo en émergence **David Lesage + Lucie** (violoniste électrique). Bilingue
+FR/EN sur une seule adresse. Elle contient les 5 morceaux enregistrés le 28/08/2026 dans un lecteur
+audio, 11 photos du shooting du même jour, les deux biographies et le contact.
+
+**Adresse** (choisie par David, sensible à la casse sur Vercel) :
+`https://www.resonancesproductions.org/David-Lesage-Lucie-Electric-Violoniste`
+
+**Elle est VOLONTAIREMENT invisible. Quatre verrous, il faut les quatre :**
+
+| | Verrou | Où |
+|---|---|---|
+| 1 | Aucune entrée de menu — le générateur n'appelle NI `nav_menu.py` NI `mobile_nav.py` | `sources/generate_duo_lucie.py` |
+| 2 | Absente de `sitemap.xml` **et** de `verif_site.PAGES` — donc invisible au contrôle, qui ne regarde que les 31 pages publiées | — |
+| 3 | `Disallow:` dans `robots.txt` **et** `<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">` dans la page. Les deux : robots.txt empêche l'exploration, pas l'indexation d'une adresse apprise ailleurs | `robots.txt` |
+| 4 | Inscrite dans `HORS_SITE` de `sources/build.py` — `build.py` ne la reconstruit pas, ne la sauvegarde pas, et ne la signale plus comme « générateur non inscrit » | `sources/build.py` |
+
+⚠️ **Le contrôle de `verif_site.py` accepte ce `Disallow`** : il ne refuse un `Disallow` que sur une page
+présente dans `PAGES`. C'est l'inverse exact du cas `/solune` documenté plus haut dans ce fichier (une
+page **supprimée** qui redirige ne doit surtout PAS être en `Disallow`, sinon Google ne voit jamais le 301).
+Ici il n'y a rien à rediriger : la page existe et ne doit simplement pas être trouvée.
+
+**Comment on la reconstruit** (elle n'est PAS dans `build.py`) :
+
+```bash
+python3 sources/generate_duo_lucie.py
+```
+
+**Fichiers ajoutés / touchés** — et rien d'autre :
+- `sources/generate_duo_lucie.py` *(nouveau)*
+- `David-Lesage-Lucie-Electric-Violoniste/index.html` + `media/photos/` (11 JPEG) + `media/audio/` (5 MP3) *(nouveau, ~41 Mo)*
+- `robots.txt` : un `Disallow` ajouté, commenté
+- `sources/build.py` : **une entrée** ajoutée dans `HORS_SITE`
+
+**Les médias.** Sources dans le Drive partagé `1 - Lucie & David / Captation Vidéo Audio /
+CAPTATION 28 AOUT 2026 - PARIS`. Les MP3 du dépôt sont des **ré-encodages web** (LAME VBR `-q:a 5`,
+7 à 9,6 Mo pièce) des masters : le crochet `pre-commit` refuse tout fichier non-image de plus de 10 Mo,
+et les masters d'origine (jusqu'à 18 Mo) ne passaient pas. **Les masters restent sur le Drive** — on ne
+les remplace pas par ceux du dépôt. Mix retenu : « sortie de table + micro d'ambiance Hisong » partout
+où il existe (choix de David) ; *Ave Maria* n'existe qu'en sortie de table.
+
+**Ce qui a été écarté volontairement, et pourquoi — à ne pas « corriger » sans demander :**
+- **Le nom de famille de Lucie n'est PAS écrit.** Il n'apparaît nulle part dans le corps visible de ses
+  sites (seulement dans des métadonnées), et elle se présente commercialement sous son seul prénom.
+  À confirmer avec elle avant de l'ajouter.
+- **L'année de fondation du Quatuor Les Muses n'est pas donnée** : son site dit 2007, la page Yamaha 2010.
+- Tous les faits de parcours des deux musiciens viennent de leurs **propres sites publiés**. Rien n'a été
+  inventé ni arrondi. Le duo **n'a pas de nom** : la page dit « David Lesage & Lucie ».
+
+**Reste à faire / en attente :**
+- ⏳ **Montage vidéo** de la captation du 28/08 : la page annonce « montage en cours, rushes sur demande ».
+  Quand la vidéo existera, elle a sa place dans la section « Écouter ».
+- ⏳ Un **nom de duo**, s'il en naît un : il faudra reprendre le titre du hero, le `<title>` et l'Open Graph.
+- ⚠️ **Le dépôt GitHub est PUBLIC.** La page est introuvable sur le site, mais ses photos et ses MP3 sont
+  lisibles par n'importe qui sur `github.com/David-Lesage/rituals`, et l'historique git les garde même
+  après suppression. Point signalé à David le 30/08.

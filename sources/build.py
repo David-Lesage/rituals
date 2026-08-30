@@ -202,6 +202,15 @@ ORPHELINES = {}
 #: par le controle « generateur non inscrit » plus bas.
 HORS_SITE = {
     'generate_plaquette_trio.py': 'plaquette PDF du trio (hors site)',
+    # 30/08/2026 — page de promo du duo David Lesage & Lucie, VOLONTAIREMENT
+    # invisible : aucune entree de menu, absente du sitemap et de
+    # verif_site.PAGES, interdite aux moteurs. Seules les agences a qui David
+    # donne l'adresse doivent la trouver. Elle n'a donc pas sa place dans le
+    # TABLEAU (qui ne decrit que les pages PUBLIEES) et build.py ne doit ni la
+    # reconstruire ni la sauvegarder. Pour la refaire :
+    #     python3 sources/generate_duo_lucie.py
+    'generate_duo_lucie.py': 'page de promo du duo David & Lucie '
+                             '(hors site, non referencee)',
 }
 
 #: fichiers remis en etat si le build echoue.

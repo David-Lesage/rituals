@@ -12,4 +12,14 @@ Allow: /
 Disallow: /guso-facile/app
 Disallow: /guso-facile/invitation
 
+# Page de promo du duo David Lesage & Lucie, creee le 30/08/2026. Elle est
+# VOLONTAIREMENT invisible : elle n'est dans aucun menu, elle n'est pas dans
+# le plan du site, et personne n'a a la trouver par Google — seules les
+# agences a qui David envoie l'adresse doivent y arriver. Ce n'est pas une
+# page supprimee : il n'y a rien a rediriger, et donc aucune raison de la
+# laisser explorer (voir la note sur /solune plus haut, qui est le cas
+# INVERSE). La page porte en plus une balise « noindex » : robots.txt empeche
+# l'exploration, mais pas l'indexation d'une adresse apprise ailleurs.
+Disallow: /David-Lesage-Lucie-Electric-Violoniste
+
 Sitemap: https://www.resonancesproductions.org/sitemap.xml
