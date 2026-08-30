@@ -1959,3 +1959,16 @@ Corrections dictées par David, qui seul connaît ce qui a été joué :
   `meta description` suit. Un compte donne une borne — « cinq pièces » se lit comme « ils n'ont que ça ».
 - Le troisième élément du sur-titre devient **« Format sur mesure »** (« Format construit avec vous »
   passait à la ligne à 1280 px).
+
+### 30/08/2026 — huitième passe : le booking passe par Les Muses
+
+- **Adresse de booking : `lesmusesbooking@gmail.com`** (et non plus `contact@resonancesproductions.org`).
+  **Téléphone : 06 59 93 21 06**, affiché en `+33 6 59 93 21 06` dans la version anglaise, le lien
+  `tel:` étant au format international dans les deux cas.
+  ⚠️ **Ce numéro n'est PAS celui de David** : c'est la ligne de booking du quatuor de Lucie. Le numéro
+  personnel de David reste banni de cette page (voir la deuxième passe) — ne pas confondre les deux si
+  quelqu'un « rétablit » un numéro plus tard.
+- ⏳ **Point non tranché, signalé à David** : le booking passe désormais par Les Muses, mais la mention
+  légale du bas de page ne cite que **Résonances Productions** comme structure habilitée à
+  contractualiser et à employer. Une agence peut se demander qui facture. À clarifier avec Lucie avant
+  la première demande sérieuse.

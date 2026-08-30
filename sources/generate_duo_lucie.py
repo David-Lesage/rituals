@@ -1384,22 +1384,30 @@ def page():
     a('  <div class="contact">')
     a('    <div class="ct-grid">')
     a('      <div class="ct-rows">')
+    # ⚠️ LE BOOKING PASSE PAR LES MUSES, pas par Resonances Productions.
+    #    Adresse et numero donnes par David le 30/08/2026. Le numero n'est PAS
+    #    son numero personnel — celui-la reste banni de cette page (voir plus
+    #    bas) — c'est la ligne de booking du quatuor de Lucie.
     a('        <div><span class="ct-l">%s</span><div class="ct-v">'
-      '<a href="mailto:contact@resonancesproductions.org">'
-      'contact@resonancesproductions.org</a></div></div>'
-      % _bi('Courriel', 'Email'))
+      '<a href="mailto:lesmusesbooking@gmail.com">'
+      'lesmusesbooking@gmail.com</a></div></div>'
+      % _bi('Booking', 'Booking'))
+    a('        <div><span class="ct-l">%s</span><div class="ct-v">'
+      '<a href="tel:+33659932106">%s</a></div></div>'
+      % (_bi('Téléphone', 'Phone'),
+         _bi('06 59 93 21 06', '+33 6 59 93 21 06')))
     # ⚠️ NI TELEPHONE NI ADRESSE POSTALE — demande de David du 30/08/2026. Cette
     #    page circule chez des tiers : un numero personnel et une adresse de
     #    domicile n'ont rien a y faire, le courriel suffit a une agence. Ne pas
     #    les remettre « pour faire complet ».
     a('        <div><span class="ct-l">%s</span><div class="ct-v">%s</div></div>'
-      % (_bi('Base', 'Based in'),
+      % (_bi('Basés', 'Based in'),
          _bi('Paris &mdash; disponibles à l&rsquo;international',
              'Paris &mdash; available internationally')))
     a('      </div>')
     a('      <div>')
-    a('        <a class="btn" href="mailto:contact@resonancesproductions.org'
-      '?subject=Duo%%20David%%20Lesage%%20%%26%%20Lucie">%s</a>'
+    a('        <a class="btn" href="mailto:lesmusesbooking@gmail.com'
+      '?subject=Duo%%20Lucie%%20Andersen%%20%%26%%20David%%20Lesage">%s</a>'
       % _bi('Nous écrire', 'Get in touch'))
     a('      </div>')
     a('    </div>')
