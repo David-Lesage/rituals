@@ -20,6 +20,12 @@ Disallow: /guso-facile/invitation
 # laisser explorer (voir la note sur /solune plus haut, qui est le cas
 # INVERSE). La page porte en plus une balise « noindex » : robots.txt empeche
 # l'exploration, mais pas l'indexation d'une adresse apprise ailleurs.
+Disallow: /David-Lesage-Lucie-Andersen
+# L'adresse a change le 30/08/2026 (le nom de Lucie a ete confirme). L'ancienne
+# reste interdite elle aussi : elle sert encore de page de renvoi vers la
+# nouvelle, pour qu'un lien deja envoye ne tombe pas en 404. Contrairement au
+# cas /solune plus haut, il n'y a ici AUCUN referencement a transferer — la
+# page est en « noindex » depuis le premier jour et n'a jamais ete indexee.
 Disallow: /David-Lesage-Lucie-Electric-Violoniste
 
 Sitemap: https://www.resonancesproductions.org/sitemap.xml

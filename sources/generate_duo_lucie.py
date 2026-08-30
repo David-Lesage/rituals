@@ -41,9 +41,10 @@ Elle a ete demandee par David le 30/08/2026.
    sites publies par les interesses eux-memes. RIEN n'a ete invente, aucun
    chiffre n'a ete arrondi a la hausse. Deux points ont ete volontairement
    ECARTES :
-     * le NOM DE FAMILLE de Lucie n'apparait nulle part dans le corps visible
-       de ses sites (seulement dans des metadonnees) : elle se presente
-       commercialement sous son seul prenom, la page fait pareil ;
+     * le NOM DE FAMILLE de Lucie n'apparaissait nulle part dans le corps
+       visible de ses sites (seulement dans des metadonnees). La page ne l'a
+       donc PAS ecrit tant qu'il n'etait pas confirme. David l'a confirme le
+       30/08/2026 : c'est LUCIE ANDERSEN, et l'adresse de la page a suivi ;
      * l'annee de fondation du Quatuor Les Muses est donnee differemment
        selon les sources (2007 sur son site, 2010 sur la page Yamaha) : la
        page ne date donc pas la fondation.
@@ -62,9 +63,25 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 RACINE = os.path.dirname(HERE)
 
-DOSSIER = 'David-Lesage-Lucie-Electric-Violoniste'
+DOSSIER = 'David-Lesage-Lucie-Andersen'
 SORTIE = os.path.join(RACINE, DOSSIER, 'index.html')
 URL = 'https://www.resonancesproductions.org/' + DOSSIER
+
+#: L'ADRESSE A CHANGE LE 30/08/2026, quand Lucie a confirme son nom de famille :
+#: `/David-Lesage-Lucie-Electric-Violoniste` est devenue `/David-Lesage-Lucie-Andersen`.
+#: L'ancienne reste vivante et renvoie vers la nouvelle — un lien deja envoye a
+#: une agence ne doit pas tomber en 404.
+#:
+#: ⚠️ POURQUOI UNE PAGE DE RENVOI ET PAS UNE REDIRECTION DANS `vercel.json`.
+#:    Le controle de `verif_site.py` verifie que la destination de chaque
+#:    redirection interne est une page PUBLIEE, c'est-a-dire presente dans
+#:    `PAGES`. Notre page n'y est pas — et ne doit pas y etre, c'est le verrou
+#:    qui la garde hors du plan du site. Une redirection `vercel.json` vers
+#:    elle serait donc signalee « renvoie vers une page qui n'existe pas » et
+#:    BLOQUERAIT le `git push`. Une petite page de renvoi ne touche aucun
+#:    fichier partage et ne coute rien : il n'y a ici aucun referencement a
+#:    transferer, la page etant en `noindex` depuis le premier jour.
+ANCIEN_DOSSIER = 'David-Lesage-Lucie-Electric-Violoniste'
 
 
 # --------------------------------------------------------------------------- #
@@ -340,7 +357,12 @@ b{color:#fff;font-weight:500}
   align-items:flex-start;line-height:1.6}
 .faits li::before{content:'';width:5px;height:5px;flex:none;margin-top:10px;
   transform:rotate(45deg);background:var(--gold)}
-.liens{margin-top:auto;padding-top:24px;display:flex;flex-wrap:wrap;gap:8px}
+.liens{padding-top:20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+/* Le dernier groupe de liens est celui qui colle au bas de la carte : c'est
+   lui qui porte le `margin-top:auto` quand la carte a deux groupes. */
+.liens:last-of-type{margin-top:auto}
+.liens-l{flex:0 0 100%;font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--plum2);margin-bottom:2px}
 .liens a{font-size:13px;letter-spacing:.08em;padding:7px 15px;border-radius:40px;
   border:1px solid rgba(248,210,116,.26);color:var(--gold2)}
 .liens a:hover{background:rgba(216,178,90,.1)}
@@ -775,11 +797,12 @@ def page():
     #    empeche l'indexation d'une adresse qu'un moteur aurait apprise
     #    autrement (un lien dans un mail, une barre d'adresse partagee).
     a('<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">')
-    a('<title>Lucie &amp; David Lesage — violon électrique &amp; handpan électronique</title>')
+    a('<title>Lucie Andersen &amp; David Lesage — violon électrique &amp; handpan '
+      'électronique</title>')
     a('<meta name="description" content="Duo en émergence : handpan électronique, '
       'ngoni, voix et violon électrique. Cinq pièces enregistrées à Paris le 28 août 2026.">')
     a('<meta property="og:type" content="website">')
-    a('<meta property="og:title" content="Lucie &amp; David Lesage">')
+    a('<meta property="og:title" content="Lucie Andersen &amp; David Lesage">')
     a('<meta property="og:description" content="Violon électrique et handpan électronique. '
       'Duo en émergence, Paris.">')
     a('<meta property="og:image" content="%s/media/photos/og-duo.jpg">' % URL)
@@ -817,7 +840,7 @@ def page():
     # Les fiches et les colonnes de references suivent le meme ordre — un titre
     # qui annonce un ordre et une page qui en applique un autre se lit comme un
     # oubli.
-    a('    <h1>Lucie<span class="amp">&amp;</span>David Lesage</h1>')
+    a('    <h1>Lucie Andersen<span class="amp">&amp;</span>David Lesage</h1>')
     a('    <p class="sub">%s</p>' % _bi(
         'Un handpan électronique et un violon électrique. Deux instruments qui '
         'n&rsquo;existaient pas il y a quinze ans, au service de gestes qui, eux, '
@@ -948,7 +971,7 @@ def page():
     a('      <div class="qui-img"><img src="media/photos/lucie.jpg" loading="lazy" '
       'alt="Lucie, violoniste électrique"></div>')
     a('      <div class="qui-in">')
-    a('        <h3>Lucie</h3>')
+    a('        <h3>Lucie Andersen</h3>')
     a('        <div class="role">%s</div>' % _bi(
         'Violon électrique &middot; violon acoustique &middot; violon LED',
         'Electric violin &middot; acoustic violin &middot; LED violin'))
@@ -997,11 +1020,19 @@ def page():
     for fr, en in faits_l:
         a('          <li>%s</li>' % _bi(fr, en))
     a('        </ul>')
+    # Meme decoupage que la carte de David : ce qui se programme d'abord,
+    # les reseaux ensuite.
     a('        <div class="liens">')
+    a('          <span class="liens-l">%s</span>' % _bi('Ses projets', 'Her projects'))
     a('          <a href="https://www.violonisteelectrique.com/" target="_blank" '
       'rel="noopener">violonisteelectrique.com</a>')
     a('          <a href="https://www.quatuorlesmuses.com/" target="_blank" '
       'rel="noopener">Quatuor Les Muses</a>')
+    a('          <a href="https://www.lightincoaching.com/" target="_blank" '
+      'rel="noopener">light&rsquo;in coaching</a>')
+    a('        </div>')
+    a('        <div class="liens">')
+    a('          <span class="liens-l">%s</span>' % _bi('En ligne', 'Online'))
     a('          <a href="https://www.instagram.com/lucie_electric_violinist_paris/" '
       'target="_blank" rel="noopener">Instagram</a>')
     a('          <a href="https://www.youtube.com/@QuatuorLesMuses" '
@@ -1063,14 +1094,28 @@ def page():
     for fr, en in faits_d:
         a('          <li>%s</li>' % _bi(fr, en))
     a('        </ul>')
+    # Les SPECTACLES d'abord, les reseaux ensuite : une agence cherche ce qui
+    # se programme, pas un fil d'actualite.
     a('        <div class="liens">')
+    a('          <span class="liens-l">%s</span>' % _bi('Ses spectacles', 'His shows'))
     a('          <a href="https://www.resonancesproductions.org/david-lesage-en-concert" '
-      'target="_blank" rel="noopener">Biographie complète</a>')
+      'target="_blank" rel="noopener">David Lesage Concert Solo</a>')
+    a('          <a href="https://www.resonancesproductions.org/e-motion" '
+      'target="_blank" rel="noopener">E-MOTION</a>')
+    a('          <a href="https://www.resonancesproductions.org/rituals-trio" '
+      'target="_blank" rel="noopener">RITUALS TRIO</a>')
+    a('        </div>')
+    a('        <div class="liens">')
+    a('          <span class="liens-l">%s</span>' % _bi('En ligne', 'Online'))
     a('          <a href="https://lesagedavid.fr" target="_blank" rel="noopener">lesagedavid.fr</a>')
     a('          <a href="https://www.youtube.com/@DavidLesageArtiste" '
       'target="_blank" rel="noopener">YouTube</a>')
     a('          <a href="https://www.instagram.com/david.lesage.artiste/" '
       'target="_blank" rel="noopener">Instagram</a>')
+    a('          <a href="https://www.tiktok.com/@david.lesage.artiste" '
+      'target="_blank" rel="noopener">TikTok</a>')
+    a('          <a href="https://www.facebook.com/David.Lesage.Page.Artiste/" '
+      'target="_blank" rel="noopener">Facebook</a>')
     a('        </div>')
     a('      </div>')
     a('    </article>')
@@ -1363,6 +1408,32 @@ def page():
     return '\n'.join(h) + '\n'
 
 
+RENVOI = """<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta http-equiv="refresh" content="0; url=/%(vers)s">
+<link rel="canonical" href="%(url)s">
+<title>Lucie Andersen &amp; David Lesage</title>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;text-align:center;
+  background:#0e0f24;color:#eae7f3;font-family:'Jost',-apple-system,Segoe UI,Roboto,sans-serif;
+  padding:30px;line-height:1.7}
+a{color:#f8d274}
+p{max-width:34em}
+</style>
+</head>
+<body>
+  <p>Cette page a changé d&rsquo;adresse.<br>
+     <a href="/%(vers)s">Aller à la nouvelle adresse</a></p>
+  <script>location.replace('/%(vers)s' + location.hash);</script>
+</body>
+</html>
+"""
+
+
 def main():
     os.makedirs(os.path.dirname(SORTIE), exist_ok=True)
     html = page()
@@ -1370,6 +1441,14 @@ def main():
         f.write(html)
     print('  ecrit  %s  (%d Ko)' % (
         os.path.relpath(SORTIE, RACINE), len(html.encode('utf-8')) // 1024))
+
+    # La page de renvoi de l'ancienne adresse (voir ANCIEN_DOSSIER plus haut).
+    dossier_ancien = os.path.join(RACINE, ANCIEN_DOSSIER)
+    os.makedirs(dossier_ancien, exist_ok=True)
+    with open(os.path.join(dossier_ancien, 'index.html'), 'w', encoding='utf-8') as f:
+        f.write(RENVOI % dict(vers=DOSSIER, url=URL))
+    print('  ecrit  %s/index.html  (renvoi vers la nouvelle adresse)' % ANCIEN_DOSSIER)
+
     print('  ⚠️  page volontairement invisible : ni menu, ni sitemap, ni moteurs.')
 
 

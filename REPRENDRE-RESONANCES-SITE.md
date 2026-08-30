@@ -1869,3 +1869,29 @@ Retours arrivés après la mise en ligne, tous appliqués :
   **carré** : le cadre haut du bureau laissait plus d'un tiers de vide sur une photo horizontale.
 - ⚠️ `sips --cropOffset` recadre **depuis le centre**, pas depuis le coin. Les recadrages précis de ce
   chantier sont faits avec `ffmpeg -vf crop=w:h:x:y`, en coordonnées absolues.
+
+### 30/08/2026, même jour — quatrième passe : le nom de Lucie, et l'adresse change
+
+- ⚠️ **L'ADRESSE DE LA PAGE A CHANGÉ.** Nouvelle adresse :
+  `https://www.resonancesproductions.org/David-Lesage-Lucie-Andersen`.
+  L'ancienne (`/David-Lesage-Lucie-Electric-Violoniste`) reste dans le dépôt : elle ne contient plus
+  qu'une **petite page de renvoi** (meta refresh + `location.replace`) vers la nouvelle, pour qu'un lien
+  déjà envoyé à une agence ne tombe pas en 404. Elle est générée par le même script (constante
+  `ANCIEN_DOSSIER`).
+  **Pourquoi pas une redirection dans `vercel.json`** : le contrôle de `verif_site.py` exige que la
+  destination d'une redirection interne soit une page présente dans `PAGES`. La nôtre n'y est pas — et
+  ne doit pas y être, c'est le verrou qui la garde hors du plan du site. Une redirection `vercel.json`
+  vers elle aurait été signalée « renvoie vers une page qui n'existe pas » et **aurait bloqué le
+  `git push`**. Les deux chemins sont en `Disallow` dans `robots.txt`.
+- **Le nom de famille de Lucie est confirmé par David : Lucie Andersen.** Il est maintenant écrit dans
+  le `<h1>`, le `<title>`, l'`og:title` et sa fiche.
+  ⚠️ **Point à vérifier avec elle** : son propre site de coaching (`lightincoaching.com`) et les
+  métadonnées de `violonisteelectrique.com` portent, eux, **« Deglane »** (adresses `lucie.deglane`,
+  balise `<title>` « Lucie Deglane violoniste électrique »). Les deux noms coexistent dans sa présence
+  en ligne. C'est David qui a tranché pour « Andersen » — signalé, pas corrigé d'office.
+- **Fiche de David** : ses spectacles ajoutés (`/e-motion`, `/rituals-trio`), le bouton
+  « Biographie complète » renommé **« David Lesage Concert Solo »**, et TikTok + Facebook ajoutés.
+- **Fiche de Lucie** : ajout de `lightincoaching.com` (son activité de coaching d'artiste).
+- Les liens des deux fiches sont désormais **groupés** de la même façon : ce qui se programme d'abord
+  (« Ses spectacles » / « Ses projets »), les réseaux ensuite (« En ligne »). Une agence cherche ce qui
+  se programme, pas un fil d'actualité.
