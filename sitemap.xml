@@ -36,6 +36,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.resonancesproductions.org/David-Lesage-Lucie-Andersen</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.resonancesproductions.org/concerts-david-lesage</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

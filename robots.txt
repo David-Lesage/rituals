@@ -12,20 +12,17 @@ Allow: /
 Disallow: /guso-facile/app
 Disallow: /guso-facile/invitation
 
-# Page de promo du duo David Lesage & Lucie, creee le 30/08/2026. Elle est
-# VOLONTAIREMENT invisible : elle n'est dans aucun menu, elle n'est pas dans
-# le plan du site, et personne n'a a la trouver par Google — seules les
-# agences a qui David envoie l'adresse doivent y arriver. Ce n'est pas une
-# page supprimee : il n'y a rien a rediriger, et donc aucune raison de la
-# laisser explorer (voir la note sur /solune plus haut, qui est le cas
-# INVERSE). La page porte en plus une balise « noindex » : robots.txt empeche
-# l'exploration, mais pas l'indexation d'une adresse apprise ailleurs.
-Disallow: /David-Lesage-Lucie-Andersen
-# L'adresse a change le 30/08/2026 (le nom de Lucie a ete confirme). L'ancienne
-# reste interdite elle aussi : elle sert encore de page de renvoi vers la
-# nouvelle, pour qu'un lien deja envoye ne tombe pas en 404. Contrairement au
-# cas /solune plus haut, il n'y a ici AUCUN referencement a transferer — la
-# page est en « noindex » depuis le premier jour et n'a jamais ete indexee.
+# /David-Lesage-Lucie-Andersen A ETE OUVERTE AU PUBLIC le 30/08/2026, sur
+# decision de David : elle est entree dans le menu (« Sur scene »), dans le
+# plan du site et dans verif_site.PAGES, et sa balise « noindex » a ete
+# retiree. Son `Disallow` a donc disparu d'ici : le laisser aurait donne une
+# page listee au menu que Google aurait refuse d'explorer.
+#
+# Seule son ANCIENNE adresse reste interdite. Ce n'est plus une page : c'est
+# un renvoi vers la nouvelle, pour qu'un lien envoye avant le changement de
+# nom ne tombe pas en 404. Elle n'a aucun referencement a transferer — elle a
+# vecu en « noindex » du premier au dernier jour — et n'a donc rien a faire
+# dans Google.
 Disallow: /David-Lesage-Lucie-Electric-Violoniste
 
 Sitemap: https://www.resonancesproductions.org/sitemap.xml

@@ -66,6 +66,10 @@ PAGES = (
     ('/rituals-trio',            'rituals-trio/index.html'),
     ('/e-motion',                'e-motion/index.html'),
     ('/david-lesage-en-concert', 'david-lesage-en-concert/index.html'),
+    # 30/08/2026 : cette page etait VOLONTAIREMENT invisible (hors menu,
+    # hors sitemap, en `noindex`). David l'a rendue publique : elle entre
+    # donc ici, et les onze controles s'appliquent desormais a elle.
+    ('/David-Lesage-Lucie-Andersen', 'David-Lesage-Lucie-Andersen/index.html'),
     ('/concerts-david-lesage',   'concerts-david-lesage/index.html'),
     ('/le-nid',                  'le-nid/index.html'),
     ('/rendez-vous-mensuels',    'rendez-vous-mensuels/index.html'),
@@ -124,6 +128,7 @@ TELEPHONES_AUTORISES = {
     '0170043012': "ligne fixe de l'association (accueil)",
     '0610733152': 'mobile David Lesage — contact technique et booking',
     '0689054758': 'mobile booking (RITUALS, RITUALS trio, E-Motion)',
+    '0659932106': 'mobile de Lucie Andersen — booking du duo violon / handpan',
 }
 
 #: adresses email publiees volontairement.
@@ -132,6 +137,7 @@ EMAILS_AUTORISES = {
     'contact@lesagedavid.fr': 'adresse publique de David Lesage',
     'booking@solune.show': 'booking E-Motion (marque SOLUNE)',
     'prenom@domaine.fr': "exemple affiche dans le formulaire de /rythme-calebasse",
+    'lesmusesbooking@gmail.com': 'booking du duo violon / handpan (Association Les Muses)',
 }
 
 #: mots qui, suivis de chiffres, trahiraient un code d'acces. Le code du portail
@@ -245,7 +251,9 @@ MARQUEURS_UNIQUES = {
 #:    le deduire de `nav_menu` ferait que le controle validerait n'importe quel
 #:    menu, y compris un menu ampute. C'est un chiffre a mettre a jour a la
 #:    main, et c'est le but.
-MENU_ENTREES_ATTENDUES = 19
+#: ⚠️ 19 -> 20 le 30/08/2026 : « Duo Violon / Handpan » entre dans le
+#:    sous-menu « Sur scene », sous « David Lesage en concert ».
+MENU_ENTREES_ATTENDUES = 20
 
 
 # --------------------------------------------------------------------------- #

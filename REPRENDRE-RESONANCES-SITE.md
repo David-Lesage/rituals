@@ -2004,3 +2004,51 @@ Signalé à David le 30/08.
 
 Également non trouvés et donc absents de la page : le numéro RNA (W…), les dirigeants, et tout document
 public reliant ce SIREN à Lucie Andersen ou au Quatuor Les Muses.
+
+### 30/08/2026 — dixième passe : LA PAGE DEVIENT PUBLIQUE 🚨
+
+David a décidé d'ouvrir la page au public. **Les quatre verrous d'invisibilité ont été levés ENSEMBLE**
+— en laisser un seul (un `noindex` oublié, par exemple) aurait donné une page listée au menu que Google
+aurait refusé d'indexer : le pire des deux mondes, et invisible à l'œil.
+
+| | Avant | Maintenant |
+|---|---|---|
+| Menu | absente | **« Duo Violon / Handpan »**, sous-menu « Sur scène », juste sous « David Lesage en concert » |
+| Plan du site | absente | dans `sitemap.xml` |
+| Contrôles | hors `verif_site.PAGES` | **dans `PAGES` — les 11 contrôles s'appliquent à elle** |
+| Moteurs | `Disallow` + `noindex` | les deux retirés |
+| Construction | `HORS_SITE` de `build.py` | **dans le `TABLEAU`** : reconstruite avec le site |
+
+**Fichiers PARTAGÉS modifiés** (ils ne l'avaient pas été jusqu'ici) : `sources/nav_menu.py`
+(entrée `SCENE` + clé dans `_PATH_KEYS`), `sources/verif_site.py` (`PAGES`,
+`MENU_ENTREES_ATTENDUES` 19→20, deux listes blanches), `sources/build.py`, `sitemap.xml`, `robots.txt`.
+Les 31 autres pages ont été reconstruites : **elles ne diffèrent que par une ligne — la nouvelle entrée
+de menu** (vérifié au diff).
+
+**Ce que les contrôles du site ont attrapé, et qu'il ne faut pas réintroduire :**
+1. **`width`/`height` manquants sur les 17 images** (« la page sautera au chargement »). Les dimensions
+   sont désormais **lues dans les fichiers** à la fabrication, jamais écrites à la main — une valeur
+   recopiée devient fausse au premier recadrage.
+2. **Commentaires CSS trop longs.** Un commentaire livré doit tenir sur une ligne de 60 caractères. Le
+   générateur **retire tous les commentaires de SA feuille de style à l'écriture** ; le raisonnement
+   reste dans `sources/generate_duo_lucie.py`, où on le lit en modifiant la règle. ⚠️ Le retrait ne
+   touche PAS le CSS injecté ensuite par `nav_menu.py` / `mobile_nav.py`, dont les marqueurs sont
+   fonctionnels.
+3. **Faux positif « code d'accès »** sur la version anglaise : « APE **code** 90.01Z. Registered in
+   **2005** » — un mot de `MOTS_CODE` suivi de chiffres. Corrigé en écrivant « APE 90.01Z » (sans le mot
+   « code ») plutôt qu'en élargissant la liste blanche. Le français passe : « code ape » y est déjà.
+4. **`og:image` sans `width`/`height`/`alt`** — ajoutés, dimensions lues dans le fichier.
+
+**Menu** : `MENU_ENTREES_ATTENDUES` est passé de 19 à 20. Ce nombre est écrit en dur **volontairement**
+(voir son commentaire) : le déduire de `nav_menu` ferait que le contrôle validerait n'importe quel menu,
+y compris amputé.
+
+**Listes blanches ajoutées à `verif_site.py`** : le téléphone `0659932106` (Lucie) et l'adresse
+`lesmusesbooking@gmail.com`. Sans elles, la vérification refuse de publier — c'est le garde-fou qui a
+suivi la fuite du code du portail du Nid, il fonctionne.
+
+Autres changements de la même passe : la phrase « Page privée — merci de ne pas la diffuser » a été
+retirée du pied de page (elle demandait de garder secrète une page trouvable dans la navigation), ainsi
+que « structure des projets de David Lesage » de la mention légale. Le cadrage du portrait de Lucie est
+passé de 26 % à 12 % pour aligner son regard sur celui de David — son portrait est vertical donc
+recadré, celui de David est carré et `object-position` n'a aucun effet dessus.

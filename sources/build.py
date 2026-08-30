@@ -113,6 +113,16 @@ TABLEAU = (
         passe_menu=True,  # ⚠️ ce generateur ne pose PAS le menu
         bloque=None,
     ),
+    # Ouverte au public le 30/08/2026. Elle a vecu vingt jours HORS du site
+    # (aucun menu, aucun sitemap, `noindex`) : elle etait alors declaree dans
+    # HORS_SITE et build.py n'y touchait pas. Devenue une page publiee, elle
+    # rentre dans le rang — reconstruite et verifiee comme les autres.
+    dict(
+        nom='duo-violon-handpan', fichier='David-Lesage-Lucie-Andersen/index.html',
+        generateur='generate_duo_lucie.py', ecrit=None,
+        passe_menu=False,  # il appelle mobile_nav puis nav_menu.inject() lui-meme
+        bloque=None,
+    ),
     dict(
         nom='concerts-david-lesage', fichier='concerts-david-lesage/index.html',
         generateur='generate_concert_dl.py', ecrit=None,
@@ -202,15 +212,6 @@ ORPHELINES = {}
 #: par le controle « generateur non inscrit » plus bas.
 HORS_SITE = {
     'generate_plaquette_trio.py': 'plaquette PDF du trio (hors site)',
-    # 30/08/2026 — page de promo du duo David Lesage & Lucie, VOLONTAIREMENT
-    # invisible : aucune entree de menu, absente du sitemap et de
-    # verif_site.PAGES, interdite aux moteurs. Seules les agences a qui David
-    # donne l'adresse doivent la trouver. Elle n'a donc pas sa place dans le
-    # TABLEAU (qui ne decrit que les pages PUBLIEES) et build.py ne doit ni la
-    # reconstruire ni la sauvegarder. Pour la refaire :
-    #     python3 sources/generate_duo_lucie.py
-    'generate_duo_lucie.py': 'page de promo du duo David & Lucie '
-                             '(hors site, non referencee)',
 }
 
 #: fichiers remis en etat si le build echoue.

@@ -3,13 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
 <title>Lucie Andersen &amp; David Lesage — violon électrique &amp; handpan électronique</title>
 <meta name="description" content="Violon électrique, handpan électronique, harpe africaine ngoni et voix. Enregistré à Paris le 28 août 2026.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lucie Andersen &amp; David Lesage">
 <meta property="og:description" content="Violon électrique et handpan électronique. Paris.">
 <meta property="og:image" content="https://www.resonancesproductions.org/David-Lesage-Lucie-Andersen/media/photos/og-duo.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta property="og:image:alt" content="Lucie Andersen au violon électrique et David Lesage au handpan électronique Neotone">
 <meta property="og:url" content="https://www.resonancesproductions.org/David-Lesage-Lucie-Andersen">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -35,7 +37,7 @@ h1,h2,h3,h4,.serif{font-family:'Cormorant Garamond',Georgia,serif;font-weight:60
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 
-/* les trois halos de fond — comme sur le reste du site */
+
 body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:
     radial-gradient(680px 460px at 12% 8%,rgba(216,178,90,.10),transparent 70%),
@@ -55,44 +57,44 @@ b{color:#fff;font-weight:500}
 .divider{height:2px;background:var(--grad);opacity:.5;max-width:1120px;margin:0 auto;
   border-radius:2px}
 
-/* ---------------------------------------------------------------- bandeau */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;
-  align-items:center;justify-content:space-between;gap:16px;
-  padding:14px 26px;background:rgba(14,15,36,.72);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(216,178,90,.14)}
-.topbar .home{font-size:13px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--muted)}
-.topbar .home:hover{color:var(--gold2)}
-.langsw{display:flex;border:1px solid rgba(248,210,116,.3);border-radius:40px;
-  overflow:hidden;flex:none}
+
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;
+  align-items:center;justify-content:space-between;padding:11px 26px;
+  background:rgba(14,15,36,.82);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.06)}
+.nav .brand{font-family:'Cormorant Garamond',serif;letter-spacing:.16em;
+  text-transform:uppercase;font-size:15px;color:#fff;text-decoration:none;
+  display:inline-block;padding:10px 0}
+.nav .links{display:flex;gap:20px;align-items:center}
+.nav .links a{color:#cfcbe6;text-decoration:none;font-size:15.5px;
+  display:inline-block;padding:9px 2px;
+  border-bottom:1px solid rgba(216,178,90,.28)}
+.nav .links a:hover{color:var(--gold2);border-bottom-color:var(--gold2)}
+@media(max-width:700px){.nav .links a.hide-s{display:none}}
+
+
+.langsw{position:fixed;top:64px;right:16px;z-index:49;
+  display:flex;border:1px solid rgba(248,210,116,.34);border-radius:40px;
+  overflow:hidden;flex:none;background:rgba(14,15,36,.78);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 10px 26px -16px rgba(0,0,0,.9)}
 .langsw button{background:transparent;border:0;cursor:pointer;
   font-family:inherit;font-size:12px;font-weight:600;letter-spacing:.16em;
   padding:7px 15px;color:var(--muted)}
 .langsw button.on{background:var(--grad-warm);color:#1b1206}
 
-/* ------------------------------------------------------------------ hero */
+
 .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;
   padding-bottom:76px;overflow:hidden}
 .hero-img{position:absolute;inset:0;z-index:-1}
-/* ⚠️ CADRAGE BAS (70 %), ET C'EST LE POINT. A 32 %, le sur-titre et le titre
-   tombaient sur le visage de Lucie. Le cadre etant plus large que la photo,
-   `object-fit:cover` ne rogne QUE verticalement : le seul reglage utile est
-   donc le pourcentage vertical, et le monter fait remonter les deux visages
-   au-dessus du bloc de texte. Verifie en 1440x900 et en 2000x975. */
+
 .hero-img img{width:100%;height:100%;object-fit:cover;object-position:50% 70%}
 .hero-img::after{content:'';position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(14,15,36,.72) 0%,rgba(14,15,36,.34) 30%,
     rgba(14,15,36,.88) 78%,var(--night) 100%)}
-/* ⚠️ LE TITRE TIENT SUR UNE SEULE LIGNE, a toutes les largeurs. Demande de
-   David du 30/08/2026 : « Lucie Andersen & David Lesage » se coupait apres
-   « David » et laissait « Lesage » seul sur la deuxieme ligne.
-   Comment : `nowrap` interdit la coupure, et la taille est pilotee par la
-   LARGEUR DE LA FENETRE (`vw`) pour que le texte retrecisse au lieu de
-   deborder. Le `min()` plafonne a 78 px : au-dela, `.wrap` bloque a 1120 px
-   et le titre depasserait du cadre alors que `vw`, lui, continue de grandir.
-   ⚠️ Si le nom du duo change, REVERIFIER : ce reglage est cale sur la
-   longueur de CETTE chaine (28 caracteres). */
+
 .hero h1{font-size:min(5.6vw,78px);line-height:1.04;color:#fff;
   letter-spacing:-.015em;margin-top:10px;white-space:nowrap}
 .hero h1 .amp{font-style:italic;font-weight:400;
@@ -100,24 +102,17 @@ b{color:#fff;font-weight:500}
   -webkit-text-fill-color:transparent;color:transparent;padding:0 .08em}
 .hero .sub{font-size:clamp(17px,2.3vw,22px);color:#e6e2f5;max-width:640px;
   margin-top:22px;line-height:1.55}
-/* ⚠️ LA PHRASE D'ACCROCHE TIENT SUR UNE SEULE LIGNE — mais seulement quand la
-   fenetre est assez large pour ca. Elle fait 103 caracteres : la mettre sur
-   une ligne a 375 px de large demanderait du 6 px, illisible. En dessous de
-   1024 px elle revient donc a la ligne normalement, et c'est volontaire. */
+
 @media (min-width:1024px){
   .hero .sub{max-width:none;white-space:nowrap;font-size:min(1.9vw,25px)}
 }
-/* ⚠️ `>` OBLIGATOIRE. Chaque element bilingue est lui-meme un <span> imbrique
-   (voir `_bi()`) : sans le selecteur d'enfant direct, la puce en losange se
-   dessinait DEUX fois par entree. */
+
 .hero .meta{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px 26px;
   font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#c8c4dd}
 .hero .meta > span{display:inline-flex;align-items:center;gap:10px}
 .hero .meta > span::before{content:'';width:5px;height:5px;flex:none;
   transform:rotate(45deg);background:var(--gold)}
-/* Sur une photo claire, un texte au degrade decoupe devient illisible et ne
-   peut pas porter d'ombre (le fond du texte EST le degrade). Dans le hero
-   seulement, le sur-titre repasse donc en or plein, avec une ombre. */
+
 .hero .kick{-webkit-text-fill-color:initial;color:var(--gold2);
   background:none;text-shadow:0 2px 14px rgba(8,7,20,.85)}
 .hero h1,.hero .sub{text-shadow:0 6px 34px rgba(8,7,20,.6)}
@@ -132,7 +127,7 @@ b{color:#fff;font-weight:500}
   border:1px solid rgba(248,210,116,.3);color:var(--gold2);box-shadow:none}
 .btn:hover{filter:brightness(1.07)}
 
-/* ------------------------------------------------------------- 3 piliers */
+
 .piliers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
 .pilier{background:var(--card);border-radius:18px;padding:30px 26px 28px;
   position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.05)}
@@ -143,7 +138,7 @@ b{color:#fff;font-weight:500}
 .pilier .num{font-size:12px;letter-spacing:.3em;color:var(--gold);
   display:block;margin-bottom:14px}
 
-/* -------------------------------------------------------------- ecouteur */
+
 .player{margin-top:40px;background:var(--card);border-radius:20px;
   border:1px solid rgba(255,255,255,.05);overflow:hidden}
 .tr{display:grid;grid-template-columns:54px 1fr auto;gap:18px;align-items:center;
@@ -167,7 +162,7 @@ b{color:#fff;font-weight:500}
 .player-note::before{content:'';width:6px;height:6px;flex:none;margin-top:9px;
   transform:rotate(45deg);background:var(--plum2)}
 
-/* barre de lecture, en bas, une fois qu'on a lance quelque chose */
+
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:70;
   transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.7,.3,1);
   background:rgba(20,22,52,.93);
@@ -202,15 +197,15 @@ b{color:#fff;font-weight:500}
 .bar-skip button:hover{color:var(--gold2);border-color:rgba(248,210,116,.4)}
 .bar-skip svg{width:13px;height:13px;fill:currentColor}
 
-/* ------------------------------------------------------------ musiciens */
+
 .deux{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
 .qui{background:var(--card);border-radius:20px;overflow:hidden;
   border:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column}
-/* Carré : le portrait officiel de David est carré, celui de Lucie est un
-   recadrage vertical. Le décalage vers le haut garde les deux visages dans le
-   cadre au lieu de les couper au menton. */
+
 .qui-img{aspect-ratio:1/1;overflow:hidden;background:var(--night2)}
 .qui-img img{width:100%;height:100%;object-fit:cover;object-position:50% 26%}
+
+.qui-img img.p-lucie{object-position:50% 12%}
 .qui-in{padding:30px 28px 30px;flex:1;display:flex;flex-direction:column}
 .qui h3{font-size:32px;color:#fff;line-height:1.1}
 .qui .role{font-size:13px;letter-spacing:.24em;text-transform:uppercase;
@@ -222,8 +217,7 @@ b{color:#fff;font-weight:500}
 .faits li::before{content:'';width:5px;height:5px;flex:none;margin-top:10px;
   transform:rotate(45deg);background:var(--gold)}
 .liens{padding-top:20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-/* Le dernier groupe de liens est celui qui colle au bas de la carte : c'est
-   lui qui porte le `margin-top:auto` quand la carte a deux groupes. */
+
 .liens:last-of-type{margin-top:auto}
 .liens-l{flex:0 0 100%;font-size:12px;letter-spacing:.22em;text-transform:uppercase;
   color:var(--plum2);margin-bottom:2px}
@@ -231,10 +225,8 @@ b{color:#fff;font-weight:500}
   border:1px solid rgba(248,210,116,.26);color:var(--gold2)}
 .liens a:hover{background:rgba(216,178,90,.1)}
 
-/* ------------------------------------------------------ photos de section */
-/* Une grande image portrait au milieu d'une page en colonnes deborderait en
-   hauteur : `max-height` la borne, et `object-fit:cover` recadre plutot que
-   de deformer. */
+
+
 .grande{margin-top:44px;border-radius:20px;overflow:hidden;background:var(--night2);
   border:1px solid rgba(255,255,255,.06)}
 .grande img{width:100%;max-height:640px;object-fit:cover;object-position:50% 28%}
@@ -243,18 +235,13 @@ b{color:#fff;font-weight:500}
 .deux-photos{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
 .deux-photos figure{border-radius:16px;overflow:hidden;background:var(--night2);
   border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column}
-/* `object-position` bas : sur ces deux photos verticales, ce qu'il faut voir
-   (la calebasse au sol, la caisse du ngoni) est dans la MOITIE BASSE. Un
-   recadrage centre par defaut coupait justement les instruments. */
-/* 2/3 et pas 4/5 : les sources sont des verticales de telephone (9/16). Un
-   cadre plus haut montre 84 % de l'image au lieu de 70 %, ce qui suffit a
-   garder A LA FOIS les visages en haut et les instruments au sol en bas —
-   sans quoi la legende promet une calebasse qu'on ne voit pas. */
+
+
 .deux-photos img{width:100%;aspect-ratio:2/3;object-fit:cover;object-position:50% 96%}
 .deux-photos figcaption{font-size:13.5px;color:var(--muted);padding:13px 18px 15px;
   background:var(--card);flex:1}
 
-/* ------------------------------------------------------------- references */
+
 .refs{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
 .ref-col{background:var(--card);border-radius:20px;padding:30px 28px;
   border:1px solid rgba(255,255,255,.05)}
@@ -262,20 +249,17 @@ b{color:#fff;font-weight:500}
 .ref-col .who{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;
   color:var(--plum2);margin-top:6px;margin-bottom:20px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-/* Des noms de tiers : jamais de logo (marques deposees), jamais cliquable —
-   ce sont des references, pas des partenariats a suggerer. */
+
 .chip{font-size:14px;line-height:1.2;padding:8px 14px;border-radius:40px;
   color:#ded9f0;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
   border:1px solid rgba(255,255,255,.1)}
 .ref-note{font-size:13px;color:#8b8ba6;margin-top:18px}
-/* Le panneau clair qui porte la planche de logos. Les logos sont polychromes
-   et concus pour du blanc : les poser sur le bleu nuit les salirait. Un
-   panneau blanc franc, c'est le geste d'un dossier de presse. */
+
 .logos{background:#fff;border-radius:14px;padding:18px 16px;
   box-shadow:0 18px 40px -26px rgba(0,0,0,.8)}
 .logos img{width:100%;height:auto;display:block}
 
-/* -------------------------------------------------------- instrumentarium */
+
 .instr{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:44px}
 .instr-col{background:var(--card);border-radius:20px;padding:30px 28px;
   border:1px solid rgba(255,255,255,.05)}
@@ -289,7 +273,7 @@ b{color:#fff;font-weight:500}
   transform:rotate(45deg);background:var(--coral)}
 .instr-col li b{color:#fff;font-weight:500}
 
-/* ------------------------------------------------------------- carrousel */
+
 .carrousel{position:relative;margin-top:44px}
 .piste{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
   scroll-behavior:smooth;gap:0;border-radius:20px;
@@ -298,8 +282,7 @@ b{color:#fff;font-weight:500}
 .piste:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
 .slide{position:relative;flex:0 0 100%;scroll-snap-align:center;
   background:var(--night2);overflow:hidden;isolation:isolate}
-/* Le fond : la meme image, floutee et assombrie, pour habiller les bandes
-   laterales des photos verticales sans jamais les recadrer. */
+
 .slide-fond{position:absolute;inset:0;z-index:-1;background-size:cover;
   background-position:center;filter:blur(34px) brightness(.42) saturate(.9);
   transform:scale(1.15)}
@@ -320,7 +303,7 @@ b{color:#fff;font-weight:500}
   border:0;background:rgba(255,255,255,.22)}
 .puce.on{background:var(--grad-warm);transform:scale(1.25)}
 
-/* ---------------------------------------------------------------- contact */
+
 .contact{background:var(--card);border-radius:22px;padding:46px 40px;
   border:1px solid rgba(255,255,255,.05);position:relative;overflow:hidden;
   margin-top:40px}
@@ -329,9 +312,7 @@ b{color:#fff;font-weight:500}
 .ct-grid{display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center}
 .ct-l{font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
   display:block;margin-bottom:6px}
-/* ⚠️ `overflow-wrap`: l'adresse de courriel fait 33 caracteres sans espace et
-   depassait du cadre sur telephone (masquee par `overflow-x:hidden`, donc
-   invisible a la mesure : elle ne se voyait qu'a l'oeil). */
+
 .ct-v{font-size:21px;color:#fff;overflow-wrap:anywhere}
 .ct-v a:hover{color:var(--gold2)}
 .ct-rows{display:flex;flex-direction:column;gap:22px}
@@ -344,7 +325,7 @@ footer a{color:var(--gold2)}
 .pad-bar{height:0;transition:height .32s}
 .pad-bar.up{height:86px}
 
-/* ---------------------------------------------------------------- langues */
+
 body.fr [data-lang="en"]{display:none}
 body.en [data-lang="fr"]{display:none}
 
@@ -359,11 +340,7 @@ body.en [data-lang="fr"]{display:none}
 }
 @media (max-width:620px){
   .gal{columns:1}
-  /* Cadre CARRE sur telephone. Le cadre haut du bureau (62 vh) laissait, sur
-     une photo horizontale en 375 px de large, deux bandes vides de plus d'un
-     tiers de la hauteur. Un carre est le seul format qui traite correctement
-     les deux orientations du lot : une horizontale y fait 375x211, une
-     verticale 211x375 — aucune des deux n'est minuscule, aucune n'est rognee. */
+  
   .slide img{height:auto;aspect-ratio:1/1}
   .fleche{width:40px;height:40px}
   .fleche.prec{left:8px}
@@ -381,18 +358,162 @@ body.en [data-lang="fr"]{display:none}
   html{scroll-behavior:auto}
   *{transition:none!important}
 }
+
+/* ===== MENU MOBILE (hamburger) ===== */
+.burger{display:none;background:none;border:1px solid rgba(216,178,90,.34);border-radius:10px;width:44px;height:44px;padding:0;cursor:pointer;position:relative;z-index:1002;flex:0 0 auto}
+.burger span{display:block;width:20px;height:2px;background:var(--gold2);margin:4px auto;border-radius:2px;transition:transform .28s,opacity .2s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:860px){
+  .burger{display:block}
+  .nav{flex-wrap:wrap}
+  .nav .links{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1001;
+    background:rgba(10,11,28,.98);backdrop-filter:blur(14px);
+    flex-direction:column;justify-content:center;align-items:center;gap:6px !important;
+    padding:80px 26px 40px;
+    opacity:0;visibility:hidden;transform:translateY(-12px);
+    transition:opacity .3s,transform .3s,visibility .3s;
+    overflow-y:auto}
+  .nav .links.open{opacity:1;visibility:visible;transform:none}
+  .nav .links a,.nav .links a.hide-s,.nav .links a:not(.adh){display:block !important;
+    font-size:21px !important;letter-spacing:.06em;padding:14px 18px;text-align:center;
+    font-family:'Cormorant Garamond',Georgia,serif;color:#eae7f3 !important;width:100%;max-width:340px}
+  .nav .links a:active{color:var(--gold2) !important}
+  .nav .links a.adh{margin-top:18px;background:var(--gold);color:#1a1608 !important;
+    border-radius:30px;font-family:'Jost',sans-serif;font-size:16px !important;padding:14px 30px;width:auto}
+  body.nav-open .nav{backdrop-filter:none !important;-webkit-backdrop-filter:none !important;z-index:1001 !important}
+  body.nav-open{overflow:hidden}
+}
+@media print{.burger{display:none}}
+/* == nav_menu.py (resonances-5) == */
+.nav .links{flex-wrap:nowrap}
+.nav .links a[aria-current="page"]{color:var(--gold2)}
+.nav .links>a[aria-current="page"]{border-bottom:1px solid rgba(216,178,90,.62);padding-bottom:2px}
+@media(min-width:861px){.nav .links a:not(.adh),.nm-top{font-size:15px}}
+.nm-item{position:relative;display:flex;align-items:center;padding:15px 0;margin:-15px 0}
+.nm-top{font-family:'Jost',system-ui,-apple-system,sans-serif;font-weight:400;background:none;
+  border:0;padding:0;margin:0;cursor:pointer;color:var(--muted);display:inline-flex;
+  align-items:center;gap:7px;letter-spacing:.04em;line-height:1.35;font-size:15px;
+  white-space:nowrap;transition:color .2s}
+.nm-top:hover,.nm-top:focus-visible{color:var(--gold2)}
+.nm-item.nm-open>.nm-top{color:var(--gold2)}
+.nm-lbl{border-bottom:1px solid transparent;padding-bottom:2px}
+.nm-top.nm-active{color:var(--gold2)}
+.nm-top.nm-active .nm-lbl{border-bottom-color:rgba(216,178,90,.62)}
+.nm-caret{width:6px;height:6px;flex:0 0 auto;border-right:1.6px solid currentColor;
+  border-bottom:1.6px solid currentColor;transform:translateY(-2px) rotate(45deg);
+  transition:transform .22s}
+.nm-item.nm-open>.nm-top .nm-caret{transform:translateY(1px) rotate(-135deg)}
+.nm-sub{background:var(--card)}
+@media(min-width:861px){
+  .nm-sub{position:absolute;top:100%;left:50%;min-width:252px;max-width:min(330px,90vw);
+    transform:translateX(-50%) translateY(3px);
+    background:var(--card);border:1px solid rgba(216,178,90,.28);border-radius:14px;
+    box-shadow:0 24px 48px rgba(0,0,0,.6);padding:8px;z-index:1200;
+    display:flex;flex-direction:column;gap:1px;
+    opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .18s,transform .18s,visibility .18s}
+  .nm-item.nm-open>.nm-sub{opacity:1;visibility:visible;pointer-events:auto;
+    transform:translateX(-50%) translateY(0)}
+  .nav .links .nm-sub a{display:flex;align-items:center;min-height:44px;
+    padding:10px 14px;border-radius:9px;font-size:15px;line-height:1.3;
+    font-family:'Jost',system-ui,-apple-system,sans-serif;
+    color:#dedaf0;text-align:left;text-decoration:none;white-space:normal}
+  .nav .links .nm-sub a:hover,.nav .links .nm-sub a:focus-visible{
+    background:rgba(216,178,90,.15);color:var(--gold2)}
+  .nav .links .nm-sub a[aria-current="page"]{color:var(--gold2);background:rgba(216,178,90,.10)}
+  .nm-item.nm-open::after{content:'';position:absolute;top:100%;left:-30px;right:-30px;height:8px}
+  .nav .links a.adh{color:#1a1608 !important;background:var(--gold);
+    padding:8px 16px;border-radius:30px;font-weight:600;font-size:15px;
+    font-family:'Jost',system-ui,-apple-system,sans-serif;white-space:nowrap;
+    border-bottom:0;min-height:0}
+  .nav .links a.adh:hover,.nav .links a.adh:focus-visible{background:var(--gold2)}
+}
+@media(min-width:861px) and (max-width:1120px){
+  .nav{padding-left:18px;padding-right:18px}
+  .nav .brand{white-space:nowrap;font-size:16px}
+  .nav .links{gap:13px}
+  .nav .links a.adh{padding-left:13px;padding-right:13px}
+}
+@media(min-width:861px) and (max-width:980px){
+  .nav .links{gap:10px}
+  .nav .links a:not(.adh),.nm-top{font-size:14px}
+  .nav .brand{font-size:14px;letter-spacing:.1em}
+}
+@media(max-width:860px){
+  .nav .links{flex-wrap:nowrap !important;justify-content:flex-start !important}
+  .nav .links>:first-child{margin-top:auto}
+  .nav .links>:last-child{margin-bottom:auto}
+  .nm-item{display:block;width:100%;max-width:340px;position:static;padding:0;margin:0}
+  .nav .links .nm-top{display:flex;width:100%;justify-content:center;gap:11px;
+    min-height:52px;padding:12px 18px;border-radius:12px;
+    font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;letter-spacing:.06em;
+    color:#eae7f3;white-space:normal;text-align:center}
+  .nav .links .nm-item.nm-open>.nm-top{color:var(--gold2)}
+  .nav .links .nm-top .nm-caret{width:8px;height:8px}
+  .nm-sub{display:none;background:transparent;border:0;padding:2px 0 12px;margin:0}
+  .nm-item.nm-open>.nm-sub{display:block}
+  .nav .links .nm-sub a{display:flex !important;align-items:center;justify-content:center;
+    min-height:44px;width:100% !important;max-width:none !important;
+    padding:10px 14px !important;border-radius:10px;
+    font-family:'Jost',system-ui,-apple-system,sans-serif !important;
+    font-size:16.5px !important;letter-spacing:.02em;color:#cfcbe6 !important;
+    text-align:center}
+  .nav .links .nm-sub a[aria-current="page"]{color:var(--gold2) !important}
+  .nav .links .nm-sub a:active{background:rgba(216,178,90,.14)}
+}
+@media print{.nm-sub{display:none}}
+/* == fin nav_menu.py == */
 </style>
 </head>
 <body class="fr">
-<div class="topbar">
-  <a class="home" href="/">Résonances Productions</a>
-  <div class="langsw" role="group" aria-label="Langue / Language">
-    <button type="button" data-l="fr">FR</button>
-    <button type="button" data-l="en">EN</button>
+<nav class="nav">
+  <a class="brand" href="/">Résonances Productions</a>
+  <div class="links" data-nav="resonances-5">
+    <a href="/">Accueil</a>
+    <div class="nm-item">
+      <button type="button" class="nm-top nm-active" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
+      <div class="nm-sub" id="nm-sub-scene" role="group" aria-label="Sur scène">
+        <a href="/rituals">RITUALS — duo</a>
+        <a href="/rituals-trio">RITUALS — trio</a>
+        <a href="/e-motion">E-Motion</a>
+        <a href="/david-lesage-en-concert">David Lesage en concert</a>
+        <a href="/David-Lesage-Lucie-Andersen" aria-current="page">Duo Violon / Handpan</a>
+      </div>
+    </div>
+    <div class="nm-item">
+      <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-nid"><span class="nm-lbl">Le Nid</span><span class="nm-caret" aria-hidden="true"></span></button>
+      <div class="nm-sub" id="nm-sub-nid" role="group" aria-label="Le Nid">
+        <a href="/le-nid">Le Nid — Paris 20ᵉ</a>
+        <a href="/le-nid#agenda">Agenda</a>
+        <a href="/rendez-vous-mensuels">Les RDV Mensuels</a>
+        <a href="/le-nid#instruments">Présentation d’instruments</a>
+        <a href="/concerts-david-lesage">Concerts au Nid</a>
+        <a href="/le-nid#yoga">Atelier de yoga</a>
+        <a href="/rythme-calebasse">Rythme & calebasse</a>
+        <a href="/le-soin-soa">Le Soin Soa</a>
+        <a href="/le-nid#psychotherapie">Psychothérapie</a>
+        <a href="/le-nid#cours-individuels">Cours individuels</a>
+      </div>
+    </div>
+    <div class="nm-item">
+      <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-asso"><span class="nm-lbl">L’association</span><span class="nm-caret" aria-hidden="true"></span></button>
+      <div class="nm-sub" id="nm-sub-asso" role="group" aria-label="L’association">
+        <a href="/association">L’association</a>
+        <a href="/guso-facile">Guso Facile</a>
+      </div>
+    </div>
+    <a href="#contact">Contact</a>
+    <a class="adh" href="https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions" target="_blank" rel="noopener">Adhérer</a>
   </div>
+</nav>
+<div class="langsw" role="group" aria-label="Langue / Language">
+  <button type="button" data-l="fr">FR</button>
+  <button type="button" data-l="en">EN</button>
 </div>
 <header class="hero">
-  <div class="hero-img"><img src="/David-Lesage-Lucie-Andersen/media/photos/hero.jpg" alt="David Lesage au handpan électronique et Lucie au violon électrique"></div>
+  <div class="hero-img"><img src="/David-Lesage-Lucie-Andersen/media/photos/hero.jpg" alt="David Lesage au handpan électronique et Lucie au violon électrique" width="2000" height="1333"></div>
   <div class="wrap">
     <span class="kick"><span data-lang="fr">Violon électrique &amp; handpan électronique &middot; Paris</span><span data-lang="en">Electric violin &amp; electronic handpan &middot; Paris</span></span>
     <h1>Lucie Andersen<span class="amp">&amp;</span>David Lesage</h1>
@@ -430,7 +551,7 @@ body.en [data-lang="fr"]{display:none}
     </div>
   </div>
   <figure class="grande">
-    <img src="/David-Lesage-Lucie-Andersen/media/photos/complicite.jpg" loading="lazy" alt="David Lesage et Lucie se regardent pendant la captation">
+    <img src="/David-Lesage-Lucie-Andersen/media/photos/complicite.jpg" loading="lazy" alt="David Lesage et Lucie se regardent pendant la captation" width="843" height="1500">
     <figcaption><span data-lang="fr">Première journée d&rsquo;enregistrement, Paris, 28 août 2026.</span><span data-lang="en">First recording day, Paris, 28 August 2026.</span></figcaption>
   </figure>
 </div></section>
@@ -439,7 +560,7 @@ body.en [data-lang="fr"]{display:none}
   <span class="kick"><span data-lang="fr">Écouter</span><span data-lang="en">Listen</span></span>
   <h2 class="sec-title"><span data-lang="fr">Enregistré à Paris, le 28 août 2026</span><span data-lang="en">Recorded in Paris, 28 August 2026</span></h2>
   <figure class="grande">
-    <img src="/David-Lesage-Lucie-Andersen/media/photos/duo-large.jpg" loading="lazy" alt="Lucie au violon électrique et David Lesage au handpan électronique Neotone">
+    <img src="/David-Lesage-Lucie-Andersen/media/photos/duo-large.jpg" loading="lazy" alt="Lucie au violon électrique et David Lesage au handpan électronique Neotone" width="2000" height="1124">
     <figcaption><span data-lang="fr">Lucie et David Lesage &mdash; violon électrique Yamaha et handpan électronique Neotone.</span><span data-lang="en">Lucie and David Lesage &mdash; Yamaha electric violin and Neotone electronic handpan.</span></figcaption>
   </figure>
   <p class="lead" style="margin-top:26px"><span data-lang="fr">Une seule journée, à Paris. Prise de son en direct : sortie de console et micro d&rsquo;ambiance, sans retouche ni réenregistrement. C&rsquo;est littéralement ce que le duo joue dans une pièce.</span><span data-lang="en">A single day, in Paris. Live recording: desk output plus a room microphone, with no overdubs and no fixing. This is literally what the duo sounds like in a room.</span></p>
@@ -458,7 +579,7 @@ body.en [data-lang="fr"]{display:none}
   <h2 class="sec-title"><span data-lang="fr">Qui joue</span><span data-lang="en">Who plays</span></h2>
   <div class="deux">
     <article class="qui">
-      <div class="qui-img"><img src="/David-Lesage-Lucie-Andersen/media/photos/lucie.jpg" loading="lazy" alt="Lucie, violoniste électrique"></div>
+      <div class="qui-img"><img class="p-lucie" src="/David-Lesage-Lucie-Andersen/media/photos/lucie.jpg" loading="lazy" alt="Lucie, violoniste électrique" width="841" height="1278"></div>
       <div class="qui-in">
         <h3>Lucie Andersen</h3>
         <div class="role"><span data-lang="fr">Violon électrique &middot; violon acoustique &middot; violon LED</span><span data-lang="en">Electric violin &middot; acoustic violin &middot; LED violin</span></div>
@@ -486,7 +607,7 @@ body.en [data-lang="fr"]{display:none}
       </div>
     </article>
     <article class="qui">
-      <div class="qui-img"><img src="/David-Lesage-Lucie-Andersen/media/photos/david.webp" loading="lazy" alt="Portrait de David Lesage"></div>
+      <div class="qui-img"><img src="/David-Lesage-Lucie-Andersen/media/photos/david.webp" loading="lazy" alt="Portrait de David Lesage" width="900" height="900"></div>
       <div class="qui-in">
         <h3>David Lesage</h3>
         <div class="role"><span data-lang="fr">Handpan électronique &middot; harpe africaine ngoni &middot; calebasse &middot; voix</span><span data-lang="en">Electronic handpan &middot; African ngoni harp &middot; calabash &middot; voice</span></div>
@@ -528,7 +649,7 @@ body.en [data-lang="fr"]{display:none}
       <h3><span data-lang="fr">Les marques de Lucie</span><span data-lang="en">Lucie&rsquo;s clients</span></h3>
       <div class="who"><span data-lang="fr">Maisons de luxe, groupes internationaux, institutions</span><span data-lang="en">Luxury houses, international groups, institutions</span></div>
       <div class="logos">
-        <img src="/David-Lesage-Lucie-Andersen/media/photos/references-lucie.jpg" loading="lazy" alt="Airbus, Google, Louis Vuitton, Moët &amp; Chandon, Allianz, Audi, Chanel, Disney+, Dior, Galénic, Huawei, Schlumberger, Société Générale, Patek Philippe, Generali, HEC Paris, Total, L&rsquo;Oréal, The Ritz-Carlton, E.Leclerc, M6, Square Enix, Sephora, Sheraton, Pernod Ricard, Mandarin Oriental, Thales, Renault Nissan Mitsubishi">
+        <img src="/David-Lesage-Lucie-Andersen/media/photos/references-lucie.jpg" loading="lazy" alt="Airbus, Google, Louis Vuitton, Moët &amp; Chandon, Allianz, Audi, Chanel, Disney+, Dior, Galénic, Huawei, Schlumberger, Société Générale, Patek Philippe, Generali, HEC Paris, Total, L&rsquo;Oréal, The Ritz-Carlton, E.Leclerc, M6, Square Enix, Sephora, Sheraton, Pernod Ricard, Mandarin Oriental, Thales, Renault Nissan Mitsubishi" width="2000" height="1343">
       </div>
       <p class="ref-note"><span data-lang="fr">Planche publiée par Lucie sur violonisteelectrique.com. Les marques citées restent la propriété de leurs titulaires.</span><span data-lang="en">Sheet published by Lucie on violonisteelectrique.com. All trademarks remain the property of their respective owners.</span></p>
     </div>
@@ -587,12 +708,12 @@ body.en [data-lang="fr"]{display:none}
     </div>
   </div>
   <figure class="grande">
-    <img src="/David-Lesage-Lucie-Andersen/media/photos/handpan-acoustique.jpg" loading="lazy" alt="Le handpan acoustique Yishama en tôle martelée, tenu par David Lesage">
+    <img src="/David-Lesage-Lucie-Andersen/media/photos/handpan-acoustique.jpg" loading="lazy" alt="Le handpan acoustique Yishama en tôle martelée, tenu par David Lesage" width="2000" height="1124">
     <figcaption><span data-lang="fr">Le handpan acoustique Yishama, en tôle martelée &mdash; l&rsquo;autre versant du même geste.</span><span data-lang="en">The Yishama acoustic handpan, in hammered steel &mdash; the other side of the same gesture.</span></figcaption>
   </figure>
   <div class="deux-photos">
-    <figure><img src="/David-Lesage-Lucie-Andersen/media/photos/instruments.jpg" loading="lazy" alt="Tout le parc du duo : calebasse au premier plan, handpan électronique, harpe africaine ngoni et violon électrique."><figcaption><span data-lang="fr">Tout le parc du duo : calebasse au premier plan, handpan électronique, harpe africaine ngoni et violon électrique.</span><span data-lang="en">The duo&rsquo;s full set: calabash in the foreground, electronic handpan, African ngoni harp and electric violin.</span></figcaption></figure>
-    <figure><img src="/David-Lesage-Lucie-Andersen/media/photos/ngoni.jpg" loading="lazy" alt="La harpe africaine ngoni, quatorze cordes, et la calebasse."><figcaption><span data-lang="fr">La harpe africaine ngoni, quatorze cordes, et la calebasse.</span><span data-lang="en">The fourteen-string African ngoni harp, and the calabash.</span></figcaption></figure>
+    <figure><img src="/David-Lesage-Lucie-Andersen/media/photos/instruments.jpg" loading="lazy" alt="Tout le parc du duo : calebasse au premier plan, handpan électronique, harpe africaine ngoni et violon électrique." width="843" height="1500"><figcaption><span data-lang="fr">Tout le parc du duo : calebasse au premier plan, handpan électronique, harpe africaine ngoni et violon électrique.</span><span data-lang="en">The duo&rsquo;s full set: calabash in the foreground, electronic handpan, African ngoni harp and electric violin.</span></figcaption></figure>
+    <figure><img src="/David-Lesage-Lucie-Andersen/media/photos/ngoni.jpg" loading="lazy" alt="La harpe africaine ngoni, quatorze cordes, et la calebasse." width="843" height="1500"><figcaption><span data-lang="fr">La harpe africaine ngoni, quatorze cordes, et la calebasse.</span><span data-lang="en">The fourteen-string African ngoni harp, and the calabash.</span></figcaption></figure>
   </div>
 </div></section>
 <div class="divider"></div>
@@ -601,14 +722,14 @@ body.en [data-lang="fr"]{display:none}
   <h2 class="sec-title"><span data-lang="fr">Paris, 28 août 2026</span><span data-lang="en">Paris, 28 August 2026</span></h2>
   <div class="carrousel">
     <div class="piste" tabindex="0" role="group" aria-roledescription="carrousel" aria-label="Photographies du 28 août 2026">
-      <figure class="slide" aria-roledescription="slide" aria-label="1 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/duo-portrait.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/duo-portrait.jpg" loading="eager" alt="Lucie et David Lesage, violon électrique et handpan électronique Neotone"><figcaption><span data-lang="fr">Lucie et David Lesage, violon électrique et handpan électronique Neotone</span><span data-lang="en">Lucie and David Lesage, electric violin and Neotone electronic handpan</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="2 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/regard.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/regard.jpg" loading="lazy" alt="Lucie et David Lesage, regard vers le lointain"><figcaption><span data-lang="fr">Lucie et David Lesage, regard vers le lointain</span><span data-lang="en">Lucie and David Lesage, looking into the distance</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="3 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-01.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-01.jpg" loading="lazy" alt="Lucie au violon électrique, David au handpan électronique"><figcaption><span data-lang="fr">Lucie au violon électrique, David au handpan électronique</span><span data-lang="en">Lucie on electric violin, David on electronic handpan</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="4 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/sourire.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/sourire.jpg" loading="lazy" alt="Le duo, Paris, août 2026"><figcaption><span data-lang="fr">Le duo, Paris, août 2026</span><span data-lang="en">The duo, Paris, August 2026</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="5 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-03.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-03.jpg" loading="lazy" alt="Le duo en répétition, Paris, août 2026"><figcaption><span data-lang="fr">Le duo en répétition, Paris, août 2026</span><span data-lang="en">The duo rehearsing, Paris, August 2026</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="6 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-02.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-02.jpg" loading="lazy" alt="Handpan électronique et violon électrique, en jeu"><figcaption><span data-lang="fr">Handpan électronique et violon électrique, en jeu</span><span data-lang="en">Electronic handpan and electric violin, playing</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="7 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-04.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-04.jpg" loading="lazy" alt="Le duo en jeu, handpan électronique et violon électrique"><figcaption><span data-lang="fr">Le duo en jeu, handpan électronique et violon électrique</span><span data-lang="en">The duo playing, electronic handpan and electric violin</span></figcaption></figure>
-      <figure class="slide" aria-roledescription="slide" aria-label="8 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/instrumentarium-01.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/instrumentarium-01.jpg" loading="lazy" alt="Le dispositif au sol, avant la captation"><figcaption><span data-lang="fr">Le dispositif au sol, avant la captation</span><span data-lang="en">The floor setup, before the recording session</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="1 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/duo-portrait.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/duo-portrait.jpg" loading="eager" alt="Lucie et David Lesage, violon électrique et handpan électronique Neotone" width="1500" height="1000"><figcaption><span data-lang="fr">Lucie et David Lesage, violon électrique et handpan électronique Neotone</span><span data-lang="en">Lucie and David Lesage, electric violin and Neotone electronic handpan</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="2 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/regard.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/regard.jpg" loading="lazy" alt="Lucie et David Lesage, regard vers le lointain" width="843" height="1500"><figcaption><span data-lang="fr">Lucie et David Lesage, regard vers le lointain</span><span data-lang="en">Lucie and David Lesage, looking into the distance</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="3 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-01.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-01.jpg" loading="lazy" alt="Lucie au violon électrique, David au handpan électronique" width="1500" height="1000"><figcaption><span data-lang="fr">Lucie au violon électrique, David au handpan électronique</span><span data-lang="en">Lucie on electric violin, David on electronic handpan</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="4 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/sourire.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/sourire.jpg" loading="lazy" alt="Le duo, Paris, août 2026" width="843" height="1500"><figcaption><span data-lang="fr">Le duo, Paris, août 2026</span><span data-lang="en">The duo, Paris, August 2026</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="5 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-03.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-03.jpg" loading="lazy" alt="Le duo en répétition, Paris, août 2026" width="1500" height="1000"><figcaption><span data-lang="fr">Le duo en répétition, Paris, août 2026</span><span data-lang="en">The duo rehearsing, Paris, August 2026</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="6 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-02.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-02.jpg" loading="lazy" alt="Handpan électronique et violon électrique, en jeu" width="1500" height="1000"><figcaption><span data-lang="fr">Handpan électronique et violon électrique, en jeu</span><span data-lang="en">Electronic handpan and electric violin, playing</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="7 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/jeu-04.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/jeu-04.jpg" loading="lazy" alt="Le duo en jeu, handpan électronique et violon électrique" width="1500" height="1000"><figcaption><span data-lang="fr">Le duo en jeu, handpan électronique et violon électrique</span><span data-lang="en">The duo playing, electronic handpan and electric violin</span></figcaption></figure>
+      <figure class="slide" aria-roledescription="slide" aria-label="8 / 8"><span class="slide-fond" style="background-image:url(/David-Lesage-Lucie-Andersen/media/photos/instrumentarium-01.jpg)"></span><img src="/David-Lesage-Lucie-Andersen/media/photos/instrumentarium-01.jpg" loading="lazy" alt="Le dispositif au sol, avant la captation" width="843" height="1500"><figcaption><span data-lang="fr">Le dispositif au sol, avant la captation</span><span data-lang="en">The floor setup, before the recording session</span></figcaption></figure>
     </div>
     <button type="button" class="fleche prec" aria-label="Photo précédente"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.8 1.4 4.2 8l6.6 6.6 1.4-1.4L7 8l5.2-5.2z"/></svg></button>
     <button type="button" class="fleche suiv" aria-label="Photo suivante"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.2 1.4 3.8 2.8 9 8l-5.2 5.2 1.4 1.4L11.8 8z"/></svg></button>
@@ -639,11 +760,11 @@ body.en [data-lang="fr"]{display:none}
         <a class="btn" href="mailto:lesmusesbooking@gmail.com?subject=Duo%20Lucie%20Andersen%20%26%20David%20Lesage"><span data-lang="fr">Nous écrire</span><span data-lang="en">Get in touch</span></a>
       </div>
     </div>
-    <p class="legal"><span data-lang="fr"><b>Administration et contractualisation</b> &mdash; Association Les Muses, association loi 1901, arts du spectacle vivant. SIRET 482 777 455 00015, code APE 90.01Z. Association déclarée en 2005. Siège social : 24-32 rue des Amandiers, 75020 Paris.<br>Page publiée par Résonances Productions (SIRET 919 514 075 00010), structure des projets de David Lesage.</span><span data-lang="en"><b>Administration and contracting</b> &mdash; Association Les Muses, a French non-profit association (loi 1901), performing arts. SIRET 482 777 455 00015, APE code 90.01Z. Registered in 2005. Registered office: 24-32 rue des Amandiers, 75020 Paris.<br>Page published by Résonances Productions (SIRET 919 514 075 00010), the structure behind David Lesage&rsquo;s projects.</span></p>
+    <p class="legal"><span data-lang="fr"><b>Administration et contractualisation</b> &mdash; Association Les Muses, association loi 1901, arts du spectacle vivant. SIRET 482 777 455 00015, code APE 90.01Z. Association déclarée en 2005. Siège social : 24-32 rue des Amandiers, 75020 Paris.<br>Page publiée par Résonances Productions (SIRET 919 514 075 00010).</span><span data-lang="en"><b>Administration and contracting</b> &mdash; Association Les Muses, a French non-profit association (loi 1901), performing arts. SIRET 482 777 455 00015, APE 90.01Z. Registered in 2005. Registered office: 24-32 rue des Amandiers, 75020 Paris.<br>Page published by Résonances Productions (SIRET 919 514 075 00010).</span></p>
   </div>
 </div></section>
 <footer><div class="wrap">
-  <p><span data-lang="fr">Photographies et enregistrements : Paris, 28 août 2026. Page privée &mdash; merci de ne pas la diffuser publiquement. <a href="/">resonancesproductions.org</a></span><span data-lang="en">Photographs and recordings: Paris, 28 August 2026. Private page &mdash; please do not share it publicly. <a href="/">resonancesproductions.org</a></span></p>
+  <p><span data-lang="fr">Photographies et enregistrements : Paris, 28 août 2026. <a href="/">resonancesproductions.org</a></span><span data-lang="en">Photographs and recordings: Paris, 28 August 2026. <a href="/">resonancesproductions.org</a></span></p>
 </div></footer>
 <div class="pad-bar"></div>
 <div class="bar" role="region" aria-label="Lecteur audio">
@@ -838,4 +959,120 @@ body.en [data-lang="fr"]{display:none}
   });
 })();
 </script>
+
+<script>
+(function(){
+  var nav=document.querySelector('.nav'); if(!nav) return;
+  var links=nav.querySelector('.links'); if(!links) return;
+  var b=document.createElement('button');
+  b.className='burger'; b.type='button';
+  b.setAttribute('aria-label','Ouvrir le menu');
+  b.setAttribute('aria-expanded','false');
+  b.innerHTML='<span></span><span></span><span></span>';
+  nav.appendChild(b);
+  function set(open){
+    b.setAttribute('aria-expanded',open?'true':'false');
+    b.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu');
+    links.classList.toggle('open',open);
+    document.body.classList.toggle('nav-open',open);
+  }
+  b.addEventListener('click',function(){ set(b.getAttribute('aria-expanded')!=='true'); });
+  links.addEventListener('click',function(e){ if(e.target.tagName==='A') set(false); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
+  window.addEventListener('resize',function(){ if(window.innerWidth>860) set(false); });
+})();
+</script>
+<!-- nav_menu.py (resonances-5) -->
+<script>
+/* Sous-menus du menu partage (voir sources/nav_menu.py).
+   Desktop : survol + clic + clavier. Mobile : accordeons dans le panneau du hamburger. */
+(function(){
+  var nav=document.querySelector('.nav'); if(!nav) return;
+  var links=nav.querySelector('.links[data-nav]'); if(!links) return;
+  if(links.getAttribute('data-nav-ready')==='1') return;   /* garde-fou anti-doublon */
+  links.setAttribute('data-nav-ready','1');
+  var items=Array.prototype.slice.call(links.querySelectorAll('.nm-item'));
+  if(!items.length) return;
+  var mq=window.matchMedia('(min-width:861px)');
+  var timer=null;
+  function desktop(){ return mq.matches; }
+  function sub(it){ return it.querySelector('.nm-sub'); }
+  function top(it){ return it.querySelector('.nm-top'); }
+  function shut(it){
+    it.classList.remove('nm-open');
+    top(it).setAttribute('aria-expanded','false');
+    var s=sub(it); if(s) s.style.marginLeft='';
+  }
+  function shutAll(except){
+    items.forEach(function(o){ if(o!==except) shut(o); });
+  }
+  /* garde le panneau dans la fenetre (la barre se resserre entre 861 et 1120px) */
+  function place(it){
+    var s=sub(it); if(!s) return;
+    s.style.marginLeft='0px';
+    var r=s.getBoundingClientRect(), pad=12, d=0;
+    if(r.right>window.innerWidth-pad) d=(window.innerWidth-pad)-r.right;
+    if(r.left+d<pad) d=pad-r.left;
+    if(d) s.style.marginLeft=Math.round(d)+'px';
+  }
+  function show(it,focusIdx){
+    /* desktop : un seul panneau a la fois. mobile : les deux accordeons
+       peuvent rester ouverts (le panneau defile). */
+    if(desktop()) shutAll(it);
+    it.classList.add('nm-open');
+    top(it).setAttribute('aria-expanded','true');
+    if(desktop()) place(it);
+    if(focusIdx!=null){
+      var a=sub(it).querySelectorAll('a');
+      if(a.length){ (focusIdx<0?a[a.length-1]:a[focusIdx]).focus(); }
+    }
+  }
+  items.forEach(function(it){
+    var btn=top(it), panel=sub(it);
+    btn.addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation();
+      if(it.classList.contains('nm-open')) shut(it); else show(it,null);
+    });
+    btn.addEventListener('keydown',function(e){
+      if(e.key==='ArrowDown'){ e.preventDefault(); show(it,0); }
+      else if(e.key==='ArrowUp'){ e.preventDefault(); show(it,-1); }
+      else if(e.key==='Escape'){ shut(it); }
+    });
+    it.addEventListener('mouseenter',function(){
+      if(!desktop()) return; clearTimeout(timer); show(it,null);
+    });
+    it.addEventListener('mouseleave',function(){
+      if(!desktop()) return;
+      clearTimeout(timer);
+      timer=setTimeout(function(){ shut(it); },220);
+    });
+    it.addEventListener('focusout',function(e){
+      if(!desktop()) return;
+      if(!e.relatedTarget || !it.contains(e.relatedTarget)) shut(it);
+    });
+    if(panel){
+      panel.addEventListener('keydown',function(e){
+        var a=Array.prototype.slice.call(panel.querySelectorAll('a'));
+        var i=a.indexOf(document.activeElement);
+        if(e.key==='ArrowDown'){ e.preventDefault(); a[(i+1)%a.length].focus(); }
+        else if(e.key==='ArrowUp'){ e.preventDefault(); a[(i-1+a.length)%a.length].focus(); }
+        else if(e.key==='Home'){ e.preventDefault(); a[0].focus(); }
+        else if(e.key==='End'){ e.preventDefault(); a[a.length-1].focus(); }
+        else if(e.key==='Escape'){ e.preventDefault(); shut(it); btn.focus(); }
+        else if(e.key==='Tab' && !e.shiftKey && i===a.length-1){ shut(it); }
+      });
+    }
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape') return;
+    var o=links.querySelector('.nm-item.nm-open');
+    if(o){ var b=top(o); shutAll(null); if(b && desktop()) b.focus(); }
+  });
+  document.addEventListener('click',function(e){
+    if(!links.contains(e.target)) shutAll(null);
+  });
+  window.addEventListener('resize',function(){ shutAll(null); });
+})();
+</script>
+<!-- fin nav_menu.py -->
 </body></html>

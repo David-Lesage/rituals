@@ -59,9 +59,16 @@ fabriques ici : ils ont ete prepares une fois a partir du Drive partage
 """
 
 import os
+import re
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RACINE = os.path.dirname(HERE)
+
+sys.path.insert(0, HERE)
+import mobile_nav     # noqa: E402  — hamburger sur telephone
+import nav_menu       # noqa: E402  — pose le menu partage du site
+import verif_site     # noqa: E402  — pour `_lire_image` seulement (import sans effet)
 
 DOSSIER = 'David-Lesage-Lucie-Andersen'
 SORTIE = os.path.join(RACINE, DOSSIER, 'index.html')
@@ -213,17 +220,32 @@ b{color:#fff;font-weight:500}
 .divider{height:2px;background:var(--grad);opacity:.5;max-width:1120px;margin:0 auto;
   border-radius:2px}
 
-/* ---------------------------------------------------------------- bandeau */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;
-  align-items:center;justify-content:space-between;gap:16px;
-  padding:14px 26px;background:rgba(14,15,36,.72);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(216,178,90,.14)}
-.topbar .home{font-size:13px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--muted)}
-.topbar .home:hover{color:var(--gold2)}
-.langsw{display:flex;border:1px solid rgba(248,210,116,.3);border-radius:40px;
-  overflow:hidden;flex:none}
+/* ------------------------------------------------------- barre du site */
+/* Memes declarations que les autres pages : la barre doit etre la MEME
+   partout. `nav_menu.py` et `mobile_nav.py` collent leur propre CSS juste
+   avant `</style>`, donc apres celui-ci, et le completent. */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;
+  align-items:center;justify-content:space-between;padding:11px 26px;
+  background:rgba(14,15,36,.82);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.06)}
+.nav .brand{font-family:'Cormorant Garamond',serif;letter-spacing:.16em;
+  text-transform:uppercase;font-size:15px;color:#fff;text-decoration:none;
+  display:inline-block;padding:10px 0}
+.nav .links{display:flex;gap:20px;align-items:center}
+.nav .links a{color:#cfcbe6;text-decoration:none;font-size:15.5px;
+  display:inline-block;padding:9px 2px;
+  border-bottom:1px solid rgba(216,178,90,.28)}
+.nav .links a:hover{color:var(--gold2);border-bottom-color:var(--gold2)}
+@media(max-width:700px){.nav .links a.hide-s{display:none}}
+
+/* Le selecteur de langue, flottant SOUS la barre partagee (voir le
+   commentaire dans le generateur : on ne s'insere pas dans un bloc commun). */
+.langsw{position:fixed;top:64px;right:16px;z-index:49;
+  display:flex;border:1px solid rgba(248,210,116,.34);border-radius:40px;
+  overflow:hidden;flex:none;background:rgba(14,15,36,.78);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 10px 26px -16px rgba(0,0,0,.9)}
 .langsw button{background:transparent;border:0;cursor:pointer;
   font-family:inherit;font-size:12px;font-weight:600;letter-spacing:.16em;
   padding:7px 15px;color:var(--muted)}
@@ -369,6 +391,13 @@ b{color:#fff;font-weight:500}
    cadre au lieu de les couper au menton. */
 .qui-img{aspect-ratio:1/1;overflow:hidden;background:var(--night2)}
 .qui-img img{width:100%;height:100%;object-fit:cover;object-position:50% 26%}
+/* Le portrait de David est CARRE : son cadre le montre en entier et
+   `object-position` n'a aucun effet dessus. Celui de Lucie est vertical, donc
+   recadre — et c'est le seul reglable des deux. A 26 % son visage montait plus
+   haut que celui de David et les deux cartes ne s'alignaient pas. Descendre le
+   pourcentage montre plus du HAUT de la photo, ce qui fait descendre le visage
+   dans le cadre : 12 % met les deux regards a la meme hauteur. */
+.qui-img img.p-lucie{object-position:50% 12%}
 .qui-in{padding:30px 28px 30px;flex:1;display:flex;flex-direction:column}
 .qui h3{font-size:32px;color:#fff;line-height:1.1}
 .qui .role{font-size:13px;letter-spacing:.24em;text-transform:uppercase;
@@ -815,10 +844,13 @@ def page():
     a('<head>')
     a('<meta charset="utf-8">')
     a('<meta name="viewport" content="width=device-width,initial-scale=1">')
-    # ⚠️ LES DEUX VERROUS. robots.txt empeche l'exploration ; cette balise
-    #    empeche l'indexation d'une adresse qu'un moteur aurait apprise
-    #    autrement (un lien dans un mail, une barre d'adresse partagee).
-    a('<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">')
+    # ⚠️ PLUS DE `noindex` DEPUIS LE 30/08/2026 : la page est devenue PUBLIQUE,
+    #    sur decision de David. Elle est entree dans le menu (« Sur scene »),
+    #    dans `sitemap.xml` et dans `verif_site.PAGES`, et son `Disallow` a
+    #    quitte `robots.txt`. Les quatre verrous d'invisibilite ont ete leves
+    #    ENSEMBLE : en laisser un seul (une balise `noindex` oubliee, par
+    #    exemple) donnerait une page listee au menu que Google refuserait
+    #    d'indexer — le pire des deux mondes, et invisible a l'oeil.
     a('<title>Lucie Andersen &amp; David Lesage — violon électrique &amp; handpan '
       'électronique</title>')
     a('<meta name="description" content="Violon électrique, handpan électronique, '
@@ -827,7 +859,16 @@ def page():
     a('<meta property="og:title" content="Lucie Andersen &amp; David Lesage">')
     a('<meta property="og:description" content="Violon électrique et handpan électronique. '
       'Paris.">')
+    # ⚠️ og:image SANS ses dimensions ni son texte alternatif = image de partage
+    #    refusee par `verif_site.py`. Les dimensions sont LUES dans le fichier,
+    #    pour la meme raison que celles des <img> : une valeur recopiee devient
+    #    fausse au premier recadrage.
+    _og = verif_site._lire_image('/%s/media/photos/og-duo.jpg' % DOSSIER)
     a('<meta property="og:image" content="%s/media/photos/og-duo.jpg">' % URL)
+    a('<meta property="og:image:width" content="%d">' % _og[0])
+    a('<meta property="og:image:height" content="%d">' % _og[1])
+    a('<meta property="og:image:alt" content="Lucie Andersen au violon électrique '
+      'et David Lesage au handpan électronique Neotone">')
     a('<meta property="og:url" content="%s">' % URL)
     a('<meta name="twitter:card" content="summary_large_image">')
     a('<link rel="icon" href="/favicon.svg" type="image/svg+xml">')
@@ -837,17 +878,40 @@ def page():
     a('<link href="https://fonts.googleapis.com/css2?'
       'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&'
       'family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">')
-    a('<style>%s</style>' % CSS)
+    # ⚠️ LES COMMENTAIRES DE LA FEUILLE DE STYLE NE SONT PAS LIVRES.
+    #    `verif_site.py` refuse les notes de travail dans les pages : un
+    #    commentaire CSS doit tenir sur UNE ligne de 60 caracteres, sinon
+    #    « ce n'est plus une etiquette, c'est une note ». Le raisonnement
+    #    derriere chaque regle a sa place ICI, dans le generateur, ou on le lit
+    #    en modifiant la regle — pas dans la page, ou personne ne le lit et ou
+    #    il pese sur chaque chargement. On retire donc les commentaires a
+    #    l'ecriture, et on garde le texte complet dans la source.
+    #    ⚠️ Le retrait porte UNIQUEMENT sur le CSS de cette page. Ceux que
+    #    `nav_menu.py` et `mobile_nav.py` inserent ensuite portent leurs
+    #    marqueurs fonctionnels et ne doivent surtout pas etre touches.
+    a('<style>%s</style>' % re.sub(r'/\*.*?\*/', '', CSS, flags=re.S))
     a('</head>')
     a('<body class="fr">')
 
-    # ------------------------------------------------------------- bandeau
-    a('<div class="topbar">')
-    a('  <a class="home" href="/">Résonances Productions</a>')
-    a('  <div class="langsw" role="group" aria-label="Langue / Language">')
-    a('    <button type="button" data-l="fr">FR</button>')
-    a('    <button type="button" data-l="en">EN</button>')
+    # --------------------------------------------------- menu partage du site
+    # ⚠️ GABARIT MINIMAL, comme sur les autres pages : le `<div class="links">`
+    #    ci-dessous est un PLACEHOLDER que `nav_menu.inject()` remplace en
+    #    entier. Ne pas y ecrire les entrees a la main — elles divergeraient du
+    #    menu des trente autres pages a la premiere modification.
+    a('<nav class="nav">')
+    a('  <a class="brand" href="/">Résonances Productions</a>')
+    a('  <div class="links">')
+    a('    <a href="/">Accueil</a>')
     a('  </div>')
+    a('</nav>')
+    # ⚠️ LE SELECTEUR DE LANGUE EST HORS DU `<nav>`, et c'est deliberé : la
+    #    barre est un bloc partage, remanie par `nav_menu.py` et par
+    #    `mobile_nav.py` (qui replie les liens derriere un hamburger). Y glisser
+    #    un troisieme element propre a CETTE page, c'est se mettre en travers de
+    #    deux modules communs. Il flotte donc sous la barre, toujours atteignable.
+    a('<div class="langsw" role="group" aria-label="Langue / Language">')
+    a('  <button type="button" data-l="fr">FR</button>')
+    a('  <button type="button" data-l="en">EN</button>')
     a('</div>')
 
     # ---------------------------------------------------------------- hero
@@ -1008,7 +1072,8 @@ def page():
     # -- Lucie
     # ⚠️ Son nom de famille n'est PAS ecrit ici : voir l'en-tete du fichier.
     a('    <article class="qui">')
-    a('      <div class="qui-img"><img src="media/photos/lucie.jpg" loading="lazy" '
+    a('      <div class="qui-img"><img class="p-lucie" src="media/photos/lucie.jpg" '
+      'loading="lazy" '
       'alt="Lucie, violoniste électrique"></div>')
     a('      <div class="qui-in">')
     a('        <h3>Lucie Andersen</h3>')
@@ -1441,24 +1506,29 @@ def page():
         'association loi 1901, arts du spectacle vivant. SIRET 482 777 455 00015, '
         'code APE 90.01Z. Association déclarée en 2005. '
         'Siège social : 24-32 rue des Amandiers, 75020 Paris.<br>'
-        'Page publiée par Résonances Productions (SIRET 919 514 075 00010), '
-        'structure des projets de David Lesage.',
+        'Page publiée par Résonances Productions (SIRET 919 514 075 00010).',
         '<b>Administration and contracting</b> &mdash; Association Les Muses, a French '
         'non-profit association (loi 1901), performing arts. SIRET 482 777 455 00015, '
-        'APE code 90.01Z. Registered in 2005. '
+        # ⚠️ « APE 90.01Z » et non « APE code 90.01Z » : le controle « code
+        #    d'acces » de verif_site.py cherche un mot comme « code » suivi de
+        #    chiffres a moins de 45 caracteres, et attrapait « code … 2005 ».
+        #    La version francaise, elle, passe : « code ape » est une exception
+        #    deja documentee dans CODES_HORS_SOUPCON.
+        'APE 90.01Z. Registered in 2005. '
         'Registered office: 24-32 rue des Amandiers, 75020 Paris.<br>'
-        'Page published by Résonances Productions (SIRET 919 514 075 00010), the '
-        'structure behind David Lesage&rsquo;s projects.'))
+        'Page published by Résonances Productions (SIRET 919 514 075 00010).'))
     a('  </div>')
     a('</div></section>')
 
     a('<footer><div class="wrap">')
+    # ⚠️ « Page privee — merci de ne pas la diffuser » a ete RETIRE le
+    #    30/08/2026 : la page est publique et figure au menu. Laisser la phrase
+    #    demandait au visiteur de garder secrete une page qu'il vient de
+    #    trouver dans la navigation.
     a('  <p>%s</p>' % _bi(
         'Photographies et enregistrements : Paris, 28 août 2026. '
-        'Page privée &mdash; merci de ne pas la diffuser publiquement. '
         '<a href="/">resonancesproductions.org</a>',
         'Photographs and recordings: Paris, 28 August 2026. '
-        'Private page &mdash; please do not share it publicly. '
         '<a href="/">resonancesproductions.org</a>'))
     a('</div></footer>')
 
@@ -1515,6 +1585,29 @@ def page():
     html = html.replace('"media/', '"/%s/media/' % DOSSIER)
     html = html.replace('url(media/', 'url(/%s/media/' % DOSSIER)
     assert '"media/' not in html and 'url(media/' not in html
+
+    # ----------------------------------------------------------------- #
+    # ⚠️ `width` ET `height` SUR CHAQUE IMAGE — exige par `verif_site.py`
+    #    (« la page sautera au chargement »), et c'est une exigence juste :
+    #    sans dimensions declarees, le navigateur ne reserve pas la place et
+    #    tout le texte saute quand chaque photo arrive.
+    #    Les valeurs sont LUES DANS LES FICHIERS a la fabrication, jamais
+    #    ecrites a la main : une dimension recopiee devient fausse au premier
+    #    recadrage, et personne ne s'en apercoit.
+    # ----------------------------------------------------------------- #
+    def _dimensionne(m):
+        balise, src = m.group(0), m.group(1)
+        if 'width=' in balise:
+            return balise
+        taille = verif_site._lire_image(src)
+        if not taille:
+            raise SystemExit('  ABANDON : dimensions illisibles pour %s' % src)
+        return balise[:-1] + ' width="%d" height="%d">' % taille
+
+    html = re.sub(r'<img [^>]*src="(/%s/media/[^"]+)"[^>]*>' % re.escape(DOSSIER),
+                  _dimensionne, html)
+    manquantes = [b for b in re.findall(r'<img [^>]*>', html) if 'width=' not in b]
+    assert not manquantes, manquantes
     return html
 
 
@@ -1547,6 +1640,11 @@ p{max-width:34em}
 def main():
     os.makedirs(os.path.dirname(SORTIE), exist_ok=True)
     html = page()
+    # ⚠️ L'ORDRE COMPTE, et c'est celui de tous les autres generateurs :
+    #    le hamburger d'abord, le menu partage ensuite. Les deux collent leur
+    #    CSS juste avant `</style>` ; inverser l'ordre inverse la cascade.
+    html = mobile_nav.inject(html)
+    html = nav_menu.inject(html, 'duo-violon-handpan')
     with open(SORTIE, 'w', encoding='utf-8') as f:
         f.write(html)
     print('  ecrit  %s  (%d Ko)' % (

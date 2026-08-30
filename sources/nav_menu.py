@@ -118,6 +118,10 @@ SCENE = [
     ('RITUALS — trio', '/rituals-trio', 'rituals-trio'),
     ('E-Motion', '/e-motion', 'e-motion'),
     ('David Lesage en concert', '/david-lesage-en-concert', 'david-lesage-en-concert'),
+    # 30/08/2026 : le duo violon / handpan de Lucie Andersen et David Lesage.
+    # Place JUSTE APRES « David Lesage en concert », a la demande de David :
+    # on descend du solo vers les formations, pas l'inverse.
+    ('Duo Violon / Handpan', '/David-Lesage-Lucie-Andersen', 'duo-violon-handpan'),
 ]
 # ⚠️ « Les RDV Mensuels » (20/08/2026) est place JUSTE APRES « Agenda », et
 #    avant les activites : les deux entrees qui parlent de DATES se suivent,
@@ -540,6 +544,7 @@ _PATH_KEYS = {
     'rituals-trio': 'rituals-trio',
     'e-motion': 'e-motion',
     'david-lesage-en-concert': 'david-lesage-en-concert',
+    'David-Lesage-Lucie-Andersen': 'duo-violon-handpan',
     'le-nid': 'le-nid',
     'rendez-vous-mensuels': 'rendez-vous-mensuels',
     'concerts-david-lesage': 'concerts-david-lesage',
