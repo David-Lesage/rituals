@@ -90,13 +90,17 @@ import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 #: remarque que « Accueil » et « L’association » menaient au meme endroit.
 #: resonances-5 (20/08/2026) : entree « Les RDV Mensuels » (-> /rendez-vous-mensuels)
 #: dans le sous-menu « Le Nid ». Voir la note au-dessus de la table NID.
+#: resonances-6 (03/09/2026) : « Sur scene » perd deux entrees (RITUALS — duo et
+#: Duo Violon / Handpan, dont les PAGES restent en ligne) et deux entrees sont
+#: renommees : « RITUALS — Concert-Rituel » (-> /rituals-trio) et « E-Motion —
+#: Spectacle participatif ». Voir la note au-dessus de la table SCENE.
 #: ⚠️ Cinq generateurs lisent `nav_menu.NAV_VERSION` dans leurs garde-fous
 #:    depuis le 14/08/2026 (ils codaient `resonances-2` en dur avant, et une
 #:    montee de version les faisait tous refuser d'ecrire). Verifie AVANT cette
 #:    montee : plus aucune occurrence de « resonances-2 » ni « resonances-3 » en
 #:    dur dans sources/. `verif_site.py` et `verif_commentaires.py` suivent aussi
 #:    tout seuls (le motif de la liste blanche est ecrit SANS le numero).
-NAV_VERSION = 'resonances-5'
+NAV_VERSION = 'resonances-6'
 CSS_MARK = '/* == nav_menu.py (%s) == */' % NAV_VERSION
 CSS_END = '/* == fin nav_menu.py == */'
 #: ⚠️ CES DEUX MARQUEURS SONT FONCTIONNELS — ne jamais les retirer du HTML.
@@ -112,17 +116,40 @@ JS_END = '<!-- fin nav_menu.py -->'
 ADHESION = ('https://www.helloasso.com/beta/associations/resonances-productions'
             '/adhesions/adhesion-resonances-productions')
 
+# --------------------------------------------------------------------------- #
+# 03/09/2026 : DEUX PAGES SORTENT DU MENU, SANS ETRE SUPPRIMEES
+# --------------------------------------------------------------------------- #
+# David : « masque la page rituals Duo sur le site », « Masque la page
+# /David-Lesage-Lucie-Andersen du menu (la page doit continuer d'exister mais
+# ne plus etre visible depuis le menu du site) ».
+#
+# Les DEUX pages restent en ligne, generees, dans `PAGES` de verif_site.py et
+# dans le sitemap : seules leurs entrees de menu disparaissent. Elles gardent
+# donc leur referencement et leurs liens entrants. Pour les faire revenir :
+# remettre les deux lignes commentees ci-dessous dans SCENE et incrementer
+# NAV_VERSION — rien d'autre (leurs cles restent connues de _PATH_KEYS et de
+# PAGE_KEYS via _HORS_MENU plus bas, donc les generateurs continuent d'appeler
+# nav_menu avec ces cles sans lever d'erreur).
+#
+#   ('RITUALS — duo', '/rituals', 'rituals'),
+#   ('Duo Violon / Handpan', '/David-Lesage-Lucie-Andersen', 'duo-violon-handpan'),
+#
+# ⚠️ Les liens vers /rituals dans le CORPS des pages (accueil, /rituals-trio,
+#    /le-nid, pieds de page…) n'ont PAS ete touches : David n'a parle que du
+#    menu. Ils sont inventories dans le rapport du 03/09/2026.
+#
 # (libelle, href, cle de page)
 SCENE = [
-    ('RITUALS — duo', '/rituals', 'rituals'),
-    ('RITUALS — trio', '/rituals-trio', 'rituals-trio'),
-    ('E-Motion', '/e-motion', 'e-motion'),
+    ('RITUALS — Concert-Rituel', '/rituals-trio', 'rituals-trio'),
+    ('E-Motion — Spectacle participatif', '/e-motion', 'e-motion'),
     ('David Lesage en concert', '/david-lesage-en-concert', 'david-lesage-en-concert'),
-    # 30/08/2026 : le duo violon / handpan de Lucie Andersen et David Lesage.
-    # Place JUSTE APRES « David Lesage en concert », a la demande de David :
-    # on descend du solo vers les formations, pas l'inverse.
-    ('Duo Violon / Handpan', '/David-Lesage-Lucie-Andersen', 'duo-violon-handpan'),
 ]
+
+#: Cles de pages TOUJOURS PUBLIEES mais absentes du menu (03/09/2026). Elles
+#: doivent rester acceptees par `inject(current=...)`, sinon la construction de
+#: /rituals et de /David-Lesage-Lucie-Andersen echoue avec « cle de page
+#: inconnue ». Ne pas confondre avec une page supprimee : ces deux-la existent.
+_HORS_MENU = ['rituals', 'duo-violon-handpan']
 # ⚠️ « Les RDV Mensuels » (20/08/2026) est place JUSTE APRES « Agenda », et
 #    avant les activites : les deux entrees qui parlent de DATES se suivent,
 #    puis viennent celles qui parlent de ce qu'on y fait. Le libelle est celui
@@ -202,7 +229,7 @@ ASSO = [
 #: `association` y est entree le 15/08/2026, par la table ASSO ci-dessus : il n'y
 #: a rien a ajouter ici, la liste se deduit des trois tables.
 PAGE_KEYS = (['home'] + [k for _, _, k in SCENE] + [k for _, _, k in NID]
-             + [k for _, _, k in ASSO if k])
+             + [k for _, _, k in ASSO if k] + _HORS_MENU)
 
 
 CSS = CSS_MARK + ("""

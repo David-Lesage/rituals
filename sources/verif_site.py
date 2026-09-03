@@ -244,7 +244,7 @@ MARQUEURS_UNIQUES = {
 }
 
 #: nombre d'entrees attendu dans le menu partage (hors boutons de sous-menu) :
-#: Accueil + 4 « Sur scene » + 10 « Le Nid » + 2 « L’association » (la PAGE
+#: Accueil + 3 « Sur scene » + 10 « Le Nid » + 2 « L’association » (la PAGE
 #: /association depuis le 15/08/2026, + Guso Facile) + Contact + Adherer.
 #: ⚠️ 18 -> 19 le 20/08/2026 : « Les RDV Mensuels » entre dans le sous-menu
 #:    « Le Nid » (`resonances-5`). Ce nombre est ecrit EN DUR volontairement —
@@ -253,7 +253,12 @@ MARQUEURS_UNIQUES = {
 #:    main, et c'est le but.
 #: ⚠️ 19 -> 20 le 30/08/2026 : « Duo Violon / Handpan » entre dans le
 #:    sous-menu « Sur scene », sous « David Lesage en concert ».
-MENU_ENTREES_ATTENDUES = 20
+#: ⚠️ 20 -> 18 le 03/09/2026 : « RITUALS — duo » (/rituals) et « Duo Violon /
+#:    Handpan » (/David-Lesage-Lucie-Andersen) SORTENT du menu (`resonances-6`).
+#:    Les deux PAGES restent publiees : elles restent donc dans PAGES ci-dessus
+#:    et dans le sitemap, et les onze controles continuent de s'appliquer a
+#:    elles. Ce n'est PAS une suppression, c'est un retrait de navigation.
+MENU_ENTREES_ATTENDUES = 18
 
 
 # --------------------------------------------------------------------------- #

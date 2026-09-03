@@ -300,7 +300,7 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
   body.nav-open{overflow:hidden}
 }
 @media print{.burger{display:none}}
-/* == nav_menu.py (resonances-5) == */
+/* == nav_menu.py (resonances-6) == */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .nav .links>a[aria-current="page"]{border-bottom:1px solid rgba(216,178,90,.62);padding-bottom:2px}
@@ -406,16 +406,14 @@ s.appendChild(document.createTextNode(r.join('')));document.head.appendChild(s);
 
 <nav class="nav">
   <a href="/" class="brand">Résonances Productions</a>
-  <div class="links" data-nav="resonances-5">
+  <div class="links" data-nav="resonances-6">
     <a href="/">Accueil</a>
     <div class="nm-item">
       <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
       <div class="nm-sub" id="nm-sub-scene" role="group" aria-label="Sur scène">
-        <a href="/rituals">RITUALS — duo</a>
-        <a href="/rituals-trio">RITUALS — trio</a>
-        <a href="/e-motion">E-Motion</a>
+        <a href="/rituals-trio">RITUALS — Concert-Rituel</a>
+        <a href="/e-motion">E-Motion — Spectacle participatif</a>
         <a href="/david-lesage-en-concert">David Lesage en concert</a>
-        <a href="/David-Lesage-Lucie-Andersen">Duo Violon / Handpan</a>
       </div>
     </div>
     <div class="nm-item">
@@ -1022,7 +1020,7 @@ if(Date.parse(e.getAttribute('data-dt-fin'))<=n&&e.parentNode)e.parentNode.remov
   window.addEventListener('resize',function(){ if(window.innerWidth>860) set(false); });
 })();
 </script>
-<!-- nav_menu.py (resonances-5) -->
+<!-- nav_menu.py (resonances-6) -->
 <script>
 /* Sous-menus du menu partage (voir sources/nav_menu.py).
    Desktop : survol + clic + clavier. Mobile : accordeons dans le panneau du hamburger. */
