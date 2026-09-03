@@ -80,23 +80,34 @@ TABLEAU = (
         # pres, et build.py le recopie sur index.html.
         bloque=None,
     ),
+    # 03/09/2026 — LA PAGE DU DUO N'EST PLUS PUBLIEE, LA PAGE DU TRIO PREND
+    # SON ADRESSE. David : « change l'URL /rituals-trio en simplement /rituals,
+    # car on ne sait pas dans le futur combien de musiciens au total il y aura ».
+    # L'adresse /rituals etait occupee par la page du duo (generate_site.py) ;
+    # David venait de demander de la masquer du menu en disant « ne garde que la
+    # page RITUALS trio ». Il n'y a donc plus qu'une page RITUALS, et elle est a
+    # /rituals. /rituals-trio est devenue une redirection 301 (vercel.json).
+    #
+    # `generate_site.py` (le duo) EST SORTI DE CE TABLEAU, mais N'A PAS ETE
+    # SUPPRIME — ni lui, ni sources/rituals_source.html, ni ses images. Il est
+    # inscrit dans HORS_SITE plus bas pour que le controle « generateur non
+    # inscrit » ne le signale pas a chaque construction.
+    #
+    # POUR REPUBLIER LA PAGE DU DUO : lui donner une adresse LIBRE (ex.
+    # /rituals-duo) en changeant TARGET dans generate_site.py, remettre une
+    # ligne ici, la retirer de HORS_SITE, l'ajouter a PAGES de verif_site.py et
+    # au sitemap. Ne PAS la remettre a /rituals : l'adresse est prise.
     dict(
         nom='rituals', fichier='rituals/index.html',
-        generateur='generate_site.py', ecrit=None,
-        passe_menu=False,
-        # 14/08/2026 : le generateur a ete repare et reproduit desormais la
-        # page publiee a l'octet pres, photos comprises. Il n'a plus besoin des
-        # dossiers photos hors depot.
-        bloque=None,
-    ),
-    dict(
-        nom='rituals-trio', fichier='rituals-trio/index.html',
         generateur='generate_trio.py', ecrit=None,
         passe_menu=False,
-        # 14/08/2026 : repare comme /rituals — la fabrication des images
-        # derivees (qui a besoin des photos d'origine hors depot) est passee
-        # derriere l'option `--images`. Sans elle, la page se regenere a
-        # l'octet pres a partir de sources/trio_source.html.
+        # 14/08/2026 : la fabrication des images derivees (qui a besoin des
+        # photos d'origine hors depot) est passee derriere l'option `--images`.
+        # Sans elle, la page se regenere a l'octet pres a partir de
+        # sources/trio_source.html.
+        # 03/09/2026 : ce generateur ecrit desormais rituals/ et non plus
+        # rituals-trio/. Les IMAGES n'ont pas bouge : il lit toujours
+        # img/rituals/ ET img/rituals-trio/, chemins encore valides.
         bloque=None,
     ),
     dict(
@@ -212,6 +223,10 @@ ORPHELINES = {}
 #: par le controle « generateur non inscrit » plus bas.
 HORS_SITE = {
     'generate_plaquette_trio.py': 'plaquette PDF du trio (hors site)',
+    # 03/09/2026 : la page du DUO n'est plus publiee (le trio a pris l'adresse
+    # /rituals). Le generateur et sa source restent dans le depot — voir la
+    # note dans le TABLEAU pour la republier a une autre adresse.
+    'generate_site.py': 'page RITUALS duo — plus publiee depuis le 03/09/2026',
 }
 
 #: fichiers remis en etat si le build echoue.

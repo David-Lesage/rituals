@@ -38,7 +38,23 @@ import visionneuse    # visionneuse photo commune     # noqa: E402
 IMG_DIR = os.path.join(REPO, 'img', 'rituals')
 IMG_URL = '/img/rituals'
 SOURCE = os.path.join(HERE, 'rituals_source.html')
+# ⚠️ 03/09/2026 — CE GENERATEUR N'EST PLUS BRANCHE, ET IL NE DOIT PAS ECRIRE.
+# L'adresse /rituals a ete donnee a la page du TRIO (generate_trio.py) ; la page
+# du DUO n'est plus publiee. Le fichier est CONSERVE volontairement, avec sa
+# source `sources/rituals_source.html` et ses images : rien n'a ete supprime.
+# Le lancer aujourd'hui ECRASERAIT la page du trio — d'ou le garde-fou juste
+# en dessous.
+# POUR LE REMETTRE EN SERVICE : lui donner une adresse LIBRE (par exemple
+# 'rituals-duo'), retirer le garde-fou, remettre sa ligne dans le TABLEAU de
+# build.py et le sortir de HORS_SITE, l'ajouter a PAGES de verif_site.py et de
+# verif_commentaires.py, au sitemap et (si voulu) au menu de nav_menu.py.
 TARGET = os.path.join(REPO, 'rituals', 'index.html')
+if os.environ.get('RITUALS_DUO_REPUBLIER') != 'oui':
+    raise SystemExit(
+        "generate_site.py (page RITUALS duo) est HORS SERVICE depuis le "
+        "03/09/2026 : l'adresse /rituals appartient maintenant a la page du "
+        "trio (generate_trio.py). Le lancer ecraserait cette page. Lire la "
+        "note en tete de fichier pour republier le duo a une autre adresse.")
 
 WIDTHS = (480, 900, 1400)
 Q_WEBP = 80

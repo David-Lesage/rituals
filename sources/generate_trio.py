@@ -1,5 +1,20 @@
 # -*- coding: utf-8 -*-
-"""Genere /rituals-trio/index.html a partir de sources/trio_source.html.
+"""Genere /rituals/index.html a partir de sources/trio_source.html.
+
+03/09/2026 — CETTE PAGE A CHANGE D'ADRESSE : /rituals-trio -> /rituals.
+David : « le nombre de musiciens ne doit plus etre dans l'adresse. Aujourd'hui
+trio, demain quatuor. » L'ancienne adresse est desormais une REDIRECTION 301
+(vercel.json) vers /rituals, et /rituals-trio est inscrite dans `SUPPRIMEES` de
+verif_site.py — comme /solune et /au-nid le 17/08/2026. ⚠️ Surtout PAS de
+`Disallow: /rituals-trio` dans robots.txt : il empecherait Google de VOIR la
+redirection, donc de reporter sur /rituals le referencement gagne par l'ancienne
+adresse. C'est l'inverse de l'instinct, et c'est ecrit dans robots.txt.
+L'adresse /rituals etait occupee par la page du DUO (generate_site.py) : cette
+page n'est plus publiee — son generateur est sorti du TABLEAU de build.py, mais
+ni lui ni sa source n'ont ete supprimes (comment revenir en arriere : voir la
+note dans build.py).
+⚠️ Les dossiers d'IMAGES n'ont PAS bouge : la page continue de lire
+`img/rituals/` ET `img/rituals-trio/`, ces chemins restent valides tels quels.
 
     python3 sources/generate_trio.py            # regenere la page (par defaut)
     python3 sources/generate_trio.py --images   # refabrique les derivees, puis la page
@@ -32,7 +47,7 @@ un visiteur qui voit les deux pages ne les telecharge qu'une fois. Seules les
 photos propres au trio (festival Perspectives, portrait de Julien) sont dans
 /img/rituals-trio/.
 
-Sortie : ../rituals-trio/index.html  (et, avec --images, ../img/rituals*/…)
+Sortie : ../rituals/index.html  (et, avec --images, ../img/rituals*/…)
 """
 import glob, os, re, sys, unicodedata, html as _html
 
@@ -47,7 +62,7 @@ DIR_TRIO = os.path.join(REPO, 'img', 'rituals-trio')     # photos propres au tri
 URL_SHARED = '/img/rituals'
 URL_TRIO = '/img/rituals-trio'
 SOURCE = os.path.join(HERE, 'trio_source.html')
-TARGET = os.path.join(REPO, 'rituals-trio', 'index.html')
+TARGET = os.path.join(REPO, 'rituals', 'index.html')  # 03/09/2026 : etait rituals-trio/
 CACHE = os.path.join(HERE, 'perspectives_raw')
 
 WIDTHS = (480, 900, 1400)
@@ -735,7 +750,7 @@ html = html.replace('</script>\n</body>', '</script>\n\n</body>', 1)
 # menu de navigation partage
 import nav_menu
 import verif_commentaires  # garde-fou commentaires HTML
-html = nav_menu.inject(html, 'rituals-trio')
+html = nav_menu.inject(html, 'rituals')
 
 assert 'data:image' not in html.replace("data:image/webp'", ''), 'il reste du base64'
 assert 'googleusercontent' not in html, 'il reste une URL Drive'

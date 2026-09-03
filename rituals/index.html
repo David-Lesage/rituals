@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RITUALS — Concert-Rituel · David Lesage & Iris Chasles</title>
-<meta name="description" content="RITUALS, un concert-rituel de David Lesage & Iris Chasles : musique live, chant collectif et induction. Une prière chantée où le public devient acteur.">
-<meta property="og:title" content="RITUALS — Concert-Rituel">
-<meta property="og:description" content="Une prière chantée où le public devient souffle, voix et battement.">
+<title>RITUALS TRIO — Concert-Rituel · David Lesage, Iris Chasles & Julien Dub</title>
+<meta name="description" content="RITUALS TRIO, le concert-rituel de David Lesage & Iris Chasles augmenté des saxophones et flûtes de Julien Dub. Musique live, chant collectif et induction — une prière chantée où le public devient acteur.">
+<meta property="og:title" content="RITUALS TRIO — Concert-Rituel">
+<meta property="og:description" content="Une prière chantée où le public devient souffle, voix et battement — en formation trio, avec saxophones et flûtes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" type="image/webp" href="/img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-1400.webp" fetchpriority="high">
@@ -65,6 +65,12 @@ background:radial-gradient(1100px 700px at 50% -8%,rgba(143,122,209,.30),transpa
 .artist .role{color:var(--gold);font-size:13px;letter-spacing:.14em;text-transform:uppercase;margin:6px 0 12px;font-weight:600}
 .artist p{color:#d3d0e8}
 .third{margin:36px auto 0;max-width:820px;background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:22px 26px;color:var(--muted)}
+.trio-badge{display:inline-block;margin-top:14px;padding:7px 20px;border:1px solid var(--line);border-radius:30px;color:var(--gold2);font-size:13px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;background:rgba(216,178,90,.08)}
+.jgal{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px;max-width:820px;margin-left:auto;margin-right:auto}
+.jgal figure{margin:0;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);position:relative}
+.jgal img{width:100%;height:auto;display:block}
+.jgal figcaption{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.82));color:#fff;font-size:13px;padding:24px 12px 9px;text-align:center;font-style:italic}
+@media(max-width:700px){.jgal{grid-template-columns:1fr}}
 
 .quotes{columns:2;column-gap:24px;margin-top:36px}
 .q{break-inside:avoid;background:var(--card);border-left:3px solid var(--gold);border-radius:10px;padding:18px 22px;margin-bottom:20px;color:#e7e4f5;font-family:'Cormorant Garamond',serif;font-size:21px;font-style:italic;line-height:1.4}
@@ -257,6 +263,8 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 @media(max-width:520px){.dlbtn{font-size:17px;padding:16px 26px}}
 .figure,.aphoto,picture.aphoto,.ask .item,.third,.tbl-wrap,.lb-frame{border-radius:18px}
 .slide{border-radius:16px}
+.trio-badge{background:linear-gradient(90deg,rgba(216,178,90,.15),rgba(238,128,98,.11));border-color:rgba(248,210,116,.34)}
+.jgal figure{border-radius:18px}
 
 /* visionneuse photo */
 .ph{position:fixed;inset:0;z-index:1100;display:none;flex-direction:column;
@@ -307,7 +315,7 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 p a:not(.btn):not(.adh){text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 
-/* == nav_menu.py (resonances-6) == */
+/* == nav_menu.py (resonances-7) == */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
 .nav .links>a[aria-current="page"]{border-bottom:1px solid rgba(216,178,90,.62);padding-bottom:2px}
@@ -393,21 +401,21 @@ p a:not(.btn):not(.adh){text-decoration:underline;
   <meta name="theme-color" content="#0e0f24">
   <meta property="og:url" content="https://www.resonancesproductions.org/rituals">
   <meta name="twitter:card" content="summary_large_image">
-  <meta property="og:image" content="https://www.resonancesproductions.org/img/rituals/apercu-partage-rituals-1200.jpg">
+  <meta property="og:image" content="https://www.resonancesproductions.org/img/rituals-trio/apercu-partage-rituals-trio-1200.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="RITUALS, une prière chantée — David Lesage et Iris Chasles assis sur la scène du Grand Rex, face à une salle comble.">
+  <meta property="og:image:alt" content="RITUALS en trio, une prière chantée — David Lesage, Iris Chasles et Julien Dub sur la scène du Grand Rex, face à une salle comble.">
 </head>
 <body>
 
 <nav class="nav">
   <a class="brand" href="/">← Résonances Productions</a>
-  <div class="links" data-nav="resonances-6">
+  <div class="links" data-nav="resonances-7">
     <a href="/">Accueil</a>
     <div class="nm-item">
-      <button type="button" class="nm-top" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
+      <button type="button" class="nm-top nm-active" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-scene"><span class="nm-lbl">Sur scène</span><span class="nm-caret" aria-hidden="true"></span></button>
       <div class="nm-sub" id="nm-sub-scene" role="group" aria-label="Sur scène">
-        <a href="/rituals-trio">RITUALS — Concert-Rituel</a>
+        <a href="/rituals" aria-current="page">RITUALS — Concert-Rituel</a>
         <a href="/e-motion">E-Motion — Spectacle participatif</a>
         <a href="/david-lesage-en-concert">David Lesage en concert</a>
       </div>
@@ -445,7 +453,7 @@ p a:not(.btn):not(.adh){text-decoration:underline;
     <div class="kick">Concert — Rituel</div>
     <h1>RITUALS</h1>
     <div class="sub">une prière chantée</div>
-    <div class="names">David Lesage &nbsp;·&nbsp; Iris Chasles</div>
+    <div class="names">David Lesage &nbsp;·&nbsp; Iris Chasles &nbsp;·&nbsp; Julien Dub</div>
     <div class="tag">Il ne se regarde pas. Il se traverse.<br>Le public devient souffle, voix et battement.</div>
     <div class="scroll">défiler ↓</div>
   </div>
@@ -454,8 +462,8 @@ p a:not(.btn):not(.adh){text-decoration:underline;
 <section class="intention"><div class="wrap">
   <div class="kick">Note d’intention</div>
   <div class="big-quote">Il y a des soirs où l’on ne va pas <em>voir</em> un concert.<br>On y <em>entre</em>.</div>
-  <p class="body">RITUALS n’est pas un spectacle que l’on suit depuis un fauteuil. C’est <b>une expérience qui se vit de l’intérieur</b> — une traversée où chacun cesse d’être spectateur pour <b>devenir acteur de ce qui se vit</b>. Né dans la lignée du <a class="ytlink" data-yt="wjJ44RDENQM" role="button" tabindex="0">spectacle-rituel E-motion</a> du duo, il en garde le cœur — <b>musique, mouvement, respiration et guidances</b> — dans <b>une forme allégée</b>, pensée pour les scènes qui n’ont pas l’infrastructure d’un grand spectacle de danse aérienne.</p>
-  <p class="body">Deux forces le portent : la <b>musique live</b>, menée par David, et l’<b>induction par la voix</b>, tenue par Iris. Ensemble, elles poussent loin la dimension d’<b>état de conscience élargie</b> — sans jamais peser.</p>
+  <p class="body">RITUALS n’est pas un spectacle que l’on suit depuis un fauteuil. C’est <b>une expérience qui se vit de l’intérieur</b> — une traversée où chacun cesse d’être spectateur pour <b>devenir acteur de ce qui se vit</b>. Né dans la lignée du <a class="ytlink" data-yt="wjJ44RDENQM" role="button" tabindex="0">spectacle-rituel E-motion</a> du duo Solune (Iris Chasles et David Lesage), il en garde le cœur — <b>musique, mouvement, respiration et guidances</b> — dans <b>une forme allégée et en trio</b>, pensée pour les scènes qui n’ont pas l’infrastructure d’un grand spectacle de danse aérienne.</p>
+  <p class="body">Deux forces le portent : la <b>musique live</b>, menée par David et Julien, et l’<b>induction par la voix</b>, tenue par Iris. Ensemble, elles poussent loin la dimension d’<b>état de conscience élargie</b> — sans jamais peser.</p>
   <p class="body">La dimension spirituelle est forte, mais tenue à distance de tout code : <b>ni new age</b>, ni référence à une école ou une croyance, ni cérémonie sévère. Ici, rien n’est religieux et <b>rien n’est imposé</b> — tout est <b>invitation</b>, à la mesure de chacun, là où il en est ce jour-là. Le sacré n’exclut pas la joie : le rituel garde <b>le goût du jeu, du fun et de la détente</b>, jusqu’à <b>un final dansant</b> où le collectif se relâche ensemble. Une <b>communion simple, sincère et universelle</b>.</p>
   <div class="sig">On en repart plus léger. Comme au sortir d’une longue inspiration.</div>
   <div class="figure"><picture><source type="image/webp" srcset="/img/rituals/le-public-au-coeur-du-rituel-480.webp 480w, /img/rituals/le-public-au-coeur-du-rituel-900.webp 900w" sizes="(max-width:1040px) calc(100vw - 52px), 988px"><img src="/img/rituals/le-public-au-coeur-du-rituel-900.jpg" srcset="/img/rituals/le-public-au-coeur-du-rituel-480.jpg 480w, /img/rituals/le-public-au-coeur-du-rituel-900.jpg 900w" sizes="(max-width:1040px) calc(100vw - 52px), 988px" width="900" height="501" alt="Le public au cœur du rituel" loading="eager" decoding="async"></picture></div>
@@ -477,34 +485,34 @@ p a:not(.btn):not(.adh){text-decoration:underline;
   </div>
 </div></section>
 
-<section class="figsec"><div class="wrap"><div class="figure"><picture><source type="image/webp" srcset="/img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-480.webp 480w, /img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-900.webp 900w, /img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-1400.webp 1400w" sizes="(max-width:1040px) calc(100vw - 52px), 988px"><img src="/img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-900.jpg" srcset="/img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-480.jpg 480w, /img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-900.jpg 900w, /img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-1400.jpg 1400w" sizes="(max-width:1040px) calc(100vw - 52px), 988px" width="1400" height="912" alt="Au Grand Rex devant 2700 personnes" loading="lazy" decoding="async"></picture></div><div class="cap">Au Grand Rex devant 2700 personnes</div><div class="cred-fig">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></div></div></section>
+<section class="figsec"><div class="wrap"><div class="figure"><picture><source type="image/webp" srcset="/img/rituals-trio/le-trio-en-scene-festival-perspectives-480.webp 480w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-900.webp 900w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-1400.webp 1400w" sizes="(max-width:1040px) calc(100vw - 52px), 988px"><img src="/img/rituals-trio/le-trio-en-scene-festival-perspectives-900.jpg" srcset="/img/rituals-trio/le-trio-en-scene-festival-perspectives-480.jpg 480w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-900.jpg 900w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-1400.jpg 1400w" sizes="(max-width:1040px) calc(100vw - 52px), 988px" width="1400" height="933" alt="Le trio en scène — festival Perspectives" loading="lazy" decoding="async"></picture></div><div class="cap">Le trio en scène — festival Perspectives</div></div></section>
 <section class="journey"><div class="wrap">
   <div class="kick">Le voyage</div>
   <h2 class="sec-title">D’un univers à l’autre, comme un voyage</h2>
   <p class="lead" style="margin-top:16px">Des temps dansants et rythmés, d’autres méditatifs et introspectifs. Une même respiration, du premier au dernier souffle. <span style="color:var(--muted)">(Durée indicative : 75 min à 90 min, modulable jusqu’à 2h.)</span></p>
   <div class="steps">
     <div class="step"><div class="t">Ouverture</div><h3>L’appel & le lien</h3><p>Brise-glace en musique : on occupe l’espace, on bouge, on se regarde (<b>eyes contact</b>). Le lien se crée, la sécurité s’installe pour oser le jeu.</p></div>
-    <div class="step"><div class="t">Immersion</div><h3>Le voyage sonore</h3><p>Handpan, voix, percussions électro et acoustiques, nappes électro ; le public s’assoit, s’allonge, se laisse traverser.</p></div>
+    <div class="step"><div class="t">Immersion</div><h3>Le voyage sonore</h3><p>Handpan, voix, saxophone et flûte, percussions électro et acoustiques, nappes électro ; le public s’assoit, s’allonge, se lève, se laisse traverser.</p></div>
     <div class="step"><div class="t">Élan</div><h3>Le chant collectif</h3><p>Des affirmations positives et des mantras portés par tous : la salle devient <b>un seul chœur</b>.</p></div>
     <div class="step"><div class="t">Bascule</div><h3>La transe douce</h3><p><b>Respiration guidée</b> et mouvement libre ou suggéré.</p></div>
     <div class="step"><div class="t">Cœur</div><h3>La prière</h3><p>La clé de voûte du rituel. Guidés par le souffle, nous entrons ensemble dans une prière — comme un <b>élan de communion</b> : une parole intime que chacun dépose et que le collectif porte plus haut. Un moment suspendu, préparé avec soin, toujours offert en invitation.</p></div>
-    <div class="step"><div class="t">Libération</div><h3>Le final dansant</h3><p>La <b>musique électro organique</b> s’intensifie, le collectif danse et chante ; on repart léger, de la joie dans le cœur.</p></div>
+    <div class="step"><div class="t">Libération</div><h3>Le final dansant</h3><p>La <b>musique électro-organique</b> s’intensifie, ouvrant un espace d’<b>ecstatic dance</b> (danse libre) ; le collectif danse et chante, on repart léger, de la joie dans le cœur.</p></div>
   </div>
 </div></section>
 
-<section class="figsec"><div class="wrap"><div class="figure"><picture><source type="image/webp" srcset="/img/rituals/l-induction-480.webp 480w, /img/rituals/l-induction-900.webp 900w" sizes="(max-width:1040px) calc(100vw - 52px), 988px"><img src="/img/rituals/l-induction-900.jpg" srcset="/img/rituals/l-induction-480.jpg 480w, /img/rituals/l-induction-900.jpg 900w" sizes="(max-width:1040px) calc(100vw - 52px), 988px" width="900" height="595" alt="L’induction — la voix qui guide, vers un état de conscience élargie" loading="lazy" decoding="async"></picture></div><div class="cap">L’induction — la voix qui guide, vers un état de conscience élargie</div></div></section>
 <section class="keystone"><div class="wrap">
   <div class="kick" style="color:var(--gold2)">La clé de voûte</div>
   <div class="big-quote">Au centre du rituel, un moment que l’on ne raconte pas : on le <em>traverse</em>. Une <b>communion sincère</b> — où certains lâchent enfin, où certains pleurent, touchés là où cela avait besoin d’être vu et apaisé.</div>
 </div></section>
 
-<section class="figsec"><div class="wrap"><div class="figure"><picture><source type="image/webp" srcset="/img/rituals/grand-rex-bras-leves-480.webp 480w, /img/rituals/grand-rex-bras-leves-900.webp 900w, /img/rituals/grand-rex-bras-leves-1400.webp 1400w, /img/rituals/grand-rex-bras-leves-2000.webp 2000w" sizes="(max-width:1040px) calc(100vw - 52px), 988px"><img src="/img/rituals/grand-rex-bras-leves-1400.jpg" srcset="/img/rituals/grand-rex-bras-leves-480.jpg 480w, /img/rituals/grand-rex-bras-leves-900.jpg 900w, /img/rituals/grand-rex-bras-leves-1400.jpg 1400w, /img/rituals/grand-rex-bras-leves-2000.jpg 2000w" sizes="(max-width:1040px) calc(100vw - 52px), 988px" width="2000" height="1331" alt="Sur la scène du Grand Rex : David Lesage assis au sol à gauche, derrière deux calebasses ; une rangée d’intervenants en noir les bras levés ; Iris Chasles au centre en tailleur rouge, bras levés ; à droite, Arnaud Riou, cheveux gris et barbe blanche, qui frappe un grand tambour sur cadre. Au-dessus d’eux, un écran géant montre la salle comble sur plusieurs niveaux, debout, bras levés." loading="lazy" decoding="async"></picture></div><div class="cap">Le même geste, sur scène et dans la salle — projeté en direct sur l’écran du Grand Rex. À gauche, <b>David Lesage</b> derrière ses calebasses ; au centre, <b>Iris Chasles</b> ; à droite, <b>Arnaud Riou</b> au tambour sur cadre.</div><div class="cred-fig">Crédit photo <a href="https://kairos-photo-artisan.com/" target="_blank" rel="noopener">Nadine Court</a></div></div></section>
+<section class="figsec"><div class="wrap"><div class="figure"><picture><source type="image/webp" srcset="/img/rituals/l-induction-480.webp 480w, /img/rituals/l-induction-900.webp 900w" sizes="(max-width:1040px) calc(100vw - 52px), 988px"><img src="/img/rituals/l-induction-900.jpg" srcset="/img/rituals/l-induction-480.jpg 480w, /img/rituals/l-induction-900.jpg 900w" sizes="(max-width:1040px) calc(100vw - 52px), 988px" width="900" height="595" alt="L’induction — la voix qui guide, vers un état de conscience élargie" loading="lazy" decoding="async"></picture></div><div class="cap">L’induction — la voix qui guide, vers un état de conscience élargie</div></div></section>
+
 
 <div class="divider"></div>
 
 <section><div class="wrap">
   <div class="kick">Les artistes</div>
-  <h2 class="sec-title">Deux voix, un duo</h2>
+  <h2 class="sec-title">Trois souffles, un rituel</h2>
   <div class="artist">
     <picture class="aphoto"><source type="image/webp" srcset="/img/rituals/portrait-david-lesage-480.webp 480w, /img/rituals/portrait-david-lesage-900.webp 900w" sizes="(max-width:600px) 62vw, 210px"><img src="/img/rituals/portrait-david-lesage-900.jpg" srcset="/img/rituals/portrait-david-lesage-480.jpg 480w, /img/rituals/portrait-david-lesage-900.jpg 900w" sizes="(max-width:600px) 62vw, 210px" width="900" height="900" alt="David Lesage" loading="lazy" decoding="async"></picture>
     <h3>David Lesage</h3>
@@ -517,7 +525,15 @@ p a:not(.btn):not(.adh){text-decoration:underline;
     <div class="role">Induction & Voix · Calebasse · Danse de tournoiement</div>
     <p><b>Sa fonction première</b> : <b>l’induction</b>. Par la voix, Iris amène le public vers un état de conscience élargie — dans les transitions, au cœur des morceaux, dans les pratiques et les jeux. Elle apporte aussi un soutien rythmique à la calebasse et à la voix. Psychopraticienne en intelligence relationnelle, <b>yoga-thérapeute</b> et danseuse, elle veille à ce que chaque proposition reste une invitation, douce et sécurisante.</p>
   </div>
-  <div class="third"><b>Une version trio est disponible</b> — avec <b>Julien Dub</b> aux <b>saxophones et flûtes</b> : une palette mélodique élargie, sans changer la nature du rituel. <a href="/rituals-trio" style="color:var(--gold2)">Découvrir la version trio →</a></div>
+  <div class="artist">
+    <picture class="aphoto"><source type="image/webp" srcset="/img/rituals-trio/portrait-julien-dub-au-saxophone-480.webp 480w" sizes="(max-width:600px) 62vw, 210px"><img src="/img/rituals-trio/portrait-julien-dub-au-saxophone-480.jpg" srcset="/img/rituals-trio/portrait-julien-dub-au-saxophone-480.jpg 480w" sizes="(max-width:600px) 62vw, 210px" width="480" height="480" alt="Julien Dub au saxophone" loading="lazy" decoding="async"></picture>
+    <h3>Julien Dub</h3>
+    <div class="role">Saxophones · Flûtes · Percussions · Voix</div>
+    <p>Son parcours l’a mené des <b>musiques du monde</b> — gnawa, latines, réunionnaises — au jazz, à la funk et au rocksteady, de Paris jusqu’en Inde. Il participe activement à la scène créative parisienne.</p>
+    <p style="margin-top:12px">Dans RITUALS, il apporte le <b>souffle</b> : <b>saxophone soprano et flûtes</b>, percussions, guitare, claviers et secondes voix. Une matière mélodique et aérienne qui vient dialoguer avec le handpan et la voix — et porter les envolées du rituel.</p>
+    </div>
+
+  
 </div></section>
 
 <section class="journey"><div class="wrap">
@@ -540,46 +556,49 @@ p a:not(.btn):not(.adh){text-decoration:underline;
   <p class="feedback">Après le premier concert-rituel donné au festival Perspectives, les retours convergent : une expérience très forte, où l’on peut tout lâcher ; des larmes, de la joie, et le sentiment rare d’avoir fait corps avec le collectif.</p>
 </div></section>
 
+<section class="figsec"><div class="wrap"><div class="figure"><picture><source type="image/webp" srcset="/img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-480.webp 480w, /img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-900.webp 900w, /img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-1400.webp 1400w" sizes="(max-width:1040px) calc(100vw - 52px), 988px"><img src="/img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-900.jpg" srcset="/img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-480.jpg 480w, /img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-900.jpg 900w, /img/rituals/iris-chasles-et-david-lesage-au-grand-rex-paris-1400.jpg 1400w" sizes="(max-width:1040px) calc(100vw - 52px), 988px" width="1400" height="912" alt="Au Grand Rex devant 2700 personnes" loading="lazy" decoding="async"></picture></div><div class="cap">Au Grand Rex devant 2700 personnes</div><div class="cred-fig">Crédit photo <a href="https://magyedart.fr/" target="_blank" rel="noopener">MAGYE D'ART</a></div></div></section>
 <section class="orga"><div class="wrap">
   <div class="kick">Pour les organisateurs</div>
   <h2 class="sec-title">S’adapter à votre scène, à votre public</h2>
   <p class="lead" style="margin-top:16px">Une <b>forme modulable</b>, <b>de la scène intime au grand plateau</b>. Pensée pour épouser l’intention d’un festival de musique, de danse, de spectacle vivant, de <b>bien-être</b>, d’<b>élévation de la conscience</b> et du vivant. Mais aussi des <b>théâtres, des cinémas, salles de concert et lieux immersifs</b>.</p>
   <div class="two">
-    <div class="scene-card"><h3>Version cercle — scène intime</h3><p>Enveloppante, en proximité (idéale sous tente / petite scène). Chuchotements, prière chantée, communion resserrée.</p></div>
+    <div class="scene-card"><h3>Version cercle — scène intime</h3><p>Enveloppante, en proximité (idéale sous tente / petite scène).</p></div>
     <div class="scene-card"><h3>Version grand plateau</h3><p>Plus ample et rythmée, pour porter le rituel à l’échelle de plusieurs centaines de personnes, jusqu’au final dansant.</p></div>
+    <div class="scene-card"><h3>Version avec danse de tournoiement</h3><p>Que ce soit en version intime ou grand plateau, s’il y a un <b>espace au sol plat de 2 m de diamètre</b>, il sera possible d’intégrer la <b>danse de tournoiement</b> — pour une expérience immersive et hypnotique encore plus puissante.</p></div>
   </div>
   <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#fff;margin-top:54px;font-weight:600">Fiche technique — résumé</h3>
   <div class="spec">
-    <div><div class="k">Format</div><div class="v">Concert-Rituel — musique live, danse, guidance & chant participatif</div></div>
+    <div><div class="k">Format</div><div class="v">Concert-Rituel en trio — musique et chant en live, danse, guidance, respiration guidée, chant participatif</div></div>
     <div><div class="k">Durée</div><div class="v">75 à 90 min, modulable jusqu’à 2h</div></div>
-    <div><div class="k">Sur scène</div><div class="v">3 artistes — projet porté par David & Iris</div></div>
+    <div><div class="k">Sur scène</div><div class="v">3 artistes — David Lesage, Iris Chasles & Julien Dub</div></div>
     <div><div class="k">Plateau</div><div class="v">Sol propre et plan ; si possible, une zone libre pour la danse de tournoiement</div></div>
     <div><div class="k">Lumière</div><div class="v">Ambiance immersive et enveloppante ; temps très tamisés pour la respiration, la danse et l’induction</div></div>
-    <div><div class="k">Loges & accueil</div><div class="v">Loges fermées et chauffées · hébergement des 3 artistes · repas midi et soir (3 repas dont 1 végétarien, option sans gluten) pendant toute leur présence</div></div>
+    <div><div class="k">Loges & accueil</div><div class="v">Loges fermées et chauffées · hébergement des 3 artistes · repas midi et soir (3 repas dont 1 végétarien) pendant toute leur présence sur place</div></div>
   </div>
 
   <h3 class="subh">Son & régie</h3>
-  <p class="body" style="max-width:900px">1 ingénieur son avec son matériel professionnel (façade + retours). Environ 10 entrées. Le duo apporte ses instruments et son micro DPA ; le système HF, la diffusion et la régie sont fournis par l’organisation.</p>
+  <p class="body" style="max-width:900px">1 ingénieur son avec son matériel professionnel (façade + caisson de basses, et retours). Environ 12 entrées. Les artistes apportent leurs instruments et certains micros ; les systèmes HF, la diffusion et la régie son et lumière sont fournis par l’organisation.</p>
   <div class="tbl-wrap">
   <table class="patch">
     <thead><tr><th>#</th><th>Source</th><th>Micro / DI</th><th>Fourni par</th></tr></thead>
     <tbody>
       <tr><td>1</td><td>Voix 1 — David (chant)</td><td>Micro DPA serre-tête HF</td><td>Micro : artiste · Système HF : orga</td></tr>
       <tr><td>2</td><td>Voix 2 — Iris (induction / chant)</td><td>Micro main HF</td><td>Organisation</td></tr>
-      <tr><td>3</td><td>Voix 3 — 3ᵉ musicien</td><td>Micro main HF</td><td>Organisation</td></tr>
+      <tr><td>3</td><td>Voix 3 — Julien (chant)</td><td>Micro main HF</td><td>Organisation</td></tr>
       <tr><td>4</td><td>Handpan électronique</td><td>DI (ligne)</td><td>Artiste</td></tr>
       <tr><td>5</td><td>Harpe africaine (Ngoni)</td><td>Micro AKG C411 / DI</td><td>Artiste</td></tr>
       <tr><td>6</td><td>Looper (RC-505 MK2)</td><td>DI stéréo (2)</td><td>Artiste</td></tr>
       <tr><td>7</td><td>Kick &amp; pad — Erae 2 (Ableton Live)</td><td>DI / ligne</td><td>Artiste</td></tr>
       <tr><td>8</td><td>Calebasse</td><td>Micro Shure Beta 91A</td><td>Artiste</td></tr>
-      <tr><td>9</td><td>Instrument à corde (guitare / violoncelle)</td><td>DI / micro</td><td>Artiste / orga</td></tr>
-      <tr><td>10</td><td>MacBook Pro (Ableton Live)</td><td>DI stéréo (2)</td><td>Artiste</td></tr>
+      <tr><td>9</td><td>Saxophone</td><td>Micro clip DPA 4099 et SD Systems</td><td>Micro : artiste · sinon orga</td></tr>
+      <tr><td>10</td><td>Flûtes</td><td>Micro statique (SM81 / KM184) ou clip</td><td>Organisation</td></tr>
+      <tr><td>11</td><td>MacBook Pro (Ableton Live)</td><td>DI stéréo (2)</td><td>Artiste</td></tr>
     </tbody>
   </table>
   </div>
   <p class="tnote">Retours : 3 wedges de scène + 1 sortie in-ear HF (système apporté par l’artiste).</p>
 
-  <h3 class="subh">Matériel apporté par le duo</h3>
+  <h3 class="subh">Matériel apporté par les artistes</h3>
   <div class="tbl-wrap">
   <table class="patch">
     <thead><tr><th>Élément</th><th>Détail</th></tr></thead>
@@ -589,16 +608,37 @@ p a:not(.btn):not(.adh){text-decoration:underline;
       <tr><td>Looper</td><td>RC-505 MK2</td></tr>
       <tr><td>Pad / contrôleur</td><td>Erae 2 (piloté par Ableton Live)</td></tr>
       <tr><td>Calebasse</td><td>Percussion acoustique + micro Shure Beta 91A</td></tr>
-      <tr><td>Instrument à corde</td><td>Guitare / violoncelle (selon 3ᵉ musicien)</td></tr>
+      <tr><td>Saxophone</td><td>Soprano (Julien)</td></tr>
+      <tr><td>Flûte</td><td>Flûte traversière (Julien)</td></tr>
       <tr><td>Micro voix</td><td>DPA serre-tête — David (système HF non fourni)</td></tr>
       <tr><td>In-ear</td><td>1 système in-ear HF</td></tr>
       <tr><td>Informatique</td><td>MacBook Pro (Ableton Live)</td></tr>
     </tbody>
   </table>
   </div>
+  <h3 class="subh">Lumière — plan de feu souhaité</h3>
+  <p class="body" style="max-width:900px">L’enjeu lumière est de créer un <b>écrin enveloppant et tamisé</b> : on ne cherche pas à éclairer un concert, mais à <b>tenir un espace intime</b> où le public ose fermer les yeux, respirer et danser. Le plan ci-dessous est une base ; nous nous adaptons au parc de la salle.</p>
+  <div class="tbl-wrap">
+  <table class="patch">
+    <thead><tr><th>Fonction</th><th>Matériel indicatif</th><th>Intention</th></tr></thead>
+    <tbody>
+      <tr><td>Contres (priorité)</td><td>4 à 6 découpes ou PAR LED en contre-jour, au sol ou en perche</td><td><b>Silhouetter</b> les artistes et la danse de tournoiement — le corps se découpe dans la lumière, l’effet est immédiat et hypnotique</td></tr>
+      <tr><td>Douches</td><td>3 douches serrées (une par artiste)</td><td>Isoler chaque musicien dans son halo pendant les temps méditatifs</td></tr>
+      <tr><td>Latéraux</td><td>2 × 2 PAR LED ou découpes en pied, à hauteur d’homme</td><td>Sculpter les volumes et le mouvement sans écraser les visages</td></tr>
+      <tr><td>Face</td><td>2 à 4 découpes en face, très basse intensité, gradables</td><td>Rester lisible aux moments de parole — jamais plein feu</td></tr>
+      <tr><td>Ambiance / bain de couleur</td><td>4 à 8 PAR LED RGBW en salle et sur cyclo</td><td>Teintes ambrées, violines et bleu nuit — la <b>respiration chromatique</b> du voyage</td></tr>
+      <tr><td>Zone tournoiement</td><td>1 douche + 2 contres dédiés sur le cercle de 2 m</td><td>Faire naître la figure du tournoiement dans un puits de lumière</td></tr>
+      <tr><td>Bougies LED</td><td>30 à 60 bougies LED au sol, en cercle et sur le pourtour</td><td>Délimiter l’espace rituel, créer le <b>feu domestique</b> sans risque incendie</td></tr>
+      <tr><td>Guirlandes</td><td>Guirlandes guinguette ou micro-LED chaudes, en fond ou en ciel</td><td>Ambiance féerique et intimiste, comme un ciel bas et bienveillant</td></tr>
+      <tr><td>Machine à brume</td><td>1 hazer discret (si autorisé)</td><td>Révéler les faisceaux et donner de la matière aux contres</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="tnote">Régie lumière assurée par l’organisation. Conduite simple en 5 à 6 états, transmise et calée avant la représentation ; nous pouvons aussi fonctionner en <b>ambiances fixes</b> si la salle n’a pas de régisseur dédié. À éviter : stroboscopes, changements brusques et lumière blanche froide plein feu.</p>
+
   <h3 class="subh">Kit presse</h3>
-  <p class="body" style="max-width:840px">Photos haute définition et dossier de diffusion (PDF &amp; Word), libres pour votre promotion — sur mention des artistes.</p>
-  <p><a class="dlbtn" href="RITUALS_kit_presse.zip" download>⬇ Télécharger le kit presse (ZIP)</a></p>
+  <p class="body" style="max-width:840px">Photos haute définition de la formation trio (dont les images du festival Perspectives), communiqué, biographies et fiche technique complète en PDF et Word — libres pour votre promotion, sur mention des artistes.</p>
+  <p><a class="dlbtn" href="RITUALS_TRIO_kit_presse.zip" download>⬇ Télécharger le kit presse (ZIP)</a>&nbsp;&nbsp;<a class="dlbtn" style="background:transparent;color:var(--gold2);border:1px solid var(--line)" href="https://drive.google.com/drive/folders/1fiYhbTaVv7IG9vWnveOpxz00GcjgF72A" target="_blank" rel="noopener">↗ Photos HD sur Google Drive</a></p>
 </div></section>
 
 <section class="gallery-sec"><div class="wrap">
@@ -608,26 +648,37 @@ p a:not(.btn):not(.adh){text-decoration:underline;
     <button class="car-play" id="carplay" onclick="carStart()" aria-label="Reprendre le défilement">▶ Reprendre</button>
     <button class="car-btn prev" onclick="carNav(-1)" aria-label="Précédent">‹</button>
     <div class="car-track" id="cartrack">
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/le-trio-en-scene-festival-perspectives-480.webp 480w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-900.webp 900w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/le-trio-en-scene-festival-perspectives-900.jpg" srcset="/img/rituals-trio/le-trio-en-scene-festival-perspectives-480.jpg 480w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-900.jpg 900w, /img/rituals-trio/le-trio-en-scene-festival-perspectives-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Le trio en scène — festival Perspectives" loading="eager" decoding="async"></picture><span class="cap2">Le trio en scène — festival Perspectives</span></div>
       <div class="slide" style="--ar:1.7949"><picture><source type="image/webp" srcset="/img/rituals/le-corps-en-mouvement-480.webp 480w, /img/rituals/le-corps-en-mouvement-900.webp 900w, /img/rituals/le-corps-en-mouvement-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/le-corps-en-mouvement-900.jpg" srcset="/img/rituals/le-corps-en-mouvement-480.jpg 480w, /img/rituals/le-corps-en-mouvement-900.jpg 900w, /img/rituals/le-corps-en-mouvement-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="780" alt="Le corps en mouvement" loading="eager" decoding="async"></picture><span class="cap2">Le corps en mouvement</span></div>
-      <div class="slide" style="--ar:1.7812"><picture><source type="image/webp" srcset="/img/rituals/une-connexion-forte-avec-le-public-480.webp 480w, /img/rituals/une-connexion-forte-avec-le-public-900.webp 900w, /img/rituals/une-connexion-forte-avec-le-public-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/une-connexion-forte-avec-le-public-900.jpg" srcset="/img/rituals/une-connexion-forte-avec-le-public-480.jpg 480w, /img/rituals/une-connexion-forte-avec-le-public-900.jpg 900w, /img/rituals/une-connexion-forte-avec-le-public-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="786" alt="Une connexion forte avec le public" loading="eager" decoding="async"></picture><span class="cap2">Une connexion forte avec le public</span></div>
-      <div class="slide" style="--ar:1.788"><picture><source type="image/webp" srcset="/img/rituals/danser-la-vie-480.webp 480w, /img/rituals/danser-la-vie-900.webp 900w, /img/rituals/danser-la-vie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/danser-la-vie-900.jpg" srcset="/img/rituals/danser-la-vie-480.jpg 480w, /img/rituals/danser-la-vie-900.jpg 900w, /img/rituals/danser-la-vie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="783" alt="Danser la vie" loading="eager" decoding="async"></picture><span class="cap2">Danser la vie</span></div>
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/julien-dub-au-saxophone-480.webp 480w, /img/rituals-trio/julien-dub-au-saxophone-900.webp 900w, /img/rituals-trio/julien-dub-au-saxophone-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/julien-dub-au-saxophone-900.jpg" srcset="/img/rituals-trio/julien-dub-au-saxophone-480.jpg 480w, /img/rituals-trio/julien-dub-au-saxophone-900.jpg 900w, /img/rituals-trio/julien-dub-au-saxophone-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Julien Dub au saxophone" loading="eager" decoding="async"></picture><span class="cap2">Julien Dub au saxophone</span></div>
+      <div class="slide" style="--ar:1.7812"><picture><source type="image/webp" srcset="/img/rituals/une-connexion-forte-avec-le-public-480.webp 480w, /img/rituals/une-connexion-forte-avec-le-public-900.webp 900w, /img/rituals/une-connexion-forte-avec-le-public-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/une-connexion-forte-avec-le-public-900.jpg" srcset="/img/rituals/une-connexion-forte-avec-le-public-480.jpg 480w, /img/rituals/une-connexion-forte-avec-le-public-900.jpg 900w, /img/rituals/une-connexion-forte-avec-le-public-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="786" alt="Une connexion forte avec le public" loading="lazy" decoding="async"></picture><span class="cap2">Une connexion forte avec le public</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/le-public-en-priere-480.webp 480w, /img/rituals-trio/le-public-en-priere-900.webp 900w, /img/rituals-trio/le-public-en-priere-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/le-public-en-priere-900.jpg" srcset="/img/rituals-trio/le-public-en-priere-480.jpg 480w, /img/rituals-trio/le-public-en-priere-900.jpg 900w, /img/rituals-trio/le-public-en-priere-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Le public en prière" loading="lazy" decoding="async"></picture><span class="cap2">Le public en prière</span></div>
+      <div class="slide" style="--ar:1.788"><picture><source type="image/webp" srcset="/img/rituals/danser-la-vie-480.webp 480w, /img/rituals/danser-la-vie-900.webp 900w, /img/rituals/danser-la-vie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/danser-la-vie-900.jpg" srcset="/img/rituals/danser-la-vie-480.jpg 480w, /img/rituals/danser-la-vie-900.jpg 900w, /img/rituals/danser-la-vie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="783" alt="Danser la vie" loading="lazy" decoding="async"></picture><span class="cap2">Danser la vie</span></div>
       <div class="slide" style="--ar:2.099"><picture><source type="image/webp" srcset="/img/rituals/everness-festival-hongrie-480.webp 480w, /img/rituals/everness-festival-hongrie-900.webp 900w, /img/rituals/everness-festival-hongrie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/everness-festival-hongrie-900.jpg" srcset="/img/rituals/everness-festival-hongrie-480.jpg 480w, /img/rituals/everness-festival-hongrie-900.jpg 900w, /img/rituals/everness-festival-hongrie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="667" alt="Everness Festival, Hongrie" loading="lazy" decoding="async"></picture><span class="cap2">Everness Festival, Hongrie</span></div>
-      <div class="slide" style="--ar:1.7903"><picture><source type="image/webp" srcset="/img/rituals/s-ouvrir-s-offrir-480.webp 480w, /img/rituals/s-ouvrir-s-offrir-900.webp 900w, /img/rituals/s-ouvrir-s-offrir-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/s-ouvrir-s-offrir-900.jpg" srcset="/img/rituals/s-ouvrir-s-offrir-480.jpg 480w, /img/rituals/s-ouvrir-s-offrir-900.jpg 900w, /img/rituals/s-ouvrir-s-offrir-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="782" alt="S’ouvrir, s’offrir" loading="lazy" decoding="async"></picture><span class="cap2">S’ouvrir, s’offrir</span></div>
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/portes-ensemble-480.webp 480w, /img/rituals-trio/portes-ensemble-900.webp 900w, /img/rituals-trio/portes-ensemble-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/portes-ensemble-900.jpg" srcset="/img/rituals-trio/portes-ensemble-480.jpg 480w, /img/rituals-trio/portes-ensemble-900.jpg 900w, /img/rituals-trio/portes-ensemble-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Portés ensemble" loading="lazy" decoding="async"></picture><span class="cap2">Portés ensemble</span></div>
       <div class="slide" style="--ar:1.8018"><picture><source type="image/webp" srcset="/img/rituals/l-elan-480.webp 480w, /img/rituals/l-elan-900.webp 900w, /img/rituals/l-elan-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/l-elan-900.jpg" srcset="/img/rituals/l-elan-480.jpg 480w, /img/rituals/l-elan-900.jpg 900w, /img/rituals/l-elan-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="777" alt="L’élan" loading="lazy" decoding="async"></picture><span class="cap2">L’élan</span></div>
-      <div class="slide" style="--ar:1.8018"><picture><source type="image/webp" srcset="/img/rituals/deux-etres-une-intention-480.webp 480w, /img/rituals/deux-etres-une-intention-900.webp 900w, /img/rituals/deux-etres-une-intention-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/deux-etres-une-intention-900.jpg" srcset="/img/rituals/deux-etres-une-intention-480.jpg 480w, /img/rituals/deux-etres-une-intention-900.jpg 900w, /img/rituals/deux-etres-une-intention-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="777" alt="Deux êtres, une intention" loading="lazy" decoding="async"></picture><span class="cap2">Deux êtres, une intention</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-480.webp 480w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-900.webp 900w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-900.jpg" srcset="/img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-480.jpg 480w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-900.jpg 900w, /img/rituals-trio/julien-et-david-le-souffle-et-le-rythme-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Julien &amp; David — le souffle et le rythme" loading="lazy" decoding="async"></picture><span class="cap2">Julien &amp; David — le souffle et le rythme</span></div>
       <div class="slide" style="--ar:1.7857"><picture><source type="image/webp" srcset="/img/rituals/le-tournoiement-de-la-beaute-480.webp 480w, /img/rituals/le-tournoiement-de-la-beaute-900.webp 900w, /img/rituals/le-tournoiement-de-la-beaute-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/le-tournoiement-de-la-beaute-900.jpg" srcset="/img/rituals/le-tournoiement-de-la-beaute-480.jpg 480w, /img/rituals/le-tournoiement-de-la-beaute-900.jpg 900w, /img/rituals/le-tournoiement-de-la-beaute-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="784" alt="Le tournoiement de la beauté" loading="lazy" decoding="async"></picture><span class="cap2">Le tournoiement de la beauté</span></div>
       <div class="slide" style="--ar:1.7995"><picture><source type="image/webp" srcset="/img/rituals/un-univers-musical-electro-organique-480.webp 480w, /img/rituals/un-univers-musical-electro-organique-900.webp 900w, /img/rituals/un-univers-musical-electro-organique-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/un-univers-musical-electro-organique-900.jpg" srcset="/img/rituals/un-univers-musical-electro-organique-480.jpg 480w, /img/rituals/un-univers-musical-electro-organique-900.jpg 900w, /img/rituals/un-univers-musical-electro-organique-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="778" alt="Un univers musical électro-organique" loading="lazy" decoding="async"></picture><span class="cap2">Un univers musical électro-organique</span></div>
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/la-danse-collective-480.webp 480w, /img/rituals-trio/la-danse-collective-900.webp 900w, /img/rituals-trio/la-danse-collective-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/la-danse-collective-900.jpg" srcset="/img/rituals-trio/la-danse-collective-480.jpg 480w, /img/rituals-trio/la-danse-collective-900.jpg 900w, /img/rituals-trio/la-danse-collective-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="La danse collective" loading="lazy" decoding="async"></picture><span class="cap2">La danse collective</span></div>
       <div class="slide" style="--ar:1.7857"><picture><source type="image/webp" srcset="/img/rituals/respirer-en-mouvement-480.webp 480w, /img/rituals/respirer-en-mouvement-900.webp 900w, /img/rituals/respirer-en-mouvement-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/respirer-en-mouvement-900.jpg" srcset="/img/rituals/respirer-en-mouvement-480.jpg 480w, /img/rituals/respirer-en-mouvement-900.jpg 900w, /img/rituals/respirer-en-mouvement-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="784" alt="Respirer en mouvement" loading="lazy" decoding="async"></picture><span class="cap2">Respirer en mouvement</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/iris-et-david-l-instant-de-la-priere-480.webp 480w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-900.webp 900w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/iris-et-david-l-instant-de-la-priere-900.jpg" srcset="/img/rituals-trio/iris-et-david-l-instant-de-la-priere-480.jpg 480w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-900.jpg 900w, /img/rituals-trio/iris-et-david-l-instant-de-la-priere-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Iris &amp; David — l'instant de la prière" loading="lazy" decoding="async"></picture><span class="cap2">Iris &amp; David — l'instant de la prière</span></div>
       <div class="slide" style="--ar:1.7972"><picture><source type="image/webp" srcset="/img/rituals/retrouver-son-enfant-interieur-480.webp 480w, /img/rituals/retrouver-son-enfant-interieur-900.webp 900w, /img/rituals/retrouver-son-enfant-interieur-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/retrouver-son-enfant-interieur-900.jpg" srcset="/img/rituals/retrouver-son-enfant-interieur-480.jpg 480w, /img/rituals/retrouver-son-enfant-interieur-900.jpg 900w, /img/rituals/retrouver-son-enfant-interieur-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="779" alt="Retrouver son enfant intérieur" loading="lazy" decoding="async"></picture><span class="cap2">Retrouver son enfant intérieur</span></div>
       <div class="slide" style="--ar:1.7857"><picture><source type="image/webp" srcset="/img/rituals/etre-touche-dans-son-coeur-480.webp 480w, /img/rituals/etre-touche-dans-son-coeur-900.webp 900w, /img/rituals/etre-touche-dans-son-coeur-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/etre-touche-dans-son-coeur-900.jpg" srcset="/img/rituals/etre-touche-dans-son-coeur-480.jpg 480w, /img/rituals/etre-touche-dans-son-coeur-900.jpg 900w, /img/rituals/etre-touche-dans-son-coeur-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="784" alt="Être touché dans son cœur" loading="lazy" decoding="async"></picture><span class="cap2">Être touché dans son cœur</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/iris-chasles-le-chant-qui-relie-480.webp 480w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-900.webp 900w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/iris-chasles-le-chant-qui-relie-900.jpg" srcset="/img/rituals-trio/iris-chasles-le-chant-qui-relie-480.jpg 480w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-900.jpg 900w, /img/rituals-trio/iris-chasles-le-chant-qui-relie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Iris Chasles — le chant qui relie" loading="lazy" decoding="async"></picture><span class="cap2">Iris Chasles — le chant qui relie</span></div>
       <div class="slide" style="--ar:1.7789"><picture><source type="image/webp" srcset="/img/rituals/chanter-la-joie-480.webp 480w, /img/rituals/chanter-la-joie-900.webp 900w, /img/rituals/chanter-la-joie-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/chanter-la-joie-900.jpg" srcset="/img/rituals/chanter-la-joie-480.jpg 480w, /img/rituals/chanter-la-joie-900.jpg 900w, /img/rituals/chanter-la-joie-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="787" alt="Chanter la joie" loading="lazy" decoding="async"></picture><span class="cap2">Chanter la joie</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/recueilli-480.webp 480w, /img/rituals-trio/recueilli-900.webp 900w, /img/rituals-trio/recueilli-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/recueilli-900.jpg" srcset="/img/rituals-trio/recueilli-480.jpg 480w, /img/rituals-trio/recueilli-900.jpg 900w, /img/rituals-trio/recueilli-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Recueilli" loading="lazy" decoding="async"></picture><span class="cap2">Recueilli</span></div>
       <div class="slide" style="--ar:1.7949"><picture><source type="image/webp" srcset="/img/rituals/chanter-ensemble-480.webp 480w, /img/rituals/chanter-ensemble-900.webp 900w, /img/rituals/chanter-ensemble-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/chanter-ensemble-900.jpg" srcset="/img/rituals/chanter-ensemble-480.jpg 480w, /img/rituals/chanter-ensemble-900.jpg 900w, /img/rituals/chanter-ensemble-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="780" alt="Chanter ensemble" loading="lazy" decoding="async"></picture><span class="cap2">Chanter ensemble</span></div>
       <div class="slide" style="--ar:1.0"><picture><source type="image/webp" srcset="/img/rituals/touchee-par-la-grace-480.webp 480w, /img/rituals/touchee-par-la-grace-900.webp 900w, /img/rituals/touchee-par-la-grace-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/touchee-par-la-grace-900.jpg" srcset="/img/rituals/touchee-par-la-grace-480.jpg 480w, /img/rituals/touchee-par-la-grace-900.jpg 900w, /img/rituals/touchee-par-la-grace-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="1400" alt="Touchée par la grâce" loading="lazy" decoding="async"></picture><span class="cap2">Touchée par la grâce</span></div>
-      <div class="slide" style="--ar:1.0"><picture><source type="image/webp" srcset="/img/rituals/david-lesage-480.webp 480w, /img/rituals/david-lesage-900.webp 900w, /img/rituals/david-lesage-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/david-lesage-900.jpg" srcset="/img/rituals/david-lesage-480.jpg 480w, /img/rituals/david-lesage-900.jpg 900w, /img/rituals/david-lesage-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="1400" alt="David Lesage" loading="lazy" decoding="async"></picture><span class="cap2">David Lesage</span></div>
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/communier-en-cercle-480.webp 480w, /img/rituals-trio/communier-en-cercle-900.webp 900w, /img/rituals-trio/communier-en-cercle-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/communier-en-cercle-900.jpg" srcset="/img/rituals-trio/communier-en-cercle-480.jpg 480w, /img/rituals-trio/communier-en-cercle-900.jpg 900w, /img/rituals-trio/communier-en-cercle-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Communier en cercle" loading="lazy" decoding="async"></picture><span class="cap2">Communier en cercle</span></div>
       <div class="slide" style="--ar:0.75"><picture><source type="image/webp" srcset="/img/rituals/david-et-iris-480.webp 480w, /img/rituals/david-et-iris-900.webp 900w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/david-et-iris-900.jpg" srcset="/img/rituals/david-et-iris-480.jpg 480w, /img/rituals/david-et-iris-900.jpg 900w" sizes="(max-width:900px) 86vw, 700px" width="900" height="1200" alt="David & Iris" loading="lazy" decoding="async"></picture><span class="cap2">David & Iris</span></div>
+      <div class="slide" style="--ar:0.6667"><picture><source type="image/webp" srcset="/img/rituals-trio/autour-du-feu-480.webp 480w, /img/rituals-trio/autour-du-feu-900.webp 900w, /img/rituals-trio/autour-du-feu-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/autour-du-feu-900.jpg" srcset="/img/rituals-trio/autour-du-feu-480.jpg 480w, /img/rituals-trio/autour-du-feu-900.jpg 900w, /img/rituals-trio/autour-du-feu-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="2100" alt="Autour du feu" loading="lazy" decoding="async"></picture><span class="cap2">Autour du feu</span></div>
       <div class="slide" style="--ar:1.4433"><picture><source type="image/webp" srcset="/img/rituals/iris-et-david-face-a-face-480.webp 480w, /img/rituals/iris-et-david-face-a-face-900.webp 900w, /img/rituals/iris-et-david-face-a-face-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/iris-et-david-face-a-face-900.jpg" srcset="/img/rituals/iris-et-david-face-a-face-480.jpg 480w, /img/rituals/iris-et-david-face-a-face-900.jpg 900w, /img/rituals/iris-et-david-face-a-face-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="970" alt="Iris & David, face à face" loading="lazy" decoding="async"></picture><span class="cap2">Iris & David, face à face</span></div>
       <div class="slide" style="--ar:1.7717"><picture><source type="image/webp" srcset="/img/rituals/l-amour-au-service-du-collectif-480.webp 480w, /img/rituals/l-amour-au-service-du-collectif-900.webp 900w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/l-amour-au-service-du-collectif-900.jpg" srcset="/img/rituals/l-amour-au-service-du-collectif-480.jpg 480w, /img/rituals/l-amour-au-service-du-collectif-900.jpg 900w" sizes="(max-width:900px) 86vw, 700px" width="900" height="508" alt="L’amour au service du collectif" loading="lazy" decoding="async"></picture><span class="cap2">L’amour au service du collectif</span></div>
+      <div class="slide" style="--ar:1.5005"><picture><source type="image/webp" srcset="/img/rituals-trio/le-final-tous-ensemble-480.webp 480w, /img/rituals-trio/le-final-tous-ensemble-900.webp 900w, /img/rituals-trio/le-final-tous-ensemble-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/le-final-tous-ensemble-900.jpg" srcset="/img/rituals-trio/le-final-tous-ensemble-480.jpg 480w, /img/rituals-trio/le-final-tous-ensemble-900.jpg 900w, /img/rituals-trio/le-final-tous-ensemble-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="933" alt="Le final, tous ensemble" loading="lazy" decoding="async"></picture><span class="cap2">Le final, tous ensemble</span></div>
+      <div class="slide" style="--ar:1.0"><picture><source type="image/webp" srcset="/img/rituals/david-lesage-480.webp 480w, /img/rituals/david-lesage-900.webp 900w, /img/rituals/david-lesage-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/david-lesage-900.jpg" srcset="/img/rituals/david-lesage-480.jpg 480w, /img/rituals/david-lesage-900.jpg 900w, /img/rituals/david-lesage-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="1400" alt="David Lesage" loading="lazy" decoding="async"></picture><span class="cap2">David Lesage</span></div>
       <div class="slide" style="--ar:1.5"><picture><source type="image/webp" srcset="/img/rituals/iris-chasles-480.webp 480w, /img/rituals/iris-chasles-900.webp 900w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals/iris-chasles-900.jpg" srcset="/img/rituals/iris-chasles-480.jpg 480w, /img/rituals/iris-chasles-900.jpg 900w" sizes="(max-width:900px) 86vw, 700px" width="900" height="600" alt="Iris Chasles" loading="lazy" decoding="async"></picture><span class="cap2">Iris Chasles</span></div>
+      <div class="slide" style="--ar:1.7789"><picture><source type="image/webp" srcset="/img/rituals-trio/portrait-julien-dub-480.webp 480w, /img/rituals-trio/portrait-julien-dub-900.webp 900w, /img/rituals-trio/portrait-julien-dub-1400.webp 1400w" sizes="(max-width:900px) 86vw, 700px"><img src="/img/rituals-trio/portrait-julien-dub-900.jpg" srcset="/img/rituals-trio/portrait-julien-dub-480.jpg 480w, /img/rituals-trio/portrait-julien-dub-900.jpg 900w, /img/rituals-trio/portrait-julien-dub-1400.jpg 1400w" sizes="(max-width:900px) 86vw, 700px" width="1400" height="787" alt="Julien Dub" loading="lazy" decoding="async"></picture><span class="cap2">Julien Dub</span></div>
     </div>
     <button class="car-btn next" onclick="carNav(1)" aria-label="Suivant">›</button>
   </div>
@@ -638,6 +689,7 @@ p a:not(.btn):not(.adh){text-decoration:underline;
     <div class="c"><b>Résonances Productions</b><span><a href="mailto:contact@resonancesproductions.org">contact@resonancesproductions.org</a></span><span><a href="https://www.resonancesproductions.org" target="_blank" rel="noopener">resonancesproductions.org</a></span></div>
     <div class="c"><b>David Lesage</b><span><a href="tel:+33610733152">06 10 73 31 52</a></span><span><a href="https://lesagedavid.fr" target="_blank" rel="noopener">lesagedavid.fr</a> · <a href="https://instagram.com/david.lesage.artiste" target="_blank" rel="noopener">@david.lesage.artiste</a></span></div>
     <div class="c"><b>Iris Chasles</b><span><a href="tel:+33689054758">06 89 05 47 58</a></span><span><a href="https://irischasles.com" target="_blank" rel="noopener">irischasles.com</a> · <a href="https://instagram.com/iris_chasles" target="_blank" rel="noopener">@iris_chasles</a></span></div>
+    <div class="c"><b>Julien Dub</b><span><a href="https://juliendub.com" target="_blank" rel="noopener">juliendub.com</a></span><span><a href="https://instagram.com/julien_dub_" target="_blank" rel="noopener">@julien_dub_</a></span></div>
   </div>
   <div class="sign">RITUALS — Concert-Rituel · David Lesage & Iris Chasles</div>
 </div></footer>
@@ -931,7 +983,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.ge
 })();
 </script>
 
-<!-- nav_menu.py (resonances-6) -->
+<!-- nav_menu.py (resonances-7) -->
 <script>
 /* Sous-menus du menu partage (voir sources/nav_menu.py).
    Desktop : survol + clic + clavier. Mobile : accordeons dans le panneau du hamburger. */

@@ -6,6 +6,14 @@ Allow: /
 # ⚠️ Surtout PAS de Disallow ici : il empecherait Google de voir la redirection,
 # donc de reporter le referencement sur la page qui remplace.
 
+# /rituals-trio A CHANGE D'ADRESSE le 03/09/2026 : la page du trio vit
+# desormais a /rituals (David : le nombre de musiciens ne doit plus etre dans
+# l'adresse). L'ancienne adresse est une redirection 301 (voir vercel.json).
+# ⚠️ Surtout PAS de Disallow ici : /rituals-trio a de l historique chez
+# Google, et c'est justement ce referencement que le 301 doit reporter sur
+# /rituals. Un Disallow empecherait Google d'aller VOIR la redirection : le
+# capital serait perdu au lieu d'etre transfere. C'est l'inverse de l'instinct.
+
 # Adresse stable de connexion des beta-testeurs de Guso Facile. Ce n'est pas une
 # page : c'est une redirection posee dans vercel.json vers l'application. Elle
 # n'a aucune valeur en referencement et n'a rien a faire dans Google.

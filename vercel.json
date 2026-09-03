@@ -67,6 +67,16 @@
       "permanent": true
     },
     {
+      "source": "/rituals-trio",
+      "destination": "/rituals",
+      "permanent": true
+    },
+    {
+      "source": "/rituals-trio/",
+      "destination": "/rituals",
+      "permanent": true
+    },
+    {
       "source": "/Guso-Facile",
       "destination": "/guso-facile",
       "permanent": true

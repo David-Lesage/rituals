@@ -240,8 +240,9 @@ première fois sur un dépôt qui n'en avait jamais eu). Ensuite, plus rien.
 | URL | Rôle | Public |
 |---|---|---|
 | `/` | Accueil association | mixte |
-| `/rituals` | Concert-rituel duo | programmateurs |
-| `/rituals-trio` | Concert-rituel trio (avec Julien Dub) | programmateurs |
+| `/rituals` | **Concert-rituel TRIO** (avec Julien Dub) — a pris cette adresse le 03/09/2026 | programmateurs |
+| ~~`/rituals-trio`~~ | redirection 301 vers `/rituals` (l'adresse ne doit pas dire combien ils sont) | — |
+| ~~page du DUO~~ | **plus publiée** depuis le 03/09/2026 ; `sources/generate_site.py` conservé, hors TABLEAU | — |
 | `/e-motion` | Spectacle immersif participatif (ID duo) | programmateurs |
 | `/david-lesage-en-concert` | **Concerts solo — grandes scènes & festivals** + fiche technique | programmateurs |
 | `/concerts-david-lesage` | **Concerts solo — version intimiste au Nid** | particuliers Paris |
@@ -647,6 +648,83 @@ seul octet.
 **Règles clés** : aucun texte publié sans validation de David · jamais toucher aux DNS email OVH · pas de `loading="lazy"` sur les slides sans ratio réservé · code portail nulle part en public · vérifier le rendu réel aux 3 largeurs avant de présenter · navigateur = extension Claude-in-Chrome, **jamais** les screenshots computer-use · artefacts de test connus : dans un iframe en arrière-plan les transitions CSS sont gelées, `naturalWidth` est peu fiable et les captures d'une page sombre peuvent être partielles → neutraliser `transition`, valider les images par `decode()` + canvas ou `curl`.
 
 ## Journal
+
+### 2026-09-03 — `/rituals-trio` devient `/rituals` (301) · la page du DUO n'est plus publiée
+
+**La demande de David** : *« change l'URL `/rituals-trio` en simplement `/rituals`, car on
+ne sait pas dans le futur combien de musiciens au total il y aura. Si des gens utilisent le
+lien `/rituals-trio`, alors ils sont automatiquement redirigés vers `/rituals`. Et c'est
+cette page qui doit désormais prendre le lead pour le référencement. »*
+
+Sa raison est structurante : **le nombre de musiciens ne doit plus être dans l'adresse.**
+Aujourd'hui trio, demain quatuor — l'adresse ne doit pas mentir.
+
+**⚠️ CE QUI DISPARAÎT DU WEB, ET C'EST IRRÉVERSIBLE.** L'adresse `/rituals` était occupée
+par la page du **duo** (85 Ko), que David venait de faire sortir du menu en disant « ne
+garde que la page RITUALS trio ». Son contenu **n'est plus en ligne**. Rien n'a été
+supprimé du dépôt : `sources/generate_site.py` et `sources/rituals_source.html` sont
+intacts, seulement sortis du TABLEAU de `build.py` (et inscrits dans `HORS_SITE`).
+`generate_site.py` porte désormais un **garde-fou qui refuse de s'exécuter** — le lancer
+écraserait la page du trio. Pour republier le duo : lui donner une adresse LIBRE (ex.
+`/rituals-duo`) ; la marche à suivre complète est écrite en tête du fichier et dans le
+TABLEAU.
+
+**Le référencement, fait dans le bon ordre.** `/rituals` a déjà de l'historique chez
+Google : y installer le contenu du trio conserve ce capital, et le **301** depuis
+`/rituals-trio` y ajoute le sien. D'où : `"permanent": true` dans `vercel.json` (deux
+lignes, avec et sans barre finale) ; `/rituals-trio` **absente du sitemap** et `/rituals`
+présente ; `og:url` de la page sur `/rituals`. ⚠️ Et **surtout aucun `Disallow:
+/rituals-trio`** dans `robots.txt` — c'est le piège déjà documenté le 17/08 pour `/solune`
+et `/au-nid` : un `Disallow` empêche Google d'aller *voir* la redirection, donc de
+transférer le référencement. Le raisonnement est écrit dans `robots.txt` lui-même et
+au-dessus de `SUPPRIMEES` dans `verif_site.py`, où `/rituals-trio` est maintenant inscrite
+(le contrôle `plan` vérifie les trois choses : dossier disparu, redirection présente,
+aucun `Disallow` remis).
+
+**Le contenu n'a pas changé d'un caractère.** Diff du texte visible ancien `/rituals-trio`
+→ nouveau `/rituals` : **vide** (13 491 caractères des deux côtés). Le HTML brut ne diffère
+que de **5 lignes**, toutes attendues : `NAV_VERSION` ×3 (`resonances-6` → `resonances-7`),
+l'`og:url`, et le `href` de l'entrée de menu courante. Crédits photo, légende du Grand Rex,
+visionneuse et bouton retour en haut : intacts.
+
+**Les images n'ont PAS bougé** — la page lit toujours `img/rituals/` **et**
+`img/rituals-trio/`, chemins encore valides : 207 URL d'images, **0 introuvable**.
+L'aperçu de partage reste `img/rituals-trio/apercu-partage-rituals-trio-1200.jpg`.
+⚠️ **`img/rituals/apercu-partage-rituals-1200.jpg` (l'aperçu du duo) n'est plus utilisé par
+aucune page — il a été CONSERVÉ**, il resservira le jour où le duo sera republié.
+
+**Liens internes.** Aucun lien de corps ne pointait vers `/rituals-trio` depuis les pages
+citées dans la demande : leurs occurrences étaient **l'entrée de menu**, mise à jour
+automatiquement par `nav_menu.py` sur les 31 pages. Deux liens réels ont été corrigés en
+source : `sources/generate_duo_lucie.py` (lien absolu « RITUALS TRIO » de
+`/David-Lesage-Lucie-Andersen` — le **libellé** reste « RITUALS TRIO », c'est le nom du
+spectacle, pas l'adresse) et le lien « Version duo » de `sources/trio_source.html`, qui
+serait devenu un lien vers elle-même (il ne parvenait de toute façon jamais à la page
+publiée, `nav_menu.inject()` remplaçant tout le bloc `.links` — retiré quand même, pour
+que la source ne mente pas). Résultat : **0 lien vers `/rituals-trio`** dans tout le site.
+Les liens de corps vers `/rituals` (accueil ×2, `/le-nid`, pieds de page) n'ont pas eu
+besoin de changer : ils mènent maintenant à la seule page RITUALS publiée.
+
+**Au passage** : `/David-Lesage-Lucie-Andersen` manquait dans les `PAGES` de
+`verif_commentaires.py` depuis son ouverture au public le 30/08 — elle n'y était donc
+contrôlée par personne. Ajoutée, conforme.
+
+**Vérifié** : `build.py` **31 pages**, deux passes, « Aucune page n'a changé » ·
+`verif_site.py` **31/31, code 0** (les 11 contrôles au vert, dont `plan`) ·
+`verif_commentaires.py` **31/31, code 0** · dossier `rituals-trio/` **absent du disque**
+(il restait un fichier `Icon` de Google Drive après le `git rm`, supprimé) ·
+`http://localhost:8090/rituals-trio/` → **404**, `/rituals/` → **200** · console vide,
+38 images chargées, aucune cassée · `scrollWidth == clientWidth` (aucun débordement).
+
+**Non poussé** — commit seulement, comme demandé.
+
+**Ce que je n'ai pas pu voir à l'œil** : (a) la redirection 301 elle-même — `vercel.json`
+n'est lu que par la plateforme, un serveur local rend toujours 404 ; le premier essai réel
+se fera **en production**, après publication (le JSON est valide et la destination est
+interne) ; (b) les largeurs 390 / 820 / 1440 px n'ont pas pu être forcées dans le
+navigateur (la fenêtre est restée à 1296 px de large malgré `resize_window`) — mais le HTML
+étant **identique à l'octet** à celui déjà mesuré à ces trois largeurs, la mise en page ne
+peut pas avoir changé.
 
 ### 2026-08-27 (2) — NIVEAU 2 : l'agenda Google écrit le site tout seul (NON POUSSÉ)
 

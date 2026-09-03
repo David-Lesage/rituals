@@ -131,9 +131,12 @@ LONGUEUR_MAX = 60
 PAGES = (
     'index.html',
     'rituals/index.html',
-    'rituals-trio/index.html',
     'e-motion/index.html',
     'david-lesage-en-concert/index.html',
+    # 03/09/2026 : page publiee depuis le 30/08 (elle est dans PAGES de
+    # verif_site.py) mais oubliee ici — elle n'etait donc controlee par
+    # personne. Ajoutee au passage, verifiee conforme.
+    'David-Lesage-Lucie-Andersen/index.html',
     'concerts-david-lesage/index.html',
     'le-nid/index.html',
     'rendez-vous-mensuels/index.html',

@@ -63,7 +63,6 @@ import nav_menu  # noqa: E402
 PAGES = (
     ('/',                        'index.html'),
     ('/rituals',                 'rituals/index.html'),
-    ('/rituals-trio',            'rituals-trio/index.html'),
     ('/e-motion',                'e-motion/index.html'),
     ('/david-lesage-en-concert', 'david-lesage-en-concert/index.html'),
     # 30/08/2026 : cette page etait VOLONTAIREMENT invisible (hors menu,
@@ -112,7 +111,18 @@ PAGES = (
 # redirection, et le referencement gagne par l'ancienne adresse serait perdu au
 # lieu d'etre transfere a la nouvelle. On laisse Google explorer, lire le 301,
 # et reporter la page sur celle qui la remplace.
-SUPPRIMEES = {'/solune': '/e-motion', '/au-nid': '/le-nid'}
+#
+# 03/09/2026 : `/rituals-trio` rejoint cette table. Ce n'est PAS une page
+# supprimee au sens du contenu — son contenu est toujours en ligne, il a
+# simplement change d'adresse et vit desormais a `/rituals` (David : « on ne
+# sait pas dans le futur combien de musiciens au total il y aura »). Ce qui
+# disparait vraiment, c'est l'ancienne page du DUO qui occupait `/rituals` :
+# son generateur est sorti du TABLEAU de build.py, sans etre supprime du depot.
+# Le raisonnement sur le `Disallow` ci-dessus vaut ici plus que partout
+# ailleurs : `/rituals-trio` a de l'historique chez Google, et c'est
+# precisement ce capital que le 301 doit reporter sur `/rituals`.
+SUPPRIMEES = {'/solune': '/e-motion', '/au-nid': '/le-nid',
+              '/rituals-trio': '/rituals'}
 
 # --------------------------------------------------------------------------- #
 # LISTES BLANCHES  —  ce qui est deja publie et assume

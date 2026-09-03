@@ -1213,7 +1213,10 @@ def page():
       'target="_blank" rel="noopener">David Lesage Concert Solo</a>')
     a('          <a href="https://www.resonancesproductions.org/e-motion" '
       'target="_blank" rel="noopener">E-MOTION</a>')
-    a('          <a href="https://www.resonancesproductions.org/rituals-trio" '
+    # 03/09/2026 : la page du trio a change d'adresse (/rituals-trio ->
+    # /rituals). Le libelle reste « RITUALS TRIO » : c'est le nom du spectacle
+    # tel qu'il est presente a une agence, ce n'est pas l'adresse.
+    a('          <a href="https://www.resonancesproductions.org/rituals" '
       'target="_blank" rel="noopener">RITUALS TRIO</a>')
     a('        </div>')
     a('        <div class="liens">')

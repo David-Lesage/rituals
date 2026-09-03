@@ -21,7 +21,7 @@ UTILISATION
                un `</style>` (le CSS y est insere juste avant, donc en dernier :
                il gagne sur `.nav .links a{font-size:14.5px}`) et un `</body>`.
 * `current`  : page affichee, une des CLES de PAGE_KEYS ci-dessous :
-               'home', 'rituals', 'rituals-trio', 'e-motion',
+               'home', 'rituals', 'e-motion',
                'david-lesage-en-concert', 'le-nid', 'rendez-vous-mensuels',
                'concerts-david-lesage', 'rythme-calebasse', 'le-soin-soa',
                'association', 'guso-facile'.
@@ -94,13 +94,18 @@ import verif_commentaires  # garde-fou commentaires HTML  # noqa: E402
 #: Duo Violon / Handpan, dont les PAGES restent en ligne) et deux entrees sont
 #: renommees : « RITUALS — Concert-Rituel » (-> /rituals-trio) et « E-Motion —
 #: Spectacle participatif ». Voir la note au-dessus de la table SCENE.
+#: resonances-7 (03/09/2026) : la page du TRIO change d'adresse, /rituals-trio
+#: devient /rituals (David : le nombre de musiciens ne doit plus etre dans
+#: l'adresse). L'entree « RITUALS — Concert-Rituel » pointe donc desormais vers
+#: /rituals, et sa cle de page redevient `rituals`. L'ancienne page du DUO, qui
+#: occupait cette adresse, n'est plus publiee.
 #: ⚠️ Cinq generateurs lisent `nav_menu.NAV_VERSION` dans leurs garde-fous
 #:    depuis le 14/08/2026 (ils codaient `resonances-2` en dur avant, et une
 #:    montee de version les faisait tous refuser d'ecrire). Verifie AVANT cette
 #:    montee : plus aucune occurrence de « resonances-2 » ni « resonances-3 » en
 #:    dur dans sources/. `verif_site.py` et `verif_commentaires.py` suivent aussi
 #:    tout seuls (le motif de la liste blanche est ecrit SANS le numero).
-NAV_VERSION = 'resonances-6'
+NAV_VERSION = 'resonances-7'
 CSS_MARK = '/* == nav_menu.py (%s) == */' % NAV_VERSION
 CSS_END = '/* == fin nav_menu.py == */'
 #: ⚠️ CES DEUX MARQUEURS SONT FONCTIONNELS — ne jamais les retirer du HTML.
@@ -131,25 +136,33 @@ ADHESION = ('https://www.helloasso.com/beta/associations/resonances-productions'
 # PAGE_KEYS via _HORS_MENU plus bas, donc les generateurs continuent d'appeler
 # nav_menu avec ces cles sans lever d'erreur).
 #
-#   ('RITUALS — duo', '/rituals', 'rituals'),
 #   ('Duo Violon / Handpan', '/David-Lesage-Lucie-Andersen', 'duo-violon-handpan'),
 #
-# ⚠️ Les liens vers /rituals dans le CORPS des pages (accueil, /rituals-trio,
-#    /le-nid, pieds de page…) n'ont PAS ete touches : David n'a parle que du
-#    menu. Ils sont inventories dans le rapport du 03/09/2026.
+# 03/09/2026, PLUS TARD DANS LA JOURNEE — la page du DUO n'est plus publiee du
+# tout : la page du TRIO a pris son adresse `/rituals` (voir generate_trio.py et
+# le TABLEAU de build.py). L'entree « RITUALS — duo » ne peut donc plus revenir
+# telle quelle : la remettre demanderait d'abord de redonner une adresse a la
+# page du duo.
+#
+# ⚠️ Les liens vers /rituals dans le CORPS des pages (accueil, /le-nid, pieds de
+#    page…) n'ont pas eu besoin de changer : ils menent maintenant a la page du
+#    trio, qui est la seule page RITUALS publiee.
 #
 # (libelle, href, cle de page)
 SCENE = [
-    ('RITUALS — Concert-Rituel', '/rituals-trio', 'rituals-trio'),
+    ('RITUALS — Concert-Rituel', '/rituals', 'rituals'),
     ('E-Motion — Spectacle participatif', '/e-motion', 'e-motion'),
     ('David Lesage en concert', '/david-lesage-en-concert', 'david-lesage-en-concert'),
 ]
 
 #: Cles de pages TOUJOURS PUBLIEES mais absentes du menu (03/09/2026). Elles
 #: doivent rester acceptees par `inject(current=...)`, sinon la construction de
-#: /rituals et de /David-Lesage-Lucie-Andersen echoue avec « cle de page
-#: inconnue ». Ne pas confondre avec une page supprimee : ces deux-la existent.
-_HORS_MENU = ['rituals', 'duo-violon-handpan']
+#: /David-Lesage-Lucie-Andersen echoue avec « cle de page inconnue ». Ne pas
+#: confondre avec une page supprimee : celle-la existe.
+#: 03/09/2026 : `rituals` est SORTIE de cette liste — elle est revenue dans le
+#: menu, portee par la page du trio. `rituals-trio` n'y entre PAS : ce n'est
+#: plus une adresse, c'est une redirection.
+_HORS_MENU = ['duo-violon-handpan']
 # ⚠️ « Les RDV Mensuels » (20/08/2026) est place JUSTE APRES « Agenda », et
 #    avant les activites : les deux entrees qui parlent de DATES se suivent,
 #    puis viennent celles qui parlent de ce qu'on y fait. Le libelle est celui
@@ -568,7 +581,6 @@ def inject(html, current=None, contact_href=None):
 _PATH_KEYS = {
     'index.html': 'home',
     'rituals': 'rituals',
-    'rituals-trio': 'rituals-trio',
     'e-motion': 'e-motion',
     'david-lesage-en-concert': 'david-lesage-en-concert',
     'David-Lesage-Lucie-Andersen': 'duo-violon-handpan',
