@@ -403,6 +403,10 @@ HELLO = 'https://www.helloasso.com/associations/resonances-productions'
 #    est cassee. Elle est publiee telle quelle.
 INSTATIC_RESA = ('https://www.helloasso.com/associations/resonances-productions'
                  '/evenements/instatic-dance')
+#: l'acces aux rendez-vous mensuels se fait par l'adhesion (pas de billetterie
+#: dediee), meme adresse que sur /le-nid et le pied de page de cette page.
+ADHESION = ('https://www.helloasso.com/beta/associations/resonances-productions'
+           '/adhesions/adhesion-resonances-productions')
 STATUTS = ('https://docs.google.com/document/d/'
            '1NxsbvaqHsA9VOXlN7cvsav7cxFwhsK4XCpowHb75o1w/edit?usp=sharing')
 
@@ -644,15 +648,65 @@ CONTENUS = {
         resa=INSTATIC_RESA,
         resa_texte='Réserver ma place — 20 € ↗',
     ),
-    # ⚠️ 11/09/2026 — David a tranche le FORMAT de cette soiree (« scene
-    #    ouverte ») avant d'en avoir ecrit le PROGRAMME. C'est un etat
-    #    intermediaire que le systeme ne connaissait pas encore : ni
-    #    « ecrite » (pas de titre/horaire/tarif) ni tout a fait « en cours
-    #    d'elaboration » a l'aveugle (le format, lui, est connu). D'ou le
-    #    champ `format`, affiche EN PLUS du message d'attente habituel — pas a
-    #    sa place. Ne pas transformer cette entree en soiree « ecrite » tant
-    #    que David n'a pas donne horaire/tarif/intervenants.
-    '2026-10-02': dict(format='Scène ouverte'),
+    # ⚠️ 11/09/2026 — David a fourni le texte : une ancienne invitation au Nid
+    #    (vendredi 17 juillet), dont il a demande de ne garder que l'ESPRIT ET
+    #    LE CADRE — pas le programme horaire de l'epoque, ni le repas partage.
+    #    Deux consignes explicites :
+    #      1. NE PLUS PARLER DE REPAS. L'ancienne invitation en faisait un
+    #         temps fort (« Dîner Healthy partagé ») avec ses propres regles
+    #         (« apportez un plat », « chacun lave son assiette ») : les DEUX
+    #         ont disparu du texte ci-dessous, pas seulement le mot « dîner ».
+    #      2. NOUVEL HORAIRE : la scene ouverte commence a 20h30 (et non plus
+    #         21h00) et se termine a 22h30, suivie d'un temps informel de
+    #         discussion/partage DONT L'HEURE DE FIN N'EST PAS PRECISEE — ne
+    #         pas en inventer une.
+    #    Ce qui A ete garde de l'ancienne invitation, mot pour mot ou presque :
+    #    la description du Nid (« Un espace d'éclosion »), le principe du
+    #    cabaret/scene ouverte (« l'espace est a vous »), les trois regles de
+    #    cadre qui ne concernent pas le repas (sobriete, chaussures/telephone a
+    #    l'entree, coussin au sol), et la phrase de cloture.
+    '2026-10-02': dict(
+        type='Scène ouverte',
+        titre='Scène ouverte au Nid',
+        horaire='18h30 – 23h30',
+        fin_heure='23:30',
+        prix='Réservé aux adhérents',
+        sous='Cabaret &amp; scène ouverte, dans le cocon du Nid — avec Iris &amp; David.',
+        chapeau='Un espace d’éclosion, ouvert le temps d’une soirée à la poésie, '
+                'à la musique et à la danse.',
+        faits=[
+            ('Quand', 'Vendredi 2 octobre 2026, à partir de 18h30', ''),
+            ('Scène ouverte', '20h30 – 22h30',
+             'Puis un temps informel de discussion et de partage'),
+            ('Où', 'Le Nid — Paris 20<sup>e</sup>', '29 rue des Orteaux'),
+            ('Accès', 'Réservé aux adhérents', 'Adhésion à l’association'),
+        ],
+        alerte=('Pour préserver l’harmonie du lieu et le calme de cette '
+                'résidence d’artistes : une soirée <b>sans alcool ni drogues</b>, '
+                'on laisse ses <b>chaussures (et son téléphone) à l’entrée</b>, '
+                'et on prévoit <b>un coussin</b> pour une assise confortable au '
+                'sol.'),
+        recit=[
+            'Plus qu’un simple appartement, Le Nid est un loft parisien niché '
+            'au cœur d’une copropriété d’artistes. Iris et David en sont les '
+            'gardiens, avec une mission simple : en faire un terreau fertile '
+            'pour la création et la rencontre.',
+            'C’est un lieu d’éclosion où chaque soirée est pensée pour tisser '
+            'des liens authentiques, faire germer des idées et laisser '
+            's’exprimer la part d’artiste qui sommeille en chacun de nous.',
+            'Ce mois-ci, cap sur le cabaret et la scène ouverte : l’espace est '
+            'à vous — poésie, musique, danse…',
+        ],
+        au_programme=[
+            'Accueil au Nid &amp; connexion, dès 18h30.',
+            'Cabaret &amp; scène ouverte, de 20h30 à 22h30 : l’espace est à '
+            'vous — poésie, musique, danse…',
+            'Temps informel de discussion et de partage, à la suite.',
+        ],
+        fin='Incarnons le monde dans lequel nous voulons vivre.',
+        resa=ADHESION,
+        resa_texte='Adhérer pour réserver ↗',
+    ),
 }
 
 
