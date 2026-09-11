@@ -644,6 +644,15 @@ CONTENUS = {
         resa=INSTATIC_RESA,
         resa_texte='Réserver ma place — 20 € ↗',
     ),
+    # ⚠️ 11/09/2026 — David a tranche le FORMAT de cette soiree (« scene
+    #    ouverte ») avant d'en avoir ecrit le PROGRAMME. C'est un etat
+    #    intermediaire que le systeme ne connaissait pas encore : ni
+    #    « ecrite » (pas de titre/horaire/tarif) ni tout a fait « en cours
+    #    d'elaboration » a l'aveugle (le format, lui, est connu). D'ou le
+    #    champ `format`, affiche EN PLUS du message d'attente habituel — pas a
+    #    sa place. Ne pas transformer cette entree en soiree « ecrite » tant
+    #    que David n'a pas donne horaire/tarif/intervenants.
+    '2026-10-02': dict(format='Scène ouverte'),
 }
 
 
@@ -717,7 +726,8 @@ def ligne(d):
                 '<span class="btn ghost">En savoir plus</span>' % d['prix'])
         heures = '<span class="rdv-hours">%s</span>' % d['horaire']
     else:
-        quoi = '<p class="rdv-soon">%s</p>' % EN_COURS
+        entete = ('<span class="rdv-type">%s</span>' % d['format']) if d.get('format') else ''
+        quoi = '%s<p class="rdv-soon">%s</p>' % (entete, EN_COURS)
         acte = '<span class="btn ghost">Voir cette date</span>'
         heures = '<span class="rdv-hours">%s</span>' % HORAIRE_INCONNU
     return ('<li class="rdv-row"%s><a class="rdv-go" href="#%s">'
@@ -968,7 +978,7 @@ def _encart_attente(d, marque=''):
     est juste en dessous, dans la fiche.
     """
     return ('<section class="rdv-block rdv-attente" id="%s"%s><div class="wrap">'
-            '<div class="kick">Rendez-vous mensuel</div>'
+            '<div class="kick">%s</div>'
             '<h2 class="sec-title">%s</h2>'
             '<dl class="rdv-facts">'
             '<div><dt>Horaire</dt><dd>%s</dd></div>'
@@ -977,8 +987,8 @@ def _encart_attente(d, marque=''):
             '%s'
             '<div class="cta rdv-cta">%s</div>'
             '</div></section>'
-            % (d['ancre'], marque, d['jour'], HORAIRE_INCONNU, _abonnement(),
-               _retour()))
+            % (d['ancre'], marque, d.get('format') or 'Rendez-vous mensuel',
+               d['jour'], HORAIRE_INCONNU, _abonnement(), _retour()))
 
 
 def encarts():

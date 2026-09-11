@@ -139,7 +139,7 @@ EVENTS = [
     ('2026-09-20', '10:00', '12:00', 'rythme',    'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-09-26', '17:00', '19:00', 'residence', 'Sortie de résidence', 'restitution du travail en trio'),
     ('2026-09-26', '20:00', '22:00', 'concert',   'Concert — David, Iris & Julien', 'le trio en concert'),
-    ('2026-10-02', '18:30', '23:30', 'mensuel',   'Rendez-vous mensuel au Nid', ''),
+    ('2026-10-02', '18:30', '23:30', 'mensuel',   'Rendez-vous mensuel au Nid — Scène ouverte', 'scène ouverte'),
     ('2026-10-04', '16:30', '19:00', 'yoga',      'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-10-10', '19:00', '21:00', 'concert',   'Concert — David Lesage solo', ''),
     ('2026-10-17', '15:00', '17:00', 'rythme',    'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),

@@ -849,9 +849,15 @@ def build_html(sizes):
     # (« Deux heures pour faire l'experience... petit comite ») ouvre le bloc,
     # ses cartes de faits ont rejoint la grille ci-dessus, et sa note (agenda
     # du Nid, contact, code du portail) est reecrite sous les dates.
-    # ⚠️ AUCUN MONTANT ICI : « je n'ai pas defini le tarif du groupe engage »
-    #    (David, 18/08/2026). Les 40 € des ateliers exterieurs sont a l'autre
-    #    bout de la page, dans `#interventions`, separes par trois sections.
+    # ⚠️ TARIF FIXE LE 11/09/2026 (mots de David) : « 330€ pour 6 mois soit
+    #    55€ le cours payable en 3 fois », regle via la boutique HelloAsso
+    #    dediee. Avant cette date, aucun montant n'etait affiche ici (« je
+    #    n'ai pas defini le tarif du groupe engage », 18/08/2026) — ne pas
+    #    reintroduire cette ancienne phrase, le tarif est desormais tranche.
+    #    Les 40 € des ateliers exterieurs restent a l'autre bout de la page,
+    #    dans `#interventions`, separes par trois sections : ce sont deux
+    #    formats differents, ne pas les rapprocher visuellement.
+    HELLOASSO_GROUPE = 'https://www.helloasso.com/associations/resonances-productions/boutiques/cours-prive-et-stages-avec-david-lesage'
     #
     # ============ EXPERIENCE D'ANIMATION (ajout 13/08/2026) ============
     # (bloc `<div class="xp" id="experience">`, plus bas dans ce gabarit)
@@ -902,7 +908,7 @@ def build_html(sizes):
     <div class="fact"><div class="k">Places</div><div class="v">Environ 4 restantes</div></div>
     <div class="fact"><div class="k">Niveau</div><div class="v">Tous<small>débutant compris, aucun prérequis musical</small></div></div>
     <div class="fact"><div class="k">Instrument</div><div class="v">Fourni<small>une calebasse, un tapis, deux œufs</small></div></div>
-    <div class="fact"><div class="k">Participation</div><div class="v">Sur demande<small>précisée avec David</small></div></div>
+    <div class="fact"><div class="k">Participation</div><div class="v">330 € les 6 mois<small>soit 55 € le workshop, payable en 3 fois</small></div></div>
   </div>
 
   <div class="note">
@@ -930,6 +936,15 @@ def build_html(sizes):
       Le code du portail vous est communiqué avec votre confirmation.</p>
       <p>Ces rendez-vous figurent aussi dans l’agenda du Nid, avec les autres rendez-vous du lieu :
       <a href="/le-nid#agenda" style="color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px">voir l’agenda du Nid</a>.</p>
+    </div>
+
+    <div class="note">
+      <p><b>Régler sa participation</b> : 330 € pour les 6 mois, soit 55 € le workshop, payable en 3
+      fois — via la boutique HelloAsso dédiée :
+      <a href=\"""" + HELLOASSO_GROUPE + """\" target="_blank" rel="noopener" style="color:var(--gold2);text-decoration:underline;text-decoration-color:rgba(216,178,90,.45);text-underline-offset:3px">accéder au paiement ↗</a>.</p>
+      <p>⚠️ HelloAsso, la plateforme de paiement utilisée, ajoute par défaut une <b>contribution
+      facultative</b> à son fonctionnement. Elle est modifiable : pensez à vérifier ce montant sur
+      la page de paiement et à le mettre à 0 € si vous ne souhaitez pas la verser.</p>
     </div>
   </div>
 

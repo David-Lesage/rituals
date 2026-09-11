@@ -188,6 +188,13 @@ CORRESPONDANCE = {
         ('mensuel', 'INSTATIC Dance', 'avec Iris & David'),
     'Rendez-vous mensuel au Nid':
         ('mensuel', 'Rendez-vous mensuel au Nid', ''),
+    # 11/09/2026 — David a tranche le format du rendez-vous du 2 octobre :
+    # une scene ouverte. L'agenda Google porte desormais ce titre exact ;
+    # cette ligne l'accueille, pour que le prochain resync ne le rejette pas
+    # comme « titre absent de la liste blanche » et ne revienne pas au libelle
+    # generique.
+    'Rendez-vous mensuel au Nid — Scène ouverte':
+        ('mensuel', 'Rendez-vous mensuel au Nid — Scène ouverte', 'scène ouverte'),
     # --- les concerts ---
     'Concert de David Lesage — Le Nid':
         ('concert', 'Concert — David Lesage solo', ''),
