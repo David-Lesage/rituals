@@ -707,6 +707,16 @@ CONTENUS = {
         resa=ADHESION,
         resa_texte='Adhérer pour réserver ↗',
     ),
+    # 15/09/2026 — meme etat intermediaire que la scene ouverte du 2 octobre
+    # (voir la note plus haut) : David a donne le TITRE de cette soiree, pas
+    # encore son programme complet (horaire precis, tarif, deroule). Le champ
+    # `format` l'affiche sans transformer l'entree en soiree « ecrite ».
+    '2026-11-07': dict(format='Atelier d’écriture érotique avec Charly'),
+    # 15/09/2026 — le concert de David Lesage du 28 novembre a ete deplace ici,
+    # fondu dans le rendez-vous mensuel du 4 decembre (voir generate_agenda_nid.py
+    # et synchro_agenda.py). Meme etat intermediaire : le titre est connu, pas
+    # encore le programme complet (horaire du concert, duree, tarif).
+    '2026-12-04': dict(format='Concert David Lesage'),
 }
 
 

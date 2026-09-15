@@ -578,10 +578,12 @@ SCENES = [
 # Mecanisme et limites du masquage : `sources/dates_a_venir.py` — RUSTINE.
 #
 # (le jour en clair, l'heure affichee, l'instant ISO, l'heure de FIN)
-DATES = [
-    ('Samedi 10 octobre 2026', '19 h', '2026-10-10T19:00', '21:00'),
-    ('Samedi 28 novembre 2026', '18 h', '2026-11-28T18:00', '20:00'),
-]
+#: ⚠️ 15/09/2026 — VIDE : les deux dates qui vivaient ici (10 octobre, puis
+#:    28 novembre) ont ete retirees du site sur demande de David. Celle du
+#:    28 novembre est deplacee au 4 decembre, fondue dans le rendez-vous
+#:    mensuel (voir generate_agenda_nid.py, generate_rdv_mensuels.py). Ne pas
+#:    la recopier ici tant qu'elle n'est pas redevenue un concert autonome.
+DATES = []
 
 #: le registre des dates de cette page.
 REG = dates_a_venir.Registre()
@@ -960,10 +962,15 @@ VISIONNEUSE_JS = visionneuse.js('.cdl-fig > picture img')
 
 TITLE = ('Concerts de David Lesage — concert-cérémonie participatif au Nid, '
          'Paris 20ᵉ · Résonances Productions')
+# ⚠️ 15/09/2026 — les deux dates qui figuraient ici (10 octobre, 28 novembre)
+#    ont ete retirees du site (demandes de David) ; la description ne nomme
+#    plus de date precise, exactement comme `EN_PREPARATION` plus bas le fait
+#    deja pour le bloc « Dates & reservation ». La remettre a jour quand une
+#    nouvelle date sera fournie, pas avant.
 DESC = ('Voix, handpan, calebasse et Ngoni : le concert-cérémonie participatif de '
         'David Lesage, au Nid (Paris 20ᵉ). Assis au sol, à quelques pas de l’artiste — '
-        'on entre en spectateur, on ressort en ayant chanté. Prochaines dates : '
-        '10 octobre et 28 novembre 2026.')
+        'on entre en spectateur, on ressort en ayant chanté. Prochaines dates '
+        'annoncées ici.')
 
 # Le gabarit de la page est ecrit en plusieurs litteraux adjacents (concatenes
 # par Python) pour qu'on puisse glisser ENTRE EUX les notes de redaction, en
@@ -1292,7 +1299,7 @@ f"""  <div class="cdl-listen" id="live">
       <div><div class="when"><time datetime="{iso}">{d}</time> — {h}</div><div class="where">Le Nid, Paris 20<sup>e</sup></div></div>
       <a class="btn" href="{BILLET}" target="_blank" rel="noopener">Réserver ma place</a>
     </div>''' for d, h, iso, fin in DATES)}
-    <p{REG.repli('cdl-dates')}>{EN_PREPARATION}</p>
+    {f"<p{REG.repli('cdl-dates')}>{EN_PREPARATION}</p>" if DATES else f"<p>{EN_PREPARATION}</p>"}
   </div>
   <div class="cdl-note">
     <p>L’adresse et les précisions vous parviennent avec votre confirmation de réservation.</p>

@@ -140,15 +140,13 @@ EVENTS = [
     ('2026-09-26', '20:00', '22:00', 'concert',   'Sortie de Résidence — David, Iris & Julien', 'le trio en concert'),
     ('2026-10-02', '18:30', '23:30', 'mensuel',   'Rendez-vous mensuel au Nid — Scène ouverte', 'scène ouverte'),
     ('2026-10-04', '16:30', '19:00', 'yoga',      'Atelier de yoga', 'avec Iris Chasles'),
-    ('2026-10-10', '19:00', '21:00', 'concert',   'Concert — David Lesage solo', ''),
     ('2026-10-17', '15:00', '17:00', 'rythme',    'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-10-18', '16:00', '19:00', 'showcase',  'Présentation d’instruments d’exception', ''),
-    ('2026-11-07', '18:30', '23:30', 'mensuel',   'Rendez-vous mensuel au Nid', ''),
+    ('2026-11-07', '18:30', '23:30', 'mensuel',   'Atelier d’écriture érotique avec Charly', ''),
     ('2026-11-08', '16:30', '19:00', 'yoga',      'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-11-14', '16:00', '19:00', 'showcase',  'Présentation d’instruments d’exception', ''),
     ('2026-11-15', '15:00', '17:00', 'rythme',    'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
-    ('2026-11-28', '18:00', '20:00', 'concert',   'Concert — David Lesage', 'avec Lucie au violon'),
-    ('2026-12-04', '18:30', '23:30', 'mensuel',   'Rendez-vous mensuel au Nid', ''),
+    ('2026-12-04', '18:30', '23:30', 'mensuel',   'Concert David Lesage', ''),
     ('2026-12-05', '15:00', '18:00', 'showcase',  'Présentation d’instruments d’exception', ''),
     ('2026-12-06', '16:30', '19:00', 'yoga',      'Atelier de yoga', 'avec Iris Chasles'),
 ]
@@ -263,11 +261,14 @@ URL_PAR_EVENT = {
     # INSTATIC Dance : billetterie dediee, et non le formulaire d'adhesion.
     ('2026-09-04', '19:00'):
         'https://www.helloasso.com/associations/resonances-productions/evenements/instatic-dance',
-    ('2026-10-10', '19:00'): CONCERT_SOLO,   # Concert — David Lesage solo
-    ('2026-11-28', '18:00'): CONCERT_SOLO,   # Concert — David Lesage + Lucie au violon
-    # Verifie sur la billetterie HelloAsso le 04/08 : elle vend bien TROIS dates
-    # (26 septembre / 10 octobre / 28 novembre), toutes au Nid. Le concert du
-    # 26/09 y est donc inclus, meme s'il est annonce en trio sur le site.
+    # Verifie sur la billetterie HelloAsso le 04/08 : elle vendait alors trois
+    # dates (26 septembre / 10 octobre / 28 novembre), toutes au Nid. Celles du
+    # 10 octobre et du 28 novembre ont ete retirees le 15/09/2026 (demande de
+    # David) — la seconde deplacee au 4 decembre, fondue dans le rendez-vous
+    # mensuel (acces par adhesion, plus par billet separe, cf EVENTS). Elles
+    # peuvent rester listees sur HelloAsso sans consequence, ce lien n'y
+    # renvoie plus depuis aucune page. Le concert du 26/09 reste inclus, meme
+    # s'il est annonce en trio sur le site.
     ('2026-09-26', '20:00'): CONCERT_SOLO,   # Sortie de Residence — David, Iris & Julien
     # A COMPLETER quand David fournira les liens :
     #   workshops rythme a la calebasse (20/09, 17/10, 15/11) : billetterie
@@ -291,6 +292,74 @@ URL_PAR_EVENT = {
 LABEL_PAR_EVENT = {
     ('2026-09-26', '20:00'): 'Concert Rituals',
 }
+
+# ---------------------------------------------------------------------------
+# BOUTON « INFOS DETAILLEES », VERS LA PAGE DEDIEE DE CHAQUE PROPOSITION
+# ---------------------------------------------------------------------------
+# 15/09/2026 — David a demande un court descriptif par evenement, avec un
+# bouton qui mene a SA page dediee. Le lien de reservation (URL_PAR_EVENT,
+# ci-dessus) et celui-ci repondent a deux questions differentes : l'un dit
+# « comment je reserve », l'autre « qu'est-ce que c'est vraiment » — les deux
+# peuvent coexister sur une meme ligne.
+#
+# Un SEUL lien par TYPE ne suffit pas pour 'concert' : trois evenements de ce
+# type pointent vers trois pages differentes (le concert de David en solo, la
+# meme page pour la date « + Lucie » puisque les deux y sont deja listees, et
+# la page RITUALS pour le trio). D'ou INFO_PAR_EVENT, surcharge exactement
+# comme URL_PAR_EVENT et LABEL_PAR_EVENT ci-dessus.
+#
+# ⚠️ AUCUN LIEN VERS /David-Lesage-Lucie-Electric-Violoniste : cette page est
+# VOLONTAIREMENT invisible (voir l'entete de generate_duo_lucie.py — destinee
+# aux agences, pas au public). La date « + Lucie au violon » renvoie donc vers
+# /concerts-david-lesage#dates, comme le concert solo : les deux dates de
+# David y sont deja listees.
+#
+# Type 'yoga' volontairement ABSENT : ce site n'a pas de page dediee aux
+# ateliers d'Iris (son propre site en tient lieu, deja le lien de reservation)
+# — pas de bouton plutot qu'un lien invente.
+INFO_PAR_TYPE = {
+    'mensuel':  '/rendez-vous-mensuels',
+    'rythme':   '/rythme-calebasse',
+    'showcase': '/le-nid#instruments',
+}
+INFO_PAR_EVENT = {
+    ('2026-09-26', '20:00'): '/rituals',
+}
+
+# ⚠️ DOIT RESTER ACCORDE a `ANCRES` de generate_rdv_mensuels.py : ce fichier
+# ne l'importe pas (l'importer executerait ce module et reecrirait
+# /rendez-vous-mensuels au mauvais moment, meme piege que documente dans
+# _source_agenda() de generate_rdv_mensuels.py). Par defaut, l'ancre d'une
+# soiree mensuelle vaut « soiree-<date> » ; cette table ne porte que les
+# EXCEPTIONS deja publiees.
+ANCRES_RDV = {
+    '2026-09-04': 'instatic',
+}
+
+# ⚠️ Descriptifs COURTS, distincts de DESCR/DESCR_FR ci-dessus (qui, eux,
+# partent dans les .ics et les liens Google Agenda — plus complets, sans
+# accroche). Ceux-ci n'ont qu'un role : donner envie de cliquer sur « Infos
+# detaillees ». Aucun type sans page dediee (yoga) n'y figure.
+DESCR_COURTE = {
+    'mensuel':  'Une proposition différente chaque mois : workshop, concert ou scène ouverte.',
+    'concert':  'Un concert en petit comité, à quelques mètres du public.',
+    'yoga':     'Yoga postural, respiration et méditation, avec Iris Chasles.',
+    'rythme':   'Rejoindre le groupe de pratique du rythme à la calebasse.',
+    'showcase': 'Découvrir et essayer des instruments d’exception, faits main.',
+}
+
+
+def info_url(iso, h1, typ):
+    """L'adresse de la page dediee de CET evenement, ou None s'il n'y en a pas."""
+    over = INFO_PAR_EVENT.get((iso, h1))
+    if over:
+        return over
+    base = INFO_PAR_TYPE.get(typ)
+    if not base:
+        return None
+    if typ == 'mensuel':
+        return '%s#%s' % (base, ANCRES_RDV.get(iso, 'soiree-' + iso))
+    return base
 
 
 def reservation(iso, h1, typ):
@@ -477,15 +546,21 @@ def build():
                     f' data-typ="{typ}" data-mois="{d.year:04d}-{d.month:02d}"'
                     + REG.date(('agenda', cle_mois), d, h2))
             note_html = f'<span class="ag-note">{note}</span>' if note else ''
+            court = DESCR_COURTE.get(typ)
+            desc_html = f'<p class="ag-desc">{court}</p>' if court else ''
+            info = info_url(iso, h1, typ)
+            info_html = (f'<a class="ag-info" href="{info}">Infos détaillées &#8594;</a>'
+                        if info else '')
             g = esc_attr(gcal_url(titre, utc(h1), utc(h2), typ, url))
             out.append(
                 f'    <div class="ag-item" style="--c:{col}"{data}>'
                 f'<div class="ag-date"><span class="ag-d">{d.day}</span>'
                 f'<span class="ag-j">{jour[:3]}.</span></div>'
                 f'<div class="ag-body"><span class="ag-type">{lab}</span>'
-                f'<h3>{titre}</h3>{note_html}</div>'
+                f'<h3>{titre}</h3>{note_html}{desc_html}</div>'
                 f'<div class="ag-hour">{h1}<span>→ {h2}</span></div>'
                 f'<div class="ag-actions">'
+                f'{info_html}'
                 f'<a class="ag-btn" href="{url}"{ext}>{btn}</a>'
                 f'<a class="ag-gcal" href="{g}" target="_blank" rel="noopener" '
                 f'title="Ajouter cette date a mon Google Agenda">+ Google Agenda ↗</a>'
@@ -619,6 +694,12 @@ CSS = ("""
 .ag-body h3{font-size:19px;color:#fff;font-weight:600;margin:3px 0 0;font-family:'Cormorant Garamond',Georgia,serif}
 .ag-type{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--c);font-weight:600}
 .ag-note{display:block;color:var(--muted);font-size:13.5px;font-style:italic;margin-top:2px}
+.ag-desc{color:#d3d0e8;font-size:14.5px;margin-top:6px;line-height:1.5}
+.ag-info{display:inline-flex;align-items:center;justify-content:center;min-height:44px;
+  border:none;background:none;color:var(--gold2,var(--gold));border-radius:24px;
+  padding:9px 4px;font-size:15px;text-decoration:underline;text-underline-offset:3px;
+  white-space:nowrap;transition:color .2s}
+.ag-info:hover{color:var(--gold)}
 .ag-hour{text-align:right;color:#d3d0e8;font-size:16px;white-space:nowrap}
 .ag-hour span{display:block;color:var(--muted);font-size:14px}
 .ag-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;

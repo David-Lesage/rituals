@@ -2,7 +2,7 @@
 <html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Concerts de David Lesage — concert-cérémonie participatif au Nid, Paris 20ᵉ · Résonances Productions</title>
-<meta name="description" content="Voix, handpan, calebasse et Ngoni : le concert-cérémonie participatif de David Lesage, au Nid (Paris 20ᵉ). Assis au sol, à quelques pas de l’artiste — on entre en spectateur, on ressort en ayant chanté. Prochaines dates : 10 octobre et 28 novembre 2026.">
+<meta name="description" content="Voix, handpan, calebasse et Ngoni : le concert-cérémonie participatif de David Lesage, au Nid (Paris 20ᵉ). Assis au sol, à quelques pas de l’artiste — on entre en spectateur, on ressort en ayant chanté. Prochaines dates annoncées ici.">
 <meta property="og:title" content="Concerts de David Lesage — au Nid, Paris 20ᵉ">
 <meta property="og:description" content="Un concert-cérémonie participatif : voix, handpan, calebasse et Ngoni. Au Nid, assis au sol à quelques pas de l’artiste — on entre en spectateur, on ressort en ayant chanté.">
 <meta property="og:type" content="website">
@@ -380,27 +380,6 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 @media print{.nm-sub{display:none}}
 /* == fin nav_menu.py == */
 </style>
-<script>
-(function(){
-var F=["2026-10-10T19:00:00Z","2026-11-28T19:00:00Z"],B=[["cdl-dates",[0,1],0,"block",0,0]],n=Date.now(),r=[],i,k,j;
-function passe(x){return Date.parse(F[x])<=n;}
-for(i=0;i<F.length;i++){if(passe(i))r.push('html [data-dt="'+i+'"]{display:none!important}');}
-for(k=0;k<B.length;k++){
-var b=B[k],v=[];
-for(j=0;j<b[1].length;j++){if(!passe(b[1][j]))v.push(b[1][j]);}
-if(!v.length){
-if(b[2])r.push('html [data-dt-bloc="'+b[0]+'"]{display:none!important}');
-if(b[3])r.push('html [data-dt-vide="'+b[0]+'"]{display:'+b[3]+'!important}');
-r.push('html [data-dt-lie="'+b[0]+'"]{display:none!important}');
-}else{
-if(b[5]){for(j=0;j<v.length;j++)r.push('html [data-dt="'+v[j]+'"]{display:'+(j<b[5]?'inline':'none')+'!important}');}
-if(b[4])r.push('html [data-dt="'+v[0]+'"] .dt-sep{display:none!important}');
-}
-}
-if(r.length&&document.head){var s=document.createElement('style');
-s.appendChild(document.createTextNode(r.join('')));document.head.appendChild(s);}
-})();
-</script>
 </head>
 <body id="top">
 
@@ -635,14 +614,8 @@ s.appendChild(document.createTextNode(r.join('')));document.head.appendChild(s);
   <h2 class="sec-title">Prochaines dates au Nid</h2>
   <p>Le cercle est petit : on réserve à l’avance, en ligne.</p>
   <div class="cdl-dates">
-    <div class="cdl-date" data-dt="0" data-dt-fin="2026-10-10T19:00:00Z">
-      <div><div class="when"><time datetime="2026-10-10T19:00">Samedi 10 octobre 2026</time> — 19 h</div><div class="where">Le Nid, Paris 20<sup>e</sup></div></div>
-      <a class="btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/concert-intimiste-david-lesage-au-coeur-de-paris-1" target="_blank" rel="noopener">Réserver ma place</a>
-    </div><div class="cdl-date" data-dt="1" data-dt-fin="2026-11-28T19:00:00Z">
-      <div><div class="when"><time datetime="2026-11-28T18:00">Samedi 28 novembre 2026</time> — 18 h</div><div class="where">Le Nid, Paris 20<sup>e</sup></div></div>
-      <a class="btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/concert-intimiste-david-lesage-au-coeur-de-paris-1" target="_blank" rel="noopener">Réserver ma place</a>
-    </div>
-    <p class="dt-vide" data-dt-vide="cdl-dates">Prochaines dates en préparation.</p>
+    
+    <p>Prochaines dates en préparation.</p>
   </div>
   <div class="cdl-note">
     <p>L’adresse et les précisions vous parviennent avec votre confirmation de réservation.</p>
@@ -988,13 +961,6 @@ s.appendChild(document.createTextNode(r.join('')));document.head.appendChild(s);
       if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault(); ouvrir(i,im);}
     });
   });
-})();
-</script>
-<script>
-(function(){
-var n=Date.now(),L=document.querySelectorAll('[data-dt-fin]'),i,e;
-for(i=L.length-1;i>=0;i--){e=L[i];
-if(Date.parse(e.getAttribute('data-dt-fin'))<=n&&e.parentNode)e.parentNode.removeChild(e);}
 })();
 </script>
 

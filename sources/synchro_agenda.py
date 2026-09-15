@@ -195,6 +195,18 @@ CORRESPONDANCE = {
     # generique.
     'Rendez-vous mensuel au Nid — Scène ouverte':
         ('mensuel', 'Rendez-vous mensuel au Nid — Scène ouverte', 'scène ouverte'),
+    # 15/09/2026 — meme mecanisme que la scene ouverte du 2 octobre ci-dessus :
+    # David a donne le titre du rendez-vous du 7 novembre, l'agenda Google
+    # porte desormais ce titre exact.
+    'Atelier d’écriture érotique avec Charly':
+        ('mensuel', 'Atelier d’écriture érotique avec Charly', ''),
+    # 15/09/2026 — le concert de David Lesage du 28 novembre a ete supprime et
+    # deplace au 4 decembre, fondu dans le rendez-vous mensuel deja programme
+    # ce jour-la (acces par adhesion, plus par billet HelloAsso separe). Badge
+    # « Rendez-vous mensuel » (couleur du type, inchangee), titre « Concert
+    # David Lesage » — mots de David, sans le prefixe habituel.
+    'Rendez-vous mensuel au Nid — Concert David Lesage':
+        ('mensuel', 'Concert David Lesage', ''),
     # --- les concerts ---
     'Concert de David Lesage — Le Nid':
         ('concert', 'Concert — David Lesage solo', ''),
