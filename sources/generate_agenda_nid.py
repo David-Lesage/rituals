@@ -197,7 +197,18 @@ LESAGE   = 'https://lesagedavid.fr'
 # partie dans les descriptions Google Agenda et les fichiers `.ics` telecharges
 # par les inscrits. Ces liens vivent chez des gens, hors de ce depot.
 SHOWROOM = 'https://www.lesagedavid.fr/showroom#agenda'
-ADHESION = 'https://www.helloasso.com/beta/associations/resonances-productions/adhesions/adhesion-resonances-productions'
+# ⚠️ 15/09/2026 — David a fourni une billetterie HelloAsso DEDIEE aux rendez-
+# vous mensuels : « tous les boutons de reservation des rdv mensuels au nid
+# doivent renvoyer vers cette url ». Ca resout la contradiction « adhesion vs
+# billetterie » documentee dans generate_rdv_mensuels.py (le bouton disait
+# « Adherer » pour un rendez-vous que la page decrit comme reserve aux
+# adherents, or INSTATIC vend un billet a part) : ce lien EST la billetterie
+# du rendez-vous mensuel generique, au meme titre que celle d'INSTATIC.
+# Le bouton « Adherer » (devenir membre de l'association) vit dans le menu et
+# le pied de page, poses par `nav_menu.py` — remplace ici sans le toucher. La
+# billetterie propre a INSTATIC (URL_PAR_EVENT, plus bas) reste la sienne.
+RESA_MENSUEL = ('https://www.helloasso.com/associations/resonances-productions/'
+                'evenements/les-rdv-mensuels-au-nid')
 YOGA_INS = 'https://www.helloasso.com/associations/resonances-productions/evenements/atelier-mensuel-au-nid'
 MAILTO   = 'mailto:contact@resonancesproductions.org?subject=Le%20Nid%20—%20r%C3%A9servation'
 CANDIDATURE = '/rythme-calebasse#candidature'
@@ -213,7 +224,7 @@ COURS_IRIS  = 'https://www.irischasles.com/agenda-yoga'
 
 # type : (libelle, couleur, lien de reservation, libelle du bouton)
 TYPES = {
-    'mensuel':   ('Rendez-vous mensuel', '#d8b25a', ADHESION, 'Adhérer ↗'),
+    'mensuel':   ('Rendez-vous mensuel', '#d8b25a', RESA_MENSUEL, 'Réserver ↗'),
     'concert':   ('Concert',             '#e08a5f', LESAGE,   'Réserver ↗'),
     'yoga':      ('Atelier yoga',        '#7fb2a3', YOGA_INS, 'S’inscrire ↗'),
     # 17/08/2026 — David a tranche : ces rendez-vous ne sont PAS ouverts a la
@@ -261,15 +272,18 @@ URL_PAR_EVENT = {
     # INSTATIC Dance : billetterie dediee, et non le formulaire d'adhesion.
     ('2026-09-04', '19:00'):
         'https://www.helloasso.com/associations/resonances-productions/evenements/instatic-dance',
-    # Verifie sur la billetterie HelloAsso le 04/08 : elle vendait alors trois
-    # dates (26 septembre / 10 octobre / 28 novembre), toutes au Nid. Celles du
-    # 10 octobre et du 28 novembre ont ete retirees le 15/09/2026 (demande de
-    # David) — la seconde deplacee au 4 decembre, fondue dans le rendez-vous
-    # mensuel (acces par adhesion, plus par billet separe, cf EVENTS). Elles
-    # peuvent rester listees sur HelloAsso sans consequence, ce lien n'y
-    # renvoie plus depuis aucune page. Le concert du 26/09 reste inclus, meme
-    # s'il est annonce en trio sur le site.
-    ('2026-09-26', '20:00'): CONCERT_SOLO,   # Sortie de Residence — David, Iris & Julien
+    # Cette billetterie CONCERT_SOLO vendait a l'origine trois dates verifiees
+    # le 04/08 (26 septembre / 10 octobre / 28 novembre), toutes au Nid. Celles
+    # du 10 octobre et du 28 novembre ont ete retirees le 15/09/2026 (demande
+    # de David) — la seconde deplacee au 4 decembre, fondue dans le rendez-vous
+    # mensuel (billetterie RESA_MENSUEL, comme les autres rendez-vous mensuels,
+    # cf TYPES). Elles peuvent rester listees sur HelloAsso sans consequence,
+    # ce lien n'y renvoie plus depuis aucune page.
+    # ⚠️ Le concert du 26/09 (Sortie de Residence, en trio) est passe le meme
+    # jour de CONCERT_SOLO a RESA_MENSUEL : David a demande que « le bouton
+    # reserver du concert du 26 septembre » renvoie lui aussi vers la
+    # billetterie des rendez-vous mensuels.
+    ('2026-09-26', '20:00'): RESA_MENSUEL,   # Sortie de Residence — David, Iris & Julien
     # A COMPLETER quand David fournira les liens :
     #   workshops rythme a la calebasse (20/09, 17/10, 15/11) : billetterie
     #       HelloAsso a creer ; ils restent sur le mailto pour l'instant.

@@ -403,10 +403,15 @@ HELLO = 'https://www.helloasso.com/associations/resonances-productions'
 #    est cassee. Elle est publiee telle quelle.
 INSTATIC_RESA = ('https://www.helloasso.com/associations/resonances-productions'
                  '/evenements/instatic-dance')
-#: l'acces aux rendez-vous mensuels se fait par l'adhesion (pas de billetterie
-#: dediee), meme adresse que sur /le-nid et le pied de page de cette page.
-ADHESION = ('https://www.helloasso.com/beta/associations/resonances-productions'
-           '/adhesions/adhesion-resonances-productions')
+#: ⚠️ 15/09/2026 — remplace l'ancien acces par adhesion : David a fourni une
+#: billetterie HelloAsso DEDIEE aux rendez-vous mensuels (« tous les boutons
+#: de reservation des rdv mensuels au nid doivent renvoyer vers cette url »),
+#: qui resout la contradiction ADHESION vs BILLETTERIE documentee plus haut.
+#: Ne pas confondre avec `HELLO` (page d'accueil de l'association, utilisee
+#: par le bouton « Adherer » du menu et du pied de page) : celui-la ne change
+#: pas, on ne devient pas adherent pour venir a UNE soiree precise.
+RESA_MENSUEL = ('https://www.helloasso.com/associations/resonances-productions'
+                '/evenements/les-rdv-mensuels-au-nid')
 STATUTS = ('https://docs.google.com/document/d/'
            '1NxsbvaqHsA9VOXlN7cvsav7cxFwhsK4XCpowHb75o1w/edit?usp=sharing')
 
@@ -704,8 +709,13 @@ CONTENUS = {
             'Temps informel de discussion et de partage, à la suite.',
         ],
         fin='Incarnons le monde dans lequel nous voulons vivre.',
-        resa=ADHESION,
-        resa_texte='Adhérer pour réserver ↗',
+        resa=RESA_MENSUEL,
+        # ⚠️ Distinct de « Réserver ma place ↗ » (texte du bouton « sous la
+        # fiche pratique », toujours le meme, cf _encart_complet) : les deux
+        # coexistent sur cette soiree, le controle plus bas les compte
+        # separement et refuse une collision de libelle. Meme logique que le
+        # « — 20 € » d'INSTATIC.
+        resa_texte='Réserver ma place — Scène ouverte ↗',
     ),
     # 15/09/2026 — meme etat intermediaire que la scene ouverte du 2 octobre
     # (voir la note plus haut) : David a donne le TITRE de cette soiree, pas
