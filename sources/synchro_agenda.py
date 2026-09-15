@@ -204,10 +204,13 @@ CORRESPONDANCE = {
     #    David le decide : la ligne reproduit ce qui est en ligne aujourd'hui.
     'Concert de David Lesage — Le Nid + Guest Lucie au violon':
         ('concert', 'Concert — David Lesage', 'avec Lucie au violon'),
+    # 15/09/2026 — David a fusionne ce concert et la sortie de residence du
+    # meme jour (17h-19h) en un seul bloc sur le site : le titre publie devient
+    # celui de la residence. Le BADGE reste « Concert Rituals » — surcharge
+    # dans LABEL_PAR_EVENT de generate_agenda_nid.py, hors de portee de ce
+    # fichier puisqu'il n'est pas rewrite par la synchronisation nocturne.
     'Concert RITUALS trio — David, Iris & Julien — Le Nid':
-        ('concert', 'Concert — David, Iris & Julien', 'le trio en concert'),
-    'Concert Sortie de résidence — Le Nid':
-        ('residence', 'Sortie de résidence', 'restitution du travail en trio'),
+        ('concert', 'Sortie de Résidence — David, Iris & Julien', 'le trio en concert'),
     # --- les ateliers ---
     'Atelier de yoga — Le Nid':
         ('yoga', 'Atelier de yoga', 'avec Iris Chasles'),
@@ -230,7 +233,15 @@ CORRESPONDANCE = {
 #:    pour une vraie date. Dans le doute, ne rien ecrire ici — le signalement
 #:    est fait pour ca.
 #: Exemple de ligne :  'Menage du Nid': 'organisation interne, pas un evenement',
-IGNORER = {}
+IGNORER = {
+    # 15/09/2026 — David a demande de supprimer ce bloc du site : la sortie de
+    # residence du 26/09 (17h-19h) est desormais racontee DANS le bloc du
+    # concert du meme soir (20h-22h), pas dans un bloc separe. L'evenement
+    # Google reste tel quel (on ne touche pas l'agenda de David), on choisit
+    # juste de ne pas le publier une seconde fois.
+    'Concert Sortie de résidence — Le Nid':
+        'fusionne avec le concert du meme soir (20h-22h), a la demande de David',
+}
 
 
 # --------------------------------------------------------------------------- #

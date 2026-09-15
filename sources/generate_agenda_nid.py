@@ -137,8 +137,7 @@ EVENTS = [
     ('2026-09-06', '16:30', '19:00', 'yoga',      'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-09-19', '16:00', '19:00', 'showcase',  'Présentation d’instruments d’exception', ''),
     ('2026-09-20', '10:00', '12:00', 'rythme',    'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
-    ('2026-09-26', '17:00', '19:00', 'residence', 'Sortie de résidence', 'restitution du travail en trio'),
-    ('2026-09-26', '20:00', '22:00', 'concert',   'Concert — David, Iris & Julien', 'le trio en concert'),
+    ('2026-09-26', '20:00', '22:00', 'concert',   'Sortie de Résidence — David, Iris & Julien', 'le trio en concert'),
     ('2026-10-02', '18:30', '23:30', 'mensuel',   'Rendez-vous mensuel au Nid — Scène ouverte', 'scène ouverte'),
     ('2026-10-04', '16:30', '19:00', 'yoga',      'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-10-10', '19:00', '21:00', 'concert',   'Concert — David Lesage solo', ''),
@@ -172,7 +171,6 @@ DESCR = {
  'yoga':     'Atelier de yoga guide par Iris Chasles : yoga postural, respiration et meditation. Pratique accessible a tous les niveaux.',
  'rythme':   'Rendez-vous mensuel du groupe de pratique engage, avec David Lesage : deux heures de pratique, les bases, les frappes, la pulsation collective. Aucun prerequis musical. Ce n\'est pas un atelier ouvert a la seance : on rejoint le groupe sur candidature, a tout moment.',
  'showcase': 'Presentation, decouverte et essai d\'instruments d\'exception : le Neotone (handpan electronique de facture professionnelle), des handpans acoustiques Yishama, la calebasse, le Gonilele (petite harpe africaine) et des micros concus pour le handpan. Des instruments faits main, produits en tres petites series, dont la valeur atteint plusieurs milliers d\'euros. David Lesage les presente, les fait sonner devant vous, repond aux questions, puis les met entre vos mains. Gratuit, sur inscription, environ 2 h. Aucune experience requise.',
- 'residence':'Sortie de residence : restitution publique du travail mene en trio.',
 }
 
 # Versions accentuees, utilisees uniquement pour les liens Google Agenda
@@ -183,7 +181,6 @@ DESCR_FR = {
  'yoga':     'Atelier de yoga guidé par Iris Chasles : yoga postural, respiration et méditation. Pratique accessible à tous les niveaux.',
  'rythme':   'Rendez-vous mensuel du groupe de pratique engagé, avec David Lesage : deux heures de pratique, les bases, les frappes, la pulsation collective. Aucun prérequis musical. Ce n\'est pas un atelier ouvert à la séance : on rejoint le groupe sur candidature, à tout moment.',
  'showcase': 'Présentation, découverte & essai d’instruments d’exception : le Neotone (handpan électronique de facture professionnelle), des handpans acoustiques Yishama, la calebasse, le Gonilélé (petite harpe africaine) et des micros conçus pour le handpan. Des instruments faits main, produits en très petites séries, dont la valeur atteint plusieurs milliers d’euros. David Lesage les présente, les fait sonner devant vous, répond à toutes les questions, puis les met entre vos mains. Gratuit, sur inscription, environ 2 h. Aucune expérience requise.',
- 'residence':'Sortie de résidence : restitution publique du travail mené en trio.',
 }
 ACCES_PUBLIC_FR = ('Au fond de la cour, porte verte, 3e étage. '
                    'Le code du portail vous est communiqué avec votre confirmation d’inscription.')
@@ -234,7 +231,13 @@ TYPES = {
     # (contrainte de place dans l'agenda) ; le nom complet de la categorie est
     # « Présentation, découverte & essai d'instruments d'exception ».
     'showcase':  ('Découverte &amp; essai', '#6f9bd1', SHOWROOM, 'Réserver ↗'),
-    'residence': ('Sortie de résidence', '#c98fb0', MAILTO,   'Réserver'),
+    # ⚠️ Type 'residence' retire le 15/09/2026 : son seul evenement (la sortie
+    # de residence du 26/09) a ete fusionne dans le bloc concert du meme soir
+    # (LABEL_PAR_EVENT plus bas). Un type sans aucun evenement laissait une
+    # entree morte dans la legende et la barre de filtres. Si une vraie sortie
+    # de residence revient un jour comme bloc SEPARE, le recreer ici plutot que
+    # de deterrer celui-ci : sa couleur (#c98fb0) et son lien (MAILTO) dataient
+    # d'avant la decision de David, personne n'a verifie qu'ils tiennent encore.
 }
 
 # ---------------------------------------------------------------------------
@@ -265,10 +268,28 @@ URL_PAR_EVENT = {
     # Verifie sur la billetterie HelloAsso le 04/08 : elle vend bien TROIS dates
     # (26 septembre / 10 octobre / 28 novembre), toutes au Nid. Le concert du
     # 26/09 y est donc inclus, meme s'il est annonce en trio sur le site.
-    ('2026-09-26', '20:00'): CONCERT_SOLO,   # Concert — David, Iris & Julien
+    ('2026-09-26', '20:00'): CONCERT_SOLO,   # Sortie de Residence — David, Iris & Julien
     # A COMPLETER quand David fournira les liens :
     #   workshops rythme a la calebasse (20/09, 17/10, 15/11) : billetterie
     #       HelloAsso a creer ; ils restent sur le mailto pour l'instant.
+}
+
+# ---------------------------------------------------------------------------
+# SURCHARGE DU BADGE DE TYPE, EVENEMENT PAR EVENEMENT
+# ---------------------------------------------------------------------------
+# 15/09/2026 — David a fusionne deux evenements du 26 septembre (la sortie de
+# residence de 17h-19h et le concert de 20h-22h) en un seul bloc sur le site :
+# le bloc « Sortie de residence » a ete supprime, et celui du concert porte
+# desormais le titre « Sortie de Residence — David, Iris & Julien ». Mais son
+# BADGE (au-dessus du titre) doit rester « Concert Rituals », pas « Sortie de
+# residence » : c'est le badge de type qui distingue visuellement les concerts
+# des ateliers dans la liste, un badge qui ne dirait pas « Concert » romprait
+# ce repere pour ce seul evenement.
+# ⚠️ Le TYPE de la ligne reste 'concert' (memes couleur, lien, description) :
+# seul le LIBELLE affiche est surcharge ici, exactement comme URL_PAR_EVENT
+# surcharge le lien sans creer un type a part.
+LABEL_PAR_EVENT = {
+    ('2026-09-26', '20:00'): 'Concert Rituals',
 }
 
 
@@ -435,7 +456,7 @@ def build():
         out.append(f'  <div class="ag-month">{MOIS[mois-1]} {an}</div>')
         out.append('  <div class="ag-list">')
         for iso, d, h1, h2, typ, titre, note in evs:
-            lab, col = TYPES[typ][0], TYPES[typ][1]
+            lab, col = LABEL_PAR_EVENT.get((iso, h1), TYPES[typ][0]), TYPES[typ][1]
             # lien de reservation : surcharge par evenement, sinon defaut du type
             url, btn = reservation(iso, h1, typ)
             ext = ' target="_blank" rel="noopener"' if url.startswith('http') else ''
