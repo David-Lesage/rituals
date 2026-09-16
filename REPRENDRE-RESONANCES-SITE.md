@@ -179,7 +179,43 @@ Pour aller voir toi-même à n'importe quel moment :
 **github.com/David-Lesage/rituals → onglet « Actions » → « Agenda du Nid »**. Chaque
 nuit y laisse une ligne. Vert = tout est passé, rouge = quelque chose est à regarder.
 
+## 🚨 16/09/2026 — la synchro était morte depuis treize nuits, et personne ne l'a vu
+
+**À lire avant de soupçonner l'agenda.** Du 3 au 16 septembre, la mise à jour nocturne a
+échoué **chaque nuit**. Le site n'était pas cassé pour autant : il affichait simplement,
+sans rien dire, les dates figées au 2 septembre. C'est le pire genre de panne — silencieuse.
+
+**La cause**, en une phrase : le contrôle qui lit la taille des images ne savait le faire
+**sans Pillow** que pour les JPEG. Pillow est installé sur le Mac de David, pas sur
+GitHub. Le jour où la page du duo a reçu des photos `.webp` (30/08), la reconstruction
+s'est mise à échouer *là-bas seulement*, sur « dimensions illisibles ».
+
+**Ce qui a été fait** : des lecteurs WebP et PNG sans aucune dépendance, dans
+`sources/verif_site.py` (`_taille_webp`, `_taille_png`, table `_LECTEURS`), vérifiés
+identiques à Pillow sur les 836 images du dépôt.
+
+**LA LEÇON, et elle a déjà servi deux fois** (Pillow/JPEG en août, Pillow/WebP en
+septembre) : *ce qui marche sur le Mac ne prouve rien sur GitHub.* Le test qui tranche,
+à lancer après toute modification touchant aux images ou aux contrôles :
+
+```
+mkdir -p /tmp/nopil && echo 'raise ImportError' > /tmp/nopil/PIL.py
+PYTHONPATH=/tmp/nopil python3 sources/build.py
+```
+
+S'il finit sur « 31/31 pages conformes », ça passera aussi la nuit. **Tout nouveau format
+d'image ajouté au dépôt doit avoir son lecteur dans `_LECTEURS`**, sinon la même panne
+revient, au même endroit, et de nouveau en silence.
+
+**Pour qu'elle ne soit plus silencieuse** : le workflow écrit désormais la cause en clair,
+en haut de la page du run (onglet « Actions »), au lieu de la laisser enterrée dans le
+journal. Un run rouge = la cause se lit en dix secondes.
+
 ## Si une date n'apparaît pas — les trois choses à vérifier, dans l'ordre
+
+0. **Est-ce que la dernière nuit s'est bien passée ?** Onglet « Actions » du dépôt : si la
+   dernière exécution d'« Agenda du Nid » est **rouge**, aucune date n'arrive plus sur le
+   site depuis. La cause est écrite en haut de la page du run. (Voir ci-dessus.)
 
 1. **L'orthographe du titre** dans ton agenda. Une lettre en trop et ce n'est plus le
    même titre. (Les accents comptent ; les espaces en double et les majuscules, non.)
