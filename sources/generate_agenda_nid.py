@@ -392,6 +392,10 @@ JOURS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'
 MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
         'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
 
+# Abreviations francaises usuelles des mois, ponctuation comprise.
+MOIS_COURT = ['janv.', 'févr.', 'mars', 'avril', 'mai', 'juin',
+              'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.']
+
 
 def esc_attr(x):
     return (x.replace('&', '&amp;').replace('"', '&quot;')
@@ -1245,10 +1249,10 @@ def dates_courtes(typ, n=3, extra=''):
     cle = 'offer-' + typ
     REG.declare(cle, repli='inline', sep=True, fenetre=n)
     txt = ''.join(
-        '<time%s%s>%s%d %s.</time>'
+        '<time%s%s>%s%d %s</time>'
         % (' class="dt-plus"' if k >= n else '', REG.date(cle, d, h),
            dates_a_venir.separateur() if k else '',
-           d.day, MOIS[d.month - 1][:4])
+           d.day, MOIS_COURT[d.month - 1])
         for k, (d, h) in enumerate(items))
     return ('<div class="offer-dates"><span>Prochaines dates</span>%s'
             '<i%s>%s</i> '

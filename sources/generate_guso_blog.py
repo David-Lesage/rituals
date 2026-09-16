@@ -2353,7 +2353,7 @@ C'est là que tout se joue. Quatre moments.
 
 ## Une méthode simple, en quatre listes
 
-La difficulté d'une petite structure n'est pas la complexité : c'est la **charge mentale répartie sur des bénévoles**. Une méthode qui tient tient parce qu'elle est bête.
+La difficulté d'une petite structure n'est pas la complexité : c'est la **charge mentale répartie sur des bénévoles**. Une méthode qui tient parce qu'elle est bête.
 
 Tenez quatre listes, à jour, visibles par plusieurs personnes :
 

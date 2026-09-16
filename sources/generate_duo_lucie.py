@@ -101,19 +101,19 @@ ANCIEN_DOSSIER = 'David-Lesage-Lucie-Electric-Violoniste'
 MORCEAUX = (
     dict(
         fichier='01-lappel-du-vent.mp3', duree='11:09', secondes=669,
-        titre_fr="L'appel du vent", titre_en="L'appel du vent",
+        titre_fr="L’appel du vent", titre_en="L’appel du vent",
         sous_fr='Handpan électronique, violon électrique &amp; voix',
         sous_en='Electronic handpan, electric violin &amp; voice',
-        note_fr="Du répertoire de David Lesage, album <i>L'Alliance du Phoenix</i>, repris à deux.",
-        note_en="From David Lesage's own repertoire, album <i>L'Alliance du Phoenix</i>, rewritten for two.",
+        note_fr="Du répertoire de David Lesage, album <i>L’Alliance du Phoenix</i>, repris à deux.",
+        note_en="From David Lesage's own repertoire, album <i>L’Alliance du Phoenix</i>, rewritten for two.",
     ),
     dict(
         fichier='02-transe-lunaire.mp3', duree='5:52', secondes=352,
         titre_fr='Transe lunaire', titre_en='Transe lunaire',
         sous_fr='Handpan électronique, violon électrique &amp; voix',
         sous_en='Electronic handpan, electric violin &amp; voice',
-        note_fr="Du répertoire de David Lesage, album <i>L'Alliance du Phoenix</i>.",
-        note_en="From David Lesage's own repertoire, album <i>L'Alliance du Phoenix</i>.",
+        note_fr="Du répertoire de David Lesage, album <i>L’Alliance du Phoenix</i>.",
+        note_en="From David Lesage's own repertoire, album <i>L’Alliance du Phoenix</i>.",
     ),
     dict(
         fichier='03-ave-maria.mp3', duree='10:07', secondes=607,
@@ -139,7 +139,7 @@ MORCEAUX = (
         titre_en='Meditative journey — African ngoni harp &amp; violin',
         sous_fr='Harpe africaine ngoni 14 cordes, violon électrique &amp; voix',
         sous_en='14-string African ngoni harp, electric violin &amp; voice',
-        note_fr="L'instrument le plus ancien du duo face au plus récent. Improvisation.",
+        note_fr="L’instrument le plus ancien du duo face au plus récent. Improvisation.",
         note_en="The duo's oldest instrument against its newest. Improvisation.",
     ),
 )

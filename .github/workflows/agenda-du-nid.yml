@@ -75,11 +75,20 @@ jobs:
 
       # Si ce pas echoue, TOUT s'arrete : les pas suivants ne s'executent pas,
       # donc rien n'est commite ni publie. C'est exactement ce qu'on veut.
+      #
+      # ⚠️ `set -o pipefail` N'EST PAS DECORATIF. Sans lui, le `| tee` renvoie le
+      #    code de sortie de `tee` (toujours 0) et une panne de Python passerait
+      #    pour une reussite : le pas resterait vert et le site cesserait d'etre
+      #    mis a jour en silence. Le journal est garde pour le pas de diagnostic
+      #    en fin de fichier.
       - name: Lire l'agenda, reecrire les dates, reconstruire et verifier
+        id: synchro
         run: |
+          set -o pipefail
           python3 sources/synchro_agenda.py \
             --appliquer \
-            --rapport "$RUNNER_TEMP/signalements.txt"
+            --rapport "$RUNNER_TEMP/signalements.txt" 2>&1 \
+            | tee "$RUNNER_TEMP/journal.txt"
 
       - name: Publier, seulement si quelque chose a change
         run: |
@@ -116,3 +125,70 @@ jobs:
           echo "Si l'un d'eux doit paraitre, ajouter son titre EXACT dans la"
           echo "table CORRESPONDANCE de sources/synchro_agenda.py."
           exit 1
+
+      # ---------------------------------------------------------------------
+      # ⚠️ AJOUTE LE 16/09/2026, APRES DEUX SEMAINES DE PANNE QUE PERSONNE N'A VUE
+      # ---------------------------------------------------------------------
+      # Du 3 au 16 septembre, cette tache a echoue CHAQUE NUIT sans que le site
+      # cesse de fonctionner : il continuait simplement d'afficher les dates du
+      # 2 septembre. La cause tenait en une ligne (`_lire_image` ne savait pas
+      # lire un `.webp` sans Pillow, absent ici), mais elle etait ENTERREE au
+      # milieu de centaines de lignes de journal — il fallait savoir ou chercher.
+      #
+      # Ce pas ecrit la cause EN HAUT de la page du run, en francais, dans le
+      # « resume » que GitHub affiche avant meme le journal. Une panne reste une
+      # panne ; au moins elle se lit en dix secondes au lieu de dix minutes.
+      #
+      # ⚠️ `steps.synchro.outcome` ET PAS SEULEMENT `failure()` : le pas
+      #    precedent sort en erreur quand un evenement de l'agenda n'est pas
+      #    reconnu — ce n'est PAS une panne, le site a bien ete mis a jour, et
+      #    annoncer le contraire serait un faux message d'alarme.
+      - name: Si la synchronisation a echoue, l'ecrire en clair
+        if: failure() && steps.synchro.outcome == 'failure'
+        run: |
+          JOURNAL="$RUNNER_TEMP/journal.txt"
+          {
+            echo "## ❌ L'agenda du Nid n'a PAS mis le site a jour"
+            echo ""
+            echo "Le site en ligne est intact : il est reste exactement dans"
+            echo "l'etat de la derniere synchronisation reussie. Rien n'a ete"
+            echo "publie a moitie. Mais les dates ajoutees ou modifiees dans"
+            echo "l'agenda Google **n'arrivent plus sur le site** tant que ceci"
+            echo "n'est pas repare."
+            echo ""
+            echo "### Ce qui a bloque"
+            echo ""
+            if [ -s "$JOURNAL" ]; then
+              echo '```'
+              grep -iE 'ABANDON|REFUS|Traceback|Error' "$JOURNAL" | tail -20 || true
+              echo '```'
+              echo ""
+              echo "<details><summary>Les 60 dernieres lignes du journal</summary>"
+              echo ""
+              echo '```'
+              tail -60 "$JOURNAL"
+              echo '```'
+              echo "</details>"
+            else
+              echo "Aucun journal : la panne est survenue avant le lancement du"
+              echo "script (recuperation du depot, installation de Python…)."
+            fi
+            echo ""
+            echo "### Quoi faire"
+            echo ""
+            echo "Reproduire la panne en local, a l'identique, avec :"
+            echo ""
+            echo '```'
+            echo "python3 sources/synchro_agenda.py        # essai, n'ecrit rien"
+            echo '```'
+            echo ""
+            echo "Si l'essai passe en local mais echoue ici, c'est presque"
+            echo "toujours **une dependance presente sur le Mac et absente ici**"
+            echo "(c'etait Pillow, en aout pour les JPEG puis en septembre pour"
+            echo "les WebP). Le test qui le prouve, sur le Mac :"
+            echo ""
+            echo '```'
+            echo "mkdir -p /tmp/nopil && echo 'raise ImportError' > /tmp/nopil/PIL.py"
+            echo "PYTHONPATH=/tmp/nopil python3 sources/build.py"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

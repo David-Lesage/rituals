@@ -675,8 +675,16 @@ CONTENUS = {
     '2026-10-02': dict(
         type='Scène ouverte',
         titre='Scène ouverte au Nid',
-        horaire='18h30 – 23h30',
-        fin_heure='23:30',
+        # ⚠️ 16/09/2026 — CET HORAIRE SUIT L'AGENDA GOOGLE, qui annonce
+        #    19h00-21h00 pour cette soiree. Il disait « 18h30 – 23h30 » : la
+        #    synchronisation a corrige /le-nid le matin meme et les deux pages
+        #    se seraient contredites. C'est le SITE qu'on corrige quand il
+        #    diverge de l'agenda (principe pose par David le 27/08).
+        #    L'accueil des 18h30, lui, vient du texte que David a dicte le
+        #    16/09 : l'agenda ne couvre que la scene ouverte elle-meme, la
+        #    porte ouvre avant. Les deux ne se contredisent pas.
+        horaire='18h30 – 21h',
+        fin_heure='21:00',
         prix='Réservé aux adhérents',
         sous='Cabaret &amp; scène ouverte, dans le cocon du Nid — avec Iris &amp; David.',
         chapeau='Un espace d’éclosion, ouvert le temps d’une soirée à la poésie, '

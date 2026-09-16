@@ -225,7 +225,7 @@ PERSP = [
  ('1u5LIqjQWaaEU4d4ejVEz_gnNEBCm0PmU', 'Portés ensemble'),
  ('1aJJWBsCRWG7sHeO-Kh-Hg_uNHnmIz_jn', 'Julien &amp; David — le souffle et le rythme'),
  ('11IHtfighVSWGfCaMoWtcC3PD2f9lODkp', 'La danse collective'),
- ('1gpnX7USd9A9mY4YKN00KZYdYH5_BFRlM', "Iris &amp; David — l'instant de la prière"),
+ ('1gpnX7USd9A9mY4YKN00KZYdYH5_BFRlM', "Iris &amp; David — l’instant de la prière"),
  ('13MPc99NcHg0kAGWhwK5Vlwvjufejhd3j', 'Iris Chasles — le chant qui relie'),
  ('1dm_aLuZRE8KJTZbvL9gs18vy3TlNVbpc', 'Recueilli'),
  ('1zD5Z0GoUVJsJPlfGgVmmNhxs8lOXQYah', 'Communier en cercle'),
