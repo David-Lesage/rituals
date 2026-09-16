@@ -1000,6 +1000,56 @@ CSS_CHALEUR = ("""/* ===== Le Nid : declinaisons chaleureuses ===== */
 """)
 
 
+# --------------------------------------------------------------------------- #
+# CSS DU BANDEAU DES RDV MENSUELS ET DU SOMMAIRE (16/09/2026)
+# --------------------------------------------------------------------------- #
+# ⚠️ AUCUN COMMENTAIRE DANS LE CSS LIVRE : `verif_commentaires.py` refuse
+#    d'ecrire la page si une note de travail y revenait, et le depot est
+#    public. Les explications restent donc ici, en Python.
+#
+# LE BANDEAU. Deux colonnes sur grand ecran (texte / boutons), une seule sous
+# 760 px. Il reprend le fond, le filet de tete au degrade et le rayon de 18 px
+# des tuiles `.offer` : c'est le meme objet visuel, en plus large — pas un
+# troisieme style a maintenir. `align-items:center` sur la colonne des boutons
+# les garde en face du texte plutot que collés en haut.
+#
+# LE SOMMAIRE. Des pastilles qui passent a la ligne (`flex-wrap`), jamais une
+# liste en colonne : sept lignes empilees auraient repousse la premiere tuile
+# sous la ligne de flottaison, alors que le sommaire est justement la pour
+# donner la carte du terrain d'un coup d'oeil. Chaque pastille fait 44 px de
+# haut — c'est le plancher tactile applique partout sur le site.
+CSS_BAND = ("""
+.rdv-band{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:26px;align-items:center;
+  margin-top:40px;padding:28px;border:1px solid rgba(255,255,255,.07);border-top:3px solid transparent;
+  border-radius:18px;background-image:var(--grad),linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));
+  background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;
+  background-origin:border-box,padding-box}
+.rdv-band .t{width:fit-content;max-width:100%;font-size:13px;letter-spacing:.2em;text-transform:uppercase;
+  font-weight:600;background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent}
+.rdv-band h3{font-family:'Cormorant Garamond',Georgia,serif;color:#fff;font-size:clamp(25px,3.3vw,34px);
+  font-weight:600;line-height:1.15;margin:6px 0 0}
+.rdv-band-cit{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);
+  font-size:20px;margin:8px 0 0}
+.rdv-band p{color:#d7d4ea;font-size:16.5px;line-height:1.65;margin:10px 0 0;max-width:70ch}
+.rdv-band .offer-dates{margin-top:16px}
+.rdv-band-act{display:flex;flex-direction:column;gap:12px}
+.rdv-band-act .btn{white-space:nowrap;text-align:center}
+@media(max-width:760px){.rdv-band{grid-template-columns:1fr;padding:24px 20px;gap:20px}
+  .rdv-band-act{flex-direction:row;flex-wrap:wrap}}
+.rdv-som{margin-top:34px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08)}
+.rdv-som-t{width:fit-content;max-width:100%;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  font-weight:600;margin-bottom:14px;background:var(--grad);-webkit-background-clip:text;
+  background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.rdv-som-l-wrap{display:flex;flex-wrap:wrap;gap:10px}
+.rdv-som-l{display:inline-flex;align-items:center;min-height:44px;padding:9px 18px;border-radius:30px;
+  border:1px solid rgba(216,178,90,.30);background:rgba(255,255,255,.04);color:#e6e3f5;font-size:15.5px;
+  line-height:1.3;transition:border-color .2s,color .2s,background .2s}
+.rdv-som-l:hover{border-color:var(--gold2);color:var(--gold2);background:rgba(216,178,90,.10)}
+.rdv-som-ext{color:var(--gold2)}
+""")
+
+
 # =========================================================================== #
 # UNE COULEUR PAR ACTIVITE — LES SIX TUILES DU PROGRAMME (19/08/2026)
 # =========================================================================== #
@@ -1398,6 +1448,84 @@ def carte_instruments():
 
 
 # --------------------------------------------------------------------------- #
+# LE BANDEAU DES RENDEZ-VOUS MENSUELS — 16/09/2026, demande de David
+# --------------------------------------------------------------------------- #
+# « Dans "ce qui se passe au nid" ajouter un bandeau horizontal qui est la
+#   premiere information visible et qui fait toute la largeur. »
+#
+# Il est POSE AVANT la grille des tuiles, pas dedans : une tuile en
+# `grid-column:1/-1` a deja ete essayee pour la carte « instruments » en aout,
+# et c'est precisement ce qui la faisait mesurer 988 px de large contre 316 aux
+# autres — David avait signale le desequilibre. Un bloc a lui, hors de la
+# grille, tient toute la largeur sans rien deformer.
+#
+# ⚠️ LE TEXTE EST CELUI DE /rendez-vous-mensuels, MOT POUR MOT (chapeau et
+#    phrase d'introduction). Les deux pages disent donc la meme chose au meme
+#    endroit : si l'une change, changer l'autre. Ce n'est pas une duplication
+#    par negligence, c'est David qui a fourni ce texte pour ce bandeau.
+# ⚠️ LES DATES NE SONT PAS ECRITES ICI : `dates_courtes('mensuel')` les lit dans
+#    EVENTS, donc dans l'agenda Google apres synchronisation. Une date ajoutee
+#    la-bas apparait ici toute seule, et une date passee disparait toute seule.
+def bandeau_mensuels():
+    return (
+        '  <div class="rdv-band">\n'
+        '    <div class="rdv-band-txt">\n'
+        '      <div class="t">Une fois par mois</div>\n'
+        '      <h3>Les RDV Mensuels au Nid</h3>\n'
+        '      <p class="rdv-band-cit">« Une proposition différente à chaque fois »</p>\n'
+        '      <p>Un soir par mois, Le Nid ouvre ses portes pour une soirée qui '
+        'n’est jamais tout à fait la même : un workshop, un concert, une scène '
+        'ouverte. Toujours sur réservation, toujours avec des intervenants '
+        'différents.</p>\n'
+        '      ' + dates_courtes('mensuel', extra=' <a href="/rendez-vous-mensuels">En savoir plus →</a>') + '\n'
+        '    </div>\n'
+        '    <div class="rdv-band-act">\n'
+        '      <a class="btn" href="' + RESA_MENSUEL + '" target="_blank" rel="noopener">Réserver sa place ↗</a>\n'
+        '      <a class="btn ghost" href="/rendez-vous-mensuels">Voir le programme</a>\n'
+        '    </div>\n'
+        '  </div>\n')
+
+
+# --------------------------------------------------------------------------- #
+# LE SOMMAIRE DE « CE QUI SE PASSE AU NID » — 16/09/2026, demande de David
+# --------------------------------------------------------------------------- #
+# Il remplace les six entrees de menu sorties du sous-menu « Le Nid » le meme
+# jour (voir la note en tete de `NID` dans nav_menu.py) : c'est desormais LE
+# chemin vers chaque activite, et l'entree de menu « Tous les evenements » mene
+# ici (`/le-nid#programme`).
+#
+# ⚠️ « Le Soin Soa » EST LE SEUL A SORTIR DE LA PAGE, et c'est un choix de David
+#    (16/09) : il n'a pas de tuile dans cette grille, sa page lui est dediee.
+#    L'alternative etait d'ajouter une septieme tuile — refusee pour ne pas
+#    defaire l'equilibre des six tuiles valide en aout. Son lien est donc
+#    marque `rdv-som-ext` : il sort de la page, et le dire evite la surprise.
+# ⚠️ LES ANCRES SONT CELLES DES TUILES, pas des inventions : `#instruments`,
+#    `#concerts-au-nid`, `#yoga`, `#calebasse-workshop`, `#psychotherapie` et
+#    `#cours-individuels` existent dans `lenid_source.html`. Le controle
+#    `liens` de verif_site.py refuse d'ecrire la page si l'une disparaissait.
+SOMMAIRE = (
+    ('Présentation d’instruments', '#instruments', False),
+    ('Concerts au Nid', '#concerts-au-nid', False),
+    ('Atelier de yoga', '#yoga', False),
+    ('Rythme &amp; calebasse', '#calebasse-workshop', False),
+    ('Le Soin Soa', '/le-soin-soa', True),
+    ('Psychothérapie', '#psychotherapie', False),
+    ('Cours individuels', '#cours-individuels', False),
+)
+
+
+def sommaire_activites():
+    liens = ''.join(
+        '      <a class="rdv-som-l%s" href="%s">%s%s</a>\n'
+        % (' rdv-som-ext' if ext else '', href, lab, ' ↗' if ext else '')
+        for lab, href, ext in SOMMAIRE)
+    return ('  <nav class="rdv-som" aria-label="Les activités du Nid">\n'
+            '    <div class="rdv-som-t">Les activités, une par une</div>\n'
+            '    <div class="rdv-som-l-wrap">\n' + liens + '    </div>\n'
+            '  </nav>\n')
+
+
+# --------------------------------------------------------------------------- #
 # TEXTES REMPLACES DANS LA SOURCE
 # La source garde la formulation d'AVANT l'agenda (« calendrier en cours de mise
 # a jour », « Être informé des dates »…). Le generateur la remplace par la
@@ -1465,6 +1593,7 @@ def generer():
     html = html.replace('</style>',
                         CSS.lstrip('\n') + CSS_DATES
                         + theme_chaleur.CSS + CSS_CHALEUR + css_tuiles()
+                        + CSS_BAND
                         + visionneuse.css('') + dates_a_venir.css()
                         + '\n</style>', 1)
 
@@ -1512,6 +1641,18 @@ def generer():
     ancre_carte = '  <div class="offers">\n'
     _exiger(html, ancre_carte, 1, 'ouverture de la grille des tuiles')
     html = html.replace(ancre_carte, ancre_carte + carte_instruments() + '\n', 1)
+
+    # --- bandeau des RDV mensuels, puis sommaire, AVANT la grille ------------
+    # 16/09/2026 — David : le bandeau est « la premiere information visible »
+    # de « Ce qui se passe au Nid ». Il passe donc devant la grille, et le
+    # sommaire se glisse entre les deux.
+    # ⚠️ CET APPEL VIENT APRES L'INJECTION DE LA CARTE « instruments », et c'est
+    #    voulu : les deux se servent de la MEME ancre. Dans l'autre ordre, le
+    #    bandeau se serait intercale entre l'ancre et la carte, et la carte
+    #    « instruments » — que David a demandee en premiere tuile — se serait
+    #    retrouvee hors de la grille.
+    html = html.replace(ancre_carte,
+                        bandeau_mensuels() + sommaire_activites() + ancre_carte, 1)
 
     # --- scripts : telechargement .ics, puis filtres -------------------------
     _exiger(html, '</body>', 1, 'fin du corps de page')
@@ -1575,9 +1716,16 @@ if __name__ == '__main__':
         ('<h1', 1, 'titre principal'),
         # version lue dans nav_menu (jamais recopiee ici)
         ('data-nav="%s"' % nav_menu.NAV_VERSION, 1, 'menu partage nav_menu.py'),
-        ('>Agenda</a>', 1, 'entree « Agenda » du menu'),
+        # 16/09/2026 : le libelle est passe de « Agenda » a « Agenda général »
+        # avec la refonte du sous-menu. Le marqueur suit — c'est ce controle
+        # qui a refuse d'ecrire la page tant qu'il etait perime, son role exact.
+        ('>Agenda général</a>', 1, 'entree « Agenda général » du menu'),
         ('<section class="agenda" id="agenda">', 1, 'section agenda'),
         ('class="offer offer--rare"', 1, 'carte « instruments d’exception »'),
+        # le bandeau des RDV mensuels et le sommaire, poses le 16/09/2026 :
+        # une seule fois chacun, et devant la grille (voir leur injection).
+        ('<div class="rdv-band">', 1, 'bandeau des RDV mensuels'),
+        ('<nav class="rdv-som"', 1, 'sommaire des activités'),
         ('/* ===== AGENDA DU NID ===== */', 1, 'feuille de style de l’agenda'),
         ('<div class="ag-sub">', 1, 'encart d’abonnement au calendrier'),
         ('BEGIN:VCALENDAR', 1, 'gabarit .ics'),

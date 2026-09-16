@@ -162,7 +162,13 @@ SCENE = [
 #: 03/09/2026 : `rituals` est SORTIE de cette liste — elle est revenue dans le
 #: menu, portee par la page du trio. `rituals-trio` n'y entre PAS : ce n'est
 #: plus une adresse, c'est une redirection.
-_HORS_MENU = ['duo-violon-handpan']
+#: 16/09/2026 : les trois pages sorties du sous-menu « Le Nid » entrent ici.
+#: Elles restent PUBLIEES, dans le plan du site et atteignables — par le
+#: sommaire de « Ce qui se passe au Nid » et par les liens des pages entre
+#: elles. Sans cette ligne, leurs generateurs s'arreteraient sur « cle de page
+#: inconnue » au premier appel a `inject()`.
+_HORS_MENU = ['duo-violon-handpan', 'concerts-david-lesage',
+              'rythme-calebasse', 'le-soin-soa']
 # ⚠️ « Les RDV Mensuels » (20/08/2026) est place JUSTE APRES « Agenda », et
 #    avant les activites : les deux entrees qui parlent de DATES se suivent,
 #    puis viennent celles qui parlent de ce qu'on y fait. Le libelle est celui
@@ -174,17 +180,24 @@ _HORS_MENU = ['duo-violon-handpan']
 #    un panneau deroulant, sa largeur ne depend pas du nombre de lignes. C'est
 #    la barre de premier niveau qui est contrainte (mesure entre 861 et
 #    1080 px), et elle ne bouge pas.
+# ⚠️ 16/09/2026 — LE SOUS-MENU EST PASSE DE DIX ENTREES A QUATRE, sur demande
+#    de David (« Met en dessous : Uniquement : … »). Les six activites qui en
+#    sortent ne sont PAS perdues : elles sont rassemblees sous « Tous les
+#    evenements », qui mene au sommaire pose en tete de « Ce qui se passe au
+#    Nid » (section `#programme` de /le-nid). C'est ce sommaire qui remplace
+#    les six lignes de menu — le chemin vers chaque activite existe toujours,
+#    il passe par une page au lieu d'un panneau deroulant.
+#    ⚠️ NE PAS LES REMETTRE ICI « pour qu'elles restent accessibles » : elles le
+#    sont. Les rajouter recreerait les deux chemins concurrents que ce
+#    changement supprime.
+#    `/concerts-david-lesage`, `/rythme-calebasse` et `/le-soin-soa` restent des
+#    pages a part entiere, avec leur entree dans le plan du site : elles ne
+#    dependent pas de ce menu pour etre trouvees.
 NID = [
     ('Le Nid — Paris 20ᵉ', '/le-nid', 'le-nid'),
-    ('Agenda', '/le-nid#agenda', 'le-nid'),
+    ('Agenda général', '/le-nid#agenda', 'le-nid'),
     ('Les RDV Mensuels', '/rendez-vous-mensuels', 'rendez-vous-mensuels'),
-    ('Présentation d’instruments', '/le-nid#instruments', 'le-nid'),
-    ('Concerts au Nid', '/concerts-david-lesage', 'concerts-david-lesage'),
-    ('Atelier de yoga', '/le-nid#yoga', 'le-nid'),
-    ('Rythme & calebasse', '/rythme-calebasse', 'rythme-calebasse'),
-    ('Le Soin Soa', '/le-soin-soa', 'le-soin-soa'),
-    ('Psychothérapie', '/le-nid#psychotherapie', 'le-nid'),
-    ('Cours individuels', '/le-nid#cours-individuels', 'le-nid'),
+    ('Tous les événements', '/le-nid#programme', 'le-nid'),
 ]
 
 

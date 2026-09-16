@@ -318,6 +318,35 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .offer:hover{border-color:var(--tint-vif)}
 .offer .t{background:none;-webkit-text-fill-color:currentColor;color:var(--tint-texte)}
 
+.rdv-band{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:26px;align-items:center;
+  margin-top:40px;padding:28px;border:1px solid rgba(255,255,255,.07);border-top:3px solid transparent;
+  border-radius:18px;background-image:var(--grad),linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));
+  background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-position:0 0;
+  background-origin:border-box,padding-box}
+.rdv-band .t{width:fit-content;max-width:100%;font-size:13px;letter-spacing:.2em;text-transform:uppercase;
+  font-weight:600;background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent}
+.rdv-band h3{font-family:'Cormorant Garamond',Georgia,serif;color:#fff;font-size:clamp(25px,3.3vw,34px);
+  font-weight:600;line-height:1.15;margin:6px 0 0}
+.rdv-band-cit{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--gold2);
+  font-size:20px;margin:8px 0 0}
+.rdv-band p{color:#d7d4ea;font-size:16.5px;line-height:1.65;margin:10px 0 0;max-width:70ch}
+.rdv-band .offer-dates{margin-top:16px}
+.rdv-band-act{display:flex;flex-direction:column;gap:12px}
+.rdv-band-act .btn{white-space:nowrap;text-align:center}
+@media(max-width:760px){.rdv-band{grid-template-columns:1fr;padding:24px 20px;gap:20px}
+  .rdv-band-act{flex-direction:row;flex-wrap:wrap}}
+.rdv-som{margin-top:34px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08)}
+.rdv-som-t{width:fit-content;max-width:100%;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  font-weight:600;margin-bottom:14px;background:var(--grad);-webkit-background-clip:text;
+  background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.rdv-som-l-wrap{display:flex;flex-wrap:wrap;gap:10px}
+.rdv-som-l{display:inline-flex;align-items:center;min-height:44px;padding:9px 18px;border-radius:30px;
+  border:1px solid rgba(216,178,90,.30);background:rgba(255,255,255,.04);color:#e6e3f5;font-size:15.5px;
+  line-height:1.3;transition:border-color .2s,color .2s,background .2s}
+.rdv-som-l:hover{border-color:var(--gold2);color:var(--gold2);background:rgba(216,178,90,.10)}
+.rdv-som-ext{color:var(--gold2)}
+
 /* visionneuse photo */
 .ph{position:fixed;inset:0;z-index:1100;display:none;flex-direction:column;
   background:rgba(8,9,26,.965);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
@@ -447,7 +476,7 @@ body.ph-lock{position:fixed;left:0;right:0;width:100%;overflow:hidden}
   <meta property="og:image:alt" content="Le salon du Nid : sièges bas en cercle autour d’un tapis, handpans et coussins, grandes verrières.">
 <script>
 (function(){
-var F=["2026-09-04T19:30:00Z","2026-09-06T17:00:00Z","2026-09-19T17:00:00Z","2026-09-20T10:00:00Z","2026-09-26T20:00:00Z","2026-10-02T21:30:00Z","2026-10-04T17:00:00Z","2026-10-17T15:00:00Z","2026-10-18T17:00:00Z","2026-11-07T22:30:00Z","2026-11-08T18:00:00Z","2026-11-14T18:00:00Z","2026-11-15T16:00:00Z","2026-12-04T22:30:00Z","2026-12-05T17:00:00Z","2026-12-06T18:00:00Z","2026-09-26T20:00:00Z","2026-09-06T17:00:00Z","2026-10-04T17:00:00Z","2026-11-08T18:00:00Z","2026-12-06T18:00:00Z","2026-09-20T10:00:00Z","2026-10-17T15:00:00Z","2026-11-15T16:00:00Z","2026-09-19T17:00:00Z","2026-10-18T17:00:00Z","2026-11-14T18:00:00Z","2026-12-05T17:00:00Z"],B=[["agenda",[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],0,"block",0,0],["agenda-2026-09",[0,1,2,3,4],1,"",0,0],["agenda-2026-10",[5,6,7,8],1,"",0,0],["agenda-2026-11",[9,10,11,12],1,"",0,0],["agenda-2026-12",[13,14,15],1,"",0,0],["offer-concert",[16],0,"inline",1,3],["offer-yoga",[17,18,19,20],0,"inline",1,3],["offer-rythme",[21,22,23],0,"inline",1,3],["offer-showcase",[24,25,26,27],0,"inline",1,3]],n=Date.now(),r=[],i,k,j;
+var F=["2026-09-04T19:30:00Z","2026-09-06T17:00:00Z","2026-09-19T17:00:00Z","2026-09-20T10:00:00Z","2026-09-26T20:00:00Z","2026-10-02T21:30:00Z","2026-10-04T17:00:00Z","2026-10-17T15:00:00Z","2026-10-18T17:00:00Z","2026-11-07T22:30:00Z","2026-11-08T18:00:00Z","2026-11-14T18:00:00Z","2026-11-15T16:00:00Z","2026-12-04T22:30:00Z","2026-12-05T17:00:00Z","2026-12-06T18:00:00Z","2026-09-26T20:00:00Z","2026-09-06T17:00:00Z","2026-10-04T17:00:00Z","2026-11-08T18:00:00Z","2026-12-06T18:00:00Z","2026-09-20T10:00:00Z","2026-10-17T15:00:00Z","2026-11-15T16:00:00Z","2026-09-19T17:00:00Z","2026-10-18T17:00:00Z","2026-11-14T18:00:00Z","2026-12-05T17:00:00Z","2026-09-04T19:30:00Z","2026-10-02T21:30:00Z","2026-11-07T22:30:00Z","2026-12-04T22:30:00Z"],B=[["agenda",[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],0,"block",0,0],["agenda-2026-09",[0,1,2,3,4],1,"",0,0],["agenda-2026-10",[5,6,7,8],1,"",0,0],["agenda-2026-11",[9,10,11,12],1,"",0,0],["agenda-2026-12",[13,14,15],1,"",0,0],["offer-concert",[16],0,"inline",1,3],["offer-yoga",[17,18,19,20],0,"inline",1,3],["offer-rythme",[21,22,23],0,"inline",1,3],["offer-showcase",[24,25,26,27],0,"inline",1,3],["offer-mensuel",[28,29,30,31],0,"inline",1,3]],n=Date.now(),r=[],i,k,j;
 function passe(x){return Date.parse(F[x])<=n;}
 for(i=0;i<F.length;i++){if(passe(i))r.push('html [data-dt="'+i+'"]{display:none!important}');}
 for(k=0;k<B.length;k++){
@@ -485,15 +514,9 @@ s.appendChild(document.createTextNode(r.join('')));document.head.appendChild(s);
       <button type="button" class="nm-top nm-active" aria-expanded="false" aria-haspopup="true" aria-controls="nm-sub-nid"><span class="nm-lbl">Le Nid</span><span class="nm-caret" aria-hidden="true"></span></button>
       <div class="nm-sub" id="nm-sub-nid" role="group" aria-label="Le Nid">
         <a href="/le-nid" aria-current="page">Le Nid — Paris 20ᵉ</a>
-        <a href="/le-nid#agenda">Agenda</a>
+        <a href="/le-nid#agenda">Agenda général</a>
         <a href="/rendez-vous-mensuels">Les RDV Mensuels</a>
-        <a href="/le-nid#instruments">Présentation d’instruments</a>
-        <a href="/concerts-david-lesage">Concerts au Nid</a>
-        <a href="/le-nid#yoga">Atelier de yoga</a>
-        <a href="/rythme-calebasse">Rythme & calebasse</a>
-        <a href="/le-soin-soa">Le Soin Soa</a>
-        <a href="/le-nid#psychotherapie">Psychothérapie</a>
-        <a href="/le-nid#cours-individuels">Cours individuels</a>
+        <a href="/le-nid#programme">Tous les événements</a>
       </div>
     </div>
     <div class="nm-item">
@@ -543,6 +566,31 @@ s.appendChild(document.createTextNode(r.join('')));document.head.appendChild(s);
   <h2 class="sec-title">Ce qui se passe au Nid</h2>
   <p class="lead">Six propositions, portées par Iris Chasles et David Lesage.</p>
 
+  <div class="rdv-band">
+    <div class="rdv-band-txt">
+      <div class="t">Une fois par mois</div>
+      <h3>Les RDV Mensuels au Nid</h3>
+      <p class="rdv-band-cit">« Une proposition différente à chaque fois »</p>
+      <p>Un soir par mois, Le Nid ouvre ses portes pour une soirée qui n’est jamais tout à fait la même : un workshop, un concert, une scène ouverte. Toujours sur réservation, toujours avec des intervenants différents.</p>
+      <div class="offer-dates"><span>Prochaines dates</span><time data-dt="28" data-dt-fin="2026-09-04T19:30:00Z">4 sept.</time><time data-dt="29" data-dt-fin="2026-10-02T21:30:00Z"><i class="dt-sep"> · </i>2 octo.</time><time data-dt="30" data-dt-fin="2026-11-07T22:30:00Z"><i class="dt-sep"> · </i>7 nove.</time><time class="dt-plus" data-dt="31" data-dt-fin="2026-12-04T22:30:00Z"><i class="dt-sep"> · </i>4 déce.</time><i class="dt-vide" data-dt-vide="offer-mensuel">Prochaines dates en préparation.</i> <a href="#agenda">tout voir</a> <a href="/rendez-vous-mensuels">En savoir plus →</a></div>
+    </div>
+    <div class="rdv-band-act">
+      <a class="btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/les-rdv-mensuels-au-nid" target="_blank" rel="noopener">Réserver sa place ↗</a>
+      <a class="btn ghost" href="/rendez-vous-mensuels">Voir le programme</a>
+    </div>
+  </div>
+  <nav class="rdv-som" aria-label="Les activités du Nid">
+    <div class="rdv-som-t">Les activités, une par une</div>
+    <div class="rdv-som-l-wrap">
+      <a class="rdv-som-l" href="#instruments">Présentation d’instruments</a>
+      <a class="rdv-som-l" href="#concerts-au-nid">Concerts au Nid</a>
+      <a class="rdv-som-l" href="#yoga">Atelier de yoga</a>
+      <a class="rdv-som-l" href="#calebasse-workshop">Rythme &amp; calebasse</a>
+      <a class="rdv-som-l rdv-som-ext" href="/le-soin-soa">Le Soin Soa ↗</a>
+      <a class="rdv-som-l" href="#psychotherapie">Psychothérapie</a>
+      <a class="rdv-som-l" href="#cours-individuels">Cours individuels</a>
+    </div>
+  </nav>
   <div class="offers">
     <div class="offer offer--rare" id="instruments">
       <div class="t">Présentation, découverte &amp; essai</div>

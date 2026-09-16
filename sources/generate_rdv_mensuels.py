@@ -661,10 +661,12 @@ CONTENUS = {
     #         temps fort (« Dîner Healthy partagé ») avec ses propres regles
     #         (« apportez un plat », « chacun lave son assiette ») : les DEUX
     #         ont disparu du texte ci-dessous, pas seulement le mot « dîner ».
-    #      2. NOUVEL HORAIRE : la scene ouverte commence a 20h30 (et non plus
-    #         21h00) et se termine a 22h30, suivie d'un temps informel de
-    #         discussion/partage DONT L'HEURE DE FIN N'EST PAS PRECISEE — ne
-    #         pas en inventer une.
+    #      2. HORAIRE DE LA SCENE OUVERTE — 16/09/2026 : 19h – 21h. Il a change
+    #         DEUX FOIS (21h00 a l'origine, puis 20h30-22h30 le 11/09) : ne pas
+    #         le deduire d'un ancien texte, c'est celui-ci qui fait foi. Le
+    #         « temps informel de discussion et de partage » qui suivait a ete
+    #         RETIRE le meme jour, a la demande de David — ne pas le reintroduire.
+    #         L'accueil, lui, reste des 18h30, et la soiree se termine a 23h30.
     #    Ce qui A ete garde de l'ancienne invitation, mot pour mot ou presque :
     #    la description du Nid (« Un espace d'éclosion »), le principe du
     #    cabaret/scene ouverte (« l'espace est a vous »), les trois regles de
@@ -681,8 +683,7 @@ CONTENUS = {
                 'à la musique et à la danse.',
         faits=[
             ('Quand', 'Vendredi 2 octobre 2026, à partir de 18h30', ''),
-            ('Scène ouverte', '20h30 – 22h30',
-             'Puis un temps informel de discussion et de partage'),
+            ('Scène ouverte', '19h – 21h', ''),
             ('Où', 'Le Nid — Paris 20<sup>e</sup>', '29 rue des Orteaux'),
             ('Accès', 'Réservé aux adhérents', 'Adhésion à l’association'),
         ],
@@ -704,9 +705,8 @@ CONTENUS = {
         ],
         au_programme=[
             'Accueil au Nid &amp; connexion, dès 18h30.',
-            'Cabaret &amp; scène ouverte, de 20h30 à 22h30 : l’espace est à '
+            'Cabaret &amp; scène ouverte, de 19h à 21h : l’espace est à '
             'vous — poésie, musique, danse…',
-            'Temps informel de discussion et de partage, à la suite.',
         ],
         fin='Incarnons le monde dans lequel nous voulons vivre.',
         resa=RESA_MENSUEL,

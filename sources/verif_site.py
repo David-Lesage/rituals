@@ -268,7 +268,11 @@ MARQUEURS_UNIQUES = {
 #:    Les deux PAGES restent publiees : elles restent donc dans PAGES ci-dessus
 #:    et dans le sitemap, et les onze controles continuent de s'appliquer a
 #:    elles. Ce n'est PAS une suppression, c'est un retrait de navigation.
-MENU_ENTREES_ATTENDUES = 18
+# 16/09/2026 : 18 -> 12. Le sous-menu « Le Nid » est passe de dix entrees a
+# quatre (demande de David) ; les six activites sont desormais rassemblees dans
+# le sommaire de « Ce qui se passe au Nid ». Ce nombre n'est pas decoratif :
+# c'est lui qui a rattrape un menu duplique et un menu ampute, deux fois.
+MENU_ENTREES_ATTENDUES = 12
 
 
 # --------------------------------------------------------------------------- #
@@ -364,6 +368,78 @@ def _taille_jpeg(chemin):
     return None
 
 
+def _taille_png(chemin):
+    """(largeur, hauteur) d'un PNG, en lisant son bloc IHDR. Sans dependance."""
+    import struct
+    try:
+        with open(chemin, 'rb') as f:
+            entete = f.read(24)
+    except OSError:
+        return None
+    # signature PNG, puis un premier bloc qui DOIT etre IHDR (impose par la norme)
+    if len(entete) < 24 or entete[:8] != b'\x89PNG\r\n\x1a\n' or entete[12:16] != b'IHDR':
+        return None
+    return struct.unpack('>II', entete[16:24])
+
+
+def _taille_webp(chemin):
+    """(largeur, hauteur) d'un WebP, en lisant son en-tete. Sans dependance.
+
+    ⚠️ POURQUOI CETTE FONCTION EXISTE (16/09/2026) — LA MEME PANNE QUE POUR LES
+    JPEG EN AOUT, AU MEME ENDROIT, ET ELLE A COUTE DEUX SEMAINES DE SYNCHRO.
+    `_lire_image` ne savait lire SANS PILLOW que les JPEG. Sur la machine de
+    David, Pillow est installe : les `.webp` se lisaient, tout allait bien. Sur
+    GitHub Actions, il ne l'est pas — et depuis que la page du duo (30/08) a
+    recu des photos `.webp`, la reconstruction nocturne s'arretait la, chaque
+    nuit, sur « dimensions illisibles ». La synchronisation de l'agenda n'a donc
+    plus rien publie du 03/09 au 16/09.
+
+    Le defaut de fond n'est pas l'absence de Pillow : c'est qu'un format
+    d'image du depot n'avait pas de lecteur a lui. Un WebP porte ses dimensions
+    dans son en-tete RIFF, en clair, sur trois variantes — VP8 (avec perte),
+    VP8L (sans perte) et VP8X (etendu, celui des images animees ou avec
+    transparence). Les trois sont lues ici, donc le resultat est le meme
+    partout : machine de David, GitHub, ou n'importe quelle autre.
+    """
+    import struct
+    try:
+        with open(chemin, 'rb') as f:
+            d = f.read(32)
+    except OSError:
+        return None
+    if len(d) < 30 or d[:4] != b'RIFF' or d[8:12] != b'WEBP':
+        return None
+    forme = d[12:16]
+    if forme == b'VP8 ':                      # avec perte
+        # 3 octets d'en-tete de trame, puis le code de synchro 9d 01 2a
+        if d[23:26] != b'\x9d\x01\x2a':
+            return None
+        larg, haut = struct.unpack('<HH', d[26:30])
+        return larg & 0x3FFF, haut & 0x3FFF
+    if forme == b'VP8L':                      # sans perte
+        if d[20] != 0x2F:
+            return None
+        bits = struct.unpack('<I', d[21:25])[0]
+        return (bits & 0x3FFF) + 1, ((bits >> 14) & 0x3FFF) + 1
+    if forme == b'VP8X':                      # etendu (anime, transparence…)
+        larg = int.from_bytes(d[24:27], 'little') + 1
+        haut = int.from_bytes(d[27:30], 'little') + 1
+        return larg, haut
+    return None
+
+
+#: le lecteur sans dependance de chaque format d'image du depot, par extension.
+#: ⚠️ TOUT FORMAT AJOUTE AU DEPOT DOIT ENTRER ICI, sinon il ne sera lisible que
+#:    sur une machine ou Pillow est installe — et la reconstruction s'arretera
+#:    sur GitHub sans que personne ne le voie avant la nuit suivante. C'est
+#:    exactement ce qui est arrive aux `.webp` en septembre 2026.
+_LECTEURS = {
+    '.jpg': _taille_jpeg, '.jpeg': _taille_jpeg,
+    '.png': _taille_png,
+    '.webp': _taille_webp,
+}
+
+
 def _lire_image(rel_url):
     """(largeur, hauteur) d'un fichier image du depot, ou None."""
     chemin = os.path.join(RACINE, rel_url.lstrip('/'))
@@ -376,9 +452,8 @@ def _lire_image(rel_url):
             return im.size
     except Exception:
         pass
-    if chemin.lower().endswith(('.jpg', '.jpeg')):
-        return _taille_jpeg(chemin)
-    return None
+    lecteur = _LECTEURS.get(os.path.splitext(chemin)[1].lower())
+    return lecteur(chemin) if lecteur else None
 
 
 def _balises_img(html):
