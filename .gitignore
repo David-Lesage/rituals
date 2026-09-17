@@ -45,3 +45,11 @@ venv/
 # (`python3 -m http.server` pour regarder le site avant publication)
 .serveur-local.pid
 .vercel
+
+# 🚨 IDENTIFIANTS SEARCH CONSOLE — CE DEPOT EST PUBLIC.
+# Le fichier vit normalement dans ~/.config/resonances/, hors du depot, et
+# sources/search_console.py refuse de demarrer s'il en trouve un ici. Ces
+# lignes sont la deuxieme barriere, au cas ou l'un d'eux serait copie par
+# mégarde : un code d'acces a deja fuite DEUX FOIS sur ce projet.
+client_secret*.json
+*search-console*.json

@@ -47,6 +47,7 @@ RACINE = os.path.dirname(HERE)
 
 sys.path.insert(0, HERE)
 import canonique  # noqa: E402  (pose la balise canonique derriere chaque page)
+import plan_du_site  # noqa: E402  (tient sitemap.xml et ses dates a jour)
 
 
 # --------------------------------------------------------------------------- #
@@ -520,6 +521,17 @@ def main(argv=None):
             _dit('  · sources/%s existe mais aucune page ne le reclame.' % f)
         _dit('    Ajouter sa ligne en haut de sources/build.py, sinon la page')
         _dit('    qu\'il fabrique ne sera jamais reconstruite.')
+
+    # ------------------------------------------------------------------ #
+    # Le plan du site, AVANT la verification (elle le relit).
+    # ------------------------------------------------------------------ #
+    # 18/09/2026 — il etait ecrit a la main et avait vieilli : onze adresses
+    # sans date du tout, vingt autres figees au 15 aout. Google se sert de
+    # `<lastmod>` pour decider s'il revient voir une page ; un plan perime lui
+    # dit poliment de ne pas repasser. Il se refait donc ici, a chaque
+    # construction, avec la date du dernier commit de chaque page.
+    if plan_du_site.ecrire():
+        _dit('  Plan du site mis a jour (sitemap.xml).')
 
     # ------------------------------------------------------------------ #
     # Verification finale : rien ne reste sur le disque si elle echoue.

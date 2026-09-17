@@ -62,6 +62,20 @@ jobs:
     steps:
       - name: Recuperer le depot
         uses: actions/checkout@v4
+        # ⚠️ `fetch-depth: 0` EST INDISPENSABLE DEPUIS LE 18/09/2026, et ce
+        #    n'est pas un reglage de confort. `sources/plan_du_site.py` date
+        #    chaque page d'apres le DERNIER COMMIT qui l'a touchee (`git log`).
+        #    Avec le clone superficiel par defaut (`fetch-depth: 1`), il n'y a
+        #    qu'un seul commit dans l'historique : les trente et une pages
+        #    recevraient toutes la meme date, chaque nuit — exactement le plan
+        #    du site menteur qu'on vient de corriger.
+        # ⚠️ `filter: blob:none` garde le telechargement leger : on recupere
+        #    tout l'historique des COMMITS (ce dont `git log` a besoin) sans
+        #    l'historique des FICHIERS (214 Mo de photos). Les fichiers de la
+        #    version courante sont recuperes normalement.
+        with:
+          fetch-depth: 0
+          filter: blob:none
 
       - name: Installer Python
         uses: actions/setup-python@v5

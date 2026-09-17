@@ -87,6 +87,16 @@ done
 # simple mot « service_role » a d'abord ete cherche tel quel, et il bloquait une
 # phrase du fichier de reprise qui expliquait un reglage Supabase. Ce qui fuit
 # vraiment, c'est la CLE (« eyJhbGciOi… ») — c'est elle qui est cherchee.
+#
+# ⚠️ 18/09/2026, LA MEME LECON UNE SECONDE FOIS. Le dernier motif attrapait
+#    `'client_secret': ids['client_secret']` dans sources/search_console.py :
+#    le NOM du champ OAuth exige par Google, pas une cle. Il exige desormais
+#    que la valeur soit une CHAINE LITTERALE entre guillemets (`= "AIza…"`),
+#    et non une variable, un appel ou une cle de dictionnaire. Une vraie fuite
+#    ressemble a `api_key = "AIzaSyD…"` ; nommer un champ ne fuit rien.
+#    NE PAS elargir ce motif « pour etre sur » : c'est exactement comme ca
+#    qu'on se met a passer --no-verify par reflexe, et ce jour-la le garde-fou
+#    ne protege plus personne.
 MOTIFS="BEGIN [A-Z ]*PRIVATE KEY
 sk_live_[A-Za-z0-9]{8}
 AKIA[0-9A-Z]{16}
@@ -96,7 +106,7 @@ xox[baprs]-[A-Za-z0-9-]{10,}
 eyJhbGciOi[A-Za-z0-9_-]{20,}
 (digicode|interphone).{0,40}[:=].{0,10}[A-Za-z0-9]{4,8}
 code.{0,14}(acc.s|entr.e|porte|portail|immeuble|b.timent).{0,24}[:=].{0,10}[A-Za-z0-9]{4,8}
-(api.?key|secret|password|passwd|mot de passe)[^<>]{0,15}[:=][^<>]{0,4}.{8,}"
+(api.?key|secret|password|passwd|mot de passe)[^<>]{0,15}[:=] *['\"][^'\"]{8,}['\"]"
 
 printf '%s\n' "$FICHIERS" | while IFS= read -r f; do
   [ -n "$f" ] || continue
