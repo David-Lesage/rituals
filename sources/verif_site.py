@@ -29,6 +29,9 @@ a la main et trop tard. Ils sont ici pour qu'aucun ne puisse recommencer.
  11. partage          sept pages partageaient la meme vignette d'apercu, et
                       rien ne verifiait que le fichier annonce existait ni que
                       ses dimensions etaient les bonnes
+ 12. canonique        DIX pages ne designaient pas leur adresse de reference,
+                      alors que Vercel sert chacune a deux adresses (avec et
+                      sans barre finale) : Google les voyait « en double »
 
 CE QU'IL NE FAIT PAS
 --------------------
@@ -1042,6 +1045,52 @@ def controle_partage(pages):
     return pbs
 
 
+# --------------------------------------------------------------------------- #
+# 12. BALISE CANONIQUE
+# --------------------------------------------------------------------------- #
+
+def controle_canonique(pages):
+    """Chaque page publiee designe elle-meme son adresse de reference.
+
+    ⚠️ NE PAS PRENDRE CE CONTROLE POUR DE LA COSMETIQUE. Vercel sert chaque
+    page a DEUX adresses, les deux en HTTP 200 : « /le-nid » et « /le-nid/ ».
+    Sans canonique, c'est Google qui tranche — et il annonce alors « page en
+    double » dans Search Console, le referencement se partageant entre deux
+    adresses au lieu de s'additionner sur une.
+
+    Le 18/09/2026, DIX des trente et une pages n'en avaient aucune : l'accueil,
+    /le-nid, /rituals, /e-motion, /rendez-vous-mensuels… La balise est posee
+    par `sources/canonique.py`, derriere tous les generateurs (voir build.py) ;
+    ce controle est ce qui garantit qu'aucune page n'y echappe a l'avenir.
+
+    Deux defauts sont refuses :
+      * balise absente ;
+      * balise qui designe une AUTRE adresse que celle de la page. Une
+        canonique qui pointe ailleurs demande explicitement a Google de ne pas
+        indexer la page — c'est la facon la plus rapide de faire disparaitre
+        une page des resultats sans s'en apercevoir.
+    """
+    import canonique
+    pbs = []
+    for p in pages:
+        if not p.existe:
+            continue
+        trouvees = re.findall(r'<link rel="canonical" href="([^"]*)"', p.html)
+        attendue = canonique.URL_PAR_FICHIER.get(p.rel)
+        if not trouvees:
+            pbs.append('%s : aucune balise canonique (attendu %s)'
+                       % (p.rel, attendue))
+            continue
+        if len(trouvees) > 1:
+            pbs.append('%s : %d balises canoniques, il n\'en faut qu\'une'
+                       % (p.rel, len(trouvees)))
+            continue
+        if attendue and trouvees[0] != attendue:
+            pbs.append('%s : la canonique designe %s, attendu %s'
+                       % (p.rel, trouvees[0], attendue))
+    return pbs
+
+
 CONTROLES = (
     ('commentaires', 'Aucune note de travail dans le code des pages', controle_commentaires),
     ('menu',         'Menu present une fois, complet, sans doublon',   controle_menu),
@@ -1054,6 +1103,7 @@ CONTROLES = (
     ('plan',         'Plan du site, robots.txt et redirections a jour', controle_plan),
     ('google',       'Verification Search Console posee une seule fois', controle_verification),
     ('partage',      'Image de partage propre a chaque page, verifiee',  controle_partage),
+    ('canonique',    'Chaque page designe son adresse de reference',   controle_canonique),
 )
 
 

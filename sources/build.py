@@ -45,6 +45,9 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 RACINE = os.path.dirname(HERE)
 
+sys.path.insert(0, HERE)
+import canonique  # noqa: E402  (pose la balise canonique derriere chaque page)
+
 
 # --------------------------------------------------------------------------- #
 #                                  LE TABLEAU
@@ -294,6 +297,20 @@ def _une_passe(ligne):
             derniere = (r.stderr or r.stdout or '').strip().splitlines()
             raise Echec('la pose du menu a echoue sur %s.\n     %s'
                         % (ligne['fichier'], derniere[-1] if derniere else ''))
+
+    # --- balise canonique, posee derriere TOUS les generateurs ---------------
+    # 18/09/2026 — dix des trente et une pages n'en avaient aucune, alors que
+    # Vercel sert chacune a DEUX adresses (avec et sans barre finale, les deux
+    # en 200). Google devait donc deviner laquelle reference, d'ou les pages
+    # « en double » signalees dans Search Console.
+    # ⚠️ ELLE EST POSEE ICI, ET PAS DANS CHAQUE GENERATEUR, pour une raison
+    #    simple : il y a treize generateurs et il n'en faut qu'un qui oublie.
+    #    Ici, une page publiee ne PEUT PAS y echapper — et le controle
+    #    `canonique` de verif_site.py refuse d'ecrire le site si l'une manque.
+    # ⚠️ La pose est idempotente (elle ne touche pas une page qui en a deja
+    #    une) : sans quoi la double construction ci-dessous, qui exige deux
+    #    fichiers identiques a l'octet pres, echouerait a chaque fois.
+    canonique.poser(ligne['fichier'])
 
     return _empreinte(os.path.join(RACINE, ligne['fichier']))
 
