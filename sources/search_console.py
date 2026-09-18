@@ -48,6 +48,7 @@ MISE EN ROUTE (une seule fois, cote Google — David seul peut le faire)
 Ensuite, plus jamais : le jeton de rafraichissement se renouvelle tout seul.
 """
 
+import getpass
 import http.server
 import json
 import os
@@ -69,9 +70,20 @@ import verif_site  # noqa: E402  (la liste des 31 pages, jamais recopiee)
 #: hors du depot, volontairement. Voir la note en tete de fichier.
 IDENTIFIANTS = os.path.expanduser('~/.config/resonances/search-console.json')
 
+#: ⚠️ LA PROPRIETE PAR DEFAUT, PAS LA SEULE. David a plusieurs sites
+#: (resonancesproductions.org, lesagedavid.fr, handpanstudio.app…). En OAuth,
+#: l'acces suit SON COMPTE : toutes les proprietes dont il est proprietaire
+#: dans Search Console sont accessibles sans rien ajouter ici. `--sites` les
+#: liste ; `--site <propriete>` bascule sur l'une d'elles.
 PROPRIETE = 'sc-domain:resonancesproductions.org'
 PORTEE = 'https://www.googleapis.com/auth/webmasters.readonly'
-API = 'https://searchconsole.googleapis.com/v1'
+# ⚠️ SEARCH CONSOLE A DEUX API, A DEUX ADRESSES DIFFERENTES, et s'y tromper
+#    donne un 404 en HTML (pas un message JSON lisible — vecu le 18/09/2026) :
+#      * WEBMASTERS : la liste des proprietes et les statistiques de recherche.
+#        C'est l'ancienne API « webmasters/v3 », toujours la seule pour ca.
+#      * INSPECTION : l'etat d'indexation page par page, plus recente.
+WEBMASTERS = 'https://www.googleapis.com/webmasters/v3'
+INSPECTION = 'https://searchconsole.googleapis.com/v1'
 JETON = 'https://oauth2.googleapis.com/token'
 
 
@@ -113,11 +125,55 @@ def _ecrire(donnees):
     os.chmod(IDENTIFIANTS, 0o600)      # lisible par David seul
 
 
+#: ce que Google repond vraiment, traduit. Un `invalid_client` brut n'aide
+#: personne : il faut dire QUOI verifier.
+_EXPLICATIONS = {
+    'invalid_client':
+        'Le code secret ne correspond pas a cet ID client.\n'
+        '   Les deux doivent venir de LA MEME fenetre « Client OAuth cree ».\n'
+        '   Le plus sur : creer un nouveau client (Application de bureau) et\n'
+        '   copier l’ID PUIS le secret dans cette meme fenetre, sans la fermer.',
+    'invalid_grant':
+        'Le code d’autorisation a expire ou a deja servi. Relance simplement\n'
+        '   la connexion : un code n’est valable que quelques minutes.',
+    'unauthorized_client':
+        'Ce client n’a pas le droit d’utiliser ce mode d’autorisation.\n'
+        '   Verifier qu’il est bien de type « Application de bureau ».',
+    'access_denied':
+        'L’autorisation a ete refusee dans le navigateur, ou le compte utilise\n'
+        '   n’appartient pas a l’organisation autorisee (application « Interne »).',
+}
+
+
 def _poste(url, champs):
+    """POST en formulaire. Traduit les refus de Google au lieu de les jeter.
+
+    ⚠️ SANS CE `try`, UNE ERREUR D'IDENTIFIANT SORTAIT EN TRACE PYTHON DE
+       QUINZE LIGNES (vecu le 18/09/2026 : « HTTPError: HTTP Error 401 »).
+       David n'a aucune raison de lire une pile d'appels pour apprendre qu'il
+       a colle le mauvais code secret.
+    """
     corps = urllib.parse.urlencode(champs).encode()
     req = urllib.request.Request(url, data=corps, method='POST')
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.load(r)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            return json.load(r)
+    except urllib.error.HTTPError as e:
+        brut = e.read().decode('utf-8', 'replace')
+        try:
+            detail = json.loads(brut)
+        except ValueError:
+            detail = {}
+        code = detail.get('error', '')
+        message = ['', '!! Google a refuse (%s%s).'
+                   % (e.code, ' — ' + code if code else '')]
+        if code in _EXPLICATIONS:
+            message.append('   ' + _EXPLICATIONS[code])
+        elif detail.get('error_description'):
+            message.append('   ' + detail['error_description'])
+        else:
+            message.append('   ' + brut[:300])
+        raise SystemExit('\n'.join(message))
 
 
 def _acces():
@@ -132,8 +188,7 @@ def _acces():
     return rep['access_token']
 
 
-def _api(chemin, charge=None):
-    url = '%s/%s' % (API, chemin)
+def _api(url, charge=None):
     donnees = json.dumps(charge).encode() if charge is not None else None
     req = urllib.request.Request(
         url, data=donnees, method='POST' if charge is not None else 'GET',
@@ -151,7 +206,37 @@ def _api(chemin, charge=None):
 # CONNEXION (une seule fois)
 # --------------------------------------------------------------------------- #
 
-def connexion():
+def _depuis_json(chemin):
+    """(id, secret) lus dans le fichier JSON telecharge depuis Google Cloud.
+
+    ⚠️ POURQUOI CETTE VOIE EXISTE, ET POURQUOI C'EST LA MEILLEURE. Le copier-
+       coller a echoue DEUX FOIS le 18/09/2026 : une fois la commande de
+       lancement collee dans le champ « ID client », une fois le secret d'un
+       AUTRE client colle avec le bon ID (401 invalid_client). Ces chaines
+       melangent l, I, 1, O et 0, et rien a l'ecran ne dit qu'on s'est trompe.
+       Le fichier telecharge, lui, contient les deux valeurs APPARIEES et
+       exactes, et personne ne les retape.
+    """
+    chemin = os.path.expanduser(chemin)
+    if not os.path.exists(chemin):
+        raise SystemExit('!! Fichier introuvable : %s' % chemin)
+    with open(chemin, encoding='utf-8') as f:
+        try:
+            brut = json.load(f)
+        except ValueError:
+            raise SystemExit('!! %s n’est pas un fichier JSON lisible.' % chemin)
+    bloc = brut.get('installed') or brut.get('web') or {}
+    cid, secret = bloc.get('client_id'), bloc.get('client_secret')
+    if not cid or not secret:
+        raise SystemExit(
+            '!! Ce JSON ne ressemble pas a un client OAuth Google : il devrait\n'
+            '   contenir une section « installed » avec client_id et\n'
+            '   client_secret. Telecharge-le depuis la liste des clients\n'
+            '   (console.cloud.google.com -> Clients -> icone de telechargement).')
+    return cid, secret
+
+
+def connexion(json_client=None):
     """Boucle OAuth « loopback » : le navigateur revient sur localhost.
 
     ⚠️ C'est le seul flot encore recommande par Google pour une application de
@@ -159,13 +244,62 @@ def connexion():
        depuis 2022 : un guide qui le propose est perime.
     """
     _garde_fou_depot()
+    if json_client:
+        cid, secret = _depuis_json(json_client)
+        print('  Identifiants lus dans %s' % json_client)
+        return _boucle_oauth(cid, secret)
+
+    # ⚠️ SI L'ID CLIENT EST DEJA CONNU, ON NE LE REDEMANDE PAS. Il n'est pas
+    #    secret (il est meme dans l'URL de la fiche du client), et c'est la
+    #    moitie des occasions de se tromper en moins : le 18/09/2026, deux
+    #    tentatives ont echoue sur un copier-coller, dont une sur l'ID.
+    if os.path.exists(IDENTIFIANTS):
+        with open(IDENTIFIANTS, encoding='utf-8') as f:
+            deja = json.load(f)
+        if deja.get('client_id') and not deja.get('refresh_token'):
+            print('  ID client deja enregistre : %s…' % deja['client_id'][:28])
+            secret = getpass.getpass(
+                '  Code secret   : (invisible, colle et Entree) ').strip()
+            if not secret.startswith('GOCSPX-'):
+                raise SystemExit(
+                    '!! Ce n’est pas un code secret : il commence par « GOCSPX- ».')
+            return _boucle_oauth(deja['client_id'], secret)
+    print('Le plus sur : telecharger le JSON du client, puis :')
+    print('  python3 sources/search_console.py --connexion ~/Downloads/client_secret_….json')
+    print()
     print('Identifiants OAuth « Application de bureau » '
           '(console.cloud.google.com -> Identifiants).')
     cid = input('  ID client     : ').strip()
-    secret = input('  Code secret   : ').strip()
+    # ⚠️ `getpass` ET PAS `input` POUR LE SECRET : `input` l'affiche en clair et
+    #    le laisse dans l'historique visible du terminal, ou il peut etre relu
+    #    (ou capture par-dessus l'epaule, ou dans une capture d'ecran). La
+    #    frappe est invisible — c'est normal, le collage fonctionne quand meme.
+    secret = getpass.getpass('  Code secret   : (invisible, colle et Entree) ').strip()
+
+    # Erreur vecue le 18/09/2026 : David a colle la COMMANDE de lancement dans
+    # le champ « ID client ». On le dit tout de suite plutot que d'echouer plus
+    # tard sur un « invalid_client » incomprehensible.
+    if not cid.endswith('.apps.googleusercontent.com'):
+        raise SystemExit(
+            '!! Ce n’est pas un ID client : il doit se terminer par\n'
+            '   « .apps.googleusercontent.com ».\n'
+            '   Recu : %.60s…\n'
+            '   Utilise l’icone « copier » a droite de l’ID client, dans Chrome.'
+            % cid)
+    if secret == cid or secret.endswith('.apps.googleusercontent.com'):
+        raise SystemExit(
+            '!! Tu as colle l’ID client une seconde fois. Le code secret est\n'
+            '   l’AUTRE valeur de la fenetre, celle qui commence par « GOCSPX- ».')
+    if not secret.startswith('GOCSPX-'):
+        raise SystemExit(
+            '!! Ce n’est pas un code secret : il commence normalement par\n'
+            '   « GOCSPX- ». Utilise la deuxieme icone « copier » dans Chrome.')
     if not cid or not secret:
         raise SystemExit('Abandon : il manque l’ID client ou le code secret.')
+    return _boucle_oauth(cid, secret)
 
+
+def _boucle_oauth(cid, secret):
     etat = secrets.token_urlsafe(16)
     recu = {}
 
@@ -220,7 +354,7 @@ def connexion():
 
 def sites():
     """Les proprietes auxquelles le compte connecte a acces."""
-    rep = _api('sites')
+    rep = _api(WEBMASTERS + '/sites')
     for s in rep.get('siteEntry', []):
         print('  %-52s %s' % (s['siteUrl'], s.get('permissionLevel', '')))
     if not rep.get('siteEntry'):
@@ -235,11 +369,20 @@ def indexation(urls=None):
        boucle automatique qui tournerait toutes les heures.
     """
     from urllib.parse import urljoin
-    cibles = urls or ['https://www.resonancesproductions.org' + url
-                      for url, _ in verif_site.PAGES]
+    if urls:
+        cibles = urls
+    elif PROPRIETE == 'sc-domain:resonancesproductions.org':
+        cibles = ['https://www.resonancesproductions.org' + url
+                  for url, _ in verif_site.PAGES]
+    else:
+        raise SystemExit(
+            'Pour une autre propriete que resonancesproductions.org, donne les\n'
+            'adresses a inspecter :\n'
+            '  python3 sources/search_console.py --site %s --indexation '
+            'https://…/une-page' % PROPRIETE)
     verdicts = {}
     for u in cibles:
-        rep = _api('urlInspection/index:inspect', {
+        rep = _api(INSPECTION + '/urlInspection/index:inspect', {
             'inspectionUrl': u, 'siteUrl': PROPRIETE, 'languageCode': 'fr'})
         r = rep.get('inspectionResult', {}).get('indexStatusResult', {})
         verdict = r.get('coverageState', '(inconnu)')
@@ -261,7 +404,8 @@ def requetes(jours=28, combien=25):
     import datetime as dt
     fin = dt.date.today()
     debut = fin - dt.timedelta(days=jours)
-    rep = _api('sites/%s/searchAnalytics/query' % urllib.parse.quote(PROPRIETE, safe=''),
+    rep = _api('%s/sites/%s/searchAnalytics/query'
+               % (WEBMASTERS, urllib.parse.quote(PROPRIETE, safe='')),
                {'startDate': debut.isoformat(), 'endDate': fin.isoformat(),
                 'dimensions': ['query'], 'rowLimit': combien})
     lignes = rep.get('rows', [])
@@ -277,10 +421,15 @@ def requetes(jours=28, combien=25):
 
 if __name__ == '__main__':
     args = sys.argv[1:]
+    # `--site <propriete>` peut preceder n'importe quelle commande : il change
+    # la propriete interrogee pour cet appel, sans toucher au fichier.
+    if len(args) >= 2 and args[0] == '--site':
+        PROPRIETE = args[1]
+        args = args[2:]
     if not args or args[0] in ('-h', '--aide'):
         print(__doc__)
     elif args[0] == '--connexion':
-        connexion()
+        connexion(args[1] if len(args) > 1 else None)
     elif args[0] == '--sites':
         sites()
     elif args[0] == '--indexation':
