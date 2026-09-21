@@ -839,6 +839,37 @@ html = html.replace('</style>', dates_a_venir.css() + (
 html = html.replace('</head>', _REG.tete() + '</head>', 1)
 html = html.replace('</body>', _REG.js() + '</body>', 1)
 
+# --------------------------------------------------------------------------- #
+# LA VIDEO RITUALS (YouTube Short) — 21/09/2026, demande de David
+# --------------------------------------------------------------------------- #
+# ⚠️ INTEGREE DANS LA PAGE, PAS DANS LA VISIONNEUSE `#ytlb` : celle-ci est
+#    taillee pour le 16:9, et un Short est VERTICAL (9:16) — il y serait
+#    affiche en timbre-poste au milieu de deux bandes noires.
+# ⚠️ `youtube-nocookie.com` : aucun cookie YouTube n'est depose tant que la
+#    personne ne lance pas la video. `loading="lazy"` : rien n'est charge
+#    avant qu'elle arrive a l'ecran.
+# ⚠️ AUCUN TEXTE INVENTE autour : seul le chapeau « En vidéo ». Le titre de la
+#    video est celui de David sur sa chaine.
+VIDEO_RITUALS = 'VURCuGVBIsM'
+_anc_video = '<div class="cap">Le public au cœur du rituel</div>\n</div></section>'
+if html.count(_anc_video) != 1:
+    raise SystemExit('!! ABANDON : ancre de fin de la note d’intention introuvable '
+                     '(video RITUALS). Page NON ecrite.')
+html = html.replace(_anc_video, _anc_video + (
+    '\n\n<section class="rit-video"><div class="wrap">\n'
+    '  <div class="kick">En vidéo</div>\n'
+    '  <div class="rit-video-cadre">\n'
+    '    <iframe src="https://www.youtube-nocookie.com/embed/%s?rel=0&amp;playsinline=1" '
+    'title="RITUALS — vidéo de présentation" loading="lazy" '
+    'allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>\n'
+    '  </div>\n'
+    '</div></section>' % VIDEO_RITUALS), 1)
+html = html.replace('</style>', (
+    '.rit-video{padding:40px 0 10px;text-align:center}\n'
+    '.rit-video-cadre{position:relative;width:min(100%,360px);aspect-ratio:9/16;margin:14px auto 0;'
+    'border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:#000}\n'
+    '.rit-video-cadre iframe{position:absolute;inset:0;width:100%;height:100%;border:0}\n') + '</style>', 1)
+
 import nav_menu
 import verif_commentaires  # garde-fou commentaires HTML
 html = nav_menu.inject(html, 'rituals')
