@@ -748,6 +748,97 @@ html = html.replace('</body>',
 html = html.replace('</script>\n</body>', '</script>\n\n</body>', 1)
 
 # menu de navigation partage
+# --------------------------------------------------------------------------- #
+# LES PROCHAINES REPRESENTATIONS — 21/09/2026, demande de David
+# --------------------------------------------------------------------------- #
+# « pose un encart qui doit evoluer selon les dates qui seront a venir.
+#   L'encart pourra rester. Quand un evenement est passe, la date devra
+#   disparaitre. »
+#
+# ⚠️ LES DATES NE SONT PAS ECRITES ICI : elles sont LUES dans EVENTS de
+#    generate_agenda_nid.py, donc dans l'agenda Google apres synchronisation
+#    nocturne. On relit le fichier en TEXTE : l'importer reecrirait /le-nid.
+# ⚠️ QUELLES LIGNES SONT « RITUALS » : celles dont le titre affiche sur le site
+#    contient « Rituals » ou « Sortie de Résidence » (sans tenir compte des
+#    majuscules). Une future date RITUALS doit donc porter l'un de ces mots
+#    dans son titre de site — c'est la table CORRESPONDANCE de
+#    synchro_agenda.py qui le fixe. Sans lui, la date ira bien dans l'agenda
+#    du Nid, mais PAS dans cet encart.
+# ⚠️ L'ENCART RESTE TOUJOURS : chaque date disparait seule une fois terminee
+#    (dates_a_venir), et quand il n'en reste aucune, le message « Prochaines
+#    dates en préparation. » prend sa place.
+import dates_a_venir, datetime as _dt
+_src_agenda = open(os.path.join(HERE, 'generate_agenda_nid.py'), encoding='utf-8').read()
+_lignes = re.findall(
+    r"\('(\d{4}-\d{2}-\d{2})',\s*'(\d\d:\d\d)',\s*'(\d\d:\d\d)',\s*'[a-z]+',\s*'([^']*)'",
+    _src_agenda)
+_rituals = [l for l in _lignes if re.search(r'rituals|sortie de r[ée]sidence', l[3], re.I)]
+if not _lignes:
+    raise SystemExit('!! ABANDON : aucune ligne lue dans EVENTS de generate_agenda_nid.py '
+                     '(le motif de lecture ne mord plus). Page NON ecrite.')
+RESA_RITUALS = ('https://www.helloasso.com/associations/resonances-productions/'
+                'evenements/les-rdv-mensuels-au-nid')
+#: l'evenement Facebook de chaque date, quand il existe. Cle = date ISO.
+FACEBOOK_PAR_DATE = {
+    '2026-09-26': 'https://www.facebook.com/events/1623936052604536/',
+}
+_JOURS = ('lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche')
+_MOIS = ('janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août',
+         'septembre', 'octobre', 'novembre', 'décembre')
+
+
+def _heure(h):
+    return h.replace(':', 'h').replace('h00', 'h')
+
+
+_REG = dates_a_venir.Registre()
+_REG.declare('rituals-dates', repli='block')
+_rangs = []
+for iso, h1, h2, titre in _rituals:
+    j = _dt.date.fromisoformat(iso)
+    fb = FACEBOOK_PAR_DATE.get(iso)
+    _rangs.append(
+        '    <div class="rit-row"%s>\n'
+        '      <div class="rit-row-txt">\n'
+        '        <div class="rit-date-d">%s %d %s %d</div>\n'
+        '        <div class="rit-date-l">%s – %s · Le Nid, Paris 20<sup>e</sup> · %s</div>\n'
+        '      </div>\n'
+        '      <div class="rit-row-act">%s'
+        '<a class="btn rit-date-btn" href="%s" target="_blank" rel="noopener">Réserver ma place ↗</a></div>\n'
+        '    </div>\n'
+        % (_REG.date('rituals-dates', j, h2), _JOURS[j.weekday()].capitalize(), j.day,
+           _MOIS[j.month - 1], j.year, _heure(h1), _heure(h2), titre.split(' — ')[0],
+           ('<a class="rit-fb" href="%s" target="_blank" rel="noopener">Événement Facebook ↗</a>' % fb) if fb else '',
+           RESA_RITUALS))
+ENCART = (
+    '<section class="rit-date"><div class="wrap">\n'
+    '  <div class="rit-date-in">\n'
+    '    <div class="kick">Prochaines représentations</div>\n'
+    + ''.join(_rangs) +
+    '    <p%s>Prochaines dates en préparation.</p>\n'
+    '  </div>\n'
+    '</div></section>\n\n' % _REG.repli('rituals-dates'))
+_anc = '<section class="intention"><div class="wrap">'
+if html.count(_anc) != 1:
+    raise SystemExit('!! ABANDON : ancre de la note d’intention introuvable. Page NON ecrite.')
+html = html.replace(_anc, ENCART + _anc, 1)
+html = html.replace('</style>', dates_a_venir.css() + (
+    '.rit-date{padding:34px 0 0}\n'
+    '.rit-date-in{padding:24px 28px;border-radius:18px;border:1px solid rgba(255,255,255,.08);border-top:3px solid transparent;'
+    'background-image:var(--grad,linear-gradient(90deg,#d8b25a,#ee8062)),linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));'
+    'background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-origin:border-box,padding-box}\n'
+    '.rit-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 20px;'
+    'padding:16px 0;border-top:1px solid rgba(255,255,255,.07)}\n'
+    '.rit-row:first-of-type{border-top:0}\n'
+    '.rit-date-d{font-family:\'Cormorant Garamond\',Georgia,serif;color:#fff;font-size:clamp(24px,3.2vw,32px);font-weight:600;line-height:1.15}\n'
+    '.rit-date-l{color:#d7d4ea;font-size:16.5px;margin-top:4px}\n'
+    '.rit-row-act{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}\n'
+    '.rit-fb{color:var(--gold2,#f0d18a);text-decoration:underline;text-underline-offset:3px;display:inline-flex;align-items:center;min-height:44px}\n'
+    '.rit-date-btn{white-space:nowrap}\n'
+    '.rit-date-in .dt-vide{margin-top:12px}\n') + '</style>', 1)
+html = html.replace('</head>', _REG.tete() + '</head>', 1)
+html = html.replace('</body>', _REG.js() + '</body>', 1)
+
 import nav_menu
 import verif_commentaires  # garde-fou commentaires HTML
 html = nav_menu.inject(html, 'rituals')

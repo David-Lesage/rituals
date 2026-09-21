@@ -315,6 +315,18 @@ footer a:not(.btn):not(.adh){text-decoration:underline;text-decoration-color:rgb
 p a:not(.btn):not(.adh){text-decoration:underline;
   text-decoration-color:rgba(216,178,90,.4);text-underline-offset:3px}
 
+.dt-vide{display:none;color:var(--muted);font-style:italic}
+.dt-plus{display:none}
+.rit-date{padding:34px 0 0}
+.rit-date-in{padding:24px 28px;border-radius:18px;border:1px solid rgba(255,255,255,.08);border-top:3px solid transparent;background-image:var(--grad,linear-gradient(90deg,#d8b25a,#ee8062)),linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));background-size:100% 3px,100% 100%;background-repeat:no-repeat;background-origin:border-box,padding-box}
+.rit-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 20px;padding:16px 0;border-top:1px solid rgba(255,255,255,.07)}
+.rit-row:first-of-type{border-top:0}
+.rit-date-d{font-family:'Cormorant Garamond',Georgia,serif;color:#fff;font-size:clamp(24px,3.2vw,32px);font-weight:600;line-height:1.15}
+.rit-date-l{color:#d7d4ea;font-size:16.5px;margin-top:4px}
+.rit-row-act{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}
+.rit-fb{color:var(--gold2,#f0d18a);text-decoration:underline;text-underline-offset:3px;display:inline-flex;align-items:center;min-height:44px}
+.rit-date-btn{white-space:nowrap}
+.rit-date-in .dt-vide{margin-top:12px}
 /* == nav_menu.py (resonances-7) == */
 .nav .links{flex-wrap:nowrap}
 .nav .links a[aria-current="page"]{color:var(--gold2)}
@@ -406,6 +418,27 @@ p a:not(.btn):not(.adh){text-decoration:underline;
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="RITUALS en trio, une prière chantée — David Lesage, Iris Chasles et Julien Dub sur la scène du Grand Rex, face à une salle comble.">
+<script>
+(function(){
+var F=["2026-09-26T20:00:00Z"],B=[["rituals-dates",[0],0,"block",0,0]],n=Date.now(),r=[],i,k,j;
+function passe(x){return Date.parse(F[x])<=n;}
+for(i=0;i<F.length;i++){if(passe(i))r.push('html [data-dt="'+i+'"]{display:none!important}');}
+for(k=0;k<B.length;k++){
+var b=B[k],v=[];
+for(j=0;j<b[1].length;j++){if(!passe(b[1][j]))v.push(b[1][j]);}
+if(!v.length){
+if(b[2])r.push('html [data-dt-bloc="'+b[0]+'"]{display:none!important}');
+if(b[3])r.push('html [data-dt-vide="'+b[0]+'"]{display:'+b[3]+'!important}');
+r.push('html [data-dt-lie="'+b[0]+'"]{display:none!important}');
+}else{
+if(b[5]){for(j=0;j<v.length;j++)r.push('html [data-dt="'+v[j]+'"]{display:'+(j<b[5]?'inline':'none')+'!important}');}
+if(b[4])r.push('html [data-dt="'+v[0]+'"] .dt-sep{display:none!important}');
+}
+}
+if(r.length&&document.head){var s=document.createElement('style');
+s.appendChild(document.createTextNode(r.join('')));document.head.appendChild(s);}
+})();
+</script>
 </head>
 <body>
 
@@ -453,6 +486,20 @@ p a:not(.btn):not(.adh){text-decoration:underline;
     <div class="scroll">défiler ↓</div>
   </div>
 </header>
+
+<section class="rit-date"><div class="wrap">
+  <div class="rit-date-in">
+    <div class="kick">Prochaines représentations</div>
+    <div class="rit-row" data-dt="0" data-dt-fin="2026-09-26T20:00:00Z">
+      <div class="rit-row-txt">
+        <div class="rit-date-d">Samedi 26 septembre 2026</div>
+        <div class="rit-date-l">20h – 22h · Le Nid, Paris 20<sup>e</sup> · Sortie de Résidence</div>
+      </div>
+      <div class="rit-row-act"><a class="rit-fb" href="https://www.facebook.com/events/1623936052604536/" target="_blank" rel="noopener">Événement Facebook ↗</a><a class="btn rit-date-btn" href="https://www.helloasso.com/associations/resonances-productions/evenements/les-rdv-mensuels-au-nid" target="_blank" rel="noopener">Réserver ma place ↗</a></div>
+    </div>
+    <p class="dt-vide" data-dt-vide="rituals-dates">Prochaines dates en préparation.</p>
+  </div>
+</div></section>
 
 <section class="intention"><div class="wrap">
   <div class="kick">Note d’intention</div>
@@ -978,6 +1025,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.ge
 })();
 </script>
 
+<script>
+(function(){
+var n=Date.now(),L=document.querySelectorAll('[data-dt-fin]'),i,e;
+for(i=L.length-1;i>=0;i--){e=L[i];
+if(Date.parse(e.getAttribute('data-dt-fin'))<=n&&e.parentNode)e.parentNode.removeChild(e);}
+})();
+</script>
 <!-- nav_menu.py (resonances-7) -->
 <script>
 /* Sous-menus du menu partage (voir sources/nav_menu.py).
