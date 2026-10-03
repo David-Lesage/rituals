@@ -133,7 +133,6 @@ CAL_WEBCAL = ('webcal://calendar.google.com/calendar/ical/'
 
 # --- DEBUT DES DATES SYNCHRONISEES (ecrit par sources/synchro_agenda.py) ---
 EVENTS = [
-    ('2026-10-02', '19:00', '21:00', 'mensuel',  'Rendez-vous mensuel au Nid — Scène ouverte', 'scène ouverte'),
     ('2026-10-04', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-10-17', '15:00', '17:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-10-18', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
