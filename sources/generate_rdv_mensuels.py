@@ -558,6 +558,19 @@ REG = dates_a_venir.Registre()
 #: le message affiche si les quatre dates sont passees. Ce n'est PAS
 #: « Programme en cours d'élaboration » (EN_COURS) : celui-la parle d'une soiree
 #: dont on connait la date mais pas le contenu. Ici, il n'y a plus de date.
+# ⚠️ LA PHOTO DE L'INTERVENANT (14/10/2026). Elle flotte a droite du recit sur
+#    grand ecran — le texte l'habille, donc l'encart ne s'allonge pas — et
+#    repasse pleine largeur sous 620 px, ou une colonne de texte de 320 px a
+#    cote d'une photo serait illisible.
+CSS_PHOTO = (
+    '.rdv-photo{margin:22px 0 0;float:right;width:320px;max-width:100%;'
+    'shape-margin:22px}\n'
+    '.rdv-photo img{display:block;width:100%;height:auto;border-radius:18px;'
+    'border:1px solid rgba(255,255,255,.1)}\n'
+    '@media(max-width:620px){.rdv-photo{float:none;width:100%;margin:18px 0 0}}\n')
+CSS = CSS + CSS_PHOTO
+
+
 EN_PREPARATION = 'Prochaines dates en préparation.'
 
 
@@ -729,7 +742,57 @@ CONTENUS = {
     # (voir la note plus haut) : David a donne le TITRE de cette soiree, pas
     # encore son programme complet (horaire precis, tarif, deroule). Le champ
     # `format` l'affiche sans transformer l'entree en soiree « ecrite ».
-    '2026-11-07': dict(format='Atelier d’écriture érotique avec Charly'),
+    # ⚠️ 14/10/2026 — TEXTES FOURNIS PAR DAVID, repris MOT POUR MOT (texte
+    #    court et texte detaille). Deux seuls ajustements, signales a David :
+    #      * l'emoji 🌸 de la fin du 3e paragraphe est retire — la charte du
+    #        site n'admet aucun emoji (voir verif_commentaires.py) ;
+    #      * le titre affiche est « Atelier d’écriture érotique : les Sextos »,
+    #        celui de son texte court. Son texte dit « Charlie » alors que
+    #        l'agenda disait « Charly » : plutot que publier les deux graphies
+    #        sur la meme page, le prenom ne figure que dans le corps, dans SA
+    #        graphie a lui. ⚠️ A FAIRE CONFIRMER PAR DAVID.
+    #    L'ecriture inclusive (« tous·tes », « chacun·e ») est CELLE DE DAVID :
+    #    ne pas la « corriger ».
+    '2026-11-07': dict(
+        type='Atelier d’écriture',
+        titre='Atelier d’écriture érotique : les Sextos',
+        horaire='17h – 19h30',
+        fin_heure='19:30',
+        prix='Sur réservation',
+        sous='Animé par Charlie, auteur de chanson et de poésie.',
+        chapeau='Un espace suave où les plumes se mêlent et se racontent des '
+                'histoires. Une bulle pour poser en mots nos désirs et nos plus '
+                'coquins souvenirs.',
+        photo=dict(base='/img/rendez-vous-mensuels/charlie', w=588, h=654,
+                   alt='Charlie, auteur de chanson et de poésie, qui anime '
+                       'l’atelier d’écriture'),
+        faits=[
+            ('Quand', 'Samedi 7 novembre 2026, de 17h à 19h30', ''),
+            ('Où', 'Le Nid — Paris 20<sup>e</sup>', '29 rue des Orteaux'),
+            ('Avec', 'Charlie', 'Auteur de chanson et de poésie'),
+            ('Accès', 'Sur réservation', 'Places limitées'),
+        ],
+        recit=[
+            'Un espace doux et ludique où les plumes se mêlent pour explorer le '
+            'désir, la suggestion et le plaisir des mots.',
+            'Pas besoin d’être écrivain·e, ni d’avoir l’habitude de parler '
+            'd’érotisme : cet atelier est ouvert à tous·tes, avec ou sans '
+            'expérience. Chacun·e est libre d’écrire, de partager ou non, dans '
+            'un cadre bienveillant, inclusif et sans jugement.',
+            'Une invitation à oser quelques mots coquins et à apprendre à '
+            'exprimer ses envies.',
+            'Je m’appelle Charlie, je suis auteur de chansons et de poésie. '
+            'J’aime jouer avec les mots et tous leurs supports… dont les sextos, '
+            'que j’écris depuis toujours.',
+            'Depuis plusieurs années, j’anime des ateliers d’écriture, avec '
+            'l’envie de créer des espaces où chacun·e peut expérimenter, '
+            's’amuser avec les double-sens et trouver des façons nouvelles '
+            'd’exprimer ses envies, chacun·e à son rythme, dans un cadre '
+            'bienveillant.',
+        ],
+        resa=RESA_MENSUEL,
+        resa_texte='Réserver ma place — Les Sextos ↗',
+    ),
     # 15/09/2026 — le concert de David Lesage du 28 novembre a ete deplace ici,
     # fondu dans le rendez-vous mensuel du 4 decembre (voir generate_agenda_nid.py
     # et synchro_agenda.py). Meme etat intermediaire : le titre est connu, pas
@@ -1011,6 +1074,24 @@ def _encart_complet(d, marque=''):
             '<h2 class="sec-title">%s</h2>' % d['titre']]
     if d.get('chapeau'):
         bloc.append('<p class="lead">%s</p>' % d['chapeau'])
+    # ⚠️ 14/10/2026 — LA PHOTO REVIENT, SUR DEMANDE DE DAVID. Les photos
+    #    avaient ete retirees de cette page le 20/08/2026 (lui aussi) ; le
+    #    controle de fin de fichier n'interdit donc plus toute image, il exige
+    #    qu'elle vienne d'un champ `photo` declare ici. Une image qui
+    #    reapparaitrait par accident est toujours refusee.
+    if d.get('photo'):
+        ph = d['photo']
+        bloc.append(
+            '<figure class="rdv-photo"><picture>'
+            '<source type="image/webp" srcset="%s-480.webp 480w, %s-%d.webp %dw" '
+            'sizes="(max-width:620px) calc(100vw - 52px), 320px">'
+            '<img src="%s-480.jpg" srcset="%s-480.jpg 480w, %s-%d.jpg %dw" '
+            'sizes="(max-width:620px) calc(100vw - 52px), 320px" '
+            'width="%d" height="%d" loading="lazy" decoding="async" alt="%s">'
+            '</picture></figure>'
+            % (ph['base'], ph['base'], ph['w'], ph['w'],
+               ph['base'], ph['base'], ph['base'], ph['w'], ph['w'],
+               ph['w'], ph['h'], ph['alt']))
     if d.get('faits'):
         bloc.append(faits(d))
         # UN BOUTON DE RESERVATION JUSTE SOUS LA FICHE PRATIQUE (20/08/2026)
@@ -1036,7 +1117,12 @@ def _encart_complet(d, marque=''):
     if d.get('au_programme'):
         bloc.append('<p class="body"><b>Au programme</b></p>')
         bloc.append(liste(d['au_programme']))
-    if d.get('fin_heure'):
+    # ⚠️ `fin` (la phrase de cloture) ET `fin_heure` (l'heure a laquelle la
+    #    date disparait) n'ont RIEN A VOIR l'une avec l'autre. Le code testait
+    #    `fin_heure` pour afficher `fin` : la soiree du 7 novembre, qui a une
+    #    heure de fin mais pas de phrase de cloture, a fait tomber la
+    #    generation (KeyError). On teste ce qu'on affiche.
+    if d.get('fin'):
         bloc.append('<p>%s</p>' % d['fin'])
     boutons = ''
     if d.get('resa'):
@@ -1409,11 +1495,21 @@ def _controle_structure():
                          % (EN_COURS, HTML.count(EN_COURS), attente))
     # ⚠️ AUCUNE IMAGE DANS CETTE PAGE depuis le 20/08/2026 (David). `og:image`
     #    n'est pas concernee : c'est la vignette de partage, hors de la page.
+    # ⚠️ 20/08/2026 : David avait fait RETIRER toutes les photos de cette page.
+    #    14/10/2026 : il en redemande une, celle de Charlie. Le controle n'est
+    #    donc plus « aucune image » mais « AUCUNE IMAGE QUI N'AIT ETE DECLAREE »
+    #    — une photo doit venir d'un champ `photo` d'une soiree de CONTENUS.
+    #    Une image qui reviendrait par accident (bandeau, decor, pixel de
+    #    suivi) est toujours refusee. `og:image` n'est pas concernee : c'est la
+    #    vignette de partage, hors du corps de la page.
     corps = HTML.split('</head>', 1)[-1]
-    if '<img' in corps or '<picture' in corps:
-        raise SystemExit('!! ABANDON : une image est reapparue dans le corps de '
-                         'la page. David les a fait retirer le 20/08/2026. '
-                         'Page NON ecrite.')
+    attendues = sum(1 for d in SOIREES if d.get('titre') and d.get('photo'))
+    if corps.count('<img') != attendues or corps.count('<picture') != attendues:
+        raise SystemExit(
+            '!! ABANDON : %d <img> et %d <picture> dans le corps de la page, '
+            'attendu %d de chaque (une par soiree qui declare une photo). '
+            'Page NON ecrite.'
+            % (corps.count('<img'), corps.count('<picture'), attendues))
 
 
 _controle_contenus()

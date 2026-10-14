@@ -135,13 +135,19 @@ CAL_WEBCAL = ('webcal://calendar.google.com/calendar/ical/'
 EVENTS = [
     ('2026-10-17', '15:00', '17:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-10-18', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
-    ('2026-11-07', '17:00', '19:30', 'mensuel',  'Atelier d’écriture érotique avec Charly', ''),
+    ('2026-11-07', '17:00', '19:30', 'mensuel',  'Atelier d’écriture érotique : les Sextos', 'avec Charlie'),
     ('2026-11-08', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-11-14', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-11-15', '15:00', '17:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-12-04', '18:30', '23:30', 'mensuel',  'Concert David Lesage', ''),
     ('2026-12-05', '15:00', '18:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-12-06', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
+    ('2027-01-10', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
+    ('2027-02-07', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
+    ('2027-03-07', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
+    ('2027-04-04', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
+    ('2027-05-02', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
+    ('2027-06-06', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
 ]
 # --- FIN DES DATES SYNCHRONISEES ---
 
@@ -356,6 +362,20 @@ DESCR_COURTE = {
 }
 
 
+#: ⚠️ UN DESCRIPTIF PROPRE A UNE DATE, quand le descriptif du TYPE ne suffit
+#: plus. Les rendez-vous mensuels n'ont plus rien de generique : scene ouverte,
+#: atelier d'ecriture, concert… Celui du 7 novembre a son texte, ecrit par
+#: David le 14/10/2026 et repris mot pour mot. Cle = (date ISO, heure de debut),
+#: comme URL_PAR_EVENT et LABEL_PAR_EVENT.
+DESCR_PAR_EVENT = {
+    ('2026-11-07', '17:00'):
+        'Atelier d’écriture érotique : les Sextos. Un espace suave où les '
+        'plumes se mêlent et se racontent des histoires. Une bulle pour poser '
+        'en mots nos désirs et nos plus coquins souvenirs. Animé par Charlie, '
+        'auteur de chanson et de poésie.',
+}
+
+
 def info_url(iso, h1, typ):
     """L'adresse de la page dediee de CET evenement, ou None s'il n'y en a pas."""
     over = INFO_PAR_EVENT.get((iso, h1))
@@ -547,7 +567,7 @@ def build():
                 hh, mm = map(int, h.split(':'))
                 return (dt.datetime(d.year, d.month, d.day, hh, mm)
                         - dt.timedelta(hours=offset)).strftime('%Y%m%dT%H%M%SZ')
-            desc = DESCR[typ] + ' | ' + ACCES_PUBLIC + ' | ' + JAUGE + ' | Reservation : ' + url_public(url)
+            desc = (DESCR_PAR_EVENT.get((iso, h1)) or DESCR[typ]) + ' | ' + ACCES_PUBLIC + ' | ' + JAUGE + ' | Reservation : ' + url_public(url)
             # ⚠️ `data-e` est deja l'heure de FIN en UTC — c'est elle qui decide
             # si la ligne a vecu, pas `data-s`. `REG.date()` la recalcule de son
             # cote (meme resultat, calcul de fuseau propre : voir la regle 2 de
@@ -557,7 +577,7 @@ def build():
                     f' data-typ="{typ}" data-mois="{d.year:04d}-{d.month:02d}"'
                     + REG.date(('agenda', cle_mois), d, h2))
             note_html = f'<span class="ag-note">{note}</span>' if note else ''
-            court = DESCR_COURTE.get(typ)
+            court = DESCR_PAR_EVENT.get((iso, h1)) or DESCR_COURTE.get(typ)
             desc_html = f'<p class="ag-desc">{court}</p>' if court else ''
             info = info_url(iso, h1, typ)
             info_html = (f'<a class="ag-info" href="{info}">Infos détaillées &#8594;</a>'

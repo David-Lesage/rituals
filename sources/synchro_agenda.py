@@ -198,8 +198,17 @@ CORRESPONDANCE = {
     # 15/09/2026 — meme mecanisme que la scene ouverte du 2 octobre ci-dessus :
     # David a donne le titre du rendez-vous du 7 novembre, l'agenda Google
     # porte desormais ce titre exact.
-    'Atelier d’écriture érotique avec Charly':
-        ('mensuel', 'Atelier d’écriture érotique avec Charly', ''),
+    # ⚠️ 14/10/2026 — LE TITRE DU SITE N'EST PLUS CELUI DE L'AGENDA, et c'est
+    #    voulu. Le texte fourni par David s'intitule « les Sextos » et ecrit
+    #    « Charlie » ; l'evenement Google, lui, dit « Charly ». Publier les
+    #    deux graphies du prenom aurait ete fautif pour une personne reelle.
+    #    David a tranche le 14/10/2026 : c'est « Charlie ». L'evenement Google
+    #    a ete renomme en consequence, et cette cle suit son nouveau titre.
+    #    ⚠️ La cle de gauche reste le titre EXACT de l'agenda Google : si David
+    #    renomme l'evenement la-bas, il faut changer cette cle, sinon la date
+    #    disparait du site.
+    'Atelier d’écriture érotique : les Sextos — avec Charlie':
+        ('mensuel', 'Atelier d’écriture érotique : les Sextos', 'avec Charlie'),
     # 15/09/2026 — le concert de David Lesage du 28 novembre a ete supprime et
     # deplace au 4 decembre, fondu dans le rendez-vous mensuel deja programme
     # ce jour-la (acces par adhesion, plus par billet HelloAsso separe). Badge
@@ -225,6 +234,15 @@ CORRESPONDANCE = {
         ('concert', 'Sortie de Résidence — David, Iris & Julien', 'le trio en concert'),
     # --- les ateliers ---
     'Atelier de yoga — Le Nid':
+        ('yoga', 'Atelier de yoga', 'avec Iris Chasles'),
+    # ⚠️ 14/10/2026 — LES SIX ATELIERS DE YOGA A VENIR ONT ETE RENOMMES dans
+    #    l'agenda Google, de « Atelier de yoga — Le Nid » a « Atelier yoga ».
+    #    Resultat : plus aucun n'etait reconnu, donc plus aucun n'etait publie,
+    #    et la synchronisation du 13/10 est sortie en erreur en le signalant.
+    #    C'est exactement le role de ce signalement — mais il faut le lire.
+    #    LES DEUX CLES RESTENT : l'ancien titre peut encore servir a d'anciens
+    #    evenements, et une cle qui ne correspond a rien ne coute rien.
+    'Atelier yoga':
         ('yoga', 'Atelier de yoga', 'avec Iris Chasles'),
     # ⚠️ « Groupe de pratique », et surtout PAS « atelier » : David a tranche le
     #    17/08/2026, ces rendez-vous ne sont pas ouverts a la seance, on les
