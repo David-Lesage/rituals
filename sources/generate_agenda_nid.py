@@ -136,7 +136,7 @@ EVENTS = [
     ('2026-10-17', '15:00', '17:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-10-18', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-11-07', '17:00', '19:30', 'mensuel',  'Atelier d’écriture érotique : les Sextos', 'avec Charlie'),
-    ('2026-11-08', '16:30', '19:00', 'yoga',     'Yoga & respiration consciente — avec Iris Chasles', ''),
+    ('2026-11-08', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-11-14', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-11-15', '15:00', '17:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-12-04', '18:30', '23:30', 'mensuel',  'Concert David Lesage', ''),
@@ -149,6 +149,26 @@ EVENTS = [
     ('2027-05-02', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
     ('2027-06-06', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
 ]
+
+#: identifiant Google -> type. Memoire qui survit aux
+#: renommages ET aux deplacements. Ecrite par la synchro.
+TYPE_PAR_UID = {
+    '61j3ic9p74smabb66spm6b9k6com4bb16kpmcbb171i34ohmcko3gcr568': 'yoga',
+    '65gm2p9p65im6b9p74o36b9kchhmcbb2cgrjabb2cosm8dhoc9im2e1g6g': 'showcase',
+    '68r34cplc8s6cb9gccrj8b9kccom8bb26gomcb9o68p3adpjc4q6cc32cg': 'yoga',
+    '69hj2dhkcoo3abb571gm8b9k75j66bb2c5ijgb9mcdh3cp3264pm8cr6cg': 'rythme',
+    '6li3cdpp6pj3eb9lckq6ab9kc9hj6b9occrjab9n75ij8dr56gq3ge9k6o': 'showcase',
+    '6lim4oppc5hm4b9hc4sj8b9k71h62b9o64ojgb9h6go36cj46dj3ce3170': 'yoga',
+    '6sq3gcpgc5gjeb9lc8s3cb9k6ksj6b9p74rjcbb565h3acb5cpj64d1g6s': 'yoga',
+    '70q3gp9jc5hj2bb564qj8b9k75j32b9p6oojgb9gc5i3ic9oc8q64c9g6o': 'yoga',
+    '75ijgdpj6hi3ib9h6lhm2b9k6spjebb170o62b9j6gom6dpjc5hm4pj170': 'yoga',
+    'c5h30dpp68sj4bb565i62b9k6crjgbb270om4bb26krm8o9i6lim6c9n64': 'showcase',
+    'c5i68db5ckp62bb46pi6cb9k61hm8bb26op3cbb56ksm2cho6lhm6o9o64': 'mensuel',
+    'c5ij4cj16so6ab9ic8p3ab9k6tgmab9pcgo3ib9lc4rjgcb3cko38cr1c8': 'yoga',
+    'cgrjior26cqj6bb1cosjab9kcco3ib9p6ti6ab9oc4r38ohl70pjiphnco': 'mensuel',
+    'cks64e1kcph3cbb1cpj66b9k68r68b9o64s3ebb168qmce3670p38p1ick': 'yoga',
+    'cphj4e36c4om4b9lcgq32b9k6pgj0b9o6gsjgbb3cdhjgo9iccs68opoco': 'rythme',
+}
 # --- FIN DES DATES SYNCHRONISEES ---
 
 LIEU = 'Le Nid, 29 rue des Orteaux, 75020 Paris'

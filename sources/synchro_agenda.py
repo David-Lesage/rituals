@@ -315,7 +315,7 @@ AJOUTS_MAX = 15
 #: LOCATION, ATTENDEE, ORGANIZER, UID, X-* — est jete a la lecture, avant meme
 #: d'exister en memoire. C'est la premiere barriere contre la publication d'une
 #: donnee personnelle : on ne filtre pas ce qu'on a garde, on ne garde pas.
-GARDEES = ('DTSTART', 'DTEND', 'SUMMARY', 'RRULE', 'STATUS', 'DESCRIPTION')
+GARDEES = ('DTSTART', 'DTEND', 'SUMMARY', 'RRULE', 'STATUS', 'DESCRIPTION', 'UID')
 
 #: ⚠️ LA DESCRIPTION EST LUE, MAIS JAMAIS CONSERVEE. Elle contient la phrase
 #: « Le code du portail vous est communique avec votre confirmation » — un code
@@ -539,14 +539,45 @@ def _litteral(texte):
     return "'" + texte.replace("'", "\\'") + "'"
 
 
-def bloc(evs, largeur):
+def bloc(evs, largeur, types_par_uid=None):
+    """Le texte du bloc synchronise : les dates, puis la memoire des types.
+
+    ⚠️ `TYPE_PAR_UID` EST LA MEMOIRE QUI REND LES DEPLACEMENTS INDOLORES.
+    L'identifiant Google d'un evenement ne change JAMAIS — ni quand on le
+    renomme, ni quand on le deplace a une autre date ou a une autre heure.
+    En retenant « cet identifiant est un concert », on sait reconnaitre
+    l'evenement quoi qu'il lui arrive. Sans lui, on le reconnaissait a son
+    creneau (date + heure) : un evenement renomme ET deplace le meme jour
+    n'etait plus reconnu du tout, et disparaissait du site.
+    ⚠️ ON N'Y MET QUE LA PARTIE GAUCHE DE L'IDENTIFIANT, sans « @google.com » :
+    telle quelle, la chaine ressemble a une adresse email et ferait sonner le
+    controle anti-fuite — a juste titre, c'est son travail.
+    """
     lignes = ['EVENTS = [']
     for iso, h1, h2, typ, titre, note in evs:
         lignes.append("    (%s, %s, %s, %-*s %s, %s)," % (
             _litteral(iso), _litteral(h1), _litteral(h2),
             largeur, _litteral(typ) + ',', _litteral(titre), _litteral(note)))
     lignes.append(']')
+    if types_par_uid:
+        lignes.append('')
+        lignes.append('#: identifiant Google -> type. Memoire qui survit aux')
+        lignes.append('#: renommages ET aux deplacements. Ecrite par la synchro.')
+        lignes.append('TYPE_PAR_UID = {')
+        for uid in sorted(types_par_uid):
+            lignes.append('    %s: %s,' % (_litteral(uid),
+                                           _litteral(types_par_uid[uid])))
+        lignes.append('}')
     return '\n'.join(lignes)
+
+
+def types_par_uid_actuels(src):
+    """{identifiant Google -> type} deja memorises dans le bloc."""
+    bl = _bloc_actuel(src)
+    m = re.search(r'TYPE_PAR_UID = \{(.*?)\n\}', bl, re.S)
+    if not m:
+        return {}
+    return dict(re.findall(r"'((?:[^'\\]|\\.)*)':\s*'([a-z]+)'", m.group(1)))
 
 
 def _controle_fuite(texte, table, titres_du_flux=()):
@@ -745,6 +776,10 @@ def _travailler(args, dit, signalements):
     #    Sans ca, affiner un titre faisait disparaitre la date du site — c'est
     #    arrive aux six ateliers de yoga en octobre 2026.
     type_du_creneau = {(e[0], e[1]): e[3] for e in evenements_actuels(src)}
+    # ⚠️ LA MEMOIRE PAR IDENTIFIANT GOOGLE est consultee AVANT le creneau :
+    #    elle survit aux renommages ET aux deplacements, le creneau non.
+    type_par_uid = types_par_uid_actuels(src)
+    uids_retenus = {}              # ce qu'on reecrira dans le bloc
     for ev in evenements:
         titre = ev.get('SUMMARY', ('', ''))[1]
         court = ' '.join(titre.split())[:58] or '(sans titre)'
@@ -792,6 +827,9 @@ def _travailler(args, dit, signalements):
         d1, d2 = _en_paris(debut), _en_paris(fin)
         creneau = (d1.date().isoformat(), d1.strftime('%H:%M'))
 
+        # l'identifiant Google, sans son domaine (voir la note de `bloc`)
+        uid_court = ev.get('UID', ('', ''))[1].split('@')[0].strip()
+
         etiquette = ev.get('_ETIQUETTE', ('', ''))[1]
         if not etiquette:
             for tag in RE_ETIQUETTE.findall(titre.lower()):
@@ -812,6 +850,21 @@ def _travailler(args, dit, signalements):
                             '(maximum %d caracteres)' % TITRE_MAX))
                 continue
             typ, note = etiquette, ''
+            titres_nettoyes.add(affiche)
+        elif uid_court and uid_court in type_par_uid:
+            # 3. MEME EVENEMENT GOOGLE, quoi qu'il lui soit arrive — renomme,
+            #    deplace a une autre date, a une autre heure, ou les trois.
+            #    Son identifiant ne change jamais : c'est la seule identite
+            #    fiable. David, 14/10/2026 : « si on deplace un evenement
+            #    existant a une autre date ou a un autre horaire, il faut que
+            #    ca mette a jour le site ».
+            affiche = titre_publiable(titre)
+            if not affiche:
+                a_signaler.append(
+                    (court, 'titre vide ou trop long une fois nettoye '
+                            '(maximum %d caracteres)' % TITRE_MAX))
+                continue
+            typ, note = type_par_uid[uid_court], ''
             titres_nettoyes.add(affiche)
         elif creneau in type_du_creneau:
             # 3. MEME CRENEAU QU'UN EVENEMENT DEJA PUBLIE : c'est le meme
@@ -839,6 +892,8 @@ def _travailler(args, dit, signalements):
             continue
         retenus.append((d1.date().isoformat(), d1.strftime('%H:%M'),
                         d2.strftime('%H:%M'), typ, affiche, note))
+        if uid_court:
+            uids_retenus[uid_court] = typ
     retenus = trier(retenus)
 
     # ------------------------------------------------------------------ #
@@ -931,7 +986,7 @@ def _travailler(args, dit, signalements):
 
     _controle_fuite(retenus, TABLE, titres_nettoyes)
     largeur = max(len(t) for t in connus) + 3
-    nouveau = bloc(retenus, largeur)
+    nouveau = bloc(retenus, largeur, uids_retenus)
     _controle_motifs(nouveau)
 
     _autres_pages(dit, retenus, maintenant)
