@@ -1079,8 +1079,13 @@ def _encart_complet(d, marque=''):
     #    controle de fin de fichier n'interdit donc plus toute image, il exige
     #    qu'elle vienne d'un champ `photo` declare ici. Une image qui
     #    reapparaitrait par accident est toujours refusee.
-    if d.get('photo'):
-        ph = d['photo']
+    # ⚠️ `photo` ACCEPTE UNE PHOTO OU PLUSIEURS (David, 14/10/2026 : « soit
+    #    l'atelier, soit le facilitateur de l'evenement, soit meme les deux »).
+    #    Une seule valeur reste acceptee : on la met dans une liste.
+    photos = d.get('photo') or []
+    if isinstance(photos, dict):
+        photos = [photos]
+    for ph in photos:
         bloc.append(
             '<figure class="rdv-photo"><picture>'
             '<source type="image/webp" srcset="%s-480.webp 480w, %s-%d.webp %dw" '
@@ -1503,7 +1508,11 @@ def _controle_structure():
     #    suivi) est toujours refusee. `og:image` n'est pas concernee : c'est la
     #    vignette de partage, hors du corps de la page.
     corps = HTML.split('</head>', 1)[-1]
-    attendues = sum(1 for d in SOIREES if d.get('titre') and d.get('photo'))
+    def _nb_photos(d):
+        ph = d.get('photo') or []
+        return 1 if isinstance(ph, dict) else len(ph)
+
+    attendues = sum(_nb_photos(d) for d in SOIREES if d.get('titre'))
     if corps.count('<img') != attendues or corps.count('<picture') != attendues:
         raise SystemExit(
             '!! ABANDON : %d <img> et %d <picture> dans le corps de la page, '

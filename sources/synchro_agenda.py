@@ -59,13 +59,29 @@ D'ou les cinq regles ci-dessous. Aucune n'est negociable.
    sont meme pas conserves par le lecteur de flux : ils sont jetes a la lecture.
    Le script le VERIFIE ensuite (`_controle_fuite`) plutot que de le croire.
 
-2. LISTE BLANCHE DE TITRES, PAS DE DEVINETTE.
-   Un evenement est publie si — et seulement si — son titre est DANS la table
-   CORRESPONDANCE. Pas de « ca ressemble a un concert » : une correspondance
-   exacte, ou rien. Tout titre inconnu est IGNORE et SIGNALE.
-   ⚠️ Consequence pratique, a dire a David : pour ajouter une date au site, le
-      plus sur est de DUPLIQUER un evenement existant dans Google Agenda et de
-      changer sa date. Le titre est alors exact par construction.
+2. TROIS PORTES POUR ETRE PUBLIE, ET AUCUNE DEVINETTE.
+   ⚠️ CETTE REGLE A CHANGE LE 14/10/2026, A LA DEMANDE DE DAVID : « il va
+      arriver frequemment que les titres des evenements soient modifies pour
+      etre affines, il ne faut pas que cela genere une erreur ». Le but qu'il
+      a pose : « n'avoir qu'a creer un evenement depuis notre google agenda
+      pour qu'il apparaisse sur le site », sans passer par une demande en chat.
+   Un evenement est publie si — et seulement si — il passe par l'une des trois :
+     a. SON TITRE EST DANS `CORRESPONDANCE`. C'est l'ancienne voie, conservee :
+        elle seule permet d'afficher sur le site un titre DIFFERENT de celui de
+        l'agenda (cas des Sextos).
+     b. SA DESCRIPTION (ou son titre) PORTE UNE ETIQUETTE DE TYPE : #concert,
+        #yoga, #mensuel, #rythme, #showcase. C'est la voie des evenements
+        NOUVEAUX : rien a ajouter dans ce fichier, le titre vient de l'agenda.
+     c. UN EVENEMENT EST DEJA PUBLIE AU MEME CRENEAU (meme date, meme heure de
+        debut). C'est alors le meme rendez-vous, simplement renomme : on garde
+        son type et on prend son nouveau titre. C'est cette porte-la qui rend
+        les renommages indolores.
+   Sans aucune des trois, l'evenement n'est PAS publie : il est SIGNALE.
+   ⚠️ CE QUI N'A PAS CHANGE : un titre venu du flux passe par
+      `titre_publiable` (etiquette et suffixe de lieu retires, espaces
+      normalises, longueur bornee) PUIS par `_controle_motifs` (code d'acces,
+      email, telephone). La description, elle, n'est JAMAIS publiee : on n'y
+      lit que l'etiquette, et on jette le reste a la lecture.
 
 3. EN CAS DE DOUTE, ON NE PUBLIE PAS. Un evenement sans heure (« journee
    entiere »), un evenement qui se repete (RRULE), un evenement annule : ignore
@@ -299,7 +315,14 @@ AJOUTS_MAX = 15
 #: LOCATION, ATTENDEE, ORGANIZER, UID, X-* — est jete a la lecture, avant meme
 #: d'exister en memoire. C'est la premiere barriere contre la publication d'une
 #: donnee personnelle : on ne filtre pas ce qu'on a garde, on ne garde pas.
-GARDEES = ('DTSTART', 'DTEND', 'SUMMARY', 'RRULE', 'STATUS')
+GARDEES = ('DTSTART', 'DTEND', 'SUMMARY', 'RRULE', 'STATUS', 'DESCRIPTION')
+
+#: ⚠️ LA DESCRIPTION EST LUE, MAIS JAMAIS CONSERVEE. Elle contient la phrase
+#: « Le code du portail vous est communique avec votre confirmation » — un code
+#: de portail a deja fuite DEUX FOIS sur ce projet. `lire_flux` y cherche
+#: UNIQUEMENT l'etiquette de type (#concert, #yoga…) et jette le reste a la
+#: lecture : rien de son texte n'existe apres cette ligne.
+RE_ETIQUETTE = re.compile(r'#([a-z]{3,12})\b')
 
 
 def _texte_ical(v):
@@ -336,7 +359,14 @@ def lire_flux(brut):
             nom = gauche.split(';', 1)[0].strip().upper()
             if nom not in GARDEES:
                 continue          # <- la donnee personnelle s'arrete ici
-            ev[nom] = (gauche, _texte_ical(valeur).strip())
+            valeur = _texte_ical(valeur).strip()
+            if nom == 'DESCRIPTION':
+                # on n'en garde QUE l'etiquette, jamais le texte (voir la note
+                # de RE_ETIQUETTE). `ev` ne recoit pas la description.
+                for tag in RE_ETIQUETTE.findall(valeur.lower()):
+                    ev.setdefault('_ETIQUETTE', ('', tag))
+                continue
+            ev[nom] = (gauche, valeur)
         if ev:
             evenements.append(ev)
     if not evenements:
@@ -431,6 +461,20 @@ def evenements_actuels(src):
         bloc)
 
 
+def titres_actuels(src):
+    """{(date, heure) -> titre} tels qu'ils sont ecrits aujourd'hui.
+
+    ⚠️ SERT AU RESUME, PAS A LA DECISION D'ECRIRE. Celle-ci compare le bloc
+    entier, caractere par caractere, et voyait donc deja les titres. Le resume,
+    lui, ne comparait que dates/heures/types : un titre AFFINE dans l'agenda
+    etait bien publie, mais la synchronisation annoncait « rien ne change ».
+    De quoi croire que le renommage n'avait pas pris.
+    """
+    return {(m[0], m[1]): m[2] for m in re.findall(
+        r"\('(\d{4}-\d{2}-\d{2})',\s*'(\d\d:\d\d)',\s*'\d\d:\d\d',"
+        r"\s*'[a-z]+',\s*'((?:[^'\\]|\\.)*)'", _bloc_actuel(src))}
+
+
 def _bloc_actuel(src):
     if DEBUT not in src or FIN not in src:
         raise Refus('les balises « DEBUT / FIN DES DATES SYNCHRONISEES » sont '
@@ -452,6 +496,35 @@ def surcharges(src):
 # --------------------------------------------------------------------------- #
 # ECRITURE DU BLOC
 # --------------------------------------------------------------------------- #
+
+#: longueur maximale d'un titre publie. Au-dela, ce n'est plus un titre :
+#: c'est une phrase collee dans le champ, et elle casserait les cartes.
+TITRE_MAX = 80
+
+#: ce qu'on retire d'un titre d'agenda avant de le publier : l'etiquette de
+#: type, et le suffixe de lieu que David ajoute pour s'y retrouver.
+RE_SUFFIXE_LIEU = re.compile(r'\s*[—–-]\s*(le\s+)?nid\s*$', re.I)
+
+
+def titre_publiable(brut):
+    """Le titre de l'agenda, nettoye — ou None s'il n'est pas publiable.
+
+    ⚠️ CE TITRE VIENT DU FLUX, donc d'un texte que personne n'a relu avant
+    publication. Il est nettoye et borne ici, et le bloc ecrit repasse ensuite
+    par `_controle_motifs` (code d'acces, email, telephone). C'est ce double
+    passage qui remplace l'ancienne regle « le titre doit etre ecrit dans la
+    table » — regle qui protegeait bien, mais qui faisait disparaitre du site
+    tout evenement renomme dans l'agenda.
+    """
+    t = RE_ETIQUETTE.sub('', brut)
+    t = RE_SUFFIXE_LIEU.sub('', t)
+    t = ' '.join(t.split())
+    if not t or len(t) > TITRE_MAX:
+        return None
+    if '\\' in t or '\n' in t:
+        return None
+    return t
+
 
 def _litteral(texte):
     """Le texte, en chaine Python entre apostrophes droites.
@@ -476,26 +549,37 @@ def bloc(evs, largeur):
     return '\n'.join(lignes)
 
 
-def _controle_fuite(texte, table):
-    """Rien d'autre que la table n'a pu atteindre le bloc. On le VERIFIE.
+def _controle_fuite(texte, table, titres_du_flux=()):
+    """Rien n'a pu atteindre le bloc sans etre passe par une porte connue.
 
-    Deux passes, volontairement redondantes :
-      1. chaque titre et chaque note publies sont, mot pour mot, une valeur de
-         CORRESPONDANCE — donc ecrits par un humain, pas repris du flux ;
-      2. les motifs de fuite du projet (`verif_site`) sont repasses sur le bloc :
-         code d'acces, telephone, adresse email. C'est le controle qui a deja
-         attrape un code de portail deux fois.
+    ⚠️ CETTE REGLE A CHANGE LE 14/10/2026, ET IL FAUT SAVOIR POURQUOI.
+    Avant : « chaque titre publie est, mot pour mot, une valeur de
+    CORRESPONDANCE ». C'etait solide — mais ca voulait dire qu'un titre AFFINE
+    dans l'agenda Google n'etait plus reconnu, donc que la date DISPARAISSAIT
+    du site. C'est arrive aux six ateliers de yoga en octobre.
+
+    Maintenant, un titre peut venir du flux, A CONDITION d'etre passe par
+    `titre_publiable` (etiquette retiree, suffixe de lieu retire, espaces
+    normalises, longueur bornee, ni contre-oblique ni retour a la ligne) — et
+    ce sont ces titres-la, et eux seuls, qui sont annonces ici.
+
+    CE QUI N'A PAS CHANGE, et qui est la vraie protection : le TYPE reste un
+    type connu du site, la NOTE reste un texte de la table (ou vide), et le
+    bloc ecrit repasse ensuite par `_controle_motifs` — code d'acces, email,
+    telephone. C'est ce dernier qui a deja attrape un code de portail deux fois.
     """
-    autorises = set()
+    autorises = {''}
     for typ, titre, note in table.values():
         autorises |= {typ, titre, note}
+    autorises |= set(titres_du_flux)
     for _iso, _h1, _h2, typ, titre, note in texte:
         for morceau in (typ, titre, note):
             if morceau not in autorises:
-                raise Refus('« %s » n’est pas un texte de la table de '
-                            'correspondance : il vient donc du flux. C’est '
-                            'exactement ce qui ne doit jamais arriver. Rien '
-                            'n’a ete touche.' % morceau[:60])
+                raise Refus('« %s » n’est passe ni par la table de '
+                            'correspondance, ni par le nettoyage des titres. '
+                            'Il vient donc du flux tel quel : c’est exactement '
+                            'ce qui ne doit jamais arriver. Rien n’a ete '
+                            'touche.' % morceau[:60])
 
 
 def _controle_motifs(bloc_texte):
@@ -654,6 +738,13 @@ def _travailler(args, dit, signalements):
     dit('  %d evenement(s) dans le flux.' % len(evenements))
 
     retenus, ecartes, a_signaler = [], [], []
+    titres_nettoyes = set()        # les titres venus du flux, apres nettoyage
+    # ⚠️ LE TYPE DEJA PUBLIE POUR CE CRENEAU. C'est ce qui permet de RENOMMER
+    #    un evenement dans l'agenda sans rien faire d'autre : la date et
+    #    l'heure n'ont pas bouge, donc on sait toujours de quoi il s'agit.
+    #    Sans ca, affiner un titre faisait disparaitre la date du site — c'est
+    #    arrive aux six ateliers de yoga en octobre 2026.
+    type_du_creneau = {(e[0], e[1]): e[3] for e in evenements_actuels(src)}
     for ev in evenements:
         titre = ev.get('SUMMARY', ('', ''))[1]
         court = ' '.join(titre.split())[:58] or '(sans titre)'
@@ -679,11 +770,69 @@ def _travailler(args, dit, signalements):
         if cle in TABLE_IGNORE:
             ecartes.append((court, 'ignore volontairement : %s' % TABLE_IGNORE[cle]))
             continue
-        if cle not in TABLE:
-            a_signaler.append((court, 'titre absent de la liste blanche'))
-            continue
-        typ, affiche, note = TABLE[cle]
+
+        # ------------------------------------------------------------------ #
+        # DEUX FACONS D'ETRE PUBLIE, DANS CET ORDRE
+        # ------------------------------------------------------------------ #
+        # 1. UNE ETIQUETTE DE TYPE (#concert, #yoga, #mensuel…) dans le titre
+        #    ou dans la description. C'est la voie normale depuis le
+        #    14/10/2026 : le TITRE vient alors de l'agenda, donc le renommer
+        #    là-bas met le site a jour au lieu de faire disparaitre la date.
+        #    C'est ce que David a demande : « creer un evenement depuis notre
+        #    google agenda pour qu'il apparaisse sur le site », sans passer par
+        #    une demande en chat.
+        # 2. LA TABLE CORRESPONDANCE, pour les evenements d'avant les
+        #    etiquettes. Elle n'est pas supprimee : elle sert de repli, et elle
+        #    reste le seul moyen de publier un titre DIFFERENT de celui de
+        #    l'agenda (c'est le cas des Sextos).
+        # Sans l'un ni l'autre, l'evenement n'est PAS publie — il est signale.
+        # ⚠️ L'HEURE DE PARIS EST CALCULEE ICI, avant la resolution du type :
+        #    la voie 3 ci-dessous reconnait un evenement a son CRENEAU
+        #    (date + heure de debut), et elle en a donc besoin.
         d1, d2 = _en_paris(debut), _en_paris(fin)
+        creneau = (d1.date().isoformat(), d1.strftime('%H:%M'))
+
+        etiquette = ev.get('_ETIQUETTE', ('', ''))[1]
+        if not etiquette:
+            for tag in RE_ETIQUETTE.findall(titre.lower()):
+                etiquette = tag
+                break
+        if cle in TABLE:
+            typ, affiche, note = TABLE[cle]
+        elif etiquette:
+            if etiquette not in connus:
+                a_signaler.append(
+                    (court, 'etiquette #%s inconnue (types possibles : %s)'
+                     % (etiquette, ', '.join('#' + t for t in sorted(connus)))))
+                continue
+            affiche = titre_publiable(titre)
+            if not affiche:
+                a_signaler.append(
+                    (court, 'titre vide ou trop long une fois nettoye '
+                            '(maximum %d caracteres)' % TITRE_MAX))
+                continue
+            typ, note = etiquette, ''
+            titres_nettoyes.add(affiche)
+        elif creneau in type_du_creneau:
+            # 3. MEME CRENEAU QU'UN EVENEMENT DEJA PUBLIE : c'est le meme
+            #    rendez-vous, simplement renomme. On garde son type et on prend
+            #    son nouveau titre. C'est la voie qui rend les renommages
+            #    indolores, sans rien demander a personne.
+            affiche = titre_publiable(titre)
+            if not affiche:
+                a_signaler.append(
+                    (court, 'titre vide ou trop long une fois nettoye '
+                            '(maximum %d caracteres)' % TITRE_MAX))
+                continue
+            typ = type_du_creneau[creneau]
+            note = ''
+            titres_nettoyes.add(affiche)
+        else:
+            a_signaler.append(
+                (court, 'evenement nouveau et sans etiquette : ajouter #%s '
+                        'dans sa description (types possibles : %s)'
+                        % (sorted(connus)[0], ', '.join('#' + t for t in sorted(connus)))))
+            continue
         if d1.date() != d2.date():
             a_signaler.append((court, 'commence et finit des jours differents — '
                                       'le site ne sait pas afficher ca'))
@@ -761,7 +910,13 @@ def _travailler(args, dit, signalements):
     # CE QUI CHANGERAIT
     # ------------------------------------------------------------------ #
     dit()
-    if not ajouts and not retraits:
+    # les titres affines : meme date, meme heure, texte different
+    avant_titres = titres_actuels(src)
+    renommages = [(e[0], e[1], avant_titres[(e[0], e[1])], e[4])
+                  for e in retenus
+                  if (e[0], e[1]) in avant_titres
+                  and avant_titres[(e[0], e[1])].replace("\\'", "'") != e[4]]
+    if not ajouts and not retraits and not renommages:
         dit('  Rien ne change : les %d date(s) du site sont deja celles de '
             'l’agenda.' % len(retenus))
     else:
@@ -770,8 +925,11 @@ def _travailler(args, dit, signalements):
             dit('      - %s  %s-%s  %s' % e)
         for e in ajouts:
             dit('      + %s  %s-%s  %s' % e)
+        for iso, h, vieux, neuf in renommages:
+            dit('      ~ %s  %s  « %s »' % (iso, h, vieux))
+            dit('                        -> « %s »' % neuf)
 
-    _controle_fuite(retenus, TABLE)
+    _controle_fuite(retenus, TABLE, titres_nettoyes)
     largeur = max(len(t) for t in connus) + 3
     nouveau = bloc(retenus, largeur)
     _controle_motifs(nouveau)

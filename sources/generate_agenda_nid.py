@@ -136,7 +136,7 @@ EVENTS = [
     ('2026-10-17', '15:00', '17:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-10-18', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-11-07', '17:00', '19:30', 'mensuel',  'Atelier d’écriture érotique : les Sextos', 'avec Charlie'),
-    ('2026-11-08', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
+    ('2026-11-08', '16:30', '19:00', 'yoga',     'Yoga & respiration consciente — avec Iris Chasles', ''),
     ('2026-11-14', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-11-15', '15:00', '17:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-12-04', '18:30', '23:30', 'mensuel',  'Concert David Lesage', ''),
