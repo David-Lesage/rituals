@@ -493,11 +493,9 @@ Code portail retiré des 20 événements · 3 rappels (10080/1440/120 min, popup
 **Toutes les vidéos doivent se lire SUR le site**, jamais dans un nouvel onglet ni dans l'appli YouTube. Composant `.lb` / `openYT()` en surimpression (déjà présent sur rituals, trio, e-motion), en cours de généralisation + passage à `youtube-nocookie.com`, fermeture par Échap, `src` vidée à la fermeture. Un lien de secours discret reste **dans** le lecteur (iframe bloquée = personne coincée sinon). Les liens de **plateformes** (Spotify, chaîne YouTube, boutique) restent en nouvel onglet : ce n'est pas la même chose.
 
 ## EN ATTENTE DE DAVID
-0. 🗓️ **Concert du 28 novembre : « solo » ou « + Guest Lucie au violon » ?** L'agenda Google
-   annonce « Concert de David Lesage — Le Nid **+ Guest Lucie au violon** », le site écrit
-   « Concert — David Lesage solo ». Les deux se contredisent. La synchronisation reproduit
-   **ce qui est déjà en ligne** ; changer l'annonce est une décision de David. (Une fois
-   tranché : une ligne de `CORRESPONDANCE` dans `sources/synchro_agenda.py`.)
+0. ~~Concert du 28 novembre : « solo » ou « + Guest Lucie au violon » ?~~ ✅ **TRANCHÉ (15/09)** :
+   le concert est déplacé au **vendredi 4 décembre**, dans le cadre des rendez-vous mensuels
+   (titre « Rendez-vous mensuel », sous-titre « Concert David Lesage »).
 1. 🔴 **Retirer le code du portail de la page Google Sites du Soin Soa** (voir alerte ci-dessus).
 2. **Trancher entre les deux chaînes YouTube.**
 3. **Durée des séances du Soin Soa** : 50 min (sa page) ou 1 h (ancienne page) ? **Durée du week-end** : samedi 8 h 30 → dimanche 14 h (1 nuit) ou vendredi soir → dimanche (2 nuits) ? Le nombre de repas à apporter en dépend. **Yoga du matin et mouvements libres du dimanche** : encore d'actualité ? **« Le Cœur du Cercle »** : appellation à revoir si les 3 intervenants sont désormais chacun en individuel.
@@ -2204,3 +2202,116 @@ souvent la première pièce demandée avant un contrat de cession.
   `transform-origin:50% 0%`) : le visage descend, et au passage les deux têtes prennent la même place
   dans leur carré — celle de David remplissait davantage le sien. Le fichier fait 841 px de large pour
   un affichage à 636 px : la définition suit.
+
+---
+
+# 🟢 ÉTAT ACTUEL — 14/10/2026 (à lire en premier)
+
+**Tout est en ligne et vérifié.** `main` = `3669522`, poussé, Vercel a publié. Build :
+**31/31 pages conformes**, 12 contrôles au vert. Aucun travail en cours non commité.
+
+## Ce qui tient le site debout aujourd'hui
+
+1. **L'agenda Google est la seule source des dates.** Chaque nuit à 03:17 UTC, GitHub
+   Actions lit le flux public du calendrier « Le Nid », réécrit `EVENTS`, reconstruit les
+   31 pages, les vérifie, puis commite — et Vercel publie 40 s plus tard. David n'a
+   **rien** à demander ici : il crée ou modifie son événement dans l'agenda, et le site
+   suit tout seul.
+2. **Un titre affiné, une date déplacée, un horaire changé : plus aucune erreur.**
+   C'était la demande du 14/10, elle est faite et testée en vrai (test : l'atelier de
+   yoga du 8 novembre renommé *et* déplacé au 9 → reconnu, type conservé, titre mis à
+   jour ; état d'origine restauré ensuite). Le mécanisme a **trois portes**, essayées
+   dans cet ordre, dans `sources/synchro_agenda.py` :
+   - la table `CORRESPONDANCE` (titre exact connu) ;
+   - une **étiquette `#yoga`, `#concert`, `#mensuel`…** écrite dans la *description* de
+     l'événement Google → le titre affiché vient alors directement du flux, quel qu'il
+     soit. **C'est la porte à utiliser pour tout nouvel événement** ;
+   - l'**identité Google de l'événement** (`TYPE_PAR_UID`, écrit dans
+     `generate_agenda_nid.py`) : le même événement renommé et/ou déplacé reste reconnu.
+   Un événement qu'aucune porte ne reconnaît n'est **pas** publié, et le run GitHub
+   passe au rouge avec son titre — c'est un email à David, pas une publication muette.
+3. **La description de l'agenda n'est JAMAIS publiée.** Elle contient le code du portail.
+   Le script en extrait l'étiquette `#…` et **jette le reste au moment de la lecture**.
+   Deux contrôles indépendants (`_controle_fuite`, `_controle_motifs`) refusent la
+   publication si un code ou un contact non prévu apparaît.
+
+## Ce qui a été livré depuis le 1er septembre (voir le journal pour le détail)
+
+- **Réparation d'une panne silencieuse de 13 nuits** (03→16/09) : `_lire_image` ne savait
+  lire que le JPEG sans Pillow ; un `.webp` faisait échouer le build sur GitHub, le site
+  restait figé au 2 septembre sans que rien n'ait l'air cassé. Lecteurs **PNG et WebP
+  sans dépendance** ajoutés, vérifiés identiques à Pillow sur 836 images. Le workflow
+  écrit maintenant la cause de la panne **en haut** de la page du run, en français.
+- **Référencement réparé** : 10 pages n'avaient pas de `<link rel="canonical">`, le plan
+  du site était daté à la main. `sources/canonique.py` et `sources/plan_du_site.py`
+  (dates prises de `git log`) le font désormais à chaque build, et un 12ᵉ contrôle le
+  refuse si ça manque. Vérifié sur les données réelles de Search Console : **31/31
+  indexées**.
+- **Search Console en ligne de commande**, sans dépendance : `sources/search_console.py`
+  (`--sites`, `--indexation`, `--requetes`). Identifiants hors dépôt, dans
+  `~/.config/resonances/search-console.json` (chmod 600) ; le script **refuse de
+  démarrer** s'il trouve des identifiants dans le dépôt. Les 5 propriétés de David y
+  sont, dont `handpanstudio.app` et `neotonestudio.app` ajoutées en propriétés *Domaine*
+  via l'**API OVH** (`~/CLAUDE/outils/ovh.py`, identifiants `~/.ovh.conf`).
+- **Agenda & rendez-vous mensuels** : descriptif court + bouton « Infos détaillées » pour
+  chaque événement ; billetterie unique pour les RDV mensuels
+  (`helloasso.com/…/les-rdv-mensuels-au-nid`) ; scène ouverte du 2/10 ; les Sextos du
+  7/11 (textes + photo de Charlie) ; concert du 28/11 déplacé au **vendredi 4 décembre**
+  dans le cadre des RDV mensuels ; concert du 10/10 supprimé.
+- **`/rituals`** : encart « Prochaines représentations » alimenté par l'agenda (les dates
+  passées disparaissent seules), lien billetterie, événement Facebook, le YouTube Short
+  au format portrait, et **la section « RITUALS version quatuor » avec Lucie Andersen**
+  (14/10, photo reprise de `/David-Lesage-Lucie-Andersen`). Seuls les événements RITUALS
+  figurent sur cette page ; tous restent sur `/le-nid`.
+
+## À reprendre
+- **Réponse HelloAsso donnée à David le 14/10** : l'API HelloAsso **ne permet pas** de
+  modifier le titre, les dates ni la description d'un événement existant (seuls :
+  créer un événement sommaire, ouvrir/fermer un formulaire, rembourser, encaisser). Le
+  « site qui se met à jour tout seul » s'arrête donc au site. Si David veut aller plus
+  loin, c'est l'API « Plus Billetterie » (accord partenaire HelloAsso) — à demander
+  à HelloAsso, pas à construire.
+- Les points ouverts de « EN ATTENTE DE DAVID » et « FILE D'ATTENTE » restent valables,
+  sauf le n°0 (concert du 28/11) : **tranché**, c'est le 4 décembre.
+- Petit reste non confirmé : l'emoji 🌸 a été retiré du texte des Sextos **sur le site**
+  et gardé dans la description de l'agenda Google. David n'a rien dit.
+
+---
+
+### 01→21/09/2026 — six semaines résumées (entrée écrite le 14/10, le journal s'était arrêté au 30/08)
+
+Dans l'ordre des commits : `/rituals-trio` prend l'adresse **`/rituals`** et le menu perd
+RITUALS duo et Duo Violon/Handpan (03/09) · prix du groupe calebasse **330 € / 6 mois,
+55 € le cours, payable en 3 fois** + **avertissement HelloAsso** (leur contribution
+facultative est pré-remplie, il faut la passer à 0 à la main) + scène ouverte du 2/10 et
+son programme complet (11/09) · fusion du bloc « Sortie de résidence » dans le concert du
+26/09, descriptifs + « Infos détaillées », refonte des concerts de David Lesage,
+billetterie dédiée aux RDV mensuels (15/09) · **réparation de la synchro** + refonte du
+sous-menu « Le Nid » + relecture orthographique (16/09) · **canonique, plan du site daté,
+Search Console** (18/09) · encart des représentations et vidéo sur `/rituals` (21/09).
+
+**La leçon de septembre, à ne pas réapprendre** : `vite`/`python3 sources/build.py` qui
+passe sur le Mac ne prouve rien sur GitHub, où Pillow n'existe pas. Le test qui l'aurait
+évité, à relancer avant toute touche aux images :
+
+```
+mkdir -p /tmp/nopil && echo 'raise ImportError' > /tmp/nopil/PIL.py
+PYTHONPATH=/tmp/nopil python3 sources/build.py
+```
+
+### 14/10/2026 — l'agenda devient vraiment autonome, et la version quatuor
+
+- **Trois portes d'identification** (voir ÉTAT ACTUEL) : un titre qu'on affine, un
+  événement qu'on déplace, un événement qu'on crée — plus rien de tout ça ne demande
+  une intervention dans le code. Testé en vrai sur l'agenda, pas en simulation.
+- **Six ateliers de yoga avaient disparu en silence** parce que leurs titres avaient été
+  renommés dans l'agenda : c'est précisément ce que les trois portes règlent. Le résumé
+  des différences affiche maintenant aussi les **renommages** (`~ ancien → nouveau`) ;
+  avant, un titre changé donnait « rien ne change ».
+- **Une photo d'atelier ou de facilitateur est normale** : le contrôle des images ne la
+  refuse plus (demande explicite de David), il compte les photos déclarées au lieu d'un
+  nombre figé.
+- **`/rituals` : section « RITUALS version quatuor »** — la corde frottée comme ce
+  qu'aucun des trois instruments ne sait faire, le violon électrique cinq cordes dans la
+  même chaîne d'effets que le handpan électronique, et sa crédibilité scénique. Photo en
+  480 et 841 px, JPEG + WebP.
