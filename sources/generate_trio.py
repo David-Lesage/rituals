@@ -870,6 +870,94 @@ html = html.replace('</style>', (
     'border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:#000}\n'
     '.rit-video-cadre iframe{position:absolute;inset:0;width:100%;height:100%;border:0}\n') + '</style>', 1)
 
+# --------------------------------------------------------------------------- #
+# RITUALS VERSION QUATUOR — 14/10/2026, demande de David
+# --------------------------------------------------------------------------- #
+# « Ajoute une section qui s'appelle Rituals version quatuor en ajoutant Lucie
+#   Andersen… precisant que sa presence vient empuissancer l'experience, qui
+#   apporte une vraie plus-value originale avec les cordes frottees et son
+#   violon electrique 5 cordes, reprends les arguments de la page au mieux pour
+#   donner envie aux organisateurs de choisir la version quatuor. »
+#
+# ⚠️ TOUS LES FAITS VIENNENT DE /David-Lesage-Lucie-Andersen, la page du duo,
+#    ecrite et validee par David : vingt ans de scene, les maisons qui l'ont
+#    fait jouer, le Conservatoire de Paris puis Londres et le diplome de
+#    performance de l'ABRSM, la scene pop-rock, Les Muses. RIEN N'EST INVENTE,
+#    et rien n'est ajoute qui ne soit deja publie la-bas.
+# ⚠️ ELLE EST PLACEE JUSTE AVANT « Pour les organisateurs » : c'est a eux que
+#    la section s'adresse, et elle leur arrive donc au moment ou ils se
+#    demandent quelle forme choisir.
+# ⚠️ LA PHOTO est celle de la page du duo (media/photos/lucie.jpg), redimensionnee
+#    dans img/rituals/. On ne pointe pas vers le dossier de l'autre page : ses
+#    fichiers lui appartiennent et pourraient bouger.
+QUATUOR = (
+    '<div class="divider"></div>\n\n'
+    '<section class="quatuor"><div class="wrap">\n'
+    '  <div class="kick">Une quatrième voix</div>\n'
+    '  <h2 class="sec-title">RITUALS version quatuor</h2>\n'
+    '  <div class="quatuor-grid">\n'
+    '    <div class="quatuor-photo"><picture>'
+    '<source type="image/webp" srcset="/img/rituals/lucie-andersen-480.webp 480w, '
+    '/img/rituals/lucie-andersen-841.webp 841w" '
+    'sizes="(max-width:820px) calc(100vw - 52px), 340px">'
+    '<img src="/img/rituals/lucie-andersen-480.jpg" '
+    'srcset="/img/rituals/lucie-andersen-480.jpg 480w, /img/rituals/lucie-andersen-841.jpg 841w" '
+    'sizes="(max-width:820px) calc(100vw - 52px), 340px" width="841" height="1278" '
+    'loading="lazy" decoding="async" '
+    'alt="Lucie Andersen, violoniste, archet à la main"></picture>'
+    '<div class="quatuor-cap">Lucie Andersen — violon électrique, violon acoustique</div></div>\n'
+    '    <div class="quatuor-txt">\n'
+    '      <p class="lead">Le trio peut devenir quatuor. <b>Lucie Andersen</b> y apporte '
+    'ce qu’aucun des trois instruments ne sait faire : <b>la corde frottée</b> — un son '
+    'qui ne s’attaque pas, qui s’étire, enfle et se retire au rythme du souffle.</p>\n'
+    '      <p class="body">C’est exactement la matière qui manque à un rituel : là où le '
+    'handpan pose la pulsation et où la voix guide, <b>l’archet tient la note</b> et '
+    'accompagne la respiration du groupe de bout en bout. Son <b>violon électrique cinq '
+    'cordes</b> descend plus bas qu’un violon ordinaire et passe par les mêmes effets que '
+    'le handpan électronique : les deux instruments se répondent dans la meme matière '
+    'sonore, au lieu de se superposer. Pour les formats scénographiés, elle joue aussi un '
+    '<b>violon lumineux à LED</b>.</p>\n'
+    '      <p class="body">Vingt ans de scène, et une spécialité rare : elle est la '
+    'violoniste que les grandes maisons appellent quand une soirée doit être mémorable — '
+    '<b>Airbus, Google, Chanel, Dior, Louis Vuitton, Moët &amp; Chandon, Patek Philippe</b> '
+    'l’ont fait jouer. Classique au Conservatoire à Paris puis a Londres, diplôme de '
+    'performance de l’<b>Associated Board of the Royal Schools of Music</b> en violon et en '
+    'chant lyrique ; scène pop et rock aux côtés de <b>Lara Fabian, Florent Pagny, Johnny '
+    'Hallyday</b>. Elle a fondé et dirige <b>Les Muses</b>, premier quatuor de violons '
+    'électriques féminin en France.</p>\n'
+    '      <p class="body">Dans l’événementiel haut de gamme, <b>elle sait tenir une salle '
+    'sans la couvrir</b>. C’est la même qualité d’écoute qui fait sa place ici : le rituel '
+    'ne demande pas un soliste de plus, il demande quelqu’un qui sache quand jouer et '
+    'quand se taire.</p>\n'
+    '      <div class="quatuor-plus"><b>Ce que la version quatuor ajoute</b> — une texture '
+    'de cordes qui porte les temps longs, une montée finale plus ample, et une presence '
+    'scénique de plus pour les grandes salles. <a href="/David-Lesage-Lucie-Andersen">'
+    'Découvrir Lucie Andersen &#8594;</a></div>\n'
+    '    </div>\n'
+    '  </div>\n'
+    '</div></section>\n\n')
+if html.count(anchor_orga) != 1:
+    raise SystemExit('!! ABANDON : ancre « Pour les organisateurs » introuvable '
+                     '(section quatuor). Page NON ecrite.')
+html = html.replace(anchor_orga, QUATUOR + anchor_orga, 1)
+html = html.replace('</style>', (
+    '.quatuor-grid{display:grid;grid-template-columns:340px minmax(0,1fr);gap:34px;'
+    'align-items:start;margin-top:26px}\n'
+    '.quatuor-photo img{display:block;width:100%;height:auto;border-radius:18px;'
+    'border:1px solid rgba(255,255,255,.1)}\n'
+    '.quatuor-cap{color:var(--muted,#a9a6c4);font-size:14px;line-height:1.5;margin-top:10px}\n'
+    '.quatuor-txt .lead{font-size:19px}\n'
+    '.quatuor-plus{margin-top:22px;padding:18px 20px;border-radius:16px;'
+    'border:1px solid rgba(255,255,255,.09);border-left:3px solid transparent;'
+    'background-image:var(--grad-v,linear-gradient(180deg,#d8b25a,#ee8062)),'
+    'linear-gradient(135deg,rgba(216,178,90,.10),rgba(255,255,255,.03));'
+    'background-size:3px 100%,100% 100%;background-repeat:no-repeat;'
+    'background-origin:border-box,padding-box;color:#d7d4ea;font-size:16.5px;line-height:1.65}\n'
+    '.quatuor-plus a{color:var(--gold2,#f0d18a);text-decoration:underline;'
+    'text-underline-offset:3px;white-space:nowrap}\n'
+    '@media(max-width:820px){.quatuor-grid{grid-template-columns:1fr;gap:22px}}\n'
+    ) + '</style>', 1)
+
 import nav_menu
 import verif_commentaires  # garde-fou commentaires HTML
 html = nav_menu.inject(html, 'rituals')
