@@ -133,7 +133,6 @@ CAL_WEBCAL = ('webcal://calendar.google.com/calendar/ical/'
 
 # --- DEBUT DES DATES SYNCHRONISEES (ecrit par sources/synchro_agenda.py) ---
 EVENTS = [
-    ('2026-10-17', '13:00', '15:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-10-18', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-11-07', '17:00', '19:30', 'mensuel',  'Atelier d’écriture érotique : les Sextos', 'avec Charlie'),
     ('2026-11-08', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
@@ -156,7 +155,6 @@ TYPE_PAR_UID = {
     '61j3ic9p74smabb66spm6b9k6com4bb16kpmcbb171i34ohmcko3gcr568': 'yoga',
     '65gm2p9p65im6b9p74o36b9kchhmcbb2cgrjabb2cosm8dhoc9im2e1g6g': 'showcase',
     '68r34cplc8s6cb9gccrj8b9kccom8bb26gomcb9o68p3adpjc4q6cc32cg': 'yoga',
-    '69hj2dhkcoo3abb571gm8b9k75j66bb2c5ijgb9mcdh3cp3264pm8cr6cg': 'rythme',
     '6li3cdpp6pj3eb9lckq6ab9kc9hj6b9occrjab9n75ij8dr56gq3ge9k6o': 'showcase',
     '6lim4oppc5hm4b9hc4sj8b9k71h62b9o64ojgb9h6go36cj46dj3ce3170': 'yoga',
     '6sq3gcpgc5gjeb9lc8s3cb9k6ksj6b9p74rjcbb565h3acb5cpj64d1g6s': 'yoga',
