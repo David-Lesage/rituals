@@ -133,7 +133,6 @@ CAL_WEBCAL = ('webcal://calendar.google.com/calendar/ical/'
 
 # --- DEBUT DES DATES SYNCHRONISEES (ecrit par sources/synchro_agenda.py) ---
 EVENTS = [
-    ('2026-10-18', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-11-07', '17:00', '19:30', 'mensuel',  'Atelier d’écriture érotique : les Sextos', 'avec Charlie'),
     ('2026-11-08', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
     ('2026-11-14', '16:00', '19:00', 'showcase', 'Présentation d’instruments d’exception', ''),
@@ -160,7 +159,6 @@ TYPE_PAR_UID = {
     '6sq3gcpgc5gjeb9lc8s3cb9k6ksj6b9p74rjcbb565h3acb5cpj64d1g6s': 'yoga',
     '70q3gp9jc5hj2bb564qj8b9k75j32b9p6oojgb9gc5i3ic9oc8q64c9g6o': 'yoga',
     '75ijgdpj6hi3ib9h6lhm2b9k6spjebb170o62b9j6gom6dpjc5hm4pj170': 'yoga',
-    'c5h30dpp68sj4bb565i62b9k6crjgbb270om4bb26krm8o9i6lim6c9n64': 'showcase',
     'c5i68db5ckp62bb46pi6cb9k61hm8bb26op3cbb56ksm2cho6lhm6o9o64': 'mensuel',
     'c5ij4cj16so6ab9ic8p3ab9k6tgmab9pcgo3ib9lc4rjgcb3cko38cr1c8': 'yoga',
     'cgrjior26cqj6bb1cosjab9kcco3ib9p6ti6ab9oc4r38ohl70pjiphnco': 'mensuel',
