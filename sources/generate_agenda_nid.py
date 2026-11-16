@@ -133,7 +133,6 @@ CAL_WEBCAL = ('webcal://calendar.google.com/calendar/ical/'
 
 # --- DEBUT DES DATES SYNCHRONISEES (ecrit par sources/synchro_agenda.py) ---
 EVENTS = [
-    ('2026-11-15', '15:00', '17:00', 'rythme',   'Groupe de pratique rythme calebasse engagé', 'avec David Lesage · sur candidature'),
     ('2026-12-04', '18:30', '23:30', 'mensuel',  'Concert David Lesage', ''),
     ('2026-12-05', '15:00', '17:00', 'showcase', 'Présentation d’instruments d’exception', ''),
     ('2026-12-06', '16:30', '19:00', 'yoga',     'Atelier de yoga', 'avec Iris Chasles'),
@@ -157,7 +156,6 @@ TYPE_PAR_UID = {
     'c5ij4cj16so6ab9ic8p3ab9k6tgmab9pcgo3ib9lc4rjgcb3cko38cr1c8': 'yoga',
     'cgrjior26cqj6bb1cosjab9kcco3ib9p6ti6ab9oc4r38ohl70pjiphnco': 'mensuel',
     'cks64e1kcph3cbb1cpj66b9k68r68b9o64s3ebb168qmce3670p38p1ick': 'yoga',
-    'cphj4e36c4om4b9lcgq32b9k6pgj0b9o6gsjgbb3cdhjgo9iccs68opoco': 'rythme',
 }
 # --- FIN DES DATES SYNCHRONISEES ---
 
